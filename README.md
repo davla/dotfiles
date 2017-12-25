@@ -37,3 +37,13 @@ these obsessively:
 - Single-quote riles of course only apply if no variable is involved
 😝.
 - Never quote constant paths.
+
+### Tests
+Using the bash double-brackets built-in `[[ ]]` is generally
+considered bad practice, for portability issues; however, I find
+the `test` built-in nasty and terribly unreadable: operators are
+not the same as both C-like languages and English words, and wildcard
+expansions behaves differently than in the rest of the language.
+Also, at the end of the day, portability is not a concern here: these
+scripts are targeted for personal computers, that normally use bash
+as default shell; and every file is prefixed with a bash shebang.

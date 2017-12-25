@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# This script runs the passed command in
+# the predefined terminal emulator even
+# when called from a non-X context
+
+export SCREEN=':0' DISPLAY=':0' XAUTHORITY=$(ls -a1 /home/*/.Xauthority | head -n 1)
+
+xfce4-terminal --command="$*"

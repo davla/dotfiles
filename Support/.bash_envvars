@@ -1,0 +1,3 @@
+# Envvars
+
+export PYWIKIBOT_DIR=$HOME/Files/pywikibot

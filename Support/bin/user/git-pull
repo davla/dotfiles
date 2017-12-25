@@ -1,0 +1,22 @@
+#!/bin/bash
+
+function reponame {
+    git remote get-url origin | awk -F '/' '{gsub(/.git/, "", $(NF)); print($(NF - 1), $(NF))}'
+}
+
+DIR="$1"
+
+[[ -d "$DIR" ]] && exit 1
+
+cd $DIR
+
+if [[ -n "$LOG_FILE" ]]; then
+    REPO_NAME=$(reponame)
+    [[ $(git pull --all | wc -l) -gt 2 ]] && \
+        logger "$REPO_NAME updated on "$(date '+%d-%m-%Y %T')
+    [[ -n $(git submodule update) ]] && \
+        logger "$REPO_NAME submodules updated on "$(date +%d-%m-%Y %T)
+else
+    git pull --all
+    git submodule update
+fi

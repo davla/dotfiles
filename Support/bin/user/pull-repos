@@ -1,0 +1,15 @@
+#!/bin/bash
+
+. $HOME/.bash_envvars
+
+REPOS_DIRS=(
+    "$PYWIKIBOT_DIR"
+)
+
+REPOS_LOGS=(
+    "$PYWIKIBOT_DIR/logs/update.log"
+)
+
+for K in ${!REPOS_DIRS[@]}; do
+    git-pull ${REPOS_DIRS[$K]} ${REPOS_LOGS[$K]}
+done

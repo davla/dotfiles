@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# This script uploads a page to Pokémon
+# Central Wiki using pywikibot's pagefromfile
+
+# Arguments:
+#	-s Summary to be used, defaults to 'Correzione errori'
+#	-f file to be used as source, defaults to $HOME/dict.txt
+#	-h Flag, if set halts once done
+#	-d Flag, activates simulation (eg. nothing will be actually uploaded)
+#	-c, -o Flag, clears out source file to default content
+
+FILE=$HOME/dict.txt
+SUMMARY='Correzione errori'
+HALT=false
+SIMULATE=""
+CLEAR=false
+
+while getopts "s:f:hdco" OPTION; do
+	case $OPTION in
+		s) 
+			SUMMARY=$OPTARG
+			;;
+		f) 
+			FILE=$OPTARG
+			;;
+		h)
+			HALT=true
+			;;
+		d)
+			SIMULATE='-simulate'
+			;;
+		[co])
+			CLEAR=true
+			;;
+		*)
+			echo Unrecognized option: $OPTION
+			exit 1
+			;;
+	esac
+done
+
+# Turning lua code to Scributo module style from pure lua
+
+geanyMacro $FILE tomodule
+
+# Pywikibot source directory, change when needed
+
+cd $HOME/Files/pywikibot
+
+python pwb.py pagefromfile -pt:1 -notitle -force $SIMULATE -summary:"$SUMMARY" -file:$FILE
+
+$CLEAR && echo -e "{{-start-}}\n'''Titolo'''\nContenuto\n{{-stop-}}" >| $FILE
+$HALT && halt -p

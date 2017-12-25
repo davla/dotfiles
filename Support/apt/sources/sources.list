@@ -1,0 +1,14 @@
+# Debian repositories
+deb http://ftp.debian.org/debian/ testing main contrib non-free
+deb-src http://ftp.debian.org/debian/ testing main contrib non-free
+
+# Debian updates
+deb http://ftp.debian.org/debian/ testing-updates main contrib non-free
+deb-src http://ftp.debian.org/debian/ testing-updates main contrib non-free
+
+# Debian Security
+deb http://security.debian.org/ testing/updates main contrib non-free
+deb-src http://security.debian.org/ testing/updates main contrib non-free
+
+# Debian multimedia
+deb http://www.deb-multimedia.org testing main non-free

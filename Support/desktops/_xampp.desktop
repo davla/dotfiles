@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Name=Xampp
+Comment=Cross - Apache - MySQL - Php - Perl
+Exec=gksu /opt/lampp/manager-linux-x64.run
+Icon=/home/maze/.local/share/icons/Xampp/48x48.png
+Terminal=false
+Type=Application
+Categories=Network;Development;

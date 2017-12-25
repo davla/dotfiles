@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Name=Postman
+Comment=API test
+Exec=/usr/bin/postman
+Icon=/home/maze/.local/share/icons/Postman/icon.png
+Terminal=false
+Type=Application
+Categories=Network;Development;

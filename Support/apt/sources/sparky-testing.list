@@ -1,0 +1,5 @@
+### sparky testing repository
+### used as default by all sparky editions
+deb https://sparkylinux.org/repo/ testing main
+deb-src https://sparkylinux.org/repo/ testing main
+

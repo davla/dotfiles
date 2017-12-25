@@ -1,0 +1,322 @@
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+  "http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd">
+
+<Menu>
+    <Name>Xfce</Name>
+
+    <DefaultAppDirs/>
+    <DefaultDirectoryDirs/>
+    <DefaultMergeDirs/>
+
+    <Include>
+        <Category>X-Xfce-Toplevel</Category>
+    </Include>
+
+    <Exclude>
+        <Or>
+            <Directory>chrome-apps.directory</Directory>
+            <Filename>exo-file-manager.desktop</Filename>
+            <Filename>exo-mail-reader.desktop</Filename>
+            <Filename>exo-terminal-emulator.desktop</Filename>
+            <Filename>exo-web-browser.desktop</Filename>
+            <Filename>softwaremanager.desktop</Filename>
+            <Filename>xfce4-about.desktop</Filename>
+            <Filename>xfce4-lock.desktop</Filename>
+            <Filename>xfhelp4.desktop</Filename>
+        </Or>
+    </Exclude>
+
+    <Layout>
+        <Filename>xfce4-run.desktop</Filename>
+        <Separator/>
+        <Menuname>Settings</Menuname>
+        <Separator/>
+        <Merge type="all"/>
+        <Separator/>
+        <Filename>xfce4-session-logout.desktop</Filename>
+    </Layout>
+
+    <Menu>
+        <Name>Settings</Name>
+        <Include>
+            <Category>Audio</Category>
+            <Category>Settings</Category>
+            <Category>System</Category>
+        </Include>
+
+        <Layout>
+            <Filename>xfce-settings-manager.desktop</Filename>
+            <Separator/>
+            <Menuname>Desktop</Menuname>
+            <Menuname>Input</Menuname>
+            <Filename>flash-player-properties.desktop</Filename>
+            <Filename>blueman-manager.desktop</Filename>
+            <Filename>xfce4-mime-settings.desktop</Filename>
+            <Filename>xfce-xfcalendar-settings.desktop</Filename>
+            <Filename>pavucontrol.desktop</Filename>
+            <Filename>exo-preferred-applications.desktop</Filename>
+            <Filename>system-config-printer.desktop</Filename>
+            <Filename>thunar-volman-settings.desktop</Filename>
+            <Filename>xfce-session-settings.desktop</Filename>
+            <Filename>xfce4-settings-editor.desktop</Filename>
+        </Layout>
+
+        <Menu>
+            <Name>Desktop</Name>
+            <Directory>desktop.directory</Directory>
+            <Include>
+                <Category>Settings</Category>
+                <Category>Utility</Category>
+            </Include>
+
+            <Layout>
+                <Filename>Acyl-icons.desktop</Filename>
+                <Filename>xfce-ui-settings.desktop</Filename>
+                <Filename>xfce-backdrop-settings.desktop</Filename>
+                <Filename>xfce-display-settings.desktop</Filename>
+                <Filename>xfce4-notifyd-config.desktop</Filename>
+                <Filename>panel-preferences.desktop</Filename>
+                <Filename>xfce4-power-manager-settings.desktop</Filename>
+                <Filename>qtconfig-qt4.desktop</Filename>
+                <Filename>xscreensaver-properties.desktop</Filename>
+                <Filename>xfce4-sensors.desktop</Filename>
+                <Filename>xfce-wm-settings.desktop</Filename>
+                <Filename>xfce-wmtweaks-settings.desktop</Filename>
+                <Filename>xfce-workspaces-settings.desktop</Filename>
+            </Layout>
+        </Menu>
+
+        <Menu>
+            <Name>Input</Name>
+            <Directory>input.directory</Directory>
+            <Include>
+                <Category>Settings</Category>
+            </Include>
+
+            <Layout>
+                <Filename>xfce-keyboard-settings.desktop</Filename>
+                <Filename>xfce-mouse-settings.desktop</Filename>
+                <Filename>gpointing-device-settings.desktop</Filename>
+                <Filename>xfce4-accessibility-settings.desktop</Filename>
+            </Layout>
+        </Menu>
+    </Menu>
+
+    <Menu>
+        <Name>Accessories</Name>
+        <Directory>xfce-accessories.directory</Directory>
+        <Include>
+            <Or>
+                <Category>Accessibility</Category>
+                <Category>Core</Category>
+                <Category>Development</Category>
+                <Category>Education</Category>
+                <Category>Legacy</Category>
+                <Category>Office</Category>
+                <Category>System</Category>
+                <Category>TextEditor</Category>
+                <Category>Utility</Category>
+            </Or>
+        </Include>
+
+        <Layout>
+            <Filename>xfce4-appfinder.desktop</Filename>
+            <Filename>Thunar-bulk-rename.desktop</Filename>
+            <Filename>catfish.desktop</Filename>
+            <Filename>org.gnome.baobab.desktop</Filename>
+            <Filename>enpass.desktop</Filename>
+            <Filename>galculator.desktop</Filename>
+            <Filename>sparky-live-usb-creator.desktop</Filename>
+            <Filename>mousepad.desktop</Filename>
+            <Filename>parcellite.desktop</Filename>
+            <Filename>Thunar.desktop</Filename>
+            <Filename>sparky-usb-formatter.desktop</Filename>
+            <Filename>xarchiver.desktop</Filename>
+        </Layout>
+    </Menu>
+
+    <Menu>
+        <Name>Development</Name>
+        <Directory>development.directory</Directory>
+        <Include>
+            <Or>
+                <Category>Development</Category>
+                <Category>Education</Category>
+                <Category>Emulator</Category>
+            </Or>
+        </Include>
+
+        <Layout>
+            <Filename>jetbrains-studio.desktop</Filename>
+            <Filename>asebachallenge.desktop</Filename>
+            <Filename>asebaplayground.desktop</Filename>
+            <Filename>asebastudio.desktop</Filename>
+            <Filename>asebastudiothymio.desktop</Filename>
+            <Filename>atom.desktop</Filename>
+            <Filename>jetbrains-clion.desktop</Filename>
+            <Filename>arduino-arduinoide.desktop</Filename>
+            <Filename>eclipse.desktop</Filename>
+            <Filename>geany.desktop</Filename>
+            <Filename>jetbrains-idea.desktop</Filename>
+            <Filename>jetbrains-phpstorm.desktop</Filename>
+            <Filename>postman.desktop</Filename>
+            <Filename>jetbrains-pycharm.desktop</Filename>
+            <Filename>jetbrains-rubymine.desktop</Filename>
+            <Filename>virtualbox.desktop</Filename>
+            <Filename>jetbrains-webstorm.desktop</Filename>
+            <Filename>xampp.desktop</Filename>
+        </Layout>
+    </Menu>
+
+    <Menu>
+        <Name>Games</Name>
+        <Directory>xfce-games.directory</Directory>
+        <Include>
+            <Category>Game</Category>
+        </Include>
+    </Menu>
+
+    <Menu>
+        <Name>Graphics</Name>
+        <Directory>xfce-graphics.directory</Directory>
+        <Include>
+            <Category>Graphics</Category>
+            <Category>Office</Category>
+            <Category>Utility</Category>
+        </Include>
+
+        <Layout>
+            <Filename>evince.desktop</Filename>
+            <Filename>gcolor2.desktop</Filename>
+            <Filename>gimp.desktop</Filename>
+            <Filename>display-im6.q16.desktop</Filename>
+            <Filename>simple-scan.desktop</Filename>
+            <Filename>xfce4-screenshooter.desktop</Filename>
+            <Filename>viewnior.desktop</Filename>
+        </Layout>
+    </Menu>
+
+    <Menu>
+        <Name>Internet</Name>
+        <Directory>xfce-network.directory</Directory>
+        <Include>
+            <Category>Database</Category>
+            <Category>Network</Category>
+        </Include>
+        <Exclude>
+            <Or>
+                <Filename>exo-mail-reader.desktop</Filename>
+                <Filename>exo-web-browser.desktop</Filename>
+                <Filename>libreoffice-base.desktop</Filename>
+            </Or>
+        </Exclude>
+        <Include>
+            <Filename>chrome-bikioccmkafdpakkkcpdbppfkghcmihk-Default.desktop</Filename>
+        </Include>
+    </Menu>
+
+    <Menu>
+        <Name>Multimedia</Name>
+        <Directory>xfce-multimedia.directory</Directory>
+        <Include>
+            <Category>Audio</Category>
+            <Category>AudioVideo</Category>
+            <Category>Video</Category>
+        </Include>
+
+    <Layout>
+            <Filename>asunder.desktop</Filename>
+            <Filename>tagtool.desktop</Filename>
+            <Filename>brasero.desktop</Filename>
+            <Filename>camorama.desktop</Filename>
+            <Filename>ghb.desktop</Filename>
+            <Filename>gtk-recordmydesktop.desktop</Filename>
+            <Filename>soundconverter.desktop</Filename>
+            <Filename>spotify.desktop</Filename>
+            <Filename>tuxguitar.desktop</Filename>
+            <Filename>vlc.desktop</Filename>
+    </Layout>
+    </Menu>
+
+    <Menu>
+        <Name>Office</Name>
+        <Directory>xfce-office.directory</Directory>
+        <Include>
+            <Category>Office</Category>
+        </Include>
+
+    <Layout>
+           <Filename>calibre-gui.desktop</Filename>
+           <Filename>libreoffice-startcenter.desktop</Filename>
+           <Filename>libreoffice-base.desktop</Filename>
+           <Filename>libreoffice-calc.desktop</Filename>
+           <Filename>libreoffice-draw.desktop</Filename>
+           <Filename>libreoffice-impress.desktop</Filename>
+           <Filename>libreoffice-math.desktop</Filename>
+           <Filename>libreoffice-writer.desktop</Filename>
+           <Filename>xfcalendar.desktop</Filename>
+           <Filename>globaltime.desktop</Filename>
+    </Layout>
+    </Menu>
+
+    <Menu>
+        <Name>System</Name>
+        <Directory>xfce-system.directory</Directory>
+        <Include>
+            <Or>
+                <Category>Development</Category>
+                <Category>Emulator</Category>
+                <Category>Settings</Category>
+                <Category>System</Category>
+                <Category>Utility</Category>
+            </Or>
+        </Include>
+        <Exclude>
+            <Filename>xfce4-session-logout.desktop</Filename>
+        </Exclude>
+
+        <Layout>
+            <Menuname>Software</Menuname>
+            <Filename>mugshot.desktop</Filename>
+            <Filename>blueman-adapters.desktop</Filename>
+            <Filename>sparky-passwdchange.desktop</Filename>
+            <Filename>ddm.desktop</Filename>
+            <Filename>gufw.desktop</Filename>
+            <Filename>gparted.desktop</Filename>
+            <Filename>yad-icon-browser.desktop</Filename>
+            <Filename>lightdm-gtk-greeter-settings.desktop</Filename>
+            <Filename>sparky-locales.desktop</Filename>
+            <Filename>reportbug.desktop</Filename>
+            <Filename>gksu.desktop</Filename>
+            <Filename>seahorse.desktop</Filename>
+            <Filename>solaar.desktop</Filename>
+            <Filename>systemadm.desktop</Filename>
+            <Filename>systemadm-root.desktop</Filename>
+            <Filename>hardinfo.desktop</Filename>
+            <Filename>lxtask.desktop</Filename>
+            <Filename>sparky-timedateset.desktop</Filename>
+            <Filename>sparky-users.desktop</Filename>
+<!--        <Filename>ndisgtk.desktop</Filename> -->
+            <Filename>xfce4-terminal.desktop</Filename>
+            <Filename>sparky-about.desktop</Filename>
+            <Filename>xfce4-about.desktop</Filename>
+        </Layout>
+
+        <Menu>
+            <Name>Software</Name>
+            <Directory>software.directory</Directory>
+            <Include>
+                <Category>Settings</Category>
+                <Category>System</Category>
+            </Include>
+
+            <Layout>
+                <Filename>gdebi.desktop</Filename>
+                <Filename>sparky-aptus.desktop</Filename>
+                <Filename>sparky-aptus-extra.desktop</Filename>
+                <Filename>synaptic.desktop</Filename>
+                <Filename>sparky-aptus-upgrade.desktop</Filename>
+            </Layout>
+        </Menu>
+    </Menu>
+</Menu>

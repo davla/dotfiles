@@ -1,0 +1,4 @@
+## sid
+# deb http://ftp.debian.org/debian/ sid main contrib non-free
+# deb-src http://ftp.debian.org/debian/ sid main contrib non-free
+# deb http://www.deb-multimedia.org sid main non-free

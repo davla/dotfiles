@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [[ -z $(tty | grep not) ]]; then
+	HOME='/home/maze'
+
+	apt-get upgrade
+	bash $HOME/Files/Programming/bash/symlinks.sh
+	update-rc.d -f neo4j remove
+
+	exit 0
+fi
+
+apt-get update
+apt-get upgrade --assume-no
+
+if [[ $? ]]; then
+	run-in-terminal "bash $0"
+fi

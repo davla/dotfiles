@@ -1,0 +1,10 @@
+#!/bin/bash
+
+LOG_DIR="$NVM_DIR/logs"
+
+mkdir -p "$LOG_DIR"
+
+nvm use node
+npm --global update
+
+echo 'npm global updates ran on ' $(date +'%d-%m-%Y %T') >> "LOG_DIR"/updates.log

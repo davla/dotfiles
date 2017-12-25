@@ -1,0 +1,19 @@
+#!/bin/bash
+
+. "$NVM_DIR/nvm.sh"
+
+USED_VERSIONS_FILE="$NVM_DIR/used_versions"
+
+nvm install node
+
+:> "$USED_VERSIONS_FILE"
+find $HOME -type f -name .nvmrc -exec cat {} >> "$USED_VERSIONS_FILE" \;
+sort "$USED_VERSIONS_FILE" -Vuo "$USED_VERSIONS_FILE"
+
+INSTALLED_VERSIONS=$(nvm ls | grep -v N/A | grep -oP 'v\d\.\d\.\d' | sort -Vu)
+
+for VERSION in $INSTALLED_VERSIONS; do
+	echo $VERSION
+	[[ -z $(grep ${VERSION:1} "$USED_VERSIONS_FILE") ]] && \
+			nvm uninstall $VERSION
+done

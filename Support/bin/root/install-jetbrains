@@ -1,0 +1,52 @@
+#!/bin/bash
+
+NAME=${1,,}
+URL=$2
+
+case $NAME in
+	clion)
+		DIRNAME=clion
+		EXECPATH=bin/clion.sh
+		;;
+		
+	intellij)
+		DIRNAME=idea-IU
+		EXECPATH=bin/idea.sh
+		;;
+
+	phpstorm)
+		DIRNAME=PhpStorm
+		EXECPATH=bin/phpstorm.sh
+		;;
+
+	pycharm)
+		DIRNAME=pycharm
+		EXECPATH=bin/pycharm.sh
+		;;
+
+	rubymine)
+		DIRNAME=RubyMine
+		EXECPATH=bin/rubymine.sh
+		;;
+
+	webstorm)
+		DIRNAME=WebStorm
+		EXECPATH=bin/webstorm.sh
+		;;
+
+	*)
+		echo "IDE not recognized"
+		exit 1
+		;;
+esac
+
+
+FILENAME=$NAME.tar.gz
+
+mkdir -p /opt/jetbrains
+
+curl $URL > $FILENAME
+rm -rf /opt/jetbrains/$DIRNAME*
+tar -xzf $FILENAME -C /opt/jetbrains
+/opt/jetbrains/$DIRNAME*/$EXECPATH
+rm $FILENAME

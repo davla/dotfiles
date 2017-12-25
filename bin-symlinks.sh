@@ -23,11 +23,11 @@ EXEC_NAMES=(
 
 #####################################################
 #
-#                   Priviledges
+#                   Privileges
 #
 #####################################################
 
-# Checking for root priviledges: if don't
+# Checking for root privileges: if don't
 # have them, recalling this script with sudo
 if [[ $EUID -ne 0 ]]; then
     echo 'This script needs to be run as root'
@@ -58,21 +58,3 @@ for EXEC_NAME in ${EXEC_NAMES[@]}; do
 
     echo "$EXEC_NAME linked"
 done
-
-# PHP
-# PHP=$(whereis php)
-# read -a PHP <<< $PHP
-# PHP=${PHP_BIN[1]}
-# createSymlink $PHP /usr/bin/php
-
-# MySQL
-# MYSQL=$(find /opt -executable -path */bin/mysql 2> /dev/null)
-# createSymlink $MYSQL /usr/bin/mysql
-
-# Arduino IDE
-# ARDUINO=$(find /opt -executable -type f -name arduino 2> /dev/null)
-# createSymlink $ARDUINO /usr/bin/arduino
-
-# Firefox devel
-# FIREFOX=$(find /opt -executable -type f -name firefox 2> /dev/null)
-# createSymlink $FIREFOX /usr/bin/firefox

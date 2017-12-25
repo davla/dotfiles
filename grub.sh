@@ -7,11 +7,11 @@
 
 #####################################################
 #
-#                   Priviledges
+#                   Privileges
 #
 #####################################################
 
-# Checking for root priviledges: if don't
+# Checking for root privileges: if don't
 # have them, recalling this script with sudo
 if [[ $EUID -ne 0 ]]; then
     echo 'This script needs to be run as root'

@@ -77,11 +77,11 @@ function clean {
 
 #####################################################
 #
-#                   Priviledges
+#                   Privileges
 #
 #####################################################
 
-# Checking for root priviledges: if don't
+# Checking for root privileges: if don't
 # have them, recalling this script with sudo
 if [[ $EUID -ne 0 ]]; then
     echo 'This script needs to be run as root'
@@ -220,19 +220,3 @@ NON_WORKING_DESKTOP=(
 for DEKTOP in ${NON_WORKING_DESKTOP[@]}; do
     echo /usr/share/applications/"$DEKTOP".desktop &> /dev/null
 done
-
-#####################################################
-#
-#                   Leftovers
-#
-#####################################################
-
-# Old packages
-
-#apt-get install apng2gif gcolor2 libreoffice-gtk lightdm-gtk3-greeter lightdm-gtk3-greeter-settings qemu-kvm
-
-# kvm users
-
-#adduser maze kvm
-#adduser maze libvirt
-#apt-get install fonts-nanum # Korean

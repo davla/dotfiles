@@ -151,7 +151,7 @@ apt-get upgrade
 #
 #####################################################
 
-# GUI Applications
+# GUI applications
 apt-get install aisleriot asunder atom baobab brasero calibre catfish dropbox \
     easytag enpass evince-common firefox five-or-more galculator gdebi geany \
     gimp gnome-klotski gnome-mines gnome-nibbles gnome-sudoku gnome-robots \
@@ -163,7 +163,7 @@ apt-get install aisleriot asunder atom baobab brasero calibre catfish dropbox \
     tuxguitar viewnior vino virtualbox-5.2 visualboyadvance-gtk vlc
 [[ $? -ne 0 ]] && exit 1
 
-# Background
+# CLI applications
 apt-get install autoconf cowsay cups curl dkms dos2unix flashplayer-mozilla \
     fonts-freefont-otf fortune g++ geany-plugin-lua \
     geany-plugin-updatechecker geany-plugin-pairtaghighlighter ghc gifsicle \
@@ -172,13 +172,13 @@ apt-get install autoconf cowsay cups curl dkms dos2unix flashplayer-mozilla \
     make oracle-java8-installer oracle-java8-set-default browser-plugin-vlc \
     p7zip python-requests-futures rar ruby ruby-dev sbt \
     scala thunar-archive-plugin thunar-dropbox-plugin tuxguitar-jsa uni2ascii \
-    unrar virtualenvwrapper yad zip
+    unrar virtualenvwrapper xdotool yad zip
 [[ $? -ne 0 ]] && exit 1
 
 # Xfce plugins
 apt-get install xfce4-battery-plugin xfce4-cpugraph-plugin xfce4-eyes-plugin \
     xfce4-mailwatch-plugin xfce4-power-manager xfce4-screenshooter \
-    xfce4-sensors-plugin xfce4-xkb-plugin xfce4-terminal
+    xfce4-sensors-plugin xfce4-terminal
 [[ $? -ne 0 ]] && exit 1
 
 # Rubygems

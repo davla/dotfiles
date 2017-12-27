@@ -27,7 +27,7 @@ fi
 
 sed -r -i 's/GRUB_DEFAULT=[0-9]+/GRUB_DEFAULT=0/g' /etc/default/grub
 sed -r -i 's/GRUB_TIMEOUT=[0-9]+/GRUB_TIMEOUT=0/g' /etc/default/grub
-sed -r -i 's/GRUB_CMDLINE_LINUX=".*"/GRUB_CMDLINE_LINUX="acpi_osi="/g' \
+sed -r -i 's/GRUB_CMDLINE_LINUX_DEFAULT="(.*)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 acpi_backlight=vendor"/g' \
     /etc/default/grub
 
 update-grub

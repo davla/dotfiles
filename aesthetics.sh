@@ -7,8 +7,8 @@
 #	- restores too many cursor themes
 
 # Arguments:
-# $1: the themes archive
-# $2: the cursor archive
+#   - $1: the themes archive
+#   - $2: the cursor archive
 
 # Orage panel clock formats
 # Line 1: %H:%M:%S

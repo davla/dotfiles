@@ -4,7 +4,7 @@
 # visited remote websites and adds some local resources.
 
 # Arguments:
-#	$1 - If 'refresh', only refreshes remote websites
+#	- $1: If 'refresh', only refreshes remote websites
 
 #####################################################
 #

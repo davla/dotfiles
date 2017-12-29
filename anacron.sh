@@ -5,7 +5,7 @@
 # symlinking it to /bin/true from live install settings.
 
 # Argumnts:
-#   $1: The user non-root commands should be executed as.
+#   - $1: The user non-root commands should be executed as.
 
 #####################################################
 #

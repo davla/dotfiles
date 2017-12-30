@@ -3,20 +3,11 @@
 # This script manages XFCE settings by means of the command
 # xfconf-settings. It can both export the current settings
 # and import previously exported configurations to and from
-# a file.
+# a JSON file.
 #
 # Arguments
 #   -$1: The action to be performed. One of 'export' and 'import'
 #   -$2: The file name to export to/import from
-
-#####################################################
-#
-#                   Variables
-#
-#####################################################
-
-# Separator for array values
-SEPARATOR=';'
 
 #####################################################
 #
@@ -39,6 +30,18 @@ function escape-double-quotes {
     sed -z 's/\"/\\"/g' | sed -z 's/\\\\"/\\\\\\"/g'
 }
 
+function flatjoin {
+    join $@ | escape-double-quotes | flatten
+}
+
+function join {
+    local SEPARATOR="$1"
+
+    local LINES=$(cat)
+    init <<<"$LINES" | awk '{ print $0"'$SEPARATOR'"; }'
+    last <<<"$LINES"
+}
+
 function json-type {
     local VALUE="$1"
 
@@ -57,28 +60,12 @@ function json-type {
     esac
 }
 
-function value2json {
-    while read VALUE; do
-        local TYPE=$(json-type "$VALUE")
-
-        if [[ "$TYPE" == 'string' ]]; then
-            echo -n "$VALUE" | escape-double-quotes | xargs -0 printf '"%s"\n'
-        else
-            echo "$VALUE"
-        fi
+function make-channel {
+    while read CHANNEL; do
+        echo -n "\"$CHANNEL\": {"
+        xfconf-query -l -c "$CHANNEL" | make-property | flatjoin ','
+        echo '}'
     done
-}
-
-function join {
-    local SEPARATOR="$1"
-
-    local LINES=$(cat)
-    init <<<"$LINES" | awk '{ print $0"'$SEPARATOR'"; }'
-    last <<<"$LINES"
-}
-
-function flatjoin {
-    join $@ | escape-double-quotes | flatten
 }
 
 function make-property {
@@ -98,11 +85,15 @@ function make-property {
     done
 }
 
-function make-channel {
-    while read CHANNEL; do
-        echo -n "\"$CHANNEL\": {"
-        xfconf-query -l -c "$CHANNEL" | make-property | flatjoin ','
-        echo '}'
+function value2json {
+    while read VALUE; do
+        local TYPE=$(json-type "$VALUE")
+
+        if [[ "$TYPE" == 'string' ]]; then
+            echo -n "$VALUE" | escape-double-quotes | xargs -0 printf '"%s"\n'
+        else
+            echo "$VALUE"
+        fi
     done
 }
 

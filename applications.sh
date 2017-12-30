@@ -64,7 +64,6 @@ function clean {
     apt-get purge -y smtube
     apt-get purge -y sparky-xdf
     apt-get purge -y tali
-    apt-get purge -y xfce4-taskmanager
     apt-get purge -y terminator
     apt-get purge -y uget
     apt-get purge -y vim-common
@@ -155,12 +154,13 @@ apt-get upgrade
 apt-get install aisleriot asunder atom baobab brasero calibre catfish dropbox \
     easytag enpass evince-common firefox five-or-more galculator gdebi geany \
     gimp gnome-klotski gnome-mines gnome-nibbles gnome-sudoku gnome-robots \
-    gnome-tetravex gparted handbrake-gtk hitori libreoffice-impress \
-    libreoffice-writer lightdm lightdm-gtk-greeter-settings lxtask \
-    gnome-mahjongg parcellite pavucontrol quadrapassel recordmydesktop \
+    gnome-tetravex gparted gufw handbrake-gtk hitori libreoffice-impress \
+    libreoffice-writer lightdm lightdm-gtk-greeter-settings gnome-mahjongg \
+    numix-theme parcellite pavucontrol quadrapassel recordmydesktop \
     gtk-recordmydesktop remmina seahorse slack-desktop skypeforlinux solaar \
-    soundconverter spotify-client synaptic thunderbird transmission-gtk \
-    tuxguitar viewnior vino virtualbox-5.2 visualboyadvance-gtk vlc
+    soundconverter spotify-client synaptic system-config-printer thunderbird \
+    transmission-gtk tuxguitar viewnior vino virtualbox-5.2 \
+    visualboyadvance-gtk vlc
 [[ $? -ne 0 ]] && exit 1
 
 # CLI applications
@@ -168,17 +168,24 @@ apt-get install autoconf cowsay cups curl dkms dos2unix flashplayer-mozilla \
     fonts-freefont-otf fortune g++ geany-plugin-lua \
     geany-plugin-updatechecker geany-plugin-pairtaghighlighter ghc gifsicle \
     git gvfs-backends handbrake-cli hunspell hunspell-en-us hunspell-it \
-    imagemagick lame libgnome-keyring-dev lightdm-gtk-greeter lua5.1 lua5.3 \
-    make oracle-java8-installer oracle-java8-set-default browser-plugin-vlc \
-    p7zip python-requests-futures rar ruby ruby-dev sbt \
+    imagemagick jq lame libgnome-keyring-dev lightdm-gtk-greeter lua5.1 \
+    lua5.3 make oracle-java8-installer oracle-java8-set-default \
+    browser-plugin-vlc p7zip python-requests-futures rar ruby ruby-dev sbt \
     scala thunar-archive-plugin thunar-dropbox-plugin tuxguitar-jsa uni2ascii \
     unrar virtualenvwrapper xdotool yad zip
 [[ $? -ne 0 ]] && exit 1
 
+# Sparky applications
+apt-get install sparky-about sparky-artwork sparky-apt sparky-aptus-upgrade \
+    sparky-codecs sparky-desktop-data sparky-editor sparky-eraser \
+    sparky-fontset sparky-grub-theme sparky-info sparky-keyring \
+    sparky-live-usb-creator sparky-nm-applet sparky-passwdchange sparky-remsu \
+    sparky-timedateset sparky-users sparky-usb-formatter sparky5-theme
+
 # Xfce plugins
 apt-get install xfce4-battery-plugin xfce4-cpugraph-plugin xfce4-eyes-plugin \
     xfce4-mailwatch-plugin xfce4-power-manager xfce4-screenshooter \
-    xfce4-sensors-plugin xfce4-terminal
+    xfce4-sensors-plugin xfce4-taskmanager xfce4-terminal
 [[ $? -ne 0 ]] && exit 1
 
 # Rubygems

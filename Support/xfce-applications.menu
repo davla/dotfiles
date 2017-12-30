@@ -226,9 +226,9 @@
 
     <Layout>
             <Filename>asunder.desktop</Filename>
-            <Filename>tagtool.desktop</Filename>
             <Filename>brasero.desktop</Filename>
             <Filename>camorama.desktop</Filename>
+            <Filename>easytag.desktop</Filename>
             <Filename>ghb.desktop</Filename>
             <Filename>gtk-recordmydesktop.desktop</Filename>
             <Filename>soundconverter.desktop</Filename>

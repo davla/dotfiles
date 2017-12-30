@@ -20,55 +20,90 @@ SEPARATOR=';'
 
 #####################################################
 #
+#                   Aliases
+#
+#####################################################
+
+shopt -s expand_aliases
+alias init='head -n -1'
+alias last='tail -n 1'
+alias flatten='xargs echo -n'
+
+#####################################################
+#
 #                   Functions
 #
 #####################################################
 
-# This function prints the type and the value for
-# an xfconf-query command from the values stored in
-# a previously exported file.
-#
-# Arguments:
-#   - $1: The values to be converted into
-#       xfconf-query format.
-function make-values {
-    local VALUES="$1"
+function escape-double-quotes {
+    sed -z 's/\"/\\"/g' | sed -z 's/\\\\"/\\\\\\"/g'
+}
 
-    # Necessary for the for loop to split by $SEPARATOR
-    OLD_IFS="$IFS"
-    IFS="$SEPARATOR"
+function json-type {
+    local VALUE="$1"
 
-    # Array values are split by $SEPARATOR. For every
-    # value, a pair "-t $TYPE -s $VALUE" is printed,
-    # as required by the xfconf-query command
-    read -a SPLIT_VALUES <<<"$VALUES"
+    local JQ_TYPE=$(printf '%q' "$VALUE" | jq -r type 2> /dev/null \
+        || echo 'string')
+    case "$JQ_TYPE" in
+        'number')
+            grep '\.' <<<"$VALUE" && echo 'float' || echo 'int'
+            ;;
+        'boolean')
+            echo 'bool'
+            ;;
+        'string')
+            echo 'string'
+            ;;
+    esac
+}
 
-    for VALUE in ${SPLIT_VALUES[@]}; do
+function value2json {
+    while read VALUE; do
+        local TYPE=$(json-type "$VALUE")
 
-        # Determining the type of the value
-        { [[ -z "$VALUE" ]] && TYPE='string'; } \
-        || \
-        { printf '%d' "$VALUE" &> /dev/null && TYPE='int'; } \
-        || \
-        { printf '%f' "$VALUE" &> /dev/null && TYPE='float'; } \
-        || \
-        { [[ "$VALUE" == 'true' || "$VALUE" == 'false' ]] && TYPE='bool'; } \
-        || \
-        { TYPE='string'; }
-
-        echo "-t '$TYPE' -s '$VALUE'"
-
+        if [[ "$TYPE" == 'string' ]]; then
+            echo -n "$VALUE" | escape-double-quotes | xargs -0 printf '"%s"\n'
+        else
+            echo "$VALUE"
+        fi
     done
+}
 
+function join {
+    local SEPARATOR="$1"
 
+    local LINES=$(cat)
+    init <<<"$LINES" | awk '{ print $0"'$SEPARATOR'"; }'
+    last <<<"$LINES"
+}
 
-    # for VALUE in $VALUES; do
-    #     echo "$VALUE"
-    #     continue
-    #
-    # done
+function flatjoin {
+    join $@ | escape-double-quotes | flatten
+}
 
-    IFS="$OLD_IFS"
+function make-property {
+    while read PROPERTY; do
+        echo -n "\"$PROPERTY\": "
+
+        VALUE=$(xfconf-query -c "$CHANNEL" -p "$PROPERTY")
+
+        # Value is an array, every item on a separate line.
+        if [[ -n $(grep 'array' <<<"$VALUE") ]]; then
+            echo -n '['
+            tail -n +3 <<<"$VALUE" | value2json | flatjoin ','
+            echo ']'
+        else
+            echo "$VALUE" | value2json
+        fi
+    done
+}
+
+function make-channel {
+    while read CHANNEL; do
+        echo -n "\"$CHANNEL\": {"
+        xfconf-query -l -c "$CHANNEL" | make-property | flatjoin ','
+        echo '}'
+    done
 }
 
 #####################################################
@@ -88,37 +123,35 @@ ACTION="$1"
 case "$ACTION" in
     'export')
         OUT_FILE="$2"
+        TMP_FILE=$(mktemp)
 
-        # Every channel
-        for CHANNEL in $(xfconf-query -l | tail -n +2); do
-            # Every property in the channel
-            for PROP in $(xfconf-query -l -c "$CHANNEL"); do
-                VALUE=$(xfconf-query -c "$CHANNEL" -p "$PROP")
+        exec 3>&1
+        exec > "$TMP_FILE"
+        # exec > "$OUT_FILE"
 
-                # Value is an array, every item on a separate line.
-                # Replacing newline with the separator
-                [[ -n $(grep 'array' <<<"$VALUE") ]] && \
-                    VALUE=$(tail -n +3 <<<"$VALUE" | tr -s '\n' "$SEPARATOR") #\
-                    #|| { VALUE="${VALUE}${SEPARATOR}"; echo >&2 $VALUE; }
+        echo '{'
+        xfconf-query -l | tail -n +2 | make-channel | join ','
+        echo '}'
 
-                echo "$CHANNEL    $PROP    $VALUE"
-            done
-        done > "$OUT_FILE"
+        jq '.' "$TMP_FILE" > "$OUT_FILE"
+        rm "$TMP_FILE"
         ;;
 
     'import')
         IN_FILE="$2"
 
-        while read LINE; do
-            read -a SPLITS <<<"$LINE"
+        jq '.' "$IN_FILE"
 
-            CHANNEL="${SPLITS[0]}"
-            PROP="${SPLITS[1]}"
-            VALUES="${SPLITS[@]:2}"
-
-            make-values "$VALUES" | xargs xfconf-query -c "$CHANNEL" -n \
-                -p "$PROP"
-        done < "$IN_FILE"
+        # while read LINE; do
+        #     read -a SPLITS <<<"$LINE"
+        #
+        #     CHANNEL="${SPLITS[0]}"
+        #     PROP="${SPLITS[1]}"
+        #     VALUES="${SPLITS[@]:2}"
+        #
+        #     make-values "$VALUES" | xargs xfconf-query -c "$CHANNEL" -n \
+        #         -p "$PROP"
+        # done < "$IN_FILE"
         ;;
 
     *)

@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+# This script updates Postman in the /opt directory,
+# installing the new version only if it is older than
+# the current one, or if Postman is not installed at
+# all. The only dependency is the jq package, used to
+# get the currently installed version of Postman
+
+# Variables
+POSTMAN_ARCH='postman.tar.gz'
+POSTMAN_HOME='/opt/Postman'
+POSTMAN_HOME_BASE=$(dirname "$POSTMAN_HOME")
+POSTMAN_LATEST_URL='https://dl.pstmn.io/download/latest/linux64'
+
+# Functions
+function install-postman {
+	wget $POSTMAN_LATEST_URL -O "$POSTMAN_ARCH"
+	tar -xf "$POSTMAN_ARCH" -C "$POSTMAN_HOME_BASE"
+	rm -rf "$POSTMAN_ARCH"
+
+	ln -sf $(find "$POSTMAN_HOME_BASE" -executable -type f -name Postman \
+        2> /dev/null) /usr/local/bin/postman
+}
+
+function latest-postman-version {
+	curl -sI $POSTMAN_LATEST_URL | grep -Po \
+        '(?<=filename\=Postman-linux-x64-)[\d\.]+(?=\.tar\.gz)'
+}
+
+[[ "$1" == '-f' ]] && FORCE='true' || FORCE='false'
+
+# Checking dependencies
+if [[ -z $(which jq) ]]; then
+	logger 'Postman-updater: Error - no jq executable found'
+	exit 1
+fi
+
+# Postman not installed
+if [[ "$FORCE" == 'true' || -z $(which postman) ]]; then
+	install-postman
+	logger 'Postman-updater: Postman installed on ' $(date +'%d-%m-%Y %T')
+	exit 0
+fi
+
+POSTMAN_LATEST_VERSION=$(latest-postman-version)
+POSTMAN_INSTALLED_VERSION=$(jq -r '.version' "$POSTMAN_HOME/resources/app/package.json")
+
+# Old version installed
+if is-newer $POSTMAN_LATEST_VERSION $POSTMAN_INSTALLED_VERSION; then
+	[[ -d "$POSTMAN_HOME" ]] && rm -rf "$POSTMAN_HOME"
+	install-postman
+	logger 'Postman-updater: Postman updated on ' $(date +'%d-%m-%Y %T')
+
+# Current version up-to-date
+else
+	logger 'Postman-updater: Postman not updated on ' $(date +'%d-%m-%Y %T')
+fi

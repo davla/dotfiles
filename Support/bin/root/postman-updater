@@ -18,23 +18,27 @@ function install-postman {
 	tar -xf "$POSTMAN_ARCH" -C "$POSTMAN_HOME_BASE"
 	rm -rf "$POSTMAN_ARCH"
 
-	ln -sf $(find "POSTMAN_HOME_BASE" -executable -type f -name Postman 2> /dev/null) /usr/bin/postman
+	ln -sf $(find "$POSTMAN_HOME_BASE" -executable -type f -name Postman \
+        2> /dev/null) /usr/local/bin/postman
 }
 
 function latest-postman-version {
-	curl -sI $POSTMAN_LATEST_URL | grep -Po '(?<=filename\=Postman-linux-x64-)[\d\.]+(?=\.tar\.gz)'
+	curl -sI $POSTMAN_LATEST_URL | grep -Po \
+        '(?<=filename\=Postman-linux-x64-)[\d\.]+(?=\.tar\.gz)'
 }
+
+[[ "$1" == '-f' ]] && FORCE='true' || FORCE='false'
 
 # Checking dependencies
 if [[ -z $(which jq) ]]; then
-	echo 'No jq executable found'
+	logger 'Postman-updater: Error - no jq executable found'
 	exit 1
 fi
 
 # Postman not installed
-if [[ ! -d "$POSTMAN_HOME" ]]; then
+if [[ "$FORCE" == 'true' || -z $(which postman) ]]; then
 	install-postman
-	logger 'Postman installed on ' $(date +'%d-%m-%Y %T')
+	logger 'Postman-updater: Postman installed on ' $(date +'%d-%m-%Y %T')
 	exit 0
 fi
 
@@ -45,9 +49,9 @@ POSTMAN_INSTALLED_VERSION=$(jq -r '.version' "$POSTMAN_HOME/resources/app/packag
 if is-newer $POSTMAN_LATEST_VERSION $POSTMAN_INSTALLED_VERSION; then
 	[[ -d "$POSTMAN_HOME" ]] && rm -rf "$POSTMAN_HOME"
 	install-postman
-	logger 'Postman updated on ' $(date +'%d-%m-%Y %T')
-	
+	logger 'Postman-updater: Postman updated on ' $(date +'%d-%m-%Y %T')
+
 # Current version up-to-date
 else
-	logger 'Postman not updated on ' $(date +'%d-%m-%Y %T')
+	logger 'Postman-updater: Postman not updated on ' $(date +'%d-%m-%Y %T')
 fi

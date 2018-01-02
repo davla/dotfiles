@@ -74,6 +74,11 @@ function listify {
 function xfconf-type {
     local VALUE="$1"
 
+    if [[ -n $(grep 'array' <<<"$VALUE") ]]; then
+        echo 'array'
+        return 0
+    fi
+
     # If a string is passed unquoted, jq exits with an error
     local JQ_TYPE=$(printf '%q' "$VALUE" | jq -r type 2> /dev/null \
         || echo 'string')
@@ -112,7 +117,7 @@ function make-property {
         VALUE=$(xfconf-query -c "$CHANNEL" -p "$PROPERTY")
 
         # Value is an array, every item on a separate line.
-        if [[ -n $(grep 'array' <<<"$VALUE") ]]; then
+        if [[ $(xfconf-type "$VALUE") == 'array' ]]; then
             echo -n '['
             tail -n +3 <<<"$VALUE" | value2json | flatlistify ','
             echo ']'
@@ -164,7 +169,6 @@ case "$ACTION" in
 
         exec 3>&1
         exec > "$TMP_FILE"
-        # exec > "$OUT_FILE"
 
         echo '{'
         xfconf-query -l | tail -n +2 | make-channel | listify ','

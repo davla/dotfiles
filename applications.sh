@@ -13,6 +13,7 @@
 function clean {
     apt-get purge -y abiword-common
     apt-get purge -y audacious
+    apt-get purge -y ayatana-indicator-common
     apt-get purge -y calendar-google-provider
     apt-get purge -y conky-std
     apt-get purge -y xfce4-clipman

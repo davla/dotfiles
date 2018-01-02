@@ -30,6 +30,7 @@ wget -qO- 'https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh' 
 
 # Node packages
 bash -c "
+source $HOME/.bashrc
 source $NVM_DIR/nvm.sh
 
 nvm install node

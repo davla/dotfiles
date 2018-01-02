@@ -3,6 +3,15 @@
 # This scripts sets up SSH key access to raspberry,
 # creating the keys if necessary
 
+
+#####################################################
+#
+#                   Variables
+#
+#####################################################
+
+SSH_HOME="$HOME/.ssh"
+
 #####################################################
 #
 #                   Functions
@@ -17,7 +26,7 @@ function copy-key {
 	local HOST="$2"
 
 	ssh "$USER@$HOST" mkdir -p .ssh
-	cat .ssh/id_rsa.pub | ssh "$USER@$HOST" 'cat >> .ssh/authorized_keys'
+	cat "$SSH_HOME/id_rsa.pub" | ssh "$USER@$HOST" 'cat >> .ssh/authorized_keys'
 }
 
 #####################################################
@@ -26,8 +35,8 @@ function copy-key {
 #
 #####################################################
 
-[[ ! -d .ssh ]] && mkdir "$HOME/.ssh"
-[[ ! -e .ssh/id_rsa ]] && ssh-keygen -t rsa
+[[ ! -d "$SSH_HOME" ]] && mkdir "$SSH_HOME"
+[[ ! -e "$SSH_HOME/id_rsa" ]] && ssh-keygen -t rsa
 
 #####################################################
 #

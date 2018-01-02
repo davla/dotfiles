@@ -36,10 +36,10 @@ fi
 #####################################################
 
 # Managing Preinstalled packages
-sudo apt-get install gtk2-engines-murrine
-sudo apt-get purge gnome-themes-standard-data
-sudo apt-get purge murrine-themes
-sudo apt-get purge gtk2-engines
+#sudo apt-get install gtk2-engines-murrine
+#sudo apt-get purge gnome-themes-standard-data
+#sudo apt-get purge murrine-themes
+#sudo apt-get purge gtk2-engines
 
 # Installing custom themes
 sudo tar -xjf "$THEMES_ARCH" -C /usr/share/themes

@@ -114,11 +114,11 @@ apt-get install curl
 # 2EE0EA64E40A89B84B2DF73499E82A75642AC823 --> Scala sbt
 # C6ABDCF64DB9A0B2 --> Slack
 # EFDC8610341D9410 --> Spotify
-apt-key adv --keyserver 'https://keyserver.ubuntu.com' --recv-keys 'F59EAE4D' \
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 'F59EAE4D' \
     '0C49F3730359A14518585931BC711F9BA15703C6' 'EEA14886' 'E0F72778C4676186' \
     '2EE0EA64E40A89B84B2DF73499E82A75642AC823' 'C6ABDCF64DB9A0B2' \
     'EFDC8610341D9410' | apt-key add -
-apt-key adv --keyserver 'https://pgp.mit.edu' --recv-keys 5044912E | \
+apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E | \
     apt-key add -
 wget -q 'https://www.virtualbox.org/download/oracle_vbox_2016.asc' -O- | \
     apt-key add -
@@ -152,7 +152,7 @@ apt-get upgrade
 
 # GUI applications
 apt-get install aisleriot asunder atom baobab blueman brasero calibre \
-    camorama catfish ddm dropbox easytag enpass evince firefox five-or-more \
+    camorama catfish dropbox easytag enpass evince firefox five-or-more \
     galculator gdebi geany gimp gnome-klotski gnome-mines gnome-nibbles \
     gnome-sudoku gnome-robots gnome-tetravex gparted gufw handbrake-gtk \
     hitori libreoffice-calc libreoffice-impress libreoffice-writer lightdm \
@@ -172,16 +172,18 @@ apt-get install autoconf cowsay cups curl dkms dos2unix flashplayer-mozilla \
     imagemagick jq lame libgnome-keyring-dev lightdm-gtk-greeter lua5.1 \
     lua5.3 make oracle-java8-installer oracle-java8-set-default \
     browser-plugin-vlc p7zip python-requests-futures rar ruby ruby-dev sbt \
-    scala thunar-archive-plugin thunar-dropbox-plugin tuxguitar-jsa uni2ascii \
-    unrar virtualenvwrapper xdotool yad zip
+    scala sudo thunar-archive-plugin thunar-dropbox-plugin tuxguitar-jsa \
+    uni2ascii unrar virtualenvwrapper xdotool xserver-xorg-input-synaptics \
+    yad zip
 [[ $? -ne 0 ]] && exit 1
 
 # Sparky applications
-apt-get install sparky-about sparky-artwork sparky-apt sparky-codecs \
-    sparky-desktop-data sparky-editor sparky-eraser sparky-fontset \
-    sparky-grub-theme sparky-info sparky-keyring sparky-live-usb-creator \
-    sparky-nm-applet sparky-passwdchange sparky-remsu sparky-timedateset \
-    sparky-users sparky-usb-formatter sparky5-theme
+#apt-get install sparky-about sparky-artwork sparky-apt sparky-codecs \
+#    sparky-desktop-data sparky-editor sparky-eraser sparky-fontset \
+#    sparky-grub-theme sparky-info sparky-keyring sparky-live-usb-creator \
+#    sparky-nm-applet sparky-passwdchange sparky-remsu sparky-timedateset \
+#    sparky-users sparky-usb-formatter sparky5-theme
+#[[ $? -ne 0 ]] && exit 1
 
 # Xfce plugins
 apt-get install xfce4-battery-plugin xfce4-cpugraph-plugin xfce4-eyes-plugin \

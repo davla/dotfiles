@@ -35,8 +35,8 @@ function copy-key {
 #
 #####################################################
 
-[[ ! -d "$SSH_HOME" ]] && mkdir "$SSH_HOME"
-[[ ! -e "$SSH_HOME/id_rsa" ]] && ssh-keygen -t rsa
+mkdir -p "$SSH_HOME"
+[[ ! -f "$SSH_HOME/id_rsa" ]] && ssh-keygen -t rsa
 
 #####################################################
 #

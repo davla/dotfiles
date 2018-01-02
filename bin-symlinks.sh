@@ -44,6 +44,8 @@ fi
 for EXEC_NAME in ${EXEC_NAMES[@]}; do
     LINK_DEST="$BIN_PATH/${EXEC_NAME,,}"
 
+    echo "Linking $EXEC_NAME"
+
     # Removing the symbolic link we are about to create,
     # so that it's not found as an executable later
     rm "$LINK_DEST" &> /dev/null
@@ -51,7 +53,10 @@ for EXEC_NAME in ${EXEC_NAMES[@]}; do
     EXEC_PATH=$(which "$EXEC_NAME" || find / -type f -executable \
             -name "$EXEC_NAME" 2> /dev/null | head -n 1)
 
-    [[ -z "$EXEC_PATH" || ! -f "$EXEC_PATH" ]] && continue
+    if [[ -z "$EXEC_PATH" || ! -f "$EXEC_PATH" ]]; then
+        echo "$EXEC_NAME not found"
+        continue
+    fi
 
     ln -s "$EXEC_PATH" "$LINK_DEST"
     [[ $(stat -c %U "$EXEC_PATH") == 'root' ]] && chmod u+s "$EXEC_PATH"

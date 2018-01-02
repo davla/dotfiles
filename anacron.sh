@@ -52,7 +52,7 @@ fi
 
 ROOT_DAILY=(
     'update-notifier'
-    'postman-updater'
+    'install-postman'
 )
 for BIN in ${ROOT_DAILY[@]}; do
 	chmod +x "Support/bin/root/$BIN"

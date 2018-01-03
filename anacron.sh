@@ -3,6 +3,7 @@
 # This script sets anacron daily jobs, both root and user ones.
 # It also fixes an error for which anacron is disabled by
 # symlinking it to /bin/true from live install settings.
+# Finally, it enables anacron to run on battery power
 
 # Argumnts:
 #   - $1: The user non-root commands should be executed as.
@@ -43,6 +44,15 @@ if [[ "$ANACRON_EXEC" -ef /bin/true ]]; then
         -not -name 'anacron' -executable | head -n 2 | tail -n 1)
     ln -fs "$REAL_CRON" "$ANACRON_EXEC"
 fi
+
+#####################################################
+#
+#               Anacron configuration
+#
+#####################################################
+
+sed -i 's/ANACRON_RUN_ON_BATTERY_POWER=no/ANACRON_RUN_ON_BATTERY_POWER=yes/g' \
+    /etc/default/anacron
 
 #####################################################
 #

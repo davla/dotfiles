@@ -28,6 +28,19 @@ POSTMAN_URL='https://dl.pstmn.io/download/latest/linux64'
 
 #####################################################
 #
+#                   Aliases
+#
+#####################################################
+
+shopt -s expand_aliases
+
+# Echoes normally if from terminal emulator, otherwise uses syslog
+[[ -z $(tty | grep not) ]] && \
+    alias print='echo' || \
+    alias print='logger'
+
+#####################################################
+#
 #                   Functions
 #
 #####################################################
@@ -69,7 +82,7 @@ while getopts 'b:d:fhu:x:' OPTION; do
             ;;
 
         'h')
-            echo "Usage: install-postman [OPTION]...
+            print "Usage: install-postman [OPTION]...
 
 Options:
     -b PATH     Use PATH as base installation directory for Postman.
@@ -108,14 +121,14 @@ POSTMAN_EXEC_PATH="$POSTMAN_EXEC_BASE/$POSTMAN_EXEC_NAME"
 #####################################################
 
 if [[ -z $(which jq) ]]; then
-	logger 'Postman-updater: Error - no jq executable found'
+	print 'Postman-updater: Error - no jq executable found'
 	exit 1
 fi
 
 # Postman not installed
 if [[ "$FORCE_INSTALL" == 'true' || ! -d "$POSTMAN_HOME" ]]; then
 	install-postman
-	logger 'Postman-updater: Postman installed on ' $(date +'%d-%m-%Y %T')
+	print 'Postman-updater: Postman installed on ' $(date +'%d-%m-%Y %T')
 	exit 0
 fi
 
@@ -127,9 +140,9 @@ POSTMAN_INSTALLED_VERSION=$(jq -r '.version' \
 if is-newer $POSTMAN_LATEST_VERSION $POSTMAN_INSTALLED_VERSION; then
 	[[ -d "$POSTMAN_HOME" ]] && rm -rf "$POSTMAN_HOME"
 	install-postman
-	logger 'Postman-updater: Postman updated on ' $(date +'%d-%m-%Y %T')
+	print 'Postman-updater: Postman updated on ' $(date +'%d-%m-%Y %T')
 
 # Current version up-to-date
 else
-	logger 'Postman-updater: Postman not updated on ' $(date +'%d-%m-%Y %T')
+	print 'Postman-updater: Postman not updated on ' $(date +'%d-%m-%Y %T')
 fi

@@ -6,44 +6,122 @@
 # all. The only dependency is the jq package, used to
 # get the currently installed version of Postman
 
-# Variables
-POSTMAN_ARCH='postman.tar.gz'
-POSTMAN_HOME='/opt/Postman'
-POSTMAN_HOME_BASE=$(dirname "$POSTMAN_HOME")
-POSTMAN_LATEST_URL='https://dl.pstmn.io/download/latest/linux64'
+#####################################################
+#
+#                   Variables
+#
+#####################################################
 
-# Functions
+POSTMAN_ARCH='postman.tar.gz'
+
+#####################################################
+#
+#                   Parameters
+#
+#####################################################
+
+FORCE_INSTALL='false'
+POSTMAN_EXEC_BASE='/usr/local/bin'
+POSTMAN_EXEC_NAME='postman'
+POSTMAN_HOME='/opt/postman'
+POSTMAN_URL='https://dl.pstmn.io/download/latest/linux64'
+
+#####################################################
+#
+#                   Functions
+#
+#####################################################
+
 function install-postman {
-	wget $POSTMAN_LATEST_URL -O "$POSTMAN_ARCH"
-	tar -xf "$POSTMAN_ARCH" -C "$POSTMAN_HOME_BASE"
+	wget "$POSTMAN_URL" -O "$POSTMAN_ARCH"
+    mkdir -p "$POSTMAN_HOME"
+	tar -xf "$POSTMAN_ARCH" -C "$POSTMAN_HOME" --strip-components=1
 	rm -rf "$POSTMAN_ARCH"
 
-	ln -sf $(find "$POSTMAN_HOME_BASE" -executable -type f -name Postman \
-        2> /dev/null) /usr/local/bin/postman
+    mkdir -p "$POSTMAN_EXEC_BASE"
+	ln -sf $(find "$POSTMAN_HOME" -executable -type f -name Postman \
+        2> /dev/null) "$POSTMAN_EXEC_PATH"
 }
 
 function latest-postman-version {
-	curl -sI $POSTMAN_LATEST_URL | grep -Po \
+	curl -sI $POSTMAN_URL | grep -Po \
         '(?<=filename\=Postman-linux-x64-)[\d\.]+(?=\.tar\.gz)'
 }
 
-[[ "$1" == '-f' ]] && FORCE='true' || FORCE='false'
+#####################################################
+#
+#               Input processing
+#
+#####################################################
 
-# Checking dependencies
+while getopts 'b:d:fhu:x:' OPTION; do
+    case "$OPTION" in
+        'b')
+            POSTMAN_HOME=$(realpath "$OPTARG")
+            ;;
+
+        'd')
+            POSTMAN_EXEC_BASE=$(realpath "$OPTARG")
+            ;;
+
+        'f')
+            FORCE_INSTALL='true'
+            ;;
+
+        'h')
+            echo "Usage: install-postman [OPTION]...
+
+Options:
+    -b PATH     Use PATH as base installation directory for Postman.
+                Default: '/opt/postman'.
+    -d PATH     Use PATH as base directory for postman executable symbolic link.
+                Default: '/usr/local/bin'.
+    -f          Force installation.
+    -h          Print this help message.
+    -x NAME     Use NAME as the filename for postman executable symbolic link.
+                Default: 'postman'.
+"
+            exit 0
+            ;;
+
+        'u')
+            # print help
+            exit 0
+            ;;
+
+        'x')
+            POSTMAN_EXEC_NAME="$OPTARG"
+            ;;
+
+        *) # getopts already printed an error message
+            exit 1
+            ;;
+    esac
+done
+
+POSTMAN_EXEC_PATH="$POSTMAN_EXEC_BASE/$POSTMAN_EXEC_NAME"
+
+#####################################################
+#
+#               Dependencies check
+#
+#####################################################
+
 if [[ -z $(which jq) ]]; then
 	logger 'Postman-updater: Error - no jq executable found'
 	exit 1
 fi
 
 # Postman not installed
-if [[ "$FORCE" == 'true' || -z $(which postman) ]]; then
+if [[ "$FORCE_INSTALL" == 'true' || ! -d "$POSTMAN_HOME" ]]; then
 	install-postman
 	logger 'Postman-updater: Postman installed on ' $(date +'%d-%m-%Y %T')
 	exit 0
 fi
 
 POSTMAN_LATEST_VERSION=$(latest-postman-version)
-POSTMAN_INSTALLED_VERSION=$(jq -r '.version' "$POSTMAN_HOME/resources/app/package.json")
+POSTMAN_INSTALLED_VERSION=$(jq -r '.version' \
+    "$POSTMAN_HOME/resources/app/package.json")
 
 # Old version installed
 if is-newer $POSTMAN_LATEST_VERSION $POSTMAN_INSTALLED_VERSION; then

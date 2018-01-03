@@ -57,15 +57,14 @@ echo "raspberry:/ $RASPBERRY_ROOT nfs users,dev,exec,noauto,rw,suid 0 0" \
 #
 #####################################################
 
-cp Support/.bash_{profile,envvars} $HOME
+cp Support/.bash_{profile,envvars} "$HOME"
 
 # Importing .bash_envvars into .bashrc and .bash_profile
 
-cat <<BOUND >> $HOME/.bashrc
+echo "
 
 # Setting envvars
 
 if [ -f ~/.bash_envvars ]; then
     . ~/.bash_envvars
-fi
-BOUND
+fi" >> "$HOME/.bashrc"

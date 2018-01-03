@@ -56,13 +56,13 @@ if [[ "$REFRESH" == 'false' ]]; then
 
 	# Adding local resources and a marker for frequently
     # accessed remote websites
-	cat << BOUND >> /etc/hosts
+	echo "
 192.168.1.3     memorione
 192.168.0.11        raspberry
 192.168.0.1		router
 
 # $REMOTE_RESOURCES_MARKER
-BOUND
+" >> /etc/hosts
 fi
 
 #####################################################

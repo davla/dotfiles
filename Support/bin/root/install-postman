@@ -86,14 +86,13 @@ while getopts 'b:d:fhu:x:' OPTION; do
 
 Options:
     -b PATH     Use PATH as base installation directory for Postman.
-                Default: '/opt/postman'.
+                Default: '$POSTMAN_HOME'.
     -d PATH     Use PATH as base directory for postman executable symbolic link.
-                Default: '/usr/local/bin'.
+                Default: '$POSTMAN_EXEC_BASE'.
     -f          Force installation.
     -h          Print this help message.
     -x NAME     Use NAME as the filename for postman executable symbolic link.
-                Default: 'postman'.
-"
+                Default: '$POSTMAN_EXEC_NAME'."
             exit 0
             ;;
 

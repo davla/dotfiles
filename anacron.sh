@@ -40,9 +40,9 @@ ANACRON_EXEC=$(which anacron)
 
 # anacron executable is a link to /bin/true
 if [[ "$ANACRON_EXEC" -ef /bin/true ]]; then
-    REAL_CRON=$(find $(dirname "$ANACRON_EXEC") -name "anacron*" \
+    REAL_ANACRON=$(find $(dirname "$ANACRON_EXEC") -name "anacron*" \
         -not -name 'anacron' -executable | head -n 2 | tail -n 1)
-    ln -fs "$REAL_CRON" "$ANACRON_EXEC"
+    ln -fs "$REAL_ANACRON" "$ANACRON_EXEC"
 fi
 
 #####################################################
@@ -65,8 +65,7 @@ ROOT_DAILY=(
     'install-postman'
 )
 for BIN in ${ROOT_DAILY[@]}; do
-	chmod +x "Support/bin/root/$BIN"
-    ln -fs "/sbin/$BIN" "/etc/cron.daily/$BIN"
+    ln -fs $(which "$BIN") "/etc/cron.daily/$BIN"
 done
 
 #####################################################
@@ -75,9 +74,9 @@ done
 #
 #####################################################
 
-cat << BOUND >> /etc/anacrontab
+echo -n "
 
 1        1        git.updates	su $USER_NAME -c 'pull-repos'
 1        3        node.updates	su $USER_NAME -c 'node-updater'
 1        5        npm.updates	su $USER_NAME -c 'npm-updater'
-BOUND
+" >> /etc/anacrontab

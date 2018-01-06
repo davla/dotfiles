@@ -157,12 +157,12 @@ apt-get install aisleriot asunder atom baobab blueman brasero calibre \
     galculator gdebi geany gimp gnome-klotski gnome-mines gnome-nibbles \
     gnome-sudoku gnome-robots gnome-tetravex gparted gufw handbrake-gtk \
     hitori libreoffice-calc libreoffice-impress libreoffice-writer lightdm \
-    lightdm-gtk-greeter-settings gnome-mahjongg hardinfo numix-theme \
-    parcellite pavucontrol quadrapassel recordmydesktop gtk-recordmydesktop \
-    remmina seahorse simple-scan slack-desktop skypeforlinux solaar \
-    soundconverter spotify-client synaptic system-config-printer thunderbird \
-    transmission-gtk tuxguitar viewnior vino virtualbox-5.2 \
-    visualboyadvance-gtk vlc
+    lightdm-gtk-greeter-settings gnome-mahjongg hardinfo \
+    network-manager-gnome numix-theme parcellite pavucontrol quadrapassel \
+    recordmydesktop gtk-recordmydesktop remmina seahorse simple-scan \
+    slack-desktop skypeforlinux solaar soundconverter spotify-client \
+    synaptic system-config-printer thunderbird transmission-gtk tuxguitar \
+    viewnior vino virtualbox-5.2 visualboyadvance-gtk vlc
 [[ $? -ne 0 ]] && exit 1
 
 # CLI applications

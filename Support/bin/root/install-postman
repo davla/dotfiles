@@ -92,6 +92,8 @@ Options:
     -f          Force installation.
     -h          Print this help message.
     -x NAME     Use NAME as the filename for postman executable symbolic link.
+                If NAME is an absolute path, then such path is used for the
+                executable, ignoring any base directory set with -d.
                 Default: '$POSTMAN_EXEC_NAME'."
             exit 0
             ;;
@@ -110,6 +112,11 @@ Options:
             ;;
     esac
 done
+
+if [[ "${POSTMAN_EXEC_NAME:0:1}" == '/' ]]; then
+    POSTMAN_EXEC_BASE=$(dirname "$POSTMAN_EXEC_NAME")
+    POSTMAN_EXEC_NAME=$(basename "$POSTMAN_EXEC_NAME")
+fi
 
 POSTMAN_EXEC_PATH="$POSTMAN_EXEC_BASE/$POSTMAN_EXEC_NAME"
 

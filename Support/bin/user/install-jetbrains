@@ -159,8 +159,8 @@ if [[ -n "$ALLOWED_FLAVORS" ]]; then
     URL_CODE="${IDE_CODE}${FLAVOR_CODE}"
     FULL_IDE_NAME="$IDE_NAME-$FLAVOR"
 else
-    URL_CODE="$CODE"
-    FULL_IDE_NAME="$NAME"
+    URL_CODE="$IDE_CODE"
+    FULL_IDE_NAME="$IDE_NAME"
 fi
 
 #####################################################

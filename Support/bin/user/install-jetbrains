@@ -42,6 +42,7 @@ IDE_CODE=''
 JETBRAINS_BASE_DIR='/opt/jetbrains'
 JETBRAINS_DOWNLOAD_URL='https://data.services.jetbrains.com/products/download'
 PLATFORM='linux'
+PLATFORM_SUFFIX=''
 
 #####################################################
 #
@@ -110,7 +111,7 @@ case "$IDE_NAME" in
 	'intellij')
         ALLOWED_FLAVORS='community ultimate'
         IDE_CODE='II'
-        URL_PLATFORM="${PLATFORM}WithoutJDK"
+        PLATFORM_SUFFIX='WithoutJDK'
 		EXECPATH=bin/idea.sh
 		;;
 
@@ -146,6 +147,8 @@ case "$IDE_NAME" in
 		;;
 esac
 
+URL_PLATFORM="${PLATFORM}${PLATFORM_SUFFIX}"
+
 if [[ -n "$ALLOWED_FLAVORS" ]]; then
     FLAVOR="${2:-community}"
 
@@ -171,7 +174,7 @@ IDE_BASE_DIR="$JETBRAINS_BASE_DIR/$FULL_IDE_NAME"
 
 echo "Downoading $FULL_IDE_NAME..."
 curl -GL "$JETBRAINS_DOWNLOAD_URL" \
-    -d "platform=$PLATFORM" \
+    -d "platform=$URL_PLATFORM" \
     -d "code=$URL_CODE" \
     > "$ARCH_NAME"
 

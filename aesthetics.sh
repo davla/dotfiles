@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Deals with themes and icons:
-# 	- installs murrine theme engine
+#   - sets the look and feel of the login screen
 # 	- restores themes from an archive
 # 	- installs ACYL icon theme
 #	- restores too many cursor themes
@@ -31,19 +31,30 @@ fi
 
 #####################################################
 #
+#                   Login screen
+#
+#####################################################
+
+LIGHTDM_CONF_BASE='/usr/share/lightdm'
+LIGHTDM_CONF_DIR="$LIGHTDM_CONF_BASE/lightdm.conf.d"
+LIGHTDM_GREETER_CONF_DIR="$LIGHTDM_CONF_BASE/lightdm-gtk-greeter.conf.d"
+
+sudo mkdir -p "$LIGHTDM_CONF_DIR"
+sudo cp Support/lightdm/02_lightdm_custom.conf "$LIGHTDM_CONF_DIR"
+
+sudo mkdir -p "$LIGHTDM_GREETER_CONF_DIR"
+sudo cp Support/lightdm/02_greeter_custom.conf "$LIGHTDM_GREETER_CONF_DIR"
+
+exit 0
+#####################################################
+#
 #                      Themes
 #
 #####################################################
 
-# Managing Preinstalled packages
-#sudo apt-get install gtk2-engines-murrine
-#sudo apt-get purge gnome-themes-standard-data
-#sudo apt-get purge murrine-themes
-#sudo apt-get purge gtk2-engines
-
-# Installing custom themes
 sudo tar -xjf "$THEMES_ARCH" -C /usr/share/themes
-[[ $? -ne 0 ]] && exit 1 || echo 'Themes installed'
+[[ $? -ne 0 ]] && exit 1
+echo 'Themes installed'
 
 #####################################################
 #
@@ -52,7 +63,8 @@ sudo tar -xjf "$THEMES_ARCH" -C /usr/share/themes
 #####################################################
 
 sudo apt-get install acyl-icon-set
-[[ $? -ne 0 ]] && exit 1 || echo 'ACYL installed'
+[[ $? -ne 0 ]] && exit 1
+echo 'ACYL installed'
 
 #####################################################
 #
@@ -66,7 +78,8 @@ mkdir -p "$ICONS_PATH"
 
 # Installung custom cursors themes
 tar -xjf "$CURSORS_ARCH" -C "$ICONS_PATH"
-[[ $? -ne 0 ]] && exit 1 || echo 'Cursors installed'
+[[ $? -ne 0 ]] && exit 1
+echo 'Cursors installed'
 
 # Old cursors
 # "http://xfce-look.org/CONTENT/content-files/145644-X-Steel-GRAY-negative.tar.gz" # X-Steel-Gray-negative
@@ -75,5 +88,3 @@ tar -xjf "$CURSORS_ARCH" -C "$ICONS_PATH"
 # "https://www.dropbox.com/s/48u0utzbo578qck/RingOrange.tgz" # Ring Orange
 # "https://www.dropbox.com/s/1cvz8kvh6nviju5/RingRed.tgz" # Ring Red
 # "https://www.dropbox.com/s/s78ksb15ot8rs8j/RingWhite.tgz" # Ring White
-
-echo 'Everything got installed. Good job!'

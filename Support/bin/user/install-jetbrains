@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-# This script downloads jetbrains IDEs in /opt/jetbrains
-# directory, and proceeds with the launcher script then.
+# This script downloads jetbrains IDEs in a namesake directory,
+# located at the specified path, that defaults to /opt/jetbrains;
+# It then proceeds with the launcher script.
 # Currently, only installing the latest version is supported,
 # and only the following IDEs can be downloaded (it's just
 # a matter of data-entry to add more):
@@ -19,6 +20,12 @@
 #####################################################
 
 ALLOWED_FLAVORS=''
+IDE_CODE=''
+JETBRAINS_BASE_DIR='/opt/jetbrains'
+JETBRAINS_DOWNLOAD_URL='https://data.services.jetbrains.com/products/download'
+PLATFORM='linux'
+PLATFORM_SUFFIX=''
+
 HELP_MESSAGE="Usage install-jetbrains [-h] IDE_NAME [IDE_FLAVOR]
 
 Where IDE_NAME is one of
@@ -36,13 +43,10 @@ to 'community', but its possible values are:
     - 'community' or 'professional' if IDE_NAME is 'pycharm'
 
 Options:
-    -h      Prints this help message
+    -b PATH     Use PATH as base installation directory for JetBrains IDE.
+                Default: '$JETBRAINS_BASE_DIR'.
+    -h          Prints this help message
 "
-IDE_CODE=''
-JETBRAINS_BASE_DIR='/opt/jetbrains'
-JETBRAINS_DOWNLOAD_URL='https://data.services.jetbrains.com/products/download'
-PLATFORM='linux'
-PLATFORM_SUFFIX=''
 
 #####################################################
 #
@@ -79,8 +83,12 @@ function make-flavor-code {
 #
 #####################################################
 
-while getopts 'h' OPTION; do
+while getopts 'b:h' OPTION; do
     case "$OPTION" in
+        'b')
+            JETBRAINS_BASE_DIR=$(realpath "$OPTARG")
+            ;;
+
         'h')
             echo -n "$HELP_MESSAGE"
             exit 0
@@ -137,7 +145,7 @@ case "$IDE_NAME" in
 		;;
 
 	'webstorm')
-		IDE_CODE='W'
+		IDE_CODE='WS'
 		EXECPATH=bin/webstorm.sh
 		;;
 
@@ -180,10 +188,13 @@ curl -GL "$JETBRAINS_DOWNLOAD_URL" \
 
 # The downloaded file is not an archive
 if [[ -z $(file -b "$ARCH_NAME" | grep 'compressed') ]]; then
-    jq '.' "$ARCH_NAME" >&2 2> /dev/null \
 
-        # jq is not installed or the downloaded file is not JSON
+    # The || fallback covers the cases in which jq is not
+    # installed or the downloaded file is not JSON
+    jq '.' "$ARCH_NAME" >&2 2> /dev/null \
         || echo "Download of $FULL_IDE_NAME failed!" >&2
+
+    rm "$ARCH_NAME"
     exit 1
 fi
 
@@ -193,7 +204,7 @@ sudo mkdir -p "$IDE_BASE_DIR"
 echo "Extracting $ARCH_NAME..."
 sudo tar -xf "$ARCH_NAME" -C "$IDE_BASE_DIR" --strip-components=1
 
+rm "$ARCH_NAME"
+
 echo 'Launching installation script...'
 "$IDE_BASE_DIR/$EXECPATH"
-
-rm "$ARCH_NAME"

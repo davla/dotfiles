@@ -137,7 +137,7 @@ case "$IDE_NAME" in
 		;;
 
 	'webstorm')
-		IDE_CODE='WS'
+		IDE_CODE='W'
 		EXECPATH=bin/webstorm.sh
 		;;
 
@@ -178,11 +178,14 @@ curl -GL "$JETBRAINS_DOWNLOAD_URL" \
     -d "code=$URL_CODE" \
     > "$ARCH_NAME"
 
-# If jq parses without error, is a JSON response,
-# tham means the HTTP request failed. This also
-# prints the response in such case.
-jq '.' "$ARCH_NAME" 2> /dev/null
-[[ $? -eq 0 ]] && exit 1
+# The downloaded file is not an archive
+if [[ -z $(file -b "$ARCH_NAME" | grep 'compressed') ]]; then
+    jq '.' "$ARCH_NAME" >&2 2> /dev/null \
+
+        # jq is not installed or the downloaded file is not JSON
+        || echo "Download of $FULL_IDE_NAME failed!" >&2
+    exit 1
+fi
 
 sudo rm -rf "$IDE_BASE_DIR" 2> /dev/null
 sudo mkdir -p "$IDE_BASE_DIR"

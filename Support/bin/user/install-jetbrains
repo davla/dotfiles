@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-# This script downloads jetbrains IDEs in a namesake directory,
-# located at the specified path, that defaults to /opt/jetbrains;
-# It then proceeds with the launcher script.
+# This script downloads and extracts a jetbrains IDE and
+# proceeds with the launcher script.
 # Currently, only installing the latest version is supported,
 # and only the following IDEs can be downloaded (it's just
 # a matter of data-entry to add more):
@@ -15,19 +14,30 @@
 
 #####################################################
 #
-#                   Variables
+#                   Parameters
+#
+#####################################################
+
+JETBRAINS_BASE_DIR='/opt/jetbrains'
+IDE_BASE_DIR=''
+
+#####################################################
+#
+#                   Variable
 #
 #####################################################
 
 ALLOWED_FLAVORS=''
 IDE_CODE=''
-IDE_BASE_DIR=''
-JETBRAINS_BASE_DIR='/opt/jetbrains'
 JETBRAINS_DOWNLOAD_URL='https://data.services.jetbrains.com/products/download'
 PLATFORM='linux'
 PLATFORM_SUFFIX=''
 
 HELP_MESSAGE="Usage install-jetbrains [-h] IDE_NAME [IDE_FLAVOR]
+
+Downloads the latest version of a jetbrains IDE, extracts it in a
+specific directory (see the options below for further information),
+and then launchs its installation script.
 
 Where IDE_NAME is one of
     - clion

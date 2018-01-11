@@ -28,7 +28,6 @@ IDE_BASE_DIR=''
 #####################################################
 
 ALLOWED_FLAVORS=''
-IDE_CODE=''
 JETBRAINS_DOWNLOAD_URL='https://data.services.jetbrains.com/products/download'
 PLATFORM='linux'
 PLATFORM_SUFFIX=''
@@ -235,8 +234,12 @@ fi
 sudo rm -rf "$IDE_BASE_DIR" 2> /dev/null
 sudo mkdir -p "$IDE_BASE_DIR"
 
+# Chagning ownership so that patch updates
+# are executable as unprivileged users
+sudo chown "$USER:$USER" "$IDE_BASE_DIR"
+
 echo "Extracting $ARCH_NAME..."
-sudo tar -xf "$ARCH_NAME" -C "$IDE_BASE_DIR" --strip-components=1
+tar -xf "$ARCH_NAME" -C "$IDE_BASE_DIR" --strip-components=1
 
 rm "$ARCH_NAME"
 

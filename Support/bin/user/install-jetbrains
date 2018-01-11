@@ -21,6 +21,7 @@
 
 ALLOWED_FLAVORS=''
 IDE_CODE=''
+IDE_BASE_DIR=''
 JETBRAINS_BASE_DIR='/opt/jetbrains'
 JETBRAINS_DOWNLOAD_URL='https://data.services.jetbrains.com/products/download'
 PLATFORM='linux'
@@ -43,9 +44,19 @@ to 'community', but its possible values are:
     - 'community' or 'professional' if IDE_NAME is 'pycharm'
 
 Options:
-    -b PATH     Use PATH as base installation directory for JetBrains IDE.
+    -b PATH     Use PATH as base installation directory for the JetBrains IDE.
+                If PATH is not absolute, is resolved relatively to the current
+                directory. PATH is created if not existing. The IDE will be
+                installed in a new directory named after it inside PATH.
                 Default: '$JETBRAINS_BASE_DIR'.
-    -h          Prints this help message
+
+    -B PATH     Use PATH as installation directory for the JetBrains IDE. If
+                PATH is not absolute, is resolved relatively to the current
+                directory. PATH is created if not existing. The difference with
+                -b is that no nested directory is created for the IDE.
+                Default: none, the default behavior is as specified in -b.
+
+    -h          Prints this help message.
 "
 
 #####################################################
@@ -83,8 +94,12 @@ function make-flavor-code {
 #
 #####################################################
 
-while getopts 'b:h' OPTION; do
+while getopts 'b:B:h' OPTION; do
     case "$OPTION" in
+        'B')
+            IDE_BASE_DIR=$(realpath "$OPTARG")
+            ;;
+
         'b')
             JETBRAINS_BASE_DIR=$(realpath "$OPTARG")
             ;;
@@ -155,8 +170,10 @@ case "$IDE_NAME" in
 		;;
 esac
 
+# Used by intellij only to add the no-jdk option
 URL_PLATFORM="${PLATFORM}${PLATFORM_SUFFIX}"
 
+# The IDE has flavors
 if [[ -n "$ALLOWED_FLAVORS" ]]; then
     FLAVOR="${2:-community}"
 
@@ -178,7 +195,7 @@ fi
 #####################################################
 
 ARCH_NAME="$FULL_IDE_NAME.tar.gz"
-IDE_BASE_DIR="$JETBRAINS_BASE_DIR/$FULL_IDE_NAME"
+[[ -z "$IDE_BASE_DIR" ]] && IDE_BASE_DIR="$JETBRAINS_BASE_DIR/$FULL_IDE_NAME"
 
 echo "Downoading $FULL_IDE_NAME..."
 curl -GL "$JETBRAINS_DOWNLOAD_URL" \

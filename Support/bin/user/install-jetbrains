@@ -117,6 +117,13 @@ while getopts 'b:B:h' OPTION; do
 done
 shift $(( OPTIND - 1 ))
 
+if [[ $@ =~ [[:space:]]+-.[[:space:]]+ ]]; then
+    echo 'Error while parsing input: named option should all come before' \
+        'positional arguments'
+    echo -n "$HELP_MESSAGE"
+    exit 1
+fi
+exit 0
 IDE_NAME="${1,,}"
 
 #####################################################

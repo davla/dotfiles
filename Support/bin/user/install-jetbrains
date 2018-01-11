@@ -123,7 +123,7 @@ if [[ $@ =~ [[:space:]]+-.[[:space:]]+ ]]; then
     echo -n "$HELP_MESSAGE"
     exit 1
 fi
-exit 0
+
 IDE_NAME="${1,,}"
 
 #####################################################

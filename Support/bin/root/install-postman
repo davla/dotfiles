@@ -1,18 +1,13 @@
 #!/usr/bin/env bash
 
-# This script updates Postman in the /opt directory,
-# installing the new version only if it is older than
-# the current one, or if Postman is not installed at
-# all. The only dependency is the jq package, used to
-# get the currently installed version of Postman
+# This script installs Postman in a given directory only
+# if it doesn't contain a Postman installation or if the
+# installed version is older than the currently available
+# one. It also creates a desktop file and a symbolic link
+# to the Postman executable inside the installation directory.
 
-#####################################################
-#
-#                   Variables
-#
-#####################################################
-
-POSTMAN_ARCH='postman.tar.gz'
+# The only dependency is the jq package, used to check
+# what is the installed version of Postman.
 
 #####################################################
 #
@@ -23,8 +18,38 @@ POSTMAN_ARCH='postman.tar.gz'
 FORCE_INSTALL='false'
 POSTMAN_EXEC_BASE='/usr/local/bin'
 POSTMAN_EXEC_NAME='postman'
-POSTMAN_HOME='/opt/postman'
+POSTMAN_INSTALL_HOME='/opt/postman'
 POSTMAN_URL='https://dl.pstmn.io/download/latest/linux64'
+
+#####################################################
+#
+#                   Variables
+#
+#####################################################
+
+HELP_MESSAGE="Usage: install-postman [OPTION]...
+
+Installs Postman in a given directory only if it doesn't contain a Postman
+installation or if the installed version is older than the currently available
+one. It also creates a desktop file and a symbolic link to the Postman
+executable inside the installation directory.
+
+Options:
+    -b PATH     Use PATH as base installation directory for Postman.
+                Default: '$POSTMAN_INSTALL_HOME'.
+
+    -d PATH     Use PATH as base directory for postman executable symbolic
+                link.
+                Default: '$POSTMAN_EXEC_BASE'.
+
+    -f          Force installation.
+
+    -h          Print this help message.
+
+    -x NAME     Use NAME as the filename for postman executable symbolic link.
+                If NAME is an absolute path, then such path is used for the
+                executable, ignoring any base directory set with -d.
+                Default: '$POSTMAN_EXEC_NAME'."
 
 #####################################################
 #
@@ -35,9 +60,9 @@ POSTMAN_URL='https://dl.pstmn.io/download/latest/linux64'
 shopt -s expand_aliases
 
 # Echoes normally if from terminal emulator, otherwise uses syslog
-[[ -z $(tty | grep not) ]] && \
-    alias print='echo' || \
-    alias print='logger'
+[[ -z $(tty | grep not) ]] \
+    && alias print='echo' \
+    || alias print='logger'
 
 #####################################################
 #
@@ -45,20 +70,62 @@ shopt -s expand_aliases
 #
 #####################################################
 
-function install-postman {
-	wget "$POSTMAN_URL" -O "$POSTMAN_ARCH"
-    mkdir -p "$POSTMAN_HOME"
-	tar -xf "$POSTMAN_ARCH" -C "$POSTMAN_HOME" --strip-components=1
-	rm -rf "$POSTMAN_ARCH"
+# This function downloads Postman from the specified URL
+# and extracts it in the specified directory, that is
+# created if not already existing.
+#
+# Arguments:
+#     - $1: Download URL.
+#     - $2: Extraction direcotry.
+function download-and-extract {
+    local POSTMAN_URL="$1"
+    local POSTMAN_INSTALL_HOME="$2"
 
-    mkdir -p "$POSTMAN_EXEC_BASE"
-	ln -sf $(find "$POSTMAN_HOME" -executable -type f -name Postman \
-        2> /dev/null) "$POSTMAN_EXEC_PATH"
+    local ARCH_NAME='postman.tar.gz'
+
+    wget "$POSTMAN_URL" -O "$ARCH_NAME"
+
+    mkdir -p "$POSTMAN_INSTALL_HOME"
+	tar -xf "$ARCH_NAME" -C "$POSTMAN_INSTALL_HOME" --strip-components=1
+
+	rm -rf "$ARCH_NAME"
 }
 
+# This function downloads the version of Postman found
+# at $POSTMAN_URL, installs it in $POSTMAN_INSTALL_HOME,
+# creates a desktop file and symbolic link to the Postman
+# executable found in $POSTMAN_INSTALL_HOME.
+function install-postman {
+    download-and-extract "$POSTMAN_URL" "$POSTMAN_INSTALL_HOME"
+    make-symlink "$POSTMAN_INSTALL_HOME" "$POSTMAN_EXEC_PATH"
+}
+
+# This function fetches from the Internet the version number
+# of the latest available Postman version.
 function latest-postman-version {
-	curl -sI $POSTMAN_URL | grep -Po \
+	curl -sI "$POSTMAN_URL" | grep -Po \
         '(?<=filename\=Postman-linux-x64-)[\d\.]+(?=\.tar\.gz)'
+}
+
+
+function make-desktop {
+    echo 3
+}
+
+# This function creates a symbolic link at the passed path
+# to the Postman execitable found in the specified directory.
+#
+# Arguments:
+#   - $1: The directory in which the Postman executable
+#           is to be found.
+#   - $2: The symbolic link target path.
+function make-symlink {
+    local POSTMAN_INSTALL_HOME="$1"
+    local POSTMAN_EXEC_PATH="$2"
+
+    dirname "$POSTMAN_EXEC_PATH" | xargs mkdir -p
+    find "$POSTMAN_INSTALL_HOME" -executable -type f -name 'Postman' \
+        2> /dev/null | head -n 1 | xargs -i ln -sf '{}' "$POSTMAN_EXEC_PATH"
 }
 
 #####################################################
@@ -70,7 +137,7 @@ function latest-postman-version {
 while getopts 'b:d:fhu:x:' OPTION; do
     case "$OPTION" in
         'b')
-            POSTMAN_HOME=$(realpath "$OPTARG")
+            POSTMAN_INSTALL_HOME=$(realpath "$OPTARG")
             ;;
 
         'd')
@@ -82,19 +149,7 @@ while getopts 'b:d:fhu:x:' OPTION; do
             ;;
 
         'h')
-            print "Usage: install-postman [OPTION]...
-
-Options:
-    -b PATH     Use PATH as base installation directory for Postman.
-                Default: '$POSTMAN_HOME'.
-    -d PATH     Use PATH as base directory for postman executable symbolic link.
-                Default: '$POSTMAN_EXEC_BASE'.
-    -f          Force installation.
-    -h          Print this help message.
-    -x NAME     Use NAME as the filename for postman executable symbolic link.
-                If NAME is an absolute path, then such path is used for the
-                executable, ignoring any base directory set with -d.
-                Default: '$POSTMAN_EXEC_NAME'."
+            print "$HELP_MESSAGE"
             exit 0
             ;;
 
@@ -108,17 +163,26 @@ Options:
             ;;
 
         *) # getopts already printed an error message
+            print "$HELP_MESSAGE"
             exit 1
             ;;
     esac
 done
 
+# The executable name is an absolute path
 if [[ "${POSTMAN_EXEC_NAME:0:1}" == '/' ]]; then
-    POSTMAN_EXEC_BASE=$(dirname "$POSTMAN_EXEC_NAME")
-    POSTMAN_EXEC_NAME=$(basename "$POSTMAN_EXEC_NAME")
-fi
+    POSTMAN_EXEC_PATH="$POSTMAN_EXEC_NAME"
 
-POSTMAN_EXEC_PATH="$POSTMAN_EXEC_BASE/$POSTMAN_EXEC_NAME"
+# The executable name contains directories
+elif [[ "$POSTMAN_EXEC_NAME" =~ / ]]; then
+    print >&2 "Error: '$POSTMAN_EXEC_NAME' is neither a file name nor an" \
+        'absolute path.'
+    exit 1
+
+# Building the executable path in the default way
+else
+    POSTMAN_EXEC_PATH="$POSTMAN_EXEC_BASE/$POSTMAN_EXEC_NAME"
+fi
 
 #####################################################
 #
@@ -132,7 +196,7 @@ if [[ -z $(which jq) ]]; then
 fi
 
 # Postman not installed
-if [[ "$FORCE_INSTALL" == 'true' || ! -d "$POSTMAN_HOME" ]]; then
+if [[ "$FORCE_INSTALL" == 'true' || ! -d "$POSTMAN_INSTALL_HOME" ]]; then
 	install-postman
 	print 'Postman-updater: Postman installed on ' $(date +'%d-%m-%Y %T')
 	exit 0
@@ -140,11 +204,11 @@ fi
 
 POSTMAN_LATEST_VERSION=$(latest-postman-version)
 POSTMAN_INSTALLED_VERSION=$(jq -r '.version' \
-    "$POSTMAN_HOME/resources/app/package.json")
+    "$POSTMAN_INSTALL_HOME/resources/app/package.json")
 
 # Old version installed
 if is-newer $POSTMAN_LATEST_VERSION $POSTMAN_INSTALLED_VERSION; then
-	[[ -d "$POSTMAN_HOME" ]] && rm -rf "$POSTMAN_HOME"
+	[[ -d "$POSTMAN_INSTALL_HOME" ]] && rm -rf "$POSTMAN_INSTALL_HOME"
 	install-postman
 	print 'Postman-updater: Postman updated on ' $(date +'%d-%m-%Y %T')
 

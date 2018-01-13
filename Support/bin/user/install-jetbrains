@@ -77,7 +77,7 @@ Options:
 # This function retruns the flavor component for the
 # IDE code to submitted as a URL parameter.
 #
-# Arguments
+# Arguments:
 #   -$1: The flavor whocse code shoudl be returned.
 #   -$2: A space-separed list of allowed flavors.
 function make-flavor-code {

@@ -8,3 +8,4 @@ Icon=/opt/MATLAB/MATLAB_Production_Server/R2015a/bin/glnxa64/cef_resources/matla
 Terminal=false
 Type=Application
 Categories=Development;
+Name[en_US.utf8]=_Matlab

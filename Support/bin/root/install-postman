@@ -91,12 +91,12 @@ function download-and-extract {
 	rm -rf "$ARCH_NAME"
 }
 
-# This function downloads the version of Postman found
-# at $POSTMAN_URL, installs it in $POSTMAN_INSTALL_HOME,
-# creates a desktop file and symbolic link to the Postman
-# executable found in $POSTMAN_INSTALL_HOME.
+# This is just a convenience function to avoid remembering
+# the arguments of download-and-install, make-deskop and
+# make-symlink
 function install-postman {
     download-and-extract "$POSTMAN_URL" "$POSTMAN_INSTALL_HOME"
+    make-desktop "$POSTAMN_EXEC_PATH" "$POSTMAN_INSTALL_HOME"
     make-symlink "$POSTMAN_INSTALL_HOME" "$POSTMAN_EXEC_PATH"
 }
 
@@ -107,9 +107,38 @@ function latest-postman-version {
         '(?<=filename\=Postman-linux-x64-)[\d\.]+(?=\.tar\.gz)'
 }
 
+# Prints a log-like entry, adding the current date
+# to the passed message
+#
+# Arguments:
+#   - $1: The message to be logged.
+function log {
+    local MESSAGE="$1"
 
+    print "$MESSAGE" on $(date +'%d-%m-%Y %T')
+}
+
+# This function creates a system-wide desktop file for Postman.
+#
+# Arguments:
+#     - $1: Path to a Postman executable file.
+#     - $2: Postman installation directory.
 function make-desktop {
-    echo 3
+    local POSTAMN_EXEC_PATH="$1"
+    local POSTMAN_INSTALL_HOME="$2"
+
+    # Need to create a file, so echo is used
+    # instead of print alias
+    echo "[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Name=Postman
+Comment=API test
+Exec=$POSTMAN_EXEC_PATH
+Icon=$POSTMAN_INSTALL_HOME/resources/app/assets/icon.png
+Terminal=false
+Type=Application
+Categories=Network;Development;" > /usr/share/applications/postman.desktop
 }
 
 # This function creates a symbolic link at the passed path
@@ -195,10 +224,16 @@ if [[ -z $(which jq) ]]; then
 	exit 1
 fi
 
-# Postman not installed
+#####################################################
+#
+#           Version check and installation
+#
+#####################################################
+
+# Forced install or postman not installed
 if [[ "$FORCE_INSTALL" == 'true' || ! -d "$POSTMAN_INSTALL_HOME" ]]; then
 	install-postman
-	print 'Postman-updater: Postman installed on ' $(date +'%d-%m-%Y %T')
+	log 'Postman-updater: Postman installed'
 	exit 0
 fi
 
@@ -210,9 +245,9 @@ POSTMAN_INSTALLED_VERSION=$(jq -r '.version' \
 if is-newer $POSTMAN_LATEST_VERSION $POSTMAN_INSTALLED_VERSION; then
 	[[ -d "$POSTMAN_INSTALL_HOME" ]] && rm -rf "$POSTMAN_INSTALL_HOME"
 	install-postman
-	print 'Postman-updater: Postman updated on ' $(date +'%d-%m-%Y %T')
+	log 'Postman-updater: Postman updated'
 
 # Current version up-to-date
 else
-	print 'Postman-updater: Postman not updated on ' $(date +'%d-%m-%Y %T')
+	log 'Postman-updater: Postman not updated'
 fi

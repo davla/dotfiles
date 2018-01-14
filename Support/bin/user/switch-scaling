@@ -75,6 +75,4 @@ for XFCONF_DATA in "${XFCONF_SETTINGS[@]}"; do
 done
 
 sed -i -E "s/theme=.+/theme=$EYES_THEME/g" \
-    /home/maze/.config/xfce4/panel/eyes-4.rc
-
-xfce4-panel -r
+    "$HOME/.config/xfce4/panel/eyes-4.rc"

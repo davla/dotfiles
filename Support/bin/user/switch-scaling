@@ -1,4 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+# This script adapts the UI scaling to the screen resolution:
+# it is upscaled for HIDPI resolutions and scaled back to
+# normal for standard ones.
+
+#####################################################
+#
+#           Resolution-dependent values
+#
+#####################################################
 
 RESOLUTION=$(xrandr | grep '*' | awk '{ print $1 }')
 
@@ -7,7 +17,9 @@ if [[ $RESOLUTION == '3200x1800' ]]; then
 
 	CURSOR_SIZE=48
 	DPI=180
-	ICON_SIZES='gtk-menu=40,40:gtk-button=45,45:gtk-dialog=48,48:gtk-small-toolbar=45,45:gtk-large-toolbar=45,45'
+    EYES_THEME='Default'
+	ICON_SIZES='gtk-menu=40,40:gtk-button=45,45:gtk-dialog=48,48:
+gtk-small-toolbar=45,45:gtk-large-toolbar=45,45'
 	PANEL_SIZE=48
 	SYSTRAY_ICON_SIZE=43
 	THUNAR_ICON_SIZE='THUNAR_ICON_SIZE_LARGE'
@@ -20,6 +32,7 @@ else
 
 	CURSOR_SIZE=24
 	DPI=90
+    EYES_THEME='Default-tiny'
 	ICON_SIZES="''"
 	PANEL_SIZE=24
 	SYSTRAY_ICON_SIZE=22
@@ -30,17 +43,38 @@ else
 	WINDOW_MANAGER_THEME='Stoneage'
 fi
 
-SYSTRAY_PROP=$(xfconf-query -c xfce4-panel -p /plugins -l -v | grep systray | awk '{ print $1 }')/size-max
+#####################################################
+#
+#               Setting UI values
+#
+#####################################################
 
-xfconf-query -n -c thunar -p /last-icon-view-zoom-level -t string -s $THUNAR_ZOOM
-xfconf-query -n -c thunar -p /last-window-height -t int -s $THUNAR_WINDOW_HEIGHT
-xfconf-query -n -c thunar -p /last-window-width -t int -s $THUNAR_WINDOW_WIDTH
-xfconf-query -n -c thunar -p /shortcuts-icon-size -t string -s $THUNAR_ICON_SIZE
-xfconf-query -n -c thunar -p /tree-icon-size -t string -s $THUNAR_ICON_SIZE
-xfconf-query -n -c xfwm4 -p /general/theme -t string -s $WINDOW_MANAGER_THEME
-xfconf-query -n -c xfce4-panel -p /panels/panel-1/size -t int -s $PANEL_SIZE
-xfconf-query -n -c xfce4-panel -p $SYSTRAY_PROP -t int -s $SYSTRAY_ICON_SIZE
-xfconf-query -n -c xsettings -p /Gtk/CursorThemeSize -t int -s $CURSOR_SIZE
-xfconf-query -n -c xsettings -p /Gtk/IconSizes -t string -s $ICON_SIZES
-xfconf-query -n -c xsettings -p /Xfce/LastCustomDPI -t int -s $DPI
-xfconf-query -n -c xsettings -p /Xft/DPI -t int -s $DPI
+SYSTRAY_PROP_BASE=$(xfconf-query -c xfce4-panel -p '/plugins' -l -v \
+    | grep systray | awk '{ print $1 }')
+
+XFCONF_SETTINGS=(
+    "thunar /last-icon-view-zoom-level string $THUNAR_ZOOM"
+    "thunar /last-window-height int $THUNAR_WINDOW_HEIGHT"
+    "thunar /last-window-width int $THUNAR_WINDOW_WIDTH"
+    "thunar /shortcuts-icon-size string $THUNAR_ICON_SIZE"
+    "thunar /tree-icon-size string $THUNAR_ICON_SIZE"
+    "xfwm4 /general/margin_top int $PANEL_SIZE"
+    "xfwm4 /general/theme string $WINDOW_MANAGER_THEME"
+    "xfce4-panel /panels/panel-1/size int $PANEL_SIZE"
+    "xfce4-panel $SYSTRAY_PROP_BASE/size-max int $SYSTRAY_ICON_SIZE"
+    "xsettings /Gtk/CursorThemeSize int $CURSOR_SIZE"
+    "xsettings /Gtk/IconSizes string $ICON_SIZES"
+    "xsettings /Xfce/LastCustomDPI int $DPI"
+    "xsettings /Xft/DPI int $DPI"
+)
+
+for XFCONF_DATA in "${XFCONF_SETTINGS[@]}"; do
+    read -r CHANNEL PROP TYPE VALUE <<<"$XFCONF_DATA"
+
+    xfconf-query -n -c "$CHANNEL" -p "$PROP" -t "$TYPE" -s "$VALUE"
+done
+
+sed -i -E "s/theme=.+/theme=$EYES_THEME/g" \
+    /home/maze/.config/xfce4/panel/eyes-4.rc
+
+xfce4-panel -r

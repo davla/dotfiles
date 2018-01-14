@@ -108,15 +108,14 @@ mv /etc/apt/sources.list.d/sources.list /etc/apt
 # Sometims curl is not installed by defaut O_O
 apt-get install curl
 
-# F59EAE4D --> Acyl
-# 0C49F3730359A14518585931BC711F9BA15703C6 --> MongoDB
+# 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5 --> MongoDB
 # EEA14886 --> Oracle Java installer
 # E0F72778C4676186 --> Playonlinux
 # 2EE0EA64E40A89B84B2DF73499E82A75642AC823 --> Scala sbt
 # C6ABDCF64DB9A0B2 --> Slack
 # EFDC8610341D9410 --> Spotify
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 'F59EAE4D' \
-    '0C49F3730359A14518585931BC711F9BA15703C6' 'EEA14886' 'E0F72778C4676186' \
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys
+    '2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5' 'EEA14886' 'E0F72778C4676186' \
     '2EE0EA64E40A89B84B2DF73499E82A75642AC823' 'C6ABDCF64DB9A0B2' \
     'EFDC8610341D9410' | apt-key add -
 apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E | \

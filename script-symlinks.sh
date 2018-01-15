@@ -17,7 +17,7 @@
 #
 #####################################################
 
-SCRIPTS_DIR=$(realpath Support/bin)
+SCRIPTS_DIR='Support/bin'
 ROOT_SCRIPTS_SUBDIR='root'
 USER_SCRIPTS_SUBDIR='user'
 ROOT_SCRIPTS_DIR="$SCRIPTS_DIR/$ROOT_SCRIPTS_SUBDIR"

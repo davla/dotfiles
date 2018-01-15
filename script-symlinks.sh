@@ -64,7 +64,7 @@ function process-dir {
     local SOURCE="$1"
     local DEST="$2"
 
-    ls -1 "$SOURCE" | process-file "$DEST"
+    find "$SOURCE" -maxdepth 1 -type f | process-file "$DEST"
 
     echo "Done with files in $SOURCE -> $DEST"
 }

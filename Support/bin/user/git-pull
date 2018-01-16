@@ -1,22 +1,73 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-function reponame {
-    git remote get-url origin | awk -F '/' '{gsub(/.git/, "", $(NF)); print($(NF - 1), $(NF))}'
+# This script pulls updates from the git repository found at
+# the passed REPO_BASEectory. It assumes the upstream branch to be
+# set.
+
+#####################################################
+#
+#                   Parameters
+#
+#####################################################
+
+REPO_BASE="$1"
+
+#####################################################
+#
+#                   Aliases
+#
+#####################################################
+
+shopt -s expand_aliases
+
+# Echoes normally if from terminal emulator, otherwise uses syslog
+tty -s && alias print='echo' || alias print='logger'
+
+# Writes the name of the git repository in the working directory to STDOUT
+alias reponame="git remote get-url origin | xargs -i basename '{}' '.git'"
+
+#####################################################
+#
+#                   Functions
+#
+#####################################################
+
+# Prints a log-like entry, adding the current date
+# to the passed message
+#
+# Arguments:
+#   - $1: The message to be logged.
+function log {
+    local MESSAGE="$1"
+
+    print "$MESSAGE" on $(date +'%d-%m-%Y %T')
 }
 
-DIR="$1"
+#####################################################
+#
+#               Pulling the repository
+#
+#####################################################
 
-[[ -d "$DIR" ]] && exit 1
-
-cd $DIR
-
-if [[ -n "$LOG_FILE" ]]; then
-    REPO_NAME=$(reponame)
-    [[ $(git pull --all | wc -l) -gt 2 ]] && \
-        logger "$REPO_NAME updated on "$(date '+%d-%m-%Y %T')
-    [[ -n $(git submodule update) ]] && \
-        logger "$REPO_NAME submodules updated on "$(date +%d-%m-%Y %T)
-else
-    git pull --all
-    git submodule update
+if [[ ! -d "$REPO_BASE" ]]; then
+    print "Git-pull: error - $REPO_BASE is not a directory."
+    exit 1
 fi
+
+cd "$REPO_BASE"
+if ! git status &> /dev/null; then
+    print "Git-pull: error - $REPO_BASE is not a git repository."
+    exit 1
+fi
+
+REPO_NAME=$(reponame)
+
+# The "Already up to date" message is at most two lines long.
+[[ $(git pull --all | wc -l) -gt 2 ]] \
+    && log "$REPO_NAME updated" \
+    || log "$REPO_NAME not updated"
+
+# Nothing is printed if submodules are not updated.
+[[ -n $(git submodule update) ]] \
+    && log "$REPO_NAME submodules updated" \
+    || log "$REPO_NAME submodules not updated"

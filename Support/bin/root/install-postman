@@ -60,9 +60,7 @@ Options:
 shopt -s expand_aliases
 
 # Echoes normally if from terminal emulator, otherwise uses syslog
-[[ -z $(tty | grep not) ]] \
-    && alias print='echo' \
-    || alias print='logger'
+tty -s && alias print='echo' || alias print='logger'
 
 #####################################################
 #
@@ -219,7 +217,7 @@ fi
 #
 #####################################################
 
-if [[ -z $(which jq) ]]; then
+if ! which jq; then
 	print 'Postman-updater: Error - no jq executable found'
 	exit 1
 fi

@@ -217,7 +217,7 @@ fi
 #
 #####################################################
 
-if ! which jq; then
+if ! which jq &> /dev/null; then
 	print 'Postman-updater: Error - no jq executable found'
 	exit 1
 fi

@@ -221,12 +221,12 @@ chmod u+s /usr/sbin/hddtemp
 update-rc.d -f neo4j remove
 
 # Removing non-working .desktop files
-NON_WORKING_DESKTOP=(
+NON_WORKING_DESKTOPS=(
     'brasero-nautilus'
     'conky'
     'enlightenment_filemanager_home'
     'lxpolkit'
 )
-for DEKTOP in ${NON_WORKING_DESKTOP[@]}; do
-    echo /usr/share/applications/"$DEKTOP".desktop &> /dev/null
+for DESKTOP in ${NON_WORKING_DESKTOPS[@]}; do
+    rm /usr/share/applications/"$DESKTOP".desktop &> /dev/null
 done

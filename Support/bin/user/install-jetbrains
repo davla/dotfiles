@@ -220,7 +220,7 @@ curl -GL "$JETBRAINS_DOWNLOAD_URL" \
     > "$ARCH_NAME"
 
 # The downloaded file is not an archive
-if [[ -z $(file -b "$ARCH_NAME" | grep 'compressed') ]]; then
+if ! file -b "$ARCH_NAME" | grep 'compressed' &> /dev/null; then
 
     # The || fallback covers the cases in which jq is not
     # installed or the downloaded file is not JSON

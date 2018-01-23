@@ -62,8 +62,10 @@ echo 'Themes installed'
 #
 #####################################################
 
-sudo apt-get install acyl-icon-set
-[[ $? -ne 0 ]] && exit 1
+# Creating icons path if not existing
+ICONS_PATH="$HOME/.icons"
+mkdir -p "$ICONS_PATH"
+
 echo 'ACYL installed'
 
 #####################################################
@@ -71,10 +73,6 @@ echo 'ACYL installed'
 #                       Cursor
 #
 #####################################################
-
-# Creating icons path if not existing
-ICONS_PATH="$HOME/.icons"
-mkdir -p "$ICONS_PATH"
 
 # Installung custom cursors themes
 tar -xjf "$CURSORS_ARCH" -C "$ICONS_PATH"

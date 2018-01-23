@@ -105,28 +105,24 @@ mv /etc/apt/sources.list.d/sources.list /etc/apt
 #
 #####################################################
 
-# Sometims curl is not installed by defaut O_O
-apt-get install curl
-
 # 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5 --> MongoDB
 # EEA14886 --> Oracle Java installer
 # E0F72778C4676186 --> Playonlinux
 # 2EE0EA64E40A89B84B2DF73499E82A75642AC823 --> Scala sbt
 # C6ABDCF64DB9A0B2 --> Slack
 # EFDC8610341D9410 --> Spotify
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \
     '2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5' 'EEA14886' 'E0F72778C4676186' \
     '2EE0EA64E40A89B84B2DF73499E82A75642AC823' 'C6ABDCF64DB9A0B2' \
     'EFDC8610341D9410' | apt-key add -
-apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E | \
+apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E | apt-key add -
+wget -qO - 'https://www.virtualbox.org/download/oracle_vbox_2016.asc' | \
     apt-key add -
-wget -q 'https://www.virtualbox.org/download/oracle_vbox_2016.asc' -O- | \
-    apt-key add -
-curl 'https://repo.skype.com/data/SKYPE-GPG-KEY' | apt-key add -
-wget -O - 'https://debian.neo4j.org/neotechnology.gpg.key' | apt-key add -
-wget -O - 'https://dl.sinew.in/keys/enpass-linux.key' | apt-key add -
-curl 'https://www.franzoni.eu/keys/D401AB61.txt' | apt-key add -
-curl -sS 'https://dl.yarnpkg.com/debian/pubkey.gpg' | apt-key add -
+wget -qO - 'https://repo.skype.com/data/SKYPE-GPG-KEY' | apt-key add -
+wget -qO - 'https://debian.neo4j.org/neotechnology.gpg.key' | apt-key add -
+wget -qO - 'https://dl.sinew.in/keys/enpass-linux.key' | apt-key add -
+wget -qO - 'https://www.franzoni.eu/keys/D401AB61.txt' | apt-key add -
+wget -qO - 'https://dl.yarnpkg.com/debian/pubkey.gpg' | apt-key add -
 apt-get update
 apt-get install apt-transport-https deb-multimedia-keyring sparky-keyring
 

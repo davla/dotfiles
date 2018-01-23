@@ -3,12 +3,12 @@
 # Deals with themes and icons:
 #   - sets the look and feel of the login screen
 # 	- restores themes from an archive
-# 	- installs ACYL icon theme
+# 	- restores ACYLS colorized icon themes
 #	- restores too many cursor themes
 
 # Arguments:
 #   - $1: the themes archive
-#   - $2: the cursor archive
+#   - $2: the ACYLS and cursors archive
 
 # Orage panel clock formats
 # Line 1: %H:%M:%S
@@ -22,10 +22,10 @@
 #####################################################
 
 THEMES_ARCH="$1"
-CURSORS_ARCH="$2"
+ICONS_ARCH="$2"
 
-if [[ ! -f "$THEMES_ARCH" || ! -f "$CURSORS_ARCH" ]]; then
-	echo 'Themes or icons directory not found!'
+if [[ ! -f "$THEMES_ARCH" || ! -f "$ICONS_ARCH" ]]; then
+	echo 'Themes or icons archives not found!'
 	exit 1
 fi
 
@@ -58,17 +58,7 @@ echo 'Themes installed'
 
 #####################################################
 #
-#       Any Color You Like (aka ACYL)
-#
-#####################################################
-
-sudo apt-get install acyl-icon-set
-[[ $? -ne 0 ]] && exit 1
-echo 'ACYL installed'
-
-#####################################################
-#
-#                       Cursor
+#                   ACYLS & Cursors
 #
 #####################################################
 
@@ -77,9 +67,11 @@ ICONS_PATH="$HOME/.icons"
 mkdir -p "$ICONS_PATH"
 
 # Installung custom cursors themes
-tar -xjf "$CURSORS_ARCH" -C "$ICONS_PATH"
+tar -xjf "$ICONS_ARCH" -C "$ICONS_PATH"
 [[ $? -ne 0 ]] && exit 1
-echo 'Cursors installed'
+find "$ICONS_PATH" -maxdepth 1 -type d -name ACYLS* \
+    -exec gtk-update-icon-cache {} \; &> /dev/null
+echo 'ACYLS and cursors installed'
 
 # Old cursors
 # "http://xfce-look.org/CONTENT/content-files/145644-X-Steel-GRAY-negative.tar.gz" # X-Steel-Gray-negative

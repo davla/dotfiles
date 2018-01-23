@@ -74,7 +74,7 @@ function listify {
 function xfconf-type {
     local VALUE="$1"
 
-    if [[ -n $(grep 'array' <<<"$VALUE") ]]; then
+    if grep 'array' <<<"$VALUE" &> /dev/null; then
         echo 'array'
         return 0
     fi
@@ -84,7 +84,7 @@ function xfconf-type {
         || echo 'string')
     case "$JQ_TYPE" in
         'number')
-            grep '\.' <<<"$VALUE" && echo 'float' || echo 'int'
+            grep '\.' <<<"$VALUE" &> /dev/null && echo 'float' || echo 'int'
             ;;
         'boolean')
             echo 'bool'

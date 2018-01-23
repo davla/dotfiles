@@ -1,18 +1,29 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-if [[ -z $(tty | grep not) ]]; then
-	HOME='/home/maze'
+# This scripts is meant to be run in the background to
+# checks for system updates. If any are found it reopens
+# itself in a terminal window with the upgrades ready
+# to be installed.
 
+#####################################################
+#
+#           Terminal: ready to upgrade
+#
+#####################################################
+
+if tty -s; then
 	apt-get upgrade
-	bash $HOME/Files/Programming/bash/symlinks.sh
-	update-rc.d -f neo4j remove
-
 	exit 0
 fi
+
+#####################################################
+#
+#       Background: checking for updates
+#
+#####################################################
 
 apt-get update
 apt-get upgrade --assume-no
 
-if [[ $? ]]; then
-	run-in-terminal "bash $0"
-fi
+# Updates found, opening terminal window
+[[ $? -ne 0 ]] && run-in-terminal "bash $0"

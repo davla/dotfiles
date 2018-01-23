@@ -39,8 +39,8 @@ USER_BIN_PATH='/usr/local/bin'
 # accessing the low level Unix C API for root tasks.
 #
 # Arguments
-#   $1: C source file
-#   $2: Destination directory
+#   $1: C source file.
+#   $2: Destination directory.
 function compile-c {
     local SOURCE="$1"
     local DEST_DIR="$2"
@@ -64,6 +64,7 @@ function process-dir {
     local SOURCE="$1"
     local DEST="$2"
 
+    # -exec would not work since process-file is not in PATH
     find "$SOURCE" -maxdepth 1 -type f | process-file "$DEST"
 
     echo "Done with files in $SOURCE -> $DEST"
@@ -96,8 +97,8 @@ function process-file {
 # to set the executable flag on the source file.
 #
 # Arguments
-#   $1: Source file
-#   $2: Destination directory
+#   $1: Source file.
+#   $2: Destination directory.
 function symlink-script {
     local SOURCE=$(realpath "$1")
     local DEST_DIR=$(realpath "$2")

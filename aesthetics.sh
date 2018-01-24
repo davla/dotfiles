@@ -45,7 +45,6 @@ sudo cp Support/lightdm/02_lightdm_custom.conf "$LIGHTDM_CONF_DIR"
 sudo mkdir -p "$LIGHTDM_GREETER_CONF_DIR"
 sudo cp Support/lightdm/02_greeter_custom.conf "$LIGHTDM_GREETER_CONF_DIR"
 
-exit 0
 #####################################################
 #
 #                      Themes

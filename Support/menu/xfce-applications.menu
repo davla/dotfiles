@@ -70,7 +70,6 @@
             </Include>
 
             <Layout>
-                <Filename>Acyl-icons.desktop</Filename>
                 <Filename>xfce-ui-settings.desktop</Filename>
                 <Filename>xfce-backdrop-settings.desktop</Filename>
                 <Filename>xfce-display-settings.desktop</Filename>

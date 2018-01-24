@@ -167,10 +167,10 @@ apt-get install autoconf cowsay cups curl dkms dos2unix flashplayer-mozilla \
     git gvfs-backends handbrake-cli hunspell hunspell-en-us hunspell-it \
     imagemagick jq lame libgnome-keyring-dev lightdm-gtk-greeter lua5.1 \
     lua5.3 make oracle-java8-installer oracle-java8-set-default \
-    browser-plugin-vlc p7zip python-requests-futures rar ruby ruby-dev sbt \
-    scala sudo thunar-archive-plugin thunar-dropbox-plugin tuxguitar-jsa \
-    uni2ascii unrar virtualenvwrapper xdotool xserver-xorg-input-synaptics \
-    yad zip
+    browser-plugin-vlc p7zip python-requests-futures python3-gdbm python3-lxml \
+    rar ruby ruby-dev sbt scala sudo thunar-archive-plugin \
+    thunar-dropbox-plugin tuxguitar-jsa uni2ascii unrar virtualenvwrapper \
+    xdotool xserver-xorg-input-synaptics yad zip
 [[ $? -ne 0 ]] && exit 1
 
 # Sparky applications

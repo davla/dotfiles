@@ -64,10 +64,10 @@ REPO_NAME=$(reponame)
 
 # The "Already up to date" message is at most two lines long.
 [[ $(git pull --all | wc -l) -gt 2 ]] \
-    && log "$REPO_NAME updated" \
-    || log "$REPO_NAME not updated"
+    && log "Git-pull: $REPO_NAME updated" \
+    || log "Git-pull: $REPO_NAME not updated"
 
 # Nothing is printed if submodules are not updated.
 [[ -n $(git submodule update) ]] \
-    && log "$REPO_NAME submodules updated" \
-    || log "$REPO_NAME submodules not updated"
+    && log "Git-pull: $REPO_NAME submodules updated" \
+    || log "Git-pull: $REPO_NAME submodules not updated"

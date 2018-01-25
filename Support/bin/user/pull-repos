@@ -1,15 +1,24 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+# This script pulls updates from a list of git repositories.
+# It assumes the upstream branch to be set.
+
+#####################################################
+#
+#                   Variables
+#
+#####################################################
 
 . $HOME/.bash_envvars
 
-REPOS_DIRS=(
+REPOS=(
     "$PYWIKIBOT_DIR"
 )
 
-REPOS_LOGS=(
-    "$PYWIKIBOT_DIR/logs/update.log"
-)
+#####################################################
+#
+#               Pulling repositories
+#
+#####################################################
 
-for K in ${!REPOS_DIRS[@]}; do
-    git-pull ${REPOS_DIRS[$K]} ${REPOS_LOGS[$K]}
-done
+xargs -n 1 <<<"${REPOS[@]}" git-pull

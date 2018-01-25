@@ -98,6 +98,22 @@ function install-postman {
     make-symlink "$POSTMAN_INSTALL_HOME" "$POSTMAN_EXEC_PATH"
 }
 
+# This functions compares two version numbers. It exits with
+# a zero status code if the first version is newer than the
+# second one, otherwise with a non-zero code, namely when the
+# first version is equal or older than the second one.
+#
+# Arguments:
+#     - $1: First version number.
+#     - $2: Second version number.
+function is-newer {
+    local FIRST="$1"
+    local SECOND="$2"
+
+    [[ "$FIRST" != "$SECOND" && $(xargs -n 1 <<<"$FIRST $SECOND" \
+        | sort -V | tail -n 1) == "$FIRST" ]]
+}
+
 # This function fetches from the Internet the version number
 # of the latest available Postman version.
 function latest-postman-version {

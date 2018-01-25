@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-test "$1" != "$2" \
-	-a $(echo "$1 $2" | xargs -n1 | sort -V | tail -n 1) = "$1"

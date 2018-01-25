@@ -10,6 +10,18 @@
 
 #####################################################
 #
+#                   Variables
+#
+#####################################################
+
+CUSTOM_JOBS_MARKER='# Custom jobs'
+ROOT_DAILY=(
+    'update-notifier'
+    'install-postman'
+)
+
+#####################################################
+#
 #                   Privileges
 #
 #####################################################
@@ -39,11 +51,12 @@ USER_NAME="$1"
 ANACRON_EXEC=$(which anacron)
 
 # anacron executable is a link to /bin/true
-if [[ "$ANACRON_EXEC" -ef /bin/true ]]; then
-    REAL_ANACRON=$(find $(dirname "$ANACRON_EXEC") -name "anacron*" \
-        -not -name 'anacron' -executable | head -n 2 | tail -n 1)
-    ln -fs "$REAL_ANACRON" "$ANACRON_EXEC"
-fi
+[[ "$ANACRON_EXEC" -ef /bin/true ]] \
+    && dirname "$ANACRON_EXEC" \
+        | xargs -i find '{}' -name "anacron*" -not -name 'anacron' -executable \
+        | head -n 2 \
+        | tail -n 1 \
+        | xargs -i ln -sf '{}' "$ANACRON_EXEC"
 
 #####################################################
 #
@@ -60,12 +73,8 @@ sed -i 's/ANACRON_RUN_ON_BATTERY_POWER=no/ANACRON_RUN_ON_BATTERY_POWER=yes/g' \
 #
 #####################################################
 
-ROOT_DAILY=(
-    'update-notifier'
-    'install-postman'
-)
 for BIN in ${ROOT_DAILY[@]}; do
-    ln -fs $(which "$BIN") "/etc/cron.daily/$BIN"
+    which "$BIN" | xargs -i ln -fs '{}' "/etc/cron.daily/$BIN"
 done
 
 #####################################################
@@ -74,7 +83,10 @@ done
 #
 #####################################################
 
-echo -n "
+# Adding custom jobs only if not already there
+grep "$CUSTOM_JOBS_MARKER" /etc/anacrontab &> /dev/null \
+    || echo -n "
+$CUSTOM_JOBS_MARKER
 
 1        1        git.updates	su $USER_NAME -c 'pull-repos'
 1        3        node.updates	su $USER_NAME -c 'node-updater'

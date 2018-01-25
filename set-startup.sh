@@ -19,18 +19,18 @@ ROOT_JOBS=(
 #####################################################
 
 #########################
-# Boot root commands, appendd to /etc/rc.local
+# Boot root commands, append to /etc/rc.local
 #########################
 
 # Line number of "exit 0" in /etc/rc.local
 RC_LOCAL_LINE=$(grep -n -x 'exit 0' /etc/rc.local | awk -F : '{ print $1 }')
 
 # Decreasing line number to insert before "exit 0"
-RC_LOCAL_LINE=$(( $RC_LOCAL_LINE - 1 ))
+RC_LOCAL_LINE=$(( RC_LOCAL_LINE - 1 ))
 
 # Empty line before custom commands
 sudo sed -i "$RC_LOCAL_LINE i\\ " /etc/rc.local
-RC_LOCAL_LINE=$(( $RC_LOCAL_LINE + 1 ))
+RC_LOCAL_LINE=$(( RC_LOCAL_LINE + 1 ))
 
 # Writing jobs to /etc/rc.local
 for COMMAND in "${ROOT_JOBS[@]}"; do

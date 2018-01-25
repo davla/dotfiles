@@ -76,7 +76,7 @@ REMOTE_LINE=$(grep -n "$REMOTE_RESOURCES_MARKER" /etc/hosts | \
     awk -F : '{ print $1 }')
 
 # Clearing remote resources entries
-REMOTE_LINE=$(( $REMOTE_LINE + 2 ))
+REMOTE_LINE=$(( REMOTE_LINE + 2 ))
 sed -i "$REMOTE_LINE,\$d" /etc/hosts
 
 # Adding an entry for every remote resource

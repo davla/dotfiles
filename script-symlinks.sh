@@ -80,14 +80,20 @@ function process-file {
     local DEST_DIR="$1"
 
     while read FILE; do
+        case $(file -b "$FILE" | awk '{print tolower($1)}') in
+            'c')
+                compile-c "$FILE" "$DEST_DIR"
+                ;;
 
-        # No && || pair, since compilations might exit
-        # with error codes
-        if [[ $(file -b "$FILE" | awk '{print $1}') == 'C' ]]; then
-            compile-c "$FILE" "$DEST_DIR"
-        else
-            symlink-script "$FILE" "$DEST_DIR"
-        fi
+            'bourne-again')
+                symlink-script "$FILE" "$DEST_DIR"
+                ;;
+
+            *)
+                echo >&2 "$FILE is neither a C source nor a bash script"
+                continue
+                ;;
+        esac
     done
 }
 
@@ -121,6 +127,7 @@ function symlink-script {
 if [[ $EUID -ne 0 ]]; then
     echo 'This script needs to be run as root'
     sudo bash $0 $@
+    exit 0
 fi
 
 #####################################################
@@ -146,7 +153,7 @@ if [[ $# -gt 0 ]]; then
 
         else
             # Some other error, hopefully an error message
-            # hasalready been printed
+            # has already been printed
             continue
         fi
 

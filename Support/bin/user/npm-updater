@@ -1,10 +1,55 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-LOG_DIR="$NVM_DIR/logs"
+# This script updates globally installed npm packages
+# for all installed node versions
 
-mkdir -p "$LOG_DIR"
+#####################################################
+#
+#                   Variables
+#
+#####################################################
 
-nvm use node
-npm --global update
+. "$HOME/.bashrc"
+. "$NVM_DIR/nvm.sh"
 
-echo 'npm global updates ran on ' $(date +'%d-%m-%Y %T') >> "LOG_DIR"/updates.log
+#####################################################
+#
+#                   Aliases
+#
+#####################################################
+
+shopt -s expand_aliases
+
+# Echoes normally if from terminal emulator, otherwise uses syslog
+tty -s && alias print='echo' || alias print='logger'
+
+#####################################################
+#
+#                   Functions
+#
+#####################################################
+
+# Prints a log-like entry, adding the current date
+# to the passed message
+#
+# Arguments:
+#   - $1: The message to be logged.
+function log {
+    local MESSAGE="$1"
+
+    print "$MESSAGE" on $(date +'%d-%m-%Y %T')
+}
+
+#####################################################
+#
+#               Updating packages
+#
+#####################################################
+
+nvm ls | grep -v 'N/A' | grep -oP 'v\d\.\d\.\d' | sort -Vu | \
+while read VERSION; do
+    nvm use "$VERSION" &> /dev/null
+    [[ -n $(npm --global update) ]] \
+        && log "npm packages updated for node.js version $VERSION" \
+        || log "npm packages not updated for node.js version $VERSION"
+done

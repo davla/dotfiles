@@ -81,3 +81,4 @@ for VERSION in $INSTALLED_VERSIONS; do
         || nvm uninstall "$VERSION" &> /dev/null \
         && log "Node-updater: uninstalled node.js version $VERSION"
 done
+exit 0

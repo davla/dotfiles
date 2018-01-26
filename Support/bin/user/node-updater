@@ -1,19 +1,83 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
+# This script installs the latest node.js version via nvm.
+# Then it uninstalls all the unused node versions, that is
+# all the installed ones that are not found in any .nvmrc
+# file located in any non-node_modules directory under the
+# home directory
+
+#####################################################
+#
+#                   Variables
+#
+#####################################################
+
+. "$HOME/.bashrc"
 . "$NVM_DIR/nvm.sh"
 
 USED_VERSIONS_FILE="$NVM_DIR/used_versions"
 
-nvm install node
+#####################################################
+#
+#                   Aliases
+#
+#####################################################
+
+shopt -s expand_aliases
+
+# Echoes normally if from terminal emulator, otherwise uses syslog
+tty -s && alias print='echo' || alias print='logger'
+
+#####################################################
+#
+#                   Functions
+#
+#####################################################
+
+# Prints a log-like entry, adding the current date
+# to the passed message
+#
+# Arguments:
+#   - $1: The message to be logged.
+function log {
+    local MESSAGE="$1"
+
+    print "$MESSAGE" on $(date +'%d-%m-%Y %T')
+}
+
+#####################################################
+#
+#           Updating node.js version
+#
+#####################################################
+
+# Global packages are handled as defaults in $NVM_DIR/default-packages
+nvm install node --latest-npm 2>&1 | grep 'already' &> /dev/null \
+    && log 'Node-updater: node.js not updated' \
+    || log "Node-updater: node.js updated to "$(nvm version node)
+
+#####################################################
+#
+#               Finding used versions
+#
+#####################################################
 
 :> "$USED_VERSIONS_FILE"
-find $HOME -type f -name .nvmrc -exec cat {} >> "$USED_VERSIONS_FILE" \;
+find "$HOME" -type f -name '.nvmrc' -not -path '*node_modules*' \
+    -exec cat '{}' >> "$USED_VERSIONS_FILE" \;
 sort "$USED_VERSIONS_FILE" -Vuo "$USED_VERSIONS_FILE"
 
-INSTALLED_VERSIONS=$(nvm ls | grep -v N/A | grep -oP 'v\d\.\d\.\d' | sort -Vu)
+#####################################################
+#
+#           Uninstalling unused versions
+#
+#####################################################
+
+INSTALLED_VERSIONS=$(nvm ls | grep -v 'N/A' \
+    | grep -oP 'v\d\.\d\.\d' | sort -Vu)
 
 for VERSION in $INSTALLED_VERSIONS; do
-	echo $VERSION
-	[[ -z $(grep ${VERSION:1} "$USED_VERSIONS_FILE") ]] && \
-			nvm uninstall $VERSION
+	grep "${VERSION:1}" "$USED_VERSIONS_FILE" &> /dev/null \
+        || nvm uninstall "$VERSION" &> /dev/null \
+        && log "Node-updater: uninstalled node.js version $VERSION"
 done

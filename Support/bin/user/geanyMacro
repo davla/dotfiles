@@ -1,3 +1,0 @@
-#!/bin/bash
-
-lua $HOME/Files/Programming/lua/geanyMacro.lua $1 $2

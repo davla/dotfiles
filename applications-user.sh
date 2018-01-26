@@ -33,8 +33,8 @@ bash -c "
 source $HOME/.bashrc
 source $NVM_DIR/nvm.sh
 
+cp Support/nvm//default-packages $NVM_DIR
 nvm install node
-npm install -g jsdoc gulpjs/gulp-cli
 "
 
 # Telegram

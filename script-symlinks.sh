@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
 
-# This script serves the purpose of making some self-made scripts
+# This script serves the purpose of making some self-made bash scripts
 # and C files available as CLI commands. This is achieved by creating
 # symbolic links pointing to them in directories found in the PATH
 # variable; this implies that even scripts that are run as root are
 # editable as a non-privileged user, provided that they have the
 # proper access rights.
 
-# The shellscripts and C files are located in a directory under the
+# The bash scripts and C files are located in a directory under the
 # stored files path. It is possible to link/compile all of them or just
 # some, by providing their file name as CLI arguments.
+
+# Aguments:
+#   - $@: Names of bash scripts/C files to be linked/compiled.
 
 #####################################################
 #
@@ -86,7 +89,7 @@ function process-file {
                 ;;
 
             'bourne-again')
-                symlink-script "$FILE" "$DEST_DIR"
+                symlink-bash "$FILE" "$DEST_DIR"
                 ;;
 
             *)
@@ -105,7 +108,7 @@ function process-file {
 # Arguments
 #   $1: Source file.
 #   $2: Destination directory.
-function symlink-script {
+function symlink-bash {
     local SOURCE=$(realpath "$1")
     local DEST_DIR=$(realpath "$2")
 

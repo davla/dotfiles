@@ -9,7 +9,7 @@
 #
 #####################################################
 
-. $HOME/.bash_envvars
+. "$HOME/.bash_envvars"
 
 REPOS=(
     "$PYWIKIBOT_DIR"

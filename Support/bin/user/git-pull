@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
 # This script pulls updates from the git repository found at
-# the passed REPO_BASEectory. It assumes the upstream branch to be
+# the passed directory. It assumes the upstream branch to be
 # set.
+
+# Arguments:
+#     - $1: Base directory of the repository.
 
 #####################################################
 #

@@ -9,6 +9,9 @@
 # The only dependency is the jq package, used to check
 # what is the installed version of Postman.
 
+# For information about the arguments, execute this file
+# with the -h flag.
+
 #####################################################
 #
 #                   Parameters

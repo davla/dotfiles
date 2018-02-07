@@ -150,6 +150,7 @@
             <Filename>atom.desktop</Filename>
             <Filename>jetbrains-clion.desktop</Filename>
             <Filename>arduino-arduinoide.desktop</Filename>
+            <Filename>coqide.desktop</Filename>
             <Filename>eclipse.desktop</Filename>
             <Filename>geany.desktop</Filename>
             <Filename>jetbrains-idea.desktop</Filename>
@@ -180,6 +181,8 @@
         </Include>
 
         <Layout>
+            <Filename>colorgrab.desktop</Filename>
+            <Filename>dia.desktop</Filename>
             <Filename>evince.desktop</Filename>
             <Filename>gimp.desktop</Filename>
             <Filename>display-im6.q16.desktop</Filename>

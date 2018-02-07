@@ -148,7 +148,7 @@ apt-get upgrade
 
 # GUI applications
 apt-get install aisleriot asunder atom baobab blueman brasero calibre \
-    camorama catfish dropbox easytag enpass evince firefox five-or-more \
+    camorama catfish dia dropbox easytag enpass evince firefox five-or-more \
     galculator gdebi geany gimp gnome-klotski gnome-mines gnome-nibbles \
     gnome-sudoku gnome-robots gnome-tetravex gparted gufw handbrake-gtk \
     hitori libreoffice-calc libreoffice-impress libreoffice-writer lightdm \

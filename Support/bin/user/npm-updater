@@ -42,6 +42,20 @@ function log {
 
 #####################################################
 #
+#               Interactive environment
+#
+#####################################################
+
+# Checking for interactive environment, to effectively
+# source ~/.bashrc. If don't have them rerunning this
+# script in a bash interactive environment.
+if ! grep '.*i.*' <<<"$-" &> /dev/null; then
+    bash -i "$0"
+    exit
+fi
+
+#####################################################
+#
 #               Updating packages
 #
 #####################################################

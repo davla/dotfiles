@@ -28,6 +28,10 @@ shopt -s expand_aliases
 # Echoes normally if from terminal emulator, otherwise uses syslog
 tty -s && alias print='echo' || alias print='logger'
 
+# Removes any accessory character from version numbers in every
+# line of input, eg. v2.4.3 -> 2.4.3
+alias version-digits="tr -d 'v'"
+
 #####################################################
 #
 #                   Functions
@@ -62,9 +66,8 @@ nvm install node --latest-npm 2>&1 | grep 'already' &> /dev/null \
 #
 #####################################################
 
-:> "$USED_VERSIONS_FILE"
 find "$HOME" -type f -name '.nvmrc' -not -path '*node_modules*' \
-    -exec cat '{}' >> "$USED_VERSIONS_FILE" \;
+    -exec cat '{}' \+ | version-digits > "$USED_VERSIONS_FILE"
 sort "$USED_VERSIONS_FILE" -Vuo "$USED_VERSIONS_FILE"
 
 #####################################################
@@ -73,12 +76,13 @@ sort "$USED_VERSIONS_FILE" -Vuo "$USED_VERSIONS_FILE"
 #
 #####################################################
 
-INSTALLED_VERSIONS=$(nvm ls | grep -v 'N/A' \
-    | grep -oP 'v\d\.\d\.\d' | sort -Vu)
+INSTALLED_VERSIONS=$(nvm ls | grep -v 'N/A' | grep -oP 'v\d\.\d\.\d' \
+    | version-digits | sort -Vu)
 
 for VERSION in $INSTALLED_VERSIONS; do
-	grep "${VERSION:1}" "$USED_VERSIONS_FILE" &> /dev/null \
-        || nvm uninstall "$VERSION" &> /dev/null \
-        && log "Node-updater: uninstalled node.js version $VERSION"
+	if ! grep "$VERSION" "$USED_VERSIONS_FILE" &> /dev/null; then
+        nvm uninstall "$VERSION" &> /dev/null \
+            && log "Node-updater: uninstalled node.js version $VERSION"
+    fi
 done
 exit 0

@@ -41,7 +41,7 @@ USER_BIN_PATH='/usr/local/bin'
 # since there are little reasons to use C other than
 # accessing the low level Unix C API for root tasks.
 #
-# Arguments
+# Arguments:
 #   $1: C source file.
 #   $2: Destination directory.
 function compile-c {

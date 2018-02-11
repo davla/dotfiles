@@ -18,4 +18,4 @@ export SCREEN=':0' DISPLAY=':0' XAUTHORITY=$(ls -a1 /home/*/.Xauthority \
 #
 #####################################################
 
-exo-open --launch TerminalEmulator $*
+exo-open --launch TerminalEmulator "$@"

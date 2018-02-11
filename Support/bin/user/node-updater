@@ -67,8 +67,7 @@ nvm install node --latest-npm 2>&1 | grep 'already' &> /dev/null \
 #####################################################
 
 find "$HOME" -type f -name '.nvmrc' -not -path '*node_modules*' \
-    -exec cat '{}' \+ | version-digits > "$USED_VERSIONS_FILE"
-sort "$USED_VERSIONS_FILE" -Vuo "$USED_VERSIONS_FILE"
+    -exec cat '{}' \+ | version-digits | sort -Vu > "$USED_VERSIONS_FILE"
 
 #####################################################
 #

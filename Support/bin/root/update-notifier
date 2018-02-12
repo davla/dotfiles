@@ -7,6 +7,34 @@
 
 #####################################################
 #
+#                   Aliases
+#
+#####################################################
+
+shopt -s expand_aliases
+
+# Echoes normally if from terminal emulator, otherwise uses syslog
+tty -s && alias print='echo' || alias print='logger'
+
+#####################################################
+#
+#                   Functions
+#
+#####################################################
+
+# Prints a log-like entry, adding the current date
+# to the passed message
+#
+# Arguments:
+#   - $1: The message to be logged.
+function log {
+    local MESSAGE="$1"
+
+    print "$MESSAGE" on $(date +'%d-%m-%Y %T')
+}
+
+#####################################################
+#
 #           Terminal: ready to upgrade
 #
 #####################################################
@@ -25,5 +53,11 @@ fi
 apt-get update
 apt-get upgrade --assume-no
 
-# Updates found, opening terminal window
-[[ $? -ne 0 ]] && run-in-terminal "bash $0"
+if [[ $? -eq 0 ]]; then
+    log 'Update-notifier: updates not found'
+else
+    log 'Update-notifier: updates found'
+
+    # Updates found, opening terminal window
+    run-in-terminal "bash $0"
+fi

@@ -118,13 +118,15 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \
 apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E | apt-key add -
 wget -qO - 'https://www.virtualbox.org/download/oracle_vbox_2016.asc' | \
     apt-key add -
+wget -qO - 'https://download.docker.com/linux/debian/gpg' | apt-key add -
 wget -qO - 'https://repo.skype.com/data/SKYPE-GPG-KEY' | apt-key add -
 wget -qO - 'https://debian.neo4j.org/neotechnology.gpg.key' | apt-key add -
 wget -qO - 'https://dl.sinew.in/keys/enpass-linux.key' | apt-key add -
 wget -qO - 'https://www.franzoni.eu/keys/D401AB61.txt' | apt-key add -
 wget -qO - 'https://dl.yarnpkg.com/debian/pubkey.gpg' | apt-key add -
 apt-get update
-apt-get install apt-transport-https deb-multimedia-keyring sparky-keyring
+apt-get install apt-transport-https deb-multimedia-keyring \
+    software-properties-common sparky-keyring
 
 #####################################################
 #
@@ -161,7 +163,7 @@ apt-get install aisleriot asunder atom baobab blueman brasero calibre \
 [[ $? -ne 0 ]] && exit 1
 
 # CLI applications
-apt-get install autoconf cmake cowsay cups curl dkms dos2unix \
+apt-get install autoconf cmake cowsay cups curl dkms docker-ce dos2unix \
     flashplayer-mozilla fonts-freefont-otf fortune g++ ghc gifsicle git \
     gvfs-backends handbrake-cli hunspell hunspell-en-us hunspell-it \
     imagemagick jq lame libgnome-keyring-dev lightdm-gtk-greeter lua5.1 \

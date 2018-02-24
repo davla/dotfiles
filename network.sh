@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
-# This script populates /etc/hosts file with most frequently
-# visited remote websites and adds some local resources.
+# This script deals with networking tasks. In particular:
+#   - It populates /etc/hosts file with most frequently
+#       visited remote websites and adds some local
+#       resources.
+#   - It installs a script to disable Wi-Fi when cabled
+#       connections are active
 
 # Arguments:
 #	- $1: If 'refresh', only refreshes remote websites
@@ -48,21 +52,46 @@ fi
 
 #####################################################
 #
-#               Local resources
+#               Non-refreshing tasks
 #
 #####################################################
 
 if [[ "$REFRESH" == 'false' ]]; then
 
+#####################################################
+#
+#               Local resources
+#
+#####################################################
+
 	# Adding local resources and a marker for frequently
     # accessed remote websites
-	echo "
+	echo -n "
 192.168.1.3     memorione
 192.168.0.11        raspberry
 192.168.0.1		router
 
 # $REMOTE_RESOURCES_MARKER
 " >> /etc/hosts
+
+#####################################################
+#
+#           Wi-Fi management script
+#
+#####################################################
+
+    DISPATCHERS_PATH='/etc/NetworkManager/dispatcher.d'
+    DISPATCHER_SCRIPT='99-no-wireless-on-wired'
+    DISPATCHER_SCRIPT_PATH="$DISPATCHERS_PATH/$DISPATCHER_SCRIPT"
+
+    # Copying the NetworkManager dispatch script to
+    # the right location
+    cp "Support/network/$DISPATCHER_SCRIPT" "$DISPATCHERS_PATH"
+
+    # Setting the right permissions and ownership
+    chown 'root:root' "$DISPATCHER_SCRIPT_PATH"
+    chmod u+w,ga-w,u-s,+x "$DISPATCHER_SCRIPT_PATH"
+
 fi
 
 #####################################################

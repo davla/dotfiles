@@ -150,11 +150,11 @@ apt-get upgrade
 
 # GUI applications
 apt-get install aisleriot asunder atom baobab blueman brasero calibre \
-    camorama catfish dia dropbox easytag enpass evince firefox five-or-more \
+    camorama catfish dia dropbox enpass evince firefox five-or-more \
     galculator gdebi geany gimp gnome-klotski gnome-mines gnome-nibbles \
     gnome-sudoku gnome-robots gnome-tetravex gparted gufw handbrake-gtk \
     hitori libreoffice-calc libreoffice-impress libreoffice-writer lightdm \
-    lightdm-gtk-greeter-settings gnome-mahjongg hardinfo \
+    lightdm-gtk-greeter-settings gnome-mahjongg hardinfo kid3 \
     network-manager-gnome parcellite pavucontrol quadrapassel \
     recordmydesktop gtk-recordmydesktop remmina seahorse simple-scan \
     slack-desktop skypeforlinux solaar soundconverter spotify-client \

@@ -201,6 +201,9 @@ clean
 #
 #####################################################
 
+# Docker non root access
+grep docker /etc/group &> /dev/null || groupadd docker
+
 # Git
 ln -s /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring \
     /usr/bin/git-credential-gnome-keyring
@@ -211,11 +214,11 @@ cd - &> /dev/null
 sed -r -i 's/OnlyShowIn=/OnlyShowIn=XFCE;/' \
     /etc/xdg/autostart/gnome-keyring-pkcs11.desktop
 
-# Sensor plugin
-chmod u+s /usr/sbin/hddtemp
-
 # Neo4j - preventing from auto-starting at boot
 update-rc.d -f neo4j remove
+
+# Sensor plugin
+chmod u+s /usr/sbin/hddtemp
 
 # Removing non-working .desktop files
 NON_WORKING_DESKTOPS=(

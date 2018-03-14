@@ -11,6 +11,9 @@
 #
 #####################################################
 
+# Docker
+sudo adduser "$USER" docker
+
 # GHC
 echo ':set prompt "ghci> "' > "$HOME/.ghci"
 

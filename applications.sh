@@ -170,8 +170,8 @@ apt-get install autoconf cmake cowsay cups curl dkms docker-ce dos2unix \
     lua5.3 make oracle-java8-installer oracle-java8-set-default \
     browser-plugin-vlc p7zip python-requests-futures python3-gdbm \
     python3-lxml rar ruby ruby-dev sbt scala sudo thunar-archive-plugin \
-    thunar-dropbox-plugin tuxguitar-jsa uni2ascii unrar virtualenvwrapper \
-    xdotool xserver-xorg-input-synaptics yad zip
+    thunar-dropbox-plugin tree tuxguitar-jsa uni2ascii unrar \
+    virtualenvwrapper xdotool xserver-xorg-input-synaptics yad zip
 [[ $? -ne 0 ]] && exit 1
 
 # Sparky applications

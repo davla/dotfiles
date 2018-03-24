@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+# This script updates globally installed npm packages
+# for the latest installed node versions
+
+#####################################################
+#
+#                   Aliases
+#
+#####################################################
+
+shopt -s expand_aliases
+
+# Echoes normally if from terminal emulator, otherwise uses syslog
+tty -s && alias print='echo' || alias print='logger'
+
+#####################################################
+#
+#                   Functions
+#
+#####################################################
+
+# Prints a log-like entry, adding the current date
+# to the passed message
+#
+# Arguments:
+#   - $1: The message to be logged.
+function log {
+    local MESSAGE="$1"
+
+    print "$MESSAGE" on $(date +'%d-%m-%Y %T')
+}
+
+#####################################################
+#
+#               Updating packages
+#
+#####################################################
+
+n latest &> /dev/null
+npm -g update
+log  'Npm-updates: run'

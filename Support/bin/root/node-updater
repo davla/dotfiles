@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-# This script installs the latest node.js version via nvm.
+# This script installs the latest node.js version via n.
 # Then it uninstalls all the unused node versions, that is
 # all the installed ones that are not found in any .nvmrc
 # file located in any non-node_modules directory under the
-# home directory
+# /home directory
 
 #####################################################
 #
@@ -12,10 +12,9 @@
 #
 #####################################################
 
-. "$HOME/.bashrc"
-. "$NVM_DIR/nvm.sh"
-
-USED_VERSIONS_FILE="$NVM_DIR/used_versions"
+N_PREFIX='/usr/local/n/versions/node'
+GLOBAL_PACKAGES_FILE="$N_PREFIX/global-packages"
+USED_VERSIONS_FILE="$N_PREFIX/used-versions"
 
 #####################################################
 #
@@ -31,6 +30,14 @@ tty -s && alias print='echo' || alias print='logger'
 # Removes any accessory character from version numbers in every
 # line of input, eg. v2.4.3 -> 2.4.3
 alias version-digits="tr -d 'v'"
+
+# Returns the installed versions of node, one per line and sorted
+# ascendingly by version
+alias installed-node-version="ls -1 $N_PREFIX | grep -xP '\d+\.\d+\.\d+' \
+    | sort -V"
+
+# Returns the latest installed node verions
+alias latest-node-version="installed-node-version | tail -n 1"
 
 #####################################################
 #
@@ -51,28 +58,19 @@ function log {
 
 #####################################################
 #
-#               Interactive environment
-#
-#####################################################
-
-# Checking for interactive environment, to effectively
-# source ~/.bashrc. If don't have them rerunning this
-# script in a bash interactive environment.
-if ! grep '.*i.*' <<<"$-" &> /dev/null; then
-    bash -i "$0"
-    exit
-fi
-
-#####################################################
-#
 #           Updating node.js version
 #
 #####################################################
 
-# Global packages are handled as defaults in $NVM_DIR/default-packages
-nvm install node --latest-npm 2>&1 | grep 'already' &> /dev/null \
-    && log 'Node-updater: node.js not updated' \
-    || log 'Node-updater: node.js updated to '$(nvm version node)
+if [[ -n $(n latest) ]]; then
+    LATEST_NODE_VERSION=$(latest-node-version)
+
+    log "Node-updater: node.js updated to $LATEST_NODE_VERSION"
+    < "$GLOBAL_PACKAGES_FILE" xargs -L 1 \
+        "$N_PREFIX/$LATEST_NODE_VERSION/bin/npm" -g install
+else
+    log 'Node-updater: node.js not updated'
+fi
 
 #####################################################
 #
@@ -80,7 +78,7 @@ nvm install node --latest-npm 2>&1 | grep 'already' &> /dev/null \
 #
 #####################################################
 
-find "$HOME" -type f -name '.nvmrc' -not -path '*node_modules*' \
+find /home -type f -name '.nvmrc' -not -path '*node_modules*' \
     -exec cat '{}' \+ | version-digits | sort -Vu > "$USED_VERSIONS_FILE"
 
 #####################################################
@@ -89,12 +87,12 @@ find "$HOME" -type f -name '.nvmrc' -not -path '*node_modules*' \
 #
 #####################################################
 
-INSTALLED_VERSIONS=$(nvm ls | grep -v 'N/A' | grep -oP 'v\d\.\d\.\d' \
-    | version-digits | sort -Vu)
+INSTALLED_VERSIONS=$(installed-node-version)
 
+n latest &> /dev/null
 for VERSION in $INSTALLED_VERSIONS; do
 	if ! grep "$VERSION" "$USED_VERSIONS_FILE" &> /dev/null; then
-        nvm uninstall "$VERSION" &> /dev/null \
+        n rm "$VERSION" &> /dev/null \
             && log "Node-updater: uninstalled node.js version $VERSION"
     fi
 done

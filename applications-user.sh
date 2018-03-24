@@ -28,18 +28,6 @@ git config --global credential.helper /usr/bin/git-credential-gnome-keyring
 #
 #####################################################
 
-# NVM
-wget -qO- 'https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh' | bash
-
-# Node packages
-bash -c "
-source $HOME/.bashrc
-source $NVM_DIR/nvm.sh
-
-cp Support/nvm//default-packages $NVM_DIR
-nvm install node
-"
-
 # Telegram
 TELEGRAM_ARCH='telegram.tar.xz'
 TELEGRAM_HOME="$HOME/.TelegramDesktop"

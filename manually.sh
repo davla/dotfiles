@@ -59,8 +59,24 @@ TEMP_THROTTLE_EXEC='/usr/local/sbin/underclock'
 wget 'https://github.com/Sepero/temp-throttle/archive/stable.zip' -O \
     "$TEMP_THROTTLE_ARCH"
 
-# Unzipping only the shellscript to stdout and redirecting to /sbin/underclock
+# Unzipping only the shellscript to stdout
+# and redirecting to TEMP_THROTTLE_EXEC
 unzip -p "$TEMP_THROTTLE_ARCH" '*.sh' > "$TEMP_THROTTLE_EXEC"
 
 chmod +x "$TEMP_THROTTLE_EXEC"
 rm "$TEMP_THROTTLE_ARCH"
+
+#####################################################
+#
+#                       N
+#
+#####################################################
+
+N_DIR='/tmp/n'
+
+git clone 'https://github.com/tj/n.git' "$N_DIR"
+cd "$N_DIR"
+make install
+rm -rf "$N_DIR"
+
+cp -r Support/n/* /usr/local/n/versions/node

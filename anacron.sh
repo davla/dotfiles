@@ -16,8 +16,10 @@
 
 CUSTOM_JOBS_MARKER='# Custom jobs'
 ROOT_DAILY=(
-    'update-notifier'
     'install-postman'
+    'node-updater'
+    'npm-updater'
+    'update-notifier'
 )
 
 #####################################################
@@ -89,6 +91,4 @@ grep "$CUSTOM_JOBS_MARKER" /etc/anacrontab &> /dev/null \
 $CUSTOM_JOBS_MARKER
 
 1        1        git.updates	su $USER_NAME -c 'pull-repos'
-1        3        node.updates	su $USER_NAME -c 'node-updater'
-1        5        npm.updates	su $USER_NAME -c 'npm-updater'
 " >> /etc/anacrontab

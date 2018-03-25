@@ -2,8 +2,6 @@
 
 # Mouse theme
 
-xfconf-query -c xsettings -p /Gtk/CursorThemeName -s "$(xfconf-query -c xsettings -p /Gtk/CursorThemeName)"
-
 EMPTY_DIR=(
     '.local/share/Trash' # Thrash
     '.cache/sessions' # Sesions Cache

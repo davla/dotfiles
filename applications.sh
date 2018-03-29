@@ -189,7 +189,7 @@ apt-get install xfce4-battery-plugin xfce4-cpugraph-plugin xfce4-eyes-plugin \
 [[ $? -ne 0 ]] && exit 1
 
 # Rubygems
-gem install sass
+gem install bundle sass
 
 # Cleaning again, so that if something undesired
 # managed to get installed it is removed

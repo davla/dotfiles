@@ -174,6 +174,10 @@ apt-get install autoconf cmake cowsay cups curl dkms docker-ce dos2unix \
     virtualenvwrapper xdotool xserver-xorg-input-synaptics yad zip
 [[ $? -ne 0 ]] && exit 1
 
+# --no-install-recommends prevents node from being installed
+apt-get install --no-install-recommends yarn
+[[ $? -ne 0 ]] && exit 1
+
 # Sparky applications
 #apt-get install sparky-about sparky-artwork sparky-apt sparky-codecs \
 #    sparky-desktop-data sparky-editor sparky-eraser sparky-fontset \

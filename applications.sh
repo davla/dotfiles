@@ -122,11 +122,11 @@ wget -qO - 'https://download.docker.com/linux/debian/gpg' | apt-key add -
 wget -qO - 'https://repo.skype.com/data/SKYPE-GPG-KEY' | apt-key add -
 wget -qO - 'https://debian.neo4j.org/neotechnology.gpg.key' | apt-key add -
 wget -qO - 'https://dl.sinew.in/keys/enpass-linux.key' | apt-key add -
-wget -qO - 'https://www.franzoni.eu/keys/D401AB61.txt' | apt-key add -
+wget -qO - 'https://packagecloud.io/AtomEditor/atom/gpgkey' | apt-key add -
 wget -qO - 'https://dl.yarnpkg.com/debian/pubkey.gpg' | apt-key add -
 apt-get update
-apt-get install apt-transport-https deb-multimedia-keyring \
-    software-properties-common sparky-keyring
+apt-get install deb-multimedia-keyring software-properties-common \
+    sparky-keyring
 
 #####################################################
 #

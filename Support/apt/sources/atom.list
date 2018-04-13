@@ -1,3 +1,3 @@
 # Atom text editor
 
-deb https://dl.bintray.com/alanfranz/atom-apt stable main
+deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main

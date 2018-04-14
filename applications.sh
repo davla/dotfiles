@@ -156,7 +156,7 @@ apt-get install aisleriot asunder atom baobab blueman brasero calibre \
     hitori libreoffice-calc libreoffice-impress libreoffice-writer lightdm \
     lightdm-gtk-greeter-settings gnome-mahjongg hardinfo kid3 \
     network-manager-gnome parcellite pavucontrol quadrapassel \
-    recordmydesktop gtk-recordmydesktop remmina seahorse simple-scan \
+    recordmydesktop gtk-recordmydesktop remmina sakura seahorse simple-scan \
     slack-desktop skypeforlinux solaar soundconverter spotify-client \
     synaptic system-config-printer thunderbird transmission-gtk tuxguitar \
     viewnior vino virtualbox-5.2 visualboyadvance-gtk vlc

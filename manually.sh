@@ -77,6 +77,8 @@ N_DIR='/tmp/n'
 git clone 'https://github.com/tj/n.git' "$N_DIR"
 cd "$N_DIR"
 make install
+cd - &> /dev/null
 rm -rf "$N_DIR"
 
+n latest
 cp -r Support/n/* /usr/local/n/versions/node

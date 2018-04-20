@@ -42,3 +42,18 @@ sudo bash bin-symlinks.sh
 # create .desktop file: "for reasons unknown"
 # if done via 'telegram' symlink it desn't work
 "$TELEGRAM_HOME/Telegram"
+
+# N
+# Even though it must be installed as root, the n use wrapper is user-based,
+# hence N is installed here
+N_DIR='/tmp/n'
+
+git clone 'https://github.com/davla/n.git' "$N_DIR"
+cd "$N_DIR"
+sudo make install
+make use
+cd - &> /dev/null
+rm -rf "$N_DIR"
+
+sudo n latest
+sudo cp -r Support/n/* /usr/local/n/versions/node

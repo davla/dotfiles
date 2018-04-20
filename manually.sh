@@ -65,20 +65,3 @@ unzip -p "$TEMP_THROTTLE_ARCH" '*.sh' > "$TEMP_THROTTLE_EXEC"
 
 chmod +x "$TEMP_THROTTLE_EXEC"
 rm "$TEMP_THROTTLE_ARCH"
-
-#####################################################
-#
-#                       N
-#
-#####################################################
-
-N_DIR='/tmp/n'
-
-git clone 'https://github.com/tj/n.git' "$N_DIR"
-cd "$N_DIR"
-make install
-cd - &> /dev/null
-rm -rf "$N_DIR"
-
-n latest
-cp -r Support/n/* /usr/local/n/versions/node

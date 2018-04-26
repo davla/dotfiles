@@ -33,8 +33,7 @@ alias version-digits="tr -d 'v'"
 
 # Returns the installed versions of node, one per line and sorted
 # ascendingly by version
-alias installed-node-version="ls -1 $N_PREFIX | grep -xP '\d+\.\d+\.\d+' \
-    | sort -V"
+alias installed-node-version="n | sort -V | awk '{print \$1}'"
 
 # Returns the latest installed node verions
 alias latest-node-version="installed-node-version | tail -n 1"
@@ -62,7 +61,7 @@ function log {
 #
 #####################################################
 
-if [[ -n $(n latest) ]]; then
+if n latest | grep 'installed' &> /dev/null; then
     LATEST_NODE_VERSION=$(latest-node-version)
 
     log "Node-updater: node.js updated to $LATEST_NODE_VERSION"

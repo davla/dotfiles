@@ -51,6 +51,12 @@ mkdir -p "$RASPBERRY_ROOT"
 echo "raspberry:/ $RASPBERRY_ROOT nfs users,dev,exec,noauto,rw,suid 0 0" \
     | sudo tee -a /etc/fstab > /dev/null
 
+#########################
+# .bashrc inclusion in root's .bash_profile
+#########################
+
+sudo bash -c "echo 'source .bashrc' >> \$HOME/.bash_profile"
+
 #####################################################
 #
 #                   User jobs

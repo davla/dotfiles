@@ -1,6 +1,6 @@
 # Executed on startup
 
-# Mouse theme
+# Emptying some directories
 
 EMPTY_DIR=(
     '.local/share/Trash' # Thrash
@@ -12,3 +12,7 @@ EMPTY_DIR=(
 for DIR in "${EMPTY_DIR[@]}"; do
     rm -rf $HOME/$DIR
 done
+
+# Including .bashrc
+
+source .bashrc

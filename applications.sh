@@ -48,6 +48,7 @@ function clean {
     apt-get purge -y liferea-data
     apt-get purge -y mc-data
     apt-get purge -y metacity
+    apt-get purge -y minissdpd
     apt-get purge -y mutt
     apt-get purge -y nautilus
     apt-get purge -y xfce4-notes

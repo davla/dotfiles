@@ -65,3 +65,17 @@ unzip -p "$TEMP_THROTTLE_ARCH" '*.sh' > "$TEMP_THROTTLE_EXEC"
 
 chmod +x "$TEMP_THROTTLE_EXEC"
 rm "$TEMP_THROTTLE_ARCH"
+
+#####################################################
+#
+#               Move to next monitor
+#
+#####################################################
+
+TMP_DIR=$(mktemp -D)
+
+git clone 'https://github.com/davla/move-to-next-monitor.git' "$TMP_DIR"
+bash "$TMP_DIR/install.sh"
+mv /usr/bin/move-to-next-monitor /usr/bin/move-to-monitor
+
+rm -rf "$TMP_DIR"

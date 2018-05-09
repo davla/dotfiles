@@ -29,6 +29,8 @@ DPMM_THRESHOLD='5'
 # Concatenating the dpmm values
 # Removign trailing comma
 # Printing whether the minimum of the dpmm is below the threshold
+#       The call to min() is wrapped in a list because without it
+#       min() could be called with one argument only, making it fail
 IS_DPMM_LOW=$(xrandr \
         | grep -w connected \
         | grep -oP '(\d+mm x \d+mm|\d+x\d+)' \
@@ -38,7 +40,7 @@ IS_DPMM_LOW=$(xrandr \
         | xargs \
         | sed 's/,$//' \
         | xargs -i python3 -c \
-                "print((({}) if len([{}]) == 1 else min({})) < $DPMM_THRESHOLD)")
+                "print(min([{}]) < $DPMM_THRESHOLD)")
 
 #####################################################
 #

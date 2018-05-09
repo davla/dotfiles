@@ -39,8 +39,7 @@ IS_DPMM_LOW=$(xrandr \
         | awk '{print $1/$3","}' \
         | xargs \
         | sed 's/,$//' \
-        | xargs -i python3 -c \
-                "print(min([{}]) < $DPMM_THRESHOLD)")
+        | xargs -i python3 -c "print(min([{}]) < $DPMM_THRESHOLD)")
 
 #####################################################
 #

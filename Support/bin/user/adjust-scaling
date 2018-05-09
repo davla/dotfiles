@@ -15,14 +15,21 @@ DPMM_THRESHOLD='5'
 
 #####################################################
 #
+#                   Variables
+#
+#####################################################
+
+# Xrandr lines for active displays
+ACTIVE_DISPLAYS=$(xrandr | grep -P '\bconnected.*\d')
+
+#####################################################
+#
 #           Resolution-dependent values
 #
 #####################################################
 
 # Line-by-line comments:
-# Getting dysplays Data
-# Filter data about connected displays only
-# Extracting resolution and screen size
+# Extracting resolution and screen size for active displays
 # Getting the digits only
 # Grouping digits by four, that is reslution and size per screen
 # Printing the x-axis dots-per-mm value for every screen
@@ -31,9 +38,7 @@ DPMM_THRESHOLD='5'
 # Printing whether the minimum of the dpmm is below the threshold
 #       The call to min() is wrapped in a list because without it
 #       min() could be called with one argument only, making it fail
-IS_DPMM_LOW=$(xrandr \
-        | grep -w connected \
-        | grep -oP '(\d+mm x \d+mm|\d+x\d+)' \
+IS_DPMM_LOW=$(grep -oP '(\d+mm x \d+mm|\d+x\d+)' <<<"$ACTIVE_DISPLAYS" \
         | grep -oP '\d+' \
         | xargs -n 4 \
         | awk '{print $1/$3","}' \
@@ -61,6 +66,7 @@ if [[ "${IS_DPMM_LOW,,}" == 'true' ]]; then
     THUNAR_WINDOW_WIDTH=700
     THUNAR_ZOOM='THUNAR_ZOOM_LEVEL_NORMAL'
     WINDOW_MANAGER_THEME='Stoneage'
+    XRANDR_RESOLUTION='--mode 1920x1080'
 else
     # Upscaling
 
@@ -76,6 +82,7 @@ else
     THUNAR_WINDOW_WIDTH=1270
     THUNAR_ZOOM='THUNAR_ZOOM_LEVEL_LARGER'
     WINDOW_MANAGER_THEME='StoneageThick'
+    XRANDR_RESOLUTION='--auto'
 fi
 
 #####################################################
@@ -84,9 +91,11 @@ fi
 #
 #####################################################
 
+# Fetching the base name of the xfconf system tray panel plugin
 SYSTRAY_PROP_BASE=$(xfconf-query -c xfce4-panel -p '/plugins' -l -v \
     | grep systray | awk '{ print $1 }')
 
+# A list of tuples "<channel> <property> <type> <value>" to be used with xfconf
 XFCONF_SETTINGS=(
     "thunar /last-icon-view-zoom-level string $THUNAR_ZOOM"
     "thunar /last-window-height int $THUNAR_WINDOW_HEIGHT"
@@ -103,11 +112,17 @@ XFCONF_SETTINGS=(
     "xsettings /Xft/DPI int $DPI"
 )
 
+# Changing xfconf prperties
 for XFCONF_DATA in "${XFCONF_SETTINGS[@]}"; do
     read -r CHANNEL PROP TYPE VALUE <<<"$XFCONF_DATA"
 
     xfconf-query -n -c "$CHANNEL" -p "$PROP" -t "$TYPE" -s "$VALUE"
 done
 
+# Changing the theme of the eyes plugin
 sed -i -E "s/theme=.+/theme=$EYES_THEME/g" \
     "$HOME/.config/xfce4/panel/eyes-4.rc"
+
+# Changing the resolution of active displays
+awk '{print $1}' <<<"$ACTIVE_DISPLAYS" \
+    | xargs -i xrandr --output '{}' $XRANDR_RESOLUTION

@@ -19,8 +19,8 @@ DPMM_THRESHOLD='5'
 #
 #####################################################
 
-# Xrandr lines for active displays
-ACTIVE_DISPLAYS=$(xrandr | grep -P '\bconnected.*\d')
+# Xrandr lines for active displays and their maximum resolution
+ACTIVE_DISPLAYS=$(xrandr | grep -A 1 --group-separator='' -P '\bconnected.*\d')
 
 #####################################################
 #
@@ -29,22 +29,24 @@ ACTIVE_DISPLAYS=$(xrandr | grep -P '\bconnected.*\d')
 #####################################################
 
 # Line-by-line comments:
-# Extracting resolution and screen size for active displays
+# Extracting current resolution, display size and maximum resolution for
+#       active displays
 # Getting the digits only
-# Grouping digits by four, that is reslution and size per screen
-# Printing the x-axis dots-per-mm value for every screen
+# Grouping digits by display, that is current reslution, size, and maximum
+#       resolution
+# Printing the x-axis dots-per-mm value for every display
 # Concatenating the dpmm values
 # Removign trailing comma
 # Printing whether the minimum of the dpmm is below the threshold
 #       The call to min() is wrapped in a list because without it
 #       min() could be called with one argument only, making it fail
 IS_DPMM_LOW=$(grep -oP '(\d+mm x \d+mm|\d+x\d+)' <<<"$ACTIVE_DISPLAYS" \
-        | grep -oP '\d+' \
-        | xargs -n 4 \
-        | awk '{print $1/$3","}' \
-        | xargs \
-        | sed 's/,$//' \
-        | xargs -i python3 -c "print(min([{}]) < $DPMM_THRESHOLD)")
+    | grep -oP '\d+' \
+    | xargs -n 6 \
+    | awk '{print $5/$3","}' \
+    | xargs \
+    | sed 's/,$//' \
+    | xargs -i python3 -c "print(min([{}]) < $DPMM_THRESHOLD)")
 
 #####################################################
 #
@@ -124,5 +126,13 @@ sed -i -E "s/theme=.+/theme=$EYES_THEME/g" \
     "$HOME/.config/xfce4/panel/eyes-4.rc"
 
 # Changing the resolution of active displays
-awk '{print $1}' <<<"$ACTIVE_DISPLAYS" \
-    | xargs -i xrandr --output '{}' $XRANDR_RESOLUTION
+# Line-by-line:
+# Extracting display names and maximum resolution for active displays
+# Grouping them by two, that is every display name with its maximum resolution
+# Producing the last part of the xrandr command
+# Executing xrandr to change the resolution. The arguments need to be grouped
+#       by three since xargs considers them separately otherwise
+grep -oP '^\s*(\S+)' <<<"$ACTIVE_DISPLAYS" \
+    | xargs -n 2 \
+    | awk '{print $1,"--mode",$2}' \
+    | xargs -n 3 xrandr --output

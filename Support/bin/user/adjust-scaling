@@ -64,11 +64,11 @@ if [[ "${IS_DPMM_LOW,,}" == 'true' ]]; then
     PANEL_SIZE=24
     SYSTRAY_ICON_SIZE=22
     THUNAR_ICON_SIZE='THUNAR_ICON_SIZE_SMALL'
+    THUNAR_SEPARATOR=174
     THUNAR_WINDOW_HEIGHT=520
     THUNAR_WINDOW_WIDTH=700
     THUNAR_ZOOM='THUNAR_ZOOM_LEVEL_NORMAL'
     WINDOW_MANAGER_THEME='Stoneage'
-    XRANDR_RESOLUTION='--mode 1920x1080'
 else
     # Upscaling
 
@@ -80,11 +80,11 @@ else
     PANEL_SIZE=48
     SYSTRAY_ICON_SIZE=43
     THUNAR_ICON_SIZE='THUNAR_ICON_SIZE_LARGE'
+    THUNAR_SEPARATOR=324
     THUNAR_WINDOW_HEIGHT=965
     THUNAR_WINDOW_WIDTH=1270
     THUNAR_ZOOM='THUNAR_ZOOM_LEVEL_LARGER'
     WINDOW_MANAGER_THEME='StoneageThick'
-    XRANDR_RESOLUTION='--auto'
 fi
 
 #####################################################
@@ -100,6 +100,7 @@ SYSTRAY_PROP_BASE=$(xfconf-query -c xfce4-panel -p '/plugins' -l -v \
 # A list of tuples "<channel> <property> <type> <value>" to be used with xfconf
 XFCONF_SETTINGS=(
     "thunar /last-icon-view-zoom-level string $THUNAR_ZOOM"
+    "thunar /last-separator-position int $THUNAR_SEPARATOR"
     "thunar /last-window-height int $THUNAR_WINDOW_HEIGHT"
     "thunar /last-window-width int $THUNAR_WINDOW_WIDTH"
     "thunar /shortcuts-icon-size string $THUNAR_ICON_SIZE"

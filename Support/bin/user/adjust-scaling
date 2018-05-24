@@ -126,6 +126,9 @@ done
 sed -i -E "s/theme=.+/theme=$EYES_THEME/g" \
     "$HOME/.config/xfce4/panel/eyes-4.rc"
 
+# Killing panel for the changes to take effect
+wmctrl -l | grep xfce4-panel | awk '{print $1}' | xargs xkill -id
+
 # Changing the resolution of active displays
 # Line-by-line:
 # Extracting display names and maximum resolution for active displays

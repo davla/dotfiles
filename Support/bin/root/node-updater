@@ -33,6 +33,7 @@ alias version-digits="tr -d 'v'"
 
 # Returns the installed versions of node, one per line and sorted
 # ascendingly by version
+# shellcheck disable=SC2142
 alias installed-node-version="n | sort -V | awk '{print \$1}'"
 
 # Returns the latest installed node verions
@@ -52,7 +53,7 @@ alias latest-node-version="installed-node-version | tail -n 1"
 function log {
     local MESSAGE="$1"
 
-    print "$MESSAGE" on $(date +'%d-%m-%Y %T')
+    print "$MESSAGE" on "$(date +'%d-%m-%Y %T')"
 }
 
 #####################################################

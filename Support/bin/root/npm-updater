@@ -28,7 +28,7 @@ tty -s && alias print='echo' || alias print='logger'
 function log {
     local MESSAGE="$1"
 
-    print "$MESSAGE" on $(date +'%d-%m-%Y %T')
+    print "$MESSAGE" on "$(date +'%d-%m-%Y %T')"
 }
 
 #####################################################

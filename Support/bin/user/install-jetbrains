@@ -91,7 +91,7 @@ function make-flavor-code {
 
     # Mock array-search -_-" - Printing on separate
     # lines and greping with line match.
-    if printf '\n%s' ${ALLOWED_FLAVORS[@]} \
+    if printf '\n%s' "${ALLOWED_FLAVORS[@]}" \
             | grep -x "$FLAVOR" > /dev/null; then
         awk '{print toupper(substr($0, 1, 1))}' <<<"$FLAVOR"
     else
@@ -129,7 +129,7 @@ while getopts 'b:B:h' OPTION; do
 done
 shift $(( OPTIND - 1 ))
 
-if [[ $@ =~ [[:space:]]+-.[[:space:]]+ ]]; then
+if [[ $* =~ [[:space:]]+-.[[:space:]]+ ]]; then
     echo 'Error while parsing input: named option should all come before' \
         'positional arguments'
     echo -n "$HELP_MESSAGE"

@@ -43,7 +43,7 @@ alias reponame="git remote get-url origin | xargs -i basename '{}' '.git'"
 function log {
     local MESSAGE="$1"
 
-    print "$MESSAGE" on $(date +'%d-%m-%Y %T')
+    print "$MESSAGE" on "$(date +'%d-%m-%Y %T')"
 }
 
 #####################################################
@@ -52,12 +52,11 @@ function log {
 #
 #####################################################
 
-if [[ ! -d "$REPO_BASE" ]]; then
+if ! cd "$REPO_BASE"; then
     print "Git-pull: error - $REPO_BASE is not a directory."
     exit 1
 fi
 
-cd "$REPO_BASE"
 if ! git status &> /dev/null; then
     print "Git-pull: error - $REPO_BASE is not a git repository."
     exit 1

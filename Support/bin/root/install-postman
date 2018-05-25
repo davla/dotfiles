@@ -132,7 +132,7 @@ function latest-postman-version {
 function log {
     local MESSAGE="$1"
 
-    print "$MESSAGE" on $(date +'%d-%m-%Y %T')
+    print "$MESSAGE" on "$(date +'%d-%m-%Y %T')"
 }
 
 # This function creates a system-wide desktop file for Postman.

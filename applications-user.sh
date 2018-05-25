@@ -49,10 +49,8 @@ sudo bash bin-symlinks.sh
 N_DIR='/tmp/n'
 
 git clone 'https://github.com/davla/n.git' "$N_DIR"
-cd "$N_DIR"
-sudo make install
-make use
-cd - &> /dev/null
+sudo make -C "$N_DIR" install
+make -C "$N_DIR" use
 rm -rf "$N_DIR"
 
 sudo n latest

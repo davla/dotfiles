@@ -48,7 +48,8 @@ function compile-c {
     local SOURCE="$1"
     local DEST_DIR="$2"
 
-    local EXEC_NAME=$(basename "$SOURCE" .c)
+    local EXEC_NAME
+    EXEC_NAME=$(basename "$SOURCE" .c)
     local EXEC_PATH="$DEST_DIR/$EXEC_NAME"
 
     gcc "$SOURCE" -o "$EXEC_PATH"
@@ -109,10 +110,13 @@ function process-file {
 #   $1: Source file.
 #   $2: Destination directory.
 function symlink-bash {
-    local SOURCE=$(realpath "$1")
-    local DEST_DIR=$(realpath "$2")
+    local SOURCE
+    SOURCE=$(realpath "$1")
+    local DEST_DIR
+    DEST_DIR=$(realpath "$2")
 
-    local FILE_NAME=$(basename "$SOURCE")
+    local FILE_NAME
+    FILE_NAME=$(basename "$SOURCE")
 
     chmod +x "$SOURCE"
     ln -sf "$SOURCE" "$DEST_DIR/$FILE_NAME"
@@ -129,7 +133,7 @@ function symlink-bash {
 # have them, recalling this script with sudo
 if [[ $EUID -ne 0 ]]; then
     echo 'This script needs to be run as root'
-    sudo bash $0 $@
+    sudo bash "$0" "$@"
     exit 0
 fi
 
@@ -141,7 +145,7 @@ fi
 
 # Files are given from the command line
 if [[ $# -gt 0 ]]; then
-    for FILE in $@; do
+    for FILE in "$@"; do
         FILE_PATH=$(find "$SCRIPTS_DIR" -name "$FILE")
 
         if [[ "$FILE_PATH" == */$USER_SCRIPTS_SUBDIR/* ]]; then

@@ -68,7 +68,7 @@ mkdir -p "$ICONS_PATH"
 # Installung custom cursors themes
 tar -xjf "$ICONS_ARCH" -C "$ICONS_PATH"
 [[ $? -ne 0 ]] && exit 1
-find "$ICONS_PATH" -maxdepth 1 -type d -name ACYLS* \
+find "$ICONS_PATH" -maxdepth 1 -type d -name 'ACYLS*' \
     -exec gtk-update-icon-cache {} \; &> /dev/null
 echo 'ACYLS and cursors installed'
 

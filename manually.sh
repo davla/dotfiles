@@ -13,7 +13,7 @@
 # have them, recalling this script with sudo
 if [[ $EUID -ne 0 ]]; then
     echo 'This script needs to be run as root'
-    sudo bash $0 $@
+    sudo bash "$0" "$@"
     exit 0
 fi
 
@@ -29,15 +29,15 @@ ICONS_DIR='/usr/share/icons/hicolor'
 
 apt-get install libwxgtk3.0-dev
 git clone https://github.com/Acolarh/colorgrab "$COLORGRAB_HOME"
-cd "$COLORGRAB_HOME"
+cd "$COLORGRAB_HOME" || exit
 cmake .
 make
-cd - &> /dev/null
+cd - &> /dev/null || exit
 
 find "$COLORGRAB_HOME" -type f -executable -name 'colorgrab' \
     -exec ln -sf '{}' /usr/local/bin/colorgrab \;
 cp "$COLORGRAB_HOME/pkg/arch/colorgrab.desktop" "$DESKTOPS_DIR"
-chmod +x "$DESKTOPS_DIRS/colorgrab.desktop"
+chmod +x "$DESKTOPS_DIR/colorgrab.desktop"
 
 cp "$COLORGRAB_HOME/img/scalable.svg" "$ICONS_DIR/scalable/apps/colorgrab.svg"
 for IMG in $COLORGRAB_HOME/img/[0-9]*x[0-9]*.png; do

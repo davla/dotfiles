@@ -36,7 +36,8 @@ function set-ps1 {
 
     # The most awkward way of getting a user's home directory
     echo "User: $USER_NAME"
-    local USER_HOME=$(su "$USER_NAME" -c "echo \$HOME")
+    local USER_HOME
+    USER_HOME=$(su "$USER_NAME" -c "echo \$HOME")
 
     # Checking for the title line
     if grep -P 'PS1=.+\$PS1' "$USER_HOME/.bashrc" &> /dev/null; then
@@ -49,9 +50,9 @@ function set-ps1 {
 
         # Title line does not exist, appending it
         echo "# If this is an xterm set the title
-case "\$TERM" in
+case \"\$TERM\" in
 xterm*|rxvt*)
-    PS1='$TITLE'"\$PS1"
+    PS1='$TITLE'\"\$PS1\"
     ;;
 *)
     ;;

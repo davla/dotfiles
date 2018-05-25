@@ -86,7 +86,7 @@ function clean {
 # have them, recalling this script with sudo
 if [[ $EUID -ne 0 ]]; then
     echo 'This script needs to be run as root'
-    sudo bash $0 $@
+    sudo bash "$0" "$@"
     exit 0
 fi
 
@@ -160,7 +160,7 @@ apt-get install aisleriot asunder atom baobab blueman brasero calibre \
     recordmydesktop gtk-recordmydesktop remmina sakura seahorse simple-scan \
     slack-desktop skypeforlinux solaar soundconverter spotify-client \
     synaptic system-config-printer thunderbird transmission-gtk tuxguitar \
-    viewnior vino virtualbox-5.2 visualboyadvance-gtk vlc
+    viewnior vino virtualbox-5.2 visualboyadvance vlc
 [[ $? -ne 0 ]] && exit 1
 
 # CLI applications
@@ -171,10 +171,10 @@ apt-get install autoconf cmake cowsay cups curl dkms docker-ce dos2unix \
     lua5.3 make oracle-java8-installer oracle-java8-set-default \
     browser-plugin-vlc p7zip python-pip python-requests-futures \
     python-setuptools python3-gdbm python3-lxml rar ruby sbt scala \
-    shellckeck sudo thunar-archive-plugin thunar-dropbox-plugin tree \
+    shellcheck sudo thunar-archive-plugin thunar-dropbox-plugin tree \
     tuxguitar-jsa uni2ascii unrar virtualenvwrapper xdotool \
     xserver-xorg-input-synaptics yad zip
-[[ $?==0 ]] && exit 1
+[[ $? -ne 0 ]] && exit 1
 
 # --no-install-recommends prevents node from being installed
 apt-get install --no-install-recommends yarn
@@ -215,8 +215,7 @@ ln -s /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-k
     /usr/bin/git-credential-gnome-keyring
 
 # Gnome Keyring on startup
-cd /usr/share/doc/git/contrib/credential/gnome-keyring && make
-cd - &> /dev/null
+make -C /usr/share/doc/git/contrib/credential/gnome-keyring
 sed -r -i 's/OnlyShowIn=/OnlyShowIn=XFCE;/' \
     /etc/xdg/autostart/gnome-keyring-pkcs11.desktop
 
@@ -233,6 +232,6 @@ NON_WORKING_DESKTOPS=(
     'enlightenment_filemanager_home'
     'lxpolkit'
 )
-for DESKTOP in ${NON_WORKING_DESKTOPS[@]}; do
+for DESKTOP in "${NON_WORKING_DESKTOPS[@]}"; do
     rm /usr/share/applications/"$DESKTOP".desktop &> /dev/null
 done

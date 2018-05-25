@@ -14,7 +14,7 @@
 # have them, recalling this script with sudo
 if [[ $EUID -ne 0 ]]; then
     echo 'This script needs to be run as root'
-    sudo bash $0 $@
+    sudo bash "$0" "$@"
     exit 0
 fi
 
@@ -30,7 +30,7 @@ LOCALES=(
 )
 
 for LOCALE in "${LOCALES[@]}"; do
-    sed -Ei "s/#\s*(.*)$LOCALE/\1$LOCALE/g" /etc/locale.gen
+    sed -Ei "s/#\\s*(.*)$LOCALE/\\1$LOCALE/g" /etc/locale.gen
 done
 
 #####################################################

@@ -21,7 +21,7 @@ function copy-files {
     local SOURCE="$2"
     local DEST="$3"
 
-    local SOURCE_FILES="Support/menu/$SOURCE/[^_]*.$SUFFIX"
+    local SOURCE_FILES="Support/menu/$SOURCE/[^_]*.$EXT"
     local DEST_DIR="$HOME/.local/share/$DEST"
 
     if [[ -e $SOURCE_FILES ]]; then

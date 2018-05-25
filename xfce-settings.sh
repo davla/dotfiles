@@ -48,7 +48,7 @@ function escape-double-quotes {
 #   - $@: whatever listify takes, since they are just
 #       passed through.
 function flatlistify {
-    listify $@ | escape-double-quotes | flatten
+    listify "$@" | escape-double-quotes | flatten
 }
 
 # This filter appends the given string to every line
@@ -61,7 +61,8 @@ function flatlistify {
 function listify {
     local SEPARATOR="$1"
 
-    local LINES=$(cat)
+    local LINES
+    LINES=$(cat)
     init <<<"$LINES" | awk '{ print $0"'$SEPARATOR'"; }'
     last <<<"$LINES"
 }
@@ -80,8 +81,8 @@ function xfconf-type {
     fi
 
     # If a string is passed unquoted, jq exits with an error
-    local JQ_TYPE=$(printf '%q' "$VALUE" | jq -r type 2> /dev/null \
-        || echo 'string')
+    local JQ_TYPE
+    JQ_TYPE=$(printf '%q' "$VALUE" | jq -r type 2> /dev/null || echo 'string')
     case "$JQ_TYPE" in
         'number')
             grep '\.' <<<"$VALUE" &> /dev/null && echo 'float' || echo 'int'
@@ -131,7 +132,8 @@ function make-property {
 # xfconf-query value.
 function value2json {
     while read VALUE; do
-        local TYPE=$(xfconf-type "$VALUE")
+        local TYPE
+        TYPE=$(xfconf-type "$VALUE")
 
         # Strings need to be quoted.
         if [[ "$TYPE" == 'string' ]]; then

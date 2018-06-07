@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class Maze\db\ParamSQLBuilder</title>
+
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li class="active">
+					<a href="namespace-Maze.html">
+						Maze<span></span>
+					</a>
+
+						<ul>
+				<li class="active">
+					<a href="namespace-Maze.db.html">
+						db					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Maze.db.MySQLConn.html">MySQLConn</a></li>
+				<li class="active"><a href="class-Maze.db.ParamSQLBuilder.html">ParamSQLBuilder</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-Maze.db.html" title="Summary of Maze\db"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class ParamSQLBuilder</h1>
+
+
+	<div class="description">
+	<p>Utility class to quickly build SQL statements, either prepared or not.</p>
+
+<p>This class handles the common task of building an SQL
+prepared statemet basing on conditions in PHP environment.
+In these situations the main concern is that you don't
+know which parameters will be included in SQL code, so you
+can't bind them easily: this class solves the problem
+by storing parameters that are actually used in an array,
+that you can retrieve and unpack anytime in your code.</p>
+
+<p>The other main feature of this class is the building of
+SQL code that is made up of pieces separed by the same
+string: for example the logical and of conditions or
+row constructors, in which columns are separed by commas.</p>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-Maze.html">Maze</a>\<a href="namespace-Maze.db.html">db</a><br>
+		
+
+			<b>Located at</b> Maze/db/ParamSQLBuilder.php		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code>__construct( <span>string <var>$sql</var></span>, <span>mixed[] <var>$params</var></span> )</code>
+
+		<div class="description short">
+			<p>Creates a query with given initial SQL code and parameters.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Creates a query with given initial SQL code and parameters.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$sql</var></dt>
+					<dd>Initial SQL code.</dd>
+					<dt><var>$params</var></dt>
+					<dd>Initial parameters.</dd>
+				</dl></div>
+
+
+				<h4>Throws</h4>
+				<div class="list">
+					InvalidArgumentException<br>when $params is set but is not an array.
+				</div>
+
+				<h4>See</h4>
+				<div class="list">
+						<a href="https://secure.php.net/manual/en/class.invalidargumentexception.php">InvalidArgumentException</a><br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="addSQL" id="_addSQL">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_addSQL">#</a>
+		<code>addSQL( <span>string <var>$sql</var></span>, <span>mixed[] <var>$params</var></span> )</code>
+
+		<div class="description short">
+			<p>Adds SQL code and parameters to the query.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Adds SQL code and parameters to the query.</p>
+
+<p>This method adds passed SQL code and parameters
+to the current query. Also adds a white space
+before SQL code, just in case you forgot.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$sql</var></dt>
+					<dd>SQL code to add to the current one.</dd>
+					<dt><var>$params</var></dt>
+					<dd>Parameters to add to current ones.</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="addPiece" id="_addPiece">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_addPiece">#</a>
+		<code>addPiece( <span>string <var>$piece</var></span>, <span>mixerd[] <var>$params</var></span> )</code>
+
+		<div class="description short">
+			<p>Adds a piece of SQL code and possible parameters
+to the set that will be contatenated.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Adds a piece of SQL code and possible parameters
+to the set that will be contatenated.</p>
+
+<p>This method adds a piece to the current set: a
+piece is made up of SQL code and possible
+parameters.</p>
+
+<p>Pieces are meant to be concatenated later using
+concatPieces(): until then, neither SQL code nor
+parameters are added to the current query.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$piece</var></dt>
+					<dd>SQL code to be concatenated later.</dd>
+					<dt><var>$params</var></dt>
+					<dd>Parameters of the SQL code.</dd>
+				</dl></div>
+
+
+
+				<h4>See</h4>
+				<div class="list">
+						\Maze\db\ParamSQLBuilder::concatPieces() to know how to concatenate pieces.<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="hasPieces" id="_hasPieces">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_hasPieces">#</a>
+		<code>hasPieces( )</code>
+
+		<div class="description short">
+			<p>Returns whether current query has pieces
+to be concatenated.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns whether current query has pieces
+to be concatenated.</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
+
+
+				<h4>See</h4>
+				<div class="list">
+						\Maze\db\ParamSQLBuilder::addPiece() for more information about pieces.<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="concatPieces" id="_concatPieces">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_concatPieces">#</a>
+		<code>concatPieces( <span>string <var>$separator</var></span> )</code>
+
+		<div class="description short">
+			<p>Concatenates pieces and adds them to the current query</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Concatenates pieces and adds them to the current query</p>
+
+<p>This method concatenates pieces together
+using the given separator for SQL code: it can
+also be omitted, but then using pieces instead
+of directly adding SQL code would be pointless.</p>
+
+<p>Both leading and trailing white spaces are added to
+separator, just in case you forgot.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$separator</var></dt>
+					<dd>String used to separe pieces of SQL code.</dd>
+				</dl></div>
+
+
+
+				<h4>See</h4>
+				<div class="list">
+						\Maze\db\ParamSQLBuilder::addPiece() for more information about pieces.<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="addRowsCount" id="_addRowsCount">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_addRowsCount">#</a>
+		<code>addRowsCount( <span>integer <var>$rowsCount</var></span>, <span>integer <var>$startRow</var></span> )</code>
+
+		<div class="description short">
+			<p><em>This method is <a href="https://dev.mysql.com/">MySQL</a> specific.</em>
+Adds max number or rows and offset to the query,
+checking for validity of both arguments.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p><em>This method is <a href="https://dev.mysql.com/">MySQL</a> specific.</em>
+Adds max number or rows and offset to the query,
+checking for validity of both arguments.</p>
+
+<p>This method adds max number of rows and offset
+to the query. Argument should be integers, but
+are both optional: if only the first argument
+is valid, only adds max row number of rows clause,
+if both are invalid does nothing.</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$rowsCount</var></dt>
+					<dd>Max number of rows for the result.</dd>
+					<dt><var>$startRow</var></dt>
+					<dd>Offset for rows of the result.</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getSQL" id="_getSQL">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getSQL">#</a>
+		<code>getSQL( )</code>
+
+		<div class="description short">
+			<p>Returns current SQL code.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns current SQL code.</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					string
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getParams" id="_getParams">
+
+		<td class="attributes"><code>
+			 public 
+
+			mixed[]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getParams">#</a>
+		<code>getParams( )</code>
+
+		<div class="description short">
+			<p>Returns current parameters.</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Returns current parameters.</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					mixed[]
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+(function(n){n.module("pager").filter("pagesList",function(){return function(n,t,i){var u=Math.ceil(t/i),f,r;if(u!=n.length)for(u<n.length?(n=[1],f=1):f=n.length+1,r=f;r<=u;++r)n.push(r);return n}})})(angular);

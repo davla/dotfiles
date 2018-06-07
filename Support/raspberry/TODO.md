@@ -1,0 +1,2 @@
+* weekly updates
+* pywikibot updates

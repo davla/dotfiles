@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 
 # This script sets, for both user and root, the content and color of terminal
-# prompt and the text in the title of terminal windows
+# prompt and the text in the title of terminal windows, The color varies based
+# on the specified host.
+
+# Arguments:
+#   - $1: The host used to choose the colors. So far, one of:
+#       - local
+#       - raspberry
 
 #####################################################
 #
@@ -9,14 +15,24 @@
 #
 #####################################################
 
-# Green
-ROOT_PS1='\[\033[38;5;40m\]\u@\h:*/\W\$ '
+# PS1s for different hosts. As bash does not allow nested arrays, the first
+# line is root and the second is current user
+declare -A PS1S
 
-# Title
-TITLE='\[\e]0;\u@\h:*/\W\a\]'
+PS1S[local]='\[\033[38;5;40m\]\u@\h:*/\W\$
+\[\033[38;5;202m\]\u@\h:*/\W\$'
 
-# Orange
-USER_PS1='\[\033[38;5;202m\]\u@\h:*/\W\$ '
+PS1S[raspberry]='\[\033[38;5;11m\]\u@\h:*/\W\$
+\[\033[38;5;39m\]\u@\h:*/\W\$ '
+
+#####################################################
+#
+#                   Parameters
+#
+#####################################################
+
+# Host to choose the colors from
+HOST="$1"
 
 #####################################################
 #
@@ -71,6 +87,7 @@ esac
 #
 #####################################################
 
+ROOT_PS1=$(head -n 1 <<< "${PS1S[$HOST]}")
 set-ps1 "$ROOT_PS1" 'root'
 
 #####################################################
@@ -79,4 +96,5 @@ set-ps1 "$ROOT_PS1" 'root'
 #
 #####################################################
 
+USER_PS1=$(tail -n 1 <<< "${PS1S[$HOST]}")
 set-ps1 "$USER_PS1" "$USER"

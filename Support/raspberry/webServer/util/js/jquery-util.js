@@ -1,0 +1,1 @@
+(function(n){n.fn.intVal=function(n){return n?parseInt(this.prop(n)):parseInt(this.val())},n.fn.activeCtrls=function(t){return this.serialize()+"&"+n.param(t)},n.fn.getterSetter=function(n,t){return arguments.length>1?(this[n]=t,this):this[n]}})(jQuery);

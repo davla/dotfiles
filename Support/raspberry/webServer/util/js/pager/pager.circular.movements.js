@@ -1,1 +1,0 @@
-(function(n){n.module("pager").service("CircularMovements",function(){var t=function(n,t,i){return(t+n%i+i)%i};this.moveBackByMany=function(n,i,r){return t(-n,i,r)},this.moveBackByOne=n.bind(this,this.moveBackByMany,1),this.moveForwardByMany=t,this.moveForwardByOne=n.bind(this,this.moveForwardByMany,1),this.setPosition=function(n,i){return t(n,0,i)}})})(angular);

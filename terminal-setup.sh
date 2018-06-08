@@ -23,7 +23,10 @@ PS1S[local]='\[\033[38;5;40m\]\u@\h:*/\W\$
 \[\033[38;5;202m\]\u@\h:*/\W\$'
 
 PS1S[raspberry]='\[\033[38;5;11m\]\u@\h:*/\W\$
-\[\033[38;5;39m\]\u@\h:*/\W\$ '
+\[\033[38;5;39m\]\u@\h:*/\W\$'
+
+# Title
+TITLE='\[\e]0;\u@\h:*/\W\a\]'
 
 #####################################################
 #
@@ -47,7 +50,7 @@ HOST="$1"
 #   - $2: The user for which PS1 and terminal title are set
 function set-ps1 {
     # PS1 backslashes are escaped to be used in double quotes
-    local PS1="${1//\\/\\\\}"
+    local PS1="${1//\\/\\\\} "
     local USER_NAME="$2"
 
     # The most awkward way of getting a user's home directory
@@ -77,7 +80,7 @@ esac
     fi
 
     # Replacing all the PS1 assignments but the title one
-    sudo sed -r -i "/PS1=.+\\\$PS1/! s|#?(.*)PS1=.+|\1PS1='$PS1'|g" \
+    sudo sed -i -E "/PS1=.+\\\$PS1/! s|#?(.*)PS1=.+|\1PS1='$PS1'|g" \
         "$USER_HOME/.bashrc"
 }
 

@@ -20,7 +20,8 @@ sudo cp Support/raspberry/testing.list /etc/apt/sources.list.d
 
 sudo apt-get update
 sudo apt-get remove raspi-copies-and-fills
-sudo apt-get install git nfs-kernel-server nfs-common python-requests rcpbind
+sudo apt-get install git jq nfs-kernel-server nfs-common python-requests \
+    rcpbind
 sudo apt-get upgrade
 
 #####################################################
@@ -89,6 +90,16 @@ sudo cp -r Support/n/* /usr/local/n/versions/node
 #####################################################
 
 git clone 'https://github.com/pokemoncentral/wiki-util.git' "$UTIL_DIR"
+
+MACROS_DIR="$UTIL_DIR/js/atom-macros/"
+sudo n "$(< "$MACROS_DIR/.nvmrc")"
+sudo npm install -g coffeescript
+
+source "$HOME/.n-use.sh"
+cd "$MACROS_DIR" || exit 1
+n-use
+npm install
+cd - &> /dev/null || exit 1
 
 #####################################################
 #

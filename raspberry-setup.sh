@@ -26,19 +26,14 @@ sudo apt-get upgrade
 
 #####################################################
 #
-#           Enabling SSH root login
+#               Configurations
 #
 #####################################################
 
-sudo sed -i -E 's/#.+PermitRootLogin .+$/PermitRootLogin yes/' /etc/ssh/sshd_config
-
-#####################################################
-#
-#               Configuring NFS
-#
-#####################################################
-
-sudo cp Support/raspberry/exports /etc
+sudo cp Support/raspberry/config/exports /etc
+sudo cp Support/raspberry/config/pam_login /etc/pam.d/login
+sudo cp Support/raspberry/config/pam_sshd /etc/pam.d/sshd
+sudo cp Support/raspberry/config/sshd_config /etc/ssh/sshd_config
 
 #####################################################
 #

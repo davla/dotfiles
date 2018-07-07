@@ -152,7 +152,7 @@ Version=1.0
 Name=Postman
 Comment=API test
 Exec=$POSTMAN_EXEC_PATH
-Icon=$POSTMAN_INSTALL_HOME/resources/app/assets/icon.png
+Icon=$POSTMAN_INSTALL_HOME/app/resources/app/assets/icon.png
 Terminal=false
 Type=Application
 Categories=Network;Development;" > /usr/share/applications/postman.desktop
@@ -256,7 +256,7 @@ fi
 
 POSTMAN_LATEST_VERSION=$(latest-postman-version)
 POSTMAN_INSTALLED_VERSION=$(jq -r '.version' \
-    "$POSTMAN_INSTALL_HOME/resources/app/package.json")
+    "$POSTMAN_INSTALL_HOME/app/resources/app/package.json")
 
 # Old version installed
 if is-newer $POSTMAN_LATEST_VERSION $POSTMAN_INSTALLED_VERSION; then

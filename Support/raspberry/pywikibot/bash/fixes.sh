@@ -31,5 +31,5 @@ wiki-replace 'Pallaombra' 'Palla Ombra' 'Iperraggio' 'Iper Raggio' 'Pokéball' \
     'Poké Ball'
 
 # Code
-wiki-replace '\{\{[Pp]\|(.+?)\}\}' '[[\1]]' '\{\{[Dd]wa\|(.+?)\}\}' '[[\1]]' \
+wiki-replace '\{\{[AaMmPpTt]\|(.+?)\}\}' '[[\1]]' '\{\{[Dd]wa\|(.+?)\}\}' '[[\1]]' \
     '\{\{[Pp]w\|(.+?)\}\}' '[[\1]]' '\{\{MSF' '\{\{MSP'

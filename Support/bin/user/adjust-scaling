@@ -62,6 +62,7 @@ if [[ "${IS_DPMM_LOW,,}" == 'true' ]]; then
     EYES_THEME='Default-tiny'
     ICON_SIZES="''"
     PANEL_SIZE=24
+    RESOLUTION='"1920x1080"'
     SYSTRAY_ICON_SIZE=22
     THUNAR_ICON_SIZE='THUNAR_ICON_SIZE_SMALL'
     THUNAR_SEPARATOR=174
@@ -78,6 +79,7 @@ else
     ICON_SIZES='gtk-menu=40,40:gtk-button=45,45:gtk-dialog=48,48:
     gtk-small-toolbar=45,45:gtk-large-toolbar=45,45'
     PANEL_SIZE=48
+    RESOLUTION='$2'
     SYSTRAY_ICON_SIZE=43
     THUNAR_ICON_SIZE='THUNAR_ICON_SIZE_LARGE'
     THUNAR_SEPARATOR=324
@@ -86,6 +88,8 @@ else
     THUNAR_ZOOM='THUNAR_ZOOM_LEVEL_LARGER'
     WINDOW_MANAGER_THEME='StoneageThick'
 fi
+
+echo $RESOLUTION
 
 #####################################################
 #
@@ -138,5 +142,5 @@ wmctrl -l | grep xfce4-panel | awk '{print $1}' | xargs xkill -id
 #       by three since xargs considers them separately otherwise
 grep -oP '^\s*(\S+)' <<<"$ACTIVE_DISPLAYS" \
     | xargs -n 2 \
-    | awk '{print $1,"--mode",$2}' \
+    | awk '{print $1,"--mode",'"$RESOLUTION"'}' \
     | xargs -n 3 xrandr --output

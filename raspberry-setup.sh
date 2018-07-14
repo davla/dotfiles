@@ -35,6 +35,9 @@ sudo cp Support/raspberry/config/pam_login /etc/pam.d/login
 sudo cp Support/raspberry/config/pam_sshd /etc/pam.d/sshd
 sudo cp Support/raspberry/config/sshd_config /etc/ssh/sshd_config
 
+git config --global user.email 'truzzialrogo@gmx.com'
+git config --global user.name 'Davide Laezza'
+
 #####################################################
 #
 #           Adding environment variables

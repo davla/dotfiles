@@ -28,3 +28,6 @@ SHELL=/bin/bash
 
 # Wiki fixes
 30 0 * * 4      . "$HOME/.bash_envvars" && bash "$PYWIKIBOT_DIR"/bash/fixes.sh
+
+# Home refresh
+5 0 * * 1       . python "$PYWIKIBOT_DIR/pwb.py" touch -page:Home

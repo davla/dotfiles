@@ -20,7 +20,7 @@ sudo cp Support/raspberry/testing.list /etc/apt/sources.list.d
 
 sudo apt-get update
 sudo apt-get remove raspi-copies-and-fills
-sudo apt-get install git jq nfs-kernel-server nfs-common python-requests \
+sudo apt-get install at git jq nfs-kernel-server nfs-common python-requests \
     rcpbind
 sudo apt-get upgrade
 

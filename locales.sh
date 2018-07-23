@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-# This script takes care of all the language related setup.
-# In particular, it generates the desired locales, sets the
-# default and fixes the spellcheckers
+# This script takes care of all the locales related setup. In particular, it
+# generates the desired locale languages, sets the default languages, sets the
+# timezone and fixes the spellcheckers
 
 #####################################################
 #
@@ -45,15 +45,25 @@ LC_ALL=en_DK.utf8
 
 #####################################################
 #
+#               Setting timezone
+#
+#####################################################
+
+rm /etc/localtime
+echo 'Europe/Copenhagen' > /etc/timezone
+
+#####################################################
+#
 #               Applying changes
 #
 #####################################################
 
 dpkg-reconfigure -f noninteractive locales
+dpkg-reconfigure -f noninteractive tzdata
 
 #####################################################
 #
-#               Fxing spellcheck
+#               Fixing spellcheckers
 #
 #####################################################
 

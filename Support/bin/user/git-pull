@@ -24,27 +24,10 @@ REPO_BASE="$1"
 shopt -s expand_aliases
 
 # Echoes normally if from terminal emulator, otherwise uses syslog
-tty -s && alias print='echo' || alias print='logger'
+tty -s && alias print='echo' || alias print='logger -p local0.info -t PULL'
 
 # Writes the name of the git repository in the working directory to STDOUT
 alias reponame="git remote get-url origin | xargs -i basename '{}' '.git'"
-
-#####################################################
-#
-#                   Functions
-#
-#####################################################
-
-# Prints a log-like entry, adding the current date
-# to the passed message
-#
-# Arguments:
-#   - $1: The message to be logged.
-function log {
-    local MESSAGE="$1"
-
-    print "$MESSAGE" on "$(date +'%d-%m-%Y %T')"
-}
 
 #####################################################
 #
@@ -53,12 +36,12 @@ function log {
 #####################################################
 
 if ! cd "$REPO_BASE"; then
-    print "Git-pull: error - $REPO_BASE is not a directory."
+    print "error - $REPO_BASE is not a directory."
     exit 1
 fi
 
 if ! git status &> /dev/null; then
-    print "Git-pull: error - $REPO_BASE is not a git repository."
+    print "error - $REPO_BASE is not a git repository."
     exit 1
 fi
 
@@ -66,10 +49,10 @@ REPO_NAME=$(reponame)
 
 # The "Already up to date" message is at most two lines long.
 [[ $(git pull --all | wc -l) -gt 2 ]] \
-    && log "Git-pull: $REPO_NAME updated" \
-    || log "Git-pull: $REPO_NAME not updated"
+    && print "$REPO_NAME updated" \
+    || print "$REPO_NAME not updated"
 
 # Nothing is printed if submodules are not updated.
 [[ -n $(git submodule update) ]] \
-    && log "Git-pull: $REPO_NAME submodules updated" \
-    || log "Git-pull: $REPO_NAME submodules not updated"
+    && print "$REPO_NAME submodules updated" \
+    || print "$REPO_NAME submodules not updated"

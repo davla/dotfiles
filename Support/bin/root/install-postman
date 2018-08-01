@@ -63,7 +63,7 @@ Options:
 shopt -s expand_aliases
 
 # Echoes normally if from terminal emulator, otherwise uses syslog
-tty -s && alias print='echo' || alias print='logger'
+tty -s && alias print='echo' || alias print='logger -p local0.info -t POSTMAN'
 
 #####################################################
 #
@@ -122,17 +122,6 @@ function is-newer {
 function latest-postman-version {
 	curl -sI "$POSTMAN_URL" | grep -Po \
         '(?<=filename\=Postman-linux-x64-)[\d\.]+(?=\.tar\.gz)'
-}
-
-# Prints a log-like entry, adding the current date
-# to the passed message
-#
-# Arguments:
-#   - $1: The message to be logged.
-function log {
-    local MESSAGE="$1"
-
-    print "$MESSAGE" on "$(date +'%d-%m-%Y %T')"
 }
 
 # This function creates a system-wide desktop file for Postman.
@@ -237,7 +226,7 @@ fi
 #####################################################
 
 if ! which jq &> /dev/null; then
-	print 'Postman-updater: Error - no jq executable found'
+	print 'Error - no jq executable found'
 	exit 1
 fi
 
@@ -250,7 +239,7 @@ fi
 # Forced install or postman not installed
 if [[ "$FORCE_INSTALL" == 'true' || ! -d "$POSTMAN_INSTALL_HOME" ]]; then
 	install-postman
-	log 'Postman-updater: Postman installed'
+	print 'Postman installed'
 	exit 0
 fi
 
@@ -262,9 +251,9 @@ POSTMAN_INSTALLED_VERSION=$(jq -r '.version' \
 if is-newer $POSTMAN_LATEST_VERSION $POSTMAN_INSTALLED_VERSION; then
 	[[ -d "$POSTMAN_INSTALL_HOME" ]] && rm -rf "$POSTMAN_INSTALL_HOME"
 	install-postman
-	log 'Postman-updater: Postman updated'
+	print 'Postman updated'
 
 # Current version up-to-date
 else
-	log 'Postman-updater: Postman not updated'
+	print 'Postman not updated'
 fi

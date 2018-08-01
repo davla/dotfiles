@@ -14,24 +14,7 @@
 shopt -s expand_aliases
 
 # Echoes normally if from terminal emulator, otherwise uses syslog
-tty -s && alias print='echo' || alias print='logger'
-
-#####################################################
-#
-#                   Functions
-#
-#####################################################
-
-# Prints a log-like entry, adding the current date
-# to the passed message
-#
-# Arguments:
-#   - $1: The message to be logged.
-function log {
-    local MESSAGE="$1"
-
-    print "$MESSAGE" on "$(date +'%d-%m-%Y %T')"
-}
+tty -s && alias print='echo' || alias print='logger -p local0.info -t UPDATES'
 
 #####################################################
 #
@@ -54,9 +37,9 @@ apt-get update
 apt-get upgrade --assume-no
 
 if [[ $? -eq 0 ]]; then
-    log 'Update-notifier: updates not found'
+    print 'updates not found'
 else
-    log 'Update-notifier: updates found'
+    print 'updates found'
 
     # Updates found, opening terminal window
     run-in-terminal "bash $0"

@@ -3,7 +3,7 @@
 # This script sets anacron daily jobs, both root and user ones.
 # It also fixes an error for which anacron is disabled by
 # symlinking it to /bin/true from live install settings.
-# Then it sets up a custom logger configuration.
+# Then it sets up a custom logger configuration and log rotation.
 # Finally, it enables anacron to run on battery power.
 
 # Argumnts:
@@ -76,7 +76,8 @@ sed -i 's/ANACRON_RUN_ON_BATTERY_POWER=no/ANACRON_RUN_ON_BATTERY_POWER=yes/g' \
 #
 #####################################################
 
-cp Support/rsyslog-custom.conf /etc/rsyslog.d
+cp Support/logger/logrotate-custom.conf /etc/logrotate.d
+cp Support/logger/rsyslog-custom.conf /etc/rsyslog.d
 
 #####################################################
 #

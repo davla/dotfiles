@@ -25,7 +25,7 @@ USED_VERSIONS_FILE="$N_PREFIX/used-versions"
 shopt -s expand_aliases
 
 # Echoes normally if from terminal emulator, otherwise uses syslog
-tty -s && alias print='echo' || alias print='logger'
+tty -s && alias print='echo' || alias print='logger -p local0.info -t NODE'
 
 # Removes any accessory character from version numbers in every
 # line of input, eg. v2.4.3 -> 2.4.3
@@ -41,23 +41,6 @@ alias latest-node-version="installed-node-version | tail -n 1"
 
 #####################################################
 #
-#                   Functions
-#
-#####################################################
-
-# Prints a log-like entry, adding the current date
-# to the passed message
-#
-# Arguments:
-#   - $1: The message to be logged.
-function log {
-    local MESSAGE="$1"
-
-    print "$MESSAGE" on "$(date +'%d-%m-%Y %T')"
-}
-
-#####################################################
-#
 #           Updating node.js version
 #
 #####################################################
@@ -65,11 +48,11 @@ function log {
 if n latest | grep 'installed' &> /dev/null; then
     LATEST_NODE_VERSION=$(latest-node-version)
 
-    log "Node-updater: node.js updated to $LATEST_NODE_VERSION"
+    print "node.js updated to $LATEST_NODE_VERSION"
     < "$GLOBAL_PACKAGES_FILE" xargs -L 1 \
         "$N_PREFIX/$LATEST_NODE_VERSION/bin/npm" -g install
 else
-    log 'Node-updater: node.js not updated'
+    print 'node.js not updated'
 fi
 
 #####################################################
@@ -93,7 +76,7 @@ n latest &> /dev/null
 for VERSION in $INSTALLED_VERSIONS; do
 	if ! grep "$VERSION" "$USED_VERSIONS_FILE" &> /dev/null; then
         n rm "$VERSION" &> /dev/null \
-            && log "Node-updater: uninstalled node.js version $VERSION"
+            && print "uninstalled node.js version $VERSION"
     fi
 done
 exit 0

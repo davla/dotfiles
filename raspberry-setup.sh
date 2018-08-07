@@ -50,6 +50,20 @@ source "$HOME/.bash_envvars"
 
 #####################################################
 #
+#               SSH Keys creation
+#
+#####################################################
+
+SSH_HOME="$HOME/.ssh"
+
+mkdir -p "$SSH_HOME"
+[[ ! -f "$SSH_HOME/id_rsa" ]] && ssh-keygen -t rsa
+
+echo 'Copy the key to GitHub so that the following commands will work'
+cat "$SSH_HOME/id_rsa.pub"
+
+#####################################################
+#
 #           Installing pywikibot
 #
 #####################################################
@@ -59,7 +73,7 @@ git clone --recursive 'https://gerrit.wikimedia.org/r/pywikibot/core.git' \
 cp -r Support/raspberry/pywikibot/* "$PYWIKIBOT_DIR"
 cd "$PYWIKIBOT_DIR" || exit 1
 
-python pwb.py generate_family_file 'https://wiki.pokemoncentral.it/Home' ep
+python pwb.py generate_family_file 'https://bulbapedia.bulbagarden.net/wiki/Main_Page' ep
 python pwb.py generate_user_files
 python pwb.py login
 
@@ -73,7 +87,7 @@ cd - &> /dev/null || exit 1
 
 N_DIR='/tmp/n'
 
-git clone 'https://github.com/davla/n.git' "$N_DIR"
+git clone 'git@github.com:davla/n.git' "$N_DIR"
 sudo make -C "$N_DIR" install
 make -C "$N_DIR" use
 rm -rf "$N_DIR"
@@ -87,7 +101,7 @@ sudo cp -r Support/n/* /usr/local/n/versions/node
 #
 #####################################################
 
-git clone 'https://github.com/pokemoncentral/wiki-util.git' "$UTIL_DIR"
+git clone 'git@github.com:pokemoncentral/wiki-util.git' "$UTIL_DIR"
 
 MACROS_DIR="$UTIL_DIR/js/atom-macros/"
 sudo n "$(< "$MACROS_DIR/.nvmrc")"

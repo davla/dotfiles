@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-# This scripts sets up SSH key access to raspberry,
-# creating the keys if necessary
-
+# This scripts generates SSH keys if necessary, and optionally copies them over
+# to a passed remote host for SSH access
 
 #####################################################
 #
@@ -11,6 +10,15 @@
 #####################################################
 
 SSH_HOME="$HOME/.ssh"
+
+#####################################################
+#
+#                   Parameters
+#
+#####################################################
+
+# Remote host to copy the keys over for SSH access, can be empty
+HOST="$2"
 
 #####################################################
 #
@@ -44,5 +52,8 @@ mkdir -p "$SSH_HOME"
 #
 #####################################################
 
-copy-key 'pi' 'raspberry'
-copy-key 'root' 'raspberry'
+# If a host is passed, copying keys over for SSH access
+if [[ -n "$HOST" ]]; then
+    copy-key 'pi' "$HOST"
+    copy-key 'root' "$HOST"
+fi

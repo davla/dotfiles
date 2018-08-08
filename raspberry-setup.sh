@@ -8,7 +8,8 @@
 #
 #####################################################
 
-sudo passwd
+# NP stands for No Password
+sudo passwd --status | grep -w 'NP' &> /dev/null && sudo passwd
 
 #####################################################
 #
@@ -34,6 +35,8 @@ sudo cp Support/raspberry/config/exports /etc
 sudo cp Support/raspberry/config/pam_login /etc/pam.d/login
 sudo cp Support/raspberry/config/pam_sshd /etc/pam.d/sshd
 sudo cp Support/raspberry/config/sshd_config /etc/ssh/sshd_config
+sudo cp Support/raspberry/config/rsyslog-custom.conf /etc/rsyslog.d
+sudo cp Support/raspberry/config/logrotate-custom.conf /etc/logrotate.d
 
 git config --global user.email 'truzzialrogo@gmx.com'
 git config --global user.name 'Davide Laezza'
@@ -45,7 +48,8 @@ git config --global user.name 'Davide Laezza'
 #####################################################
 
 cp Support/raspberry/.bash_envvars "$HOME"
-echo 'source "$HOME/.bash_envvars"' >> "$HOME/.bashrc"
+grep '.bash_envvars' "$HOME/.bashrc" &> /dev/null \
+    || echo 'source "$HOME/.bash_envvars"' >> "$HOME/.bashrc"
 source "$HOME/.bash_envvars"
 
 #####################################################
@@ -54,13 +58,15 @@ source "$HOME/.bash_envvars"
 #
 #####################################################
 
-SSH_HOME="$HOME/.ssh"
-
-mkdir -p "$SSH_HOME"
-[[ ! -f "$SSH_HOME/id_rsa" ]] && ssh-keygen -t rsa
-
-echo 'Copy the key to GitHub so that the following commands will work'
+source ssh-keys.sh
+echo 'Copy the key to GitHub so that the following clones will work'
 cat "$SSH_HOME/id_rsa.pub"
+read
+
+# Changing this repository URL to use SSH
+git remote get-url origin \
+    | sed -E 's|https://(.+?)/(.+?)/(.+?).git|git@\1:\2/\3.git|' \
+    | xargs git remote set-url origin
 
 #####################################################
 #
@@ -68,16 +74,19 @@ cat "$SSH_HOME/id_rsa.pub"
 #
 #####################################################
 
-git clone --recursive 'https://gerrit.wikimedia.org/r/pywikibot/core.git' \
-    "$PYWIKIBOT_DIR"
-cp -r Support/raspberry/pywikibot/* "$PYWIKIBOT_DIR"
-cd "$PYWIKIBOT_DIR" || exit 1
+if [[ ! -d "$PYWIKIBOT_DIR" ]]; then
+    git clone --recursive 'https://gerrit.wikimedia.org/r/pywikibot/core.git' \
+        "$PYWIKIBOT_DIR"
+    cp -r Support/raspberry/pywikibot/* "$PYWIKIBOT_DIR"
+    cd "$PYWIKIBOT_DIR" || exit 1
 
-python pwb.py generate_family_file 'https://bulbapedia.bulbagarden.net/wiki/Main_Page' ep
-python pwb.py generate_user_files
-python pwb.py login
+    python pwb.py generate_family_file \
+        'https://bulbapedia.bulbagarden.net/wiki/Main_Page' ep
+    python pwb.py generate_user_files
+    python pwb.py login
 
-cd - &> /dev/null || exit 1
+    cd - &> /dev/null || exit 1
+fi
 
 #####################################################
 #
@@ -85,15 +94,17 @@ cd - &> /dev/null || exit 1
 #
 #####################################################
 
-N_DIR='/tmp/n'
+if ! which n &> /dev/null; then
+    N_DIR='/tmp/n'
 
-git clone 'git@github.com:davla/n.git' "$N_DIR"
-sudo make -C "$N_DIR" install
-make -C "$N_DIR" use
-rm -rf "$N_DIR"
+    git clone 'git@github.com:davla/n.git' "$N_DIR"
+    sudo make -C "$N_DIR" install
+    make -C "$N_DIR" use
+    rm -rf "$N_DIR"
 
-sudo n latest
-sudo cp -r Support/n/* /usr/local/n/versions/node
+    sudo n latest
+    sudo cp -r Support/n/* /usr/local/n/versions/node
+fi
 
 #####################################################
 #
@@ -101,17 +112,19 @@ sudo cp -r Support/n/* /usr/local/n/versions/node
 #
 #####################################################
 
-git clone 'git@github.com:pokemoncentral/wiki-util.git' "$UTIL_DIR"
+if [[ ! -d "$UTIL_DIR" ]]; then
+    git clone 'git@github.com:pokemoncentral/wiki-util.git' "$UTIL_DIR"
 
-MACROS_DIR="$UTIL_DIR/js/atom-macros/"
-sudo n "$(< "$MACROS_DIR/.nvmrc")"
-sudo npm install -g coffeescript
+    MACROS_DIR="$UTIL_DIR/js/atom-macros/"
+    sudo n "$(< "$MACROS_DIR/.nvmrc")"
+    sudo npm install -g coffeescript
 
-source "$HOME/.n-use.sh"
-cd "$MACROS_DIR" || exit 1
-n-use
-npm install
-cd - &> /dev/null || exit 1
+    source "$HOME/.n-use.sh"
+    cd "$MACROS_DIR" || exit 1
+    n-use
+    npm install
+    cd - &> /dev/null || exit 1
+fi
 
 #####################################################
 #

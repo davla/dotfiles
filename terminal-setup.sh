@@ -47,16 +47,14 @@ HOST="$1"
 #
 # Arguments:
 #   - $1: The string PS1 should be set to
-#   - $2: The user for which PS1 and terminal title are set
+#   - $2: The user home directory
 function set-ps1 {
     # PS1 backslashes are escaped to be used in double quotes
     local PS1="${1//\\/\\\\} "
-    local USER_NAME="$2"
+    local USER_HOME="$2"
 
-    # The most awkward way of getting a user's home directory
-    echo "User: $USER_NAME"
-    local USER_HOME
-    USER_HOME=$(su "$USER_NAME" -c "echo \$HOME")
+    # If PS1 has already been set, returning
+    grep "$PS1" "$USER_HOME/.bashrc" &> /dev/null && return
 
     # Checking for the title line
     if grep -P 'PS1=.+\$PS1' "$USER_HOME/.bashrc" &> /dev/null; then
@@ -91,7 +89,7 @@ esac
 #####################################################
 
 ROOT_PS1=$(head -n 1 <<< "${PS1S[$HOST]}")
-set-ps1 "$ROOT_PS1" 'root'
+set-ps1 "$ROOT_PS1" '/root'
 
 #####################################################
 #
@@ -100,4 +98,4 @@ set-ps1 "$ROOT_PS1" 'root'
 #####################################################
 
 USER_PS1=$(tail -n 1 <<< "${PS1S[$HOST]}")
-set-ps1 "$USER_PS1" "$USER"
+set-ps1 "$USER_PS1" "$HOME"

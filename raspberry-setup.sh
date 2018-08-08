@@ -78,6 +78,7 @@ if [[ ! -d "$PYWIKIBOT_DIR" ]]; then
     git clone --recursive 'https://gerrit.wikimedia.org/r/pywikibot/core.git' \
         "$PYWIKIBOT_DIR"
     cp -r Support/raspberry/pywikibot/* "$PYWIKIBOT_DIR"
+    mkdir -p "$PYWIKIBOT_DIR/dicts"
     cd "$PYWIKIBOT_DIR" || exit 1
 
     python pwb.py generate_family_file \

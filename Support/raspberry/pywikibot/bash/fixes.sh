@@ -1,19 +1,33 @@
 #!/usr/bin/env bash
 
+# This script performs some syntax fixes (both grammar and code) on Pokémon
+# Central Wiki
+
 source "$HOME/.bash_envvars"
 
-# This script performs some syntax fixes (both
-# grammar and code) on Pokémon Central Wiki
+#####################################################
+#
+#                   Functions
+#
+#####################################################
 
-# This function performs the actual replacement
-# with common parameters and the passed replacement
-# pairs
+# This function performs the actual replacement with shared parameters and the
+# passed replacement pairs
+#
+# Arguments:
+#   - $@: Replacement pairs.
 function wiki-replace {
 	python pwb.py replace -start:! -always -ns:0 -pt:1 \
         -summary:'Bot: Correzioni automatiche' -regex \
         -exceptinside:"'{2,3}.+?'{2,3}" -exceptinside:'".+?"' \
         -exceptinside:'\[\[\w{2}:.+?\]\]' "$@"
 }
+
+#####################################################
+#
+#                   Replacements
+#
+#####################################################
 
 cd "$PYWIKIBOT_DIR" || exit 1
 
@@ -31,5 +45,5 @@ wiki-replace 'Pallaombra' 'Palla Ombra' 'Iperraggio' 'Iper Raggio' 'Pokéball' \
     'Poké Ball'
 
 # Code
-wiki-replace '\{\{[AaMmPpTt]\|(.+?)\}\}' '[[\1]]' '\{\{[Dd]wa\|(.+?)\}\}' '[[\1]]' \
-    '\{\{[Pp]w\|(.+?)\}\}' '[[\1]]' '\{\{MSF' '\{\{MSP'
+wiki-replace '\{\{[AaMmPpTt]\|(.+?)\}\}' '[[\1]]' '\{\{[Dd]wa\|(.+?)\}\}' \
+    '[[\1]]' '\{\{[Pp]w\|(.+?)\}\}' '[[\1]]' '\{\{MSF' '\{\{MSP'

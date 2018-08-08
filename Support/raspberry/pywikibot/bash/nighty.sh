@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-source "$HOME/.bash_envvars"
-
 # This script uploads a page to Pokémon Central Wiki using pywikibot's
 # pagefromfile
 
@@ -13,6 +11,8 @@ source "$HOME/.bash_envvars"
 #       $HOME/pywikibot/dicts
 #	-d Flag, activates simulation (eg. nothing will be actually uploaded)
 #	-r Flag, removes file after upload
+
+source "$HOME/.bash_envvars"
 
 #####################################################
 #

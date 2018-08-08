@@ -24,4 +24,4 @@
 SHELL=/bin/bash
 
 # system updates
-0 2 * * 3       apt-get update && apt-get upgrade
+0 2 * * 3       (apt-get update && apt-get upgrade) && logger -p local0.info -t SYS-UPDATES Not found || logger -p local0.info -t SYS-UPDATES Found

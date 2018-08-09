@@ -61,15 +61,7 @@ source "$HOME/.bash_envvars"
 #
 #####################################################
 
-source ssh-keys.sh
-echo 'Copy the key to GitHub so that the following clones will work'
-cat "$SSH_HOME/id_rsa.pub"
-read
-
-# Changing this repository URL to use SSH
-git remote get-url origin \
-    | sed -E 's|https://(.+?)/(.+?)/(.+?).git|git@\1:\2/\3.git|' \
-    | xargs git remote set-url origin
+bash ssh-keys.sh
 
 #####################################################
 #

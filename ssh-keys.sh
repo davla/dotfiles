@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
-# This scripts generates SSH keys if necessary, and optionally copies them over
-# to a passed remote host for SSH access
+# This scripts deals with common SHH keys setup. Namely:
+#   - Generates SSH keys if not already present.
+#   - If a remote host is passed, copies them over for SSH access.
+#   - Displays the public key to be copied to git hosting services and changes
+#       this very repository's remote from HTTPS to SSH.
 
 #####################################################
 #
@@ -39,7 +42,7 @@ function copy-key {
 
 #####################################################
 #
-#               Keys creation
+#                   Keys creation
 #
 #####################################################
 
@@ -48,7 +51,7 @@ mkdir -p "$SSH_HOME"
 
 #####################################################
 #
-#           SSH keys access setup
+#               SSH keys access setup
 #
 #####################################################
 
@@ -57,3 +60,22 @@ if [[ -n "$HOST" ]]; then
     copy-key 'pi' "$HOST"
     copy-key 'root' "$HOST"
 fi
+
+#####################################################
+#
+#               Git remotes management
+#
+#####################################################
+
+echo 'Copy the key to your git hosting service'
+cat "$SSH_HOME/id_rsa.pub"
+read
+
+# By passing this directory to the next git commands, this script can be
+# called from anywhere
+PARENT_DIR="$(dirname "$0")"
+
+# Changing this repository URL to use SSH
+git -C "$PARENT_DIR" remote get-url origin \
+    | sed -E 's|https://(.+?)/(.+?)/(.+?).git|git@\1:\2/\3.git|' \
+    | xargs git -C "$PARENT_DIR" remote set-url origin

@@ -28,7 +28,7 @@ DESKTOPS_DIR='/usr/share/applications'
 ICONS_DIR='/usr/share/icons/hicolor'
 
 apt-get install libwxgtk3.0-dev
-git clone https://github.com/Acolarh/colorgrab "$COLORGRAB_HOME"
+git clone 'git@github.com:nielssp/colorgrab.git' "$COLORGRAB_HOME"
 cd "$COLORGRAB_HOME" || exit
 cmake .
 make
@@ -74,7 +74,7 @@ rm "$TEMP_THROTTLE_ARCH"
 
 TMP_DIR=$(mktemp -d)
 
-git clone 'https://github.com/vanaoff/move-to-next-monitor.git' "$TMP_DIR"
+git clone 'git@github.com:jc00ke/move-to-next-monitor.git' "$TMP_DIR"
 bash "$TMP_DIR/install.sh"
 mv /usr/local/bin/move-to-next-monitor /usr/bin/move-to-monitor
 

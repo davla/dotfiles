@@ -48,7 +48,7 @@ sudo bash bin-symlinks.sh
 # hence N is installed here
 N_DIR='/tmp/n'
 
-git clone 'https://github.com/davla/n.git' "$N_DIR"
+git clone 'git@github.com:davla/n.git' "$N_DIR"
 sudo make -C "$N_DIR" install
 make -C "$N_DIR" use
 rm -rf "$N_DIR"

@@ -23,7 +23,7 @@ ROOT_JOBS=(
 #########################
 
 # Line number of "exit 0" in /etc/rc.local
-RC_LOCAL_LINE=$(grep -n -x 'exit 0' /etc/rc.local | awk -F : '{ print $1 }')
+RC_LOCAL_LINE=$(grep -n -x 'exit 0' /etc/rc.local | cut -d':' -f 1)
 
 # Decreasing line number to insert before "exit 0"
 RC_LOCAL_LINE=$(( RC_LOCAL_LINE - 1 ))
@@ -51,16 +51,10 @@ mkdir -p "$RASPBERRY_ROOT"
 echo "raspberry:/ $RASPBERRY_ROOT nfs users,dev,exec,noauto,rw,suid 0 0" \
     | sudo tee -a /etc/fstab > /dev/null
 
-#########################
-# .bashrc inclusion in root's .bash_profile
-#########################
-
-sudo bash -c "echo 'source .bashrc' >> \$HOME/.bash_profile"
-
 #####################################################
 #
 #                   User jobs
 #
 #####################################################
 
-cp Support/.bash_profile "$HOME"
+cp Support/shell/.bash_profile "$HOME"

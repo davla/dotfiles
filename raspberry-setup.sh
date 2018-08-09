@@ -48,8 +48,11 @@ git config --global user.name 'Davide Laezza'
 #####################################################
 
 cp Support/raspberry/.bash_envvars "$HOME"
-grep '.bash_envvars' "$HOME/.bashrc" &> /dev/null \
-    || echo 'source "$HOME/.bash_envvars"' >> "$HOME/.bashrc"
+grep '\.bash_envvars' "$HOME/.bashrc" &> /dev/null || echo '
+# Setting envvars
+if [ -f ~/.bash_envvars ]; then
+    . ~/.bash_envvars
+fi' >> "$HOME/.bashrc"
 source "$HOME/.bash_envvars"
 
 #####################################################

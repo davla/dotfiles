@@ -43,10 +43,16 @@ git config --global user.name 'Davide Laezza'
 
 #####################################################
 #
-#           Adding environment variables
+#                   Shell setup
 #
 #####################################################
 
+# Shimming `su` to execute `su -` when called with no arguments
+grep 'function su' /etc/bash.bashrc &> /dev/null \
+    || tail -n +2 Support/shell/su.sh \
+        | sudo tee -a /etc/bash.bashrc &> /dev/null
+
+# Adding environment variables
 cp Support/raspberry/.bash_envvars "$HOME"
 grep '\.bash_envvars' "$HOME/.bashrc" &> /dev/null || echo '
 # Setting envvars

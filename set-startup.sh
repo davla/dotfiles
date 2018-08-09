@@ -34,22 +34,28 @@ RC_LOCAL_LINE=$(( RC_LOCAL_LINE + 1 ))
 
 # Writing jobs to /etc/rc.local
 for COMMAND in "${ROOT_JOBS[@]}"; do
-    sudo sed -i "$RC_LOCAL_LINE i\\$COMMAND" /etc/rc.local
-    RC_LOCAL_LINE=$(( $RC_LOCAL_LINE + 1 ))
+    if ! grep "$COMMAND" /etc/rc.local &> /dev/null; then
+        sudo sed -i "$RC_LOCAL_LINE i\\$COMMAND" /etc/rc.local
+        RC_LOCAL_LINE=$(( $RC_LOCAL_LINE + 1 ))
+    fi
 done
 
 #########################
 # /etc/fstab setup
 #########################
 
-echo '# Custom mount points' | sudo tee -a /etc/fstab > /dev/null
+CUSTOM_MOUNTS_MARKER='# Custom mount points'
 
-# Raspberry nfs
-RASPBERRY_ROOT="$HOME/Files/Raspberry"
+if ! grep "$CUSTOM_MOUNTS_MARKER" /etc/fstab &> /dev/null; then
+    echo "$CUSTOM_MOUNTS_MARKER" | sudo tee -a /etc/fstab &> /dev/null
 
-mkdir -p "$RASPBERRY_ROOT"
-echo "raspberry:/ $RASPBERRY_ROOT nfs users,dev,exec,noauto,rw,suid 0 0" \
-    | sudo tee -a /etc/fstab > /dev/null
+    # Raspberry nfs
+    RASPBERRY_ROOT="$HOME/Files/Raspberry"
+
+    mkdir -p "$RASPBERRY_ROOT"
+    echo "raspberry:/ $RASPBERRY_ROOT nfs users,dev,exec,noauto,rw,suid 0 0" \
+        | sudo tee -a /etc/fstab > /dev/null
+fi
 
 #####################################################
 #

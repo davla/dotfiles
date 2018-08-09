@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 
-# This script sets up the environment for new shells, both root and user
+# This script sets up the environment for new shells
+
+#####################################################
+#
+#                   System-wide
+#
+#####################################################
+
+# Shimming `su` to execute `su -` when called with no arguments
+grep 'function su' /etc/bash.bashrc &> /dev/null \
+    || tail -n +2 Support/shell/su.sh \
+        | sudo tee -a /etc/bash.bashrc &> /dev/null
 
 #####################################################
 #

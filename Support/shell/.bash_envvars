@@ -1,3 +1,5 @@
-# Envvars
+#!/usr/bin/env bash
 
-export PYWIKIBOT_DIR=$HOME/Files/pywikibot
+# Environment variables
+
+export PYWIKIBOT_DIR="$HOME/Files/pywikibot"

@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Executed on startup
 
 # Emptying some directories
@@ -10,9 +12,5 @@ EMPTY_DIR=(
 )
 
 for DIR in "${EMPTY_DIR[@]}"; do
-    rm -rf $HOME/$DIR
+    rm -rf "${HOME:?}/$DIR"
 done
-
-# Including .bashrc
-
-source .bashrc

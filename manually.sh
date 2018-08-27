@@ -68,6 +68,20 @@ rm "$TEMP_THROTTLE_ARCH"
 
 #####################################################
 #
+#               Docker compose
+#
+#####################################################
+
+LATEST_COMPOSE=$(wget -O - \
+        'https://api.github.com/repos/docker/compose/releases/latest' \
+    | jq -r '.tag_name')
+COMPOSE_TAG=$(uname -s)-$(uname -m)
+wget -O /usr/local/bin/docker-compose \
+    "https://github.com/docker/compose/releases/download/$LATEST_COMPOSE/docker-compose-$COMPOSE_TAG"
+chmod +x /usr/local/bin/docker-compose
+
+#####################################################
+#
 #               Move to next monitor
 #
 #####################################################

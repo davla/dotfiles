@@ -29,17 +29,22 @@ function exit-if-error {
 cd "$PYWIKIBOT_DIR" || exit 1
 
 # Grammar
-python pwb.py replace -pt:1 -start:! -fix:grammar &> /dev/null
+python pwb.py replace -pt:1 -start:! -always -fix:grammar &> /dev/null
 exit-if-error
 
 # Case-sensitive names
-python pwb.py replace -pt:1 -start:! -fix:names-case-sensitive &> /dev/null
+python pwb.py replace -pt:1 -start:! -always -fix:names-case-sensitive \
+    &> /dev/null
 exit-if-error
 
 # Case-insensitive names
-python pwb.py replace -pt:1 -start:! -fix:names-case-insensitive &> /dev/null
+python pwb.py replace -pt:1 -start:! -always -fix:names-case-insensitive \
+    &> /dev/null
 exit-if-error
 
 # Code
-python pwb.py replace -pt:1 -start:! -fix:obsolete-templates &> /dev/null
+python pwb.py replace -pt:1 -start:! -always -fix:obsolete-templates \
+    &> /dev/null
 exit-if-error
+
+logger -p local0.info -t FIXES Fixed

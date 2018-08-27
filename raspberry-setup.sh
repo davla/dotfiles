@@ -23,8 +23,8 @@ wget -O - 'https://download.docker.com/linux/raspbian/gpg' | sudo apt-key add -
 
 sudo apt-get update
 sudo apt-get remove raspi-copies-and-fills
-sudo apt-get install at certbot docker-ce git jq nfs-kernel-server nfs-common \
-    python3-pip python-requests rpcbind
+sudo apt-get install at certbot ddclient docker-ce git jq nfs-kernel-server \
+    nfs-common python3-pip python-requests rpcbind
 sudo apt-get upgrade
 
 sudo pip3 install docker-compose
@@ -35,12 +35,17 @@ sudo pip3 install docker-compose
 #
 #####################################################
 
+sudo cp Support/raspberry/config/ddclient.conf /etc
 sudo cp Support/raspberry/config/exports /etc
 sudo cp Support/raspberry/config/pam_login /etc/pam.d/login
 sudo cp Support/raspberry/config/pam_sshd /etc/pam.d/sshd
 sudo cp Support/raspberry/config/sshd_config /etc/ssh/sshd_config
 sudo cp Support/raspberry/config/rsyslog-custom.conf /etc/rsyslog.d
 sudo cp Support/raspberry/config/logrotate-custom.conf /etc/logrotate.d
+
+read -sp 'Insert DNS service password: ' DNS_PASSWD
+echo ''
+sudo sed -i "7ipassword=$DNS_PASSWD" /etc/ddclient.conf
 
 sudo adduser "$USER" docker
 

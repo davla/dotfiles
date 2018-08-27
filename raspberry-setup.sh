@@ -17,13 +17,18 @@ sudo passwd --status | grep -w 'NP' &> /dev/null && sudo passwd
 #
 #####################################################
 
-sudo cp Support/raspberry/testing.list /etc/apt/sources.list.d
+sudo cp Support/raspberry/sources/testing.list /etc/apt/sources.list.d
+sudo cp Support/raspberry/sources/docker.list /etc/apt/sources.list.d
+
+wget -O - 'https://download.docker.com/linux/raspbian/gpg' |  apt-key add -
 
 sudo apt-get update
 sudo apt-get remove raspi-copies-and-fills
-sudo apt-get install at git jq nfs-kernel-server nfs-common python-requests \
-    rcpbind
+sudo apt-get install at docker-ce git jq nfs-kernel-server nfs-common \
+    python3-pip python-requests rcpbind
 sudo apt-get upgrade
+
+sudo pip3 install -y docker-compose
 
 #####################################################
 #
@@ -37,6 +42,8 @@ sudo cp Support/raspberry/config/pam_sshd /etc/pam.d/sshd
 sudo cp Support/raspberry/config/sshd_config /etc/ssh/sshd_config
 sudo cp Support/raspberry/config/rsyslog-custom.conf /etc/rsyslog.d
 sudo cp Support/raspberry/config/logrotate-custom.conf /etc/logrotate.d
+
+sudo adduser "$USER" docker
 
 git config --global user.email 'truzzialrogo@gmx.com'
 git config --global user.name 'Davide Laezza'

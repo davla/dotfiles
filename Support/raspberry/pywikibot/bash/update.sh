@@ -25,9 +25,9 @@ tty -s && alias print='echo' \
 cd "$PYWIKIBOT_DIR" || exit 1
 
 # The usual line for nothing to pull is 'Already up to date.'
-[[ $(git pull --all | wc -l) -gt 2 ]] && print 'Updated' \
+[[ $(git pull --all 2> /dev/null | wc -l) -gt 2 ]] && print 'Updated' \
     || print 'Not updated'
 
 # Nothing is printed when submodules are not updated
-[[ -n $(git submodule update) ]] && print 'Submodules updated' \
+[[ -n $(git submodule update 2> /dev/null) ]] && print 'Submodules updated' \
     || print 'Submodules not updated'

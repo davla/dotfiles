@@ -90,7 +90,7 @@ tc_exceptions = (
     'bullo',
     'cinturanera',
     'doppioteam',
-    'pokémon ranger',
+    u'pokémon ranger',
     'segugio',
     'sub',
     'team flare',

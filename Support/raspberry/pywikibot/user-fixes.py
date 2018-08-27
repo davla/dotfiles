@@ -112,7 +112,7 @@ fixes['obsolete-templates'] = {
         (r'\{\{[Pp]w\|(.+?)\}\}', r'[[\1]]'),
         (r'\{\{[Pp]ietraevo\|(.+?)\}\}', r'[[\1]]'),
         (r'\{\{[Tt]c\|(.+?)\}\}', partial(to_link, tc_exceptions, tc_aliases)),
-        (r'\{\{[Aa]a\|(.+?)\}\}', partial(to_link, aa_exceptions, ac_aliases)),
+        (r'\{\{[Aa]a\|(.+?)\}\}', partial(to_link, aa_exceptions, aa_aliases)),
         (r'\{\{MSF', r'\{\{MSP'),
     ]
 }

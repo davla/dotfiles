@@ -17,18 +17,17 @@ sudo passwd --status | grep -w 'NP' &> /dev/null && sudo passwd
 #
 #####################################################
 
-sudo cp Support/raspberry/sources/testing.list /etc/apt/sources.list.d
-sudo cp Support/raspberry/sources/docker.list /etc/apt/sources.list.d
+sudo cp Support/raspberry/sources/*.list /etc/apt/sources.list.d
 
-wget -O - 'https://download.docker.com/linux/raspbian/gpg' |  apt-key add -
+wget -O - 'https://download.docker.com/linux/raspbian/gpg' | sudo apt-key add -
 
 sudo apt-get update
 sudo apt-get remove raspi-copies-and-fills
-sudo apt-get install at docker-ce git jq nfs-kernel-server nfs-common \
-    python3-pip python-requests rcpbind
+sudo apt-get install at certbot docker-ce git jq nfs-kernel-server nfs-common \
+    python3-pip python-requests rpcbind
 sudo apt-get upgrade
 
-sudo pip3 install -y docker-compose
+sudo pip3 install docker-compose
 
 #####################################################
 #
@@ -75,6 +74,27 @@ source "$HOME/.bash_envvars"
 #####################################################
 
 bash ssh-keys.sh
+
+#####################################################
+#
+#              Setting cron jobs
+#
+#####################################################
+
+crontab -u pi Support/raspberry/pi-crontab
+sudo crontab -u root Support/raspberry/root-crontab
+
+#####################################################
+#
+#               TSL certificate setup
+#
+#####################################################
+
+if ! sudo certbot certificates 2> /dev/null | grep 'Found' &> /dev/null; then
+    read -p 'Open port 80 as the TSL certificates are being installed'
+    sudo certbot certonly --standalone -d 'maze0.hunnur.com' \
+        -m 'truzzialrogo@gmx.com'
+fi
 
 #####################################################
 #
@@ -134,15 +154,6 @@ if [[ ! -d "$UTIL_DIR" ]]; then
     npm install
     cd - &> /dev/null || exit 1
 fi
-
-#####################################################
-#
-#              Setting cron jobs
-#
-#####################################################
-
-crontab -u pi Support/raspberry/pi-crontab
-sudo crontab -u root Support/raspberry/root-crontab
 
 #####################################################
 #

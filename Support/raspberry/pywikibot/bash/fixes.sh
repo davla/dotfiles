@@ -11,16 +11,13 @@ source "$HOME/.bash_envvars"
 #
 #####################################################
 
-# This function performs the actual replacement with shared parameters and the
-# passed replacement pairs
-#
-# Arguments:
-#   - $@: Replacement pairs.
-function wiki-replace {
-	python pwb.py replace -start:! -always -ns:0 -pt:1 \
-        -summary:'Bot: Correzioni automatiche' -regex \
-        -exceptinside:"'{2,3}.+?'{2,3}" -exceptinside:'".+?"' \
-        -exceptinside:'\[\[\w{2}:.+?\]\]' "$@"
+# This function logs an error message and exits in case the last command
+# terminated with an error.
+function exit-if-error {
+    if [[ $? -ne 0 ]]; then
+        logger -p local0.err -t FIXES Error
+        exit 1
+    fi
 }
 
 #####################################################
@@ -32,18 +29,17 @@ function wiki-replace {
 cd "$PYWIKIBOT_DIR" || exit 1
 
 # Grammar
-wiki-replace 'chè\b' 'ché' '\bpò\b' "po'" '\bsè\b' 'sé' '\bsé\s+stess' \
-    'se stess' '\bquì\b' 'qui' '\bquà\b' 'qua' 'Arché\b' 'Archè' 'fà' 'fa'
+python pwb.py replace -pt:1 -start:! -fix:grammar &> /dev/null
+exit-if-error
 
-# Names
+# Case-sensitive names
+python pwb.py replace -pt:1 -start:! -fix:names-case-sensitive &> /dev/null
+exit-if-error
 
-# Case-sensitive
-wiki-replace 'Pokè' 'Poké' 'POKè' 'POKé'
-
-# Case-insensitive
-wiki-replace 'Pallaombra' 'Palla Ombra' 'Iperraggio' 'Iper Raggio' 'Pokéball' \
-    'Poké Ball'
+# Case-insensitive names
+python pwb.py replace -pt:1 -start:! -fix:names-case-insensitive &> /dev/null
+exit-if-error
 
 # Code
-wiki-replace '\{\{[AaMmPpTt]\|(.+?)\}\}' '[[\1]]' '\{\{[Dd]wa\|(.+?)\}\}' \
-    '[[\1]]' '\{\{[Pp]w\|(.+?)\}\}' '[[\1]]' '\{\{MSF' '\{\{MSP'
+python pwb.py replace -pt:1 -start:! -fix:obsolete-templates &> /dev/null
+exit-if-error

@@ -35,7 +35,6 @@ sudo pip3 install docker-compose
 #
 #####################################################
 
-sudo cp Support/raspberry/config/ddclient.conf /etc
 sudo cp Support/raspberry/config/exports /etc
 sudo cp Support/raspberry/config/pam_login /etc/pam.d/login
 sudo cp Support/raspberry/config/pam_sshd /etc/pam.d/sshd
@@ -43,8 +42,13 @@ sudo cp Support/raspberry/config/sshd_config /etc/ssh/sshd_config
 sudo cp Support/raspberry/config/rsyslog-custom.conf /etc/rsyslog.d
 sudo cp Support/raspberry/config/logrotate-custom.conf /etc/logrotate.d
 
-read -sp 'Insert DNS service password: ' DNS_PASSWD
-echo ''
+if [[ -f /etc/ddclient.conf ]]; then
+    DNS_PASSWD=$(sudo grep -oP 'password=\K.+' /etc/ddclient.conf)
+else
+    read -sp 'Insert DNS service password: ' DNS_PASSWD
+    echo ''
+fi
+sudo cp Support/raspberry/config/ddclient.conf /etc
 sudo sed -i "7ipassword=$DNS_PASSWD" /etc/ddclient.conf
 
 sudo adduser "$USER" docker

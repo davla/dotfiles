@@ -27,7 +27,7 @@ SHELL=/bin/bash
 0 0 * * *       . "$HOME/.bash_envvars" && bash "$PYWIKIBOT_DIR"/bash/update.sh
 
 # Wiki fixes
-30 0 * * 4      . "$HOME/.bash_envvars" && bash "$PYWIKIBOT_DIR"/bash/fixes.sh
+30 7 * * 4      . "$HOME/.bash_envvars" && bash "$PYWIKIBOT_DIR"/bash/fixes.sh
 
 # Home refresh
 5 0 * * 1       . "$HOME/.bash_envvars" && python "$PYWIKIBOT_DIR/pwb.py" touch -page:Home &> /dev/null && logger -p local0.info -t HOME-REFRESH Refreshed || logger -p local0.err -t HOME-REFRESH Error

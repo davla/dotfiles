@@ -11,9 +11,17 @@ source "$HOME/.bash_envvars"
 #
 #####################################################
 
-# This function logs an error message and exits in case the last command
-# terminated with an error.
-function exit-if-error {
+# This function executes a fix on all the pages of the wiki, never asking for
+# confirmation and suppressing any output. In case of error, it logs an error
+# message and exits the whole script.
+#
+# Arguments:
+#   - $1: The name of the fix to be executed.
+function run-fix {
+    local FIX_NAME="$1"
+
+    python pwb.py replace -pt:1 -start:! -always -fix:"$FIX_NAME" &> /dev/null
+
     if [[ $? -ne 0 ]]; then
         logger -p local0.err -t FIXES Error
         exit 1
@@ -29,22 +37,15 @@ function exit-if-error {
 cd "$PYWIKIBOT_DIR" || exit 1
 
 # Grammar
-python pwb.py replace -pt:1 -start:! -always -fix:grammar &> /dev/null
-exit-if-error
+run-fix 'grammar'
 
 # Case-sensitive names
-python pwb.py replace -pt:1 -start:! -always -fix:names-case-sensitive \
-    &> /dev/null
-exit-if-error
+run-fix 'names-case-sensitive'
 
 # Case-insensitive names
-python pwb.py replace -pt:1 -start:! -always -fix:names-case-insensitive \
-    &> /dev/null
-exit-if-error
+run-fix 'names-case-insensitive'
 
-# Code
-python pwb.py replace -pt:1 -start:! -always -fix:obsolete-templates \
-    &> /dev/null
-exit-if-error
+# Obsolete template removal
+run-fix 'obsolete-templates'
 
 logger -p local0.info -t FIXES Fixed

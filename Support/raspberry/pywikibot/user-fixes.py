@@ -10,6 +10,13 @@ from functools import partial
 from fixes_data import (aa_aliases, aa_exceptions, tc_aliases, tc_exceptions)
 
 
+except_inside = [
+    r"'{2,3}.+?'{2,3}",
+    r'".+?"',
+    r'\[\[\w{2}:.+?\]\]',
+]
+
+
 def to_link(exceptions, aliases, match):
     """Return the plain link to a given match.
 
@@ -55,47 +62,56 @@ def to_link(exceptions, aliases, match):
 fixes['grammar'] = {
     'nocase': False,
     'regex': True,
+    'exceptions': {
+        'inside': except_inside,
+    },
     'msg': {
         'it': 'Bot: Fixing grammar'
     },
     'replacements': [
-        (ur'chè\b', 'ché'),
+        (ur'chè\b', u'ché'),
         (ur'\bpò\b', "po'"),
-        (ur'\bsè\b', 'sé'),
+        (ur'\bsè\b', u'sé'),
         (ur'\bsé\s+stess', 'se stess'),
         (ur'\bquì\b', 'qui'),
         (ur'\bquà\b', 'qua'),
-        (ur'fà', 'fa'),
+        (ur'\bfà\b', 'fa'),
 
         # Fixing unnecessary replacements made above
-        (ur'Arché\b' 'Archè'),
-    ]
+        (ur'Arché\b', u'Archè'),
+    ],
 }
 
 # This fix addresses misspellings of brand names, where the case matters.
 fixes['names-case-sensitive'] = {
     'nocase': False,
-    'regex': False,
+    'regex': True,
+    'exceptions': {
+        'inside': except_inside,
+    },
     'msg': {
         'it': 'Bot: Fixing names - case sensitive'
     },
     'replacements': [
-        (u'Pokè' 'Poké'),
-        (u'POKè' 'POKé'),
+        (ur'Pokè', u'Poké'),
+        (ur'POKè', u'POKé'),
     ]
 }
 
 # This fix addresses brand names misspellings, where the case doesn't matter.
 fixes['names-case-insensitive'] = {
     'nocase': True,
-    'regex': False,
+    'regex': True,
+    'exceptions': {
+        'inside': except_inside,
+    },
     'msg': {
         'it': 'Bot: Fixing names - case insensitive'
     },
     'replacements': [
         ('Pallaombra', 'Palla Ombra'),
         ('Iperraggio', 'Iper Raggio'),
-        (u'Pokéball', 'Poké Ball'),
+        (ur'\bPokéball', u'Poké Ball'),
     ]
 }
 
@@ -103,6 +119,9 @@ fixes['names-case-insensitive'] = {
 fixes['obsolete-templates'] = {
     'nocase': False,
     'regex': True,
+    'exceptions': {
+        'inside': except_inside,
+    },
     'msg': {
         'it': 'Bot: Fixing obsolete templates usage'
     },

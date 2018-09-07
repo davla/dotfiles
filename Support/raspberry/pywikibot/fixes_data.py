@@ -4,6 +4,8 @@
 This file includes the biug data structures used in fixes in user-fixes.py
 """
 
+from __future__ import unicode_literals
+
 # Aliases for `aa` template replacement with plain links
 aa_aliases = {}
 
@@ -17,8 +19,8 @@ tc_aliases = {
     'aeroallenatore': 'Aeroallenatore e Aeroallenatrice',
     'aeroallenatrice': 'Aeroallenatore e Aeroallenatrice',
     'affarista': 'Affarista e Segretaria',
-    'allen.jr♂': 'Campeggiatore',
-    'alleva pokémon': 'Allevapokémon',
+    u'allen.jr♂': 'Campeggiatore',
+    u'alleva pokémon': u'Allevapokémon',
     'avicoltore': 'Avicoltore e Avicoltrice',
     'avicoltrice': 'Avicoltore e Avicoltrice',
     'avventuriero': 'Montanaro',
@@ -31,8 +33,8 @@ tc_aliases = {
     'cameriera e cameriere': 'Cameriere e Cameriera',
     'cameriere': 'Cameriere e Cameriera',
     'campeggista': 'Campeggiatore',
-    'capometro': 'Capometrò',
-    'cerca pkmn': 'Cerca Pokémon',
+    'capometro': u'Capometrò',
+    'cerca pkmn': u'Cerca Pokémon',
     'ciambellina': 'Ciambellino e Ciambellina',
     'ciambellino': 'Ciambellino e Ciambellina',
     'conte': 'Conte e Contessa',
@@ -57,13 +59,12 @@ tc_aliases = {
     'nuotatrice': 'Nuotatore e Nuotatrice',
     'pattinatore': 'Pattinatore e Pattinatrice',
     'pattinatrice': 'Pattinatore e Pattinatrice',
-    'pkmn scout': 'Pokémon Ranger',
-    'pokéfan': 'Pokéfan',
+    'pkmn scout': u'Pokémon Ranger (classe Allenatore)',
     'pupa': 'Teenager',
     'recluta idro': 'Recluta Team Idro',
     'recluta magma': 'Recluta Team Magma',
     'reclute rocket': 'Recluta Rocket',
-    'rocket': 'team rocket',
+    'rocket': 'Team Rrocket',
     'sciatore': 'Sciatore e Sciatrice',
     'sciatrice': 'Sciatore e Sciatrice',
     'scienziata': 'Scienziato e Scienziata',

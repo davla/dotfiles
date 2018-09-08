@@ -160,7 +160,7 @@ apt-get install aisleriot asunder atom baobab blueman brasero calibre \
     recordmydesktop gtk-recordmydesktop remmina sakura seahorse simple-scan \
     slack-desktop skypeforlinux solaar soundconverter spotify-client \
     synaptic system-config-printer thunderbird transmission-gtk tuxguitar \
-    viewnior vino virtualbox-5.2 visualboyadvance vlc
+    viewnior vino virtualbox visualboyadvance vlc
 [[ $? -ne 0 ]] && exit 1
 
 # CLI applications

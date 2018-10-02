@@ -171,7 +171,7 @@ apt-get install autoconf cmake cowsay cups curl dkms docker-ce dos2unix \
     imagemagick jq lame libgnome-keyring-dev lightdm-gtk-greeter lua5.1 \
     lua5.3 make oracle-java8-installer oracle-java8-set-default \
     browser-plugin-vlc p7zip python-pip python-requests-futures \
-    python-setuptools python3-gdbm python3-lxml rar ruby sbt scala \
+    python-setuptools python3-gdbm python3-lxml rar ruby sbt sct scala \
     shellcheck sudo thunar-archive-plugin thunar-dropbox-plugin tree \
     tuxguitar-jsa uni2ascii unrar virtualenvwrapper xdotool \
     xserver-xorg-input-synaptics yad zip

@@ -125,6 +125,7 @@ wget -qO - 'https://debian.neo4j.org/neotechnology.gpg.key' | apt-key add -
 wget -qO - 'https://dl.sinew.in/keys/enpass-linux.key' | apt-key add -
 wget -qO - 'https://packagecloud.io/AtomEditor/atom/gpgkey' | apt-key add -
 wget -qO - 'https://dl.yarnpkg.com/debian/pubkey.gpg' | apt-key add -
+wget -qO - 'https://cli-assets.heroku.com/apt/release.key' | apt-key add -
 apt-get update
 apt-get install deb-multimedia-keyring software-properties-common \
     sparky-keyring
@@ -166,7 +167,7 @@ apt-get install aisleriot asunder atom baobab blueman brasero calibre \
 # CLI applications
 apt-get install autoconf cmake cowsay cups curl dkms docker-ce dos2unix \
     flashplayer-mozilla fonts-freefont-otf fortune g++ ghc gifsicle git \
-    gvfs-backends handbrake-cli hunspell hunspell-en-us hunspell-it \
+    gvfs-backends handbrake-cli heroku hunspell hunspell-en-us hunspell-it \
     imagemagick jq lame libgnome-keyring-dev lightdm-gtk-greeter lua5.1 \
     lua5.3 make oracle-java8-installer oracle-java8-set-default \
     browser-plugin-vlc p7zip python-pip python-requests-futures \

@@ -21,7 +21,7 @@ SSH_HOME="$HOME/.ssh"
 #####################################################
 
 # Remote host to copy the keys over for SSH access, can be empty
-HOST="$2"
+HOST="$1"
 
 #####################################################
 #

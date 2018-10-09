@@ -20,6 +20,7 @@ function clean {
     apt-get purge -y xfce4-clipman-plugin
     apt-get purge -y disk-manager
     apt-get purge -y exaile
+    apt-get purge -y exfalso
     apt-get purge -y fairymax
     apt-get purge -y firefox-esr
     apt-get purge -y geoclue-2.0
@@ -235,4 +236,11 @@ NON_WORKING_DESKTOPS=(
 )
 for DESKTOP in "${NON_WORKING_DESKTOPS[@]}"; do
     rm /usr/share/applications/"$DESKTOP".desktop &> /dev/null
+done
+
+# Hiding Oracle Java desktop files
+for ORACLE_JAVA_DESKTOP in /usr/share/applications/JB-*; do
+    grep 'Hidden=' "$ORACLE_JAVA_DESKTOP" &> /dev/null \
+        && sed -Ei 's/Hidden=.+$/Hidden=true/g' "$ORACLE_JAVA_DESKTOP" \
+        || echo 'Hidden=true' >> "$ORACLE_JAVA_DESKTOP"
 done

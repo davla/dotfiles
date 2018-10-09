@@ -21,12 +21,16 @@ function copy-files {
     local SOURCE="$2"
     local DEST="$3"
 
-    local SOURCE_FILES="Support/menu/$SOURCE/[^_]*.$EXT"
-    local DEST_DIR="$HOME/.local/share/$DEST"
+    [[ -n "$EXT" ]] && EXT=".$EXT"
 
-    if [[ -e $SOURCE_FILES ]]; then
+    local SOURCE_DIR="Support/menu/$SOURCE/"
+    local DEST_DIR="$HOME/.local/share/$DEST"
+    local SOURCE_FILES="[^_]*$EXT"
+
+    if [[ -n $(find "$SOURCE_DIR" -maxdepth 1 -mindepth 1 \
+            -name "$SOURCE_FILES" 2> /dev/null) ]]; then
         mkdir -p "$DEST_DIR"
-        cp -r $SOURCE_FILES "$DEST_DIR"
+        cp -r "$SOURCE_DIR"/$SOURCE_FILES "$DEST_DIR"
     fi
 }
 

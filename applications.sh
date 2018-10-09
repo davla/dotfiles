@@ -126,8 +126,16 @@ wget -qO - 'https://packagecloud.io/AtomEditor/atom/gpgkey' | apt-key add -
 wget -qO - 'https://dl.yarnpkg.com/debian/pubkey.gpg' | apt-key add -
 wget -qO - 'https://cli-assets.heroku.com/apt/release.key' | apt-key add -
 apt-get update -oAcquire::AllowInsecureRepositories=true
-apt-get install -oAcquire::AllowInsecureRepositories=true \ deb-multimedia-keyring
+apt-get install -oAcquire::AllowInsecureRepositories=true \
+    deb-multimedia-keyring
 
+#####################################################
+#
+#           Installing drivers
+#
+#####################################################
+
+apt-get install firmware-realtek firmware-iwlwifi
 
 #####################################################
 #
@@ -145,7 +153,7 @@ apt-get upgrade
 
 #####################################################
 #
-#           Installing applications
+#           Installing packages
 #
 #####################################################
 

@@ -64,4 +64,4 @@ fi
 #####################################################
 
 cp Support/shell/.bash_profile "$HOME"
-cp Support/shell/startup/*.desktop "$HOME/home/maze/.config/autostart"
+cp Support/shell/startup/*.desktop "$HOME/.config/autostart"

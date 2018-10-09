@@ -64,7 +64,6 @@ function clean {
     apt-get purge -y sambashare
     apt-get purge -y shotwell-common
     apt-get purge -y smtube
-    apt-get purge -y sparky-xdf
     apt-get purge -y tali
     apt-get purge -y terminator
     apt-get purge -y uget
@@ -111,11 +110,11 @@ mv /etc/apt/sources.list.d/sources.list /etc/apt
 # E0F72778C4676186 --> Playonlinux
 # 2EE0EA64E40A89B84B2DF73499E82A75642AC823 --> Scala sbt
 # C6ABDCF64DB9A0B2 --> Slack
-# EFDC8610341D9410 --> Spotify
+# 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90 --> Spotify
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \
     '2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5' 'EEA14886' 'E0F72778C4676186' \
     '2EE0EA64E40A89B84B2DF73499E82A75642AC823' 'C6ABDCF64DB9A0B2' \
-    'EFDC8610341D9410' | apt-key add -
+    '931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90' | apt-key add -
 apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E | apt-key add -
 wget -qO - 'https://www.virtualbox.org/download/oracle_vbox_2016.asc' | \
     apt-key add -
@@ -126,9 +125,9 @@ wget -qO - 'https://dl.sinew.in/keys/enpass-linux.key' | apt-key add -
 wget -qO - 'https://packagecloud.io/AtomEditor/atom/gpgkey' | apt-key add -
 wget -qO - 'https://dl.yarnpkg.com/debian/pubkey.gpg' | apt-key add -
 wget -qO - 'https://cli-assets.heroku.com/apt/release.key' | apt-key add -
-apt-get update
-apt-get install deb-multimedia-keyring software-properties-common \
-    sparky-keyring
+apt-get update -oAcquire::AllowInsecureRepositories=true
+apt-get install -oAcquire::AllowInsecureRepositories=true \ deb-multimedia-keyring
+
 
 #####################################################
 #
@@ -152,10 +151,10 @@ apt-get upgrade
 
 # GUI applications
 apt-get install aisleriot asunder atom baobab blueman brasero calibre \
-    camorama catfish dia dropbox enpass evince firefox five-or-more \
-    galculator gdebi geany gimp gnome-klotski gnome-mines gnome-nibbles \
-    gnome-sudoku gnome-robots gnome-tetravex gparted gufw handbrake-gtk \
-    hitori libreoffice-calc libreoffice-impress libreoffice-writer lightdm \
+    camorama catfish dropbox enpass evince firefox five-or-more galculator \
+    gdebi geany gimp gnome-klotski gnome-mines gnome-nibbles gnome-sudoku \
+    gnome-robots gnome-tetravex gparted gufw handbrake-gtk hitori \
+    libreoffice-calc libreoffice-impress libreoffice-writer lightdm \
     lightdm-gtk-greeter-settings gnome-mahjongg hardinfo kid3 \
     network-manager-gnome parcellite pavucontrol quadrapassel \
     recordmydesktop gtk-recordmydesktop remmina sakura seahorse simple-scan \
@@ -171,24 +170,16 @@ apt-get install autoconf cmake cowsay cups curl dkms docker-ce dos2unix \
     imagemagick jq lame libgnome-keyring-dev lightdm-gtk-greeter lua5.1 \
     lua5.3 make oracle-java8-installer oracle-java8-set-default \
     browser-plugin-vlc p7zip python-pip python-requests-futures \
-    python-setuptools python3-gdbm python3-lxml python3-requests
-    python3-requests-oauthlib rar ruby sbt sct scala \
-    shellcheck sudo thunar-archive-plugin thunar-dropbox-plugin tree \
-    tuxguitar-jsa uni2ascii unrar virtualenvwrapper xdotool \
-    xserver-xorg-input-synaptics yad zip
+    python-setuptools python3-gdbm python3-lxml python3-requests \
+    python3-requests-oauthlib rar ruby sbt sct scala shellcheck \
+    software-properties-common sudo thunar-archive-plugin \
+    thunar-dropbox-plugin tree tuxguitar-jsa uni2ascii unrar \
+    virtualenvwrapper wmctrl xdotool xserver-xorg-input-synaptics yad zip
 [[ $? -ne 0 ]] && exit 1
 
 # --no-install-recommends prevents node from being installed
 apt-get install --no-install-recommends yarn
 [[ $? -ne 0 ]] && exit 1
-
-# Sparky applications
-# apt-get install sparky-about sparky-artwork sparky-apt sparky-codecs \
-#    sparky-desktop-data sparky-editor sparky-eraser sparky-fontset \
-#    sparky-grub-theme sparky-info sparky-keyring sparky-live-usb-creator \
-#    sparky-nm-applet sparky-passwdchange sparky-remsu sparky-timedateset \
-#    sparky-users sparky-usb-formatter sparky5-theme
-#[[ $? -ne 0 ]] && exit 1
 
 # Xfce plugins
 apt-get install xfce4-battery-plugin xfce4-cpugraph-plugin xfce4-eyes-plugin \

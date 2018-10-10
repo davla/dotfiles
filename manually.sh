@@ -5,6 +5,26 @@
 
 #####################################################
 #
+#                   Functions
+#
+#####################################################
+
+# This function returns the initial part of the URL of a GitHub repository
+# latest release.
+#
+# Argunemts:
+#   - $1: The GitHub repository name
+function latest-release-url {
+    local RELEASES_URL="https://api.github.com/repos/$1/releases"
+    local DOWNLOAD_URL="https://github.com/$1/releases/download"
+
+    local LATEST_RELEASE
+    LATEST_RELEASE=$(wget -O - "$RELEASES_URL/latest" | jq -r '.tag_name')
+    echo "$DOWNLOAD_URL/$LATEST_RELEASE"
+}
+
+#####################################################
+#
 #                   Privileges
 #
 #####################################################
@@ -72,13 +92,24 @@ rm "$TEMP_THROTTLE_ARCH"
 #
 #####################################################
 
-LATEST_COMPOSE=$(wget -O - \
-        'https://api.github.com/repos/docker/compose/releases/latest' \
-    | jq -r '.tag_name')
 COMPOSE_TAG=$(uname -s)-$(uname -m)
-wget -O /usr/local/bin/docker-compose \
-    "https://github.com/docker/compose/releases/download/$LATEST_COMPOSE/docker-compose-$COMPOSE_TAG"
+COMPOSE_URL="$(latest-release-url 'docker/compose')/docker-compose-$COMPOSE_TAG"
+wget -O /usr/local/bin/docker-compose "$COMPOSE_URL"
 chmod +x /usr/local/bin/docker-compose
+
+#####################################################
+#
+#           Docker credential helpers
+#
+#####################################################
+
+CREDENTIAL_HELPERS_URL="$(latest-release-url \
+    'docker/docker-credential-helpers')"
+CREDENTIAL_HELPERS_RELEASE="${CREDENTIAL_HELPERS_URL##*/}"
+CREDENTIAL_HELPERS_URL="$CREDENTIAL_HELPERS_URL/docker-credential-secretservice-$CREDENTIAL_HELPERS_RELEASE-amd64.tar.gz"
+
+wget -qO - "$CREDENTIAL_HELPERS_URL" | tar x -C /usr/local/bin/
+chmod +x docker-credential-secretservice
 
 #####################################################
 #

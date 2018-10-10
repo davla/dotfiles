@@ -1,1 +1,1 @@
-/home/maze/Dropbox/Private/oauth2_clients/oauth2_clients.py
+/home/maze/Dropbox/private/oauth2_clients/oauth2_clients.py

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# This script installs and sets up applications as a non-root
-# user. Some applications are installed system wide as root,
-# and just the setup for any other user is done here; some
-# other applications are installed here, since they require so.
+# This script installs and sets up applications as a non-root user. Some
+# applications are installed system wide as root, and just the setup for any
+# other user is done here; some other applications are installed here, since
+# they require so.
 
 #####################################################
 #
@@ -49,9 +49,8 @@ tar -xf "$TELEGRAM_ARCH" -C "$TELEGRAM_HOME" --strip-components=1
 rm "$TELEGRAM_ARCH"
 sudo bash bin-symlinks.sh
 
-# Executing Telegram once to automatically
-# create .desktop file: "for reasons unknown"
-# if done via 'telegram' symlink it desn't work
+# Executing Telegram once to automatically create .desktop file: "for reasons
+# unknown" if done via 'telegram' symlink it desn't work
 "$TELEGRAM_HOME/Telegram"
 
 # N
@@ -66,3 +65,11 @@ rm -rf "$N_DIR"
 
 sudo n latest
 sudo cp -r Support/n/* /usr/local/n/versions/node
+
+# proj
+PROJ_DIR='/tmp/proj'
+
+git clone 'git@github.com:davla/project-wrapper.git' "$PROJ_DIR"
+make -C "$PROJ_DIR" install
+
+rm -rf "$PROJ_DIR"

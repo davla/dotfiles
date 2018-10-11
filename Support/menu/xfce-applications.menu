@@ -123,6 +123,7 @@
             <Filename>catfish.desktop</Filename>
             <Filename>org.gnome.baobab.desktop</Filename>
             <Filename>enpass.desktop</Filename>
+            <Filename>etcher-electron.desktop</Filename>
             <Filename>galculator.desktop</Filename>
             <Filename>parcellite.desktop</Filename>
             <Filename>Thunar.desktop</Filename>

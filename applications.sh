@@ -106,13 +106,14 @@ mv /etc/apt/sources.list.d/sources.list /etc/apt
 #
 #####################################################
 
+# 379CE192D401AB61 --> Etcher
 # 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5 --> MongoDB
 # EEA14886 --> Oracle Java installer
 # E0F72778C4676186 --> Playonlinux
 # 2EE0EA64E40A89B84B2DF73499E82A75642AC823 --> Scala sbt
 # C6ABDCF64DB9A0B2 --> Slack
 # 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90 --> Spotify
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys '379CE192D401AB61' \
     '2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5' 'EEA14886' 'E0F72778C4676186' \
     '2EE0EA64E40A89B84B2DF73499E82A75642AC823' 'C6ABDCF64DB9A0B2' \
     '931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90' | apt-key add -
@@ -160,10 +161,10 @@ apt-get upgrade
 
 # GUI applications
 apt-get install aisleriot asunder atom baobab blueman brasero calibre \
-    camorama catfish dropbox enpass evince firefox five-or-more galculator \
-    gdebi geany gimp gnome-klotski gnome-mines gnome-nibbles gnome-sudoku \
-    gnome-robots gnome-tetravex gparted gufw handbrake-gtk hitori \
-    libreoffice-calc libreoffice-impress libreoffice-writer lightdm \
+    camorama catfish dropbox enpass etcher evince firefox five-or-more \
+    galculator gdebi geany gimp gnome-klotski gnome-mines gnome-nibbles \
+    gnome-sudoku gnome-robots gnome-tetravex gparted gufw handbrake-gtk \
+    hitori libreoffice-calc libreoffice-impress libreoffice-writer lightdm \
     lightdm-gtk-greeter-settings gnome-mahjongg hardinfo kid3 \
     network-manager-gnome parcellite pavucontrol quadrapassel \
     recordmydesktop gtk-recordmydesktop remmina sakura seahorse simple-scan \

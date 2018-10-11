@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# This script installs some applications manually, because they're
-# not in any repository.
+# This script installs some applications manually, because they're not in any
+# repository.
 
 #####################################################
 #
@@ -29,8 +29,8 @@ function latest-release-url {
 #
 #####################################################
 
-# Checking for root privileges: if don't
-# have them, recalling this script with sudo
+# Checking for root privileges: if don't have them, recalling this script with
+# sudo
 if [[ $EUID -ne 0 ]]; then
     echo 'This script needs to be run as root'
     sudo bash "$0" "$@"
@@ -79,8 +79,7 @@ TEMP_THROTTLE_EXEC='/usr/local/sbin/underclock'
 wget 'https://github.com/Sepero/temp-throttle/archive/stable.zip' -O \
     "$TEMP_THROTTLE_ARCH"
 
-# Unzipping only the shellscript to stdout
-# and redirecting to TEMP_THROTTLE_EXEC
+# Unzipping only the shellscript to stdout and redirecting to TEMP_THROTTLE_EXEC
 unzip -p "$TEMP_THROTTLE_ARCH" '*.sh' > "$TEMP_THROTTLE_EXEC"
 
 chmod +x "$TEMP_THROTTLE_EXEC"
@@ -131,5 +130,5 @@ rm -rf "$TMP_DIR"
 #
 #####################################################
 
-# Just leveraging on the installer script
+# Just leveraging on the installer script in this very repository
 bash Support/bin/root/install-postman

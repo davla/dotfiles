@@ -124,3 +124,12 @@ bash "$TMP_DIR/install.sh"
 mv /usr/local/bin/move-to-next-monitor /usr/bin/move-to-monitor
 
 rm -rf "$TMP_DIR"
+
+#####################################################
+#
+#                   Postman
+#
+#####################################################
+
+# Just leveraging on the installer script
+bash Support/bin/root/install-postman

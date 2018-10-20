@@ -14,7 +14,7 @@
 
 cp Support/startup/*.service /etc/systemd/system
 find Support/startup -name '*.service' -exec basename '{}' '.service' \; \
-    | xargs echo systemctl enable
+    | xargs systemctl enable
 
 #########################
 # /etc/fstab setup

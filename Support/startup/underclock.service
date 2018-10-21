@@ -9,6 +9,6 @@ WantedBy=multi-user.target
 [Service]
 ExecStart=underclock 55
 StandardOutput=syslog
-SyslogFacility=local0
+SyslogFacility=local1
 SyslogIdentifier=UNDERCLOCK
 SyslogLevel=info

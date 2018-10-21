@@ -178,7 +178,7 @@ apt-get install autoconf cmake cowsay cups curl dkms docker-ce dos2unix \
     flashplayer-mozilla fonts-freefont-otf fortune g++ ghc gifsicle git \
     gvfs-backends handbrake-cli heroku hunspell hunspell-en-us hunspell-it \
     imagemagick jq lame libgnome-keyring-dev lightdm-gtk-greeter lua5.1 \
-    lua5.3 make moreutils nfs-common oracle-java8-installer \
+    lua5.3 lua-check make moreutils nfs-common oracle-java8-installer \
     oracle-java8-set-default browser-plugin-vlc p7zip pycodestyle python-pip \
     python-requests-futures python-setuptools python3-gdbm python3-lxml \
     python3-requests python3-requests-oauthlib rar ruby sbt sct scala \

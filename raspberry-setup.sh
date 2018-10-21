@@ -62,10 +62,18 @@ git config --global user.name 'Davide Laezza'
 #
 #####################################################
 
-# Shimming `su` to execute `su -` when called with no arguments
-grep 'function su' /etc/bash.bashrc &> /dev/null \
-    || tail -n +2 Support/shell/su.sh \
-        | sudo tee -a /etc/bash.bashrc &> /dev/null
+# Setting PATH at every user switch, regardless of whether the shell is login
+if ! sudo grep -P 'ALWAYS_SET_PATH\s+yes' /etc/login.defs &> /dev/null; then
+    LINE_NO=$(sudo grep -n '^ENV_PATH' /etc/login.defs | cut -d ':' -f 1)
+    LINE_NO=$(( LINE_NO + 1 ))
+
+    sudo sed -i -e "$(( LINE_NO - 1 ))G" \
+                -e "${LINE_NO}i#" \
+                -e "${LINE_NO}i# Sets the PATH to one of the above values \
+also for non-login shells" \
+                -e "${LINE_NO}i#" \
+                -e "${LINE_NO}iALWAYS_SET_PATH         yes" /etc/login.defs
+fi
 
 # Adding environment variables
 cp Support/raspberry/.bash_envvars "$HOME"

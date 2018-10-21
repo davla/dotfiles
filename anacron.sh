@@ -102,9 +102,17 @@ done
 #
 #####################################################
 
-# Adding custom jobs only if not already there
-grep "$CUSTOM_JOBS_MARKER" /etc/anacrontab &> /dev/null \
-    || echo -n "
+# No need to add custom jobs if they are already there
+grep "$CUSTOM_JOBS_MARKER" /etc/anacrontab &> /dev/null && exit 0
+
+# Custom jobs cannot be added without a user name
+if [[ -z "$USER_NAME" ]]; then
+    echo >&2 'User name not provided - cannot add user jobs'
+    exit 1
+fi
+
+# Adding custom jobs
+echo -n "
 $CUSTOM_JOBS_MARKER
 
 1        1        git.updates	su $USER_NAME -c 'pull-repos'

@@ -86,7 +86,14 @@ cp Support/logger/rsyslog-custom.conf /etc/rsyslog.d
 #####################################################
 
 for BIN in "${ROOT_DAILY[@]}"; do
-    which "$BIN" | xargs -i ln -fs '{}' "/etc/cron.daily/$BIN"
+    EXEC_BIN=$(which "$BIN")
+
+    if [[ $? -ne 0 ]]; then
+        echo >&2 "$BIN executable not found: have you linked it?"
+        continue
+    fi
+
+    ln -fs "$EXEC_BIN" "/etc/cron.daily/$BIN"
 done
 
 #####################################################

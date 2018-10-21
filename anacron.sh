@@ -115,5 +115,5 @@ fi
 echo -n "
 $CUSTOM_JOBS_MARKER
 
-1        1        git.updates	su $USER_NAME -c 'pull-repos'
+1        1        git.updates	runuser -u $USER_NAME pull-repos
 " >> /etc/anacrontab

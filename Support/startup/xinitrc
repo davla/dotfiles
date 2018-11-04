@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Xfce session initialization script
+
+# Invoking the default initialization
+[ -f /etc/xdg/xfce4/xinitrc ] && . /etc/xdg/xfce4/xinitrc
+
+# Setting up UI scaling
+SCALING=$(which adjust-scaling)
+[ -f "$SCALING" ] && . "$SCALING"

@@ -39,5 +39,5 @@ fi
 #
 #####################################################
 
-cp Support/shell/.bash_profile "$HOME"
+cp Support/startup/xinitrc "$HOME/.config/xfce4"
 cp Support/startup/*.desktop "$HOME/.config/autostart"

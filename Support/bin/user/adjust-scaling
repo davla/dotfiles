@@ -22,12 +22,7 @@ DPMM_THRESHOLD='5'
 # Xrandr lines for active displays and their maximum resolution
 ACTIVE_DISPLAYS=$(xrandr | grep -A 1 --group-separator='' -P '\bconnected.*\d')
 
-#####################################################
-#
-#           Resolution-dependent values
-#
-#####################################################
-
+# Whether the current dot-per-mm is lower than the threshold.
 # Line-by-line comments:
 # Extracting current resolution, display size and maximum resolution for
 #       active displays
@@ -47,6 +42,15 @@ IS_DPMM_LOW=$(grep -oP '(\d+mm x \d+mm|\d+x\d+)' <<<"$ACTIVE_DISPLAYS" \
     | xargs \
     | sed 's/,$//' \
     | xargs -i python3 -c "print(min([{}]) < $DPMM_THRESHOLD)")
+IS_DPMM_LOW="${IS_DPMM_LOW,,}"
+
+# The current status, that is upscaled or not
+[[ $(xfconf-query -c 'xsettings' -p '/Xft/DPI') == '-1' ]] \
+    && IS_UPSCALED='true' \
+    || IS_UPSCALED='false'
+
+# Whether persistent settings need to be set.
+SET_PERSISTENT='false'
 
 #####################################################
 #
@@ -54,12 +58,16 @@ IS_DPMM_LOW=$(grep -oP '(\d+mm x \d+mm|\d+x\d+)' <<<"$ACTIVE_DISPLAYS" \
 #
 #####################################################
 
-if [[ "${IS_DPMM_LOW,,}" == 'true' ]]; then
-    # Downscaling
+if [[ "$IS_DPMM_LOW" == 'true' ]]; then
 
+    # If the UI is upscaled, persistent settings need to be updated.
+    [[ "$IS_UPSCALED" == 'true' ]] && SET_PERSISTENT='true'
+
+    # Downscaling
     CURSOR_SIZE=24
-    DPI=90
+    DPI='-1'
     EYES_THEME='Default-tiny'
+    GDK_SCALE=1
     ICON_SIZES="''"
     PANEL_SIZE=24
     RESOLUTION='"1920x1080"'
@@ -70,12 +78,17 @@ if [[ "${IS_DPMM_LOW,,}" == 'true' ]]; then
     THUNAR_WINDOW_WIDTH=700
     THUNAR_ZOOM='THUNAR_ZOOM_LEVEL_NORMAL'
     WINDOW_MANAGER_THEME='Stoneage'
-else
-    # Upscaling
 
+else
+
+    # If the UI is not upscaled, persistent settings need to be updated.
+    [[ "$IS_UPSCALED" == 'false' ]] && SET_PERSISTENT='true'
+
+    # Upscaling
     CURSOR_SIZE=48
     DPI=180
     EYES_THEME='Default'
+    GDK_SCALE=2
     ICON_SIZES='gtk-menu=40,40:gtk-button=45,45:gtk-dialog=48,48:
     gtk-small-toolbar=45,45:gtk-large-toolbar=45,45'
     PANEL_SIZE=48
@@ -89,51 +102,83 @@ else
     WINDOW_MANAGER_THEME='StoneageThick'
 fi
 
-echo $RESOLUTION
-
 #####################################################
 #
-#               Setting UI values
+#               Setting scaling values
 #
 #####################################################
 
-# Fetching the base name of the xfconf system tray panel plugin
-SYSTRAY_PROP_BASE=$(xfconf-query -c xfce4-panel -p '/plugins' -l -v \
-    | grep systray | awk '{ print $1 }')
+if [[ "$SET_PERSISTENT" == 'true' ]]; then
 
-# A list of tuples "<channel> <property> <type> <value>" to be used with xfconf
-XFCONF_SETTINGS=(
-    "thunar /last-icon-view-zoom-level string $THUNAR_ZOOM"
-    "thunar /last-separator-position int $THUNAR_SEPARATOR"
-    "thunar /last-window-height int $THUNAR_WINDOW_HEIGHT"
-    "thunar /last-window-width int $THUNAR_WINDOW_WIDTH"
-    "thunar /shortcuts-icon-size string $THUNAR_ICON_SIZE"
-    "thunar /tree-icon-size string $THUNAR_ICON_SIZE"
-    "xfwm4 /general/margin_top int $PANEL_SIZE"
-    "xfwm4 /general/theme string $WINDOW_MANAGER_THEME"
-    "xfce4-panel /panels/panel-1/size int $PANEL_SIZE"
-    "xfce4-panel $SYSTRAY_PROP_BASE/size-max int $SYSTRAY_ICON_SIZE"
-    "xsettings /Gtk/CursorThemeSize int $CURSOR_SIZE"
-    "xsettings /Gtk/IconSizes string $ICON_SIZES"
-    "xsettings /Xfce/LastCustomDPI int $DPI"
-    "xsettings /Xft/DPI int $DPI"
-)
+    #####################################################
+    #
+    #               Setting Xfce values
+    #
+    #####################################################
 
-# Changing xfconf prperties
-for XFCONF_DATA in "${XFCONF_SETTINGS[@]}"; do
-    read -r CHANNEL PROP TYPE VALUE <<<"$XFCONF_DATA"
+    # Fetching the base name of the xfconf system tray panel plugin
+    SYSTRAY_PROP_BASE=$(xfconf-query -c xfce4-panel -p '/plugins' -l -v \
+        | grep systray | awk '{ print $1 }')
 
-    xfconf-query -n -c "$CHANNEL" -p "$PROP" -t "$TYPE" -s "$VALUE"
-done
+    # A list of tuples "<channel> <property> <type> <value>" to be used with xfconf
+    XFCONF_SETTINGS=(
+        "thunar /last-icon-view-zoom-level string $THUNAR_ZOOM"
+        "thunar /last-separator-position int $THUNAR_SEPARATOR"
+        "thunar /last-window-height int $THUNAR_WINDOW_HEIGHT"
+        "thunar /last-window-width int $THUNAR_WINDOW_WIDTH"
+        "thunar /shortcuts-icon-size string $THUNAR_ICON_SIZE"
+        "thunar /tree-icon-size string $THUNAR_ICON_SIZE"
+        "xfwm4 /general/margin_top int $PANEL_SIZE"
+        "xfwm4 /general/theme string $WINDOW_MANAGER_THEME"
+        "xfce4-panel /panels/panel-1/size int $PANEL_SIZE"
+        "xfce4-panel $SYSTRAY_PROP_BASE/size-max int $SYSTRAY_ICON_SIZE"
+        "xsettings /Gtk/CursorThemeSize int $CURSOR_SIZE"
+        "xsettings /Gtk/IconSizes string $ICON_SIZES"
+        "xsettings /Xfce/LastCustomDPI int $DPI"
+        "xsettings /Xft/DPI int $DPI"
+    )
 
-# Changing the theme of the eyes plugin
-sed -i -E "s/theme=.+/theme=$EYES_THEME/g" \
-    "$HOME/.config/xfce4/panel/eyes-4.rc"
+    # Changing xfconf prperties
+    for XFCONF_DATA in "${XFCONF_SETTINGS[@]}"; do
+        read -r CHANNEL PROP TYPE VALUE <<<"$XFCONF_DATA"
+
+        xfconf-query -n -c "$CHANNEL" -p "$PROP" -t "$TYPE" -s "$VALUE"
+    done
+
+    # Changing the theme of the eyes plugin
+    sed -i -E "s/theme=.+/theme=$EYES_THEME/g" \
+        "$HOME/.config/xfce4/panel/eyes-4.rc"
+fi
+
+#####################################################
+#
+#               Setting Qt values
+#
+#####################################################
+
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+
+#####################################################
+#
+#               Setting GDK 3 values
+#
+#####################################################
+
+export GDK_SCALE
+
+#####################################################
+#
+#               Applying changes
+#
+#####################################################
 
 # Killing panel for the changes to take effect
 wmctrl -l | grep xfce4-panel | awk '{print $1}' | xargs xkill -id
 
-# Changing the resolution of active displays
+# Changing the resolution of active displays. If all the active displays have
+# comparable pixel density, the resolution is set to the maximum for each
+# screen. Otherwise, setting it to 1080p.
+#
 # Line-by-line:
 # Extracting display names and maximum resolution for active displays
 # Grouping them by two, that is every display name with its maximum resolution

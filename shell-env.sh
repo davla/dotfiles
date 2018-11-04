@@ -31,6 +31,4 @@ fi
 cp Support/shell/.bash_envvars "$HOME"
 grep '\.bash_envvars' "$HOME/.bashrc" &> /dev/null || echo '
 # Setting envvars
-if [ -f ~/.bash_envvars ]; then
-    . ~/.bash_envvars
-fi' >> "$HOME/.bashrc"
+[ -f $HOME/.bash_envvars ] && . $HOME/.bash_envvars' >> "$HOME/.bashrc"

@@ -12,9 +12,10 @@
 # Systemd services
 #########################
 
-cp Support/startup/*.service /etc/systemd/system
+sudo cp Support/startup/*.service /etc/systemd/system
+# shellcheck disable=SC2038
 find Support/startup -name '*.service' -exec basename '{}' '.service' \; \
-    | xargs systemctl enable
+    | xargs sudo systemctl enable
 
 #########################
 # /etc/fstab setup
@@ -39,5 +40,25 @@ fi
 #
 #####################################################
 
+####################################
+# Delaying some autostart jobs
+####################################
+
+XFCE_AUTOSTART_DIR="$HOME/.config/autostart"
+
+# Shell globs of the jobs to be delayed
+DELAYED=('*npass*.desktop')
+
+# Need the for loop since every DELAYED item needs to be passed to find, as it
+# can match multiple files
+for JOB in "${DELAYED[@]}"; do
+    find "$XFCE_AUTOSTART_DIR" -name "$JOB" -exec sed -i -E \
+        "/Exec=.*sleep/! s/Exec=(.+)/Exec=sh -c 'sleep 2s \&\& \1'/g" '{}' \;
+done
+
+####################################
+# Setting startup jobs
+####################################
+
 cp Support/startup/xinitrc "$HOME/.config/xfce4"
-cp Support/startup/*.desktop "$HOME/.config/autostart"
+cp Support/startup/*.desktop "$XFCE_AUTOSTART_DIR"

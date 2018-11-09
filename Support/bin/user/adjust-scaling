@@ -49,8 +49,8 @@ IS_DPMM_LOW="${IS_DPMM_LOW,,}"
     && IS_UPSCALED='true' \
     || IS_UPSCALED='false'
 
-# Whether persistent settings need to be set.
-SET_PERSISTENT='false'
+# Whether the UI should be scaled
+SET_SCALING='false'
 
 #####################################################
 #
@@ -60,9 +60,12 @@ SET_PERSISTENT='false'
 
 if [[ "$IS_DPMM_LOW" == 'true' ]]; then
 
-    # If the UI is upscaled, persistent settings need to be updated.
+    # Scaling-independent values
+    RESOLUTION='"1920x1080"'
+
+    # If the UI is upscaled, scaling settings need to be updated.
     if [[ "$IS_UPSCALED" == 'true' ]]; then
-        SET_PERSISTENT='true'
+        SET_SCALING='true'
 
         # Downscaling
         CURSOR_SIZE=24
@@ -71,7 +74,6 @@ if [[ "$IS_DPMM_LOW" == 'true' ]]; then
         GDK_SCALE=1
         ICON_SIZES="''"
         PANEL_SIZE=24
-        RESOLUTION='"1920x1080"'
         SYSTRAY_ICON_SIZE=22
         THUNAR_ICON_SIZE='THUNAR_ICON_SIZE_SMALL'
         THUNAR_SEPARATOR=174
@@ -83,9 +85,12 @@ if [[ "$IS_DPMM_LOW" == 'true' ]]; then
 
 else
 
-    # If the UI is not upscaled, persistent settings need to be updated.
+    # Scaling-independent values
+    RESOLUTION='$2'
+
+    # If the UI is not upscaled, scaling settings need to be updated.
     if [[ "$IS_UPSCALED" == 'false' ]]; then
-        SET_PERSISTENT='true'
+        SET_SCALING='true'
 
         # Upscaling
         CURSOR_SIZE=48
@@ -95,7 +100,6 @@ else
         ICON_SIZES='gtk-menu=40,40:gtk-button=45,45:gtk-dialog=48,48:
         gtk-small-toolbar=45,45:gtk-large-toolbar=45,45'
         PANEL_SIZE=48
-        RESOLUTION='$2'
         SYSTRAY_ICON_SIZE=43
         THUNAR_ICON_SIZE='THUNAR_ICON_SIZE_LARGE'
         THUNAR_SEPARATOR=324
@@ -106,15 +110,13 @@ else
     fi
 fi
 
-echo $IS_UPSCALED
-
 #####################################################
 #
 #               Setting scaling values
 #
 #####################################################
 
-if [[ "$SET_PERSISTENT" == 'true' ]]; then
+if [[ "$SET_SCALING" == 'true' ]]; then
 
     #####################################################
     #

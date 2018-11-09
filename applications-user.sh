@@ -21,9 +21,9 @@ mkdir -p "$DOCKER_USER_CONFIG"
 # Adding "credsStore" key if the configuration file already exists, otherwise
 # creating it from scratch with the same key.
 [[ -f "$DOCKER_CONFIG_FILE" ]] \
-    && jq '.credsStore = "secretService"' "$DOCKER_CONFIG_FILE" | \
+    && jq '.credsStore = "secretservice"' "$DOCKER_CONFIG_FILE" | \
         sponge "$DOCKER_CONFIG_FILE" \
-    || jq -n '{credsStore: "secretService"}' > "$DOCKER_CONFIG_FILE"
+    || jq -n '{credsStore: "secretservice"}' > "$DOCKER_CONFIG_FILE"
 
 # GHC
 echo ':set prompt "ghci> "' > "$HOME/.ghci"

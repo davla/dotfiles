@@ -3,6 +3,9 @@
 # This script adapts the UI scaling to the screen resolution:
 # it is upscaled for HIDPI resolutions and scaled back to
 # normal for standard ones.
+#
+# Arguments:
+#   -f: flag, forces UI scaling
 
 #####################################################
 #
@@ -12,6 +15,27 @@
 
 # The value of dots-per-mm below which the screen is considered not HIDPI
 DPMM_THRESHOLD='5'
+
+#####################################################
+#
+#               Input processing
+#
+#####################################################
+
+# Whether to force scaling
+FORCE_SCALING='false'
+
+while getopts 'f' OPTION; do
+    case "$OPTION" in
+        'f')
+            FORCE_SCALING='true'
+            ;;
+
+        *)  # getopts has already printed an error message
+            exit 1
+            ;;
+    esac
+done
 
 #####################################################
 #
@@ -63,8 +87,9 @@ if [[ "$IS_DPMM_LOW" == 'true' ]]; then
     # Scaling-independent values
     RESOLUTION='"1920x1080"'
 
-    # If the UI is upscaled, scaling settings need to be updated.
-    if [[ "$IS_UPSCALED" == 'true' ]]; then
+    # If scaling is forced, or if the UI is upscaled, scaling settings need to
+    # be updated.
+    if [[ "$FORCE_SCALING" == 'true' || "$IS_UPSCALED" == 'true' ]]; then
         SET_SCALING='true'
 
         # Downscaling
@@ -88,8 +113,9 @@ else
     # Scaling-independent values
     RESOLUTION='$2'
 
-    # If the UI is not upscaled, scaling settings need to be updated.
-    if [[ "$IS_UPSCALED" == 'false' ]]; then
+    # If scaling is forced, or if the UI is not upscaled, scaling settings
+    # need to be updated.
+    if [[ "$FORCE_SCALING" == 'true' || "$IS_UPSCALED" == 'false' ]]; then
         SET_SCALING='true'
 
         # Upscaling

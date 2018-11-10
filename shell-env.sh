@@ -27,6 +27,9 @@ fi
 #
 #####################################################
 
+# Setting environment for bash login shells
+cp Support/shell/.bash_profile "$HOME"
+
 # Setting custom environment variables for the user
 cp Support/shell/.bash_envvars "$HOME"
 grep '\.bash_envvars' "$HOME/.bashrc" &> /dev/null || echo '

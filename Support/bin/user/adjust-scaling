@@ -85,6 +85,8 @@ SET_SCALING='false'
 if [[ "$IS_DPMM_LOW" == 'true' ]]; then
 
     # Scaling-independent values
+
+    # Quotes are necessary for awk and xrandr when setting the resolution
     RESOLUTION='"1920x1080"'
 
     # If scaling is forced, or if the UI is upscaled, scaling settings need to
@@ -152,9 +154,10 @@ if [[ "$SET_SCALING" == 'true' ]]; then
 
     # Fetching the base name of the xfconf system tray panel plugin
     SYSTRAY_PROP_BASE=$(xfconf-query -c xfce4-panel -p '/plugins' -l -v \
-        | grep systray | awk '{ print $1 }')
+        | grep systray | cut -d ' ' -f 1)
 
-    # A list of tuples "<channel> <property> <type> <value>" to be used with xfconf
+    # A list of tuples "<channel> <property> <type> <value>" to be used with
+    # xfconf
     XFCONF_SETTINGS=(
         "thunar /last-icon-view-zoom-level string $THUNAR_ZOOM"
         "thunar /last-separator-position int $THUNAR_SEPARATOR"
@@ -223,3 +226,28 @@ grep -oP '^\s*(\S+)' <<<"$ACTIVE_DISPLAYS" \
     | xargs -n 2 \
     | awk '{print $1,"--mode",'"$RESOLUTION"'}' \
     | xargs -n 3 xrandr --output
+
+# Setting the resolution in Xfce settings to keep the resolution consistent
+# across reboots.
+#
+# The variable $ACTIVE_DISPLAYS can not be used here, since we want to include
+# connected, but inactive, displays
+for SCREEN in $(xrandr | grep -P '\bconnected\b' | cut -f 1 -d ' '); do
+
+    # If the screen is active, the resolution is taken from xrandr.
+    if [[ "$(xfconf-query -c 'displays' -p "/Default/$SCREEN/Active")" \
+            == 'true' ]]; then
+
+        # Active screen have the current resolution next to their name in
+        # xrandr output.
+        RESOLUTION="$(xrandr | grep -P "$SCREEN" | cut -d ' ' -f 3 \
+            | cut -d '+' -f 1)"
+
+    # For inactive screens the 1080p value is used for the resolution.
+    else
+        RESOLUTION='1920x1080'
+    fi
+
+    xfconf-query -n -c 'displays' -p "/Default/$SCREEN/Resolution" \
+            -s "$RESOLUTION" -t 'string'
+done

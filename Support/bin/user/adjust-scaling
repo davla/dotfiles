@@ -18,27 +18,6 @@ DPMM_THRESHOLD='5'
 
 #####################################################
 #
-#               Input processing
-#
-#####################################################
-
-# Whether to force scaling
-FORCE_SCALING='false'
-
-while getopts 'f' OPTION; do
-    case "$OPTION" in
-        'f')
-            FORCE_SCALING='true'
-            ;;
-
-        *)  # getopts has already printed an error message
-            exit 1
-            ;;
-    esac
-done
-
-#####################################################
-#
 #                   Variables
 #
 #####################################################
@@ -78,20 +57,65 @@ SET_SCALING='false'
 
 #####################################################
 #
+#               Input processing
+#
+#####################################################
+
+# Whether to force scaling, and in what direction. Possible values:
+#   - down -- Forces downscaling.
+#   - false -- Scaling not forced.
+#   - up -- Forces upscaling.
+FORCE_SCALING='false'
+
+# If more than one CLI arguments are supplied, don't know which direction
+# the UI should be scaled.
+if [[ "$#" -gt 1 ]]; then
+    echo >&2 'You can only force scaling once'
+    exit 1
+fi
+
+while getopts 'fud' OPTION; do
+    case "$OPTION" in
+        'd')
+            FORCE_SCALING='down'
+            ;;
+
+        'f')
+            # If the scaling is generically forced, setting the direction
+            # based on the dots per millimiter density.
+            [[ "$IS_DPMM_LOW" == 'true' ]] \
+                && FORCE_SCALING='down' \
+                || FORCE_SCALING='up'
+            ;;
+
+        'u')
+            FORCE_SCALING='up'
+            ;;
+
+        *)  # getopts has already printed an error message
+            exit 1
+            ;;
+    esac
+done
+
+#####################################################
+#
 #           Resolution-dependent values
 #
 #####################################################
 
-if [[ "$IS_DPMM_LOW" == 'true' ]]; then
+# Whether the UI could be possibly downscaled
+if [[ "$FORCE_SCALING" == 'down' || \
+    ("$FORCE_SCALING" == 'false' && "$IS_DPMM_LOW" == 'true') ]]; then
 
     # Scaling-independent values
 
     # Quotes are necessary for awk and xrandr when setting the resolution
     RESOLUTION='"1920x1080"'
 
-    # If scaling is forced, or if the UI is upscaled, scaling settings need to
-    # be updated.
-    if [[ "$FORCE_SCALING" == 'true' || "$IS_UPSCALED" == 'true' ]]; then
+    # Whether the UI must be downscaled
+    if [[ "$FORCE_SCALING" == 'down' || \
+        ("$FORCE_SCALING" == 'false' && "$IS_UPSCALED" == 'true') ]]; then
         SET_SCALING='true'
 
         # Downscaling
@@ -110,14 +134,16 @@ if [[ "$IS_DPMM_LOW" == 'true' ]]; then
         WINDOW_MANAGER_THEME='Stoneage'
     fi
 
-else
+# Whether the UI could be possibly upscaled
+elif [[ "$FORCE_SCALING" == 'up' || \
+    ("$FORCE_SCALING" == 'false' && "$IS_DPMM_LOW" == 'false') ]]; then
 
     # Scaling-independent values
     RESOLUTION='$2'
 
-    # If scaling is forced, or if the UI is not upscaled, scaling settings
-    # need to be updated.
-    if [[ "$FORCE_SCALING" == 'true' || "$IS_UPSCALED" == 'false' ]]; then
+    # Whether the UI must be upscaled
+    if [[ "$FORCE_SCALING" == 'up' || \
+        ("$FORCE_SCALING" == 'false' && "$IS_UPSCALED" == 'false') ]]; then
         SET_SCALING='true'
 
         # Upscaling

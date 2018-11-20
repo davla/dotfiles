@@ -52,6 +52,7 @@ DELAYED=('*npass*.desktop')
 # Need the for loop since every DELAYED item needs to be passed to find, as it
 # can match multiple files
 for JOB in "${DELAYED[@]}"; do
+    # The first sed pattern makes the script idempotent
     find "$XFCE_AUTOSTART_DIR" -name "$JOB" -exec sed -i -E \
         "/Exec=.*sleep/! s/Exec=(.+)/Exec=sh -c 'sleep 2s \&\& \1'/g" '{}' \;
 done

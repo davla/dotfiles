@@ -21,6 +21,10 @@ also for non-login shells" \
                 -e "${LINE_NO}iALWAYS_SET_PATH         yes" /etc/login.defs
 fi
 
+# Making variables expand with autocompletion
+grep 'shopt -s direxpand' /etc/bash.bashrc \
+    || echo 'shopt -s direxpand' | sudo tee -a /etc/bash.bashrc &> /dev/null
+
 #####################################################
 #
 #                       User

@@ -1,13 +1,18 @@
 #!/usr/bin/env bash
 
-# This script sets, for both user and root, the content and color of terminal
-# prompt and the text in the title of terminal windows, The color varies based
-# on the specified host.
+# This script sets, for both user and root, the content and colors of the
+# terminal prompt and the text in the title of terminal windows, Colors vary
+# based on the specified host.
 
 # Arguments:
-#   - $1: The host used to choose the colors. So far, one of:
+#   - $1: The host used to choose the colors. Defaults to 'local'.
+#       So far, one of:
 #       - local
 #       - raspberry
+
+# The system is based on a prompt-setting script, exporting a function meant to
+# be used as PROMPT_COMMAND. This function reads a bunch of variables that
+# define the colorscheme from a file in the user home directory.
 
 #####################################################
 #
@@ -15,18 +20,12 @@
 #
 #####################################################
 
-# PS1s for different hosts. As bash does not allow nested arrays, the first
-# line is root and the second is current user
-declare -A PS1S
+# Whether this script is being run in a sudo environment. Used to stop
+# recursion due to self-sourcing in set-prompt-theme.
+[[ -n "$(printenv | grep SUDO)" ]] && IS_SUDO='true' || IS_SUDO='false'
 
-PS1S[local]='\[\033[38;5;40m\]\u@\h:*/\W\$
-\[\033[38;5;202m\]\u@\h:*/\W\$'
-
-PS1S[raspberry]='\[\033[38;5;11m\]\u@\h:*/\W\$
-\[\033[38;5;39m\]\u@\h:*/\W\$'
-
-# Title
-TITLE='\[\e]0;\u@\h:*/\W\a\]'
+# This file's path
+THIS_FILE="$(readlink -f "${BASH_SOURCE[0]}")"
 
 #####################################################
 #
@@ -34,8 +33,8 @@ TITLE='\[\e]0;\u@\h:*/\W\a\]'
 #
 #####################################################
 
-# Host to choose the colors from
-HOST="$1"
+# Host to choose the colors for
+HOST="${1:-local}"
 
 #####################################################
 #
@@ -43,44 +42,62 @@ HOST="$1"
 #
 #####################################################
 
-# This function sets the PS1 and the terminal title of a given user.
+# This function sets up user-specific configuraton for the prompt. This means
+# that is sets the colorscheme and sets the prompt command in the user
+# .bashrc file. It is expected to be executed as the user the setup is being
+# made for.
 #
 # Arguments:
-#   - $1: The string PS1 should be set to
-#   - $2: The user home directory
-function set-ps1 {
-    # PS1 backslashes are escaped to be used in double quotes
-    local PS1="${1//\\/\\\\} "
-    local USER_HOME="$2"
+#   - $1: The absolute path of the colorscheme file to be used.
+function __set-prompt-theme {
+    local COLORSCHEME_FILE="$1"
 
-    # If PS1 has already been set, returning
-    grep "$PS1" "$USER_HOME/.bashrc" &> /dev/null && return
+    # Linking the passed colorscheme in the user home, where the prompt-setting
+    # script expects it to be.
+    ln -sf "$COLORSCHEME_FILE" "$HOME/.prompt-colorscheme.sh"
 
-    # Checking for the title line
-    if grep -P 'PS1=.+\$PS1' "$USER_HOME/.bashrc" &> /dev/null; then
-
-        # Title line exists, replacing the title with sed
-        TITLE=${TITLE//\\/\\\\}
-        sudo sed -r -i "s|#?(.*)PS1=.+\\\$PS1\"?|\1PS1='$TITLE'\"\$PS1\"|g" \
-            "$USER_HOME/.bashrc"
-    else
-
-        # Title line does not exist, appending it
-        echo "# If this is an xterm set the title
-case \"\$TERM\" in
-xterm*|rxvt*)
-    PS1='$TITLE'\"\$PS1\"
-    ;;
-*)
-    ;;
-esac
-" | sudo tee -a "$USER_HOME/.bashrc" > /dev/null
-    fi
-
-    # Replacing all the PS1 assignments but the title one
-    sudo sed -i -E "/PS1=.+\\\$PS1/! s|#?(.*)PS1=.+|\1PS1='$PS1'|g" \
-        "$USER_HOME/.bashrc"
+    # Appending a few lines to the user .bashrc, only if not aready there.
+    # These lines source the prompt-setting script and set PROMPT_COMMAND.
+    grep '.set-prompt.sh' "$HOME/.bashrc" &> /dev/null || echo "
+# Setting custom prompt theme
+[[ -f /usr/local/lib/set-prompt.sh ]] && . /usr/local/lib/set-prompt.sh
+PROMPT_COMMAND='set-prompt'" >> "$HOME/.bashrc"
 }
+
+# This function sets the prompt and the terminal title of a given user for
+# a certain host
+#
+# Arguments:
+#   - $1: The host the prompt should be set for
+#   - $2: The user home directory
+function set-prompt-theme {
+    local HOST="$1"
+    local USER="$2"
+
+    # Colorscheme file for the passed user on the given host
+    COLORSCHEME_FILE="$(readlink -f \
+        "Support/shell/prompt-colorscheme-$HOST-$USER.sh")"
+
+    # We need to execute a few commands in the user environment. Escaping
+    # everything in the string passed as the bash command is unconvenient.
+    # Therefore, the commands have been grouped into an auxiliary function,
+    # made available by sourcing this very file.
+    sudo -u "$USER" bash -c "
+        source \"$THIS_FILE\"
+        __set-prompt-theme \"$COLORSCHEME_FILE\"
+    "
+}
+
+#####################################################
+#
+#               User-independent setup
+#
+#####################################################
+
+# Linking the prompt-setting file to a system-wide location, to make it easily
+# available for all users
+readlink -f Support/shell/set-prompt.sh \
+    | xargs -i sudo ln -sf '{}' /usr/local/lib/set-prompt.sh
 
 #####################################################
 #
@@ -88,8 +105,9 @@ esac
 #
 #####################################################
 
-ROOT_PS1=$(head -n 1 <<< "${PS1S[$HOST]}")
-set-ps1 "$ROOT_PS1" '/root'
+# Only calling set-prompt-theme when not run as sudo. This tames the recursion
+# owed to self-sourcing in set-prompt-theme.
+[[ "$IS_SUDO" == 'false' ]] && set-prompt-theme "$HOST" 'root'
 
 #####################################################
 #
@@ -97,5 +115,6 @@ set-ps1 "$ROOT_PS1" '/root'
 #
 #####################################################
 
-USER_PS1=$(tail -n 1 <<< "${PS1S[$HOST]}")
-set-ps1 "$USER_PS1" "$HOME"
+# Only calling set-prompt-theme when not run as sudo. This tames the recursion
+# owed to self-sourcing in set-prompt-theme.
+[[ "$IS_SUDO" == 'false' ]] && set-prompt-theme "$HOST" "$USER"

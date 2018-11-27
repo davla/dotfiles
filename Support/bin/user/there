@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# This scripts runs a command disconnecting it from the parent terminal. STDIN
+# is closed and STDOUT and STDERR are silenced.
+#
+# Arguments:
+#   - $@: The command to be run
+
+nohup "$@" > /dev/null 2>&1

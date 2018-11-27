@@ -23,7 +23,9 @@ fi
 
 # Making variables expand with autocompletion
 grep 'shopt -s direxpand' /etc/bash.bashrc \
-    || echo 'shopt -s direxpand' | sudo tee -a /etc/bash.bashrc &> /dev/null
+    || echo '
+# Making variables expand with autocompletion
+shopt -s direxpand' | sudo tee -a /etc/bash.bashrc &> /dev/null
 
 #####################################################
 #

@@ -35,15 +35,17 @@ fi
 #
 #####################################################
 
+LIGHTDM_CONF_CUSTOM="$(readlink -f Support/lightdm)"
 LIGHTDM_CONF_BASE='/usr/share/lightdm'
 LIGHTDM_CONF_DIR="$LIGHTDM_CONF_BASE/lightdm.conf.d"
 LIGHTDM_GREETER_CONF_DIR="$LIGHTDM_CONF_BASE/lightdm-gtk-greeter.conf.d"
 
 sudo mkdir -p "$LIGHTDM_CONF_DIR"
-sudo cp Support/lightdm/02_lightdm_custom.conf "$LIGHTDM_CONF_DIR"
+sudo ln -s "$LIGHTDM_CONF_CUSTOM/02_lightdm_custom.conf" "$LIGHTDM_CONF_DIR"
 
 sudo mkdir -p "$LIGHTDM_GREETER_CONF_DIR"
-sudo cp Support/lightdm/02_greeter_custom.conf "$LIGHTDM_GREETER_CONF_DIR"
+sudo ln -s "$LIGHTDM_CONF_CUSTOM/02_greeter_custom.conf" \
+    "$LIGHTDM_GREETER_CONF_DIR"
 
 #####################################################
 #

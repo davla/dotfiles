@@ -76,8 +76,9 @@ sed -i 's/ANACRON_RUN_ON_BATTERY_POWER=no/ANACRON_RUN_ON_BATTERY_POWER=yes/g' \
 #
 #####################################################
 
-cp Support/logger/logrotate-custom.conf /etc/logrotate.d
-cp Support/logger/rsyslog-custom.conf /etc/rsyslog.d
+LOGS_DIR_CUSTOM="$(readlink -f Support/logger/)"
+ln -s "$LOGS_DIR_CUSTOM/logrotate-custom.conf" /etc/logrotate.d
+ln -s "$LOGS_DIR_CUSTOM/rsyslog-custom.conf" /etc/rsyslog.d
 
 #####################################################
 #

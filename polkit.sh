@@ -5,6 +5,15 @@
 
 #####################################################
 #
+#                   Variables
+#
+#####################################################
+
+# Absolute path of polkit files
+POLKIT_DIR="$(readlink -f Support/polkit)"
+
+#####################################################
+#
 #                   Functions
 #
 #####################################################
@@ -22,8 +31,8 @@ function copy-if-exists {
     local DEST="$2"
 
     mkdir -p "$DEST"
-    find Support/polkit -maxdepth 1 -type f -name "$PATTERN" \
-        -exec cp '{}' "$DEST" \;
+    find "$POLKIT_DIR" -maxdepth 1 -type f -name "$PATTERN" \
+        -exec ln -s '{}' "$DEST" \;
 }
 
 #####################################################

@@ -43,7 +43,7 @@ function copy-files {
 MENU_DIR="$HOME/.config/menus"
 
 mkdir -p "$MENU_DIR"
-cp Support/menu/xfce-applications.menu "$MENU_DIR"
+ln -s Support/menu/xfce-applications.menu "$MENU_DIR"
 echo 'Layout set'
 
 #####################################################

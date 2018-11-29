@@ -64,7 +64,7 @@ make -C "$N_DIR" use
 rm -rf "$N_DIR"
 
 sudo n latest
-sudo cp -r Support/n/* /usr/local/n/versions/node
+readlink -f Support/n | xargs -i sudo ln -s '{}'/* /usr/local/n/versions/node
 
 # proj
 PROJ_DIR='/tmp/proj'

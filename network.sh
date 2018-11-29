@@ -86,7 +86,7 @@ if [[ "$REFRESH" == 'false' ]]; then
 
     # Copying the NetworkManager dispatch script to
     # the right location
-    ln -s "Support/network/$DISPATCHER_SCRIPT" "$DISPATCHERS_PATH"
+    cp "Support/network/$DISPATCHER_SCRIPT" "$DISPATCHERS_PATH"
 
     # Setting the right permissions and ownership
     chown 'root:root' "$DISPATCHER_SCRIPT_PATH"

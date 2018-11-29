@@ -61,5 +61,8 @@ done
 # Setting startup jobs
 ####################################
 
-cp Support/startup/xinitrc "$HOME/.config/xfce4"
-cp Support/startup/*.desktop "$XFCE_AUTOSTART_DIR"
+# Absolute path of startup configuration directory
+STARTUP_CONF_DIR="$(readlink -f Support/startup/)"
+
+ln -sf "$STARTUP_CONF_DIR/xinitrc" "$HOME/.config/xfce4"
+ln -sf "$STARTUP_CONF_DIR/"*.desktop "$XFCE_AUTOSTART_DIR"

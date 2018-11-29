@@ -8,6 +8,15 @@
 #
 #####################################################
 
+# Absolute path of raspberry configuration directory
+RASPI_CONF_DIR="$(readlink -f Support/raspberry)"
+
+#####################################################
+#
+#               Setting root password
+#
+#####################################################
+
 # NP stands for No Password
 sudo passwd --status | grep -w 'NP' &> /dev/null && sudo passwd
 
@@ -76,12 +85,10 @@ also for non-login shells" \
 fi
 
 # Adding environment variables
-cp Support/raspberry/.bash_envvars "$HOME"
+ln -sf "$RASPI_CONF_DIR/.bash_envvars" "$HOME"
 grep '\.bash_envvars' "$HOME/.bashrc" &> /dev/null || echo '
 # Setting envvars
-if [ -f ~/.bash_envvars ]; then
-    . ~/.bash_envvars
-fi' >> "$HOME/.bashrc"
+[ -f ~/.bash_envvars ] && . ~/.bash_envvars' >> "$HOME/.bashrc"
 source "$HOME/.bash_envvars"
 
 #####################################################
@@ -122,7 +129,7 @@ fi
 if [[ ! -d "$PYWIKIBOT_DIR" ]]; then
     git clone --recursive 'https://gerrit.wikimedia.org/r/pywikibot/core.git' \
         "$PYWIKIBOT_DIR"
-    cp -r Support/raspberry/pywikibot/* "$PYWIKIBOT_DIR"
+    ln -sf "$RASPI_CONF_DIR/pywikibot/"* "$PYWIKIBOT_DIR"
     mkdir -p "$PYWIKIBOT_DIR/dicts"
     cd "$PYWIKIBOT_DIR" || exit 1
 

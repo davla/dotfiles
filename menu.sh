@@ -30,7 +30,7 @@ function copy-files {
     if [[ -n $(find "$SOURCE_DIR" -maxdepth 1 -mindepth 1 \
             -name "$SOURCE_FILES" 2> /dev/null) ]]; then
         mkdir -p "$DEST_DIR"
-        cp -r "$SOURCE_DIR"/$SOURCE_FILES "$DEST_DIR"
+        ln -sf "$SOURCE_DIR"/$SOURCE_FILES "$DEST_DIR"
     fi
 }
 
@@ -40,10 +40,11 @@ function copy-files {
 #
 #####################################################
 
+MENU_CONF_DIR="$(readlink -f Support/menu/)"
 MENU_DIR="$HOME/.config/menus"
 
 mkdir -p "$MENU_DIR"
-ln -s Support/menu/xfce-applications.menu "$MENU_DIR"
+ln -sf "$MENU_CONF_DIR/xfce-applications.menu" "$MENU_DIR"
 echo 'Layout set'
 
 #####################################################

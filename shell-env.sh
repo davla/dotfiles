@@ -22,10 +22,13 @@ also for non-login shells" \
 fi
 
 # Making variables expand with autocompletion
-grep 'shopt -s direxpand' /etc/bash.bashrc \
+grep 'shopt -s direxpand' /etc/bash.bashrc &> /dev/null \
     || echo '
 # Making variables expand with autocompletion
 shopt -s direxpand' | sudo tee -a /etc/bash.bashrc &> /dev/null
+
+# Adding custom autocompletions
+sudo cp Support/shell/completion/* /etc/bash_completion.d/
 
 #####################################################
 #
@@ -33,11 +36,14 @@ shopt -s direxpand' | sudo tee -a /etc/bash.bashrc &> /dev/null
 #
 #####################################################
 
+# Absolute path of shell configuration directory
+SHELL_CONF_DIR="$(readlink -f Support/shell/)"
+
 # Setting environment for bash login shells
-cp Support/shell/.bash_profile "$HOME"
+ln -sf "$SHELL_CONF_DIR/.bash_profile" "$HOME"
 
 # Setting custom environment variables for the user
-cp Support/shell/.bash_envvars "$HOME"
+ln -sf "$SHELL_CONF_DIR/.bash_envvars" "$HOME"
 grep '\.bash_envvars' "$HOME/.bashrc" &> /dev/null || echo '
 # Setting envvars
 [ -f $HOME/.bash_envvars ] && . $HOME/.bash_envvars' >> "$HOME/.bashrc"

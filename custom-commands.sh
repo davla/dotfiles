@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
 
 # This script serves the purpose of making some self-made bash scripts and C
-# files available as CLI commands. This is achieved by creating symbolic links
-# pointing to them in directories found in the PATH variable; this implies
-# that even scripts that are run as root are editable as a non-privileged user,
-# provided that they have the proper access rights.
-
-# The bash scripts and C files are located in a directory under the stored
-# files path. It is possible to link/compile all of them or just some, by
-# providing their file name as CLI arguments.
+# files available as CLI commands. This is achieved by copying them to
+# directories found in the PATH variable; C files are actually not copied, but
+# compiled to binaries placed in such directories.
+#
+# The files available for copying are located in Support/bin. Files in the
+# `user` subfolder will be available for non-root users, while files in the
+# `root` subfolder will be available to root only. It is possible to
+# copy/compile all the files or just some, by providing their names as CLI
+# arguments.
 
 # Aguments:
-#   - $@: Names of bash scripts/C files to be linked/compiled.
+#   - $@: Names of bash scripts/C files to be copied/compiled.
 
 #####################################################
 #
@@ -19,7 +20,7 @@
 #
 #####################################################
 
-SCRIPTS_DIR="$(readlink -f 'Support/bin')"
+SCRIPTS_DIR='Support/bin'
 ROOT_SCRIPTS_SUBDIR='root'
 USER_SCRIPTS_SUBDIR='user'
 ROOT_SCRIPTS_DIR="$SCRIPTS_DIR/$ROOT_SCRIPTS_SUBDIR"
@@ -55,12 +56,12 @@ function compile-c {
     echo "$EXEC_NAME.c compiled and SUID bit set"
 }
 
-# This function copies a symbolic link in a destination directory.
+# This function copies a file in a destination directory.
 #
 # Arguments
 #   $1: Source file.
 #   $2: Destination directory.
-function copy-symlink {
+function copy-file {
     local SOURCE="$1"
     local DEST_DIR="$2"
 
@@ -90,9 +91,9 @@ function process-dir {
 }
 
 # This filter processes files. This means that:
-#     - they are compiled if they are C files
-#     - they are linked if they are bash/python scripts
-#     - they are copied if they are symbolic links
+#     - they are compiled if they are C files.
+#     - they are copied if they are bash/python script or symbolic links.
+#     - they are skipped if they are anything else.
 # The output of the processing is the same directory for all the files.
 #
 # Arguments:
@@ -107,12 +108,8 @@ function process-file {
                 compile-c "$FILE" "$DEST_DIR"
                 ;;
 
-            'bourne-again'|'python')
-                symlink-script "$FILE" "$DEST_DIR"
-                ;;
-
-            'symbolic')
-                copy-symlink "$FILE" "$DEST_DIR"
+            'bourne-again'|'python'|'symbolic')
+                copy-file "$FILE" "$DEST_DIR"
                 ;;
 
             *)
@@ -122,25 +119,6 @@ function process-file {
                 ;;
         esac
     done
-}
-
-# This function creates a symbolic link from the source file to a file with
-# the same name in the destination directory. In order for this to work, it
-# also needs to set the executable flag on the source file.
-#
-# Arguments
-#   $1: Source file.
-#   $2: Destination directory.
-function symlink-script {
-    local SOURCE="$1"
-    local DEST_DIR="$2"
-
-    local FILE_NAME
-    FILE_NAME=$(basename "$SOURCE")
-
-    chmod +x "$SOURCE"
-    ln -sf "$SOURCE" "$DEST_DIR/$FILE_NAME"
-    echo "$FILE_NAME linked"
 }
 
 #####################################################

@@ -20,12 +20,18 @@
 #
 #####################################################
 
-SCRIPTS_DIR='Support/bin'
-ROOT_SCRIPTS_SUBDIR='root'
-USER_SCRIPTS_SUBDIR='user'
-ROOT_SCRIPTS_DIR="$SCRIPTS_DIR/$ROOT_SCRIPTS_SUBDIR"
-USER_SCRIPTS_DIR="$SCRIPTS_DIR/$USER_SCRIPTS_SUBDIR"
+# Base directory where custom commands are located
+CMD_DIR='Support/bin'
 
+# Subdirectories of CMD_DIR where root and user commands are respectively
+ROOT_CMD_SUBDIR='root'
+USER_CMD_SUBDIR='user'
+
+# Full path of root and user commands respectively
+ROOT_CMD_DIR="$CMD_DIR/$ROOT_CMD_SUBDIR"
+USER_CMD_DIR="$CMD_DIR/$USER_CMD_SUBDIR"
+
+# Destination directories of root and user commands respectively
 ROOT_BIN_PATH='/usr/local/sbin'
 USER_BIN_PATH='/usr/local/bin'
 
@@ -141,12 +147,12 @@ fi
 # Files are given from the command line
 if [[ $# -gt 0 ]]; then
     for FILE in "$@"; do
-        FILE_PATH=$(find "$SCRIPTS_DIR" -name "$FILE")
+        FILE_PATH=$(find "$CMD_DIR" -name "$FILE")
 
-        if [[ "$FILE_PATH" == */$USER_SCRIPTS_SUBDIR/* ]]; then
+        if [[ "$FILE_PATH" == */$USER_CMD_SUBDIR/* ]]; then
             DEST_PATH="$USER_BIN_PATH"
 
-        elif [[ "$FILE_PATH" == */$ROOT_SCRIPTS_SUBDIR/* ]]; then
+        elif [[ "$FILE_PATH" == */$ROOT_CMD_SUBDIR/* ]]; then
             DEST_PATH="$ROOT_BIN_PATH"
 
         elif [[ -z "$FILE_PATH" ]]; then
@@ -166,14 +172,14 @@ if [[ $# -gt 0 ]]; then
 else
 
     # Root
-    [[ -d "$ROOT_SCRIPTS_DIR" ]] \
-        && process-dir "$ROOT_SCRIPTS_DIR" "$ROOT_BIN_PATH" \
-        || echo >&2 "$ROOT_SCRIPTS_DIR is not a directory: skipping root " \
+    [[ -d "$ROOT_CMD_DIR" ]] \
+        && process-dir "$ROOT_CMD_DIR" "$ROOT_BIN_PATH" \
+        || echo >&2 "$ROOT_CMD_DIR is not a directory: skipping root " \
             'executables'
 
     # User
-    [[ -d "$USER_SCRIPTS_DIR" ]] \
-        && process-dir "$USER_SCRIPTS_DIR" "$USER_BIN_PATH" \
-        || echo >&2 "$USER_SCRIPTS_DIR is not a directory: skipping user " \
+    [[ -d "$USER_CMD_DIR" ]] \
+        && process-dir "$USER_CMD_DIR" "$USER_BIN_PATH" \
+        || echo >&2 "$USER_CMD_DIR is not a directory: skipping user " \
             'executables'
 fi

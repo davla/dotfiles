@@ -21,11 +21,14 @@ also for non-login shells" \
                 -e "${LINE_NO}iALWAYS_SET_PATH         yes" /etc/login.defs
 fi
 
-# Making variables expand with autocompletion
-grep 'shopt -s direxpand' /etc/bash.bashrc &> /dev/null \
+# Enabling variables expansion and misspelling correction in autocompletion
+grep '# Setting shell options for:' /etc/bash.bashrc &> /dev/null \
     || echo '
-# Making variables expand with autocompletion
-shopt -s direxpand' | sudo tee -a /etc/bash.bashrc &> /dev/null
+# Setting shell options for:
+#   - Variables expansion in autocompletion
+#   - Misspelling correction in autocompletion and cd
+shopt -s direxpand dirspell cdspell' \
+        | sudo tee -a /etc/bash.bashrc &> /dev/null
 
 # Adding custom autocompletions
 sudo cp Support/shell/completion/* /etc/bash_completion.d/

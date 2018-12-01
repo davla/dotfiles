@@ -10,8 +10,14 @@
 # `root` subfolder will be available to root only. It is possible to
 # copy/compile all the files or just some, by providing their names as CLI
 # arguments.
+#
+# For development purposes, files can be linked rather than copied; this
+# doesn't apply to C files, though, in that they need to be compiled anyway.
+# This is only possible when specifying some files as CLi arguments: in other
+# words, it is not possible to link all the files by default.
 
 # Aguments:
+#   - -L: flag, enables linking, instead of copying, of the passed files.
 #   - $@: Names of bash scripts/C files to be copied/compiled.
 
 #####################################################
@@ -34,6 +40,40 @@ USER_CMD_DIR="$CMD_DIR/$USER_CMD_SUBDIR"
 # Destination directories of root and user commands respectively
 ROOT_BIN_PATH='/usr/local/sbin'
 USER_BIN_PATH='/usr/local/bin'
+
+#####################################################
+#
+#               Input processing
+#
+#####################################################
+
+# Whether the specified files should be linked, rather than copied.
+MAKE_LINKS='false'
+
+while getopts 'L' OPTION; do
+    case "$OPTION" in
+        'L')
+            MAKE_LINKS='true'
+            ;;
+
+        *)  # getopts has already printed an error message
+            exit 1
+            ;;
+    esac
+done
+shift $(( OPTIND - 1 ))
+
+# Need to specify some files when linking is on.
+if [[ "$MAKE_LINKS" == 'true' && $# -lt 1 ]]; then
+    echo >&2 'You need to specify some files with the -L option'
+    exit 1
+fi
+
+# Setting publish-file to be link-file when -L is passed, copy-file otherwise
+shopt -s expand_aliases
+[[ "$MAKE_LINKS" == 'true' ]] \
+    && alias publish-file='link-file' \
+    || alias publish-file='copy-file'
 
 #####################################################
 #
@@ -72,10 +112,28 @@ function copy-file {
     local DEST_DIR="$2"
 
     local FILE_NAME
-    FILE_NAME="$(basename "$1")"
+    FILE_NAME="$(basename "$SOURCE")"
 
-    cp "$FILE" "$DEST_DIR/$FILE_NAME"
+    # --remove-destination is there to overwrite links used for development.
+    cp --remove-destination "$SOURCE" "$DEST_DIR/$FILE_NAME"
     echo "$FILE_NAME copied"
+}
+
+# This function links a file in a destination directory.
+#
+# Arguments
+#   $1: Source file.
+#   $2: Destination directory.
+function link-file {
+    local SOURCE
+    SOURCE="$(readlink -f "$1")"
+    local DEST_DIR="$2"
+
+    local FILE_NAME
+    FILE_NAME="$(basename "$SOURCE")"
+
+    ln -sf "$SOURCE" "$DEST_DIR/$FILE_NAME"
+    echo "$FILE_NAME linked"
 }
 
 # This function processes all the files in a directory, by passing them to
@@ -96,7 +154,7 @@ function process-dir {
 
 # This filter processes files. This means that:
 #     - they are compiled if they are C files.
-#     - they are copied if they are bash/python script or symbolic links.
+#     - they are copied/linked if they are bash/python script or symbolic links.
 #     - they are skipped if they are anything else.
 # The output of the processing is the same directory for all the files.
 #
@@ -112,7 +170,7 @@ function process-file {
                 ;;
 
             'bourne-again'|'python'|'symbolic')
-                copy-file "$FILE" "$DEST_DIR"
+                publish-file "$FILE" "$DEST_DIR"
                 ;;
 
             *)

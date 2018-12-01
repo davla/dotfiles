@@ -79,10 +79,8 @@ function copy-file {
 #   - $1: The source directory.
 #   - $2: The destination directory.
 function process-dir {
-    local SOURCE
-    SOURCE="$(readlink -f "$1")"
+    local SOURCE="$1"
     local DEST="$2"
-    DEST="$(readlink -f "$2")"
 
     # -exec would not work since process-file is not in PATH
     find "$SOURCE" -maxdepth 1 -type f -o -type l | process-file "$DEST"
@@ -99,8 +97,7 @@ function process-dir {
 # Arguments:
 #   - $1: The destination directory.
 function process-file {
-    local DEST_DIR
-    DEST_DIR=$(readlink -f "$1")
+    local DEST_DIR="$1"
 
     while read FILE; do
         case $(file -b "$FILE" | awk '{print tolower($1)}') in

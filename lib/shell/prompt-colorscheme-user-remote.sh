@@ -3,10 +3,10 @@
 # This file defines the colorscheme for the remote user prompt.
 
 # The background color for the current working directory segment.
-CWD_BG='\[\033[48;5;214m\]'
+CWD_BG='\[\033[48;5;81m\]'
 
 # The background color for the git segment.
-GIT_BG='\[\033[48;5;220m\]'
+GIT_BG='\[\033[48;5;123m\]'
 
 # Resetting all the colors
 RESET='\[\033[0m\]'
@@ -15,4 +15,4 @@ RESET='\[\033[0m\]'
 TEXT_COLOR='\[\033[38;5;0m\]'
 
 # The background color for the username and host segment.
-USER_HOST_BG='\[\033[48;5;208m\]'
+USER_HOST_BG='\[\033[48;5;39m\]'

@@ -36,7 +36,7 @@ wget -O - 'https://download.docker.com/linux/raspbian/gpg' | sudo apt-key add -
 
 sudo apt-get update
 
-# This breaks raspbian testing
+# This is removed as it breaks raspbian testing
 sudo apt-get remove raspi-copies-and-fills
 sudo apt-get install at certbot ddclient docker-ce git jq nfs-kernel-server \
     nfs-common python3-pip python-requests rpcbind
@@ -82,6 +82,7 @@ git config --global user.name 'Davide Laezza'
 #####################################################
 
 bash "$PARENT_DIR/shell-env.sh" "$RASPI_LIB_DIR"
+source "$HOME/.bash_envvars"
 
 #####################################################
 #
@@ -189,4 +190,4 @@ fi
 #
 #####################################################
 
-bash "$PARENT_DIR/terminal-setup.sh" 'raspberry'
+bash "$PARENT_DIR/terminal-setup.sh" 'remote'

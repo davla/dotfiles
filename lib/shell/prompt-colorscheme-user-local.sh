@@ -3,10 +3,10 @@
 # This file defines the colorscheme for the local user prompt.
 
 # The background color for the current working directory segment.
-CWD_BG='\[\033[48;5;214m\]'
+CWD_BG='\[\033[48;5;220m\]'
 
 # The background color for the git segment.
-GIT_BG='\[\033[48;5;220m\]'
+GIT_BG='\[\033[48;5;228m\]'
 
 # Resetting all the colors
 RESET='\[\033[0m\]'

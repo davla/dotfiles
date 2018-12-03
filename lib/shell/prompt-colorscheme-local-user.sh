@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# This file defines the colorscheme for the root prompt.
+# This file defines the colorscheme for the local user prompt.
 
 # The background color for the current working directory segment.
 CWD_BG='\[\033[48;5;214m\]'

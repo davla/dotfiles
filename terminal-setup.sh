@@ -8,7 +8,7 @@
 #   - $1: The host used to choose the colors. Defaults to 'local'.
 #       So far, one of:
 #       - local
-#       - raspberry
+#       - remote
 
 # The system is based on a prompt-setting script, exporting a function meant to
 # be used as PROMPT_COMMAND. This function reads a bunch of variables that
@@ -71,18 +71,21 @@ function __set-prompt-theme {
 PROMPT_COMMAND='set-prompt'" >> "$HOME/.bashrc"
 }
 
-# This function sets the prompt and the terminal title of a given user for
-# a certain host
+# This function sets the prompt and the terminal title for a given user. It
+# sets the prompt to the colorscheme for the passed host and user. The user
+# the prompt is set for and the one used for the colorscheme can be different.
 #
 # Arguments:
-#   - $1: The host the prompt should be set for
-#   - $2: The user home directory
+#   - $1: The user the prompt should be set for.
+#   - $2: The colorscheme host.
+#   - $3: The colorscheme user.
 function set-prompt-theme {
-    local HOST="$1"
-    local USER="$2"
+    local USER="$1"
+    local COLOR_USER="$2"
+    local COLOR_HOST="$3"
 
     # Colorscheme file for the passed user on the given host
-    COLORSCHEME_FILE="$SHELL_LIB_DIR/prompt-colorscheme-$HOST-$USER.sh"
+    COLOR_FILE="$SHELL_LIB_DIR/prompt-colorscheme-$COLOR_USER-$COLOR_HOST.sh"
 
     # We need to execute a few commands in the user environment. Escaping
     # everything in the string passed as the bash command is unconvenient.
@@ -90,7 +93,7 @@ function set-prompt-theme {
     # made available by sourcing this very file.
     sudo -u "$USER" bash -c "
         source \"$THIS_FILE\"
-        __set-prompt-theme \"$COLORSCHEME_FILE\"
+        __set-prompt-theme \"$COLOR_FILE\"
     "
 }
 
@@ -100,9 +103,9 @@ function set-prompt-theme {
 #
 #####################################################
 
-# Linking the prompt-setting file to a system-wide location, to make it easily
+# Copying the prompt-setting file to a system-wide location, to make it easily
 # available for all users
-sudo ln -sf "$SHELL_LIB_DIR/set-prompt.sh" /usr/local/lib/set-prompt.sh
+sudo cp "$SHELL_LIB_DIR/set-prompt.sh" /usr/local/lib/set-prompt.sh
 
 #####################################################
 #
@@ -112,7 +115,7 @@ sudo ln -sf "$SHELL_LIB_DIR/set-prompt.sh" /usr/local/lib/set-prompt.sh
 
 # Only calling set-prompt-theme when not run as sudo. This tames the recursion
 # owed to self-sourcing in set-prompt-theme.
-[[ "$IS_SUDO" == 'false' ]] && set-prompt-theme "$HOST" 'root'
+[[ "$IS_SUDO" == 'false' ]] && set-prompt-theme 'root' 'root' "$HOST"
 
 #####################################################
 #
@@ -122,4 +125,4 @@ sudo ln -sf "$SHELL_LIB_DIR/set-prompt.sh" /usr/local/lib/set-prompt.sh
 
 # Only calling set-prompt-theme when not run as sudo. This tames the recursion
 # owed to self-sourcing in set-prompt-theme.
-[[ "$IS_SUDO" == 'false' ]] && set-prompt-theme "$HOST" "$USER"
+[[ "$IS_SUDO" == 'false' ]] && set-prompt-theme "$USER" 'user' "$HOST"

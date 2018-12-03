@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-# This file defines the colorscheme for the local root prompt.
+# This file defines the colorscheme for the remote root prompt.
 
 # The background color for the current working directory segment.
-CWD_BG='\[\033[48;5;76m\]'
+CWD_BG='\[\033[48;5;160m\]'
 
 # The background color for the git segment.
-GIT_BG='\[\033[48;5;154m\]'
+GIT_BG='\[\033[48;5;196m\]'
 
 # Resetting all the colors
 RESET='\[\033[0m\]'
@@ -15,4 +15,4 @@ RESET='\[\033[0m\]'
 TEXT_COLOR='\[\033[38;5;0m\]'
 
 # The background color for the username and host segment.
-USER_HOST_BG='\[\033[48;5;34m\]'
+USER_HOST_BG='\[\033[48;5;124m\]'

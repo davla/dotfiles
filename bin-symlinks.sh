@@ -12,7 +12,7 @@
 #####################################################
 
 BIN_PATH='/usr/local/bin'
-EXEC_NAMES=(
+CMDS=(
     'arduino'
     'halt'
     'mysql'
@@ -27,8 +27,8 @@ EXEC_NAMES=(
 #
 #####################################################
 
-# Checking for root privileges: if don't
-# have them, recalling this script with sudo
+# Checking for root privileges: if don't have them, recalling this script with
+# sudo
 if [[ $EUID -ne 0 ]]; then
     echo 'This script needs to be run as root'
     sudo bash "$0" "$@"
@@ -41,25 +41,28 @@ fi
 #
 #####################################################
 
-for EXEC_NAME in "${EXEC_NAMES[@]}"; do
-    LINK_DEST="$BIN_PATH/${EXEC_NAME,,}"
+for CMD in "${CMDS[@]}"; do
+    LINK_DEST="$BIN_PATH/${CMD,,}"
 
-    echo "Linking $EXEC_NAME"
+    echo "Linking $CMD"
 
-    # Removing the symbolic link we are about to create,
-    # so that it's not found as an executable later
+    # Removing the symbolic link we are about to create, so that it's not
+    # found as an executable later
     rm "$LINK_DEST" &> /dev/null
 
-    EXEC_PATH=$(which "$EXEC_NAME" || find / -type f -executable \
-            -name "$EXEC_NAME" 2> /dev/null | head -n 1)
+    # Finding the command executable around the filesystem
+    CMD_PATH="$(which "$CMD" || find / -type f -executable -name "$CMD" \
+        | head -n 1)"
 
-    if [[ -z "$EXEC_PATH" || ! -f "$EXEC_PATH" ]]; then
-        echo "$EXEC_NAME not found"
+    if [[ -z "$CMD_PATH" || ! -f "$CMD_PATH" ]]; then
+        echo "$CMD not found"
         continue
     fi
 
-    ln -s "$EXEC_PATH" "$LINK_DEST"
-    [[ $(stat -c %U "$EXEC_PATH") == 'root' ]] && chmod u+s "$EXEC_PATH"
+    ln -s "$CMD_PATH" "$LINK_DEST"
 
-    echo "$EXEC_NAME linked"
+    # Setting SUID for root-owned executables
+    [[ "$(stat -c %U "$CMD_PATH")" == 'root' ]] && chmod u+s "$CMD_PATH"
+
+    echo "$CMD linked"
 done

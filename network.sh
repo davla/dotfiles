@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
 # This script deals with networking tasks. In particular:
-#   - It populates /etc/hosts file with most frequently
-#       visited remote websites and adds some local
-#       resources.
-#   - It installs a script to disable Wi-Fi when cabled
-#       connections are active
+#   - It populates /etc/hosts file with most frequently visited remote
+#       websites and adds some local resources.
+#   - It installs a script to disable Wi-Fi when cabled connections are active.
 
 # Arguments:
 #	- $1: If 'refresh', only refreshes remote websites
@@ -16,6 +14,11 @@
 #
 #####################################################
 
+# Absolute path of this script's parent directory
+PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
+LIB_DIR="$PARENT_DIR/lib"
+
+# Websites whose IP addresses should be cached in /etc/hosts
 REMOTE_RESOURCES=(
     'duckduckgo.com'
     'forum.pokemoncentral.it'
@@ -26,6 +29,8 @@ REMOTE_RESOURCES=(
     'serebii.net'
     'wiki.pokemoncentral.it'
 )
+
+# Marker for custom remote resources
 REMOTE_RESOURCES_MARKER='WWW'
 
 #####################################################
@@ -34,8 +39,8 @@ REMOTE_RESOURCES_MARKER='WWW'
 #
 #####################################################
 
-# Checking for root privileges: if don't
-# have them, recalling this script with sudo
+# Checking for root privileges: if don't have them, recalling this script with
+# sudo
 if [[ $EUID -ne 0 ]]; then
     echo 'This script needs to be run as root'
     sudo bash "$0" "$@"
@@ -81,16 +86,13 @@ if [[ "$REFRESH" == 'false' ]]; then
 #####################################################
 
     DISPATCHERS_PATH='/etc/NetworkManager/dispatcher.d'
-    DISPATCHER_SCRIPT='99-no-wireless-on-wired'
-    DISPATCHER_SCRIPT_PATH="$DISPATCHERS_PATH/$DISPATCHER_SCRIPT"
 
-    # Copying the NetworkManager dispatch script to
-    # the right location
-    cp "Support/network/$DISPATCHER_SCRIPT" "$DISPATCHERS_PATH"
+    # Copying the NetworkManager dispatch script to the right location
+    cp "$LIB_DIR/network/"* "$DISPATCHERS_PATH"
 
-    # Setting the right permissions and ownership
-    chown 'root:root' "$DISPATCHER_SCRIPT_PATH"
-    chmod u+w,ga-w,u-s,+x "$DISPATCHER_SCRIPT_PATH"
+    # Setting the right permissions and ownership for dispatcher scripts
+    chown -R 'root:root' "$DISPATCHERS_PATH"
+    chmod -R u+w,ga-w,u-s,+x "$DISPATCHERS_PATH"
 
 fi
 
@@ -100,9 +102,9 @@ fi
 #
 #####################################################
 
-# Line numberof the remote resources marker
-REMOTE_LINE=$(grep -n "$REMOTE_RESOURCES_MARKER" /etc/hosts | \
-    awk -F : '{ print $1 }')
+# Line number of the remote resources marker
+REMOTE_LINE="$(grep -n "$REMOTE_RESOURCES_MARKER" /etc/hosts \
+    | cut -d ':' -f 1)"
 
 # Clearing remote resources entries
 REMOTE_LINE=$(( REMOTE_LINE + 2 ))

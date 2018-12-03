@@ -4,6 +4,19 @@
 
 #####################################################
 #
+#                   Variables
+#
+#####################################################
+
+# Absolute path of this script's parent directory
+PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
+LIB_DIR="$PARENT_DIR/lib"
+
+# Absolute path of lib directory for shell
+SHELL_LIB_DIR="$(readlink -f "$LIB_DIR/shell")"
+
+#####################################################
+#
 #                   System-wide
 #
 #####################################################
@@ -31,7 +44,7 @@ shopt -s direxpand dirspell cdspell' \
         | sudo tee -a /etc/bash.bashrc &> /dev/null
 
 # Adding custom autocompletions
-sudo cp Support/shell/completion/* /etc/bash_completion.d/
+sudo cp "$SHELL_LIB_DIR/completion/"* /etc/bash_completion.d/
 
 #####################################################
 #
@@ -39,14 +52,11 @@ sudo cp Support/shell/completion/* /etc/bash_completion.d/
 #
 #####################################################
 
-# Absolute path of shell configuration directory
-SHELL_CONF_DIR="$(readlink -f Support/shell/)"
-
 # Setting environment for bash login shells
-ln -sf "$SHELL_CONF_DIR/.bash_profile" "$HOME"
+ln -sf "$SHELL_LIB_DIR/.bash_profile" "$HOME"
 
 # Setting custom environment variables for the user
-ln -sf "$SHELL_CONF_DIR/.bash_envvars" "$HOME"
+ln -sf "$SHELL_LIB_DIR/.bash_envvars" "$HOME"
 grep '\.bash_envvars' "$HOME/.bashrc" &> /dev/null || echo '
 # Setting envvars
 [ -f $HOME/.bash_envvars ] && . $HOME/.bash_envvars' >> "$HOME/.bashrc"

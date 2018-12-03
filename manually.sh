@@ -5,6 +5,16 @@
 
 #####################################################
 #
+#                   Variables
+#
+#####################################################
+
+# Absolute path of this script's parent directory
+PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
+LIB_DIR="$PARENT_DIR/lib"
+
+#####################################################
+#
 #                   Functions
 #
 #####################################################
@@ -19,7 +29,7 @@ function latest-release-url {
     local DOWNLOAD_URL="https://github.com/$1/releases/download"
 
     local LATEST_RELEASE
-    LATEST_RELEASE=$(wget -O - "$RELEASES_URL/latest" | jq -r '.tag_name')
+    LATEST_RELEASE="$(wget -O - "$RELEASES_URL/latest" | jq -r '.tag_name')"
     echo "$DOWNLOAD_URL/$LATEST_RELEASE"
 }
 
@@ -47,6 +57,7 @@ COLORGRAB_HOME='/opt/colorgrab'
 DESKTOPS_DIR='/usr/share/applications'
 ICONS_DIR='/usr/share/icons/hicolor'
 
+# Installing dependencies and compiling the package
 apt-get install libwxgtk3.0-dev
 git clone 'https://github.com/nielssp/colorgrab.git' "$COLORGRAB_HOME"
 cd "$COLORGRAB_HOME" || exit
@@ -54,11 +65,13 @@ cmake .
 make
 cd - &> /dev/null || exit
 
+# Installing executable and .desktop file
 find "$COLORGRAB_HOME" -type f -executable -name 'colorgrab' \
     -exec ln -sf '{}' /usr/local/bin/colorgrab \;
 cp "$COLORGRAB_HOME/pkg/arch/colorgrab.desktop" "$DESKTOPS_DIR"
 chmod +x "$DESKTOPS_DIR/colorgrab.desktop"
 
+# Installing icons
 cp "$COLORGRAB_HOME/img/scalable.svg" "$ICONS_DIR/scalable/apps/colorgrab.svg"
 for IMG in $COLORGRAB_HOME/img/[0-9]*x[0-9]*.png; do
     SIZE_DIR=$(basename "$IMG" .png | xargs -i echo "$ICONS_DIR/{}/apps")
@@ -91,7 +104,7 @@ rm "$TEMP_THROTTLE_ARCH"
 #
 #####################################################
 
-COMPOSE_TAG=$(uname -s)-$(uname -m)
+COMPOSE_TAG="$(uname -s)-$(uname -m)"
 COMPOSE_URL="$(latest-release-url 'docker/compose')/docker-compose-$COMPOSE_TAG"
 wget -O /usr/local/bin/docker-compose "$COMPOSE_URL"
 chmod +x /usr/local/bin/docker-compose
@@ -116,7 +129,7 @@ chmod +x docker-credential-secretservice
 #
 #####################################################
 
-TMP_DIR=$(mktemp -d)
+TMP_DIR="$(mktemp -d)"
 
 git clone 'https://github.com/vanaoff/move-to-next-monitor.git' "$TMP_DIR"
 bash "$TMP_DIR/install.sh"
@@ -131,4 +144,4 @@ rm -rf "$TMP_DIR"
 #####################################################
 
 # Just leveraging on the installer script in this very repository
-bash Support/bin/root/install-postman
+bash "$LIB_DIR/bin/root/install-postman"

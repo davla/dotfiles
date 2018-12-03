@@ -20,7 +20,7 @@ SSH_HOME="$HOME/.ssh"
 #
 #####################################################
 
-# Remote host to copy the keys over for SSH access, can be empty
+# Remote host to copy the keys over for SSH access. Can be empty.
 HOST="$1"
 
 #####################################################
@@ -30,8 +30,8 @@ HOST="$1"
 #####################################################
 
 # ATTENTION! Interactive!
-# Copiesthe the public key over to the passed SSH host, as
-# the provided user. Will prompt for password to log in.
+# Copies the the public key over to the passed SSH host, as the provided user.
+# Will prompt for password to log in.
 function copy-key {
 	local USER="$1"
 	local HOST="$2"
@@ -69,10 +69,11 @@ fi
 
 # By passing this directory to the next git commands, this script can be
 # called from anywhere
-PARENT_DIR="$(dirname "$0")"
+PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
 
 GIT_ORIGIN="$(git -C "$PARENT_DIR" remote get-url origin)"
 
+# If remote origin is https, thus not ssh
 if grep 'https' <<<"$GIT_ORIGIN" &> /dev/null; then
     echo 'Copy the key to your git hosting service'
     cat "$SSH_HOME/id_rsa.pub"

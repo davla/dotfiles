@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
-# This script sets anacron daily jobs, both root and user ones.
-# It also fixes an error for which anacron is disabled by
-# symlinking it to /bin/true from live install settings.
-# Then it sets up a custom logger configuration and log rotation.
-# Finally, it enables anacron to run on battery power.
+# This script sets anacron daily jobs, both root and user ones. It also fixes
+# an error for which anacron is disabled by symlinking it to /bin/true from
+# live install settings. Then it sets up a custom logger configuration and log
+# rotation. Finally, it enables anacron to run on battery power.
 
 # Argumnts:
 #   - $1: The user non-root commands should be executed as.
@@ -15,7 +14,14 @@
 #
 #####################################################
 
+# Absolute path of this script's parent directory
+PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
+LIB_DIR="$PARENT_DIR/lib"
+
+# Use to check whether custom job have already been added to anacron
 CUSTOM_JOBS_MARKER='# Custom jobs'
+
+# Commands to be run daily as root
 ROOT_DAILY=(
     'install-postman'
     'node-updater'
@@ -29,8 +35,8 @@ ROOT_DAILY=(
 #
 #####################################################
 
-# Checking for root privileges: if don't
-# have them, recalling this script with sudo
+# Checking for root privileges: if don't have them, recalling this script with
+# sudo
 if [[ $EUID -ne 0 ]]; then
     echo 'This script needs to be run as root'
     sudo bash "$0" "$@"
@@ -51,9 +57,10 @@ USER_NAME="$1"
 #
 #####################################################
 
-ANACRON_EXEC=$(which anacron)
+ANACRON_EXEC="$(which anacron)"
 
-# anacron executable is a link to /bin/true
+# If anacron executable is a link to /bin/true, the real executable is found
+# and then the anacron executable is likned to that
 [[ "$ANACRON_EXEC" -ef /bin/true ]] \
     && dirname "$ANACRON_EXEC" \
         | xargs -i find '{}' -name "anacron*" -not -name 'anacron' -executable \
@@ -76,8 +83,8 @@ sed -i 's/ANACRON_RUN_ON_BATTERY_POWER=no/ANACRON_RUN_ON_BATTERY_POWER=yes/g' \
 #
 #####################################################
 
-cp Support/logger/logrotate-custom.conf /etc/logrotate.d
-cp Support/logger/rsyslog-custom.conf /etc/rsyslog.d
+cp "$LIB_DIR/logger/logrotate-custom.conf" /etc/logrotate.d
+cp "$LIB_DIR/logger/rsyslog-custom.conf" /etc/rsyslog.d
 
 #####################################################
 #
@@ -85,15 +92,18 @@ cp Support/logger/rsyslog-custom.conf /etc/rsyslog.d
 #
 #####################################################
 
-for BIN in "${ROOT_DAILY[@]}"; do
-    EXEC_BIN=$(which "$BIN")
+# Linking root daily commands into /etc/cron.daily, so that they are executed
+# by anacron.
+for CMD in "${ROOT_DAILY[@]}"; do
+    EXEC="$(which "$CMD")"
 
+    # Not linking if the command executable file is not found
     if [[ $? -ne 0 ]]; then
-        echo >&2 "$BIN executable not found: have you linked it?"
+        echo >&2 "$CMD executable not found: have you linked it?"
         continue
     fi
 
-    ln -fs "$EXEC_BIN" "/etc/cron.daily/$BIN"
+    ln -fs "$EXEC" "/etc/cron.daily/$CMD"
 done
 
 #####################################################

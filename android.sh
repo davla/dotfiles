@@ -51,7 +51,6 @@ while getopts 'f' OPTION; do
             ;;
     esac
 done
-
 shift $(( OPTIND - 1 ))
 
 # The hash at the end of the sdk zip on Google's website
@@ -63,10 +62,9 @@ SDK_ZIP_HASH="${1:-4333796}"
 #
 #####################################################
 
-# Creating android sdk base directory
 mkdir -p "$ANDROID_HOME"
 
-# Creating android user and group
+# Creating android user and group only if not already present
 grep android /etc/group &> /dev/null || useradd -r -U android
 
 #####################################################
@@ -97,7 +95,8 @@ fi
 chown -R android:android "$ANDROID_HOME"
 chmod -R g+w "$ANDROID_HOME"
 
-# Making all the executable available on PATH and executable by the group
+# Making all the executable in the android sdk available on PATH and
+# executable by the group
 find "$ANDROID_HOME" -type f -executable -not -name '*.*' \
     | while read FILE; do
         chmod g+x "$FILE"

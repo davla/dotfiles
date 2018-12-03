@@ -10,8 +10,8 @@
 #
 #####################################################
 
-# Checking for root privileges: if don't
-# have them, recalling this script with sudo
+# Checking for root privileges: if don't have them, recalling this script with
+# sudo
 if [[ $EUID -ne 0 ]]; then
     echo 'This script needs to be run as root'
     sudo bash "$0" "$@"
@@ -29,6 +29,7 @@ LOCALES=(
     'en_US.UTF-8 UTF-8'
 )
 
+# Uncommenting selected locales in /etc/locale.gen
 for LOCALE in "${LOCALES[@]}"; do
     sed -Ei "s/#\\s*(.*)$LOCALE/\\1$LOCALE/g" /etc/locale.gen
 done

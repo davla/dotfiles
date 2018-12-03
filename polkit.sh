@@ -5,6 +5,19 @@
 
 #####################################################
 #
+#                   Variables
+#
+#####################################################
+
+# Absolute path of this script's parent directory
+PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
+LIB_DIR="$PARENT_DIR/lib"
+
+# Lib directory for polkit
+POLKIT_LIB_DIR="$LIB/polkit"
+
+#####################################################
+#
 #                   Functions
 #
 #####################################################
@@ -22,7 +35,7 @@ function copy-if-exists {
     local DEST="$2"
 
     mkdir -p "$DEST"
-    find Support/polkit -maxdepth 1 -type f -name "$PATTERN" \
+    find "$POLKIT_LIB_DIR" -maxdepth 1 -type f -name "$PATTERN" \
         -exec cp '{}' "$DEST" \;
 }
 
@@ -32,8 +45,8 @@ function copy-if-exists {
 #
 #####################################################
 
-# Checking for root privileges: if don't
-# have them, recalling this script with sudo
+# Checking for root privileges: if don't have them, recalling this script with
+# sudo
 if [[ $EUID -ne 0 ]]; then
     echo 'This script needs to be run as root'
     sudo bash "$0" "$@"

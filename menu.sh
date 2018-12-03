@@ -1,7 +1,20 @@
 #!/usr/bin/env bash
 
-# This scripts installs a customized version of the standard
-# XFCE menu, including layout, directories and desktop files
+# This scripts installs a customized version of the standard XFCE menu,
+# including layout, directories and desktop files
+
+#####################################################
+#
+#                   Variables
+#
+#####################################################
+
+# Absolute path of this script's parent directory
+PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
+LIB_DIR="$PARENT_DIR/lib"
+
+# Absolute path of lib directory for menu
+MENU_LIB_DIR="$(readlink -f "$LIB_DIR/menu")"
 
 #####################################################
 #
@@ -9,8 +22,8 @@
 #
 #####################################################
 
-# This function copies stored files to their designated system
-# location, ignoring those starting with an underscore.
+# This function copies stored files to their designated system location,
+# ignoring those starting with an underscore.
 #
 # Arguments:
 #   - $1: Extension of the files to be copied.
@@ -23,12 +36,12 @@ function copy-files {
 
     [[ -n "$EXT" ]] && EXT=".$EXT"
 
-    local SOURCE_DIR="Support/menu/$SOURCE/"
+    local SOURCE_DIR="$MENU_LIB_DIR/$SOURCE/"
     local DEST_DIR="$HOME/.local/share/$DEST"
     local SOURCE_FILES="[^_]*$EXT"
 
-    if [[ -n $(find "$SOURCE_DIR" -maxdepth 1 -mindepth 1 \
-            -name "$SOURCE_FILES" 2> /dev/null) ]]; then
+    if [[ -n "$(find "$SOURCE_DIR" -maxdepth 1 -mindepth 1 \
+            -name "$SOURCE_FILES" 2> /dev/null)" ]]; then
         mkdir -p "$DEST_DIR"
         ln -sf "$SOURCE_DIR"/$SOURCE_FILES "$DEST_DIR"
     fi
@@ -40,11 +53,10 @@ function copy-files {
 #
 #####################################################
 
-MENU_CONF_DIR="$(readlink -f Support/menu/)"
 MENU_DIR="$HOME/.config/menus"
 
 mkdir -p "$MENU_DIR"
-ln -sf "$MENU_CONF_DIR/xfce-applications.menu" "$MENU_DIR"
+ln -sf "$MENU_LIB_DIR/xfce-applications.menu" "$MENU_DIR"
 echo 'Layout set'
 
 #####################################################

@@ -7,6 +7,16 @@
 
 #####################################################
 #
+#                   Variables
+#
+#####################################################
+
+# Absolute path of this script's parent directory
+PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
+LIB_DIR="$PARENT_DIR/lib"
+
+#####################################################
+#
 #               User application setup
 #
 #####################################################
@@ -18,6 +28,7 @@ DOCKER_CONFIG_FILE="$HOME/.docker/config.json"
 sudo adduser "$USER" docker
 
 mkdir -p "$DOCKER_USER_CONFIG"
+
 # Adding "credsStore" key if the configuration file already exists, otherwise
 # creating it from scratch with the same key.
 [[ -f "$DOCKER_CONFIG_FILE" ]] \
@@ -47,7 +58,7 @@ mkdir -p "$TELEGRAM_HOME"
 wget 'https://tdesktop.com/linux' -O "$TELEGRAM_ARCH"
 tar -xf "$TELEGRAM_ARCH" -C "$TELEGRAM_HOME" --strip-components=1
 rm "$TELEGRAM_ARCH"
-sudo bash bin-symlinks.sh
+sudo bash "$PARENT_DIR/bin-symlinks.sh"
 
 # Executing Telegram once to automatically create .desktop file: "for reasons
 # unknown" if done via 'telegram' symlink it desn't work
@@ -63,8 +74,10 @@ sudo make -C "$N_DIR" install
 make -C "$N_DIR" use
 rm -rf "$N_DIR"
 
+# Installing the latest version to create the directory where n lib files will
+# be copied
 sudo n latest
-sudo cp -r Support/n/* /usr/local/n/versions/node
+sudo cp -r "$LIB_DIR/n/"* /usr/local/n/versions/node
 
 # proj
 PROJ_DIR='/tmp/proj'

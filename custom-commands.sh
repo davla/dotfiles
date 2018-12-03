@@ -5,11 +5,10 @@
 # directories found in the PATH variable; C files are actually not copied, but
 # compiled to binaries placed in such directories.
 #
-# The files available for copying are located in Support/bin. Files in the
-# `user` subfolder will be available for non-root users, while files in the
-# `root` subfolder will be available to root only. It is possible to
-# copy/compile all the files or just some, by providing their names as CLI
-# arguments.
+# The files available for copying are located in lib/bin. Files in the `user`
+# subdirectory will be available for non-root users, while files in the `root`
+# subdirectory will be available to root only. It is possible to copy/compile
+# all the files or just some, by providing their names as CLI arguments.
 #
 # For development purposes, files can be linked rather than copied; this
 # doesn't apply to C files, though, in that they need to be compiled anyway.
@@ -26,8 +25,12 @@
 #
 #####################################################
 
+# Absolute path of this script's parent directory
+PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
+LIB_DIR="$PARENT_DIR/lib"
+
 # Base directory where custom commands are located
-CMD_DIR='Support/bin'
+CMD_DIR="$LIB_DIR/bin"
 
 # Subdirectories of CMD_DIR where root and user commands are respectively
 ROOT_CMD_SUBDIR='root'
@@ -94,7 +97,7 @@ function compile-c {
     local DEST_DIR="$2"
 
     local EXEC_NAME
-    EXEC_NAME=$(basename "$SOURCE" .c)
+    EXEC_NAME="$(basename "$SOURCE" .c)"
     local EXEC_PATH="$DEST_DIR/$EXEC_NAME"
 
     gcc "$SOURCE" -o "$EXEC_PATH"
@@ -164,7 +167,7 @@ function process-file {
     local DEST_DIR="$1"
 
     while read FILE; do
-        case $(file -b "$FILE" | awk '{print tolower($1)}') in
+        case "$(file -b "$FILE" | awk '{print tolower($1)}')" in
             'c')
                 compile-c "$FILE" "$DEST_DIR"
                 ;;
@@ -205,7 +208,7 @@ fi
 # Files are given from the command line
 if [[ $# -gt 0 ]]; then
     for FILE in "$@"; do
-        FILE_PATH=$(find "$CMD_DIR" -name "$FILE")
+        FILE_PATH="$(find "$CMD_DIR" -name "$FILE")"
 
         if [[ "$FILE_PATH" == */$USER_CMD_SUBDIR/* ]]; then
             DEST_PATH="$USER_BIN_PATH"

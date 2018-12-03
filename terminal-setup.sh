@@ -20,6 +20,13 @@
 #
 #####################################################
 
+# Absolute path of this script's parent directory
+PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
+LIB_DIR="$PARENT_DIR/lib"
+
+# Absolute path of lib directory for shell
+SHELL_LIB_DIR="$(readlink -f "$LIB_DIR/shell")"
+
 # Whether this script is being run in a sudo environment. Used to stop
 # recursion due to self-sourcing in set-prompt-theme.
 [[ -n "$(printenv | grep SUDO)" ]] && IS_SUDO='true' || IS_SUDO='false'
@@ -75,8 +82,7 @@ function set-prompt-theme {
     local USER="$2"
 
     # Colorscheme file for the passed user on the given host
-    COLORSCHEME_FILE="$(readlink -f \
-        "Support/shell/prompt-colorscheme-$HOST-$USER.sh")"
+    COLORSCHEME_FILE="$SHELL_LIB_DIR/prompt-colorscheme-$HOST-$USER.sh"
 
     # We need to execute a few commands in the user environment. Escaping
     # everything in the string passed as the bash command is unconvenient.
@@ -96,8 +102,7 @@ function set-prompt-theme {
 
 # Linking the prompt-setting file to a system-wide location, to make it easily
 # available for all users
-readlink -f Support/shell/set-prompt.sh \
-    | xargs -i sudo ln -sf '{}' /usr/local/lib/set-prompt.sh
+sudo ln -sf "$SHELL_LIB_DIR/set-prompt.sh" /usr/local/lib/set-prompt.sh
 
 #####################################################
 #

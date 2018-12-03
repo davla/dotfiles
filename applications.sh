@@ -1,7 +1,17 @@
 #!/usr/bin/env bash
 
-# This scripts installs my preferred applications and
-# performs some initial setup for such applications
+# This scripts installs some applications and performs their initial setup
+# where possible
+
+#####################################################
+#
+#                   Variables
+#
+#####################################################
+
+# Absolute path of this script's parent directory
+PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
+LIB_DIR="$PARENT_DIR/lib"
 
 #####################################################
 #
@@ -82,8 +92,8 @@ function clean {
 #
 #####################################################
 
-# Checking for root privileges: if don't
-# have them, recalling this script with sudo
+# Checking for root privileges: if don't have them, recalling this script with
+# sudo
 if [[ $EUID -ne 0 ]]; then
     echo 'This script needs to be run as root'
     sudo bash "$0" "$@"
@@ -96,8 +106,8 @@ fi
 #
 #####################################################
 
-cp Support/apt/sources/* /etc/apt/sources.list.d
-cp Support/apt/preferences/* /etc/apt/preferences.d
+cp "$LIB_DIR/apt/sources/"* /etc/apt/sources.list.d
+cp "$LIB_DIR/preferences/"* /etc/apt/preferences.d
 mv /etc/apt/sources.list.d/sources.list /etc/apt
 
 #####################################################
@@ -145,11 +155,9 @@ apt-get install firmware-realtek firmware-iwlwifi
 #
 #####################################################
 
-# Cleaning undesired packages,
-# so that they won't be upgraded
+# Cleaning undesired packages, so that they won't be upgraded
 clean
 
-# Updating
 apt-get update
 apt-get upgrade
 
@@ -200,8 +208,8 @@ apt-get install xfce4-battery-plugin xfce4-cpugraph-plugin xfce4-eyes-plugin \
 # Rubygems
 gem install bundle sass
 
-# Cleaning again, so that if something undesired
-# managed to get installed it is removed
+# Cleaning again, so that if something undesired managed to get installed it
+# is removed
 clean
 
 #####################################################
@@ -213,7 +221,7 @@ clean
 # Docker non root access
 grep docker /etc/group &> /dev/null || groupadd docker
 
-# Git
+# Git credential helper
 ln -s /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring \
     /usr/bin/git-credential-gnome-keyring
 

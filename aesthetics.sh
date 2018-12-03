@@ -17,6 +17,16 @@
 
 #####################################################
 #
+#                   Variables
+#
+#####################################################
+
+# Absolute path of this script's parent directory
+PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
+LIB_DIR="$PARENT_DIR/lib"
+
+#####################################################
+#
 #               Input processing
 #
 #####################################################
@@ -24,6 +34,7 @@
 THEMES_ARCH="$1"
 ICONS_ARCH="$2"
 
+# Cannot proceed if any od the two input files does not exist
 if [[ ! -f "$THEMES_ARCH" || ! -f "$ICONS_ARCH" ]]; then
 	echo 'Themes or icons archives not found!'
 	exit 1
@@ -40,10 +51,10 @@ LIGHTDM_CONF_DIR="$LIGHTDM_CONF_BASE/lightdm.conf.d"
 LIGHTDM_GREETER_CONF_DIR="$LIGHTDM_CONF_BASE/lightdm-gtk-greeter.conf.d"
 
 sudo mkdir -p "$LIGHTDM_CONF_DIR"
-sudo cp Support/lightdm/02_lightdm_custom.conf "$LIGHTDM_CONF_DIR"
+sudo cp "$LIB_DIR/lightdm/02_lightdm_custom.conf" "$LIGHTDM_CONF_DIR"
 
 sudo mkdir -p "$LIGHTDM_GREETER_CONF_DIR"
-sudo cp Support/lightdm/02_greeter_custom.conf "$LIGHTDM_GREETER_CONF_DIR"
+sudo cp "$LIB_DIR/lightdm/02_greeter_custom.conf" "$LIGHTDM_GREETER_CONF_DIR"
 
 #####################################################
 #
@@ -68,6 +79,8 @@ mkdir -p "$ICONS_PATH"
 # Installung custom cursors themes
 tar -xjf "$ICONS_ARCH" -C "$ICONS_PATH"
 [[ $? -ne 0 ]] && exit 1
+
+# Creating icon cache for the newly installed icons
 find "$ICONS_PATH" -maxdepth 1 -type d -name 'ACYLS*' \
     -exec gtk-update-icon-cache {} \; &> /dev/null
 echo 'ACYLS and cursors installed'

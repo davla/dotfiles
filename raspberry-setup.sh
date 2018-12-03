@@ -4,12 +4,16 @@
 
 #####################################################
 #
-#               Setting root password
+#                   Variables
 #
 #####################################################
 
+# Absolute path of this script's parent directory
+PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
+LIB_DIR="$PARENT_DIR/lib"
+
 # Absolute path of raspberry configuration directory
-RASPI_CONF_DIR="$(readlink -f Support/raspberry)"
+RASPI_LIB_DIR="$(readlink -f "$LIB_DIR/raspberry")"
 
 #####################################################
 #
@@ -26,11 +30,13 @@ sudo passwd --status | grep -w 'NP' &> /dev/null && sudo passwd
 #
 #####################################################
 
-sudo cp Support/raspberry/sources/*.list /etc/apt/sources.list.d
+sudo cp "$RASPI_LIB_DIR/sources/"*.list /etc/apt/sources.list.d
 
 wget -O - 'https://download.docker.com/linux/raspbian/gpg' | sudo apt-key add -
 
 sudo apt-get update
+
+# This breaks raspbian testing
 sudo apt-get remove raspi-copies-and-fills
 sudo apt-get install at certbot ddclient docker-ce git jq nfs-kernel-server \
     nfs-common python3-pip python-requests rpcbind
@@ -44,20 +50,24 @@ sudo pip3 install docker-compose
 #
 #####################################################
 
-sudo cp Support/raspberry/config/exports /etc
-sudo cp Support/raspberry/config/pam_login /etc/pam.d/login
-sudo cp Support/raspberry/config/pam_sshd /etc/pam.d/sshd
-sudo cp Support/raspberry/config/sshd_config /etc/ssh/sshd_config
-sudo cp Support/raspberry/config/rsyslog-custom.conf /etc/rsyslog.d
-sudo cp Support/raspberry/config/logrotate-custom.conf /etc/logrotate.d
+sudo cp "$RASPI_LIB_DIR/config/exports" /etc
+sudo cp "$RASPI_LIB_DIR/config/pam_login" /etc/pam.d/login
+sudo cp "$RASPI_LIB_DIR/config/pam_sshd" /etc/pam.d/sshd
+sudo cp "$RASPI_LIB_DIR/config/sshd_config" /etc/ssh/sshd_config
+sudo cp "$RASPI_LIB_DIR/config/rsyslog-custom.conf" /etc/rsyslog.d
+sudo cp "$RASPI_LIB_DIR/config/logrotate-custom.conf" /etc/logrotate.d
 
+# Setting up ddclient. The lib configuration file is mean to override the
+# ddclient one anytime; however, as it doesn't have the password, this is
+# either grepped from the ddclient config file, if there is already one, or
+# asked interactively.
 if [[ -f /etc/ddclient.conf ]]; then
-    DNS_PASSWD=$(sudo grep -oP 'password=\K.+' /etc/ddclient.conf)
+    DNS_PASSWD="$(sudo grep -oP 'password=\K.+' /etc/ddclient.conf)"
 else
     read -sp 'Insert DNS service password: ' DNS_PASSWD
     echo ''
 fi
-sudo cp Support/raspberry/config/ddclient.conf /etc
+sudo cp "$RASPI_LIB_DIR/config/ddclient.conf" /etc
 sudo sed -i "7ipassword=$DNS_PASSWD" /etc/ddclient.conf
 
 sudo adduser "$USER" docker
@@ -97,7 +107,7 @@ source "$HOME/.bash_envvars"
 #
 #####################################################
 
-bash ssh-keys.sh
+bash "$PARENT_DIR/ssh-keys.sh"
 
 #####################################################
 #
@@ -105,8 +115,8 @@ bash ssh-keys.sh
 #
 #####################################################
 
-crontab -u pi Support/raspberry/pi-crontab
-sudo crontab -u root Support/raspberry/root-crontab
+crontab -u pi "$RASPI_LIB_DIR/pi-crontab"
+sudo crontab -u root "$RASPI_LIB_DIR/root-crontab"
 
 #####################################################
 #
@@ -126,13 +136,18 @@ fi
 #
 #####################################################
 
+# Only installing pywikibot if it's not already installed
 if [[ ! -d "$PYWIKIBOT_DIR" ]]; then
     git clone --recursive 'https://gerrit.wikimedia.org/r/pywikibot/core.git' \
         "$PYWIKIBOT_DIR"
+
+    # Adding some custom scripts and machineries
     ln -sf "$RASPI_CONF_DIR/pywikibot/"* "$PYWIKIBOT_DIR"
     mkdir -p "$PYWIKIBOT_DIR/dicts"
+
     cd "$PYWIKIBOT_DIR" || exit 1
 
+    # Setting up the bot to connect to Pokémon Central Wiki
     python pwb.py generate_family_file \
         'https://bulbapedia.bulbagarden.net/wiki/Main_Page' ep
     python pwb.py generate_user_files
@@ -147,6 +162,7 @@ fi
 #
 #####################################################
 
+# Only installing n if it's not already installed
 if ! which n &> /dev/null; then
     N_DIR='/tmp/n'
 
@@ -155,8 +171,10 @@ if ! which n &> /dev/null; then
     make -C "$N_DIR" use
     rm -rf "$N_DIR"
 
+    # Installing the latest version to create the directory where n lib files
+    # will be copied
     sudo n latest
-    sudo cp -r Support/n/* /usr/local/n/versions/node
+    sudo cp -r "$LIB_DIR/n/"* /usr/local/n/versions/node
 fi
 
 #####################################################
@@ -165,13 +183,17 @@ fi
 #
 #####################################################
 
+# Only installing wiki macros if they'r not already there
 if [[ ! -d "$UTIL_DIR" ]]; then
     git clone 'git@github.com:pokemoncentral/wiki-util.git' "$UTIL_DIR"
 
+    # Installing coffeescript globally for the node version the macros are
+    # meant to run on
     MACROS_DIR="$UTIL_DIR/js/atom-macros/"
     sudo n "$(< "$MACROS_DIR/.nvmrc")"
     sudo npm install -g coffeescript
 
+    # Installing macros dependencies
     source "$HOME/.n-use.sh"
     cd "$MACROS_DIR" || exit 1
     n-use
@@ -185,4 +207,4 @@ fi
 #
 #####################################################
 
-bash terminal-setup.sh 'raspberry'
+bash "$PARENT_DIR/terminal-setup.sh" 'raspberry'

@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
-# This script sets up the environment for new shells
+# This script sets up the environment for new shells. It uses soem files from
+# a lib directory, that can be specified as a parameter.
+
+# Arguments:
+#   - $1: The lib directory to be used suring the setup. Defaults to the
+#       lib/shell found in this script's parent directory.
 
 #####################################################
 #
@@ -12,8 +17,15 @@
 PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
 LIB_DIR="$PARENT_DIR/lib"
 
-# Absolute path of lib directory for shell
-SHELL_LIB_DIR="$(readlink -f "$LIB_DIR/shell")"
+#####################################################
+#
+#               Input processing
+#
+#####################################################
+
+# Lib directory for shell
+SHELL_LIB_DIR="${1:-$LIB_DIR/shell}"
+SHELL_LIB_DIR="$(readlink -f "$SHELL_LIB_DIR")"
 
 #####################################################
 #
@@ -43,8 +55,9 @@ grep '# Setting shell options for:' /etc/bash.bashrc &> /dev/null \
 shopt -s direxpand dirspell cdspell' \
         | sudo tee -a /etc/bash.bashrc &> /dev/null
 
-# Adding custom autocompletions
-sudo cp "$SHELL_LIB_DIR/completion/"* /etc/bash_completion.d/
+# Adding custom autocompletions, if any
+[[ -d "$SHELL_LIB_DIR/completion" ]] \
+    && sudo cp "$SHELL_LIB_DIR/completion/"* /etc/bash_completion.d/
 
 #####################################################
 #
@@ -52,11 +65,15 @@ sudo cp "$SHELL_LIB_DIR/completion/"* /etc/bash_completion.d/
 #
 #####################################################
 
-# Setting environment for bash login shells
-ln -sf "$SHELL_LIB_DIR/.bash_profile" "$HOME"
+# Setting environment for bash login shells, if the file exists
+[[ -f "$SHELL_LIB_DIR/.bash_profile" ]] \
+    && ln -sf "$SHELL_LIB_DIR/.bash_profile" "$HOME"
 
-# Setting custom environment variables for the user
-ln -sf "$SHELL_LIB_DIR/.bash_envvars" "$HOME"
-grep '\.bash_envvars' "$HOME/.bashrc" &> /dev/null || echo '
-# Setting envvars
+# Setting custom environment variables for the user, if any
+if [[ -f "$SHELL_LIB_DIR/.bash_envvars" ]]; then
+    ln -sf "$SHELL_LIB_DIR/.bash_envvars" "$HOME"
+    grep '\.bash_envvars' "$HOME/.bashrc" &> /dev/null || echo '
+
+# Setting environment variables
 [ -f $HOME/.bash_envvars ] && . $HOME/.bash_envvars' >> "$HOME/.bashrc"
+fi

@@ -3,7 +3,7 @@
 # Executing .profile
 [[ -f "$HOME/.profile" ]] && source "$HOME/.profile"
 
-# Setting envvars
+# Setting environment variables
 [[ -f "$HOME/.bash_envvars" ]] && source "$HOME/.bash_envvars"
 
 # Executing .bashrc for interactive bash sessions

@@ -1,16 +1,15 @@
 #!/usr/bin/env bash
 
-# This script installs Postman in a given directory only
-# if it doesn't contain a Postman installation or if the
-# installed version is older than the currently available
-# one. It also creates a desktop file and a symbolic link
-# to the Postman executable inside the installation directory.
+# This script installs Postman in a given directory. It does so only if the
+# directory doesn't already contain a Postman installation, or if the installed
+# version is older than the latest available one. It also creates a .desktop
+# file and a symbolic link on PATH pointing to the Postman executable inside
+# the installation directory.
 
-# The only dependency is the jq package, used to check
-# what is the installed version of Postman.
+# The only dependency is the jq package, used to check what is the installed
+# version of Postman.
 
-# For information about the arguments, execute this file
-# with the -h flag.
+# For information about the arguments, execute this file with the -h flag.
 
 #####################################################
 #
@@ -71,9 +70,8 @@ tty -s && alias print='echo' || alias print='logger -p local0.info -t POSTMAN'
 #
 #####################################################
 
-# This function downloads Postman from the specified URL
-# and extracts it in the specified directory, that is
-# created if not already existing.
+# This function downloads Postman from the specified URL and extracts it in the
+# specified directory, which is created if not already existing.
 #
 # Arguments:
 #     - $1: Download URL.
@@ -92,19 +90,18 @@ function download-and-extract {
 	rm -rf "$ARCH_NAME"
 }
 
-# This is just a convenience function to avoid remembering
-# the arguments of download-and-install, make-deskop and
-# make-symlink
+# This is just a convenience function to avoid remembering the arguments of
+# download-and-extract, make-deskop and make-symlink
 function install-postman {
     download-and-extract "$POSTMAN_URL" "$POSTMAN_INSTALL_HOME"
     make-desktop "$POSTAMN_EXEC_PATH" "$POSTMAN_INSTALL_HOME"
     make-symlink "$POSTMAN_INSTALL_HOME" "$POSTMAN_EXEC_PATH"
 }
 
-# This functions compares two version numbers. It exits with
-# a zero status code if the first version is newer than the
-# second one, otherwise with a non-zero code, namely when the
-# first version is equal or older than the second one.
+# This functions compares two version numbers. It exits with a zero status code
+# if the first version is newer than the second one, otherwise with a non-zero
+# code: this occurs when the first version is equal or older than the second
+# one.
 #
 # Arguments:
 #     - $1: First version number.
@@ -113,12 +110,14 @@ function is-newer {
     local FIRST="$1"
     local SECOND="$2"
 
+    # Either the two versions are equal or sort -V will list the first version
+    # last, so that the tail will be equal to it.
     [[ "$FIRST" != "$SECOND" && $(xargs -n 1 <<<"$FIRST $SECOND" \
         | sort -V | tail -n 1) == "$FIRST" ]]
 }
 
-# This function fetches from the Internet the version number
-# of the latest available Postman version.
+# This function fetches from the Internet the version number of the latest
+# available Postman version.
 function latest-postman-version {
 	curl -sI "$POSTMAN_URL" | grep -Po \
         '(?<=filename\=Postman-linux-x64-)[\d\.]+(?=\.tar\.gz)'
@@ -147,12 +146,11 @@ Type=Application
 Categories=Network;Development;" > /usr/share/applications/postman.desktop
 }
 
-# This function creates a symbolic link at the passed path
-# to the Postman execitable found in the specified directory.
+# This function creates a symbolic link at the passed path to the Postman
+# execitable found in the specified directory.
 #
 # Arguments:
-#   - $1: The directory in which the Postman executable
-#           is to be found.
+#   - $1: The directory in which the Postman executable is to be found.
 #   - $2: The symbolic link target path.
 function make-symlink {
     local POSTMAN_INSTALL_HOME="$1"
@@ -169,7 +167,7 @@ function make-symlink {
 #
 #####################################################
 
-while getopts 'b:d:fhu:x:' OPTION; do
+while getopts 'b:d:fhx:' OPTION; do
     case "$OPTION" in
         'b')
             POSTMAN_INSTALL_HOME=$(realpath "$OPTARG")
@@ -185,11 +183,6 @@ while getopts 'b:d:fhu:x:' OPTION; do
 
         'h')
             print "$HELP_MESSAGE"
-            exit 0
-            ;;
-
-        'u')
-            # print help
             exit 0
             ;;
 
@@ -214,7 +207,7 @@ elif [[ "$POSTMAN_EXEC_NAME" =~ / ]]; then
         'absolute path.'
     exit 1
 
-# Building the executable path in the default way
+# The executbale path is built via the dedicated variables
 else
     POSTMAN_EXEC_PATH="$POSTMAN_EXEC_BASE/$POSTMAN_EXEC_NAME"
 fi
@@ -248,7 +241,7 @@ POSTMAN_INSTALLED_VERSION=$(jq -r '.version' \
     "$POSTMAN_INSTALL_HOME/app/resources/app/package.json")
 
 # Old version installed
-if is-newer $POSTMAN_LATEST_VERSION $POSTMAN_INSTALLED_VERSION; then
+if is-newer "$POSTMAN_LATEST_VERSION" "$POSTMAN_INSTALLED_VERSION"; then
 	[[ -d "$POSTMAN_INSTALL_HOME" ]] && rm -rf "$POSTMAN_INSTALL_HOME"
 	install-postman
 	print 'Postman updated'

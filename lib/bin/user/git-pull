@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-# This script pulls updates from the git repository found at
-# the passed directory. It assumes the upstream branch to be
-# set.
+# This script pulls updates from the git repository found at the passed
+# directory. It assumes the upstream branch to be the current branch.
 
 # Arguments:
 #     - $1: Base directory of the repository.
@@ -35,11 +34,13 @@ alias reponame="git remote get-url origin | xargs -i basename '{}' '.git'"
 #
 #####################################################
 
+# Checking for existence of repository base directory.
 if ! cd "$REPO_BASE"; then
     print "error - $REPO_BASE is not a directory."
     exit 1
 fi
 
+# Checking for the base directory to be a repository.
 if ! git status &> /dev/null; then
     print "error - $REPO_BASE is not a git repository."
     exit 1

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# This script pulls updates from a list of git repositories.
-# It assumes the upstream branch to be set.
+# This script pulls updates from a list of git repositories. It assumes the
+# upstream branch to be the current branch.
 
 #####################################################
 #

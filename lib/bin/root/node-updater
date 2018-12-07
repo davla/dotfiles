@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
-# This script installs the latest node.js version via n.
-# Then it uninstalls all the unused node versions, that is
-# all the installed ones that are not found in any .nvmrc
-# file located in any non-node_modules directory under the
-# /home directory
+# This script installs the latest node.js version via n. Then it uninstalls all
+# the unused node versions, that is all the installed ones that are not found
+# in any .nvmrc file, among those located in any non-node_modules directory
+# in the /home tree
 
 #####################################################
 #
@@ -34,7 +33,7 @@ alias version-digits="tr -d 'v'"
 # Returns the installed versions of node, one per line and sorted
 # ascendingly by version
 # shellcheck disable=SC2142
-alias installed-node-version="n | sort -V | awk '{print \$1}'"
+alias installed-node-version="n | sort -V | cut -d ' ' -f 1"
 
 # Returns the latest installed node verions
 alias latest-node-version="installed-node-version | tail -n 1"
@@ -45,10 +44,13 @@ alias latest-node-version="installed-node-version | tail -n 1"
 #
 #####################################################
 
+# If the latest version of node was installed, rather than activated
 if n latest | grep 'installed' &> /dev/null; then
     LATEST_NODE_VERSION=$(latest-node-version)
 
     print "node.js updated to $LATEST_NODE_VERSION"
+
+    # Installing global packages for newly installed node version
     < "$GLOBAL_PACKAGES_FILE" xargs -L 1 \
         "$N_PREFIX/$LATEST_NODE_VERSION/bin/npm" -g install
 else
@@ -79,4 +81,6 @@ for VERSION in $INSTALLED_VERSIONS; do
             && print "uninstalled node.js version $VERSION"
     fi
 done
+
+# Explicit return code, as the last grep might exit with an error
 exit 0

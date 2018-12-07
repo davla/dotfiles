@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
-# This script downloads and extracts a jetbrains IDE and
-# proceeds with the launcher script.
-# Currently, only installing the latest version is supported,
-# and only the following IDEs can be downloaded (it's just
-# a matter of data-entry to add more):
+# This script downloads and extracts a jetbrains IDE and proceeds with the
+# launcher script. Currently, only installing the latest version is supported,
+# and only the following IDEs can be downloaded (it's just a matter of
+# data-entry to add more):
 #     - clion
 #     - intellij
 #     - goland
@@ -12,8 +11,7 @@
 #     - rubymine
 #     - webstorm
 
-# For information about the arguments, execute this file
-# with the -h flag.
+# For information about the arguments, execute this file with the -h flag.
 
 #####################################################
 #
@@ -77,11 +75,11 @@ Options:
 #
 #####################################################
 
-# This function retruns the flavor component for the
-# IDE code to submitted as a URL parameter.
+# This function retruns the flavor component for the IDE code to submitted as a
+# URL parameter.
 #
 # Arguments:
-#   -$1: The flavor whocse code shoudl be returned.
+#   -$1: The flavor whose code should be returned.
 #   -$2: A space-separed list of allowed flavors.
 function make-flavor-code {
     local FLAVOR="$1"
@@ -89,8 +87,8 @@ function make-flavor-code {
 
     read -a ALLOWED_FLAVORS <<<"$ALLOWED_FLAVORS"
 
-    # Mock array-search -_-" - Printing on separate
-    # lines and greping with line match.
+    # Mocking array-search -_-" - Printing on separate lines and greping with
+    # line match.
     if printf '\n%s' "${ALLOWED_FLAVORS[@]}" \
             | grep -x "$FLAVOR" > /dev/null; then
         awk '{print toupper(substr($0, 1, 1))}' <<<"$FLAVOR"
@@ -109,11 +107,11 @@ function make-flavor-code {
 while getopts 'b:B:h' OPTION; do
     case "$OPTION" in
         'B')
-            IDE_BASE_DIR=$(realpath "$OPTARG")
+            IDE_BASE_DIR=$(readlink -f "$OPTARG")
             ;;
 
         'b')
-            JETBRAINS_BASE_DIR=$(realpath "$OPTARG")
+            JETBRAINS_BASE_DIR=$(readlink -f "$OPTARG")
             ;;
 
         'h')
@@ -129,6 +127,7 @@ while getopts 'b:B:h' OPTION; do
 done
 shift $(( OPTIND - 1 ))
 
+# Dashes in positional parameters are not allowed
 if [[ $* =~ [[:space:]]+-.[[:space:]]+ ]]; then
     echo 'Error while parsing input: named option should all come before' \
         'positional arguments'
@@ -197,8 +196,7 @@ if [[ -n "$ALLOWED_FLAVORS" ]]; then
     FLAVOR="${2:-community}"
 
     # make-flavor-code prints an error message
-    FLAVOR_CODE=$(make-flavor-code "$FLAVOR" "$ALLOWED_FLAVORS")
-    [[ $? -ne 0 ]] && exit 1
+    FLAVOR_CODE=$(make-flavor-code "$FLAVOR" "$ALLOWED_FLAVORS") || exit 1
 
     URL_CODE="${IDE_CODE}${FLAVOR_CODE}"
     FULL_IDE_NAME="$IDE_NAME-$FLAVOR"
@@ -225,8 +223,8 @@ curl -GL "$JETBRAINS_DOWNLOAD_URL" \
 # The downloaded file is not an archive
 if ! file -b "$ARCH_NAME" | grep 'compressed' &> /dev/null; then
 
-    # The || fallback covers the cases in which jq is not
-    # installed or the downloaded file is not JSON
+    # The || fallback covers the cases in which jq is not installed or the
+    # downloaded file is not JSON
     jq '.' "$ARCH_NAME" >&2 2> /dev/null \
         || echo "Download of $FULL_IDE_NAME failed!" >&2
 
@@ -234,11 +232,11 @@ if ! file -b "$ARCH_NAME" | grep 'compressed' &> /dev/null; then
     exit 1
 fi
 
+# Removing any previous installation
 sudo rm -rf "$IDE_BASE_DIR" 2> /dev/null
 sudo mkdir -p "$IDE_BASE_DIR"
 
-# Chagning ownership so that patch updates
-# are executable as unprivileged users
+# Chagning ownership so that patch updates are executable as unprivileged users
 sudo chown "$USER:$USER" "$IDE_BASE_DIR"
 
 echo "Extracting $ARCH_NAME..."

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# This script updates globally installed npm packages
-# for the latest installed node versions
+# This script updates globally installed npm packages for the latest installed
+# node versions
 
 #####################################################
 #

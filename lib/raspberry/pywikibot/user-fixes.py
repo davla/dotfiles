@@ -35,6 +35,9 @@ def to_link(exceptions, aliases, match):
     {'fuocodentro': 'Forza Interiore'}, the returned string will be
     '[[Forza Interiore|Fuocodentro]]'. The keys must be lowercase and the
     underscores need to be replaced by spaces.
+    If the match is in the form <link_target>|<link_display>, than the link
+    target is used for exception and aliasing, while the displayed text is left
+    untouched.
 
     :param exceptions: List of first group values that will not be replaced.
     :type exceptions: List of strings.
@@ -43,19 +46,32 @@ def to_link(exceptions, aliases, match):
     :return string: The plain link to the first group of the match.
     """
 
+    # The link template content. Can contain a | character.
     content = match.group(1)
-    key = content.lower().replace('_', ' ')
 
+    # Splitting the link target and what is displayed. If there's nothing to
+    # split, then they're equal, so they're both assigned the whole content.
+    try:
+        link_target, link_display = content.split('|')
+    except ValueError:
+        link_target, link_display = content, content
+
+    # The key in the exceptions and aliases must be lowercased and with no
+    # underscore in place of spaces.
+    key = link_target.lower().replace('_', ' ')
+
+    # The link target is an exception, returning the whole match as it is.
     if key in exceptions:
         return match.group(0)
 
-    try:
-        link_target = aliases[key]
-        link_text = '[[%s|{0:s}]]' % link_target
-    except KeyError:
-        link_text = '[[{0:s}]]'
+    # Replacing the link target if it has an alias.
+    link_target = aliases.get(key, link_target)
 
-    return link_text.format(content)
+    # If link target and displayed text are the same, only one value is
+    # interpolated. Two are necessary otherwise.
+    return ('[[{0:s}]]'.format(link_target)
+            if link_target == link_display
+            else '[[{0:s}|{1:s}]]'.format(link_target, link_display))
 
 
 # This fix fixes grammatically incorrect text and general misspellings.

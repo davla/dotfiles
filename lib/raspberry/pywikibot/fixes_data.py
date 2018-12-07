@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-This file includes the biug data structures used in fixes in user-fixes.py
+This file includes the bug data structures used in fixes in user-fixes.py
 """
 
 from __future__ import unicode_literals

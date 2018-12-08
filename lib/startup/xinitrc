@@ -6,5 +6,7 @@
 [ -f /etc/xdg/xfce4/xinitrc ] && . /etc/xdg/xfce4/xinitrc
 
 # Setting up UI scaling
+exec 1>/home/maze/log.init
 SCALING=$(which adjust-scaling)
 [ -f "$SCALING" ] && . "$SCALING"
+

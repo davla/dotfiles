@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+INSTALL_FUNCTIONS="$(readlink -f "$1")"
+
+source "$INSTALL_FUNCTIONS"
+
+if ! is-installed; then
+    install
+else
+    INSTALLED_VERSION="$(installed-version)"
+    LATEST_VERSION="$(latest-version)"
+
+    if is-newer "$LATEST_VERSION" "$INSTALLED_VERSION"; then
+        remove
+        install
+    fi
+fi

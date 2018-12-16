@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+source /usr/local/lib/manually/lib.sh
+
+shopt -s expand_aliases
+
+REPO_NAME='docker/compose'
+
+alias is_installed='[[ -f /usr/local/bin/docker-compose ]]'
+alias installed-version="docker-compose -v | cut -d ' ' -f 3 | head -c -2"
+# shellcheck disable=SC2139
+alias latest-version="_latest-github-release \"$REPO_NAME\""
+alias is-newer='_is-newer-version-numbers'
+alias remove='rm /usr/local/bin/docker-compose'
+
+function install {
+    COMPOSE_TAG="$(uname -s)-$(uname -m)"
+    COMPOSE_URL="$(_latest-github-release-url "$REPO_NAME")/docker-compose-$COMPOSE_TAG"
+    wget -O /usr/local/bin/docker-compose "$COMPOSE_URL"
+    chmod +x /usr/local/bin/docker-compose
+}

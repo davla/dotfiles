@@ -133,7 +133,7 @@ TMP_DIR="$(mktemp -d)"
 
 git clone 'https://github.com/vanaoff/move-to-next-monitor.git' "$TMP_DIR"
 bash "$TMP_DIR/install.sh"
-mv /usr/local/bin/move-to-next-monitor /usr/bin/move-to-monitor
+mv /usr/local/bin/move-to-next-monitor /usr/local/bin/move-to-monitor
 
 rm -rf "$TMP_DIR"
 

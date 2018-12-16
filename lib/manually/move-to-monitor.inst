@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+source /usr/local/lib/manually/lib.sh
+
+shopt -s expand_aliases
+
+REPO_URL='https://github.com/vanaoff/move-to-next-monitor.git'
+
+
+alias is-installed='[[ -f /usr/local/bin/move-to-monitor ]]'
+alias installed-version='_latest-installed-timestamp /usr/local/bin/move-to-monitor'
+# shellcheck disable=SC2139
+alias latest-version="_latest-git-timestamp \"$REPO_URL\""
+
+function install {
+    local TMP_DIR
+    TMP_DIR="$(mktemp -d)"
+
+    git clone "$REPO_URL" "$TMP_DIR"
+    bash "$TMP_DIR/install.sh"
+    mv /usr/local/bin/move-to-next-monitor /usr/local/bin/move-to-monitor
+
+    rm -rf "$TMP_DIR"
+}

@@ -23,6 +23,7 @@ CUSTOM_JOBS_MARKER='# Custom jobs'
 
 # Commands to be run daily as root
 ROOT_DAILY=(
+    'host-refresh'
     'install-postman'
     'node-updater'
     'npm-updater'

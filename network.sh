@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
 
-# This script deals with networking tasks. In particular:
-#   - It populates /etc/hosts file with most frequently visited remote
-#       websites and adds some local resources.
-#   - It installs a script to disable Wi-Fi when cabled connections are active.
-
-# Arguments:
-#	- $1: If 'refresh', only refreshes remote websites
+# This script makes some additional networking setup. In particular, it adds
+# some local and remote hosts IP in /etc/host and it installs a script to
+# disable Wi-Fi when cabled connections are active.
 
 #####################################################
 #
@@ -17,21 +13,6 @@
 # Absolute path of this script's parent directory
 PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
 LIB_DIR="$PARENT_DIR/lib"
-
-# Websites whose IP addresses should be cached in /etc/hosts
-REMOTE_RESOURCES=(
-    'duckduckgo.com'
-    'forum.pokemoncentral.it'
-    'google.com'
-    'it.insegreto.com'
-    'nonsolomamma.com'
-    'pokemon.gamespress.com'
-    'serebii.net'
-    'wiki.pokemoncentral.it'
-)
-
-# Marker for custom remote resources
-REMOTE_RESOURCES_MARKER='WWW'
 
 #####################################################
 #
@@ -49,29 +30,13 @@ fi
 
 #####################################################
 #
-#               Input processing
+#                   Local hosts
 #
 #####################################################
 
-[[ "$1" == 'refresh' ]] && REFRESH='true' || REFRESH='false'
-
-#####################################################
-#
-#               Non-refreshing tasks
-#
-#####################################################
-
-if [[ "$REFRESH" == 'false' ]]; then
-
-#####################################################
-#
-#               Local resources
-#
-#####################################################
-
-	# Adding local resources and a marker for frequently
-    # accessed remote websites
-	echo -n "
+# Adding local resources and a marker for frequently
+# accessed remote websites
+grep 'memorione' /etc/hosts &> /dev/null || echo -n "
 192.168.1.3     memorione
 192.168.0.11        raspberry
 192.168.0.1		router
@@ -85,37 +50,19 @@ if [[ "$REFRESH" == 'false' ]]; then
 #
 #####################################################
 
-    DISPATCHERS_PATH='/etc/NetworkManager/dispatcher.d'
+DISPATCHERS_PATH='/etc/NetworkManager/dispatcher.d'
 
-    # Copying the NetworkManager dispatch script to the right location
-    cp "$LIB_DIR/network/"* "$DISPATCHERS_PATH"
+# Copying the NetworkManager dispatch script to the right location
+cp "$LIB_DIR/network/"* "$DISPATCHERS_PATH"
 
-    # Setting the right permissions and ownership for dispatcher scripts
-    chown -R 'root:root' "$DISPATCHERS_PATH"
-    chmod -R u+w,ga-w,u-s,+x "$DISPATCHERS_PATH"
-
-fi
+# Setting the right permissions and ownership for dispatcher scripts
+chown -R 'root:root' "$DISPATCHERS_PATH"
+chmod -R u+w,ga-w,u-s,+x "$DISPATCHERS_PATH"
 
 #####################################################
 #
-#               Remote websites
+#                   Remote hosts
 #
 #####################################################
 
-# Line number of the remote resources marker
-REMOTE_LINE="$(grep -n "$REMOTE_RESOURCES_MARKER" /etc/hosts \
-    | cut -d ':' -f 1)"
-
-# Clearing remote resources entries
-REMOTE_LINE=$(( REMOTE_LINE + 2 ))
-sed -i "$REMOTE_LINE,\$d" /etc/hosts
-
-# Adding an entry for every remote resource
-for WEBSITE in "${REMOTE_RESOURCES[@]}"; do
-	IPS=$(host "$WEBSITE")
-
-    grep 'has address' <<<"$IPS" | tail -n 1 | \
-        awk '{print($1, "\t", $4)}' >> /etc/hosts
-    grep 'has IPv6 address' <<<"$IPS" | tail -n 1 | \
-        awk '{print($1, "\t", $5)}' >> /etc/hosts
-done
+host-refresh

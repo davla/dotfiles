@@ -105,7 +105,8 @@ function compile-c {
     echo "$EXEC_NAME.c compiled and SUID bit set"
 }
 
-# This function copies a file in a destination directory.
+# This function copies a file in a destination directory, and makes it
+# executable.
 #
 # Arguments
 #   $1: Source file.
@@ -116,9 +117,12 @@ function copy-file {
 
     local FILE_NAME
     FILE_NAME="$(basename "$SOURCE")"
+    local DEST_FILE="$DEST_DIR/$FILE_NAME"
 
     # --remove-destination is there to overwrite links used for development.
-    cp --remove-destination "$SOURCE" "$DEST_DIR/$FILE_NAME"
+    cp --remove-destination "$SOURCE" "$DEST_FILE"
+    chmod +x "$DEST_FILE"
+
     echo "$FILE_NAME copied"
 }
 

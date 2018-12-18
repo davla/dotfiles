@@ -31,7 +31,7 @@ CMDS=(
 # sudo
 if [[ $EUID -ne 0 ]]; then
     echo 'This script needs to be run as root'
-    sudo bash "$0" "$@"
+    sudo bash "${BASH_SOURCE[0]}" "$@"
     exit 0
 fi
 

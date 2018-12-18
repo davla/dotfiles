@@ -103,18 +103,6 @@ sudo crontab -u root "$RASPI_LIB_DIR/root-crontab"
 
 #####################################################
 #
-#               TSL certificate setup
-#
-#####################################################
-
-if ! sudo certbot certificates 2> /dev/null | grep 'Found' &> /dev/null; then
-    read -p 'Open port 80 as the TSL certificates are being installed'
-    sudo certbot certonly --standalone -d 'maze0.hunnur.com' \
-        -m 'truzzialrogo@gmx.com'
-fi
-
-#####################################################
-#
 #           Installing pywikibot
 #
 #####################################################

@@ -48,6 +48,10 @@ if [[ -f "$HOME/.prompt-colorscheme.sh" ]]; then
 
     # Git ps1 parameters:
 
+    # Whether to show modifications of tracked files (*/+)
+    # shellcheck disable=SC2034
+    GIT_PS1_SHOWDIRTYSTATE=1
+
     # Whether to show the presence of stashed elements ($)
     # shellcheck disable=SC2034
     GIT_PS1_SHOWSTASHSTATE=1

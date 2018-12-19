@@ -186,12 +186,12 @@ apt-get install apng2gif autoconf cabal cmake cowsay cups curl dkms docker-ce \
     dos2unix flashplayer-mozilla fonts-freefont-otf fortune g++ ghc gifsicle \
     git git-review gvfs-backends handbrake-cli heroku hlint hunspell \
     hunspell-en-us hunspell-it imagemagick jq lame libghc-hspec-dev \
-    libgnome-keyring-dev lightdm-gtk-greeter lua5.1 lua5.3 lua-check make \
-    moreutils nfs-common oracle-java8-installer oracle-java8-set-default \
-    browser-plugin-vlc p7zip pycodestyle python-pip python-requests-futures \
-    python-setuptools python3-gdbm python3-lxml python3-requests \
-    python3-requests-oauthlib rar ruby sbt sct scala shellcheck \
-    software-properties-common sudo thunar-archive-plugin \
+    libgit2-dev libgnome-keyring-dev lightdm-gtk-greeter lua5.1 lua5.3 \
+    lua-check make moreutils nfs-common oracle-java8-installer \
+    oracle-java8-set-default browser-plugin-vlc p7zip pycodestyle python-pip \
+    python-requests-futures python-setuptools python3-gdbm python3-lxml \
+    python3-requests python3-requests-oauthlib rar ruby sbt sct scala \
+    shellcheck software-properties-common sudo thunar-archive-plugin \
     thunar-dropbox-plugin tree tuxguitar-jsa uni2ascii unrar \
     virtualenvwrapper wmctrl xdotool xserver-xorg-input-synaptics yad zip
 [[ $? -ne 0 ]] && exit 1

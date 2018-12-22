@@ -5,8 +5,9 @@
 # to be installed.
 #
 # The script installs applications if they are not installed, or if the
-# installed version is older than the latest available one. Errors are logged
-# in the log directory under the machinery installation path.
+# installed version is older than the latest available one. In this case, the
+# current installation is wiped, and the new version is installed from scratch.
+# Errors are logged in the log directory under the machinery installation path.
 #
 # Specific applications can be installed by passing their name, that is the
 # name of the  *.inst file in the functions.d directory under the machinery
@@ -15,6 +16,8 @@
 # the ones found in functions.d are installed.
 #
 # Arguments:
+#   - -f: Flag, forces the installation of applications, regardless of the
+#       installed version.
 #   - $@: The applications to be installed, as names or absolute paths.
 #       Optional, defaults to all the packages in functions.d. More info above.
 
@@ -85,9 +88,15 @@ function with-log {
 #   - $1: The application to be installed.
 function manual-install {
     local APPLICATION="$1"
+    local FORCE_INSTALL="$2"
 
-    if ! is-installed &> /dev/null; then
-        print "$APPLICATION not installed"
+    if [[ "$FORCE_INSTALL" == 'true' ]] || ! is-installed &> /dev/null; then
+
+        # Removing any potentially broken installation in case the installation
+        # is forced. If the application is not installed, removal will fail,
+        # but silently.
+        remove &> /dev/null
+
         with-log install "$APPLICATION" 'installing' \
             && print "$APPLICATION version $(installed-version) installed"
     else
@@ -115,6 +124,21 @@ function manual-install {
 #               Input processing
 #
 #####################################################
+
+FORCE_INSTALL='false'
+
+while getopts 'f' OPTION; do
+    case "$OPTION" in
+        'f')
+            FORCE_INSTALL='true'
+            ;;
+
+        *)  # getopts has already printed an error message
+            exit 1
+            ;;
+    esac
+done
+shift $(( OPTIND - 1 ))
 
 APPLICATIONS=()
 
@@ -144,7 +168,7 @@ for APPLICATION in "${APPLICATIONS[@]}"; do
     APPLICATION_NAME="$(basename "$APPLICATION" .inst)"
 
     # Loading the function definitions for the application
-    source "$PACKAGE"
+    source "$APPLICATION"
 
-    manual-install "$APPLICATION_NAME"
+    manual-install "$APPLICATION_NAME" "$FORCE_INSTALL"
 done

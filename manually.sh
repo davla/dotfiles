@@ -50,4 +50,4 @@ cp "$MANUAL_LIB_DIR/"*.inst "$MANUAL_FUNCTIONS_DIR"
 #####################################################
 
 bash "$PARENT_DIR/custom-commands.sh" manual-install
-manual-install
+manual-install -f

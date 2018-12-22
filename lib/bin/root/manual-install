@@ -1,21 +1,22 @@
 #!/usr/bin/env bash
 
-# This script deals with manual installation of packages not packaged in any
-# repository. It assumes the machinery for manual installation to be installed.
+# This script deals with manual installation of applications that aren't
+# packaged in any repository. It assumes the machinery for manual installation
+# to be installed.
 #
-# The script installs packages if they are not installed, or if the installed
-# version is older than the latest available one. Errors are logged in the log
-# directory under the machinery installation path.
+# The script installs applications if they are not installed, or if the
+# installed version is older than the latest available one. Errors are logged
+# in the log directory under the machinery installation path.
 #
-# Specific packages can be installed by passing their name, that is the name
-# of the  *.inst file in the functions.d directory under the machinery
+# Specific applications can be installed by passing their name, that is the
+# name of the  *.inst file in the functions.d directory under the machinery
 # installation path; other files matching the specifications can be used as
-# well, by passing their absolute path. If no packages are provided, all the
-# ones found in functions.d are installed.
+# well, by passing their absolute path. If no applications are provided, all
+# the ones found in functions.d are installed.
 #
 # Arguments:
-#   - $@: The packages to be installed, as names or absolute paths. Optional,
-#       defaults to all the packages in functions.d. More info above.
+#   - $@: The applications to be installed, as names or absolute paths.
+#       Optional, defaults to all the packages in functions.d. More info above.
 
 #####################################################
 #
@@ -54,38 +55,41 @@ tty -s \
 #
 # Arguments:
 #   - $1: The command to be executed.
-#   - $2: The package name. Used in the log file name and in the error message.
+#   - $2: The application name. Used in the log file name and in the error
+#       message.
 #   - $3: The action to print in the error message.
 function with-log {
     local CMD="$1"
-    local PACKAGE="$2"
+    local APPLICATION="$2"
     local ACTION="$3"
 
-    ERROR_LOG="$MANUAL_LOG_DIR/$PACKAGE-error.log"
+    ERROR_LOG="$MANUAL_LOG_DIR/$APPLICATION-error.log"
 
-    $CMD > /dev/null 2> "$INSTALL_ERROR_LOG"
+    $CMD > /dev/null 2> "$ERROR_LOG"
     EXIT_CODE="$?"
     [[ "$EXIT_CODE" -ne 0 ]] \
-        && print "$PACKAGE: errors occurred while $ACTION. See $ERROR_LOG " \
-            "for details." \
+        && print "$APPLICATION: errors occurred while $ACTION. See " \
+            "$ERROR_LOG for details." \
         || rm "$ERROR_LOG"
     return "$EXIT_CODE"
 }
 
-# This function manually installs a package. It does so only if the package is
-# not installed at all, or when the installed version is older than the
-# available one. Errors diring installation and removal are logged, while
-# installation and version checks are not.
+# This function manually installs an application. It does so only if the
+# application is not installed at all, or when the installed version is older
+# than the available one. In the latter case, the application is removed and
+# then the new version is installed from scratch. Errors diring installation
+# and removal are logged, while installation checks and version retrieval and
+# comparison are not.
 #
 # Arguments:
-#   - $1: The package to be installed.
+#   - $1: The application to be installed.
 function manual-install {
-    local PACKAGE="$1"
+    local APPLICATION="$1"
 
     if ! is-installed &> /dev/null; then
-        print "$PACKAGE not installed"
-        with-log install "$PACKAGE" 'installing' \
-            && print "$PACKAGE version $(installed-version) installed"
+        print "$APPLICATION not installed"
+        with-log install "$APPLICATION" 'installing' \
+            && print "$APPLICATION version $(installed-version) installed"
     else
         INSTALLED_VERSION="$(installed-version)"
         LATEST_VERSION="$(latest-version)"
@@ -94,13 +98,14 @@ function manual-install {
 
             # The || prevents the function from executing any further in case
             # of removal error. The exit code is the remove error code.
-            with-log remove "$PACKAGE" 'removing' || return
+            with-log remove "$APPLICATION" 'removing' || return
 
-            with-log install "$PACKAGE" 'installing' \
-                && print "Updated package $PACKAGE to $LATEST_VERSION " \
+            with-log install "$APPLICATION" 'installing' \
+                && print "Updated package $APPLICATION to $LATEST_VERSION " \
                     "- was $INSTALLED_VERSION"
         else
-            print "$PACKAGE is already the latest version ($INSTALLED_VERSION)"
+            print "$APPLICATION is already the latest version " \
+                "($INSTALLED_VERSION)"
         fi
     fi
 }
@@ -111,35 +116,35 @@ function manual-install {
 #
 #####################################################
 
-PACKAGES=()
+APPLICATIONS=()
 
-# If package names are provided, mapping them to their *inst file in the
+# Application are supplied. Mapping the names to their *inst file in the
 # functions.d directory in the machinery installation path, unless they are
 # already absolute paths.
 if [[ $# -gt 0 ]]; then
-    for PACKAGE in "$@"; do
-        [[ ! -f "$PACKAGE" ]] \
-            && PACKAGE="$MANUAL_FUNCTIONS_DIR/$PACKAGE.inst"
-        PACKAGES+=("$PACKAGE")
+    for APPLICATION in "$@"; do
+        [[ ! -f "$APPLICATION" ]] \
+            && APPLICATION="$MANUAL_FUNCTIONS_DIR/$APPLICATION.inst"
+        APPLICATIONS+=("$APPLICATION")
     done
 
-# No package names are provided, just using all files in the functions.d
+# No applications are passed, just using all files in the functions.d
 # directory in the machinery installation path
 else
-    PACKAGES=("$MANUAL_FUNCTIONS_DIR/"*inst)
+    APPLICATIONS=("$MANUAL_FUNCTIONS_DIR/"*inst)
 fi
 
 #####################################################
 #
-#               Installing packages
+#           Installing applications
 #
 #####################################################
 
-for PACKAGE in "${PACKAGES[@]}"; do
-    PACKAGE_NAME="$(basename "$PACKAGE" .inst)"
+for APPLICATION in "${APPLICATIONS[@]}"; do
+    APPLICATION_NAME="$(basename "$APPLICATION" .inst)"
 
-    # Loading the function definitions for the package
+    # Loading the function definitions for the application
     source "$PACKAGE"
 
-    manual-install "$PACKAGE_NAME"
+    manual-install "$APPLICATION_NAME"
 done

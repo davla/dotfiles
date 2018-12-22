@@ -1,17 +1,73 @@
 #!/usr/bin/env bash
 
-INSTALL_FUNCTIONS="$(readlink -f "$1")"
+BASE_MANUAL_DIR='/usr/local/lib/manual-install'
+MANUAL_FUNCTIONS_DIR="$BASE_MANUAL_DIR/functions.d"
+MANUAL_LOG_DIR="$BASE_MANUAL_DIR/log"
 
-source "$INSTALL_FUNCTIONS"
+#####################################################
+#
+#                   Aliases
+#
+#####################################################
 
-if ! is-installed; then
-    install
-else
-    INSTALLED_VERSION="$(installed-version)"
-    LATEST_VERSION="$(latest-version)"
+shopt -s expand_aliases
 
-    if is-newer "$LATEST_VERSION" "$INSTALLED_VERSION"; then
-        remove
-        install
+# Echoes normally if from terminal emulator, otherwise uses syslog
+tty -s \
+    && alias print='echo' \
+    || alias print='logger -p local0.info -t MANUAL_INSTALL'
+
+function with-log {
+    local CMD="$1"
+    local PACKAGE="$2"
+    local ACTION="$3"
+
+    INSTALL_ERROR_LOG="$MANUAL_LOG_DIR/$PACKAGE-install-error.log"
+
+    $CMD > /dev/null 2> "$INSTALL_ERROR_LOG"
+    EXIT_CODE="$?"
+    [[ "$EXIT_CODE" -ne 0 ]] \
+        && print "$PACKAGE: errors occurred while $ACTION. See " \
+            "$INSTALL_ERROR_LOG for details." \
+        || rm "$INSTALL_ERROR_LOG"
+    return "$EXIT_CODE"
+}
+
+function manual-install {
+    local PACKAGE="$1"
+
+    if ! is-installed &> /dev/null; then
+        print "$PACKAGE not installed"
+        with-log install "$PACKAGE" 'installing' \
+            && print "$PACKAGE version $(installed-version) installed"
+    else
+        INSTALLED_VERSION="$(installed-version)"
+        LATEST_VERSION="$(latest-version)"
+
+        if is-newer "$LATEST_VERSION" "$INSTALLED_VERSION" &> /dev/null; then
+            with-log remove "$PACKAGE" 'removing' || return
+            with-log install "$PACKAGE" 'installing' \
+                && print "Updated package $PACKAGE to $LATEST_VERSION " \
+                    "- was $INSTALLED_VERSION"
+        else
+            print "$PACKAGE is already the latest version ($INSTALLED_VERSION)"
+        fi
     fi
+}
+
+PACKAGES=()
+if [[ $# -gt 0 ]]; then
+    for PACKAGE in "$@"; do
+        [[ ! -f "$PACKAGE" ]] \
+            && PACKAGE="$MANUAL_FUNCTIONS_DIR/$PACKAGE.inst"
+        PACKAGES+=("$PACKAGE")
+    done
+else
+    PACKAGES=("$MANUAL_FUNCTIONS_DIR/"*inst)
 fi
+
+for PACKAGE in "${PACKAGES[@]}"; do
+    PACKAGE_NAME="$(basename "$PACKAGE" .inst)"
+    source "$PACKAGE"
+    manual-install "$PACKAGE_NAME"
+done

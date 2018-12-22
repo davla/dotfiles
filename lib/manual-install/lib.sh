@@ -15,7 +15,7 @@ function _latest-github-release-url {
 
 function _latest-github-release {
     local RELEASES_URL="https://api.github.com/repos/$1/releases"
-    wget -O - "$RELEASES_URL/latest" | jq -r '.tag_name'
+    wget -qO - "$RELEASES_URL/latest" | jq -r '.tag_name'
 }
 
 function _latest-git-timestamp {
@@ -24,7 +24,7 @@ function _latest-git-timestamp {
     local TMP_DIR
     TMP_DIR="$(mktemp -d)"
 
-    git clone --depth 1 "$GIT_REPO" "$TMP_DIR"
+    git clone --depth 1 "$GIT_REPO" "$TMP_DIR" &> /dev/null
 
     local GIT_TIMESTAMP
     GIT_TIMESTAMP="$(git show -s --format=%ct HEAD)"

@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+source /usr/local/lib/manual-install/lib.sh
+
+REPO_NAME='docker/compose'
+
+function is-installed {
+    [[ -f /usr/local/bin/docker-compose ]]
+}
+
+function installed-version {
+    docker-compose -v | cut -d ' ' -f 3 | head -c -2
+}
+
+function latest-version {
+    _latest-github-release "$REPO_NAME"
+}
+
+function is-newer {
+    _is-newer-version-numbers
+}
+
+function remove {
+    rm /usr/local/bin/docker-compose
+}
+
+function install {
+    COMPOSE_TAG="$(uname -s)-$(uname -m)"
+    COMPOSE_URL="$(_latest-github-release-url "$REPO_NAME")/docker-compose-$COMPOSE_TAG"
+    wget -O /usr/local/bin/docker-compose "$COMPOSE_URL"
+    chmod +x /usr/local/bin/docker-compose
+}

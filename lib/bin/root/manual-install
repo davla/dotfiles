@@ -1,5 +1,29 @@
 #!/usr/bin/env bash
 
+# This script deals with manual installation of packages not packaged in any
+# repository. It assumes the machinery for manual installation to be installed.
+#
+# The script installs packages if they are not installed, or if the installed
+# version is older than the latest available one. Errors are logged in the log
+# directory under the machinery installation path.
+#
+# Specific packages can be installed by passing their name, that is the name
+# of the  *.inst file in the functions.d directory under the machinery
+# installation path; other files matching the specifications can be used as
+# well, by passing their absolute path. If no packages are provided, all the
+# ones found in functions.d are installed.
+#
+# Arguments:
+#   - $@: The packages to be installed, as names or absolute paths. Optional,
+#       defaults to all the packages in functions.d. More info above.
+
+#####################################################
+#
+#                   Variables
+#
+#####################################################
+
+# Manual installation machinery directories
 BASE_MANUAL_DIR='/usr/local/lib/manual-install'
 MANUAL_FUNCTIONS_DIR="$BASE_MANUAL_DIR/functions.d"
 MANUAL_LOG_DIR="$BASE_MANUAL_DIR/log"
@@ -17,22 +41,44 @@ tty -s \
     && alias print='echo' \
     || alias print='logger -p local0.info -t MANUAL_INSTALL'
 
+#####################################################
+#
+#                   Functions
+#
+#####################################################
+
+# This function executes a command suppressing its STDOUT and redirecting its
+# STDERR to a file in the log directory in the machinery installation path.
+# If the commands terminates successfully, the log file is removed, otherwise
+# a message is printed. Returns the exit code of the command.
+#
+# Arguments:
+#   - $1: The command to be executed.
+#   - $2: The package name. Used in the log file name and in the error message.
+#   - $3: The action to print in the error message.
 function with-log {
     local CMD="$1"
     local PACKAGE="$2"
     local ACTION="$3"
 
-    INSTALL_ERROR_LOG="$MANUAL_LOG_DIR/$PACKAGE-install-error.log"
+    ERROR_LOG="$MANUAL_LOG_DIR/$PACKAGE-error.log"
 
     $CMD > /dev/null 2> "$INSTALL_ERROR_LOG"
     EXIT_CODE="$?"
     [[ "$EXIT_CODE" -ne 0 ]] \
-        && print "$PACKAGE: errors occurred while $ACTION. See " \
-            "$INSTALL_ERROR_LOG for details." \
-        || rm "$INSTALL_ERROR_LOG"
+        && print "$PACKAGE: errors occurred while $ACTION. See $ERROR_LOG " \
+            "for details." \
+        || rm "$ERROR_LOG"
     return "$EXIT_CODE"
 }
 
+# This function manually installs a package. It does so only if the package is
+# not installed at all, or when the installed version is older than the
+# available one. Errors diring installation and removal are logged, while
+# installation and version checks are not.
+#
+# Arguments:
+#   - $1: The package to be installed.
 function manual-install {
     local PACKAGE="$1"
 
@@ -45,7 +91,11 @@ function manual-install {
         LATEST_VERSION="$(latest-version)"
 
         if is-newer "$LATEST_VERSION" "$INSTALLED_VERSION" &> /dev/null; then
+
+            # The || prevents the function from executing any further in case
+            # of removal error. The exit code is the remove error code.
             with-log remove "$PACKAGE" 'removing' || return
+
             with-log install "$PACKAGE" 'installing' \
                 && print "Updated package $PACKAGE to $LATEST_VERSION " \
                     "- was $INSTALLED_VERSION"
@@ -55,19 +105,41 @@ function manual-install {
     fi
 }
 
+#####################################################
+#
+#               Input processing
+#
+#####################################################
+
 PACKAGES=()
+
+# If package names are provided, mapping them to their *inst file in the
+# functions.d directory in the machinery installation path, unless they are
+# already absolute paths.
 if [[ $# -gt 0 ]]; then
     for PACKAGE in "$@"; do
         [[ ! -f "$PACKAGE" ]] \
             && PACKAGE="$MANUAL_FUNCTIONS_DIR/$PACKAGE.inst"
         PACKAGES+=("$PACKAGE")
     done
+
+# No package names are provided, just using all files in the functions.d
+# directory in the machinery installation path
 else
     PACKAGES=("$MANUAL_FUNCTIONS_DIR/"*inst)
 fi
 
+#####################################################
+#
+#               Installing packages
+#
+#####################################################
+
 for PACKAGE in "${PACKAGES[@]}"; do
     PACKAGE_NAME="$(basename "$PACKAGE" .inst)"
+
+    # Loading the function definitions for the package
     source "$PACKAGE"
+
     manual-install "$PACKAGE_NAME"
 done

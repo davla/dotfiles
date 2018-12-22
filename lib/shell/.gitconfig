@@ -1,0 +1,29 @@
+[user]
+	name = Davide Laezza
+	email = truzzialrogo@gmx.com
+[credential]
+	helper = /usr/bin/git-credential-gnome-keyring
+[gitreview]
+	username = davla
+[alias]
+	graph = log --all --graph --format='%C(yellow)%h %Creset%f%Cred%d%n'
+	info = status -sb
+	unstash = stash pop
+	unstage = reset HEAD --
+	update = pull --rebase
+
+	a = add
+	b = checkout -qb
+	c = commit
+	g = log --all --graph --format='%C(yellow)%h %Creset%f%Cred%d%n'
+	i = status -sb
+	l = log
+	p = push
+	r = rebase
+	s = stash push --
+	u = pull --rebase
+
+	ck = checkout -q
+	ug = reset HEAD --
+	us = stash pop
+	

@@ -40,6 +40,7 @@ mkdir -p "$DOCKER_USER_CONFIG"
 echo ':set prompt "ghci> "' > "$HOME/.ghci"
 
 # Git
+ln -sf "$LIB_DIR/shell/.gitconfig" "$HOME/.gitconfig"
 git config --global user.name 'Davide Laezza'
 git config --global user.email 'truzzialrogo@gmx.com'
 git config --global credential.helper /usr/bin/git-credential-gnome-keyring

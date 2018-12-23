@@ -25,6 +25,7 @@ CUSTOM_JOBS_MARKER='# Custom jobs'
 ROOT_DAILY=(
     'host-refresh'
     'install-postman'
+    'manual-install'
     'node-updater'
     'npm-updater'
     'update-notifier'

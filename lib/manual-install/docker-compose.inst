@@ -1,32 +1,68 @@
 #!/usr/bin/env bash
 
+# This scripts defines the functions for the manual application installation
+# machinery for docker-compose.
+
 source /usr/local/lib/manual-install/lib.sh
 
+#####################################################
+#
+#                   Variables
+#
+#####################################################
+
+# GitHub repository name
 REPO_NAME='docker/compose'
 
+# Executable file resulting from the installation
+EXEC='/usr/local/bin/docker-compose'
+
+#####################################################
+#
+#                   Functions
+#
+#####################################################
+
+# This function exits with a zero status code if docker-compose is installed,
+# non-zero otherwise
 function is-installed {
-    [[ -f /usr/local/bin/docker-compose ]]
+    [[ -f "$EXEC" ]]
 }
 
+# This function prints on STDOUT the installed docker-compose version.
 function installed-version {
     docker-compose -v | cut -d ' ' -f 3 | head -c -2
 }
 
+# This function prints on STDOUT the latest available docker-compose version.
 function latest-version {
     _latest-github-release "$REPO_NAME"
 }
 
+# This function exits with a zero status code if the first version is newer
+# than the second one, otherwise with a non-zero code: this occurs when the
+# first version is equal to or older than the second one.
+#
+# Arguments:
+#     - $1: First version number.
+#     - $2: Second version number.
 function is-newer {
-    _is-newer-version-numbers
+    _is-newer-version-numbers "$1" "$2"
 }
 
+# This function uninstalls docker-compose
 function remove {
-    rm /usr/local/bin/docker-compose
+    rm "$EXEC"
 }
 
+# This function installs docker-compose, downloading the binaries from the
+# latest release available on GitHub.
 function install {
+    local COMPOSE_TAG
     COMPOSE_TAG="$(uname -s)-$(uname -m)"
-    COMPOSE_URL="$(_latest-github-release-url "$REPO_NAME")/docker-compose-$COMPOSE_TAG"
-    wget -O /usr/local/bin/docker-compose "$COMPOSE_URL"
-    chmod +x /usr/local/bin/docker-compose
+    local LATEST_RELEASE_URL
+    LATEST_RELEASE_URL="$(_latest-github-release-url "$REPO_NAME")"
+
+    wget -qO "$EXEC" "$LATEST_RELEASE_URL/docker-compose-$COMPOSE_TAG"
+    chmod +x "$EXEC"
 }

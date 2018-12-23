@@ -18,12 +18,13 @@
 	g = log --all --graph --format='%C(yellow)%h %Creset%f%Cred%d%n'
 	i = status -sb
 	l = log
+    m = merge --ff-only
 	p = push
 	r = rebase
 	s = stash push --
 	u = pull --rebase
 
 	ck = checkout -q
+    cp = cherry-pick
 	ug = reset HEAD --
 	us = stash pop
-	

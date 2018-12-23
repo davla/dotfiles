@@ -63,7 +63,7 @@ function _latest-git-timestamp {
 # Arguments:
 #   - $1: The local file.
 function _latest-installed-timestamp {
-    readlink -f "$1" | xargs -i stat -c '%Y' '{}'
+    readlink -f "$1" | xargs stat -c '%Y'
 }
 
 # This function compares two version numbers. It exits with a zero status code

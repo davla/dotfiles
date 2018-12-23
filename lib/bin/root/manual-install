@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-# This script deals with manual installation of applications that aren't
-# packaged in any repository. It assumes the machinery for manual installation
-# to be installed.
+# This script deals with manual installation/update/removal of applications
+# that aren't packaged in any repository. It assumes the machinery for manual
+# installation to be installed.
 #
 # The script installs applications if they are not installed, or if the
 # installed version is older than the latest available one. In this case, the
@@ -12,12 +12,13 @@
 # Specific applications can be installed by passing their name, that is the
 # name of the  *.inst file in the functions.d directory under the machinery
 # installation path; other files matching the specifications can be used as
-# well, by passing their absolute path. If no applications are provided, all
-# the ones found in functions.d are installed.
+# well, by passing their path. If no applications are provided, all the ones
+# found in functions.d are installed.
 #
 # Arguments:
 #   - -f: Flag, forces the installation of applications, regardless of the
 #       installed version.
+#   - -r: Flag, removes the applications.
 #   - $@: The applications to be installed, as names or absolute paths.
 #       Optional, defaults to all the packages in functions.d. More info above.
 
@@ -80,7 +81,7 @@ function with-log {
 # This function manually installs an application. It does so only if the
 # application is not installed at all, or when the installed version is older
 # than the available one. In the latter case, the application is removed and
-# then the new version is installed from scratch. Errors diring installation
+# then the new version is installed from scratch. Errors during installation
 # and removal are logged, while installation checks and version retrieval and
 # comparison are not.
 #
@@ -88,15 +89,8 @@ function with-log {
 #   - $1: The application to be installed.
 function manual-install {
     local APPLICATION="$1"
-    local FORCE_INSTALL="$2"
 
-    if [[ "$FORCE_INSTALL" == 'true' ]] || ! is-installed &> /dev/null; then
-
-        # Removing any potentially broken installation in case the installation
-        # is forced. If the application is not installed, removal will fail,
-        # but silently.
-        remove &> /dev/null
-
+    if ! is-installed &> /dev/null; then
         with-log install "$APPLICATION" 'installing' \
             && print "$APPLICATION version $(installed-version) installed"
     else
@@ -125,12 +119,34 @@ function manual-install {
 #
 #####################################################
 
-FORCE_INSTALL='false'
+# The flags override the action to be taken for every application. The default
+# action is to install or update to latest version.
+alias action='manual-install'
 
-while getopts 'f' OPTION; do
+while getopts 'fr' OPTION; do
     case "$OPTION" in
         'f')
-            FORCE_INSTALL='true'
+            # Action forcing installation: removes the installed application,
+            # if any, and then installs the latest version.
+            function action {
+                is-installed && \
+                    { with-log remove "$1" 'removing' || return; }
+                with-log install "$1" 'installing' \
+                    && print "$1 version $(installed-version) installed"
+            }
+
+            # Aliasing takes precedence over functions.
+            unalias action
+            ;;
+
+        'r')
+            # Action removing the application
+            function action {
+                with-log remove "$1" 'removing'
+            }
+
+            # Aliasing takes precedence over functions.
+            unalias action
             ;;
 
         *)  # getopts has already printed an error message
@@ -142,9 +158,9 @@ shift $(( OPTIND - 1 ))
 
 APPLICATIONS=()
 
-# Application are supplied. Mapping the names to their *inst file in the
+# Applications are supplied. Mapping the names to their *inst file in the
 # functions.d directory in the machinery installation path, unless they are
-# already absolute paths.
+# already valid file paths.
 if [[ $# -gt 0 ]]; then
     for APPLICATION in "$@"; do
         [[ ! -f "$APPLICATION" ]] \
@@ -153,7 +169,7 @@ if [[ $# -gt 0 ]]; then
     done
 
 # No applications are passed, just using all files in the functions.d
-# directory in the machinery installation path
+# directory in the machinery installation path.
 else
     APPLICATIONS=("$MANUAL_FUNCTIONS_DIR/"*inst)
 fi
@@ -167,8 +183,9 @@ fi
 for APPLICATION in "${APPLICATIONS[@]}"; do
     APPLICATION_NAME="$(basename "$APPLICATION" .inst)"
 
-    # Loading the function definitions for the application
+    # Loading the function definitions for the application.
     source "$APPLICATION"
 
-    manual-install "$APPLICATION_NAME" "$FORCE_INSTALL"
+    # Taking an action on the application, based on command line flags.
+    action "$APPLICATION_NAME"
 done

@@ -126,7 +126,8 @@ function copy-file {
     echo "$FILE_NAME copied"
 }
 
-# This function links a file in a destination directory.
+# This function links a file in a destination directory, and makes it
+# executable.
 #
 # Arguments
 #   $1: Source file.
@@ -140,6 +141,7 @@ function link-file {
     FILE_NAME="$(basename "$SOURCE")"
 
     ln -sf "$SOURCE" "$DEST_DIR/$FILE_NAME"
+    chmod +x "$SOURCE"
     echo "$FILE_NAME linked"
 }
 

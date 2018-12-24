@@ -16,22 +16,14 @@
 # found in functions.d are installed.
 #
 # Arguments:
+#   - -b <base>: The base directory where the manual install machinery is
+#       installed in. It's read also from the environment variable
+#       MANUAL_INST_BASE, and defaults to /usr/local/lib/manual-install.
 #   - -f: Flag, forces the installation of applications, regardless of the
 #       installed version.
 #   - -r: Flag, removes the applications.
 #   - $@: The applications to be installed, as names or absolute paths.
 #       Optional, defaults to all the packages in functions.d. More info above.
-
-#####################################################
-#
-#                   Variables
-#
-#####################################################
-
-# Manual installation machinery directories
-BASE_MANUAL_DIR='/usr/local/lib/manual-install'
-MANUAL_FUNCTIONS_DIR="$BASE_MANUAL_DIR/functions.d"
-MANUAL_LOG_DIR="$BASE_MANUAL_DIR/log"
 
 #####################################################
 #
@@ -67,7 +59,7 @@ function with-log {
     local APPLICATION="$2"
     local ACTION="$3"
 
-    ERROR_LOG="$MANUAL_LOG_DIR/$APPLICATION-error.log"
+    ERROR_LOG="$MANUAL_INST_LOG_DIR/$APPLICATION-error.log"
 
     $CMD > /dev/null 2> "$ERROR_LOG"
     EXIT_CODE="$?"
@@ -119,12 +111,18 @@ function manual-install {
 #
 #####################################################
 
+MANUAL_INST_DIR="${MANUAL_INST_BASE:-/usr/local/lib/manual-install}"
+
 # The flags override the action to be taken for every application. The default
 # action is to install or update to latest version.
 alias action='manual-install'
 
-while getopts 'fr' OPTION; do
+while getopts 'b:fr' OPTION; do
     case "$OPTION" in
+        'b')
+            MANUAL_INST_DIR="$OPTARG"
+            ;;
+
         'f')
             # Action forcing installation: removes the installed application,
             # if any, and then installs the latest version.
@@ -156,6 +154,18 @@ while getopts 'fr' OPTION; do
 done
 shift $(( OPTIND - 1 ))
 
+# Manual installation machinery directories
+MANUAL_INST_FUNCTIONS_DIR="$MANUAL_INST_DIR/functions.d"
+MANUAL_INST_LOG_DIR="$MANUAL_INST_DIR/log"
+
+# Checking for manual installationmachinery to be installed at the specified
+# location
+if [[ ! -d "$MANUAL_INST_FUNCTIONS_DIR" ]] \
+    || [[ ! -d "$MANUAL_INST_LOG_DIR" ]]; then
+    echo >&2 "No manual installation machinery found in $MANUAL_INST_DIR!"
+    exit 1
+fi
+
 APPLICATIONS=()
 
 # Applications are supplied. Mapping the names to their *inst file in the
@@ -164,14 +174,14 @@ APPLICATIONS=()
 if [[ $# -gt 0 ]]; then
     for APPLICATION in "$@"; do
         [[ ! -f "$APPLICATION" ]] \
-            && APPLICATION="$MANUAL_FUNCTIONS_DIR/$APPLICATION.inst"
+            && APPLICATION="$MANUAL_INST_FUNCTIONS_DIR/$APPLICATION.inst"
         APPLICATIONS+=("$APPLICATION")
     done
 
 # No applications are passed, just using all files in the functions.d
 # directory in the machinery installation path.
 else
-    APPLICATIONS=("$MANUAL_FUNCTIONS_DIR/"*inst)
+    APPLICATIONS=("$MANUAL_INST_FUNCTIONS_DIR/"*inst)
 fi
 
 #####################################################

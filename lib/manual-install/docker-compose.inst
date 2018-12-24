@@ -3,7 +3,7 @@
 # This scripts defines the functions for the manual application installation
 # machinery for docker-compose.
 
-source /usr/local/lib/manual-install/lib.sh
+source "$(dirname "${BASH_SOURCE[0]}")/../lib.sh"
 
 #####################################################
 #

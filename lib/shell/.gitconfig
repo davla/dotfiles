@@ -6,7 +6,7 @@
 [gitreview]
 	username = davla
 [alias]
-	graph = log --all --graph --format='%C(yellow)%h %Creset%f%Cred%d%n'
+	graph = log --all --graph --format='%C(yellow)%h %Creset%s%Cred%d%n'
 	info = status -sb
 	unstash = stash pop
 	unstage = reset HEAD --
@@ -15,7 +15,7 @@
 	a = add
 	b = checkout -qb
 	c = commit
-	g = log --all --graph --format='%C(yellow)%h %Creset%f%Cred%d%n'
+	g = log --all --graph --format='%C(yellow)%h %Creset%s%Cred%d%n'
 	i = status -sb
 	l = log
     m = merge --ff-only

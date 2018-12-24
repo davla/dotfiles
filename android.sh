@@ -6,6 +6,8 @@
 
 # Arguments:
 #   - -f: Flag. When set, forces the download of the sdk tools.
+#   - -b <base>: The base directory where the Android tools will be installed.
+#       Defaults to /usr/local/lib/android.
 #   - $1: hash of the android sdk tools zip. Default to the latest one at the
 #       time of writing (the same for over one year), that is 4333796.
 
@@ -25,27 +27,26 @@ fi
 
 #####################################################
 #
-#                   Parameters
+#               Input processing
 #
 #####################################################
 
 # Base directory of the android sdk
 ANDROID_HOME='/usr/local/lib/android'
 
-#####################################################
-#
-#               Input processing
-#
-#####################################################
-
 # Whether to force downloading the sdk tools
 FORCE_DOWNLOAD='false'
 
-while getopts 'f' OPTION; do
+while getopts 'b:f' OPTION; do
     case "$OPTION" in
+        'b')
+            ANDROID_HOME="$OPTARG"
+            ;;
+
         'f')
             FORCE_DOWNLOAD='true'
             ;;
+
         *)  # getopts has already printed an error message
             exit 1
             ;;
@@ -78,8 +79,8 @@ SDK_ZIP_FILE='android-sdk-cli.zip'
 # Skipping downloading of android sdk cli tools if they are already there,
 # unless the download is forced
 if [[ "$FORCE_DOWNLOAD" == 'true' || ! -d "$ANDROID_HOME/tools" ]]; then
-    wget -O "$SDK_ZIP_FILE" \
-        "https://dl.google.com/android/repository/sdk-tools-linux-${SDK_ZIP_HASH}.zip"
+    wget -O "$SDK_ZIP_FILE" "https://dl.google.com/android/repository/\
+sdk-tools-linux-${SDK_ZIP_HASH}.zip"
     unzip "$SDK_ZIP_FILE" -d "$ANDROID_HOME"
     rm "$SDK_ZIP_FILE"
 fi

@@ -60,8 +60,11 @@ function __set-prompt-theme {
     local COLORSCHEME_FILE="$1"
 
     # Linking the passed colorscheme in the user home, where the prompt-setting
-    # script expects it to be.
-    ln -sf "$COLORSCHEME_FILE" "$HOME/.prompt-colorscheme.sh"
+    # script expects it to be. For users in the root group, it is acutally
+    # copied for security reasons.
+    groups | grep root &> /dev/null \
+        && cp "$COLORSCHEME_FILE" "$HOME/.prompt-colorscheme.sh" \
+        || ln -sf "$COLORSCHEME_FILE" "$HOME/.prompt-colorscheme.sh"
 
     # Appending a few lines to the user .bashrc, only if not aready there.
     # These lines source the prompt-setting script and set PROMPT_COMMAND.

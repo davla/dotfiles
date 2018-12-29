@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/sh
 
 # This script adapts the UI scaling to the screen resolution:
 # it is upscaled for HIDPI resolutions and scaled back to
@@ -123,6 +123,7 @@ if [ "$FORCE_SCALING" = 'down' -o \
         DPI='-1'
         EYES_THEME='Default-tiny'
         GDK_SCALE=1
+        GDK_DPI_SCALE=1
         ICON_SIZES="\'\'"
         PANEL_SIZE=24
         SYSTRAY_ICON_SIZE=22
@@ -151,8 +152,9 @@ elif [ "$FORCE_SCALING" = 'up' -o \
         DPI=180
         EYES_THEME='Default'
         GDK_SCALE=2
-        ICON_SIZES='gtk-menu=40,40:gtk-button=45,45:gtk-dialog=48,48:
-        gtk-small-toolbar=45,45:gtk-large-toolbar=45,45'
+        GDK_DPI_SCALE=0.5
+        ICON_SIZES="gtk-menu=40,40:gtk-button=45,45:gtk-dialog=48,48:\
+gtk-small-toolbar=78,78:gtk-large-toolbar=45,45"
         PANEL_SIZE=48
         SYSTRAY_ICON_SIZE=43
         THUNAR_ICON_SIZE='THUNAR_ICON_SIZE_LARGE'
@@ -223,7 +225,8 @@ export QT_AUTO_SCREEN_SCALE_FACTOR=1
 #
 #####################################################
 
-export GDK_SCALE
+# export GDK_SCALE
+# export GDK_DPI_SCALE
 
 #####################################################
 #

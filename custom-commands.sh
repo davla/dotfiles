@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# This script serves the purpose of making some self-made bash scripts and C
-# files available as CLI commands. This is achieved by copying them to
-# directories found in the PATH variable; C files are actually not copied, but
-# compiled to binaries placed in such directories.
+# This script serves the purpose of making some self-made scripts and C files
+# available as CLI commands. This is achieved by copying them to directories
+# found in the PATH variable; C files are actually not copied, but compiled to
+# binaries placed in such directories.
 #
 # The files available for copying are located in lib/bin. Files in the `user`
 # subdirectory will be available for non-root users, while files in the `root`
@@ -178,7 +178,7 @@ function process-file {
                 compile-c "$FILE" "$DEST_DIR"
                 ;;
 
-            'bourne-again'|'python'|'symbolic')
+            'bourne-again'|'python'|'posix'|'symbolic')
                 publish-file "$FILE" "$DEST_DIR"
                 ;;
 

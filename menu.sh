@@ -10,11 +10,8 @@
 #####################################################
 
 # Absolute path of this script's parent directory
-PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
-LIB_DIR="$PARENT_DIR/lib"
-
-# Absolute path of lib directory for menu
-MENU_LIB_DIR="$(readlink -f "$LIB_DIR/menu")"
+PARENT_DIR="$(dirname "${BASH_SOURCE[0]}" | xargs readlink -f)"
+MENU_LIB_DIR="$PARENT_DIR/lib/menu"
 
 #####################################################
 #

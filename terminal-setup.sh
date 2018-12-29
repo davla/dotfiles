@@ -21,11 +21,8 @@
 #####################################################
 
 # Absolute path of this script's parent directory
-PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
-LIB_DIR="$PARENT_DIR/lib"
-
-# Absolute path of lib directory for shell
-SHELL_LIB_DIR="$(readlink -f "$LIB_DIR/shell")"
+PARENT_DIR="$(dirname "${BASH_SOURCE[0]}" | xargs readlink -f)"
+SHELL_LIB_DIR="$PARENT_DIR/lib/shell"
 
 # Whether this script is being run in a sudo environment. Used to stop
 # recursion due to self-sourcing in set-prompt-theme.

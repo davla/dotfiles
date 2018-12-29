@@ -8,7 +8,7 @@
 #
 #####################################################
 
-# Absolute path of this script's parent directory
+# Path of this script's parent directory
 PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
 LIB_DIR="$PARENT_DIR/lib"
 

@@ -26,7 +26,7 @@
 #####################################################
 
 # Absolute path of this script's parent directory
-PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
+PARENT_DIR="$(dirname "${BASH_SOURCE[0]}" | xargs readlink -f)"
 LIB_DIR="$PARENT_DIR/lib"
 
 # Base directory where custom commands are located

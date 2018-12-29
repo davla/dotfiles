@@ -11,10 +11,7 @@
 
 # Absolute path of this script's parent directory
 PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
-LIB_DIR="$PARENT_DIR/lib"
-
-# Lib directory for polkit
-POLKIT_LIB_DIR="$LIB/polkit"
+POLKIT_LIB_DIR="$PARENT_DIR/lib/polkit"
 
 #####################################################
 #

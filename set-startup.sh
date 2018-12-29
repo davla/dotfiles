@@ -9,11 +9,8 @@
 #####################################################
 
 # Absolute path of this script's parent directory
-PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
-LIB_DIR="$PARENT_DIR/lib"
-
-# Absolute path of lib directory for startup
-STARTUP_LIB_DIR="$(readlink -f "$LIB_DIR/startup")"
+PARENT_DIR="$(dirname "${BASH_SOURCE[0]}" | xargs readlink -f)"
+STARTUP_LIB_DIR="$PARENT_DIR/lib/startup"
 
 # Used to mark the custom mount points in /etc/fstab
 CUSTOM_MOUNTS_MARKER='# Custom mount points'
@@ -82,5 +79,5 @@ done
 # Setting startup jobs
 ####################################
 
-ln -sf "$STARTUP_LIB_DIR/xinitrc" "$HOME/.config/xfce4"
+ln -sf "$STARTUP_LIB_DIR/xsessionrc" "$HOME/.xsessionrc"
 ln -sf "$STARTUP_LIB_DIR/"*.desktop "$XFCE_AUTOSTART_DIR"

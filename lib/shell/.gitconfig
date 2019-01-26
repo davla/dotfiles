@@ -8,6 +8,8 @@
 [alias]
 	graph = log --all --graph --format='%C(yellow)%h %Creset%s%Cred%d%n'
 	info = status -sb
+	ls-aliases = config --get-regexp ^alias\\.
+	squash = merge --squash
 	unstash = stash pop
 	unstage = reset HEAD --
 	update = pull --rebase
@@ -24,7 +26,9 @@
 	s = stash push --
 	u = pull --rebase
 
+	aa = add --all
 	ck = checkout -q
     cp = cherry-pick
 	ug = reset HEAD --
+	sq = merge --squash
 	us = stash pop

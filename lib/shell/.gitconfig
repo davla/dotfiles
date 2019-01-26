@@ -21,7 +21,7 @@
 	g = log --branches --remotes --graph --format='%C(yellow)%h %Creset%s%C(red)%d%n'
 	i = status -sb
 	l = log
-    m = merge --ff-only
+	m = merge --log
 	p = push
 	r = rebase
 	s = stash push --
@@ -34,3 +34,5 @@
 	sq = merge --squash
 	ua = reset HEAD --
 	us = stash pop
+[merge]
+	log = 1

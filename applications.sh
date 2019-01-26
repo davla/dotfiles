@@ -192,11 +192,11 @@ apt-get install apng2gif autoconf cabal cmake command-not-found cowsay cups \
     lightdm-gtk-greeter lua5.1 lua5.3 lua-check make mercurial moreutils \
     nfs-common nyancat oracle-java8-installer oracle-java8-set-default \
     browser-plugin-vlc p7zip pycodestyle python-requests-futures python-pip \
-    python-pygments python-setuptools python3-gdbm python3-lxml \
+    python-setuptools python3-gdbm python3-lxml python3-pygments \
     python3-requests python3-requests-oauthlib rar ruby sbt sct scala \
     shellcheck software-properties-common sudo thunar-archive-plugin \
     thunar-dropbox-plugin tree tuxguitar-jsa uni2ascii unrar \
-    virtualenvwrapper wmctrl xdotool xserver-xorg-input-synaptics yad zip
+    virtualenvwrapper wmctrl xdotool xserver-xorg-input-synaptics yad zip zsh
 [[ $? -ne 0 ]] && exit 1
 
 # --no-install-recommends prevents node from being installed

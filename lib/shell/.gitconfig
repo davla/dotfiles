@@ -1,18 +1,11 @@
-[user]
-	name = Davide Laezza
-	email = truzzialrogo@gmx.com
-[credential]
-	helper = /usr/bin/git-credential-gnome-keyring
-[gitreview]
-	username = davla
 [alias]
 	graph = log --branches --remotes --graph --format='%C(yellow)%h %Creset%s%C(red)%d%n'
 	graph-all = log --all --graph --format='%C(yellow)%h %Creset%s%C(red)%d%n'
 	info = status -sb
 	ls-aliases = config --get-regexp ^alias\\.
 	squash = merge --squash
+    unadd = reset HEAD --
 	unstash = stash pop
-	unadd = reset HEAD --
 
 	a = add
 	b = checkout -qb
@@ -32,9 +25,22 @@
 	sq = merge --squash
 	ua = reset HEAD --
 	us = stash pop
+
+[credential]
+    helper = /usr/bin/git-credential-gnome-keyring
+
+[gitreview]
+	username = davla
+
 [merge]
 	log = 1
+
 [rebase]
 	autoStash = true
+
 [pull]
 	rebase = true
+
+[user]
+	name = Davide Laezza
+	email = truzzialrogo@gmx.com

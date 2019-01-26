@@ -11,7 +11,7 @@
 	ls-aliases = config --get-regexp ^alias\\.
 	squash = merge --squash
 	unstash = stash pop
-	unstage = reset HEAD --
+	unadd = reset HEAD --
 	update = pull --rebase
 
 	a = add
@@ -29,6 +29,6 @@
 	aa = add --all
 	ck = checkout -q
     cp = cherry-pick
-	ug = reset HEAD --
 	sq = merge --squash
+	ua = reset HEAD --
 	us = stash pop

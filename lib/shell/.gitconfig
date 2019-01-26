@@ -6,7 +6,8 @@
 [gitreview]
 	username = davla
 [alias]
-	graph = log --all --graph --format='%C(yellow)%h %Creset%s%Cred%d%n'
+	graph = log --branches --remotes --graph --format='%C(yellow)%h %Creset%s%C(red)%d%n'
+	graph-all = log --all --graph --format='%C(yellow)%h %Creset%s%C(red)%d%n'
 	info = status -sb
 	ls-aliases = config --get-regexp ^alias\\.
 	squash = merge --squash
@@ -17,7 +18,7 @@
 	a = add
 	b = checkout -qb
 	c = commit
-	g = log --all --graph --format='%C(yellow)%h %Creset%s%Cred%d%n'
+	g = log --branches --remotes --graph --format='%C(yellow)%h %Creset%s%C(red)%d%n'
 	i = status -sb
 	l = log
     m = merge --ff-only
@@ -29,6 +30,7 @@
 	aa = add --all
 	ck = checkout -q
     cp = cherry-pick
+	ga = graph --all --graph --format='%C(yellow)%h %Creset%s%C(red)%d%n'
 	sq = merge --squash
 	ua = reset HEAD --
 	us = stash pop

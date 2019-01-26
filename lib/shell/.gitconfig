@@ -29,7 +29,7 @@
 
 	aa = add --all
 	ck = checkout -q
-    cp = cherry-pick
+	cp = cherry-pick
 	ga = graph --all --graph --format='%C(yellow)%h %Creset%s%C(red)%d%n'
 	sq = merge --squash
 	ua = reset HEAD --

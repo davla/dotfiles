@@ -3,12 +3,13 @@
 	graph-all = log --all --graph --format='%C(yellow)%h %Creset%s%C(red)%d%n'
 	info = status -sb
 	ls-aliases = config --get-regexp ^alias\\.
+    new-branch = checkout -qb
 	squash = merge --squash
     unadd = reset HEAD --
 	unstash = stash pop
 
 	a = add
-	b = checkout -qb
+	b = branch
 	c = commit
 	g = log --branches --remotes --graph --format='%C(yellow)%h %Creset%s%C(red)%d%n'
 	i = status -sb
@@ -22,6 +23,7 @@
 	ck = checkout -q
 	cp = cherry-pick
 	ga = graph --all --graph --format='%C(yellow)%h %Creset%s%C(red)%d%n'
+    nb = checkout -qb
 	sq = merge --squash
 	ua = reset HEAD --
 	us = stash pop

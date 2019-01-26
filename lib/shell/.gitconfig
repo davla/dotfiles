@@ -13,7 +13,6 @@
 	squash = merge --squash
 	unstash = stash pop
 	unadd = reset HEAD --
-	update = pull --rebase
 
 	a = add
 	b = checkout -qb
@@ -25,7 +24,6 @@
 	p = push
 	r = rebase
 	s = stash push --
-	u = pull --rebase
 
 	aa = add --all
 	ck = checkout -q
@@ -36,3 +34,7 @@
 	us = stash pop
 [merge]
 	log = 1
+[rebase]
+	autoStash = true
+[pull]
+	rebase = true

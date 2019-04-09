@@ -1,6 +1,20 @@
 config:
   backup: true
+  banner: true
   create: true
   dotpath: dotfiles
+  ignoreempty: false
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: true
+  showdiff: true
+  workdir: ~/.config/dotdrop
 dotfiles:
+  f_gitconfig:
+    dst: ~/.gitconfig
+    src: gitconfig
 profiles:
+  davide-debian:
+    dotfiles:
+    - f_gitconfig

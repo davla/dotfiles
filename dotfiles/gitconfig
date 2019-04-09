@@ -1,0 +1,59 @@
+{%@@ set graph_format = '%C(yellow)%h %Creset%s%C(red)%d%n' @@%}
+{%@@ set graph = "log --branches --remotes --graph --format='%s'" | format(graph_format) @@%}
+{%@@ set graph_all = "log --all --graph --format='%s'" | format(graph_format) @@%}
+{%@@ set info = 'status -sb' @@%}
+{%@@ set new_branch = 'checkout -qb' @@%}
+{%@@ set squash = 'merge --squash' @@%}
+{%@@ set unadd = 'reset HEAD --' @@%}
+{%@@ set unstash = 'stash pop' @@%}
+# {{@@ header() @@}}
+
+[alias]
+    graph = {{@@ graph @@}}
+    graph-all = {{@@ graph_all @@}}
+    info = {{@@ info @@}}
+    ls-aliases = config --get-regexp ^alias\\.
+    new-branch = {{@@ new_branch @@}}
+    squash = {{@@ squash @@}}
+    unadd = {{@@ unadd @@}}
+    unstash = {{@@ unstash @@}}
+
+    a = add
+    b = branch
+    c = commit
+    g = {{@@ graph @@}}
+    i = {{@@ info @@}}
+    l = log
+    m = merge --log
+    r = rebase
+    s = stash
+
+    aa = add --all
+    ck = checkout -q
+    cp = cherry-pick
+    ga = {{@@ graph_all @@}}
+    nb = {{@@ new_branch @@}}
+    pl = pull
+    ps = push
+    sq = {{@@ squash @@}}
+    ua = {{@@ unadd @@}}
+    us = {{@@ unstash @@}}
+
+[credential]
+    helper = /usr/bin/git-credential-gnome-keyring
+
+[gitreview]
+    username = davla
+
+[merge]
+    log = 1
+
+[rebase]
+    autoStash = true
+
+[pull]
+    rebase = true
+
+[user]
+    name = Davide Laezza
+    email = davide.laezza@gmx.com

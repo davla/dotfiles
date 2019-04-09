@@ -21,6 +21,7 @@
     a = add
     b = branch
     c = commit
+    f = fetch
     g = {{@@ graph @@}}
     i = {{@@ info @@}}
     l = log

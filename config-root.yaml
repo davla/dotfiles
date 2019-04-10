@@ -1,8 +1,8 @@
 config:
-  backup: true
+  backup: false
   banner: true
   create: true
-  dotpath: dotfiles
+  dotpath: dotfiles-root
   ignoreempty: false
   keepdot: false
   link_dotfile_default: nolink
@@ -11,10 +11,10 @@ config:
   showdiff: true
   workdir: ~/.config/dotdrop
 dotfiles:
-  f_gitconfig:
-    dst: ~/.gitconfig
-    src: gitconfig
+  d_etc_apt_sources.list.d:
+    dst: /etc/apt/sources.list.d
+    src: etc/apt/sources.list.d
 profiles:
   davide-debian:
     dotfiles:
-    - f_gitconfig
+    - d_etc_apt_sources.list.d

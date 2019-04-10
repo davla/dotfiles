@@ -1,0 +1,49 @@
+#!/usr/bin/env sh
+
+# This is a NetworkManager dispatch script that disables Wi-Fi
+# when an Ethernet connection is active and enables it when
+# there is no cable connection up.
+
+#####################################################
+#
+#                   Functions
+#
+#####################################################
+
+# This function logs on system logger the passed message
+# with some handy additional formatting
+#
+# Arguments:
+#   $*: The message to be logged.
+log() {
+	local MSG="$*"
+
+    logger -t wifi-ctl "$MSG";
+}
+
+#####################################################
+#
+#               Wi-Fi management
+#
+#####################################################
+
+INTERFACE="$1"
+ACTION="$2"
+
+case "$INTERFACE" in
+
+    eth*|usb*|en*)
+        case "$ACTION" in
+
+            'up')
+                log 'disabling wifi'
+                nmcli radio wifi off
+                ;;
+
+            'down')
+                log 'enabling wifi'
+                nmcli radio wifi on
+                ;;
+        esac
+        ;;
+esac

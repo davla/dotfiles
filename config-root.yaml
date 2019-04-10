@@ -14,23 +14,43 @@ dotfiles:
   d_sources.list.d:
     dst: /etc/apt/sources.list.d
     src: etc/apt/sources.list.d
-  f_logrotate.d_custom.conf:
-    dst: /etc/logrotate.d/custom.conf
-    src: etc/logrotate.d/custom.conf
-  f_rsyslog.d_custom.conf:
-    dst: /etc/rsyslog.d/custom.conf
-    src: etc/rsyslog.d/custom.conf
+  f_60-root.conf:
+    dst: /etc/polkit-1/localauthority.conf.d/60-root.conf
+    src: etc/polkit-1/localauthority.conf.d/60-root.conf
+  f_99-no-wireless-on-wired:
+    dst: /etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
+    src: etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
   f_lightdm-gtk-greeter.conf.d_02_custom.conf:
     dst: /usr/share/lightdm/lightdm-gtk-greeter.conf.d/02_custom.conf
     src: usr/share/lightdm/lightdm-gtk-greeter.conf.d/02_custom.conf
   f_lightdm.conf.d_02_custom.conf:
     dst: /usr/share/lightdm/lightdm.conf.d/02_custom.conf
     src: usr/share/lightdm/lightdm.conf.d/02_custom.conf
+  f_logrotate.d_custom.conf:
+    dst: /etc/logrotate.d/custom.conf
+    src: etc/logrotate.d/custom.conf
+  f_org.xfce.xfce4-terminal.policy:
+    dst: /usr/share/polkit-1/actions/org.xfce.xfce4-terminal.policy
+    src: usr/share/polkit-1/actions/org.xfce.xfce4-terminal.policy
+  f_rsyslog.d_custom.conf:
+    dst: /etc/rsyslog.d/custom.conf
+    src: etc/rsyslog.d/custom.conf
+  f_sources.list:
+    dst: /etc/apt/sources.list
+    src: etc/apt/sources.list
+  f_underclock.service:
+    dst: /etc/systemd/system/underclock.service
+    src: etc/systemd/system/underclock.service
 profiles:
   davide-debian:
     dotfiles:
     - d_sources.list.d
+    - f_60-root.conf
+    - f_99-no-wireless-on-wired
     - f_lightdm.conf.d_02_custom.conf
     - f_lightdm-gtk-greeter.conf.d_02_custom.conf
     - f_logrotate.d_custom.conf
+    - f_org.xfce.xfce4-terminal.policy
     - f_rsyslog.d_custom.conf
+    - f_sources.list
+    - f_underclock.service

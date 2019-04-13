@@ -65,6 +65,9 @@ dotfiles:
   f_xsessionrc:
     dst: ~/.xsessionrc
     src: xsessionrc
+  f_zshenv:
+    dst: ~/.zshenv
+    src: zshenv
 profiles:
   davide-debian:
     dotfiles:
@@ -86,3 +89,4 @@ profiles:
     - f_hgrc
     - f_xfce-applications.menu
     - f_xsessionrc
+    - f_zshenv

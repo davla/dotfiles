@@ -40,6 +40,9 @@
     ua = {{@@ unadd @@}}
     us = {{@@ unstash @@}}
 
+[commit]
+    gpgsign = true
+
 [credential]
     helper = /usr/bin/git-credential-gnome-keyring
 

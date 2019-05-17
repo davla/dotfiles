@@ -13,7 +13,9 @@ PROMPT_COLOR='\033[1;93m'
 SAD_COLOR='\033[1;96m'
 
 # Exit codes
-EXIT_NO=254
+EXIT_NO=253
+EXIT_SAY=245
+EXIT_TASKS_NOT_FOUND=255
 EXIT_YES=0
 
 # Faces
@@ -34,10 +36,10 @@ execute() {
 
     $CMD > "$OUTPUT_LOG" 2>&1
     if [ $? -eq 0 ]; then
-        printf "$OK_FACE Everything fine with $DESC! Hooray!\n"
+        say -tt "$OK_FACE Everything fine with $DESC! Hooray!"
         rm "$OUTPUT_LOG"
     else
-        printf "$ERROR_FACE Something went wrong while $DESC.\n"
+        say -t "$ERROR_FACE Something went wrong while $DESC."
         inspect_error "$OUTPUT_LOG"
     fi
 
@@ -45,19 +47,20 @@ execute() {
 }
 
 goodbye() {
-    printf "\n$SAD_FACE Saying goodbye early! Anything went wrong?\n"
+    SAY_OPTS="${1:-llt}"
+    say -$SAY_OPTS "$SAD_FACE Saying goodbye early! Anything went wrong?"
     exit
 }
 
 inspect_error() {
     LOG_FILE="$1"
 
-    printf "
-      Do you want to see the output log? (The log has been saved to
-      ${LOG_FILE})? "
+    say "      Do you want to see the output log? (The log has been saved to \
+${LOG_FILE})?"
     if read_answer; then
         less "$LOG_FILE"
     fi
+    printf '\n'
 
     unset LOG_FILE
 }
@@ -67,18 +70,18 @@ prompt() {
     CMD="$2"
     DESC="$3"
 
-    printf "\n$PROMPT_FACE $PROMPT? "
+    say "$PROMPT_FACE $PROMPT?"
     if read_answer; then
         execute "$CMD" "$DESC"
     else
-        printf "$PROMPT_FACE Skipping $DESC then.\n"
+        say -tt "$PROMPT_FACE Skipping $DESC then."
     fi
 
     unset PROMPT CMD
 }
 
 read_answer() {
-    printf ' [y/n/q] '
+    say ' [y/n/q] '
     read ANSWER
     case "$(echo "$ANSWER" | tr '[:upper:]' '[:lower:]')" in
         n|no)
@@ -86,7 +89,7 @@ read_answer() {
             ;;
 
         q|quit)
-            goodbye
+            goodbye lt
             ;;
 
         y|yes)
@@ -96,27 +99,65 @@ read_answer() {
 
 }
 
+say() {
+    LEADING_NEWLINES=''
+    TRAILING_NEWLINES=''
+    while getopts 'lt' OPTION; do
+        case "$OPTION" in
+            'l')
+                LEADING_NEWLINES="$LEADING_NEWLINES\n"
+                ;;
+
+            't')
+                TRAILING_NEWLINES="$TRAILING_NEWLINES\n"
+                ;;
+
+            *)  # getopts has already printed an error message
+                exit "$EXIT_SAY"
+                ;;
+        esac
+    done
+    shift $(( OPTIND - 1 ))
+    MSG="$1"
+
+    FOLD_79="$(printf "$MSG" | fold -sw 79)"
+    FOLD_73="$(printf "$FOLD_79" | tail -n +2 | tr '\n' ' ' | fold -sw 73)"
+
+    printf "$LEADING_NEWLINES"
+    printf "$FOLD_79" | head -n 1
+    [ -n "$FOLD_73" ] && {
+        printf "$FOLD_73" | head -n -1 | awk '{print "      " $0}'
+        printf "$FOLD_73" | tail -n 1 | xargs -0 printf '      %s'
+    }
+    printf "$TRAILING_NEWLINES"
+
+    unset HEAD FOLD_73 FOLD_79 OPTION LEADING_NEWLINE TRAILING_NEWLINE
+}
+
 #######################################
 # Script
 #######################################
 
+STEPS_FILE="${1:-steps/steps-nasks.txt}"
+
 trap goodbye INT TERM
 
-printf "$PROMPT_FACE Hello, I'm your setup script!
-      I'll guide you step-by-step through your system setup. I'll prompt you
-      before each step, copy configuration files, execute commands, and report
-      you output and errors when they occur.
-      Good luck, and let's hope it all goes well!
-"
+say -tt "$PROMPT_FACE Hello, I'm your setup script!
+I'll guide you step-by-step through your system setup. I'll read the \
+steps from $STEPS_FILE and prompt you before each step. I'll execute \
+the step and report you the output of errors when they occur.
+Good luck, and let's hope it all goes well!"
 
-
+# [ ! -f "$TASKS_FILE" ] && {
+#     say -n "$ERROR_FACE I don't know what to do! I cannot find steps file \
+# $STEPS_FILE!"
+#     exit "$EXIT_TASKS_NOT_FOUND"
+# }
 
 prompt 'Do you want to install applications' 'echo 3' 'installing applications'
 prompt 'Do you want to install applications' 'echo 3' 'installing applications'
 prompt 'Do you want to install applications' 'false' 'installing applications'
 
-printf "
-$PROMPT_FACE System setup completed!
-      It's been a pleasure working with you, and I hope everything went fine.
-      Bye-Bye!
-"
+say -t "$PROMPT_FACE System setup completed!
+It's been a pleasure working with you, and I hope everything went fine.
+Bye-Bye!"

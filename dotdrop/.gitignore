@@ -1,0 +1,23 @@
+*.pyc
+.coverage
+.idea/
+.vscode/
+.atom/
+
+dist/
+build/
+*.egg-info/
+tags
+env
+htmlcov
+
+# Snap packages
+parts/
+prime/
+stage/
+*.snap
+
+/packages/snap/.snapcraft/
+
+# Source archive packed by `snapcraft cleanbuild` before pushing to the LXD container
+/packages/*_source.tar.bz2

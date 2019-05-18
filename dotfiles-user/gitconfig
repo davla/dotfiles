@@ -1,5 +1,6 @@
 {%@@ set graph_format = '%C(yellow)%h %C(green)[%ar] %Creset%s%C(red)%d%n' @@%}
-{%@@ set graph = "log --branches --remotes --graph --format='%s'" | format(graph_format) @@%}
+{%@@ set graph = "log --branches --remotes='(origin|upstream)' --graph "
+    "--format='%s'" | format(graph_format) @@%}
 {%@@ set graph_all = "log --all --graph --format='%s'" | format(graph_format) @@%}
 {%@@ set info = 'status -sb' @@%}
 {%@@ set new_branch = 'checkout -qb' @@%}

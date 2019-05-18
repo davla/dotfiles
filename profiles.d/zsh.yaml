@@ -1,0 +1,26 @@
+config:
+  backup: false
+  banner: true
+  create: true
+  dotpath: ../dotfiles-user
+  ignoreempty: false
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+  showdiff: true
+  workdir: ~/.config/dotdrop
+dotfiles:
+  d_zsh:
+    dst: ~/.zsh
+    src: zsh
+  f_zshenv:
+    dst: ~/.zshenv
+    src: zshenv
+profiles:
+  zsh:
+    dotfiles:
+      - f_zshenv
+      - d_zsh
+    dynvariables:
+      cache_dir: '$ZDOTDIR/cache'

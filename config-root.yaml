@@ -4,6 +4,8 @@ config:
   create: true
   dotpath: dotfiles-root
   ignoreempty: false
+  import_configs:
+    - profiles.d/zsh.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -44,13 +46,15 @@ dotfiles:
 profiles:
   davide-debian:
     dotfiles:
-    - d_sources.list.d
-    - f_60-root.conf
-    - f_99-no-wireless-on-wired
-    - f_lightdm.conf.d_02_custom.conf
-    - f_lightdm-gtk-greeter.conf.d_02_custom.conf
-    - f_logrotate.d_custom.conf
-    - f_org.xfce.xfce4-terminal.policy
-    - f_rsyslog.d_custom.conf
-    - f_sources.list
-    - f_underclock.service
+      - d_sources.list.d
+      - f_60-root.conf
+      - f_99-no-wireless-on-wired
+      - f_lightdm.conf.d_02_custom.conf
+      - f_lightdm-gtk-greeter.conf.d_02_custom.conf
+      - f_logrotate.d_custom.conf
+      - f_org.xfce.xfce4-terminal.policy
+      - f_rsyslog.d_custom.conf
+      - f_sources.list
+      - f_underclock.service
+    include:
+      - zsh

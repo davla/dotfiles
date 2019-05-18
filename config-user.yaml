@@ -4,6 +4,8 @@ config:
   create: true
   dotpath: dotfiles-user
   ignoreempty: false
+  import_configs:
+    - profiles.d/zsh.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -65,28 +67,26 @@ dotfiles:
   f_xsessionrc:
     dst: ~/.xsessionrc
     src: xsessionrc
-  f_zshenv:
-    dst: ~/.zshenv
-    src: zshenv
 profiles:
   davide-debian:
     dotfiles:
-    - d_atom
-    - d_autostart
-    - d_calibre
-    - d_desktop-directories
-    - d_docker
-    - d_geany
-    - d_gtk3
-    - d_orage
-    - d_parcellite
-    - d_thunar
-    - d_virtualbox
-    - d_xfce4
-    - f_asdfrc
-    - f_ghci
-    - f_gitconfig
-    - f_hgrc
-    - f_xfce-applications.menu
-    - f_xsessionrc
-    - f_zshenv
+      - d_atom
+      - d_autostart
+      - d_calibre
+      - d_desktop-directories
+      - d_docker
+      - d_geany
+      - d_gtk3
+      - d_orage
+      - d_parcellite
+      - d_thunar
+      - d_virtualbox
+      - d_xfce4
+      - f_asdfrc
+      - f_ghci
+      - f_gitconfig
+      - f_hgrc
+      - f_xfce-applications.menu
+      - f_xsessionrc
+    include:
+      - zsh

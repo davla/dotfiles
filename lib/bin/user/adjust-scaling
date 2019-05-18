@@ -132,7 +132,6 @@ if [ "$FORCE_SCALING" = 'down' -o \
         THUNAR_WINDOW_HEIGHT=520
         THUNAR_WINDOW_WIDTH=700
         THUNAR_ZOOM='THUNAR_ZOOM_LEVEL_NORMAL'
-        WINDOW_MANAGER_THEME='Stoneage'
     fi
 
 # Whether the UI could be possibly upscaled
@@ -162,7 +161,6 @@ gtk-small-toolbar=78,78:gtk-large-toolbar=45,45"
         THUNAR_WINDOW_HEIGHT=965
         THUNAR_WINDOW_WIDTH=1270
         THUNAR_ZOOM='THUNAR_ZOOM_LEVEL_LARGER'
-        WINDOW_MANAGER_THEME='StoneageThick'
     fi
 fi
 
@@ -192,8 +190,6 @@ thunar /last-window-height int $THUNAR_WINDOW_HEIGHT \
 thunar /last-window-width int $THUNAR_WINDOW_WIDTH \
 thunar /shortcuts-icon-size string $THUNAR_ICON_SIZE \
 thunar /tree-icon-size string $THUNAR_ICON_SIZE \
-xfwm4 /general/margin_top int $PANEL_SIZE \
-xfwm4 /general/theme string $WINDOW_MANAGER_THEME \
 xfce4-panel /panels/panel-1/size int $PANEL_SIZE \
 xfce4-panel $SYSTRAY_PROP_BASE/size-max int $SYSTRAY_ICON_SIZE \
 xsettings /Gtk/CursorThemeSize int $CURSOR_SIZE \

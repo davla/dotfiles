@@ -15,7 +15,6 @@ SAD_COLOR='\033[1;96m'
 # Exit codes
 EXIT_NO=253
 EXIT_SAY=245
-EXIT_TASKS_NOT_FOUND=255
 EXIT_YES=0
 
 # Faces
@@ -33,8 +32,7 @@ execute() {
     DESC="$2"
 
     OUTPUT_LOG=$(mktemp)
-
-    $CMD > "$OUTPUT_LOG" 2>&1
+    $SHELL -c "$CMD" > "$OUTPUT_LOG" 2>&1
     if [ $? -eq 0 ]; then
         say -tt "$OK_FACE Everything fine with $DESC! Hooray!"
         rm "$OUTPUT_LOG"
@@ -70,7 +68,7 @@ prompt() {
     CMD="$2"
     DESC="$3"
 
-    say "$PROMPT_FACE $PROMPT?"
+    say "$PROMPT_FACE Do you want to $PROMPT?"
     if read_answer; then
         execute "$CMD" "$DESC"
     else
@@ -100,6 +98,7 @@ read_answer() {
 }
 
 say() {
+    OPTIND=0
     LEADING_NEWLINES=''
     TRAILING_NEWLINES=''
     while getopts 'lt' OPTION; do
@@ -120,43 +119,38 @@ say() {
     shift $(( OPTIND - 1 ))
     MSG="$1"
 
-    FOLD_79="$(printf "$MSG" | fold -sw 79)"
-    FOLD_73="$(printf "$FOLD_79" | tail -n +2 | tr '\n' ' ' | fold -sw 73)"
+    FULL_WIDTH="$(printf "$MSG" | fold -sw 79)"
+    INDENTED_WIDTH="$(printf "$FULL_WIDTH" | tail -n +2 | tr '\n' ' ' \
+        | fold -sw 73)"
 
     printf "$LEADING_NEWLINES"
-    printf "$FOLD_79" | head -n 1
-    [ -n "$FOLD_73" ] && {
-        printf "$FOLD_73" | head -n -1 | awk '{print "      " $0}'
-        printf "$FOLD_73" | tail -n 1 | xargs -0 printf '      %s'
+    printf "$FULL_WIDTH" | head -n 1
+    [ -n "$INDENTED_WIDTH" ] && {
+        printf "$INDENTED_WIDTH" | head -n -1 | awk '{print "      " $0}'
+        printf "$INDENTED_WIDTH" | tail -n 1 | xargs -0 printf '      %s'
     }
     printf "$TRAILING_NEWLINES"
 
-    unset HEAD FOLD_73 FOLD_79 OPTION LEADING_NEWLINE TRAILING_NEWLINE
+    unset MSG FULL_WIDTH INDENTED_WIDTH OPTION LEADING_NEWLINES
+    unset TRAILING_NEWLINES
 }
 
 #######################################
 # Script
 #######################################
 
-STEPS_FILE="${1:-steps/steps-nasks.txt}"
-
 trap goodbye INT TERM
 
 say -tt "$PROMPT_FACE Hello, I'm your setup script!
-I'll guide you step-by-step through your system setup. I'll read the \
-steps from $STEPS_FILE and prompt you before each step. I'll execute \
-the step and report you the output of errors when they occur.
+I'll guide you step-by-step through your system setup. I'll prompt you before \
+each step, copy configuration files, execute commands, and report you output \
+and errors when they occur.
 Good luck, and let's hope it all goes well!"
 
-# [ ! -f "$TASKS_FILE" ] && {
-#     say -n "$ERROR_FACE I don't know what to do! I cannot find steps file \
-# $STEPS_FILE!"
-#     exit "$EXIT_TASKS_NOT_FOUND"
-# }
-
-prompt 'Do you want to install applications' 'echo 3' 'installing applications'
-prompt 'Do you want to install applications' 'echo 3' 'installing applications'
-prompt 'Do you want to install applications' 'false' 'installing applications'
+prompt 'print something nice' 'printf "something nice"' \
+    'printing something nice'
+prompt 'see something fail' 'printf "something nice" && false' \
+    'seeing something fail'
 
 say -t "$PROMPT_FACE System setup completed!
 It's been a pleasure working with you, and I hope everything went fine.

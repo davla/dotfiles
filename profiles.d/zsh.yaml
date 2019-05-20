@@ -23,4 +23,4 @@ profiles:
       - f_zshenv
       - d_zsh
     dynvariables:
-      cache_dir: '$ZDOTDIR/cache'
+      cache_dir: 'echo ${ZSH_CACHE:-$HOME/.zsh/cache}'

@@ -1,14 +1,6 @@
 #!/usr/bin/env zsh
 
-###############################################################################
-#
-#				Variables
-#
-###############################################################################
-
-THIS_SCRIPT="$(readlink -f "${(%):-%x}")"
-PARENT_DIR="${THIS_SCRIPT:h}"
-CACHE_DIR="$PARENT_DIR/cache"
+# This script configures and loads zsh plugins
 
 ###############################################################################
 #
@@ -33,7 +25,7 @@ DEER_KEYS[leave]=l
 # wd
 #######################################
 
-WD_CONFIG="$ZDOTDIR/.warprc"
+WD_CONFIG="$ZDOTDIR/plugins/dotfiles/.warprc"
 WD_SKIP_EXPORT=true
 
 wd() { . "$ANTIBODY_HOME/"*wd/wd.sh }
@@ -94,7 +86,6 @@ readonly YSU_ALIAS_COLOR='\033[38;5;81m'
 YSU_MESSAGE_FORMAT="$YSU_ALIAS_TYPE_COLOR%alias_type$SHELL_FORMAT_RESET: \
 $YSU_COMMAND_COLOR%command$SHELL_FORMAT_RESET -> \
 $SHELL_FORMAT_BOLD$YSU_ALIAS_COLOR%alias$SHELL_FORMAT_RESET"
-
 YSU_MESSAGE_POSITION='after'
 
 ###############################################################################
@@ -103,13 +94,13 @@ YSU_MESSAGE_POSITION='after'
 #
 ###############################################################################
 
-source "$PARENT_DIR/load-plugins-before-compinit.zsh"
+source "$ZDOTDIR/plugins/plugins-before-compinit.zsh"
 
 autoload -Uz compinit bashcompinit
 compinit
 bashcompinit
 
-source "$PARENT_DIR/load-plugins-after-compinit.zsh"
+source "$ZDOTDIR/plugins/plugins-after-compinit.zsh"
 
 ###############################################################################
 #
@@ -124,13 +115,13 @@ source "$PARENT_DIR/load-plugins-after-compinit.zsh"
 _FASD_DATA="$ZDOTDIR/plugins/.fasd"
 _FASD_SHELL='dash'
 
-source "$CACHE_DIR/fasd"
+source "$ZDOTDIR/cache/fasd"
 
 #######################################
 # thefuck
 #######################################
 
-source "$CACHE_DIR/thefuck"
+source "$ZDOTDIR/cache/thefuck"
 
 #######################################
 # zsh-autopair

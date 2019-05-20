@@ -1,9 +1,28 @@
 #!/usr/bin/env zsh
 
-#zmodload zsh/zprof
+# .zshrc file
+
+#######################################
+# Loading plugins
+#######################################
 
 source "$ZDOTDIR/plugins/init.zsh"
+
+#######################################
+# Loading themes
+#######################################
+
+source "$ZDOTDIR/theme/init.zsh"
+
+#######################################
+# Loading aliases
+#######################################
+
 source "$ZDOTDIR/aliases"
+
+#######################################
+# Misc
+#######################################
 
 export ASDF_DATA_DIR=/opt/asdf
 source /opt/asdf/asdf.sh
@@ -16,10 +35,6 @@ source /opt/asdf/completions/asdf.bash
 
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
-
-#export ZYGAL_ASYNC='all'
-source "$ZDOTDIR/theme/cache/zygal"
-#source /home/maze/Files/Programming/shell/zygal/zsh/theme.zsh
 
 setopt histignorealldups sharehistory
 

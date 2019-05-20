@@ -6,4 +6,4 @@
 # Sourcing zygal static script
 #######################################
 
-source "$ZSH_CACHE/zygal"
+source "$ZDOTDIR/cache/zygal"

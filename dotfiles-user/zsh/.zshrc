@@ -18,7 +18,7 @@ source "$ZDOTDIR/theme/init.zsh"
 # Loading aliases
 #######################################
 
-source "$ZDOTDIR/aliases"
+source "$ZDOTDIR/aliases.zsh"
 
 #######################################
 # Misc

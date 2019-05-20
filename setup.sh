@@ -147,6 +147,8 @@ each step, copy configuration files, execute commands, and report you output \
 and errors when they occur.
 Good luck, and let's hope it all goes well!"
 
+prompt 'set dotdrop up' 'sh scripts/dotdrop-setup.sh ./dotfiles' \
+    'setting up dotdrop'
 prompt 'print something nice' 'printf "something nice"' \
     'printing something nice'
 prompt 'see something fail' 'printf "something nice" && false' \

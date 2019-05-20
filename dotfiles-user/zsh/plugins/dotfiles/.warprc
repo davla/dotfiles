@@ -2,13 +2,14 @@ bonsai:~/Files/Studies/Master/Thesis/bonsai
 cv:~/Files/Programming/python/cv/platform
 diary:~/Files/diary
 dotdrop:~/Files/Programming/python/dotdrop
+dotdrop-wiki:~/Files/Programming/github-wikis/dotdrop.wiki
 dotfiles:~/Files/Programming/sys/dotfiles
 haros:~/Files/Studies/Master/Thesis/haros
 pywikibot:~/Files/pywikibot
-setup:~/Files/Programming/bash/setup
-wiki-styles:~/Files/Programming/Wiki/styles
+setup:~/Files/Programming/shell/setup
+setup-scripts:~/Files/Programming/bash/setup-scripts
 wiki-modules:~/Files/Programming/Wiki/modules
+wiki-styles:~/Files/Programming/Wiki/styles
 wiki-util:~/Files/Programming/Wiki/util
 zsh-command-not-found:~/Files/Programming/zsh/zsh-command-not-found
 zygal:~/Files/Programming/shell/zygal
-dotdrop-wiki:~/Files/Programming/github-wikis/dotdrop.wiki

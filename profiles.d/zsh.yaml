@@ -1,3 +1,6 @@
+actions:
+  post:
+    zsh: {{@@ actions_path @@}}/zsh.sh
 config:
   backup: false
   banner: true
@@ -14,13 +17,16 @@ dotfiles:
   d_zsh:
     dst: ~/.zsh
     src: zsh
+    actions:
+      - zsh
   f_zshenv:
     dst: ~/.zshenv
     src: zshenv
+    actions:
 profiles:
   zsh:
     dotfiles:
       - f_zshenv
       - d_zsh
-    dynvariables:
-      cache_dir: 'echo ${ZSH_CACHE:-$HOME/.zsh/cache}'
+dynvariables:
+  actions_path: echo "$DOTDROP_ACTIONS_PATH"

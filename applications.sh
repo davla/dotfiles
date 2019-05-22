@@ -184,19 +184,19 @@ apt-get install aisleriot asunder atom baobab blueman brasero calibre \
 [[ $? -ne 0 ]] && exit 1
 
 # CLI applications
-apt-get install apng2gif autoconf cabal cmake command-not-found cowsay cups \
-    curl dkms docker-ce dos2unix flashplayer-mozilla fonts-freefont-otf \
-    fortune g++ ghc gifsicle git git-review gvfs-backends handbrake-cli \
-    heroku hlint hunspell hunspell-en-us hunspell-it imagemagick \
-    intel-microcode jq lame libghc-hspec-dev libgit2-dev libgnome-keyring-dev \
-    lightdm-gtk-greeter lua5.1 lua5.3 lua-check make mercurial moreutils \
-    nfs-common nyancat oracle-java8-installer oracle-java8-set-default \
-    browser-plugin-vlc p7zip pycodestyle python-requests-futures python-pip \
-    python-setuptools python3-gdbm python3-lxml python3-pygments \
-    python3-requests python3-requests-oauthlib rar ruby sbt sct scala \
-    shellcheck software-properties-common sudo thunar-archive-plugin \
-    thunar-dropbox-plugin tree tuxguitar-jsa uni2ascii unrar \
-    virtualenvwrapper wmctrl xdotool xserver-xorg-input-synaptics yad zip zsh
+apt-get install apng2gif autoconf automake build-essential cabal cmake \
+    command-not-found cowsay cups curl dkms docker-ce dos2unix \
+    flashplayer-mozilla fonts-freefont-otf fortune g++ ghc gifsicle git \
+    git-review gvfs-backends handbrake-cli heroku hlint hunspell \
+    hunspell-en-us hunspell-it imagemagick intel-microcode jq lame \
+    libghc-hspec-dev libgit2-dev libgnome-keyring-dev lightdm-gtk-greeter \
+    lua-check make mercurial moreutils nfs-common nyancat browser-plugin-vlc \
+    p7zip pycodestyle python-requests-futures python-pip python-setuptools \
+    python3-gdbm python3-lxml python3-pygments python3-requests \
+    python3-requests-oauthlib rar sbt sct scala shellcheck \
+    software-properties-common sudo thunar-archive-plugin \
+    thunar-dropbox-plugin tree tuxguitar-jsa uni2ascii unrar wmctrl xdotool \
+    xserver-xorg-input-synaptics yad zip zsh
 [[ $? -ne 0 ]] && exit 1
 
 # --no-install-recommends prevents node from being installed

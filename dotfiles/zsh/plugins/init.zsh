@@ -2,6 +2,12 @@
 
 # This script configures and loads zsh plugins
 
+#######################################
+# Inheriting from POSIX shell
+#######################################
+
+source "$SDOTDIR/plugins/init.sh"
+
 ###############################################################################
 #
 #                               Pre-config
@@ -109,19 +115,13 @@ source "$ZDOTDIR/plugins/plugins-after-compinit.zsh"
 ###############################################################################
 
 #######################################
-# fsad
+# fasd
 #######################################
 
 _FASD_DATA="$ZDOTDIR/plugins/.fasd"
 _FASD_SHELL='dash'
 
 source "$ZDOTDIR/cache/fasd"
-
-#######################################
-# thefuck
-#######################################
-
-source "$ZDOTDIR/cache/thefuck"
 
 #######################################
 # zsh-autopair

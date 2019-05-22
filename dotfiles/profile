@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+# This script is the entry point for POSIX shell setup
+# The actual execution is deferred to .profile in $SDOTDIR
+
+. "$HOME/.dotdirs"
+. "$SDOTDIR/.profile"

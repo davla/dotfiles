@@ -7,10 +7,12 @@ config:
   backup: false
   banner: true
   create: true
-  dotpath: dotfiles-root
+  dotpath: dotfiles
   ignoreempty: false
   import_configs:
-    - profiles.d/zsh.yaml
+  - profiles.d/shell.yaml
+  import_variables:
+    - variables.d/base.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -55,7 +57,6 @@ dotfiles:
     dst: /etc/systemd/system/underclock.service
     src: etc/systemd/system/underclock.service
 dynvariables:
-  actions_path: echo "$DOTDROP_ACTIONS_PATH"
   asdf_config_path: echo "$ASDF_CONFIG_PATH"
 profiles:
   asdf:
@@ -74,4 +75,6 @@ profiles:
     - f_sources.list
     - f_underclock.service
     include:
-    - zsh
+    - shell
+variables:
+  user: root

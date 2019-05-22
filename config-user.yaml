@@ -2,10 +2,10 @@ config:
   backup: false
   banner: true
   create: true
-  dotpath: dotfiles-user
+  dotpath: dotfiles
   ignoreempty: false
   import_configs:
-    - profiles.d/zsh.yaml
+    - profiles.d/shell.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -49,9 +49,6 @@ dotfiles:
   d_xfce4:
     dst: ~/.config/xfce4
     src: config/xfce4
-  f_asdfrc:
-    dst: ~/.asdfrc
-    src: asdfrc
   f_ghci:
     dst: ~/.ghci
     src: ghci
@@ -82,11 +79,12 @@ profiles:
       - d_thunar
       - d_virtualbox
       - d_xfce4
-      - f_asdfrc
       - f_ghci
       - f_gitconfig
       - f_hgrc
       - f_xfce-applications.menu
       - f_xsessionrc
     include:
-      - zsh
+      - shell
+variables:
+  user: user

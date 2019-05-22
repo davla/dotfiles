@@ -1,5 +1,0 @@
-#!/usr/bin/env zsh
-
-ZDOTDIR="$HOME/.zsh"
-source "$ZDOTDIR/.zshenv"
-

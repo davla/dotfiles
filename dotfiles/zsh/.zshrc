@@ -24,10 +24,6 @@ source "$ZDOTDIR/aliases.zsh"
 # Misc
 #######################################
 
-export ASDF_DATA_DIR=/opt/asdf
-source /opt/asdf/asdf.sh
-source /opt/asdf/completions/asdf.bash
-
 # Set up the prompt
 
 #autoload -Uz promptinit

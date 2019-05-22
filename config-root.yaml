@@ -1,3 +1,8 @@
+actions:
+  post:
+    asdf-langs: bash {{@@ actions_path @@}}/lang-versions.sh
+  pre:
+    asdf: bash {{@@ actions_path @@}}/asdf.sh
 config:
   backup: false
   banner: true
@@ -13,6 +18,12 @@ config:
   showdiff: true
   workdir: ~/.config/dotdrop
 dotfiles:
+  d_asdf:
+    dst: '{{@@ asdf_config_path @@}}'
+    src: asdf
+    actions:
+      - asdf
+      - asdf-langs
   d_sources.list.d:
     dst: /etc/apt/sources.list.d
     src: etc/apt/sources.list.d
@@ -43,18 +54,24 @@ dotfiles:
   f_underclock.service:
     dst: /etc/systemd/system/underclock.service
     src: etc/systemd/system/underclock.service
+dynvariables:
+  actions_path: echo "$DOTDROP_ACTIONS_PATH"
+  asdf_config_path: echo "$ASDF_CONFIG_PATH"
 profiles:
+  asdf:
+    dotfiles:
+    - d_asdf
   davide-debian:
     dotfiles:
-      - d_sources.list.d
-      - f_60-root.conf
-      - f_99-no-wireless-on-wired
-      - f_lightdm.conf.d_02_custom.conf
-      - f_lightdm-gtk-greeter.conf.d_02_custom.conf
-      - f_logrotate.d_custom.conf
-      - f_org.xfce.xfce4-terminal.policy
-      - f_rsyslog.d_custom.conf
-      - f_sources.list
-      - f_underclock.service
+    - d_sources.list.d
+    - f_60-root.conf
+    - f_99-no-wireless-on-wired
+    - f_lightdm.conf.d_02_custom.conf
+    - f_lightdm-gtk-greeter.conf.d_02_custom.conf
+    - f_logrotate.d_custom.conf
+    - f_org.xfce.xfce4-terminal.policy
+    - f_rsyslog.d_custom.conf
+    - f_sources.list
+    - f_underclock.service
     include:
-      - zsh
+    - zsh

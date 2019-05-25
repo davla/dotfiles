@@ -11,8 +11,6 @@ config:
   ignoreempty: false
   import_configs:
   - profiles.d/shell.yaml
-  import_variables:
-    - variables.d/base.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink

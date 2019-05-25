@@ -149,6 +149,8 @@ Good luck, and let's hope it all goes well!"
 
 prompt 'set dotdrop up' 'sh scripts/dotdrop.sh ./dotfiles' \
     'dotdrop setup'
+prompt 'install your custom commands' 'sudo sh custom-commands/install.sh' \
+    'custom commands installation'
 prompt 'initialize the shells' 'sh scripts/shell.sh' 'shells initialization'
 
 say -t "$PROMPT_FACE System setup completed!

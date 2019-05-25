@@ -23,6 +23,9 @@ OK_FACE="${OK_COLOR}[°o°]${RESET_COLOR}"
 PROMPT_FACE="${PROMPT_COLOR}[^_^]${RESET_COLOR}"
 SAD_FACE="${SAD_COLOR}[T.T]${RESET_COLOR}"
 
+# Texts
+RETRY_PROMPT='Do you want to retry'
+
 #######################################
 # Functions
 #######################################
@@ -32,13 +35,23 @@ execute() {
     DESC="$2"
 
     OUTPUT_LOG=$(mktemp)
-    $SHELL -c "$CMD" > "$OUTPUT_LOG" 2>&1
+    $SHELL -c "$CMD" > "$OUTPUT_LOG" 2>&1 &
+    tail -f --pid="$!" "$OUTPUT_LOG" | less
+    wait "$!"
+
     if [ $? -eq 0 ]; then
-        say -tt "$OK_FACE Everything fine with $DESC! Hooray!"
-        rm "$OUTPUT_LOG"
+        say "$OK_FACE Looks like everything went fine with $DESC! Hooray!\
+$RETRY_PROMPT"
     else
-        say -t "$ERROR_FACE Something went wrong while $DESC."
-        inspect_error "$OUTPUT_LOG"
+        say "$ERROR_FACE Looks like something went wrong while $DESC.
+The log has been saved to $OUTPUT_LOG. $RETRY_PROMPT"
+    fi
+
+    if read_answer; then
+        rm $OUTPUT_LOG
+        execute "$@"
+    else
+        rm $OUTPUT_LOG
     fi
 
     unset CMD OUTPUT_LOG
@@ -50,25 +63,12 @@ goodbye() {
     exit
 }
 
-inspect_error() {
-    LOG_FILE="$1"
-
-    say "      Do you want to see the output log? (The log has been saved to \
-${LOG_FILE})?"
-    if read_answer; then
-        less "$LOG_FILE"
-    fi
-    printf '\n'
-
-    unset LOG_FILE
-}
-
 prompt() {
     PROMPT="$1"
     CMD="$2"
     DESC="$3"
 
-    say "$PROMPT_FACE Do you want to $PROMPT?"
+    say "$PROMPT_FACE Do you want to $PROMPT"
     if read_answer; then
         execute "$CMD" "$DESC"
     else
@@ -79,7 +79,7 @@ prompt() {
 }
 
 read_answer() {
-    say ' [y/n/q] '
+    say '? [y/n/q] '
     read ANSWER
     case "$(echo "$ANSWER" | tr '[:upper:]' '[:lower:]')" in
         n|no)

@@ -1,15 +1,13 @@
 actions:
   post:
-    sh: sh {{@@ actions_path @@}}/sh.sh
-    zsh: zsh {{@@ actions_path @@}}/zsh.zsh
+    sh: sh ./actions/sh.sh
+    zsh: zsh ./actions/zsh.zsh
 config:
   backup: false
   banner: true
   create: true
   dotpath: ../dotfiles
   ignoreempty: false
-  import_variables:
-    - ../variables.d/base.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink

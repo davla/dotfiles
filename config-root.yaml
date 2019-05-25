@@ -1,8 +1,8 @@
 actions:
   post:
-    asdf-langs: bash {{@@ actions_path @@}}/lang-versions.sh
+    asdf-langs: bash ./actions/lang-versions.sh
   pre:
-    asdf: bash {{@@ actions_path @@}}/asdf.sh
+    asdf: bash ./actions/asdf.sh
 config:
   backup: false
   banner: true

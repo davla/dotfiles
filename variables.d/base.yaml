@@ -1,3 +1,0 @@
-dynvariables:
-  actions_path: >
-    echo "${DOTDROP_ACTIONS_PATH:-../../bash/setup-scripts/dotdrop-actions}"

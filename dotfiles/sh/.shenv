@@ -7,7 +7,4 @@
 #######################################
 
 export DOTFILES_HOME="$HOME/Files/Programming/sys/dotfiles"
-export DOTDROP_ACTIONS_PATH="$HOME/Files/Programming/bash/setup-scripts\
-/dotdrop-actions"
-
 export PYWIKIBOT_DIR="$HOME/Files/pywikibot"

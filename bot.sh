@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+. ./.env
+
 #######################################
 # Variables
 #######################################
@@ -31,7 +33,7 @@ RETRY_PROMPT="Do you want to retry? $CHOICES"
 # Misc
 MSG_WIDTH="${1:-$COLUMNS}"
 MSG_WIDTH="${MSG_WIDTH:-80}"
-MSG_WIDTH=$(( MSG_WIDTH - "$(printf "$INDENT" | wc -m)" ))
+MSG_WIDTH=$(( MSG_WIDTH - $(printf "$INDENT" | wc -m) ))
 
 #######################################
 # Functions
@@ -79,7 +81,7 @@ prompt() {
     if read_answer; then
         execute "$CMD" "$DESC"
     else
-        say -tt "$PROMPT_FACE" "Skipping $DESC then."
+        say -t "$PROMPT_FACE" "Skipping $DESC then."
     fi
 
     unset PROMPT CMD
@@ -158,6 +160,6 @@ prompt 'install your custom commands' 'sudo sh custom-commands/install.sh' \
     'custom commands installation'
 prompt 'initialize the shells' 'sh scripts/shell.sh' 'shells initialization'
 
-say -t "$PROMPT_FACE" "System setup completed!
+say -lt "$PROMPT_FACE" "System setup completed!
 It's been a pleasure working with you, and I hope everything went fine.
 Bye-Bye!"

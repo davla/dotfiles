@@ -35,9 +35,13 @@
 # Variables
 #######################################
 
+# Absolute path to this scrpt parent directory. Doesn't work if this script is
+# sourced
+PARENT_DIR="$(dirname "$0")"
+
 # Directories where root and user commands are respectively
-ROOT_CMD_DIR='root'
-USER_CMD_DIR='user'
+ROOT_CMD_DIR="$PARENT_DIR/root"
+USER_CMD_DIR="$PARENT_DIR/user"
 
 # Destination directories of root and user commands respectively
 ROOT_BIN_PATH='/usr/local/sbin'

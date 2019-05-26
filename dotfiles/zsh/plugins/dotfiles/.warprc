@@ -1,4 +1,5 @@
 bonsai:~/Files/Studies/Master/Thesis/bonsai
+custom-commands:~/Files/Programming/sys/custom-commands
 cv:~/Files/Programming/python/cv/platform
 diary:~/Files/diary
 dotdrop:~/Files/Programming/python/dotdrop
@@ -12,4 +13,3 @@ wiki-styles:~/Files/Programming/Wiki/styles
 wiki-util:~/Files/Programming/Wiki/util
 zsh-command-not-found:~/Files/Programming/zsh/zsh-command-not-found
 zygal:~/Files/Programming/shell/zygal
-

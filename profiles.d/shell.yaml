@@ -21,6 +21,12 @@ dotfiles:
   d_zsh:
     dst: ~/.zsh
     src: zsh
+    upignore:
+      - '*/.zcompdump'
+      - '*/.zsh_history'
+      - '*/.antibody'
+      - '*/cache'
+      - '*/plugins/plugins-*.zsh'
   f_dotdirs:
     dst: ~/.dotdirs
     src: dotdirs

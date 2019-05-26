@@ -28,6 +28,11 @@ CHOICES='[y/n/q] '
 INDENT='      '
 RETRY_PROMPT="Do you want to retry? $CHOICES"
 
+# Misc
+MSG_WIDTH="${1:-$COLUMNS}"
+MSG_WIDTH="${MSG_WIDTH:-80}"
+MSG_WIDTH=$(( MSG_WIDTH - "$(printf "$INDENT" | wc -m)" ))
+
 #######################################
 # Functions
 #######################################
@@ -120,7 +125,7 @@ say() {
     FACE="$1"
     MSG="$2"
 
-    MSG="$(printf "$MSG" | fold -sw 73)"
+    MSG="$(printf "$MSG" | fold -sw "$MSG_WIDTH")"
     TAIL_LINES="$(printf "$MSG" | tail -n +2)"
 
     printf "$LEADING_NEWLINES"

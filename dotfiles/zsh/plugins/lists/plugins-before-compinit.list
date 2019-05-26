@@ -1,0 +1,11 @@
+davla/zygal path:zsh/autoload.zsh
+robbyrussell/oh-my-zsh path:plugins/colored-man-pages
+robbyrussell/oh-my-zsh path:plugins/colorize
+Vifon/deer kind:fpath
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-completions
+marzocchi/zsh-notify
+RobSis/zsh-reentry-hook
+MichaelAquilina/zsh-you-should-use
+davla/zsh-command-not-found
+mfaerevaag/wd kind:fpath

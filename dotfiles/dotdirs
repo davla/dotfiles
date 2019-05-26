@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+# This script defines "dot directories", that is directories where dotfiles
+# are grouped. The idea was taken from zsh's ZDOTDIR
+
+# POSIX shell dot directory
+export SDOTDIR="$HOME/.sh"
+
+# zsh dot directory
+export ZDOTDIR="$HOME/.zsh"

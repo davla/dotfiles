@@ -1,0 +1,149 @@
+"*":
+  "atom-ide-ui":
+    "atom-ide-code-format":
+      formatOnType: false
+    "atom-ide-find-references":
+      defaultLocationForPane: "right"
+    use:
+      "atom-ide-terminal": "never"
+  "atom-terminal":
+    app: "sakura"
+  "atom-toolbar":
+    visible: false
+  "autocomplete-plus":
+    confirmCompletion: "tab always, enter when suggestion explicitly selected"
+  autosave:
+    enabled: true
+  core:
+    closeDeletedFileTabs: true
+    closeEmptyWindows: false
+    customFileTypes:
+      "text.ignore": [
+        ".dockerignore"
+      ]
+    disabledPackages: [
+      "atom-ide-ui"
+      "language-unix-shell"
+      "ide-scala"
+      "language-scala"
+      "ide-typescript"
+      "ide-haskell-hoogle"
+      "linter-markdown"
+      "linter-hlint"
+      "markdown-preview"
+      "linter-pycodestyle"
+    ]
+    telemetryConsent: "limited"
+    warnOnLargeFileLimit: 0.256
+  docblockr:
+    spacer_between_sections: "true"
+  editor:
+    fontSize: 16
+    preferredLineLength: 79
+    scrollPastEnd: true
+    scrollSensitivity: 100
+    showIndentGuide: true
+    softWrap: true
+    softWrapHangingIndent: 1
+    tabLength: 4
+    tabType: "soft"
+    zoomFontWhenCtrlScrolling: false
+  "exception-reporting":
+    userId: "a3e97c63-e1d5-4894-a7a3-dbcaaf34e513"
+  "file-types":
+    "Dockerfile.*": "source.dockerfile"
+  "find-and-replace":
+    closeFindPanelAfterSearch: true
+  "git-log":
+    fontScale: 1
+  github: {}
+  latex:
+    enableShellEscape: true
+    openResultAfterBuild: false
+    openResultInBackground: false
+    opener: "pdf-view"
+    outputDirectory: "build"
+  linter:
+    lintOnChange: false
+  "linter-shellcheck":
+    userParameters: "-x -e SC1090"
+  "linter-ui-default":
+    decorateOnTreeView: "None"
+    panelHeight: 177.105224609375
+  "markdown-preview":
+    openPreviewInSplitPane: true
+  "markdown-preview-enhanced":
+    breakOnSingleNewLine: false
+    previewTheme: "github-dark.css"
+    scrollSync: false
+  "markdown-preview-kramdown": {}
+  "markdown-preview-plus":
+    previewConfig:
+      liveUpdate: false
+    useGitHubStyle: true
+  "markdown-toc-auto": {}
+  "open-bash-git":
+    command: "/usr/bin/xfce4-terminal"
+  "pdf-view":
+    fitToWidthOnOpen: true
+  "remove-whitespace": {}
+  "spell-check":
+    addKnownWords: true
+    grammars: [
+      "source.asciidoc"
+      "source.gfm"
+      "text.git-commit"
+      "text.plain"
+      "text.plain.null-grammar"
+      "text.tex.latex"
+      "meta.function.environment.list.latex"
+    ]
+    knownWords: [
+      "deschedule"
+      "descheduled"
+      "deschedules"
+      "descheduling"
+      ""
+      "ROS"
+      "filesystem"
+      "subdirectories"
+      "runtime"
+      "modularity"
+      "parsers"
+      "boolean"
+      "Haros"
+      "namespace"
+      "namespaces"
+      "remappings"
+    ]
+    locales: [
+      "en-US"
+    ]
+  tabs:
+    addNewTabsAtEnd: true
+    enableVcsColoring: true
+  "toggle-gutter":
+    showGutters: false
+  "tree-view":
+    alwaysOpenExisting: true
+    squashDirectoryNames: true
+  "tree-view-sort":
+    type: 2
+  welcome:
+    showOnStartup: false
+".basic.html.text":
+  editor:
+    tabLength: 2
+".git-commit.text":
+  editor:
+    preferredLineLength: 72
+".source.yaml":
+  editor:
+    autoIndent: true
+    tabLength: 2
+latex:
+  buildOnSave: true
+  opener: "pdf-view"
+  outputDirectory: "build"
+"pdf-view":
+  fitToWidthOnOpen: true

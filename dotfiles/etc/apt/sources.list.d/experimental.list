@@ -1,0 +1,3 @@
+# Debian Experimental
+#deb http://http.debian.net/debian experimental main
+#deb-src http://http.debian.net/debian experimental main

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# X session initialization
+
+SCALING=$(which adjust-scaling)
+[ -f "$SCALING" ] && . "$SCALING"

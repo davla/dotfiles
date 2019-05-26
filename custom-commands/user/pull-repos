@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# This script pulls updates from a list of git repositories. It assumes the
+# upstream branch to be the current branch.
+
+#####################################################
+#
+#                   Variables
+#
+#####################################################
+
+. "$HOME/.bash_envvars"
+
+REPOS=(
+    "$PYWIKIBOT_DIR"
+)
+
+#####################################################
+#
+#               Pulling repositories
+#
+#####################################################
+
+xargs -n 1 <<<"${REPOS[@]}" git-pull

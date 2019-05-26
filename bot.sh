@@ -35,6 +35,9 @@ MSG_WIDTH="${1:-$COLUMNS}"
 MSG_WIDTH="${MSG_WIDTH:-80}"
 MSG_WIDTH=$(( MSG_WIDTH - $(printf "$INDENT" | wc -m) ))
 
+# Reset
+SHELL="$(ps --no-headers -p "$$" -o 'comm')"
+
 #######################################
 # Functions
 #######################################

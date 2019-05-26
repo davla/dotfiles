@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+
+# This script installs the latest node.js version via n. Then it uninstalls all
+# the unused node versions, that is all the installed ones that are not found
+# in any .nvmrc file, among those located in any non-node_modules directory
+# in the /home tree
+
+#####################################################
+#
+#                   Variables
+#
+#####################################################
+
+N_PREFIX='/usr/local/n/versions/node'
+GLOBAL_PACKAGES_FILE="$N_PREFIX/global-packages"
+USED_VERSIONS_FILE="$N_PREFIX/used-versions"
+
+#####################################################
+#
+#                   Aliases
+#
+#####################################################
+
+shopt -s expand_aliases
+
+# Echoes normally if from terminal emulator, otherwise uses syslog
+tty -s && alias print='echo' || alias print='logger -p local0.info -t NODE'
+
+# Removes any accessory character from version numbers in every
+# line of input, eg. v2.4.3 -> 2.4.3
+alias version-digits="tr -d 'v'"
+
+# Returns the installed versions of node, one per line and sorted
+# ascendingly by version
+# shellcheck disable=SC2142
+alias installed-node-version="n | sort -V | cut -d ' ' -f 1"
+
+# Returns the latest installed node verions
+alias latest-node-version="installed-node-version | tail -n 1"
+
+#####################################################
+#
+#           Updating node.js version
+#
+#####################################################
+
+# If the latest version of node was installed, rather than activated
+if n latest | grep 'installed' &> /dev/null; then
+    LATEST_NODE_VERSION=$(latest-node-version)
+
+    print "node.js updated to $LATEST_NODE_VERSION"
+
+    # Installing global packages for newly installed node version
+    < "$GLOBAL_PACKAGES_FILE" xargs -L 1 \
+        "$N_PREFIX/$LATEST_NODE_VERSION/bin/npm" -g install
+else
+    print 'node.js not updated'
+fi
+
+#####################################################
+#
+#               Finding used versions
+#
+#####################################################
+
+find /home -type f -name '.nvmrc' -not -path '*node_modules*' \
+    -exec cat '{}' \+ | version-digits | sort -Vu > "$USED_VERSIONS_FILE"
+
+#####################################################
+#
+#           Uninstalling unused versions
+#
+#####################################################
+
+INSTALLED_VERSIONS=$(installed-node-version)
+
+n latest &> /dev/null
+for VERSION in $INSTALLED_VERSIONS; do
+	if ! grep "$VERSION" "$USED_VERSIONS_FILE" &> /dev/null; then
+        n rm "$VERSION" &> /dev/null \
+            && print "uninstalled node.js version $VERSION"
+    fi
+done
+
+# Explicit return code, as the last grep might exit with an error
+exit 0

@@ -24,7 +24,9 @@ PROMPT_FACE="${PROMPT_COLOR}[^_^]${RESET_COLOR}"
 SAD_FACE="${SAD_COLOR}[T.T]${RESET_COLOR}"
 
 # Texts
-RETRY_PROMPT='Do you want to retry'
+CHOICES='[y/n/q] '
+INDENT='      '
+RETRY_PROMPT="Do you want to retry? $CHOICES"
 
 #######################################
 # Functions
@@ -40,10 +42,10 @@ execute() {
     wait "$!"
 
     if [ $? -eq 0 ]; then
-        say "$OK_FACE Looks like everything went fine with $DESC! Hooray!\
-$RETRY_PROMPT"
+        say "$OK_FACE" "Looks like everything went fine with $DESC! Hooray!
+The log has been saved to $OUTPUT_LOG. $RETRY_PROMPT"
     else
-        say "$ERROR_FACE Looks like something went wrong while $DESC.
+        say "$ERROR_FACE" "Looks like something went wrong with $DESC.
 The log has been saved to $OUTPUT_LOG. $RETRY_PROMPT"
     fi
 
@@ -59,7 +61,7 @@ The log has been saved to $OUTPUT_LOG. $RETRY_PROMPT"
 
 goodbye() {
     SAY_OPTS="${1:-llt}"
-    say -$SAY_OPTS "$SAD_FACE Saying goodbye early! Anything went wrong?"
+    say -$SAY_OPTS "$SAD_FACE" "Saying goodbye early! Anything went wrong?"
     exit
 }
 
@@ -68,18 +70,17 @@ prompt() {
     CMD="$2"
     DESC="$3"
 
-    say "$PROMPT_FACE Do you want to $PROMPT"
+    say -l "$PROMPT_FACE" "Do you want to $PROMPT? $CHOICES"
     if read_answer; then
         execute "$CMD" "$DESC"
     else
-        say -tt "$PROMPT_FACE Skipping $DESC then."
+        say -tt "$PROMPT_FACE" "Skipping $DESC then."
     fi
 
     unset PROMPT CMD
 }
 
 read_answer() {
-    say '? [y/n/q] '
     read ANSWER
     case "$(echo "$ANSWER" | tr '[:upper:]' '[:lower:]')" in
         n|no)
@@ -94,7 +95,6 @@ read_answer() {
             return "$EXIT_YES"
             ;;
     esac
-
 }
 
 say() {
@@ -117,22 +117,22 @@ say() {
         esac
     done
     shift $(( OPTIND - 1 ))
-    MSG="$1"
+    FACE="$1"
+    MSG="$2"
 
-    FULL_WIDTH="$(printf "$MSG" | fold -sw 79)"
-    INDENTED_WIDTH="$(printf "$FULL_WIDTH" | tail -n +2 | tr '\n' ' ' \
-        | fold -sw 73)"
+    MSG="$(printf "$MSG" | fold -sw 73)"
+    TAIL_LINES="$(printf "$MSG" | tail -n +2)"
 
     printf "$LEADING_NEWLINES"
-    printf "$FULL_WIDTH" | head -n 1
-    [ -n "$INDENTED_WIDTH" ] && {
-        printf "$INDENTED_WIDTH" | head -n -1 | awk '{print "      " $0}'
-        printf "$INDENTED_WIDTH" | tail -n 1 | xargs -0 printf '      %s'
+    printf "$FACE"
+    printf "$MSG" | head -n 1 | xargs -0 printf ' %s'
+    [ -n "$TAIL_LINES" ] && {
+        printf "$TAIL_LINES" | head -n -1 | awk "{print \"$INDENT\" \$0}"
+        printf "$TAIL_LINES" | tail -n 1 | xargs -0 printf "$INDENT%s"
     }
     printf "$TRAILING_NEWLINES"
 
-    unset MSG FULL_WIDTH INDENTED_WIDTH OPTION LEADING_NEWLINES
-    unset TRAILING_NEWLINES
+    unset FACE LEADING_NEWLINES MSG OPTION TAIL_LINES TRAILING_NEWLINES
 }
 
 #######################################
@@ -141,7 +141,7 @@ say() {
 
 trap goodbye INT TERM
 
-say -tt "$PROMPT_FACE Hello, I'm your setup script!
+say -t "$PROMPT_FACE" "Hello, I'm your setup script!
 I'll guide you step-by-step through your system setup. I'll prompt you before \
 each step, copy configuration files, execute commands, and report you output \
 and errors when they occur.
@@ -153,6 +153,6 @@ prompt 'install your custom commands' 'sudo sh custom-commands/install.sh' \
     'custom commands installation'
 prompt 'initialize the shells' 'sh scripts/shell.sh' 'shells initialization'
 
-say -t "$PROMPT_FACE System setup completed!
+say -t "$PROMPT_FACE" "System setup completed!
 It's been a pleasure working with you, and I hope everything went fine.
 Bye-Bye!"

@@ -1,0 +1,4 @@
+# Firefox Beta PPA
+deb http://ppa.launchpad.net/mozillateam/firefox-next/ubuntu cosmic main
+deb-src http://ppa.launchpad.net/mozillateam/firefox-next/ubuntu cosmic main
+

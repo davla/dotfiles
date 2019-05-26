@@ -1,0 +1,79 @@
+<?xml encoding="UTF-8" version="1.0"?>
+<actions>
+<action>
+	<icon>utilities-terminal</icon>
+	<name>Open Terminal Here</name>
+	<unique-id>1492100490503699-2</unique-id>
+	<command>exo-open --working-directory %f --launch TerminalEmulator</command>
+	<description>Example for a custom action</description>
+	<patterns>*</patterns>
+	<startup-notify/>
+	<directories/>
+</action>
+<action>
+	<icon>gksu-root-terminal</icon>
+	<name>Open root terminal here</name>
+	<unique-id>1528107969358966-2</unique-id>
+	<command>pkexec sakura --working-directory %f</command>
+	<description>Opens a root terminal int he current directory</description>
+	<patterns>*</patterns>
+	<directories/>
+</action>
+<action>
+	<icon>Thunar</icon>
+	<name>Open as root</name>
+	<unique-id>1492101000459713-9</unique-id>
+	<command>gksu thunar %f</command>
+	<description>Opens the current directory as root in Thunar</description>
+	<patterns>*</patterns>
+	<directories/>
+</action>
+<action>
+	<icon>catfish</icon>
+	<name>Search here</name>
+	<unique-id>1492100888783015-8</unique-id>
+	<command>catfish %f</command>
+	<description>Searches files and directories in the current path</description>
+	<patterns>*</patterns>
+	<directories/>
+</action>
+<action>
+	<icon>kid3</icon>
+	<name>Open Kid3 here</name>
+	<unique-id>1520854861111492-1</unique-id>
+	<command>kid3 %f</command>
+	<description>Opens kid3 in the current directory</description>
+	<patterns>*</patterns>
+	<directories/>
+	<audio-files/>
+</action>
+<action>
+	<icon>soundconverter</icon>
+	<name>Open Soundconverter here</name>
+	<unique-id>1492101189396409-14</unique-id>
+	<command>soundconverter %f</command>
+	<description>Òpens Soundconverter in the current directory</description>
+	<patterns>*</patterns>
+	<directories/>
+	<audio-files/>
+</action>
+<action>
+	<icon>atom</icon>
+	<name>Open Atom here</name>
+	<unique-id>1528105705700378-1</unique-id>
+	<command>atom %f</command>
+	<description>Opens an Atom project in the current directory</description>
+	<patterns>*</patterns>
+	<startup-notify/>
+	<directories/>
+</action>
+<action>
+	<icon></icon>
+	<name>Open Baobab here</name>
+	<unique-id>1532769894923910-2</unique-id>
+	<command>baobab %f</command>
+	<description>Opens Disk Usage Analyzer in the current directory</description>
+	<patterns>*</patterns>
+	<directories/>
+</action>
+</actions>

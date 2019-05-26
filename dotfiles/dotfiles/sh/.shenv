@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+# This script defines environment variables for POSIX shell
+
+#######################################
+# custom
+#######################################
+
+export DOTFILES_HOME="$HOME/Files/Programming/sys/dotfiles"
+export PYWIKIBOT_DIR="$HOME/Files/pywikibot"

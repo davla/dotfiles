@@ -1,0 +1,53 @@
+actions:
+  post:
+    sh: sh ./actions/sh.sh
+    zsh: zsh ./actions/zsh.zsh
+config:
+  backup: false
+  banner: true
+  create: true
+  dotpath: ../dotfiles
+  ignoreempty: false
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+  showdiff: true
+  workdir: ~/.config/dotdrop
+dotfiles:
+  d_sh:
+    dst: ~/.sh
+    src: sh
+  d_zsh:
+    dst: ~/.zsh
+    src: zsh
+  f_dotdirs:
+    dst: ~/.dotdirs
+    src: dotdirs
+  f_profile:
+    dst: ~/.profile
+    src: profile
+    actions:
+      - sh
+  f_zshenv:
+    actions:
+    - zsh
+    dst: ~/.zshenv
+    src: zshenv
+profiles:
+  sh:
+    dotfiles:
+    - f_profile
+    - d_sh
+  shell:
+    dotfiles:
+    - f_dotdirs
+    include:
+      - sh
+      - zsh
+  zsh:
+    dotfiles:
+    - f_zshenv
+    - d_zsh
+    include:
+      - sh

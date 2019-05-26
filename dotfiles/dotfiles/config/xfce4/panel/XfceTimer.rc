@@ -1,0 +1,16 @@
+[G0]
+timername=Study time
+time=7200
+timercommand=
+timerinfo=2h 0m 0s
+is_countdown=true
+
+[others]
+nowin_if_alarm=false
+selecting_starts=false
+use_global_command=false
+global_command=
+repeat_alarm=false
+repetitions=1
+repeat_interval=10
+

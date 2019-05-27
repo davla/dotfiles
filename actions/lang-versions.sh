@@ -36,7 +36,7 @@ install_latest lua
 #######################################
 
 # linking .default-npm-packages where the plugin expects it to be
-ln -sf "$ASDF_CONFIG_DIR/.default-npm-packages" "$HOME/.default-npm-packages"
+ln -sf "$ASDF_CONFIG_PATH/.default-npm-packages" "$HOME/.default-npm-packages"
 install_latest nodejs
 
 #######################################
@@ -56,5 +56,5 @@ asdf global python "$PYTHON_3" "$PYTHON_2_7"
 #######################################
 
 # linking .default-gems where the plugin expects it to be
-ln -sf "$ASDF_CONFIG_DIR/.default-gems" "$HOME/.default-gems"
+ln -sf "$ASDF_CONFIG_PATH/.default-gems" "$HOME/.default-gems"
 install_latest ruby

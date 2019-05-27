@@ -6,7 +6,7 @@
 # asdf
 #######################################
 
-echo "$0" | grep -xP 'sh' || {
+[ "$(ps --no-headings -p "$$" -o 'comm')" != 'sh' ] || {
     export ASDF_PATH='/opt/asdf'
     export ASDF_CONFIG_DIR="$ASDF_PATH/etc"
     export ASDF_CONFIG_FILE="$ASDF_CONFIG_DIR/.asdfrc"

@@ -6,5 +6,8 @@
 # POSIX shell dot directory
 export SDOTDIR="$HOME/.sh"
 
+# bash dot directory
+export BDOTDIR="$HOME/.bash"
+
 # zsh dot directory
 export ZDOTDIR="$HOME/.zsh"

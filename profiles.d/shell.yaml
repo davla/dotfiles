@@ -1,5 +1,6 @@
 actions:
   post:
+    bash: bash ./actions/bash.sh
     sh: sh ./actions/sh.sh
     zsh: zsh ./actions/zsh.zsh
 config:
@@ -15,35 +16,52 @@ config:
   showdiff: true
   workdir: ~/.config/dotdrop
 dotfiles:
+  d_bash:
+    dst: ~/.bash
+    src: bash
+    upignore:
+      - '*/.bash_history'
+      - '*/cache'
   d_sh:
     dst: ~/.sh
     src: sh
     upignore:
-      - '*/data'
-      - '*/cache'
+    - '*/data'
+    - '*/cache'
   d_zsh:
     dst: ~/.zsh
     src: zsh
     upignore:
-      - '*/.zcompdump'
-      - '*/.zsh_history'
-      - '*/.antibody'
-      - '*/cache'
-      - '*/plugins/plugins-*.zsh'
+    - '*/.zcompdump'
+    - '*/.zsh_history'
+    - '*/.antibody'
+    - '*/cache'
+    - '*/plugins/plugins-*.zsh'
+  f_bash_profile:
+    dst: ~/.bash_profile
+    src: bash_profile
+  f_bashrc:
+    dst: ~/.bashrc
+    src: bashrc
   f_dotdirs:
     dst: ~/.dotdirs
     src: dotdirs
   f_profile:
+    actions:
+    - sh
     dst: ~/.profile
     src: profile
-    actions:
-      - sh
   f_zshenv:
     actions:
     - zsh
     dst: ~/.zshenv
     src: zshenv
 profiles:
+  bash:
+    dotfiles:
+    - d_bash
+    - f_bash_profile
+    - f_bashrc
   sh:
     dotfiles:
     - f_profile
@@ -52,11 +70,12 @@ profiles:
     dotfiles:
     - f_dotdirs
     include:
-      - sh
-      - zsh
+    - bash
+    - sh
+    - zsh
   zsh:
     dotfiles:
     - f_zshenv
     - d_zsh
     include:
-      - sh
+    - sh

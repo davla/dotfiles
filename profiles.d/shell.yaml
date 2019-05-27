@@ -18,6 +18,9 @@ dotfiles:
   d_sh:
     dst: ~/.sh
     src: sh
+    upignore:
+      - '*/data'
+      - '*/cache'
   d_zsh:
     dst: ~/.zsh
     src: zsh

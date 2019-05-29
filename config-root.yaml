@@ -10,7 +10,7 @@ config:
   dotpath: dotfiles
   ignoreempty: false
   import_configs:
-  - profiles.d/shell.yaml
+  - profiles.d/shared.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -73,6 +73,7 @@ profiles:
     - f_sources.list
     - f_underclock.service
     include:
+    - git
     - shell
 variables:
   user: root

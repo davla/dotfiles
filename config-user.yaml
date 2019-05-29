@@ -55,6 +55,9 @@ dotfiles:
   f_gitconfig:
     dst: ~/.gitconfig
     src: gitconfig
+  f_gitignore:
+    dst: ~/.gitignore
+    src: gitignore
   f_hgrc:
     dst: ~/.hgrc
     src: hgrc
@@ -84,6 +87,7 @@ profiles:
     - f_hgrc
     - f_xfce-applications.menu
     - f_xsessionrc
+    - f_gitignore
     include:
     - shell
 variables:

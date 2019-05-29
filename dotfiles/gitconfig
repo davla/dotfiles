@@ -44,6 +44,9 @@
 [commit]
     gpgsign = true
 
+[core]
+    excludesfile = ~/.gitignore
+
 [credential]
     helper = /usr/bin/git-credential-gnome-keyring
 

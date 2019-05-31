@@ -5,7 +5,7 @@ config:
   dotpath: dotfiles
   ignoreempty: false
   import_configs:
-    - profiles.d/shell.yaml
+  - profiles.d/shared.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -52,9 +52,6 @@ dotfiles:
   f_ghci:
     dst: ~/.ghci
     src: ghci
-  f_gitconfig:
-    dst: ~/.gitconfig
-    src: gitconfig
   f_hgrc:
     dst: ~/.hgrc
     src: hgrc
@@ -67,24 +64,24 @@ dotfiles:
 profiles:
   davide-debian:
     dotfiles:
-      - d_atom
-      - d_autostart
-      - d_calibre
-      - d_desktop-directories
-      - d_docker
-      - d_geany
-      - d_gtk3
-      - d_orage
-      - d_parcellite
-      - d_thunar
-      - d_virtualbox
-      - d_xfce4
-      - f_ghci
-      - f_gitconfig
-      - f_hgrc
-      - f_xfce-applications.menu
-      - f_xsessionrc
+    - d_atom
+    - d_autostart
+    - d_calibre
+    - d_desktop-directories
+    - d_docker
+    - d_geany
+    - d_gtk3
+    - d_orage
+    - d_parcellite
+    - d_thunar
+    - d_virtualbox
+    - d_xfce4
+    - f_ghci
+    - f_hgrc
+    - f_xfce-applications.menu
+    - f_xsessionrc
     include:
-      - shell
+    - git
+    - shell
 variables:
   user: user

@@ -1,6 +1,6 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-# This script initializes the POSIX shell dotfies setup.
+# This script initializes the bash dotfiles setup.
 
 #######################################
 # Loading environment
@@ -11,18 +11,16 @@
 # to do so, meaning that some errors would occur when the shell sources them.
 
 . "$HOME/.dotdirs"
-. "$SDOTDIR/.shenv"
+. "$BDOTDIR/.bashenv"
 
 #######################################
-# Initializing $SDOTDIR
+# Initializing $BDOTDIR
 #######################################
 
-mkdir -p "${SDOTDIR:?}/cache"
-mkdir -p "${SDOTDIR:?}/plugins/data"
+mkdir -p "${BDOTDIR:?}/cache"
 
 #######################################
 # Initializing cache
 #######################################
 
-thefuck --alias > "${SDOTDIR:?}/cache/thefuck"
-fasd --init posix-alias > "${SDOTDIR:?}/cache/fasd"
+fasd --init bash-hook bash-ccomp bash-ccomp-install > "${BDOTDIR:?}/cache/fasd"

@@ -3,7 +3,33 @@
 # This script defines environment variables for POSIX shell
 
 #######################################
-# custom
+# Path
+#######################################
+
+LOCAL_PATH='/usr/local/bin'
+case "$PATH" in
+    *$LOCAL_PATH*)
+        ;;
+    *)
+        export PATH="$LOCAL_PATH:$PATH"
+        ;;
+esac
+
+{%@@ if user == 'root' @@%}
+LOCAL_PATH='/usr/local/sbin'
+case "$PATH" in
+    *$LOCAL_PATH*)
+        ;;
+    *)
+        export PATH="$LOCAL_PATH:$PATH"
+        ;;
+esac
+{%@@ endif @@%}
+
+unset LOCAL_PATH
+
+#######################################
+# Custom
 #######################################
 
 export DOTFILES_HOME="$HOME/Files/Programming/sys/dotfiles"

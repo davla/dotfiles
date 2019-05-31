@@ -1,0 +1,26 @@
+config:
+    backup: false
+    banner: true
+    create: true
+    dotpath: ../dotfiles
+    ignoreempty: false
+    import_configs:
+      - shell.yaml
+    keepdot: false
+    link_dotfile_default: nolink
+    link_on_import: nolink
+    longkey: false
+    showdiff: true
+    workdir: ~/.config/dotdrop
+dotfiles:
+  f_gitconfig:
+    dst: ~/.gitconfig
+    src: gitconfig
+  f_gitignore:
+    dst: ~/.gitignore
+    src: gitignore
+profiles:
+  git:
+    dotfiles:
+      - f_gitconfig
+      - f_gitignore

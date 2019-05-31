@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# This script sets the environment variables for bash
+
+#######################################
+# Inheriting from POSIX shell
+#######################################
+
+source "$SDOTDIR/.shenv"

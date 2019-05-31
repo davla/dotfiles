@@ -118,9 +118,6 @@ source "$ZDOTDIR/plugins/plugins-after-compinit.zsh"
 # fasd
 #######################################
 
-_FASD_DATA="$ZDOTDIR/plugins/.fasd"
-_FASD_SHELL='dash'
-
 source "$ZDOTDIR/cache/fasd"
 
 #######################################

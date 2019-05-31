@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# This script is the entry point for bash login shells setup
+# The actual execution is deferred to .bash_profile in $BDOTDIR
+
+source "$HOME/.dotdirs"
+source "$BDOTDIR/.bash_profile"

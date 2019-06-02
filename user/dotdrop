@@ -8,8 +8,6 @@
 #######################################
 
 DOTFILES_HOME="${DOTFILES_HOME:-$HOME/Files/Programming/sys/dotfiles}"
-export DOTDROP_ACTIONS_PATH="${DOTDROP_ACTIONS_PATH\
-:-$HOME/Files/Programming/bash/setup-scripts\/dotdrop-actions}"
 
 #######################################
 # Input processing
@@ -23,14 +21,20 @@ shift 2
 # Executing dotdrop
 #######################################
 
+# Will exit the exript if $DOTFILES_HOME is not defined and
+# $HOME/Files/Programming/sys/dotfiles doesn't exist
 cd $DOTFILES_HOME || exit
 
-if [ "$WHO" = 'both' ]; then
-    pipenv run bash dotdrop.sh "$CMD" -c 'config-user.yaml' "$@"
-    sudo DOTDROP_ACTIONS_PATH="$DOTDROP_ACTIONS_PATH" \
-        pipenv run bash dotdrop.sh "$CMD" -c 'config-root.yaml' "$@"
-else
-    pipenv run bash dotdrop.sh "$CMD" -c "config-$WHO.yaml" "$@"
-fi
+case "$WHO" in
+    user|both)
+        pipenv run bash dotdrop.sh "$CMD" -c 'config-user.yaml' "$@"
+        ;;
+esac
+
+case "$WHO" in
+    root|both)
+        sudo pipenv run bash dotdrop.sh "$CMD" -c 'config-root.yaml' "$@"
+        ;;
+esac
 
 cd - &> /dev/null || exit

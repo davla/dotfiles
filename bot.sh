@@ -51,15 +51,14 @@ execute() {
     tput smcup
     tput cup 0 0
 
-    $SHELL -c "$CMD" <&0 > "$OUTPUT_LOG" 2>&1 &
-    tail --pid="$!" -f "$OUTPUT_LOG"
-    printf 'Press any key to continue\n'
-    read ANSWER
+    tail -f "$OUTPUT_LOG" &
+    $SHELL -c "$CMD" > "$OUTPUT_LOG" 2>&1
+    CMD_EXIT="$?"
+    kill "$!"
 
     tput rmcup
 
-    wait "$!"
-    if [ $? -eq 0 ]; then
+    if [ "$CMD_EXIT" -eq 0 ]; then
         say "$OK_FACE" "Looks like everything went fine with $DESC! Hooray!
 The log has been saved to $OUTPUT_LOG. $RETRY_PROMPT"
     else

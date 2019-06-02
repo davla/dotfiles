@@ -1,3 +1,0 @@
-# Docker Debian CE
-
-deb [arch=amd64] https://download.docker.com/linux/debian buster stable

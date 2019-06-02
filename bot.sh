@@ -171,6 +171,7 @@ prompt 'set dotdrop up' 'sh scripts/dotdrop.sh ./dotfiles' \
 prompt 'install your custom commands' 'sudo sh custom-commands/install.sh' \
     'custom commands installation'
 prompt 'initialize the shells' 'sh scripts/shell.sh' 'shells initialization'
+prompt 'install packages' 'sudo -E sh scripts/packages.sh' 'packages installation'
 
 say -lt "$PROMPT_FACE" "System setup completed!
 It's been a pleasure working with you, and I hope everything went fine.

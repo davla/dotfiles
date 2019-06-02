@@ -28,7 +28,7 @@
 [ "$(id -u)" -ne 0 ] && {
     echo 'This script needs to be run as root'
     sudo sh "$0" "$@"
-    exit 0
+    exit
 }
 
 #######################################

@@ -54,6 +54,8 @@ execute() {
     tail -f "$OUTPUT_LOG" &
     $SHELL -c "$CMD" > "$OUTPUT_LOG" 2>&1
     CMD_EXIT="$?"
+    printf 'Press enter to continue'
+    read ANSWER
     kill "$!"
 
     tput rmcup

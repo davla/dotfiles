@@ -1,0 +1,10 @@
+# /etc/anacrontab: configuration file for anacron
+
+# See anacron(8) and anacrontab(5) for details.
+
+SHELL=/bin/sh
+PATH=/usr/local/bin:/bin:/usr/bin
+
+@daily        1        shell.cache.refresh  refresh-shell-cache
+@daily        1        shell.plugins.update antibody update
+@daily        1        git.updates          pull-repos

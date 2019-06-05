@@ -1,3 +1,6 @@
+actions:
+  post:
+    anacron: sh ./actions/anacron.sh "{{@@ anacron_spool @@}}" '{{@@ tmp_dst @@}}'
 config:
   backup: false
   banner: true
@@ -61,7 +64,23 @@ dotfiles:
   f_xsessionrc:
     dst: ~/.xsessionrc
     src: xsessionrc
+  f_anacrontab:
+    src: anacron/anacrontab
+    dst: ~/.anacron/anacrontab
+  f_crontab:
+    src: anacron/crontab
+    dst: '{{@@ tmp_dst @@}}'
 profiles:
+  cron:
+    dotfiles:
+      - f_anacrontab
+      - f_crontab
+    variables:
+      anacron_spool: $HOME/.anacron/spool
+    dynvariables:
+      tmp_dst: mktemp /tmp/cron-tmp.XXX
+    actions:
+      - anacron
   davide-debian:
     dotfiles:
     - d_atom
@@ -81,6 +100,7 @@ profiles:
     - f_xfce-applications.menu
     - f_xsessionrc
     include:
+    - cron
     - git
     - shell
 variables:

@@ -6,7 +6,7 @@ handle lower level of the config file
 """
 
 import os
-import yaml
+from ruamel.yaml import YAML as yaml
 import glob
 from copy import deepcopy
 
@@ -549,11 +549,7 @@ class CfgYaml:
 
     def _merge_dict(self, high, low):
         """merge low into high"""
-        # won't work in python3.4
-        # return {**low, **high}
-        new = deepcopy(low)
-        new.update(high)
-        return new
+        return {**low, **high}
 
     def _get_entry(self, dic, key, mandatory=True):
         """return entry from yaml dictionary"""
@@ -572,12 +568,11 @@ class CfgYaml:
         content = {}
         if not os.path.exists(path):
             raise YamlException('config path not found: {}'.format(path))
-        with open(path, 'r') as f:
-            try:
-                content = yaml.safe_load(f)
-            except Exception as e:
-                self.log.err(e)
-                raise YamlException('invalid config: {}'.format(path))
+        try:
+            content = self._yaml_load(path)
+        except Exception as e:
+            self.log.err(e)
+            raise YamlException('invalid config: {}'.format(path))
         return content
 
     def _new_profile(self, key):
@@ -748,17 +743,14 @@ class CfgYaml:
         if self.key_profiles not in content:
             content[self.key_profiles] = None
 
-        # ensure no null are displayed
-        data = yaml.safe_dump(content,
-                              default_flow_style=False,
-                              indent=2, sort_keys=False)
-        data = data.replace('null', '')
-
         # save to file
         if self.debug:
-            self.log.dbg('saving: {}'.format(content))
-        with open(self.path, 'w') as f:
-            f.write(data)
+            self.log.dbg('saving to {}'.format(self.path))
+        try:
+            self._yaml_dump(content, self.path)
+        except Exception as e:
+            self.log.err(e)
+            raise YamlException('error saving config: {}'.format(self.path))
 
         self.dirty = False
         return True
@@ -766,3 +758,18 @@ class CfgYaml:
     def dump(self):
         """dump the config dictionary"""
         return self.yaml_dict
+
+    def _yaml_load(self, path):
+        """load from yaml"""
+        with open(path, 'r') as f:
+            content = yaml(typ='safe').load(f)
+        return content
+
+    def _yaml_dump(self, content, path):
+        """dump to yaml"""
+        with open(self.path, 'w') as f:
+            y = yaml()
+            y.default_flow_style = False
+            y.indent = 2
+            y.typ = 'safe'
+            y.dump(content, f)

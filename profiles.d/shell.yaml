@@ -19,17 +19,17 @@ dotfiles:
   d_bash:
     dst: ~/.bash
     src: bash
+    trans: fix-home
     upignore:
       - '*/.bash_history'
       - '*/cache'
-    trans: fix-home
   d_sh:
     dst: ~/.sh
     src: sh
+    trans: fix-home
     upignore:
     - '*/data'
     - '*/cache'
-    trans: fix-home
   d_zsh:
     dst: ~/.zsh
     src: zsh
@@ -46,19 +46,13 @@ dotfiles:
   f_bashrc:
     dst: ~/.bashrc
     src: bashrc
-    actions:
-      - bash
   f_dotdirs:
     dst: ~/.dotdirs
     src: dotdirs
   f_profile:
-    actions:
-    - sh
     dst: ~/.profile
     src: profile
   f_zshenv:
-    actions:
-    - zsh
     dst: ~/.zshenv
     src: zshenv
 profiles:
@@ -68,15 +62,24 @@ profiles:
     - f_bash_profile
     - f_bashrc
     include:
+    - shell
     - sh
+    actions:
+    - bash
   sh:
     dotfiles:
     - f_profile
     - d_sh
+    include:
+    - shell
+    actions:
+    - sh
   shell:
     dotfiles:
     - f_dotdirs
+  shell-all:
     include:
+    - shell
     - sh
     - bash
     - zsh
@@ -85,6 +88,9 @@ profiles:
     - f_zshenv
     - d_zsh
     include:
+    - shell
     - sh
+    actions:
+    - zsh
 trans:
   fix-home: sh ./transformations/fix-home.sh {0} {1}

@@ -5,6 +5,6 @@
 SHELL=/bin/sh
 PATH=/usr/local/bin:/bin:/usr/bin
 
-@daily        1        shell.cache.refresh  refresh-shell-cache
-@daily        1        shell.plugins.update antibody update
+@daily  1   shell.cache.refresh     refresh-shell-cache > /dev/null 2>&1; log-status "$?" 'SHELL-REFRESH'
+@daily  2   shell.plugins.update    antibody update > /dev/null 2>&1; log-status "$?" 'ANTIBODY'
 @daily  1   repos.update            mr -d $HOME -m update 2>&1 | grep update | tac | logger -p 'local0.info' -t 'MYREPOS'

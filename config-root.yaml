@@ -1,9 +1,9 @@
 actions:
+  pre:
+    asdf: bash ./actions/asdf.sh
   post:
     asdf-langs: bash ./actions/lang-versions.sh
     packages: sh ./actions/packages.sh
-  pre:
-    asdf: bash ./actions/asdf.sh
 config:
   backup: false
   banner: true
@@ -23,15 +23,13 @@ dotfiles:
     dst: '{{@@ asdf_config_path @@}}'
     src: asdf
     actions:
-      - asdf
-      - asdf-langs
+    - asdf
+    - asdf-langs
   d_sources.list.d:
     dst: /etc/apt/sources.list.d
     src: etc/apt/sources.list.d
-    actions:
-      - packages
     upignore:
-      - '*/*.save'
+    - '*.save'
   f_60-root.conf:
     dst: /etc/polkit-1/localauthority.conf.d/60-root.conf
     src: etc/polkit-1/localauthority.conf.d/60-root.conf
@@ -71,17 +69,24 @@ profiles:
       - f_sources.list
   davide-debian:
     dotfiles:
-    - f_60-root.conf
     - f_99-no-wireless-on-wired
     - f_lightdm.conf.d_02_custom.conf
     - f_lightdm-gtk-greeter.conf.d_02_custom.conf
-    - f_logrotate.d_custom.conf
-    - f_org.xfce.xfce4-terminal.policy
-    - f_rsyslog.d_custom.conf
     - f_underclock.service
     include:
     - git
     - shell
     - packages
+    - polkit
+  packages:
+    dotfiles:
+    - d_sources.list.d
+    - f_sources.list
+    actions:
+    - packages
+  polkit:
+    dotfiles:
+    - f_60-root.conf
+    - f_org.xfce.xfce4-terminal.policy
 variables:
   user: root

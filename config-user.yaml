@@ -70,17 +70,21 @@ dotfiles:
   f_crontab:
     src: anacron/crontab
     dst: '{{@@ tmp_dst @@}}'
+  f_mrconfig:
+    src: mrconfig
+    dst: ~/.mrconfig
 profiles:
   cron:
     dotfiles:
-      - f_anacrontab
-      - f_crontab
+    - f_anacrontab
+    - f_crontab
+    - f_mrconfig
     variables:
       anacron_spool: $HOME/.anacron/spool
     dynvariables:
       tmp_dst: mktemp /tmp/cron-tmp.XXX
     actions:
-      - anacron
+    - anacron
   davide-debian:
     dotfiles:
     - d_atom

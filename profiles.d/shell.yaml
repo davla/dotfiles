@@ -21,25 +21,25 @@ dotfiles:
     src: bash
     trans: fix-home
     upignore:
-      - '*/.bash_history'
-      - '*/cache'
+    - .bash_history
+    - cache
   d_sh:
     dst: ~/.sh
     src: sh
     trans: fix-home
     upignore:
-    - '*/data'
-    - '*/cache'
+    - data
+    - cache
   d_zsh:
     dst: ~/.zsh
     src: zsh
     trans: fix-home
     upignore:
-    - '*/.zcompdump'
-    - '*/.zsh_history'
-    - '*/.antibody'
-    - '*/cache'
-    - '*/plugins/plugins-*.zsh'
+    - .zcompdump
+    - .zsh_history
+    - .antibody
+    - cache
+    - 'plugins/plugins-*.zsh'
   f_bash_profile:
     dst: ~/.bash_profile
     src: bash_profile
@@ -92,5 +92,5 @@ profiles:
     - sh
     actions:
     - zsh
-trans:
+trans_read:
   fix-home: sh ./transformations/fix-home.sh {0} {1}

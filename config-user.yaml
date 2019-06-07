@@ -52,27 +52,27 @@ dotfiles:
   d_xfce4:
     dst: ~/.config/xfce4
     src: config/xfce4
-  f_ghci:
-    dst: ~/.ghci
-    src: ghci
-  f_hgrc:
-    dst: ~/.hgrc
-    src: hgrc
-  f_xfce-applications.menu:
-    dst: ~/.config/menus/xfce-applications.menu
-    src: config/menus/xfce-applications.menu
-  f_xsessionrc:
-    dst: ~/.xsessionrc
-    src: xsessionrc
   f_anacrontab:
     src: anacron/anacrontab
     dst: ~/.anacron/anacrontab
   f_crontab:
     src: anacron/crontab
     dst: '{{@@ tmp_dst @@}}'
+  f_ghci:
+    dst: ~/.ghci
+    src: ghci
+  f_hgrc:
+    dst: ~/.hgrc
+    src: hgrc
   f_mrconfig:
     src: mrconfig
     dst: ~/.mrconfig
+  f_xfce-applications.menu:
+    dst: ~/.config/menus/xfce-applications.menu
+    src: config/menus/xfce-applications.menu
+  f_xsessionrc:
+    dst: ~/.xsessionrc
+    src: xsessionrc
 profiles:
   cron:
     dotfiles:

@@ -16,11 +16,7 @@ alias root='sudo -s'
 # Third-party commands aliases
 #######################################
 
-{%@@ if user == 'root' -@@%}
-    alias mr='mr -d /opt'
-{%@@ elif user == 'user' -@@%}
-    alias mr='mr -d $HOME'
-{%@@ endif @@%}
+alias mr='mr -d {{@@ mr_default_dir @@}}'
 
 #######################################
 # New commands

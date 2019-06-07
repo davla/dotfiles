@@ -89,4 +89,6 @@ profiles:
     - f_60-root.conf
     - f_org.xfce.xfce4-terminal.policy
 variables:
+  mr_default_dir: /opt
   user: root
+  zygal_colorscheme: green

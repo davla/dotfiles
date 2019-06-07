@@ -108,4 +108,6 @@ profiles:
     - git
     - shell
 variables:
+  mr_default_dir: $HOME
   user: user
+  zygal_colorscheme: orange

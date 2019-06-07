@@ -21,8 +21,4 @@ export ZYGAL_HG_SHELVE=true
 export ZYGAL_HG_SEPARATOR=' '
 export ZYGAL_HG_UNTRACKED=true
 
-{%@@ if user == 'root' -@@%}
-    export ZYGAL_COLORSCHEME='green'
-{%@@ elif user == 'user' -@@%}
-    export ZYGAL_COLORSCHEME='orange'
-{%@@ endif @@%}
+export ZYGAL_COLORSCHEME='{{@@ zygal_colorscheme @@}}'

@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+# {{@@ header() @@}}
+
 # This script defines useful (or not) POSIX shell aliases
 
 #######################################

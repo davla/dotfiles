@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+# {{@@ header() @@}}
+
 # This script contains zygal configuration
 
 export ZYGAL_ASYNC='all'

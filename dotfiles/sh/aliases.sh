@@ -16,7 +16,9 @@ alias root='sudo -s'
 # Third-party commands aliases
 #######################################
 
+alias c='xsel -i -b'
 alias mr='mr -d {{@@ mr_default_dir @@}}'
+alias p='xsel -o'
 
 #######################################
 # New commands

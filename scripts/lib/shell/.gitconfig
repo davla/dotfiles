@@ -1,48 +1,70 @@
+# This dotfile is managed using dotdrop
+
 [alias]
-	graph = log --branches --remotes --graph --format='%C(yellow)%h %Creset%s%C(red)%d%n'
-	graph-all = log --all --graph --format='%C(yellow)%h %Creset%s%C(red)%d%n'
-	info = status -sb
-	ls-aliases = config --get-regexp ^alias\\.
+    graph = log --branches --remotes='(origin|upstream)' --graph --format='%C(yellow)%h %C(green)[%ar] %Creset%s%C(red)%d%n'
+    graph-all = log --all --graph --format='%C(yellow)%h %C(green)[%ar] %Creset%s%C(red)%d%n'
+    info = status -sb
+    ls-aliases = config --get-regexp ^alias\\.
     new-branch = checkout -qb
-	squash = merge --squash
+    squash = merge --squash
     unadd = reset HEAD --
-	unstash = stash pop
+    unstash = stash pop
 
-	a = add
-	b = branch
-	c = commit
-	g = log --branches --remotes --graph --format='%C(yellow)%h %Creset%s%C(red)%d%n'
-	i = status -sb
-	l = log
-	m = merge --log
-	p = push
-	r = rebase
-	s = stash push --
+    a = add
+    b = branch
+    c = commit
+    f = fetch
+    g = log --branches --remotes='(origin|upstream)' --graph --format='%C(yellow)%h %C(green)[%ar] %Creset%s%C(red)%d%n'
+    i = status -sb
+    l = log
+    m = merge --log
+    r = rebase
+    s = stash
 
-	aa = add --all
-	ck = checkout -q
-	cp = cherry-pick
-	ga = graph --all --graph --format='%C(yellow)%h %Creset%s%C(red)%d%n'
+    aa = add --all
+    ck = checkout -q
+    cp = cherry-pick
+    ga = log --all --graph --format='%C(yellow)%h %C(green)[%ar] %Creset%s%C(red)%d%n'
     nb = checkout -qb
-	sq = merge --squash
-	ua = reset HEAD --
-	us = stash pop
+    pl = pull
+    ps = push
+    sq = merge --squash
+    ua = reset HEAD --
+    us = stash pop
+
+[commit]
+    gpgsign = true
+
+[core]
+    autocrlf = input
+    editor = vim
+    excludesfile = ~/.gitignore
 
 [credential]
     helper = /usr/bin/git-credential-gnome-keyring
 
+[fetch]
+    prune = true
+
 [gitreview]
-	username = davla
+    username = davla
+
+[help]
+    autocorrect = 5
 
 [merge]
-	log = 1
+    log = 1
 
 [rebase]
-	autoStash = true
+    autoStash = true
 
 [pull]
-	rebase = true
+    rebase = true
+
+[tag]
+    sort = -version:refname
 
 [user]
-	name = Davide Laezza
-	email = truzzialrogo@gmx.com
+    name = Davide Laezza
+    email = davide.laezza@gmx.com
+    username = davla

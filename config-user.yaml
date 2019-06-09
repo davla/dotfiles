@@ -53,10 +53,10 @@ dotfiles:
     dst: ~/.config/xfce4
     src: config/xfce4
   f_anacrontab:
-    src: anacron/anacrontab
+    src: cron/anacrontab
     dst: ~/.anacron/anacrontab
   f_crontab:
-    src: anacron/crontab
+    src: cron/crontab
     dst: '{{@@ tmp_dst @@}}'
   f_ghci:
     dst: ~/.ghci

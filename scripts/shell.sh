@@ -12,7 +12,7 @@ sudo apt-get install bash bash-completion dash zsh
 # Dotfiles
 #######################################
 
-dotdrop both install -p shell -f
+dotdrop --user both install -p shell-all
 
 #######################################
 # Default shell

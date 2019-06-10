@@ -6,4 +6,4 @@
 # Repositories dotfiles
 #######################################
 
-dotdrop root install -p packages
+dotdrop --user root install -p packages

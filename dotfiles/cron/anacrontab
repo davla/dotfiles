@@ -1,20 +1,31 @@
+{%@@ if user == 'user' -@@%}
+
 # {{@@ header() @@}}
 #
-{%@@ if user == 'user' @@%}
 # /etc/anacrontab: configuration file for anacron
 #
 # See anacron(8) and anacrontab(5) for details.
 
 SHELL=/bin/sh
 PATH=/usr/local/bin:/bin:/usr/bin
-{%@@ elif user == 'root' @@%}
+
+{%@@- elif user == 'root' @@%}
+
 {{@@ anacrontab_custom_marker @@}}
-{%@@ endif @@%}
+#
+# {{@@ header() @@}}
+
+{%@@- endif @@%}
+
 
 1  1   shell.cache.refresh     refresh-shell-cache > /dev/null 2>&1; cron-logger 'SHELL-REFRESH' "$?"
-1  2   shell.plugins.update    antibody update > /dev/null 2>&1; cron-logger 'ANTIBODY' "$?"
-{%@@ if user == 'root' @@%}
+1  2   shell.plugins.update    zsh -c 'antibody update' > /dev/null 2>&1; cron-logger 'ANTIBODY' "$?"
+{%@@ if user == 'root' -@@%}
+
 1  1   manual.update           manual-install update
-{%@@ elif user == 'user' @@%}
+
+{%@@- elif user == 'user' -@@%}
+
 1  1   repos.update            mr -d {{@@ mr_default_dir @@}} -m update 2>&1 | grep update | tac | cron-logger 'MYREPOS'
+
 {%@@ endif @@%}

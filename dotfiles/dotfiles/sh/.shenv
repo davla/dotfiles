@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+# {{@@ header() @@}}
+
 # This script defines environment variables for POSIX shell
 
 #######################################

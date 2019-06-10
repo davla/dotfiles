@@ -19,46 +19,40 @@ dotfiles:
   d_bash:
     dst: ~/.bash
     src: bash
-    upignore:
-      - '*/.bash_history'
-      - '*/cache'
     trans: fix-home
+    upignore:
+    - .bash_history
+    - cache
   d_sh:
     dst: ~/.sh
     src: sh
-    upignore:
-    - '*/data'
-    - '*/cache'
     trans: fix-home
+    upignore:
+    - data
+    - cache
   d_zsh:
     dst: ~/.zsh
     src: zsh
     trans: fix-home
     upignore:
-    - '*/.zcompdump'
-    - '*/.zsh_history'
-    - '*/.antibody'
-    - '*/cache'
-    - '*/plugins/plugins-*.zsh'
+    - .zcompdump
+    - .zsh_history
+    - .antibody
+    - cache
+    - 'plugins/plugins-*.zsh'
   f_bash_profile:
     dst: ~/.bash_profile
     src: bash_profile
   f_bashrc:
     dst: ~/.bashrc
     src: bashrc
-    actions:
-      - bash
   f_dotdirs:
     dst: ~/.dotdirs
     src: dotdirs
   f_profile:
-    actions:
-    - sh
     dst: ~/.profile
     src: profile
   f_zshenv:
-    actions:
-    - zsh
     dst: ~/.zshenv
     src: zshenv
 profiles:
@@ -68,15 +62,24 @@ profiles:
     - f_bash_profile
     - f_bashrc
     include:
+    - shell
     - sh
+    actions:
+    - bash
   sh:
     dotfiles:
     - f_profile
     - d_sh
+    include:
+    - shell
+    actions:
+    - sh
   shell:
     dotfiles:
     - f_dotdirs
+  shell-all:
     include:
+    - shell
     - sh
     - bash
     - zsh
@@ -85,6 +88,9 @@ profiles:
     - f_zshenv
     - d_zsh
     include:
+    - shell
     - sh
-trans:
+    actions:
+    - zsh
+trans_read:
   fix-home: sh ./transformations/fix-home.sh {0} {1}

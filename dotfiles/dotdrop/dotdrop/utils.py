@@ -17,6 +17,7 @@ from shutil import rmtree
 from dotdrop.logger import Logger
 
 LOG = Logger()
+STAR = '*'
 
 
 def run(cmd, raw=True, debug=False, checkerr=False):
@@ -66,7 +67,7 @@ def get_tmpdir():
 
 def get_tmpfile():
     """create a temporary file"""
-    (fd, path) = tempfile.mkstemp(prefix='dotdrop-')
+    (_, path) = tempfile.mkstemp(prefix='dotdrop-')
     return path
 
 
@@ -130,3 +131,30 @@ def must_ignore(paths, ignores, debug=False):
                     LOG.dbg('ignore \"{}\" match: {}'.format(i, p))
                 return True
     return False
+
+
+def uniq_list(a_list):
+    """unique elements of a list while preserving order"""
+    new = []
+    for a in a_list:
+        if a not in new:
+            new.append(a)
+    return new
+
+
+def patch_ignores(ignores, prefix):
+    """allow relative ignore pattern"""
+    new = []
+    for ignore in ignores:
+        if STAR in ignore:
+            # is glob
+            new.append(ignore)
+            continue
+        if os.path.isabs(ignore):
+            # is absolute
+            new.append(ignore)
+            continue
+        # patch upignore
+        path = os.path.join(prefix, ignore)
+        new.append(path)
+    return new

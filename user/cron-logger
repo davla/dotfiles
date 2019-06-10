@@ -1,0 +1,47 @@
+#!/bin/sh
+
+# This script is meant to be used as a logger in cron job.
+#
+# It logs to syslog using as tag the given one preceded by the user name in
+# brackets.
+#
+# If no status code is passed, it logs messages from stdin. If a status code is
+# passed, it logs a prefedined message with the given priority. If the status
+# is an error, it logs the status itself with error priority; otherwise, it
+# logs a predefined message.
+#
+# Arguments:
+#   - $1: Tag to be used with syslog. Prefixed with the user name.
+#   - $2: Status code to be logged (optional).
+#   - $3: Syslog facility to be used (default: local0).
+#   - $4: Syslog priority to be used for non-error statuses (default: info).
+
+#######################################
+# Input ptocessing
+#######################################
+
+TAG="$1"
+STATUS="$2"
+FACILITY="${3:-local0}"
+LEVEL="${4:-info}"
+
+#######################################
+# Variables
+#######################################
+
+MSG=''
+TAG="[$(id -un)] $TAG"
+[ -n "$STATUS" ] && {
+    MSG='OK'
+    [ "$STATUS" -ne 0 ] && {
+        LEVEL='error'
+        MSG="Error $STATUS"
+    }
+}
+
+#######################################
+# Logging
+#######################################
+
+# Not quoting $MSG so that logger reads from stdin if $MSG is the empty string
+logger -p "$FACILITY.$LEVEL" -t "$TAG" $MSG

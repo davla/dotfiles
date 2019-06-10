@@ -28,7 +28,7 @@
 [ "$(id -u)" -ne 0 ] && {
     echo 'This script needs to be run as root'
     sudo sh "$0" "$@"
-    exit 0
+    exit
 }
 
 #######################################
@@ -93,17 +93,17 @@ fi
 #   $1: C source file.
 #   $2: Destination directory.
 compile_c() {
-    SOURCE="$1"
-    DEST_DIR="$2"
+    C_SOURCE="$1"
+    C_DEST_DIR="$2"
 
-    EXEC_NAME="$(basename "$SOURCE" .c)"
-    EXEC_PATH="$DEST_DIR/$EXEC_NAME"
+    C_EXEC_NAME="$(basename "$C_SOURCE" .c)"
+    C_EXEC_PATH="${C_DEST_DIR:?}/$C_EXEC_NAME"
 
-    gcc "$SOURCE" -o "$EXEC_PATH"
-    chmod u+s "$EXEC_PATH"
-    echo "$EXEC_NAME.c compiled and SUID bit set"
+    gcc "$C_SOURCE" -o "$C_EXEC_PATH"
+    chmod u+s "$C_EXEC_PATH"
+    echo "$C_EXEC_NAME.c compiled and SUID bit set"
 
-    unset DEST_DIR EXEC_NAME EXEC_PATH SOURCE
+    unset C_DEST_DIR C_EXEC_NAME C_EXEC_PATH C_SOURCE
 }
 
 # This function copies a file in a destination directory, and makes it
@@ -113,19 +113,19 @@ compile_c() {
 #   $1: Source file.
 #   $2: Destination directory.
 copy_file() {
-    SOURCE="$1"
-    DEST_DIR="$2"
+    COPY_SOURCE="$1"
+    COPY_DEST_DIR="$2"
 
-    FILE_NAME="$(basename "$SOURCE")"
-    DEST_FILE="$DEST_DIR/$FILE_NAME"
+    COPY_FILE_NAME="$(basename "$COPY_SOURCE")"
+    COPY_DEST_FILE="${COPY_DEST_DIR:?}/$COPY_FILE_NAME"
 
     # --remove-destination is there to overwrite links used for development.
-    cp --remove-destination "$SOURCE" "$DEST_FILE"
-    chmod +x "$DEST_FILE"
+    cp --remove-destination "$COPY_SOURCE" "$COPY_DEST_FILE"
+    chmod +x "$COPY_DEST_FILE"
 
-    echo "$FILE_NAME copied"
+    echo "$COPY_FILE_NAME copied"
 
-    unset DEST_DIR DEST_FILE FILE_NAME SOURCE
+    unset COPY_DEST_DIR COPY_DEST_FILE COPY_FILE_NAME COPY_SOURCE
 }
 
 # This function links a file in a destination directory, and makes it
@@ -135,16 +135,16 @@ copy_file() {
 #   $1: Source file.
 #   $2: Destination directory.
 link_file() {
-    SOURCE="$(readlink -f "$1")"
-    DEST_DIR="$2"
+    LINK_SOURCE="$(readlink -f "$1")"
+    LINK_DEST_DIR="$2"
 
-    FILE_NAME="$(basename "$SOURCE")"
+    LINK_FILE_NAME="$(basename "$LINK_SOURCE")"
 
-    ln -sf "$SOURCE" "$DEST_DIR/$FILE_NAME"
-    chmod +x "$SOURCE"
-    echo "$FILE_NAME linked"
+    ln -sf "$LINK_SOURCE" "${LINK_DEST_DIR:?}/$LINK_FILE_NAME"
+    chmod +x "$LINK_SOURCE"
+    echo "$LINK_FILE_NAME linked"
 
-    unset DEST_DIR FILE_NAME SOURCE
+    unset LINK_DEST_DIR LINK_FILE_NAME LINK_SOURCE
 }
 
 # This function processes all the files in a directory, by passing them to
@@ -154,15 +154,16 @@ link_file() {
 #   - $1: The source directory.
 #   - $2: The destination directory.
 process_dir() {
-    SOURCE="$1"
-    DEST="$2"
+    DIR_SOURCE="$1"
+    DIR_DEST="$2"
 
     # -exec would not work since process_file is not in PATH
-    find "$SOURCE" -maxdepth 1 -type f -o -type l | process_file "$DEST"
+    find "$DIR_SOURCE" -maxdepth 1 -type f -o -type l \
+        | process_file "$DIR_DEST"
 
-    echo "Done with files in $SOURCE -> $DEST"
+    echo "Done with files in $DIR_SOURCE -> $DIR_DEST"
 
-    unset SOURCE DEST
+    unset DIR_SOURCE DIR_DEST
 }
 
 # This filter processes files. This means that:
@@ -174,28 +175,28 @@ process_dir() {
 # Arguments:
 #   - $1: The destination directory.
 process_file() {
-    DEST_DIR="$1"
+    FILE_DEST_DIR="$1"
 
-    while read FILE; do
-        case "$(file -b "$FILE" | tr '[:upper:]' '[:lower:]' \
+    while read FILE_FILE; do
+        case "$(file -b "$FILE_FILE" | tr '[:upper:]' '[:lower:]' \
                 | cut -d ' ' -f 1)" in
             'c')
-                compile_c "$FILE" "$DEST_DIR"
+                compile_c "$FILE_FILE" "$FILE_DEST_DIR"
                 ;;
 
             'bourne-again'|'python'|'posix'|'symbolic')
-                publish_file "$FILE" "$DEST_DIR"
+                publish_file "$FILE_FILE" "$FILE_DEST_DIR"
                 ;;
 
             *)
-                echo >&2 "$FILE is neither a C source, nor a bash/python " \
+                echo >&2 "$FILE_FILE is neither a C source, nor a bash/python " \
                     "script, neither a symbolic link"
                 continue
                 ;;
         esac
     done
 
-    unset DEST_DIR FILE
+    unset FILE_DEST_DIR FILE_FILE
 }
 
 #######################################
@@ -205,7 +206,7 @@ process_file() {
 # Files are given from the command line
 if [ $# -gt 0 ]; then
     for FILE in "$@"; do
-        FILE_PATH="$(find . -name "$FILE")"
+        FILE_PATH="$(find "$PARENT_DIR" -name "$FILE")"
 
         [ -z "$FILE_PATH" ] && {
             echo >&2 "$FILE not found!"
@@ -213,11 +214,11 @@ if [ $# -gt 0 ]; then
         }
 
         case "$FILE_PATH" in
-            */$USER_CMD_DIR/*)
+            $USER_CMD_DIR/*)
                 DEST_PATH="$USER_BIN_PATH"
                 ;;
 
-            */$ROOT_CMD_DIR/*)
+            $ROOT_CMD_DIR/*)
                 DEST_PATH="$ROOT_BIN_PATH"
                 ;;
 

@@ -45,13 +45,21 @@
     gpgsign = true
 
 [core]
+    autocrlf = input
+    editor = vim
     excludesfile = ~/.gitignore
 
 [credential]
     helper = /usr/bin/git-credential-gnome-keyring
 
+[fetch]
+    prune = true
+
 [gitreview]
     username = davla
+
+[help]
+    autocorrect = 5
 
 [merge]
     log = 1
@@ -61,6 +69,9 @@
 
 [pull]
     rebase = true
+
+[tag]
+    sort = -version:refname
 
 [user]
     name = Davide Laezza

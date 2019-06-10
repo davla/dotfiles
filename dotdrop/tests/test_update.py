@@ -105,6 +105,7 @@ class TestUpdate(unittest.TestCase):
         o = load_options(confpath, profile)
         o.safe = False
         o.update_showpatch = True
+        o.debug = True
         trans = Transform('trans', 'cp -r {0} {1}')
         d3tb = os.path.basename(d3t)
         for dotfile in o.dotfiles:
@@ -117,7 +118,7 @@ class TestUpdate(unittest.TestCase):
                 # retrieve the path of the sub in the dotpath
                 d1indotpath = os.path.join(o.dotpath, dotfile.src)
                 d1indotpath = os.path.expanduser(d1indotpath)
-            dotfile.trans_w = trans
+            dotfile.trans_w = [trans]
 
         # update template
         o.update_path = [d3t]

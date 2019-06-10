@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 Jinja2 = "*"
 docopt = "*"
-PyYAML = "*"
+"ruamel.yaml" = "*"
 
 [dev-packages]
 

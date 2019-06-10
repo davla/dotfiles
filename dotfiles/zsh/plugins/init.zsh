@@ -18,6 +18,7 @@ source "$SDOTDIR/plugins/init.sh"
 # deer
 #######################################
 
+autoload -U deer
 zle -N deer
 bindkey '\ed' deer
 

@@ -79,9 +79,9 @@ echo "cfgpath: {{@@ _dotdrop_cfgpath @@}}" >> ${tmps}/dotfiles/abc
 echo "workdir: {{@@ _dotdrop_workdir @@}}" >> ${tmps}/dotfiles/abc
 
 # install
-cd ${ddpath} | ${bin} install -f -c ${cfg} -p p1
+cd ${ddpath} | ${bin} install -f -c ${cfg} -p p1 -V
 
-#cat ${tmpd}/abc
+cat ${tmpd}/abc
 
 grep "^dotpath: ${tmps}/dotfiles$" ${tmpd}/abc >/dev/null
 grep "^cfgpath: ${tmps}/config.yaml$" ${tmpd}/abc >/dev/null

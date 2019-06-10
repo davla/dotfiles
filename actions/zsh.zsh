@@ -11,7 +11,7 @@
 # to do so, meaning that some errors would occur when the shell sources them.
 
 . "$HOME/.dotdirs"
-. "$ZDOTDIR/.shenv"
+. "$ZDOTDIR/.zshenv"
 
 #######################################
 # Initializing $ZDOTDIR

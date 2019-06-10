@@ -1,0 +1,14 @@
+# {{@@ header() @@}}
+#
+# To define the time you can provide concrete values for
+# minute (m), hour (h), day of month (dom), month (mon),
+# and day of week (dow) or use '*' in these fields (for 'any').
+#
+# For example, you can run a backup of all your user accounts
+# at 5 a.m every week with:
+# 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
+#
+# For more information see the manual pages of crontab(5) and cron(8)
+#
+# m h  dom mon dow   command
+@hourly /usr/sbin/anacron -t $HOME/.anacron/anacrontab -S {{@@ anacron_spool @@}}

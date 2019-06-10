@@ -1,0 +1,48 @@
+#!/bin/sh
+
+# This script refreshes the cached initialization code of some shell plugins
+
+#######################################
+# Loading environment
+#######################################
+
+# This script is meant to be used as a shell command. Therefore it can't be
+# assumed that startup files, such as ~/.profile, are sourced
+
+. "$HOME/.dotdirs"
+. "$SDOTDIR/.shenv"
+
+#######################################
+# fasd
+#######################################
+
+FASD_SH_CACHE="${SDOTDIR:?}/cache/fasd"
+[ -f "$FASD_SH_CACHE" ] && fasd --init posix-alias > "$FASD_SH_CACHE"
+
+FASD_BASH_CACHE="${BDOTDIR:?}/cache/fasd"
+[ -f "$FASD_BASH_CACHE" ] \
+    && fasd --init bash-hook bash-ccomp bash-ccomp-install > "$FASD_BASH_CACHE"
+
+FASD_ZSH_CACHE="${ZDOTDIR:?}/cache/fasd"
+[ -f "$FASD_ZSH_CACHE" ] \
+    && fasd --init zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp \
+        zsh-wcomp-install > "$FASD_ZSH_CACHE"
+
+#######################################
+# thefuck
+#######################################
+
+THEFUCK_CACHE="${SDOTDIR:?}/cache/thefuck"
+[ -f "$THEFUCK_CACHE" ] && thefuck --alias > "$THEFUCK_CACHE"
+
+#######################################
+# zygal
+#######################################
+
+ZYGAL_ZSH_CACHE="${ZDOTDIR:?}/cache/zygal"
+[ -f "$ZYGAL_ZSH_CACHE" ] && {
+    ZYGAL_CONF_FILE="$ZDOTDIR/theme/dotfiles/zygal-conf.zsh"
+    [ -f "$ZYGAL_CONF_FILE" ] && . "$ZYGAL_CONF_FILE"
+
+    zsh -ic zygal-static > "$ZYGAL_ZSH_CACHE"
+}

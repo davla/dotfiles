@@ -42,40 +42,82 @@ SHELL="$(ps --no-headers -p "$$" -o 'comm')"
 # Functions
 #######################################
 
+ask() {
+    say "$@"
+
+    read ANSWER
+    case "$(echo "$ANSWER" | tr '[:upper:]' '[:lower:]')" in
+        n|no)
+            unset ANSWER
+            return "$EXIT_NO"
+            ;;
+
+        q|quit)
+            unset ANSWER
+            goodbye t
+            ;;
+
+        y|yes)
+            unset ANSWER
+            return "$EXIT_YES"
+            ;;
+        *)
+            say -t "$PROMPT_FACE" "Sorry, I didn't get it."
+            unset ANSWER
+            ask "$@"
+            return "$?"
+            ;;
+    esac
+}
+
 execute() {
     CMD="$1"
     DESC="$2"
 
     OUTPUT_LOG=$(mktemp)
 
-    tput smcup
-    tput cup 0 0
+    RETRY='true'
+    while [ "$RETRY" = 'true' ]; do
+        tput smcup
+        tput cup 0 0
 
-    tail -f "$OUTPUT_LOG" &
-    $SHELL -c "$CMD" > "$OUTPUT_LOG" 2>&1
-    CMD_EXIT="$?"
-    printf 'Press enter to continue'
-    read ANSWER
-    kill "$!"
+        tail -f "$OUTPUT_LOG" &
+        $SHELL -c "$CMD" > "$OUTPUT_LOG" 2>&1
+        CMD_EXIT="$?"
+        printf 'Press enter to continue'
+        read ANSWER
+        kill "$!"
 
-    tput rmcup
+        tput rmcup
 
-    if [ "$CMD_EXIT" -eq 0 ]; then
-        say "$OK_FACE" "Looks like everything went fine with $DESC! Hooray!
+        if [ "$CMD_EXIT" -eq 0 ]; then
+            ask "$OK_FACE" "Looks like everything went fine with $DESC! Hooray!
 The log has been saved to $OUTPUT_LOG. $RETRY_PROMPT"
-    else
-        say "$ERROR_FACE" "Looks like something went wrong with $DESC.
+        else
+            ask "$ERROR_FACE" "Looks like something went wrong with $DESC.
 The log has been saved to $OUTPUT_LOG. $RETRY_PROMPT"
-    fi
+        fi
 
-    if read_answer; then
-        rm $OUTPUT_LOG
-        execute "$@"
-    else
-        rm $OUTPUT_LOG
-    fi
+        case "$?" in
+            "$EXIT_YES")
+                RETRY='true'
+                ;;
 
-    unset CMD OUTPUT_LOG
+            "$EXIT_NO")
+                RETRY='false'
+                ;;
+
+            *)  # Should never occur, hopefully an error message has already
+                # been printed
+                exit
+                ;;
+        esac
+    done
+
+    printf '\n'
+    rm $OUTPUT_LOG
+
+    unset CMD CMD_EXIT DESC OUTPUT_LOG RETRY
 }
 
 goodbye() {
@@ -89,31 +131,13 @@ prompt() {
     CMD="$2"
     DESC="$3"
 
-    say -l "$PROMPT_FACE" "Do you want to $PROMPT? $CHOICES"
-    if read_answer; then
+    if ask "$PROMPT_FACE" "Do you want to $PROMPT? $CHOICES"; then
         execute "$CMD" "$DESC"
     else
-        say -t "$PROMPT_FACE" "Skipping $DESC then."
+        say -tt "$PROMPT_FACE" "Skipping $DESC then."
     fi
 
-    unset PROMPT CMD
-}
-
-read_answer() {
-    read ANSWER
-    case "$(echo "$ANSWER" | tr '[:upper:]' '[:lower:]')" in
-        n|no)
-            return "$EXIT_NO"
-            ;;
-
-        q|quit)
-            goodbye lt
-            ;;
-
-        y|yes)
-            return "$EXIT_YES"
-            ;;
-    esac
+    unset PROMPT CMD DESC
 }
 
 say() {
@@ -160,7 +184,7 @@ say() {
 
 trap goodbye INT TERM
 
-say -t "$PROMPT_FACE" "Hello, I'm your setup script!
+say -tt "$PROMPT_FACE" "Hello, I'm your setup script!
 I'll guide you step-by-step through your system setup. I'll prompt you before \
 each step, copy configuration files, execute commands, and report you output \
 and errors when they occur.
@@ -173,6 +197,6 @@ prompt 'install your custom commands' 'sudo sh custom-commands/install.sh' \
 prompt 'initialize the shells' 'sh scripts/shell.sh' 'shells initialization'
 prompt 'install packages' 'sudo -E sh scripts/packages.sh' 'packages installation'
 
-say -lt "$PROMPT_FACE" "System setup completed!
+say -t "$PROMPT_FACE" "System setup completed!
 It's been a pleasure working with you, and I hope everything went fine.
 Bye-Bye!"

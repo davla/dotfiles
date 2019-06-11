@@ -24,7 +24,7 @@ PATH=/usr/local/bin:/bin:/usr/bin
 
 1  1   manual.update           manual-install update
 
-{%@@- elif user == 'user' -@@%}
+{%@@ elif user == 'user' -@@%}
 
 1  1   repos.update            mr -d {{@@ mr_default_dir @@}} -m update 2>&1 | grep update | tac | cron-logger 'MYREPOS'
 

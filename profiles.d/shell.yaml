@@ -44,7 +44,7 @@ dotfiles:
     - .zsh_history
     - .antibody
     - cache
-    - plugins/plugins-*.zsh
+    - 'plugins/plugins-*.zsh'
   f_bash_profile:
     dst: ~/.bash_profile
     src: bash_profile

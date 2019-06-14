@@ -2,7 +2,7 @@ actions:
   pre:
     asdf: bash ./actions/asdf.sh
   post:
-    packages: sh ./actions/packages.sh
+    repo-keys: sh ./actions/repo-keys.sh
 config:
   backup: false
   banner: true
@@ -94,7 +94,7 @@ profiles:
     - d_sources.list.d
     - f_sources.list
     actions:
-    - packages
+    - repo-keys
   polkit:
     dotfiles:
     - f_60-root.conf

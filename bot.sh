@@ -1,6 +1,22 @@
 #!/usr/bin/env sh
 
+# This script interactively sets up the whole system, one step at a time, by
+# displaying various prompts at the user. This is done via a friendly and
+# supportive bot assistnt, that is not ashamed of showing its feelings and
+# facial expressions [^_^]. Each step outputs in a separate terminal buffer, as
+# well as a log file. Steps can be skipped and repeated.
+#
+# Arguments:
+#   - $1: The terminal width, used when wrapping the bot's messages. Defaults
+#         to $COLUMNS and then to 80.
+
 . ./.env
+
+#######################################
+# Input processing
+#######################################
+
+MSG_WIDTH="${1:-$COLUMNS}"
 
 #######################################
 # Variables
@@ -20,10 +36,10 @@ EXIT_SAY=245
 EXIT_YES=0
 
 # Faces
-ERROR_FACE="${ERROR_COLOR}[>_<]${RESET_COLOR}"
+ERROR_FACE="${ERROR_COLOR}[>.<]${RESET_COLOR}"
 OK_FACE="${OK_COLOR}[°o°]${RESET_COLOR}"
 PROMPT_FACE="${PROMPT_COLOR}[^_^]${RESET_COLOR}"
-SAD_FACE="${SAD_COLOR}[T.T]${RESET_COLOR}"
+SAD_FACE="${SAD_COLOR}[ToT]${RESET_COLOR}"
 
 # Texts
 CHOICES='[y/n/q] '
@@ -31,7 +47,6 @@ INDENT='      '
 RETRY_PROMPT="Do you want to retry? $CHOICES"
 
 # Misc
-MSG_WIDTH="${1:-$COLUMNS}"
 MSG_WIDTH="${MSG_WIDTH:-80}"
 MSG_WIDTH=$(( MSG_WIDTH - $(printf "$INDENT" | wc -m) ))
 
@@ -42,10 +57,26 @@ SHELL="$(ps --no-headers -p "$$" -o 'comm')"
 # Functions
 #######################################
 
+# This function asks the user the given question.
+#
+# Each answer has a different exit code. It accepts 'yes', 'no' and 'quit',
+# case intensitively and both extended and first-letter only. Any other answer
+# is considered invalid, and the question is asked until a valid answer is
+# given.
+#
+# Arguments:
+#   - $@: Same arguments as say
 ask() {
+    # THe function is recursice, and not iterative, since read needs not to be
+    # in a loop, as this would execite it in a subshell, that is with no stdin.
+
     say "$@"
 
     read ANSWER
+
+    # Each case unsets ANSWER as it ternimates with a return. Saving the exit
+    # code in a variable and returing it wouldn't help, as such variable
+    # cannot be unset after it's used.
     case "$(echo "$ANSWER" | tr '[:upper:]' '[:lower:]')" in
         n|no)
             unset ANSWER
@@ -54,22 +85,39 @@ ask() {
 
         q|quit)
             unset ANSWER
-            goodbye t
+            # This sets $? for goodbye
+            (exit 1)
+            goodbye -t
             ;;
 
         y|yes)
             unset ANSWER
             return "$EXIT_YES"
             ;;
+
         *)
-            say -t "$PROMPT_FACE" "Sorry, I didn't get it."
             unset ANSWER
+            say -t "$PROMPT_FACE" "Sorry, I didn't get it."
             ask "$@"
-            return "$?"
+            # Need to return explicitly in order not to lose ask exit code: in
+            # fact, the last command is the case statement, that overwrites
+            # the exit code
+            return
             ;;
     esac
 }
 
+# This function executes a command.
+#
+# It displays the command output in a separate screen buffer, waiting for user
+# input to restore the previous buffer. After the command execution, its
+# failure/success is reported, alongside a prompt for re-execution. The output
+# is also saved to a temporary log file, deleted only after the user chooses
+# not to repeat execution. The log file is overwritten at every execution.
+#
+# Arguments:
+#   - $1: The command to be executed.
+#   - $1: Description of the command, to be used for failure/success report.
 execute() {
     CMD="$1"
     DESC="$2"
@@ -81,11 +129,16 @@ execute() {
         tput smcup
         tput cup 0 0
 
+        # This is executed in the background: stdin is detatched, while stdout
+        # and stderr are shared with this script (likely connected to a tty).
         tail -f "$OUTPUT_LOG" &
+
         $SHELL -c "$CMD" > "$OUTPUT_LOG" 2>&1
         CMD_EXIT="$?"
         printf 'Press enter to continue'
         read ANSWER
+
+        # Killng tail, as the command is no longer writing to the file.
         kill "$!"
 
         tput rmcup
@@ -98,6 +151,7 @@ The log has been saved to $OUTPUT_LOG. $RETRY_PROMPT"
 The log has been saved to $OUTPUT_LOG. $RETRY_PROMPT"
         fi
 
+        # ask exit code, that is the user answer.
         case "$?" in
             "$EXIT_YES")
                 RETRY='true'
@@ -120,12 +174,31 @@ The log has been saved to $OUTPUT_LOG. $RETRY_PROMPT"
     unset CMD CMD_EXIT DESC OUTPUT_LOG RETRY
 }
 
+# This function prints a message before exiting the script with the last exit
+# code available before its call.
+#
+# Arguments:
+#   - $1: Options for say tunctions (default: -llt).
 goodbye() {
-    SAY_OPTS="${1:-llt}"
-    say -$SAY_OPTS "$SAD_FACE" "Saying goodbye early! Anything went wrong?"
-    exit
+    # This needs to be before positional parameter assignments, since they
+    # would otherwise overwrite the exit code.
+    EXIT_CODE="$?"
+
+    SAY_OPTS="${1:--llt}"
+
+    say "$SAY_OPTS" "$SAD_FACE" "Saying goodbye early! Anything went wrong?"
+    exit "$EXIT_CODE"
 }
 
+# This function prompts the user whether to execute a command. The command is
+# executed or skipped based on the user answer.
+#
+# Arguments:
+#   - $1: Text to prompt the user with. It is appended to the string
+#         "Do you want to", and it needs not to include the question mark and
+#         the answer choices.
+#   - $2: The command to be run.
+#   - $3: The command descrption, suitable for an affirmative sentence.
 prompt() {
     PROMPT="$1"
     CMD="$2"
@@ -140,17 +213,34 @@ prompt() {
     unset PROMPT CMD DESC
 }
 
+# This function prints a message as "said" by the bot, that is a face with a
+# message next to it, indented so as to have empty space below the face. No
+# trailing newline is printed by default.
+#
+# Arguments:
+#   - -l: Flag, adds a leading newline. Can be specified multiple times,
+#         to add more than one leading newline.
+#   - -t: Flag, adds a trailing newline. Can be specified multiple times,
+#         to add more than one trailing newline.
+#   - $1: The face to be printed
+#   - $2: The message to be printed
 say() {
+    # OPTIND needs to be reset to 0 every time. This is POSIX shell, local
+    # variables don't exist. Unsetting it crashes the shell.
     OPTIND=0
+
+    # These variables contain the actual newlines, not just counters.
     LEADING_NEWLINES=''
     TRAILING_NEWLINES=''
     while getopts 'lt' OPTION; do
         case "$OPTION" in
             'l')
+                # Adding the newline itself
                 LEADING_NEWLINES="$LEADING_NEWLINES\n"
                 ;;
 
             't')
+                # Adding the newline itself
                 TRAILING_NEWLINES="$TRAILING_NEWLINES\n"
                 ;;
 
@@ -164,13 +254,23 @@ say() {
     MSG="$2"
 
     MSG="$(printf "$MSG" | fold -sw "$MSG_WIDTH")"
+
+    # Lines from the second onwards need to be separated, as the first one
+    # doesn't need indentation..
     TAIL_LINES="$(printf "$MSG" | tail -n +2)"
 
     printf "$LEADING_NEWLINES"
     printf "$FACE"
+
+    # The first line is printed with a one space indentation.
     printf "$MSG" | head -n 1 | xargs -0 printf ' %s'
+
     [ -n "$TAIL_LINES" ] && {
+        # awk adds a newline, so it cannot be used on the last line, as we
+        # don't want any trailing newline by default
         printf "$TAIL_LINES" | head -n -1 | awk "{print \"$INDENT\" \$0}"
+
+        # Using xargs -0 and printf prevents a newline from being printed.
         printf "$TAIL_LINES" | tail -n 1 | xargs -0 printf "$INDENT%s"
     }
     printf "$TRAILING_NEWLINES"
@@ -190,12 +290,20 @@ each step, copy configuration files, execute commands, and report you output \
 and errors when they occur.
 Good luck, and let's hope it all goes well!"
 
+# Dotdrop setup - first as anything else depends on it.
 prompt 'set dotdrop up' 'sh scripts/dotdrop.sh ./dotfiles' \
     'dotdrop setup'
+
+# Custom commands - they are used by other scripts.
 prompt 'install your custom commands' 'sudo sh custom-commands/install.sh' \
     'custom commands installation'
+
+# Shells initialization - so that env vars can be used by other scripts.
 prompt 'initialize the shells' 'sh scripts/shell.sh' 'shells initialization'
-prompt 'install packages' 'sudo -E sh scripts/packages.sh' 'packages installation'
+
+# Packages installation
+prompt 'install packages' 'sudo -E sh scripts/packages.sh' \
+    'packages installation'
 
 say -t "$PROMPT_FACE" "System setup completed!
 It's been a pleasure working with you, and I hope everything went fine.

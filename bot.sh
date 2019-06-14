@@ -256,7 +256,7 @@ say() {
     MSG="$(printf "$MSG" | fold -sw "$MSG_WIDTH")"
 
     # Lines from the second onwards need to be separated, as the first one
-    # doesn't need indentation..
+    # doesn't need indentation.
     TAIL_LINES="$(printf "$MSG" | tail -n +2)"
 
     printf "$LEADING_NEWLINES"
@@ -304,6 +304,9 @@ prompt 'initialize the shells' 'sh scripts/shell.sh' 'shells initialization'
 # Packages installation
 prompt 'install packages' 'sudo -E sh scripts/packages.sh' \
     'packages installation'
+
+# Asdf
+prompt 'install asdf' 'sudo bash -l scripts/asdf.sh' 'asdf installation'
 
 say -t "$PROMPT_FACE" "System setup completed!
 It's been a pleasure working with you, and I hope everything went fine.

@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-# This script installs dotdrop dependencies
+# This script installs dotdrop dependencies in a virtual environment
 
 . ./.env
 
@@ -11,7 +11,7 @@
 DOTDROP_DIR="$1"
 
 #######################################
-# Script
+# Creating dotdrop virtualenv
 #######################################
 
 sudo apt-get install python3 pipenv

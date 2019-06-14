@@ -5,19 +5,19 @@
 . ./.env
 
 #######################################
-# Dependencies
+# Installing dependencies
 #######################################
 
 sudo apt-get install bash bash-completion dash zsh
 
 #######################################
-# Dotfiles
+# Installing dotfiles
 #######################################
 
 dotdrop --user both install -p shell
 
 #######################################
-# Default shell
+# Setting default shell
 #######################################
 
 ZSH_PATH="$(which zsh)"

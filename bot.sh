@@ -316,6 +316,10 @@ prompt 'set up (ana)cron jobs' 'dotdrop --user both install -p cron' \
 prompt 'set up startup jobs' 'dotdrop --user both install -p startup' \
     'setting up startup jobs'
 
+# Git
+prompt 'set up git configuration' 'dotdrop --user both install -p git' \
+    'setting up git configuration'
+
 # Asdf
 prompt 'install asdf' 'sudo bash -l scripts/asdf.sh' 'asdf installation'
 

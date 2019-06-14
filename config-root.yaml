@@ -83,12 +83,12 @@ profiles:
     - f_99-no-wireless-on-wired
     - f_lightdm.conf.d_02_custom.conf
     - f_lightdm-gtk-greeter.conf.d_02_custom.conf
-    - f_underclock.service
     include:
     - git
     - shell
     - packages
     - polkit
+    - startup
   packages:
     dotfiles:
     - d_sources.list.d
@@ -99,6 +99,9 @@ profiles:
     dotfiles:
     - f_60-root.conf
     - f_org.xfce.xfce4-terminal.policy
+  startup:
+    dotfiles:
+    - f_underclock.service
 variables:
   mr_default_dir: /opt
   user: root

@@ -23,4 +23,5 @@ mkdir -p "${BDOTDIR:?}/cache"
 # Initializing cache
 #######################################
 
+thefuck --alias > "${BDOTDIR:?}/cache/thefuck"
 fasd --init bash-hook bash-ccomp bash-ccomp-install > "${BDOTDIR:?}/cache/fasd"

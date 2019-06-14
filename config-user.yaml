@@ -16,6 +16,9 @@ config:
   showdiff: true
   workdir: ~/.config/dotdrop
 dotfiles:
+  d_applications:
+    src: local/share/applications
+    dst: ~/.local/share/applications
   d_atom:
     dst: ~/.atom
     src: atom
@@ -37,6 +40,9 @@ dotfiles:
   d_gtk3:
     dst: ~/.config/gtk-3.0
     src: config/gtk-3.0
+  d_icons:
+    src: local/share/icons
+    dst: ~/.local/share/icons
   d_orage:
     dst: ~/.config/orage
     src: config/orage
@@ -85,28 +91,41 @@ profiles:
       tmp_dst: mktemp /tmp/cron-tmp.XXX
     actions:
     - anacron
-  davide-debian:
+  apps:
     dotfiles:
     - d_atom
-    - d_autostart
     - d_calibre
-    - d_desktop-directories
-    - d_docker
     - d_geany
-    - d_gtk3
     - d_orage
     - d_parcellite
-    - d_thunar
     - d_virtualbox
-    - d_xfce4
+  davide-debian:
+    dotfiles:
+    - d_docker
+    - d_gtk3
     - f_ghci
     - f_hgrc
-    - f_xfce-applications.menu
-    - f_xsessionrc
     include:
+    - apps
     - cron
     - git
+    - menu
     - shell
+    - startup
+    - xfce
+  menu:
+    dotfiles:
+    - d_desktop-directories
+    - f_xfce-applications.menu
+  startup:
+    dotfiles:
+    - d_autostart
+    - f_xsessionrc
+  xfce:
+    dotfiles:
+    - d_thunar
+    - d_xfce4
+
 variables:
   mr_default_dir: $HOME
   user: user

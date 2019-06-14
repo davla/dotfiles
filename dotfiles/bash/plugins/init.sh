@@ -13,3 +13,9 @@ source "$SDOTDIR/plugins/init.sh"
 #######################################
 
 source "$BDOTDIR/cache/fasd"
+
+#######################################
+# thefuck
+#######################################
+
+source "$BDOTDIR/cache/thefuck"

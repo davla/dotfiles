@@ -304,7 +304,7 @@ prompt 'install your custom commands' 'sudo sh custom-commands/install.sh' \
 # Shells initialization - so that env vars can be used by other scripts.
 prompt 'initialize the shells' 'sh scripts/shell.sh' 'shells initialization'
 
-# Packages installation
+# Packages installation - they make commands available for other scriots.
 prompt 'install packages' 'sudo sh scripts/packages.sh' \
     'packages installation'
 
@@ -315,6 +315,10 @@ prompt 'set up (ana)cron jobs' 'dotdrop --user both install -p cron' \
 # Startup jobs
 prompt 'set up startup jobs' 'dotdrop --user both install -p startup' \
     'setting up startup jobs'
+
+# Graphical login manager
+prompt 'install a graphical login manager' \
+    'sudo sh scripts/graphical-login.sh' 'installing a graphical login manager'
 
 # Git
 prompt 'set up git configuration' 'dotdrop --user both install -p git' \

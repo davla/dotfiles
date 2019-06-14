@@ -38,6 +38,7 @@ cd - &> /dev/null || exit
 # Initializing cache
 #######################################
 
+thefuck --alias > "${ZDOTDIR:?}/cache/thefuck"
 fasd --init zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install \
     > "${ZDOTDIR:?}/cache/fasd"
 

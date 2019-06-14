@@ -122,6 +122,12 @@ source "$ZDOTDIR/plugins/plugins-after-compinit.zsh"
 source "$ZDOTDIR/cache/fasd"
 
 #######################################
+# thefuck
+#######################################
+
+source "$ZDOTDIR/cache/thefuck"
+
+#######################################
 # zsh-autopair
 #######################################
 

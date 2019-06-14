@@ -30,6 +30,11 @@ dotfiles:
     upignore:
     - data
     - cache
+  d_thefuck:
+    src: config/thefuck
+    dst: ~/.config/thefuck
+    upignore:
+    - '*.pyc'
   d_zsh:
     dst: ~/.zsh
     src: zsh
@@ -62,33 +67,27 @@ profiles:
     - f_bash_profile
     - f_bashrc
     include:
-    - shell
     - sh
     actions:
     - bash
   sh:
     dotfiles:
-    - f_profile
     - d_sh
-    include:
-    - shell
+    - d_thefuck
+    - f_dotdirs
+    - f_profile
     actions:
     - sh
   shell:
-    dotfiles:
-    - f_dotdirs
-  shell-all:
     include:
-    - shell
     - sh
     - bash
     - zsh
   zsh:
     dotfiles:
-    - f_zshenv
     - d_zsh
+    - f_zshenv
     include:
-    - shell
     - sh
     actions:
     - zsh

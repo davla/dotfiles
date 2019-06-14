@@ -279,7 +279,7 @@ say() {
 }
 
 #######################################
-# Script
+# Intro
 #######################################
 
 trap goodbye INT TERM
@@ -289,6 +289,10 @@ I'll guide you step-by-step through your system setup. I'll prompt you before \
 each step, copy configuration files, execute commands, and report you output \
 and errors when they occur.
 Good luck, and let's hope it all goes well!"
+
+#######################################
+# Steps
+#######################################
 
 # Dotdrop setup - first as anything else depends on it.
 prompt 'set dotdrop up' 'sh scripts/dotdrop.sh ./dotfiles' 'dotdrop setup'
@@ -308,12 +312,20 @@ prompt 'install packages' 'sudo sh scripts/packages.sh' \
 prompt 'set up (ana)cron jobs' 'dotdrop --user both install -p cron' \
     'setting up (ana)cron jobs'
 
-# Startup files
+# Startup jobs
 prompt 'set up startup jobs' 'dotdrop --user both install -p startup' \
     'setting up startup jobs'
 
 # Asdf
 prompt 'install asdf' 'sudo bash -l scripts/asdf.sh' 'asdf installation'
+
+# Apps
+prompt 'install application configurations' 'dotdrop install -p apps' \
+    'application configurations installation'
+
+#######################################
+# Outro
+#######################################
 
 say -t "$PROMPT_FACE" "System setup completed!
 It's been a pleasure working with you, and I hope everything went fine.

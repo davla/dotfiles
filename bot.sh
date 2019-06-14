@@ -316,6 +316,10 @@ prompt 'set up (ana)cron jobs' 'dotdrop --user both install -p cron' \
 prompt 'set up startup jobs' 'dotdrop --user both install -p startup' \
     'setting up startup jobs'
 
+# PolicyKit
+prompt 'configure PolicyKit' 'sudo -E dotdrop install -p polkit' \
+    'configuring PolicyKit'
+
 # Graphical login manager
 prompt 'install a graphical login manager' \
     'sudo sh scripts/graphical-login.sh' 'installing a graphical login manager'

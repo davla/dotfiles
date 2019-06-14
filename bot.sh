@@ -10,6 +10,8 @@
 #   - $1: The terminal width, used when wrapping the bot's messages. Defaults
 #         to $COLUMNS and then to 80.
 
+. ./.env
+
 #######################################
 # Input processing
 #######################################
@@ -303,8 +305,12 @@ prompt 'install packages' 'sudo sh scripts/packages.sh' \
     'packages installation'
 
 # Cron & anacron jobs
-prompt 'set up your (ana)cron jobs' 'dotdrop --user both install -p cron' \
-    'setting up your (ana)cron jobs'
+prompt 'set up (ana)cron jobs' 'dotdrop --user both install -p cron' \
+    'setting up (ana)cron jobs'
+
+# Startup files
+prompt 'set up startup jobs' 'dotdrop --user both install -p startup' \
+    'setting up startup jobs'
 
 # Asdf
 prompt 'install asdf' 'sudo bash -l scripts/asdf.sh' 'asdf installation'

@@ -2,6 +2,8 @@
 
 # This script installs packages not related to anything else on th system
 
+. ./.env
+
 #######################################
 # Repositories dotfiles
 #######################################

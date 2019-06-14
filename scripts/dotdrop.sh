@@ -1,5 +1,9 @@
 #!/usr/bin/env sh
 
+# This script installs dotdrop dependencies
+
+. ./.env
+
 #######################################
 # Input processing
 #######################################

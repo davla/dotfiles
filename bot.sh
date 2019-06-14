@@ -10,8 +10,6 @@
 #   - $1: The terminal width, used when wrapping the bot's messages. Defaults
 #         to $COLUMNS and then to 80.
 
-. ./.env
-
 #######################################
 # Input processing
 #######################################
@@ -291,8 +289,7 @@ and errors when they occur.
 Good luck, and let's hope it all goes well!"
 
 # Dotdrop setup - first as anything else depends on it.
-prompt 'set dotdrop up' 'sh scripts/dotdrop.sh ./dotfiles' \
-    'dotdrop setup'
+prompt 'set dotdrop up' 'sh scripts/dotdrop.sh ./dotfiles' 'dotdrop setup'
 
 # Custom commands - they are used by other scripts.
 prompt 'install your custom commands' 'sudo sh custom-commands/install.sh' \
@@ -302,7 +299,7 @@ prompt 'install your custom commands' 'sudo sh custom-commands/install.sh' \
 prompt 'initialize the shells' 'sh scripts/shell.sh' 'shells initialization'
 
 # Packages installation
-prompt 'install packages' 'sudo -E sh scripts/packages.sh' \
+prompt 'install packages' 'sudo sh scripts/packages.sh' \
     'packages installation'
 
 # Asdf

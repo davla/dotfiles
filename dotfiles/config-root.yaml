@@ -1,6 +1,4 @@
 actions:
-  pre:
-    asdf: bash ./actions/asdf.sh
   post:
     repo-keys: sh ./actions/repo-keys.sh
 config:
@@ -23,8 +21,6 @@ dotfiles:
   d_asdf:
     dst: '{{@@ asdf_config_path @@}}'
     src: asdf
-    actions:
-    - asdf
   d_sources.list.d:
     dst: /etc/apt/sources.list.d
     src: etc/apt/sources.list.d

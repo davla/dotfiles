@@ -2,7 +2,6 @@ actions:
   pre:
     asdf: bash ./actions/asdf.sh
   post:
-    asdf-langs: bash ./actions/lang-versions.sh
     packages: sh ./actions/packages.sh
 config:
   backup: false
@@ -26,7 +25,6 @@ dotfiles:
     src: asdf
     actions:
     - asdf
-    - asdf-langs
   d_sources.list.d:
     dst: /etc/apt/sources.list.d
     src: etc/apt/sources.list.d

@@ -81,14 +81,17 @@ profiles:
   davide-debian:
     dotfiles:
     - f_99-no-wireless-on-wired
-    - f_lightdm.conf.d_02_custom.conf
-    - f_lightdm-gtk-greeter.conf.d_02_custom.conf
     include:
     - git
+    - graphical-login
     - shell
     - packages
     - polkit
     - startup
+  graphical-login:
+    dotfiles:
+    - f_lightdm.conf.d_02_custom.conf
+    - f_lightdm-gtk-greeter.conf.d_02_custom.conf
   packages:
     dotfiles:
     - d_sources.list.d

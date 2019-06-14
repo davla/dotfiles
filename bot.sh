@@ -302,6 +302,10 @@ prompt 'initialize the shells' 'sh scripts/shell.sh' 'shells initialization'
 prompt 'install packages' 'sudo sh scripts/packages.sh' \
     'packages installation'
 
+# Cron & anacron jobs
+prompt 'set up your (ana)cron jobs' 'dotdrop --user both install -p cron' \
+    'setting up your (ana)cron jobs'
+
 # Asdf
 prompt 'install asdf' 'sudo bash -l scripts/asdf.sh' 'asdf installation'
 

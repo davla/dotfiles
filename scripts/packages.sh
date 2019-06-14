@@ -106,15 +106,14 @@ apt-get install firmware-realtek firmware-iwlwifi
 
 # GUI applications
 apt-get install aisleriot asunder atom baobab blueman brasero calibre \
-    camorama catfish dropbox enpass balena-etcher-electron evince \
+    camorama catfish dropbox enpass balena-etcher-electron evince firefox \
     galculator gdebi geany gimp gnome-mines gnome-sudoku gparted gufw \
     handbrake-gtk libreoffice-calc libreoffice-impress libreoffice-writer \
-    lightdm lightdm-gtk-greeter-settings gnome-mahjongg hardinfo kid3 \
-    network-manager-gnome parcellite pavucontrol quadrapassel \
-    recordmydesktop gtk-recordmydesktop remmina seahorse simple-scan \
-    slack-desktop skypeforlinux solaar soundconverter spotify-client \
-    synaptic system-config-printer thunderbird transmission-gtk tuxguitar \
-    viewnior virtualbox visualboyadvance vlc
+    gnome-mahjongg hardinfo kid3 network-manager-gnome parcellite pavucontrol \
+    quadrapassel recordmydesktop gtk-recordmydesktop remmina seahorse \
+    simple-scan slack-desktop skypeforlinux solaar soundconverter \
+    spotify-client synaptic system-config-printer thunderbird \
+    transmission-gtk tuxguitar viewnior virtualbox visualboyadvance vlc
 [ $? -ne 0 ] && exit
 
 # CLI applications
@@ -123,7 +122,7 @@ apt-get install apng2gif autoconf automake build-essential cabal-install \
     flashplayer-mozilla fonts-freefont-otf fortune g++ ghc gifsicle git \
     git-review gvfs-backends handbrake-cli heroku hlint hunspell \
     hunspell-en-us hunspell-it hub imagemagick intel-microcode jq lame \
-    libghc-hspec-dev libgit2-dev libgnome-keyring-dev lightdm-gtk-greeter \
+    libghc-hspec-dev libgit2-dev libgnome-keyring-dev  \
     lua5.1 lua-check make mercurial moreutils nfs-common nyancat \
     p7zip pycodestyle python-requests-futures python-pip python-setuptools \
     python3-gdbm python3-lxml python3-pygments python3-requests \

@@ -1,9 +1,6 @@
 actions:
-  pre:
-    asdf: bash ./actions/asdf.sh
   post:
-    asdf-langs: bash ./actions/lang-versions.sh
-    packages: sh ./actions/packages.sh
+    repo-keys: sh ./actions/repo-keys.sh
 config:
   backup: false
   banner: true
@@ -24,9 +21,6 @@ dotfiles:
   d_asdf:
     dst: '{{@@ asdf_config_path @@}}'
     src: asdf
-    actions:
-    - asdf
-    - asdf-langs
   d_sources.list.d:
     dst: /etc/apt/sources.list.d
     src: etc/apt/sources.list.d
@@ -44,6 +38,12 @@ dotfiles:
     actions:
       - strip '{{@@ anacrontab_custom_marker @@}}' '{{@@ anacrontab_dst @@}}'
       - append '{{@@ anacrontab_dst @@}}' '{{@@ anacrontab_tmp_dst @@}}'
+  f_hosts:
+    dst: '{{@@ hosts_tmp_dst @@}}'
+    src: etc/hosts
+    actions:
+      - strip '{{@@ hosts_append_marker @@}}' '{{@@ hosts_dst @@}}'
+      - append '{{@@ hosts_dst @@}}' '{{@@ hosts_tmp_dst @@}}'
   f_lightdm-gtk-greeter.conf.d_02_custom.conf:
     dst: /usr/share/lightdm/lightdm-gtk-greeter.conf.d/02_custom.conf
     src: usr/share/lightdm/lightdm-gtk-greeter.conf.d/02_custom.conf
@@ -68,6 +68,7 @@ dotfiles:
 dynvariables:
   asdf_config_path: echo "$ASDF_CONFIG_PATH"
   anacrontab_tmp_dst: mktemp /tmp/anacrontab-append.XXX
+  hosts_tmp_dst: mktemp /tmp/hosts-append.XXX
 profiles:
   asdf:
     dotfiles:
@@ -81,26 +82,38 @@ profiles:
       anacrontab_custom_marker: '# Custom jobs'
       anacrontab_dst: /etc/anacrontab
   davide-debian:
-    dotfiles:
-    - f_99-no-wireless-on-wired
-    - f_lightdm.conf.d_02_custom.conf
-    - f_lightdm-gtk-greeter.conf.d_02_custom.conf
-    - f_underclock.service
     include:
     - git
+    - graphical-login
     - shell
+    - network
     - packages
     - polkit
+    - startup
+  graphical-login:
+    dotfiles:
+    - f_lightdm.conf.d_02_custom.conf
+    - f_lightdm-gtk-greeter.conf.d_02_custom.conf
+  network:
+    dotfiles:
+    - f_99-no-wireless-on-wired
+    - f_hosts
+    variables:
+      hosts_append_marker: '# Local sites'
+      hosts_dst: /etc/hosts
   packages:
     dotfiles:
     - d_sources.list.d
     - f_sources.list
     actions:
-    - packages
+    - repo-keys
   polkit:
     dotfiles:
     - f_60-root.conf
     - f_org.xfce.xfce4-terminal.policy
+  startup:
+    dotfiles:
+    - f_underclock.service
 variables:
   mr_default_dir: /opt
   user: root

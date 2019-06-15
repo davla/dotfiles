@@ -52,7 +52,6 @@ clean() {
     apt-get purge -y minissdpd
     apt-get purge -y mutt
     apt-get purge -y nautilus
-    apt-get purge -y xfce4-notes
     apt-get purge -y oracle-java6-installer
     apt-get purge -y oracle-java6-set-default
     apt-get purge -y xfce4-notes
@@ -135,12 +134,6 @@ apt-get install apng2gif autoconf automake build-essential cabal-install \
 apt-get install --no-install-recommends yarn
 [ $? -ne 0 ] && exit
 
-# Xfce plugins
-apt-get install xfce4-battery-plugin xfce4-cpugraph-plugin xfce4-eyes-plugin \
-    xfce4-mailwatch-plugin xfce4-power-manager xfce4-screenshooter \
-    xfce4-sensors-plugin xfce4-taskmanager xfce4-terminal
-[ $? -ne 0 ] && exit
-
 #######################################
 # Clean & upgrade
 #######################################
@@ -164,6 +157,3 @@ ln -s /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-k
 make -C /usr/share/doc/git/contrib/credential/gnome-keyring
 sed -r -i 's/OnlyShowIn=/OnlyShowIn=XFCE;/' \
     /etc/xdg/autostart/gnome-keyring-pkcs11.desktop
-
-# Sensor plugin
-chmod u+s /usr/sbin/hddtemp

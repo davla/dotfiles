@@ -324,16 +324,19 @@ prompt 'configure PolicyKit' 'sudo -E dotdrop install -p polkit' \
 prompt 'set up network tricks' 'sudo sh scripts/network.sh' \
     'setting up network tricks'
 
+# Asdf
+prompt 'install asdf' 'sudo bash -l scripts/asdf.sh' 'asdf installation'
+
 # Graphical login manager
 prompt 'install a graphical login manager' \
     'sudo sh scripts/graphical-login.sh' 'installing a graphical login manager'
 
+# Xfce
+prompt 'install Xfce' 'sh scripts/xfce.sh' 'installing Xfce'
+
 # Git
 prompt 'set up git configuration' 'dotdrop --user both install -p git' \
     'setting up git configuration'
-
-# Asdf
-prompt 'install asdf' 'sudo bash -l scripts/asdf.sh' 'asdf installation'
 
 # Apps
 prompt 'install application configurations' 'dotdrop install -p apps' \

@@ -313,8 +313,7 @@ prompt 'set up (ana)cron jobs' 'dotdrop --user both install -p cron' \
     'setting up (ana)cron jobs'
 
 # Startup jobs
-prompt 'set up startup jobs' 'dotdrop --user both install -p startup' \
-    'setting up startup jobs'
+prompt 'set up startup jobs' 'sh scripts/startup.sh' 'setting up startup jobs'
 
 # PolicyKit
 prompt 'configure PolicyKit' 'sudo -E dotdrop install -p polkit' \

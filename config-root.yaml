@@ -38,6 +38,9 @@ dotfiles:
     actions:
       - strip '{{@@ anacrontab_custom_marker @@}}' '{{@@ anacrontab_dst @@}}'
       - append '{{@@ anacrontab_dst @@}}' '{{@@ anacrontab_tmp_dst @@}}'
+  f_frequent-hosts:
+    src: usr/local/etc/frequent-hosts
+    dst: /usr/local/etc/frequent-hosts
   f_hosts:
     dst: '{{@@ hosts_tmp_dst @@}}'
     src: etc/hosts
@@ -97,6 +100,7 @@ profiles:
   network:
     dotfiles:
     - f_99-no-wireless-on-wired
+    - f_frequent-hosts
     - f_hosts
     variables:
       hosts_append_marker: '# Local sites'

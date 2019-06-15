@@ -58,6 +58,10 @@ dotfiles:
   d_xfce4:
     dst: ~/.config/xfce4
     src: config/xfce4
+    upignore:
+    - desktop
+    - xfce4-screenshooter
+    - xfwm4
   f_anacrontab:
     src: cron/anacrontab
     dst: ~/.anacron/anacrontab
@@ -80,6 +84,14 @@ dotfiles:
     dst: ~/.xsessionrc
     src: xsessionrc
 profiles:
+  apps:
+    dotfiles:
+    - d_atom
+    - d_calibre
+    - d_geany
+    - d_orage
+    - d_parcellite
+    - d_virtualbox
   cron:
     dotfiles:
     - f_anacrontab
@@ -91,18 +103,9 @@ profiles:
       tmp_dst: mktemp /tmp/cron-tmp.XXX
     actions:
     - anacron
-  apps:
-    dotfiles:
-    - d_atom
-    - d_calibre
-    - d_geany
-    - d_orage
-    - d_parcellite
-    - d_virtualbox
   davide-debian:
     dotfiles:
     - d_docker
-    - d_gtk3
     - f_ghci
     - f_hgrc
     include:
@@ -113,19 +116,17 @@ profiles:
     - shell
     - startup
     - xfce
-  menu:
-    dotfiles:
-    - d_desktop-directories
-    - f_xfce-applications.menu
   startup:
     dotfiles:
     - d_autostart
     - f_xsessionrc
   xfce:
     dotfiles:
+    - d_desktop-directories
+    - d_gtk3
     - d_thunar
     - d_xfce4
-
+    - f_xfce-applications.menu
 variables:
   mr_default_dir: $HOME
   user: user

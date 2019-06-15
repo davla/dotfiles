@@ -209,7 +209,12 @@ class CfgYaml:
 
         # exec dynvariables
         for k in dvar.keys():
-            allvars[k] = shell(allvars[k])
+            ret, out = shell(allvars[k])
+            if not ret:
+                err = 'command \"{}\" failed: {}'.format(allvars[k], out)
+                self.log.error(err)
+                raise YamlException(err)
+            allvars[k] = out
 
         if self.debug:
             self.log.dbg('variables:')
@@ -802,7 +807,9 @@ class CfgYaml:
     def _yaml_load(self, path):
         """load from yaml"""
         with open(path, 'r') as f:
-            content = yaml(typ='safe').load(f)
+            y = yaml()
+            y.typ = 'rt'
+            content = y.load(f)
         return content
 
     def _yaml_dump(self, content, path):
@@ -811,5 +818,5 @@ class CfgYaml:
             y = yaml()
             y.default_flow_style = False
             y.indent = 2
-            y.typ = 'safe'
+            y.typ = 'rt'
             y.dump(content, f)

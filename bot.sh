@@ -320,6 +320,10 @@ prompt 'set up startup jobs' 'dotdrop --user both install -p startup' \
 prompt 'configure PolicyKit' 'sudo -E dotdrop install -p polkit' \
     'configuring PolicyKit'
 
+# Network
+prompt 'set up network tricks' 'sudo sh scripts/network.sh' \
+    'setting up network tricks'
+
 # Graphical login manager
 prompt 'install a graphical login manager' \
     'sudo sh scripts/graphical-login.sh' 'installing a graphical login manager'

@@ -109,11 +109,11 @@ apt-get install aisleriot asunder atom baobab blueman brasero calibre \
     camorama catfish dropbox enpass balena-etcher-electron evince firefox \
     galculator gdebi geany gimp gnome-mines gnome-sudoku gparted gufw \
     handbrake-gtk libreoffice-calc libreoffice-impress libreoffice-writer \
-    gnome-mahjongg hardinfo kid3 network-manager-gnome parcellite pavucontrol \
-    quadrapassel recordmydesktop gtk-recordmydesktop remmina seahorse \
-    simple-scan slack-desktop skypeforlinux solaar soundconverter \
-    spotify-client synaptic system-config-printer thunderbird \
-    transmission-gtk tuxguitar viewnior virtualbox visualboyadvance vlc
+    gnome-mahjongg hardinfo kid3 parcellite pavucontrol quadrapassel \
+    recordmydesktop gtk-recordmydesktop remmina seahorse simple-scan \
+    slack-desktop skypeforlinux solaar soundconverter spotify-client synaptic \
+    system-config-printer thunderbird transmission-gtk tuxguitar viewnior \
+    virtualbox visualboyadvance vlc
 [ $? -ne 0 ] && exit
 
 # CLI applications

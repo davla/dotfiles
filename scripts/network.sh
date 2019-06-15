@@ -1,68 +1,29 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-# This script makes some additional networking setup. In particular, it adds
-# some local and remote hosts IP in /etc/host and it installs a script to
-# disable Wi-Fi when cabled connections are active.
+# This script sets up networking. It installs the network manager, a script
+# to disable Wi-Fi when cabled connection is available and it adds frequently
+# visited hosts IPs to /etc/hosts
 
-#####################################################
-#
-#                   Variables
-#
-#####################################################
+. ./.env
 
-# Path of this script's parent directory
-PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
-LIB_DIR="$PARENT_DIR/lib"
+#######################################
+# Installing the network manager
+#######################################
 
-#####################################################
-#
-#                   Privileges
-#
-#####################################################
+apt-get install network-manager-gnome
 
-# Checking for root privileges: if don't have them, recalling this script with
-# sudo
-if [[ $EUID -ne 0 ]]; then
-    echo 'This script needs to be run as root'
-    sudo bash "${BASH_SOURCE[0]}" "$@"
-    exit 0
-fi
+#######################################
+# Installing dotfiles
+#######################################
 
-#####################################################
-#
-#                   Local hosts
-#
-#####################################################
+dotdrop install -p network
 
-# Adding local resources and a marker for frequently
-# accessed remote websites
-grep 'memorione' /etc/hosts &> /dev/null || echo -n "
-192.168.1.3     memorione
-192.168.0.11        raspberry
-192.168.0.1		router
+# Setting the right permissions and ownership for Wi-Fi dispatcher scripts
+chown -R 'root:root' /etc/NetworkManager/dispatcher.d/
+chmod -R u+w,ga-w,u-s,+x /etc/NetworkManager/dispatcher.d/
 
-# $REMOTE_RESOURCES_MARKER
-" >> /etc/hosts
-
-#####################################################
-#
-#           Wi-Fi management script
-#
-#####################################################
-
-DISPATCHERS_PATH='/etc/NetworkManager/dispatcher.d'
-
-# Copying the NetworkManager dispatch script to the right location
-cp "$LIB_DIR/network/"* "$DISPATCHERS_PATH"
-
-# Setting the right permissions and ownership for dispatcher scripts
-chown -R 'root:root' "$DISPATCHERS_PATH"
-chmod -R u+w,ga-w,u-s,+x "$DISPATCHERS_PATH"
-
-#####################################################
-#
-#                   Remote hosts
-#
-#####################################################
+#######################################
+# Adding frequently visisted hosts
+#######################################
 
 host-refresh

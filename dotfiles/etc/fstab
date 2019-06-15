@@ -1,0 +1,5 @@
+{{@@ fstab_append_marker @@}}
+
+# {{@@ header() @@}}
+
+raspberry:/ /home/maze/Files/Raspberry nfs users,dev,exec,noauto,rw,suid 0 0

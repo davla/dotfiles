@@ -36,8 +36,14 @@ dotfiles:
     dst: '{{@@ anacrontab_tmp_dst @@}}'
     src: cron/anacrontab
     actions:
-      - strip '{{@@ anacrontab_custom_marker @@}}' '{{@@ anacrontab_dst @@}}'
-      - append '{{@@ anacrontab_dst @@}}' '{{@@ anacrontab_tmp_dst @@}}'
+    - strip '{{@@ anacrontab_custom_marker @@}}' '{{@@ anacrontab_dst @@}}'
+    - append '{{@@ anacrontab_dst @@}}' '{{@@ anacrontab_tmp_dst @@}}'
+  f_fstab:
+    dst: '{{@@ fstab_tmp_dst @@}}'
+    src: etc/fstab
+    actions:
+    - strip '{{@@ fstab_append_marker @@}}' '{{@@ fstab_dst @@}}'
+    - append '{{@@ fstab_dst @@}}' '{{@@ fstab_tmp_dst @@}}'
   f_frequent-hosts:
     src: usr/local/etc/frequent-hosts
     dst: /usr/local/etc/frequent-hosts
@@ -45,8 +51,8 @@ dotfiles:
     dst: '{{@@ hosts_tmp_dst @@}}'
     src: etc/hosts
     actions:
-      - strip '{{@@ hosts_append_marker @@}}' '{{@@ hosts_dst @@}}'
-      - append '{{@@ hosts_dst @@}}' '{{@@ hosts_tmp_dst @@}}'
+    - strip '{{@@ hosts_append_marker @@}}' '{{@@ hosts_dst @@}}'
+    - append '{{@@ hosts_dst @@}}' '{{@@ hosts_tmp_dst @@}}'
   f_lightdm-gtk-greeter.conf.d_02_custom.conf:
     dst: /usr/share/lightdm/lightdm-gtk-greeter.conf.d/02_custom.conf
     src: usr/share/lightdm/lightdm-gtk-greeter.conf.d/02_custom.conf
@@ -68,19 +74,19 @@ dotfiles:
   f_underclock.service:
     dst: /etc/systemd/system/underclock.service
     src: etc/systemd/system/underclock.service
-dynvariables:
-  asdf_config_path: echo "$ASDF_CONFIG_PATH"
-  anacrontab_tmp_dst: mktemp /tmp/anacrontab-append.XXX
-  hosts_tmp_dst: mktemp /tmp/hosts-append.XXX
 profiles:
   asdf:
     dotfiles:
     - d_asdf
+    dynvariables:
+      asdf_config_path: echo "$ASDF_CONFIG_PATH"
   cron:
     dotfiles:
     - f_anacrontab
     - f_logrotate.d_custom.conf
     - f_rsyslog.d_custom.conf
+    dynvariables:
+      anacrontab_tmp_dst: mktemp /tmp/anacrontab-append.XXX
     variables:
       anacrontab_custom_marker: '# Custom jobs'
       anacrontab_dst: /etc/anacrontab
@@ -102,6 +108,8 @@ profiles:
     - f_99-no-wireless-on-wired
     - f_frequent-hosts
     - f_hosts
+    dynvariables:
+      hosts_tmp_dst: mktemp /tmp/hosts-append.XXX
     variables:
       hosts_append_marker: '# Local sites'
       hosts_dst: /etc/hosts
@@ -117,7 +125,13 @@ profiles:
     - f_org.xfce.xfce4-terminal.policy
   startup:
     dotfiles:
+    - f_fstab
     - f_underclock.service
+    dynvariables:
+      fstab_tmp_dst: mktemp /tmp/fstab-append.XXX
+    variables:
+      fstab_append_marker: '# Custom mount points'
+      fstab_dst: /etc/fstab
 variables:
   mr_default_dir: /opt
   user: root

@@ -4,4 +4,5 @@ System initial setup
 ## Roadmap
 - Ease log opening
 - Allow the bot to execute a specific script
-- Xfce + i3 + sway
+- i3 + sway in bot
+- dotdrop permissions for network manager dispatchers

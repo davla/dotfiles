@@ -62,6 +62,9 @@ dotfiles:
   f_lightdm.conf.d_02_custom.conf:
     dst: /usr/share/lightdm/lightdm.conf.d/02_custom.conf
     src: usr/share/lightdm/lightdm.conf.d/02_custom.conf
+  f_locale:
+    src: etc/default/locale
+    dst: /etc/default/locale
   f_logrotate.d_custom.conf:
     dst: /etc/logrotate.d/custom.conf
     src: etc/logrotate.d/custom.conf
@@ -74,6 +77,9 @@ dotfiles:
   f_sources.list:
     dst: /etc/apt/sources.list
     src: etc/apt/sources.list
+  f_timezone:
+    src: etc/timezone
+    dst: /etc/timezone
   f_underclock.service:
     dst: /etc/systemd/system/underclock.service
     src: etc/systemd/system/underclock.service
@@ -107,6 +113,10 @@ profiles:
     dotfiles:
     - f_lightdm.conf.d_02_custom.conf
     - f_lightdm-gtk-greeter.conf.d_02_custom.conf
+  locale:
+    dotfiles:
+    - f_locale
+    - f_timezone
   network:
     dotfiles:
     - f_99-no-wireless-on-wired

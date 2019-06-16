@@ -1,5 +1,6 @@
 actions:
   post:
+    locales: sh ./actions/locales.sh
     repo-keys: sh ./actions/repo-keys.sh
 config:
   backup: false
@@ -113,10 +114,12 @@ profiles:
     dotfiles:
     - f_lightdm.conf.d_02_custom.conf
     - f_lightdm-gtk-greeter.conf.d_02_custom.conf
-  locale:
+  locales:
     dotfiles:
     - f_locale
     - f_timezone
+    actions:
+    - locales
   network:
     dotfiles:
     - f_99-no-wireless-on-wired

@@ -11,7 +11,7 @@ PATH=/usr/local/bin:/bin:/usr/bin
 
 {%@@- elif user == 'root' @@%}
 
-{{@@ anacrontab_custom_marker @@}}
+# {{@@ anacrontab_append_marker @@}}
 #
 # {{@@ header() @@}}
 

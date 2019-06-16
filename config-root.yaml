@@ -40,7 +40,7 @@ dotfiles:
     dst: '{{@@ anacrontab_tmp_dst @@}}'
     src: cron/anacrontab
     actions:
-    - strip '{{@@ anacrontab_custom_marker @@}}' '{{@@ anacrontab_dst @@}}'
+    - strip '{{@@ anacrontab_append_marker @@}}' '{{@@ anacrontab_dst @@}}'
     - append '{{@@ anacrontab_dst @@}}' '{{@@ anacrontab_tmp_dst @@}}'
   f_fstab:
     dst: '{{@@ fstab_tmp_dst @@}}'
@@ -114,7 +114,7 @@ profiles:
     dynvariables:
       anacrontab_tmp_dst: mktemp /tmp/anacrontab-append.XXX
     variables:
-      anacrontab_custom_marker: '# Custom jobs'
+      anacrontab_append_marker: 'Custom jobs'
       anacrontab_dst: /etc/anacrontab
   davide-debian:
     include:
@@ -143,7 +143,7 @@ profiles:
     dynvariables:
       hosts_tmp_dst: mktemp /tmp/hosts-append.XXX
     variables:
-      hosts_append_marker: '# Local sites'
+      hosts_append_marker: 'Local sites'
       hosts_dst: /etc/hosts
   packages:
     dotfiles:
@@ -162,7 +162,7 @@ profiles:
     dynvariables:
       fstab_tmp_dst: mktemp /tmp/fstab-append.XXX
     variables:
-      fstab_append_marker: '# Custom mount points'
+      fstab_append_marker: 'Custom mount points'
       fstab_dst: /etc/fstab
   xkb:
     dotfiles:

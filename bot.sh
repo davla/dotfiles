@@ -304,24 +304,28 @@ prompt 'install your custom commands' 'sudo sh custom-commands/install.sh' \
 # Shells initialization - so that env vars can be used by other scripts.
 prompt 'initialize the shells' 'sh scripts/shell.sh' 'shells initialization'
 
-# Packages installation - they make commands available for other scriots.
+# Packages installation - they make commands available for other scripts.
 prompt 'install packages' 'sudo sh scripts/packages.sh' \
     'packages installation'
+
+# Locales
+prompt 'configure locales' 'dotdrop --user root install -p locales' \
+    'configuring locales'
+
+# Network
+prompt 'set up network tricks' 'sudo sh scripts/network.sh' \
+    'setting up network tricks'
+
+# Startup jobs
+prompt 'set up startup jobs' 'sh scripts/startup.sh' 'setting up startup jobs'
 
 # Cron & anacron jobs
 prompt 'set up (ana)cron jobs' 'dotdrop --user both install -p cron' \
     'setting up (ana)cron jobs'
 
-# Startup jobs
-prompt 'set up startup jobs' 'sh scripts/startup.sh' 'setting up startup jobs'
-
 # PolicyKit
 prompt 'configure PolicyKit' 'sudo -E dotdrop install -p polkit' \
     'configuring PolicyKit'
-
-# Network
-prompt 'set up network tricks' 'sudo sh scripts/network.sh' \
-    'setting up network tricks'
 
 # Asdf
 prompt 'install asdf' 'sudo bash -l scripts/asdf.sh' 'asdf installation'

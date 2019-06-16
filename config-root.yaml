@@ -84,6 +84,21 @@ dotfiles:
   f_underclock.service:
     dst: /etc/systemd/system/underclock.service
     src: etc/systemd/system/underclock.service
+  f_keyboard:
+    src: etc/default/keyboard
+    dst: /etc/default/keyboard
+  f_base.lst:
+    src: usr/share/X11/xkb/rules/base.lst
+    dst: /usr/share/X11/xkb/rules/base.lst
+  f_base.xml:
+    src: usr/share/X11/xkb/rules/base.xml
+    dst: /usr/share/X11/xkb/rules/base.xml
+  f_us:
+    src: usr/share/X11/xkb/symbols/us
+    dst: '{{@@ xkb_tmp_dst @@}}'
+    actions:
+    - strip '{{@@ symbols_append_marker @@}}' '{{@@ symbols_dst @@}}'
+    - append '{{@@ symbols_dst @@}}' '{{@@ xkb_tmp_dst @@}}'
 profiles:
   asdf:
     dotfiles:
@@ -149,6 +164,17 @@ profiles:
     variables:
       fstab_append_marker: '# Custom mount points'
       fstab_dst: /etc/fstab
+  xkb:
+    dotfiles:
+    # - f_base.lst
+    # - f_base.xml
+    - f_keyboard
+    - f_us
+    dynvariables:
+      xkb_tmp_dst: mktemp /tmp/xkb-dotfiles.XXX
+    variables:
+      symbols_append_marker: 'Custom layout symbols'
+      symbols_dst: /usr/share/X11/xkb/symbols/us
 variables:
   mr_default_dir: /opt
   user: root

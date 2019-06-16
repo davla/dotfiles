@@ -32,6 +32,9 @@ dotfiles:
   f_99-no-wireless-on-wired:
     dst: /etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
     src: etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
+  f_anacron:
+    src: etc/default/anacron
+    dst: /etc/default/anacron
   f_anacrontab:
     dst: '{{@@ anacrontab_tmp_dst @@}}'
     src: cron/anacrontab
@@ -82,6 +85,7 @@ profiles:
       asdf_config_path: echo "$ASDF_CONFIG_PATH"
   cron:
     dotfiles:
+    - f_anacron
     - f_anacrontab
     - f_logrotate.d_custom.conf
     - f_rsyslog.d_custom.conf

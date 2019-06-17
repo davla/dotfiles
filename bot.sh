@@ -312,6 +312,10 @@ prompt 'install packages' 'sudo sh scripts/packages.sh' \
 prompt 'configure locales' 'dotdrop --user root install -p locales' \
     'configuring locales'
 
+# Keyboard
+prompt 'add keyboard layouts' 'dotdrop --user root install -p xkb' \
+    'adding keyboard layouts'
+
 # Network
 prompt 'set up network tricks' 'sudo sh scripts/network.sh' \
     'setting up network tricks'

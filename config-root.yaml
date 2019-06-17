@@ -2,6 +2,7 @@ actions:
   post:
     locales: sh ./actions/locales.sh
     repo-keys: sh ./actions/repo-keys.sh
+    xkb: sh ./actions/xkb.sh
 config:
   backup: false
   banner: true
@@ -196,6 +197,7 @@ profiles:
       symbols_append_marker: 'Custom layout symbols'
       symbols_dst: /usr/share/X11/xkb/symbols/us
     actions:
+    - xkb
     - rm '{{@@ xkb_tmp_dst @@}}'
 variables:
   mr_default_dir: /opt

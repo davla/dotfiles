@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # author: deadc0de6 (https://github.com/deadc0de6)
-# Copyright (c) 2019, deadc0de6
+# Copyright (c) 2017, deadc0de6
 #
-# test external actions
+# test action template execution
 # returns 1 in case of error
 #
 
@@ -53,67 +53,64 @@ mkdir -p ${tmps}/dotfiles
 # the dotfile destination
 tmpd=`mktemp -d --suffix='-dotdrop-tests'`
 
-act="${tmps}/actions.yaml"
-cat > ${act} << _EOF
-actions:
-  pre:
-    preaction: echo 'pre' > ${tmpa}/pre
-  post:
-    postaction: echo 'post' > ${tmpa}/post
-  nakedaction: echo 'naked' > ${tmpa}/naked
-  overwrite: echo 'over' > ${tmpa}/write
-_EOF
-
 # create the config file
 cfg="${tmps}/config.yaml"
 
 cat > ${cfg} << _EOF
+actions:
+  pre:
+    preaction: "echo {0} > {1}"
+  post:
+    postaction: "echo {0} > ${tmpa}/post"
+  nakedaction: "echo {0} > ${tmpa}/naked"
+  profileaction: "echo {0} > ${tmpa}/profile"
+  dynaction: "echo {0} > ${tmpa}/dyn"
 config:
   backup: true
   create: true
   dotpath: dotfiles
-  import_actions:
-  - ${tmps}/actions.yaml
-actions:
-  overwrite: echo 'write' > ${tmpa}/write
+  default_actions:
+  - preaction '{{@@ var_pre @@}}' "${tmpa}/pre"
+  - postaction '{{@@ var_post @@}}'
+  - nakedaction '{{@@ var_naked @@}}'
 dotfiles:
   f_abc:
     dst: ${tmpd}/abc
     src: abc
-    actions:
-      - preaction
-      - postaction
-      - nakedaction
-      - overwrite
 profiles:
   p1:
     dotfiles:
     - f_abc
+    actions:
+    - profileaction '{{@@ var_profile @@}}'
+    - dynaction '{{@@ user_name @@}}'
+variables:
+  var_pre: var_pre
+  var_post: var_post
+  var_naked: var_naked
+  var_profile: var_profile
+dynvariables:
+  user_name: 'echo $USER'
 _EOF
 #cat ${cfg}
 
 # create the dotfile
-echo "test" > ${tmps}/dotfiles/abc
+echo 'test' > ${tmps}/dotfiles/abc
 
 # install
 cd ${ddpath} | ${bin} install -f -c ${cfg} -p p1 -V
 
-# checks
-[ ! -e ${tmpa}/pre ] && exit 1
-grep pre ${tmpa}/pre >/dev/null
-echo "pre is ok"
-
-[ ! -e ${tmpa}/post ] && exit 1
-grep post ${tmpa}/post >/dev/null
-echo "post is ok"
-
-[ ! -e ${tmpa}/naked ] && exit 1
-grep naked ${tmpa}/naked >/dev/null
-echo "naked is ok"
-
-[ ! -e ${tmpa}/write ] && exit 1
-grep over ${tmpa}/write >/dev/null
-echo "write is ok"
+# checks action
+[ ! -e ${tmpa}/pre ] && echo 'pre action not executed' && exit 1
+[ ! -e ${tmpa}/post ] && echo 'post action not executed' && exit 1
+[ ! -e ${tmpa}/naked ] && echo 'naked action not executed'  && exit 1
+[ ! -e ${tmpa}/profile ] && echo 'profile action not executed'  && exit 1
+[ ! -e ${tmpa}/dyn ] && echo 'dynamic acton action not executed'  && exit 1
+grep var_pre ${tmpa}/pre >/dev/null
+grep var_post ${tmpa}/post >/dev/null
+grep var_naked ${tmpa}/naked >/dev/null
+grep var_profile ${tmpa}/profile >/dev/null
+grep "$USER" ${tmpa}/dyn >/dev/null
 
 ## CLEANING
 rm -rf ${tmps} ${tmpd} ${tmpa}

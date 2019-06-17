@@ -1,6 +1,6 @@
         <variant>
           <configItem>
             <name>intl-custom</name>
-              <description>English (US, intl., with dead keys, custom)</description>
+            <description>English (US, intl., with dead keys, custom)</description>
           </configItem>
         </variant>

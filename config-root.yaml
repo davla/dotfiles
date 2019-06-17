@@ -102,11 +102,9 @@ dotfiles:
     src: usr/share/X11/xkb/rules/base.xml
     dst: '{{@@ xkb_tmp_dst @@}}'
     actions:
+    - strip_xml '{{@@ base_xml_strip_xpath @@}}' '{{@@ base_xml_dst @@}}'
     - >-
-      strip_range '{{@@ base_xml_range_start @@}}'
-        '{{@@ base_xml_range_end @@}}' '{{@@ base_xml_dst @@}}'
-    - >-
-      insert_match '{{@@ base_xml_range_start @@}}' '{{@@ xkb_tmp_dst @@}}'
+      insert_xml '{{@@ base_xml_insert_xpath @@}}' '{{@@ xkb_tmp_dst @@}}'
         '{{@@ base_xml_dst @@}}'
   f_us:
     src: usr/share/X11/xkb/symbols/us
@@ -182,17 +180,18 @@ profiles:
   xkb:
     dotfiles:
     - f_base.lst
-    # - f_base.xml
+    - f_base.xml
     - f_keyboard
     - f_us
     dynvariables:
       xkb_tmp_dst: mktemp /tmp/xkb-dotfiles.XXX
     variables:
-      base_lst_range_start: ^\s*\sintl\s\s*us
-      base_lst_range_end: ^\s*\salt-intl\s\s*us
+      base_lst_range_start: '^\s*\sintl\s\s*us'
+      base_lst_range_end: '^\s*\salt-intl\s\s*us'
       base_lst_dst: /usr/share/X11/xkb/rules/base.lst
-      base_xml_range_start: ^\s*\sintl\s\s*us
-      base_xml_range_end: ^\s*\salt-intl\s\s*us
+      base_xml_strip_xpath: ".//*[name='intl-custom'].."
+      base_xml_insert_xpath: >
+        .//*[description='English (US, intl., with dead keys)']..
       base_xml_dst: /usr/share/X11/xkb/rules/base.xml
       symbols_append_marker: 'Custom layout symbols'
       symbols_dst: /usr/share/X11/xkb/symbols/us

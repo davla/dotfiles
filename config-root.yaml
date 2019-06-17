@@ -2,6 +2,7 @@ actions:
   post:
     locales: sh ./actions/locales.sh
     repo-keys: sh ./actions/repo-keys.sh
+    xkb: sh ./actions/xkb.sh
 config:
   backup: false
   banner: true
@@ -10,6 +11,7 @@ config:
   ignoreempty: false
   import_actions:
   - actions.d/append.yaml
+  - actions.d/insert.yaml
   import_configs:
   - profiles.d/shared.yaml
   keepdot: false
@@ -40,7 +42,7 @@ dotfiles:
     dst: '{{@@ anacrontab_tmp_dst @@}}'
     src: cron/anacrontab
     actions:
-    - strip '{{@@ anacrontab_custom_marker @@}}' '{{@@ anacrontab_dst @@}}'
+    - strip '{{@@ anacrontab_append_marker @@}}' '{{@@ anacrontab_dst @@}}'
     - append '{{@@ anacrontab_dst @@}}' '{{@@ anacrontab_tmp_dst @@}}'
   f_fstab:
     dst: '{{@@ fstab_tmp_dst @@}}'
@@ -84,6 +86,33 @@ dotfiles:
   f_underclock.service:
     dst: /etc/systemd/system/underclock.service
     src: etc/systemd/system/underclock.service
+  f_keyboard:
+    src: etc/default/keyboard
+    dst: /etc/default/keyboard
+  f_base.lst:
+    src: usr/share/X11/xkb/rules/base.lst
+    dst: '{{@@ xkb_tmp_dst @@}}'
+    actions:
+    - >-
+      strip_range '{{@@ base_lst_range_start @@}}'
+        '{{@@ base_lst_range_end @@}}' '{{@@ base_lst_dst @@}}'
+    - >-
+      insert_match '{{@@ base_lst_range_start @@}}' '{{@@ xkb_tmp_dst @@}}'
+        '{{@@ base_lst_dst @@}}'
+  f_base.xml:
+    src: usr/share/X11/xkb/rules/base.xml
+    dst: '{{@@ xkb_tmp_dst @@}}'
+    actions:
+    - strip_xml '{{@@ base_xml_strip_xpath @@}}' '{{@@ base_xml_dst @@}}'
+    - >-
+      insert_xml '{{@@ base_xml_insert_xpath @@}}' '{{@@ xkb_tmp_dst @@}}'
+        '{{@@ base_xml_dst @@}}'
+  f_us:
+    src: usr/share/X11/xkb/symbols/us
+    dst: '{{@@ xkb_tmp_dst @@}}'
+    actions:
+    - strip '{{@@ symbols_append_marker @@}}' '{{@@ symbols_dst @@}}'
+    - append '{{@@ symbols_dst @@}}' '{{@@ xkb_tmp_dst @@}}'
 profiles:
   asdf:
     dotfiles:
@@ -99,7 +128,7 @@ profiles:
     dynvariables:
       anacrontab_tmp_dst: mktemp /tmp/anacrontab-append.XXX
     variables:
-      anacrontab_custom_marker: '# Custom jobs'
+      anacrontab_append_marker: 'Custom jobs'
       anacrontab_dst: /etc/anacrontab
   davide-debian:
     include:
@@ -128,7 +157,7 @@ profiles:
     dynvariables:
       hosts_tmp_dst: mktemp /tmp/hosts-append.XXX
     variables:
-      hosts_append_marker: '# Local sites'
+      hosts_append_marker: 'Local sites'
       hosts_dst: /etc/hosts
   packages:
     dotfiles:
@@ -147,8 +176,29 @@ profiles:
     dynvariables:
       fstab_tmp_dst: mktemp /tmp/fstab-append.XXX
     variables:
-      fstab_append_marker: '# Custom mount points'
+      fstab_append_marker: 'Custom mount points'
       fstab_dst: /etc/fstab
+  xkb:
+    dotfiles:
+    - f_base.lst
+    - f_base.xml
+    - f_keyboard
+    - f_us
+    dynvariables:
+      xkb_tmp_dst: mktemp /tmp/xkb-dotfiles.XXX
+    variables:
+      base_lst_range_start: '^\s*\sintl\s\s*us'
+      base_lst_range_end: '^\s*\salt-intl\s\s*us'
+      base_lst_dst: /usr/share/X11/xkb/rules/base.lst
+      base_xml_strip_xpath: ".//*[name='intl-custom'].."
+      base_xml_insert_xpath: >
+        .//*[description='English (US, intl., with dead keys)']..
+      base_xml_dst: /usr/share/X11/xkb/rules/base.xml
+      symbols_append_marker: 'Custom layout symbols'
+      symbols_dst: /usr/share/X11/xkb/symbols/us
+    actions:
+    - xkb
+    - rm '{{@@ xkb_tmp_dst @@}}'
 variables:
   mr_default_dir: /opt
   user: root

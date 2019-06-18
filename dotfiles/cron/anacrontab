@@ -28,5 +28,6 @@ PATH=/usr/local/bin:/bin:/usr/bin
 {%@@ elif user == 'user' -@@%}
 
 1   1   repos.update            mr -d {{@@ mr_default_dir @@}} -m update 2>&1 | grep update | tac | cron-logger 'MYREPOS'
+1   1   atom.update             apm update -c false > /dev/null 2>&1; cron-logger 'APM-UPDATE' "$?"
 
 {%@@ endif @@%}

@@ -7,3 +7,4 @@ System initial setup
 - i3 + sway in bot
 - dotdrop permissions for network manager dispatchers
 - Using -e flag in scripts
+- Move copy_key to its own custom command

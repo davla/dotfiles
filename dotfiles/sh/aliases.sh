@@ -8,7 +8,7 @@
 # Core commands aliases
 #######################################
 
-alias l='ls -lAFh --color=auto'
+alias l='ls -lAFh --color=always | less -FXR'
 alias mkdir='mkdir -p'
 alias root='sudo -s'
 

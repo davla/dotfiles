@@ -32,6 +32,7 @@
     s = stash
 
     aa = add --all
+    ca = commit --amend
     ck = checkout -q
     cp = cherry-pick
     ga = {{@@ graph_all @@}}

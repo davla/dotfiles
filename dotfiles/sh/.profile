@@ -3,19 +3,25 @@
 # This script initializes the POSIX shell
 
 #######################################
-# environment variables
+# Loading environment variables
 #######################################
 
 . "$SDOTDIR/.shenv"
 
 #######################################
-# plugins
+# Loading plugins
 #######################################
 
 . "$SDOTDIR/plugins/init.sh"
 
 #######################################
-# aliases
+# Loading aliases
 #######################################
 
 . "$SDOTDIR/aliases.sh"
+
+#######################################
+# Loading functions
+#######################################
+
+. "$SDOTDIR/functions.sh"

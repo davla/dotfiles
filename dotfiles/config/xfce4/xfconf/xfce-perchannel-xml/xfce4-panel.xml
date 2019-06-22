@@ -46,37 +46,27 @@
     <property name="plugin-3" type="string" value="cpugraph"/>
     <property name="plugin-5" type="string" value="systray">
       <property name="names-visible" type="array">
-        <value type="string" value="discord"/>
-        <value type="string" value="task manager"/>
-        <value type="string" value="enpass"/>
-        <value type="string" value="enpass6"/>
-        <value type="string" value="gpick"/>
-        <value type="string" value="guake"/>
-        <value type="string" value="ibus-ui-gtk3"/>
-        <value type="string" value="scp-dbus-service.py"/>
-        <value type="string" value="orage"/>
-        <value type="string" value="parcellite"/>
-        <value type="string" value="camorama"/>
-        <value type="string" value="vlc"/>
-        <value type="string" value="xfce4-power-manager"/>
-        <value type="string" value="pk-update-icon"/>
-        <value type="string" value="software updates"/>
-        <value type="string" value="package update indicator"/>
-        <value type="string" value="thunar"/>
-        <value type="string" value="dropbox"/>
-        <value type="string" value="gtk-recordmydesktop"/>
-        <value type="string" value="xfce terminal"/>
-        <value type="string" value="solaar"/>
-        <value type="string" value="redshift-gtk"/>
-        <value type="string" value="networkmanager applet"/>
-        <value type="string" value="slack"/>
-        <value type="string" value="remmina"/>
-        <value type="string" value="system-config-printer"/>
-        <value type="string" value="enpass-desktop"/>
         <value type="string" value="blueman-applet"/>
-        <value type="string" value="telegram"/>
+        <value type="string" value="camorama"/>
+        <value type="string" value="discord"/>
+        <value type="string" value="dropbox"/>
+        <value type="string" value="enpass-desktop"/>
+        <value type="string" value="gtk-recordmydesktop"/>
         <value type="string" value="ibus panel"/>
+        <value type="string" value="networkmanager applet"/>
+        <value type="string" value="orage"/>
+        <value type="string" value="package update indicator"/>
+        <value type="string" value="parcellite"/>
+        <value type="string" value="remmina"/>
+        <value type="string" value="scp-dbus-service.py"/>
         <value type="string" value="skypeforlinux"/>
+        <value type="string" value="slack"/>
+        <value type="string" value="solaar"/>
+        <value type="string" value="system-config-printer"/>
+        <value type="string" value="task manager"/>
+        <value type="string" value="thunar"/>
+        <value type="string" value="xfce terminal"/>
+        <value type="string" value="xfce4-power-manager"/>
         <value type="string" value="yad"/>
       </property>
       <property name="size-max" type="int" value="22"/>

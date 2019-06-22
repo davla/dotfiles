@@ -8,16 +8,19 @@
 # Core commands aliases
 #######################################
 
+alias c='xsel -i -b'
 alias mkdir='mkdir -p'
+alias p='xsel -o'
 alias root='sudo -s'
 
 #######################################
 # Third-party commands aliases
 #######################################
 
-alias c='xsel -i -b'
+alias l='exa -aGxs type --color=always --color-scale'
+alias ls='exa'
 alias mr='mr -d {{@@ mr_default_dir @@}}'
-alias p='xsel -o'
+alias tree='exa -T'
 
 #######################################
 # New commands

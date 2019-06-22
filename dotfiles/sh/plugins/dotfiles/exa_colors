@@ -1,0 +1,47 @@
+{%@@ set light_blue = 51 @@%}
+{%@@ set dark_green = 34 @@%}
+{%@@ set light_green = 155 @@%}
+{%@@ set orange = 208 @@%}
+{%@@ set red = 160 @@%}
+{%@@ set reset = 0 @@%}
+{%@@ set yellow = 227 @@%}
+
+{%@@ set execute = '38;5;%s' | format(dark_green) @@%}
+{%@@ set high = '38;5;%s' | format(light_blue) @@%}
+{%@@ set read = '38;5;%s' | format(yellow) @@%}
+{%@@ set special_file = '38;5;%s' | format(red) @@%}
+{%@@ set write = '38;5;%s' | format(orange) @@%}
+{%@@ set you = '38;5;%s' | format(red) @@%}
+
+# {{@@ header() @@}}
+
+bd={{@@ special_file @@}}
+cd={{@@ special_file @@}}
+da={{@@ '38;5;%s' | format(yellow) @@}}
+ex={{@@ execute @@}}
+fi={{@@ '38;5;%s' | format(orange) @@}}
+di={{@@ '38;5;%s' | format(light_blue) @@}}
+gn={{@@ reset @@}}
+gr={{@@ read @@}}
+gw={{@@ write @@}}
+gx={{@@ execute @@}}
+gu={{@@ you @@}}
+ln={{@@ '38;5;%s' | format(light_green) @@}}
+lp={{@@ '38;5;%s' | format(dark_green) @@}}
+np={{@@ special_file @@}}
+nu={{@@ reset @@}}
+or={{@@ '38;5;%s' | format(red) @@}}
+sb={{@@ '38;5;%s' | format(dark_green) @@}}
+sf={{@@ high @@}}
+sn={{@@ '38;5;%s' | format(light_green) @@}}
+so={{@@ special_file @@}}
+su={{@@ high @@}}
+tr={{@@ read @@}}
+tw={{@@ write @@}}
+tx={{@@ execute @@}}
+ue={{@@ execute @@}}
+un={{@@ reset @@}}
+ur={{@@ read @@}}
+uw={{@@ write @@}}
+ux={{@@ execute @@}}
+uu={{@@ you @@}}

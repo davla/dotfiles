@@ -39,23 +39,28 @@ ll() {
 # Arguments:
 #   - $1: The directory or file to be listed. Optional, defaults to the current
 #         working directory.
-#   - $2: Tree levels to be displayed. Optional, defaults to 2. It can be
-#         passed as first argument when using its default value.
+#   - $2: Tree levels to be displayed. Optional, defaults to 2. If the first
+#         argument is omitted, this one can replace it.
 #   - $3+: exa options to be added to the present ones. Optional. It includes
-#          the second argument if the first one's not an existing path.
+#          the first two arguments when they are omitted.
 t() {
     if [ -e "$1" ]; then
         T_DIR="$1"
-        T_LEVEL="${2:-2}"
-        shift 2
+        shift
     else
         T_DIR="$PWD"
-        T_LEVEL="${1:-2}"
-        shift
     fi
 
-    exa -abhlTL "$T_LEVEL" --color=always --color-scale -s type "$T_DIR" "$@" \
+    # $1 as arguments are either shifted, or the file/directory is left out. 
+    if echo "$1" | grep -E '[0-9]+' > /dev/null 2>&1; then
+        T_LEVEL="$1"
+        shift
+    else
+        T_LEVEL='2'
+    fi
+
+    exa -abhlTs type --color=always --color-scale -L "$T_LEVEL" "$T_DIR" "$@" \
         | less -FXR
 
-    unset T_DIR T_LEVEL
+    unset T_DIR T_LEVEL T_SHIFT_OFFSET
 }

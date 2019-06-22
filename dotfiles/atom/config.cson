@@ -6,15 +6,16 @@
       defaultLocationForPane: "right"
     use:
       "atom-ide-terminal": "never"
-  "atom-terminal":
-    app: "sakura"
   "atom-toolbar":
     visible: false
+  "autocomplete-paths":
+    enableHtmlSupport: true
   "autocomplete-plus":
-    confirmCompletion: "tab always, enter when suggestion explicitly selected"
+    confirmCompletion: "tab"
   autosave:
     enabled: true
   core:
+    autoHideMenuBar: true
     closeDeletedFileTabs: true
     closeEmptyWindows: false
     customFileTypes:
@@ -31,7 +32,6 @@
       "linter-markdown"
       "linter-hlint"
       "markdown-preview"
-      "linter-pycodestyle"
     ]
     telemetryConsent: "limited"
     warnOnLargeFileLimit: 0.256
@@ -50,6 +50,9 @@
     zoomFontWhenCtrlScrolling: false
   "exception-reporting":
     userId: "a3e97c63-e1d5-4894-a7a3-dbcaaf34e513"
+  "file-icons":
+    coloured: false
+    onChanges: true
   "file-types":
     "Dockerfile.*": "source.dockerfile"
   "find-and-replace":
@@ -82,6 +85,8 @@
       liveUpdate: false
     useGitHubStyle: true
   "markdown-toc-auto": {}
+  "one-dark-ui":
+    fontSize: 15
   "open-bash-git":
     command: "/usr/bin/xfce4-terminal"
   "pdf-view":

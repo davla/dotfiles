@@ -17,23 +17,35 @@ config:
   workdir: ~/.config/dotdrop
 dotfiles:
   d_applications:
-    src: local/share/applications
     dst: ~/.local/share/applications
+    src: local/share/applications
   d_atom:
-    dst: ~/.atom
     src: atom
+    dst: ~/.atom
+    upignore:
+    - .apm
+    - .atom-socket-*
+    - .gitignore
+    - .node-gyp
+    - blob-store
+    - compile-cache
+    - github.cson
+    - macros.coffee
+    - packages
+    - recovery
+    - storage
   d_autostart:
-    dst: ~/.config/autostart
     src: config/autostart
+    dst: ~/.config/autostart
   d_calibre:
-    dst: ~/.config/calibre
     src: config/calibre
+    dst: ~/.config/calibre
   d_desktop-directories:
-    dst: ~/.local/share/desktop-directories
     src: local/share/desktop-directories
+    dst: ~/.local/share/desktop-directories
   d_docker:
-    dst: ~/.docker
     src: docker
+    dst: ~/.docker
   d_geany:
     dst: ~/.config/geany
     src: config/geany

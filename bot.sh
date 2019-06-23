@@ -334,6 +334,10 @@ prompt 'configure PolicyKit' 'sudo -E dotdrop install -p polkit' \
 # Asdf
 prompt 'install asdf' 'sudo bash -l scripts/asdf.sh' 'asdf installation'
 
+# SSH and GPG keys
+prompt 'generate SSH and GPG keys' 'sh scripts/security.sh' \
+    'SSH and GPG keys generation'
+
 # Graphical login manager
 prompt 'install a graphical login manager' \
     'sudo sh scripts/graphical-login.sh' 'installing a graphical login manager'

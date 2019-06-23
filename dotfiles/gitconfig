@@ -43,6 +43,10 @@
     ua = {{@@ unadd @@}}
     us = {{@@ unstash @@}}
 
+[apply]
+    ignoreWhitespace = false
+    whitespace = fix
+
 [commit]
     gpgsign = true
 
@@ -77,5 +81,5 @@
 
 [user]
     name = Davide Laezza
-    email = davide.laezza@gmx.com
+    email = truzzialrogo@gmx.com
     username = davla

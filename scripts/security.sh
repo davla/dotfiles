@@ -114,7 +114,7 @@ EOF
 # Copying ssh keys to remote host
 #######################################
 
-# Need an if here to exit with no error in case not CLI parameters are passed.
+# Need an if here to exit with no error in case no CLI parameters are passed.
 if [ -n "$HOST" ]; then
     for SSH_USER in "$@"; do
         copy_key "$SSH_USER" "$HOST" "$SSH_HOME/id_rsa.pub"

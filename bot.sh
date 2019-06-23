@@ -133,7 +133,7 @@ execute() {
         # and stderr are shared with this script (likely connected to a tty).
         tail -f "$OUTPUT_LOG" &
 
-        $SHELL -c "$CMD" > "$OUTPUT_LOG" 2>&1
+        $SHELL -ec "$CMD" > "$OUTPUT_LOG" 2>&1
         CMD_EXIT="$?"
         printf 'Press enter to continue'
         read ANSWER
@@ -295,17 +295,17 @@ Good luck, and let's hope it all goes well!"
 #######################################
 
 # Dotdrop setup - first as anything else depends on it.
-prompt 'set dotdrop up' 'sh scripts/dotdrop.sh ./dotfiles' 'dotdrop setup'
+prompt 'set dotdrop up' 'sh -e scripts/dotdrop.sh ./dotfiles' 'dotdrop setup'
 
 # Custom commands - they are used by other scripts.
-prompt 'install your custom commands' 'sudo sh custom-commands/install.sh' \
+prompt 'install your custom commands' 'sudo sh -e custom-commands/install.sh' \
     'custom commands installation'
 
 # Shells initialization - so that env vars can be used by other scripts.
-prompt 'initialize the shells' 'sh scripts/shell.sh' 'shells initialization'
+prompt 'initialize the shells' 'sh -e scripts/shell.sh' 'shells initialization'
 
 # Packages installation - they make commands available for other scripts.
-prompt 'install packages' 'sudo sh scripts/packages.sh' \
+prompt 'install packages' 'sudo sh -e scripts/packages.sh' \
     'packages installation'
 
 # Locales
@@ -317,11 +317,12 @@ prompt 'add keyboard layouts' 'dotdrop --user root install -p xkb' \
     'adding keyboard layouts'
 
 # Network
-prompt 'set up network tricks' 'sudo sh scripts/network.sh' \
+prompt 'set up network tricks' 'sudo sh -e scripts/network.sh' \
     'setting up network tricks'
 
 # Startup jobs
-prompt 'set up startup jobs' 'sh scripts/startup.sh' 'setting up startup jobs'
+prompt 'set up startup jobs' 'sh -e scripts/startup.sh' \
+    'setting up startup jobs'
 
 # Cron & anacron jobs
 prompt 'set up (ana)cron jobs' 'dotdrop --user both install -p cron' \
@@ -332,18 +333,19 @@ prompt 'configure PolicyKit' 'sudo -E dotdrop install -p polkit' \
     'configuring PolicyKit'
 
 # Asdf
-prompt 'install asdf' 'sudo bash -l scripts/asdf.sh' 'asdf installation'
+prompt 'install asdf' 'sudo bash -el scripts/asdf.sh' 'asdf installation'
 
 # SSH and GPG keys
-prompt 'generate SSH and GPG keys' 'sh scripts/security.sh' \
+prompt 'generate SSH and GPG keys' 'sh -e scripts/security.sh' \
     'SSH and GPG keys generation'
 
 # Graphical login manager
 prompt 'install a graphical login manager' \
-    'sudo sh scripts/graphical-login.sh' 'installing a graphical login manager'
+    'sudo sh -e scripts/graphical-login.sh' \
+    'installing a graphical login manager'
 
 # Xfce
-prompt 'install Xfce' 'sh scripts/xfce.sh' 'installing Xfce'
+prompt 'install Xfce' 'sh -e scripts/xfce.sh' 'installing Xfce'
 
 # Git
 prompt 'set up git configuration' 'dotdrop --user both install -p git' \

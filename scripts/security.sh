@@ -72,9 +72,11 @@ mkdir -p "$SSH_HOME"
 
 # If remote origin is https, it's not ssh
 echo "$GIT_ORIGIN" | grep 'https' > /dev/null 2>&1 && {
-    echo 'Copy the key into GitHub.'
+    echo 'Copy the SSH key into GitHub.'
     cat "$SSH_HOME/id_rsa.pub"
-    read
+    # shellcheck disable=2034
+    read ANSWER
+    unset ANSWER
 
     # Changing this repository URL to use SSH
     echo "$GIT_ORIGIN" | \
@@ -83,11 +85,40 @@ echo "$GIT_ORIGIN" | grep 'https' > /dev/null 2>&1 && {
 }
 
 #######################################
+# Creating gpg keys
+#######################################
+
+[ -z "$(gpg --list-secret-keys)" ] && {
+    echo 'Generating gpg keys with these parameters:'
+    GPG_ARGS="$(mktemp)"
+    tee "$GPG_ARGS" <<EOF
+Key-Type: 1
+Key-Length: 4096
+Expire-Date: 0
+Name-Real: Davide Laezza
+Name-Email: truzzialrogo@gmx.com
+EOF
+    gpg --batch --generate-key "$GPG_ARGS"
+    rm "$GPG_ARGS"
+
+    echo 'Copy the GPG key into GitHub.'
+    # Actually getting the content to paste on GitHub
+    gpg --list-secret-keys --with-colons | grep 'sec' | cut -d ':' -f 5 \
+        | xargs gpg --armor --export
+    # shellcheck disable=2034
+    read ANSWER
+    unset ANSWER
+}
+
+#######################################
 # Copying ssh keys to remote host
 #######################################
 
-[ -n "$HOST" ] && {
+# Need an if here to exit with no error in case not CLI parameters are passed.
+if [ -n "$HOST" ]; then
     for SSH_USER in "$@"; do
         copy_key "$SSH_USER" "$HOST" "$SSH_HOME/id_rsa.pub"
     done
-}
+else
+    exit 0
+fi

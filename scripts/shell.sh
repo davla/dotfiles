@@ -8,7 +8,7 @@
 # Installing dependencies
 #######################################
 
-sudo apt-get install bash bash-completion dash zsh
+sudo apt-get install bash bash-completion dash exa fasd thefuck zsh
 
 #######################################
 # Installing dotfiles

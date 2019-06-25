@@ -149,7 +149,7 @@ profiles:
     - xfce
   geany:
     dotfiles:
-    - d_config_geany_filedefs
+    - d_geany_filedefs
     - f_geany_colorschemes_on-my-own.conf
     - f_geany_geany.conf
     - f_geany_keybindings.conf

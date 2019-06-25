@@ -96,14 +96,13 @@ dotfiles:
     dst: ~/.xsessionrc
     src: xsessionrc
 profiles:
-  apps:
+  cli:
     dotfiles:
-    - d_atom
-    - d_calibre
-    - d_geany
-    - d_orage
-    - d_parcellite
-    - d_virtualbox
+    - d_docker
+    - f_ghci
+    - f_hgrc
+    include:
+    - git
   cron:
     dotfiles:
     - f_anacrontab
@@ -116,18 +115,23 @@ profiles:
     actions:
     - anacron
   davide-debian:
-    dotfiles:
-    - d_docker
-    - f_ghci
-    - f_hgrc
     include:
-    - apps
+    - cli
     - cron
-    - git
+    - gui
     - menu
     - shell
     - startup
     - xfce
+  gui:
+    dotfiles:
+    - d_atom
+    - d_calibre
+    - d_geany
+    - d_gtk3
+    - d_orage
+    - d_parcellite
+    - d_virtualbox
   startup:
     dotfiles:
     - d_autostart

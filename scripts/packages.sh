@@ -2,6 +2,9 @@
 
 # This script installs packages not related to anything else on the system, and
 # performs some additional setup for some of them when required.
+#
+# Arguments:
+#   - $1: name of the user to be added to the docker group
 
 . ./.env
 
@@ -9,8 +12,14 @@
 # Functions
 #######################################
 
-# Removes unwanted packages
+# This function removes unwanted packages
 clean() {
+    # Unsetting -e so that non-existing packages won't make the script exit
+    echo "$-" | grep 'e' > /dev/null 2>&1 \
+        && HAS_E='true' \
+        || HAS_E='false'
+    set +e
+
     apt-get purge -y abiword-common
     apt-get purge -y audacious
     apt-get purge -y ayatana-indicator-common
@@ -67,19 +76,21 @@ clean() {
     apt-get purge -y tali
     apt-get purge -y terminator
     apt-get purge -y uget
-    apt-get purge -y vim-common
     apt-get purge -y wbar
     apt-get purge -y wine
     apt-get purge -y xboard
     apt-get purge -y xchat-common
     apt-get purge -y xfburn
+
+    [ "$HAS_E" = 'true' ] && set -e
+    unset HAS_E
 }
 
 #######################################
 # Input processing
 #######################################
 
-DOCKER_USER="${1:$USER}"
+DOCKER_USER="${1:-$USER}"
 
 #######################################
 # Repositories dotfiles
@@ -99,7 +110,7 @@ apt-get install firmware-realtek firmware-iwlwifi
 
 # Installation
 apt-get install aisleriot asunder atom baobab blueman brasero calibre \
-    camorama catfish dropbox enpass balena-etcher-electron evince firefox \
+    camorama catfish dropbox enpass balena-etcher-electron evince \
     galculator gdebi geany gimp gnome-mines gnome-sudoku gparted gufw \
     handbrake-gtk libreoffice-calc libreoffice-impress libreoffice-writer \
     gnome-mahjongg hardinfo kid3 parcellite pavucontrol quadrapassel \
@@ -147,11 +158,11 @@ apt-get upgrade
 # Packages setup
 #######################################
 
-# Docker non root access
-groupadd docker 2> /dev/null
-adduser "$DOCKER_USER" docker 2> /dev/null
+# Docker non root access.
+groupadd -f docker
+adduser "$DOCKER_USER" docker
 
 # Git credential helper
-ln -s /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring \
-    /usr/bin/git-credential-gnome-keyring
+ln -sf /usr/share/doc/git/contrib/credential/gnome-keyring/\
+git-credential-gnome-keyring /usr/bin/git-credential-gnome-keyring
 make -C /usr/share/doc/git/contrib/credential/gnome-keyring

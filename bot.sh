@@ -344,6 +344,11 @@ prompt 'install a graphical login manager' \
     'sudo sh -e scripts/graphical-login.sh' \
     'installing a graphical login manager'
 
+# Themes
+prompt 'install cursor, desktop and icon themes' \
+    'sh -e scripts/aesthetics.sh' \
+    'cursor, desktop and icon themes installation'
+
 # Xfce
 prompt 'install Xfce' 'sh -e scripts/xfce.sh' 'installing Xfce'
 

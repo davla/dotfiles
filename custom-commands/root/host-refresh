@@ -1,0 +1,80 @@
+#!/bin/sh
+
+# This script populates /etc/hosts file with most frequently visited remote
+# hosts.
+#
+# Frequent hosts are read from /usr/local/etc/frequent-hosts. /etc/hosts is
+# expected to have a line containing the marker 'Custom sites'. Frequent hosts
+# entries are placed from that marker until the end of the file. Nothing is
+# done if the marker is not found.
+#
+# This script exits with different errors if:
+# - The frequent hosts file is not found.
+# - The frequent hosts marker is not found.
+# - At least one host IP is not found.
+#
+# NOTE: this scripts DELETES everything after the 'Custom sites' marker from
+# /etc/hosts, if the marker is found.
+
+#######################################
+# Variables
+#######################################
+
+# Exit code for the whoel script. Set to 1 if at least one host is not found
+EXIT_CODE=0
+
+# File containing frequently visited host names, one per line
+FREQUENT_HOSTS_FILE='/usr/local/etc/frequent-hosts'
+
+# Marker for custom remote hosts
+FREQUENT_HOSTS_MARKER='Frequent hosts'
+
+[ ! -f "$FREQUENT_HOSTS_FILE" ] && {
+    echo >&2 "Frequent hosts file ($FREQUENT_HOSTS_FILE) not found!"
+    exit 2
+}
+
+#######################################
+# Finding frequent hosts marker
+#######################################
+
+# Line number of the frequent hosts marker
+MARKER_LINE="$(grep -n "$FREQUENT_HOSTS_MARKER" /etc/hosts | cut -d ':' -f 1)"
+
+# Frequent hosts marker not found
+[ -z "$MARKER_LINE" ] && {
+    echo "Frequent hosts marker ($FREQUENT_HOSTS_MARKER) not found in " \
+        '/etc/hosts'
+    exit 3
+}
+
+#######################################
+# Adding remote websites
+#######################################
+
+# Advancing until AFTER the frequent hosts marker, so as not to delete the
+# marker itself
+MARKER_LINE=$(( MARKER_LINE + 2 ))
+
+# Clearing frequent hosts entries
+sed -i "$MARKER_LINE,\$d" /etc/hosts
+
+# Appending an entry in /etc/hosts for every frequent hosts
+while read HOST; do
+	IPS="$(host "$HOST")"
+
+    if [ $? -eq 0 ]; then
+        echo "Updating IP for $HOST"
+    else
+        echo >&2 "$HOST IP not found"
+        EXIT_CODE=1
+        continue
+    fi
+
+    echo "$IPS" | grep 'has address' | tail -n 1 | cut -d ' ' -f 1,4 \
+        >> /etc/hosts
+    echo "$IPS" | grep 'has IPv6 address' | tail -n 1 | cut -d ' ' -f 1,5 \
+        >> /etc/hosts
+done < "$FREQUENT_HOSTS_FILE"
+
+exit $EXIT_CODE

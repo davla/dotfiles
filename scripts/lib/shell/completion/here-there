@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# This file contains autocompletion for here and there utility commands
+
+# Just completing with available commands
+complete -c here there

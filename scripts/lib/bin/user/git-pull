@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+# This script pulls updates from the git repository found at the passed
+# directory. It assumes the upstream branch to be the current branch.
+
+# Arguments:
+#     - $1: Base directory of the repository.
+
+#####################################################
+#
+#                   Parameters
+#
+#####################################################
+
+REPO_BASE="$1"
+
+#####################################################
+#
+#                   Aliases
+#
+#####################################################
+
+shopt -s expand_aliases
+
+# Echoes normally if from terminal emulator, otherwise uses syslog
+tty -s && alias print='echo' || alias print='logger -p local0.info -t PULL'
+
+# Writes the name of the git repository in the working directory to STDOUT
+alias reponame="git remote get-url origin | xargs -i basename '{}' '.git'"
+
+#####################################################
+#
+#               Pulling the repository
+#
+#####################################################
+
+# Checking for existence of repository base directory.
+if ! cd "$REPO_BASE"; then
+    print "error - $REPO_BASE is not a directory."
+    exit 1
+fi
+
+# Checking for the base directory to be a repository.
+if ! git status &> /dev/null; then
+    print "error - $REPO_BASE is not a git repository."
+    exit 1
+fi
+
+REPO_NAME=$(reponame)
+
+# The "Already up to date" message is at most two lines long.
+[[ $(git pull --all | wc -l) -gt 2 ]] \
+    && print "$REPO_NAME updated" \
+    || print "$REPO_NAME not updated"
+
+# Nothing is printed if submodules are not updated.
+[[ -n $(git submodule update) ]] \
+    && print "$REPO_NAME submodules updated" \
+    || print "$REPO_NAME submodules not updated"

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# This scripts runs a command in the current directory, disconnecting it from
+# the parent terminal. STDIN is closed and STDOUT and STDERR are silenced.
+#
+# Arguments:
+#   - $1: The command to be run in the current directory
+#   - $2+: The arguments of the command. Will follow the current directory.
+
+("$1" . "${@:2}" > /dev/null 2>&1 &)

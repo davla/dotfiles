@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# This script runs the passed command in the predefined terminal
+# emulator even when called from a non-X context
+
+#####################################################
+#
+#               Exporting X variables
+#
+#####################################################
+
+export SCREEN=':0' DISPLAY=':0' XAUTHORITY=$(ls -a1 /home/*/.Xauthority \
+    | head -n 1)
+
+#####################################################
+#
+#           Executing commands in terminal
+#
+#####################################################
+
+exo-open --launch TerminalEmulator "$@"

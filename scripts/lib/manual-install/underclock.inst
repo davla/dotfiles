@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+# This scripts defines the functions for the manual application installation
+# machinery for underclock.
+
+source "$(dirname "${BASH_SOURCE[0]}")/../lib.sh"
+
+#####################################################
+#
+#                   Variables
+#
+#####################################################
+
+# GitHub repository name
+REPO_URL='https://github.com/Sepero/temp-throttle.git'
+
+# Executable file resulting from the installation
+EXEC='/usr/local/sbin/underclock'
+
+#####################################################
+#
+#                   Functions
+#
+#####################################################
+
+# This function exits with a zero status code if underclock is installed,
+# non-zero otherwise.
+function is-installed {
+    [[ -f "$EXEC" ]]
+}
+
+# This function prints on STDOUT the last edit timestamp of underclock.
+function installed-version {
+    _latest-installed-timestamp "$EXEC"
+}
+
+# This function prints on STDOUT the timestamp of the latest master commit of
+# the underclock GitHub repository.
+function latest-version {
+    _latest-git-timestamp "$REPO_URL"
+}
+
+# This function exits with a zero status code if the first timestamp is more
+# recent than the second one, otherwise with a non-zero status code: this
+# occurs when the first timestamp is equal or smaller than the second one.
+#
+# Arguments:
+#     - $1: First timestamp.
+#     - $2: Second timestamp.
+function is-newer {
+    _is-newer-timestamp "$1" "$2"
+}
+
+# This function uninstalls underclock.
+function remove {
+    rm "$EXEC"
+}
+
+# This function installs underclock, downloading the sources from the
+# repository and moving the script in a directory in root's PATH.
+function install {
+    local TMP_DIR
+    TMP_DIR="$(mktemp -d)"
+
+    git clone "$REPO_URL" "$TMP_DIR"
+
+    mv "$TMP_DIR/"*.sh "$EXEC"
+    chmod +x "$EXEC"
+
+    rm -rf "$TMP_DIR"
+}

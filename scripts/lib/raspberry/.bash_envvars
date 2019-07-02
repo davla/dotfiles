@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# This script contains the bash environment variables
+
+export PYWIKIBOT_DIR="$HOME/pywikibot"
+export UTIL_DIR="$HOME/wiki-util"

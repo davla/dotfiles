@@ -1,0 +1,7 @@
+Package: firefox
+Pin: release a=experimental
+Pin-Priority: 2000
+
+Package: *
+Pin: release a=testing
+Pin-Priority: 1000

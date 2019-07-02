@@ -1,0 +1,11 @@
+## google-chrome web browser
+# deb http://dl.google.com/linux/chrome/deb/ stable main
+
+## google earth
+# deb http://dl.google.com/linux/earth/deb/ stable main
+
+## google talk plugin
+# deb http://dl.google.com/linux/talkplugin/deb/ stable main
+
+## google music manager
+# deb http://dl.google.com/linux/musicmanager/deb/ stable main

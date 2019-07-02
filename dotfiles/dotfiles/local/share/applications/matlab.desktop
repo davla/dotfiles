@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Name=Matlab
+Comment=Matlab
+Exec=matlab -desktop
+Icon=/opt/MATLAB/MATLAB_Production_Server/R2015a/bin/glnxa64/cef_resources/matlab_icon.png
+Terminal=false
+Type=Application
+Categories=Development;
+Name[en_US.utf8]=_Matlab

@@ -347,14 +347,6 @@ prompt 'install a graphical login manager' \
 # Xfce
 prompt 'install Xfce' 'sh -e scripts/xfce.sh' 'installing Xfce'
 
-# Git
-prompt 'set up git configuration' 'dotdrop --user both install -p git' \
-    'setting up git configuration'
-
-# Apps
-prompt 'install application configurations' 'dotdrop install -p apps' \
-    'application configurations installation'
-
 #######################################
 # Outro
 #######################################

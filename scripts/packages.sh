@@ -76,16 +76,10 @@ clean() {
 }
 
 #######################################
-# Privileges
+# Input processing
 #######################################
 
-# Checking for root privileges: if don't have them, recalling this script with
-# sudo
-[ "$(id -u)" -ne 0 ] && {
-    echo 'This script needs to be run as root'
-    sudo sh "$0" "$@"
-    exit
-}
+DOCKER_USER="${1:$USER}"
 
 #######################################
 # Repositories dotfiles
@@ -100,10 +94,10 @@ dotdrop --user root install -p packages
 apt-get install firmware-realtek firmware-iwlwifi
 
 #######################################
-# Installing Packages
+# Installing GUI applications
 #######################################
 
-# GUI applications
+# Installation
 apt-get install aisleriot asunder atom baobab blueman brasero calibre \
     camorama catfish dropbox enpass balena-etcher-electron evince firefox \
     galculator gdebi geany gimp gnome-mines gnome-sudoku gparted gufw \
@@ -113,26 +107,33 @@ apt-get install aisleriot asunder atom baobab blueman brasero calibre \
     slack-desktop skypeforlinux solaar soundconverter spotify-client synaptic \
     system-config-printer thunderbird transmission-gtk tuxguitar viewnior \
     virtualbox visualboyadvance vlc
-[ $? -ne 0 ] && exit
 
-# CLI applications
+# Dotfiles
+dotdrop install -p gui
+
+#######################################
+# Installing CLI applications
+#######################################
+
+# Installation
 apt-get install apng2gif autoconf automake build-essential cabal-install \
     cmake command-not-found cowsay cups curl dkms docker-ce dos2unix \
     flashplayer-mozilla fonts-freefont-otf fortune g++ ghc gifsicle git \
     git-review gvfs-backends handbrake-cli heroku hlint hunspell \
     hunspell-en-us hunspell-it hub imagemagick intel-microcode jq lame \
-    libghc-hspec-dev libgit2-dev libgnome-keyring-dev  \
-    lua5.1 lua-check make mercurial moreutils nfs-common nyancat \
-    p7zip pycodestyle python-requests-futures python-pip python-setuptools \
-    python3-gdbm python3-lxml python3-pygments python3-requests \
-    python3-requests-oauthlib rar sct shellcheck software-properties-common \
-    sudo thunar-archive-plugin thunar-dropbox-plugin tree tuxguitar-jsa \
-    uni2ascii unrar wmctrl xdotool xsel xserver-xorg-input-synaptics yad zip
-[ $? -ne 0 ] && exit
+    libghc-hspec-dev libgit2-dev libgnome-keyring-dev lua5.1 lua-check make \
+    mercurial moreutils nfs-common nyancat p7zip pycodestyle \
+    python-requests-futures python-pip python-setuptools python3-gdbm \
+    python3-lxml python3-pygments python3-requests python3-requests-oauthlib \
+    rar sct shellcheck software-properties-common thunar-archive-plugin \
+    thunar-dropbox-plugin tuxguitar-jsa uni2ascii unrar wmctrl xdotool \
+    xserver-xorg-input-synaptics yad zip
 
 # --no-install-recommends prevents node from being installed
 apt-get install --no-install-recommends yarn
-[ $? -ne 0 ] && exit
+
+# Dotfiles
+dotdrop --user root install -p cli
 
 #######################################
 # Clean & upgrade
@@ -147,13 +148,10 @@ apt-get upgrade
 #######################################
 
 # Docker non root access
-grep docker /etc/group > /dev/null 2>&1 || groupadd docker
+groupadd docker 2> /dev/null
+adduser "$DOCKER_USER" docker 2> /dev/null
 
 # Git credential helper
 ln -s /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring \
     /usr/bin/git-credential-gnome-keyring
-
-# Gnome Keyring on startup
 make -C /usr/share/doc/git/contrib/credential/gnome-keyring
-sed -r -i 's/OnlyShowIn=/OnlyShowIn=XFCE;/' \
-    /etc/xdg/autostart/gnome-keyring-pkcs11.desktop

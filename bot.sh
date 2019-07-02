@@ -305,7 +305,7 @@ prompt 'install your custom commands' 'sudo sh -e custom-commands/install.sh' \
 prompt 'initialize the shells' 'sh -e scripts/shell.sh' 'shells initialization'
 
 # Packages installation - they make commands available for other scripts.
-prompt 'install packages' 'sudo sh -e scripts/packages.sh' \
+prompt 'install packages' "sudo sh -e scripts/packages.sh $(id -u)" \
     'packages installation'
 
 # Locales

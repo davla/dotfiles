@@ -90,7 +90,7 @@ clean() {
 # Input processing
 #######################################
 
-DOCKER_USER="${1:-$USER}"
+USER_NAME="${1:-$USER}"
 
 #######################################
 # Repositories dotfiles
@@ -120,7 +120,7 @@ apt-get install aisleriot asunder atom baobab blueman brasero calibre \
     virtualbox visualboyadvance vlc
 
 # Dotfiles
-dotdrop install -p gui
+sudo -u "$USER_NAME" dotdrop install -p gui
 
 #######################################
 # Installing CLI applications
@@ -144,7 +144,7 @@ apt-get install apng2gif autoconf automake build-essential cabal-install \
 apt-get install --no-install-recommends yarn
 
 # Dotfiles
-dotdrop --user root install -p cli
+sudo -u "$USER_NAME" dotdrop install -p cli
 
 #######################################
 # Clean & upgrade
@@ -160,7 +160,7 @@ apt-get upgrade
 
 # Docker non root access.
 groupadd -f docker
-adduser "$DOCKER_USER" docker
+adduser "$USER_NAME" docker
 
 # Git credential helper
 ln -sf /usr/share/doc/git/contrib/credential/gnome-keyring/\

@@ -15,9 +15,10 @@ actions:
             document = ET.parse(f)
 
         parent = document.find("{0}/..")
-        target = parent.find("{0}")
-        parent.remove(target)
-        document.write('{1}', encoding='UTF-8', xml_declaration=True)"
+        if parent is not None:
+          target = parent.find("{0}")
+          parent.remove(target)
+          document.write('{1}', encoding='UTF-8', xml_declaration=True)"
   post:
     insert_match: "sed -i -E '/{0}/ r {1}' {2}"
     insert_xml: >-

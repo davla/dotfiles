@@ -19,6 +19,7 @@
 
 mkdir -p "${SDOTDIR:?}/cache"
 mkdir -p "${SDOTDIR:?}/plugins/data"
+mkdir -p "${SDOTDIR:?}/plugins/dotfiles"
 
 #######################################
 # Initializing cache

@@ -17,84 +17,116 @@ config:
   workdir: ~/.config/dotdrop
 dotfiles:
   d_applications:
-    src: local/share/applications
     dst: ~/.local/share/applications
-  d_atom:
-    dst: ~/.atom
-    src: atom
+    src: local/share/applications
   d_autostart:
     dst: ~/.config/autostart
     src: config/autostart
-  d_calibre:
-    dst: ~/.config/calibre
-    src: config/calibre
   d_desktop-directories:
     dst: ~/.local/share/desktop-directories
     src: local/share/desktop-directories
-  d_docker:
-    dst: ~/.docker
-    src: docker
-  d_geany:
-    dst: ~/.config/geany
-    src: config/geany
-  d_gtk3:
-    dst: ~/.config/gtk-3.0
-    src: config/gtk-3.0
+  d_geany_filedefs:
+    dst: ~/.config/geany/filedefs
+    src: config/geany/filedefs
+    cmpignore:
+    - '*.README'
+    upignore:
+    - '*.README'
   d_icons:
-    src: local/share/icons
     dst: ~/.local/share/icons
-  d_orage:
-    dst: ~/.config/orage
-    src: config/orage
-  d_parcellite:
-    dst: ~/.config/parcellite
-    src: config/parcellite
+    src: local/share/icons
   d_thunar:
-    dst: ~/.config/Thunar
     src: config/Thunar
-  d_virtualbox:
-    dst: ~/.config/VirtualBox
-    src: config/VirtualBox
+    dst: ~/.config/Thunar
   d_xfce4:
-    dst: ~/.config/xfce4
     src: config/xfce4
+    dst: ~/.config/xfce4
+    cmpignore:
+    - desktop
+    - xfce4-screenshooter
+    - xfwm4
     upignore:
     - desktop
     - xfce4-screenshooter
     - xfwm4
   f_anacrontab:
-    src: cron/anacrontab
     dst: ~/.anacron/anacrontab
+    src: cron/anacrontab
+  f_atom_config.cson:
+    dst: ~/.atom/config.cson
+    src: atom/config.cson
+  f_atom_init.coffee:
+    dst: ~/.atom/init.coffee
+    src: atom/init.coffee
+  f_atom_keymap.cson:
+    dst: ~/.atom/keymap.cson
+    src: atom/keymap.cson
+  f_atom_snippets.cson:
+    dst: ~/.atom/snippets.cson
+    src: atom/snippets.cson
+  f_atom_styles.less:
+    dst: ~/.atom/styles.less
+    src: atom/styles.less
+  f_calibre_global.py:
+    dst: ~/.config/calibre/global.py
+    src: config/calibre/global.py
   f_crontab:
-    src: cron/crontab
     dst: '{{@@ tmp_dst @@}}'
+    src: cron/crontab
+  f_docker_config.json:
+    dst: ~/.docker/config.json
+    src: docker/config.json
+  f_geany_colorschemes_on-my-own.conf:
+    dst: ~/.config/geany/colorschemes/on-my-own.conf
+    src: config/geany/colorschemes/on-my-own.conf
+  f_geany_geany.conf:
+    dst: ~/.config/geany/geany.conf
+    src: config/geany/geany.conf
+  f_geany_keybindings.conf:
+    dst: ~/.config/geany/keybindings.conf
+    src: config/geany/keybindings.conf
   f_ghci:
-    dst: ~/.ghci
     src: ghci
+    dst: ~/.ghci
+  f_gtk-3.0_gtk.css:
+    dst: ~/.config/gtk-3.0/gtk.css
+    src: config/gtk-3.0/gtk.css
   f_hgrc:
-    dst: ~/.hgrc
     src: hgrc
+    dst: ~/.hgrc
   f_mrconfig:
-    src: mrconfig
     dst: ~/.mrconfig
+    src: mrconfig
+  f_orage_oragerc:
+    dst: ~/.config/orage/oragerc
+    src: config/orage/oragerc
+  f_parcellite_parcelliterc:
+    dst: ~/.config/parcellite/parcelliterc
+    src: config/parcellite/parcelliterc
+  f_virtualbox_virtualbox.xml:
+    dst: ~/.config/VirtualBox/VirtualBox.xml
+    src: config/VirtualBox/VirtualBox.xml
   f_xfce-applications.menu:
-    dst: ~/.config/menus/xfce-applications.menu
     src: config/menus/xfce-applications.menu
+    dst: ~/.config/menus/xfce-applications.menu
   f_xsessionrc:
-    dst: ~/.xsessionrc
     src: xsessionrc
-  f_frequent-hosts:
-    src: usr/local/etc/frequent-hosts
-    dst: /usr/local/etc/frequent-hosts
+    dst: ~/.xsessionrc
 profiles:
-  apps:
+  atom:
     dotfiles:
-    - d_atom
-    - d_calibre
-    - d_geany
-    - d_orage
-    - d_parcellite
-    - d_virtualbox
+    - f_atom_config.cson
+    - f_atom_init.coffee
+    - f_atom_keymap.cson
+    - f_atom_snippets.cson
+    - f_atom_styles.less
+  cli:
+    dotfiles:
+    - f_docker_config.json
+    - f_ghci
+    - f_hgrc
+    include:
+    - git
   cron:
     dotfiles:
     - f_anacrontab
@@ -107,19 +139,30 @@ profiles:
     actions:
     - anacron
   davide-debian:
-    dotfiles:
-    - d_docker
-    - f_ghci
-    - f_hgrc
-    - f_frequent-hosts
     include:
-    - apps
+    - cli
     - cron
-    - git
+    - gui
     - menu
     - shell
     - startup
     - xfce
+  geany:
+    dotfiles:
+    - d_geany_filedefs
+    - f_geany_colorschemes_on-my-own.conf
+    - f_geany_geany.conf
+    - f_geany_keybindings.conf
+  gui:
+    dotfiles:
+    - f_calibre_global.py
+    - f_gtk-3.0_gtk.css
+    - f_orage_oragerc
+    - f_parcellite_parcelliterc
+    - f_virtualbox_virtualbox.xml
+    include:
+    - atom
+    - geany
   startup:
     dotfiles:
     - d_autostart
@@ -127,9 +170,9 @@ profiles:
   xfce:
     dotfiles:
     - d_desktop-directories
-    - d_gtk3
     - d_thunar
     - d_xfce4
+    - f_gtk-3.0_gtk.css
     - f_xfce-applications.menu
 variables:
   mr_default_dir: $HOME

@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 # author: deadc0de6 (https://github.com/deadc0de6)
-# Copyright (c) 2017, deadc0de6
+# Copyright (c) 2019, deadc0de6
 #
-# test variables from yaml file
-# returns 1 in case of error
+# test import duplicates
 #
 
 # exit on first error
@@ -48,10 +47,14 @@ echo -e "\e[96m\e[1m==> RUNNING $(basename $BASH_SOURCE) <==\e[0m"
 # the dotfile source
 tmps=`mktemp -d --suffix='-dotdrop-tests'`
 mkdir -p ${tmps}/dotfiles
-#echo "dotfile source: ${tmps}"
 # the dotfile destination
 tmpd=`mktemp -d --suffix='-dotdrop-tests'`
 #echo "dotfile destination: ${tmpd}"
+
+# create the dotfile
+touch ${tmpd}/.colors
+mkdir -p ${tmpd}/.mutt
+touch ${tmpd}/.mutt/colors
 
 # create the config file
 cfg="${tmps}/config.yaml"
@@ -61,51 +64,43 @@ config:
   backup: true
   create: true
   dotpath: dotfiles
-variables:
-  var1: "this is some test"
-  var2: 12
-  var3: another test
+  longkey: false
 dotfiles:
-  f_abc:
-    dst: ${tmpd}/abc
+  f_colors:
     src: abc
+    dst: abc
+  f_mutt_colors:
+    src: abc
+    dst: abc
+  f_`echo ${tmpd} | sed -e 's#^/\(.*\)$#\1#g' | sed 's#/#_#g' | tr '[:upper:]' '[:lower:]'`_colors:
+    src: abc
+    dst: abc
+  f_`echo ${tmpd} | sed -e 's#^/tmp/\(.*\)$#\1#g' | sed 's#/#_#g' | tr '[:upper:]' '[:lower:]'`_colors:
+    src: abc
+    dst: abc
+  f_`echo ${tmpd} | sed -e 's#^/\(.*\)$#\1#g' | sed 's#/#_#g' | tr '[:upper:]' '[:lower:]'`_mutt_colors:
+    src: abc
+    dst: abc
+  f_`echo ${tmpd} | sed -e 's#^/tmp/\(.*\)$#\1#g' | sed 's#/#_#g' | tr '[:upper:]' '[:lower:]'`_mutt_colors:
+    src: abc
+    dst: abc
 profiles:
-  p1:
-    dotfiles:
-    - f_abc
-    variables:
-      var1: "this is some sub-test"
-  p2:
-    include:
-    - p1
-    variables:
-      var2: 42
 _EOF
-#cat ${cfg}
+cat ${cfg}
 
-# create the dotfile
-echo "{{@@ var1 @@}}" > ${tmps}/dotfiles/abc
-echo "{{@@ var2 @@}}" >> ${tmps}/dotfiles/abc
-echo "{{@@ var3 @@}}" >> ${tmps}/dotfiles/abc
-echo "test" >> ${tmps}/dotfiles/abc
+# import
+cd ${ddpath} | ${bin} import -c ${cfg} -p p1 -V ${tmpd}/.mutt/colors
+cd ${ddpath} | ${bin} import -c ${cfg} -p p1 -V ${tmpd}/.colors
 
-# install
-cd ${ddpath} | ${bin} install -f -c ${cfg} -p p1
+cat ${cfg}
 
-cat ${tmpd}/abc
-grep '^this is some sub-test' ${tmpd}/abc >/dev/null
-grep '^12' ${tmpd}/abc >/dev/null
-grep '^another test' ${tmpd}/abc >/dev/null
+# ensure exists and is not link
+[ ! -d ${tmps}/dotfiles/${tmpd}/.mutt ] && echo "not a directory" && exit 1
+[ ! -e ${tmps}/dotfiles/${tmpd}/.mutt/colors ] && echo "not exist" && exit 1
+[ ! -e ${tmps}/dotfiles/${tmpd}/.colors ] && echo "not exist (2)" && exit 1
 
-# install
-cd ${ddpath} | ${bin} install -f -c ${cfg} -p p2
-
-cat ${tmpd}/abc
-grep '^this is some sub-test' ${tmpd}/abc >/dev/null
-grep '^42' ${tmpd}/abc >/dev/null
-grep '^another test' ${tmpd}/abc >/dev/null
-
-#cat ${tmpd}/abc
+cat ${cfg} | grep ${tmpd}/.mutt/colors >/dev/null 2>&1
+cat ${cfg} | grep ${tmpd}/.colors >/dev/null 2>&1
 
 ## CLEANING
 rm -rf ${tmps} ${tmpd}

@@ -21,6 +21,12 @@ source "$ZDOTDIR/theme/init.zsh"
 source "$ZDOTDIR/aliases.zsh"
 
 #######################################
+# Loading functions
+#######################################
+
+source "$ZDOTDIR/functions.zsh"
+
+#######################################
 # Misc
 #######################################
 

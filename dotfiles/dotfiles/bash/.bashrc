@@ -27,6 +27,12 @@ source "$BDOTDIR/theme/init.sh"
 source "$BDOTDIR/aliases.sh"
 
 #######################################
+# Loading functions
+#######################################
+
+source "$BDOTDIR/functions.sh"
+
+#######################################
 # Misc
 #######################################
 

@@ -1,0 +1,85 @@
+{%@@ set graph_format = '%C(yellow)%h %C(green)[%ar] %Creset%s%C(red)%d%n' @@%}
+{%@@ set graph = "log --branches --remotes='origin' --remotes='upstream' "
+    "--graph --format='%s'" | format(graph_format) @@%}
+{%@@ set graph_all = "log --all --graph --format='%s'"
+    | format(graph_format) @@%}
+{%@@ set info = 'status -sb' @@%}
+{%@@ set new_branch = 'checkout -qb' @@%}
+{%@@ set squash = 'merge --squash' @@%}
+{%@@ set unadd = 'reset HEAD --' @@%}
+{%@@ set unstash = 'stash pop' @@%}
+# {{@@ header() @@}}
+
+[alias]
+    graph = {{@@ graph @@}}
+    graph-all = {{@@ graph_all @@}}
+    info = {{@@ info @@}}
+    ls-aliases = config --get-regexp ^alias\\.
+    new-branch = {{@@ new_branch @@}}
+    squash = {{@@ squash @@}}
+    unadd = {{@@ unadd @@}}
+    unstash = {{@@ unstash @@}}
+
+    a = add
+    b = branch
+    c = commit
+    f = fetch
+    g = {{@@ graph @@}}
+    i = {{@@ info @@}}
+    l = log
+    m = merge --log
+    r = rebase
+    s = stash
+
+    aa = add --all
+    ca = commit --amend
+    ck = checkout -q
+    cp = cherry-pick
+    ga = {{@@ graph_all @@}}
+    nb = {{@@ new_branch @@}}
+    pl = pull
+    ps = push
+    sq = {{@@ squash @@}}
+    ua = {{@@ unadd @@}}
+    us = {{@@ unstash @@}}
+
+[apply]
+    ignoreWhitespace = false
+    whitespace = fix
+
+[commit]
+    gpgsign = true
+
+[core]
+    autocrlf = input
+    editor = vim
+    excludesfile = ~/.gitignore
+
+[credential]
+    helper = /usr/bin/git-credential-gnome-keyring
+
+[fetch]
+    prune = true
+
+[gitreview]
+    username = davla
+
+[help]
+    autocorrect = 5
+
+[merge]
+    log = 1
+
+[rebase]
+    autoStash = true
+
+[pull]
+    rebase = true
+
+[tag]
+    sort = -version:refname
+
+[user]
+    name = Davide Laezza
+    email = truzzialrogo@gmx.com
+    username = davla

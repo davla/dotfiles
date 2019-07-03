@@ -1,3 +1,0 @@
-# Dropbox
-deb [arch=amd64] http://linux.dropbox.com/debian jessie main
-deb-src [arch=amd64] http://linux.dropbox.com/debian jessie main

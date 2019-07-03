@@ -1,0 +1,180 @@
+actions:
+  post:
+    anacron: sh ./actions/anacron.sh "{{@@ anacron_spool @@}}" '{{@@ tmp_dst @@}}'
+config:
+  backup: false
+  banner: true
+  create: true
+  dotpath: dotfiles
+  ignoreempty: false
+  import_configs:
+  - profiles.d/shared.yaml
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+  showdiff: true
+  workdir: ~/.config/dotdrop
+dotfiles:
+  d_applications:
+    dst: ~/.local/share/applications
+    src: local/share/applications
+  d_autostart:
+    dst: ~/.config/autostart
+    src: config/autostart
+  d_desktop-directories:
+    dst: ~/.local/share/desktop-directories
+    src: local/share/desktop-directories
+  d_geany_filedefs:
+    dst: ~/.config/geany/filedefs
+    src: config/geany/filedefs
+    cmpignore:
+    - '*.README'
+    upignore:
+    - '*.README'
+  d_icons:
+    dst: ~/.local/share/icons
+    src: local/share/icons
+  d_thunar:
+    src: config/Thunar
+    dst: ~/.config/Thunar
+  d_xfce4:
+    src: config/xfce4
+    dst: ~/.config/xfce4
+    cmpignore:
+    - desktop
+    - xfce4-screenshooter
+    - xfwm4
+    upignore:
+    - desktop
+    - xfce4-screenshooter
+    - xfwm4
+  f_anacrontab:
+    dst: ~/.anacron/anacrontab
+    src: cron/anacrontab
+  f_atom_config.cson:
+    dst: ~/.atom/config.cson
+    src: atom/config.cson
+  f_atom_init.coffee:
+    dst: ~/.atom/init.coffee
+    src: atom/init.coffee
+  f_atom_keymap.cson:
+    dst: ~/.atom/keymap.cson
+    src: atom/keymap.cson
+  f_atom_snippets.cson:
+    dst: ~/.atom/snippets.cson
+    src: atom/snippets.cson
+  f_atom_styles.less:
+    dst: ~/.atom/styles.less
+    src: atom/styles.less
+  f_calibre_global.py:
+    dst: ~/.config/calibre/global.py
+    src: config/calibre/global.py
+  f_crontab:
+    dst: '{{@@ tmp_dst @@}}'
+    src: cron/crontab
+  f_docker_config.json:
+    dst: ~/.docker/config.json
+    src: docker/config.json
+  f_geany_colorschemes_on-my-own.conf:
+    dst: ~/.config/geany/colorschemes/on-my-own.conf
+    src: config/geany/colorschemes/on-my-own.conf
+  f_geany_geany.conf:
+    dst: ~/.config/geany/geany.conf
+    src: config/geany/geany.conf
+  f_geany_keybindings.conf:
+    dst: ~/.config/geany/keybindings.conf
+    src: config/geany/keybindings.conf
+  f_ghci:
+    src: ghci
+    dst: ~/.ghci
+  f_gtk-3.0_gtk.css:
+    dst: ~/.config/gtk-3.0/gtk.css
+    src: config/gtk-3.0/gtk.css
+  f_hgrc:
+    src: hgrc
+    dst: ~/.hgrc
+  f_mrconfig:
+    dst: ~/.mrconfig
+    src: mrconfig
+  f_orage_oragerc:
+    dst: ~/.config/orage/oragerc
+    src: config/orage/oragerc
+  f_parcellite_parcelliterc:
+    dst: ~/.config/parcellite/parcelliterc
+    src: config/parcellite/parcelliterc
+  f_virtualbox_virtualbox.xml:
+    dst: ~/.config/VirtualBox/VirtualBox.xml
+    src: config/VirtualBox/VirtualBox.xml
+  f_xfce-applications.menu:
+    src: config/menus/xfce-applications.menu
+    dst: ~/.config/menus/xfce-applications.menu
+  f_xsessionrc:
+    src: xsessionrc
+    dst: ~/.xsessionrc
+profiles:
+  atom:
+    dotfiles:
+    - f_atom_config.cson
+    - f_atom_init.coffee
+    - f_atom_keymap.cson
+    - f_atom_snippets.cson
+    - f_atom_styles.less
+  cli:
+    dotfiles:
+    - f_docker_config.json
+    - f_ghci
+    - f_hgrc
+    include:
+    - git
+  cron:
+    dotfiles:
+    - f_anacrontab
+    - f_crontab
+    - f_mrconfig
+    variables:
+      anacron_spool: $HOME/.anacron/spool
+    dynvariables:
+      tmp_dst: mktemp /tmp/cron-tmp.XXX
+    actions:
+    - anacron
+  davide-debian:
+    include:
+    - cli
+    - cron
+    - gui
+    - menu
+    - shell
+    - startup
+    - xfce
+  geany:
+    dotfiles:
+    - d_geany_filedefs
+    - f_geany_colorschemes_on-my-own.conf
+    - f_geany_geany.conf
+    - f_geany_keybindings.conf
+  gui:
+    dotfiles:
+    - f_calibre_global.py
+    - f_gtk-3.0_gtk.css
+    - f_orage_oragerc
+    - f_parcellite_parcelliterc
+    - f_virtualbox_virtualbox.xml
+    include:
+    - atom
+    - geany
+  startup:
+    dotfiles:
+    - d_autostart
+    - f_xsessionrc
+  xfce:
+    dotfiles:
+    - d_desktop-directories
+    - d_thunar
+    - d_xfce4
+    - f_gtk-3.0_gtk.css
+    - f_xfce-applications.menu
+variables:
+  mr_default_dir: $HOME
+  user: user
+  zygal_colorscheme: orange

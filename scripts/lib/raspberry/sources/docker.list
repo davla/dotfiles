@@ -1,3 +1,0 @@
-# Docker Community Edition
-
-deb [arch=armhf] https://download.docker.com/linux/raspbian stretch edge

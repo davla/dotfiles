@@ -4,7 +4,8 @@
 # performs some additional setup for some of them when required.
 #
 # Arguments:
-#   - $1: name of the user to be added to the docker group
+#   - $1: name of the user to be added to the docker group. Defaults to $USER
+#         variable.
 
 . ./.env
 
@@ -160,7 +161,7 @@ apt-get upgrade
 
 # Docker non root access.
 groupadd -f docker
-adduser "$USER_NAME" docker
+usermod -g docker "$USER_NAME"
 
 # Git credential helper
 ln -sf /usr/share/doc/git/contrib/credential/gnome-keyring/\

@@ -17,7 +17,7 @@
 #         working directory.
 #   - $2+: exa options to be added to the present ones. Optional. It includes
 #          the first argument if it's not an existing path.
-ll() {
+l() {
     if [ -e "$1" ]; then
         L_DIR="$1"
         shift
@@ -51,7 +51,7 @@ t() {
         T_DIR="$PWD"
     fi
 
-    # $1 as arguments are either shifted, or the file/directory is left out. 
+    # $1 as arguments are either shifted, or the file/directory is left out.
     if echo "$1" | grep -E '[0-9]+' > /dev/null 2>&1; then
         T_LEVEL="$1"
         shift

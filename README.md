@@ -1,7 +1,7 @@
 # dotfiles
 My dotfiles repository. Really, just configuration files
 
-## Roadmap
+## TODO
 - $HOME dotfiles linked to DOTDIR
 - interactive vs non-interactive in bashrc and zshrc
 - LS_COLORS
@@ -9,3 +9,6 @@ My dotfiles repository. Really, just configuration files
   (https://wiki.archlinux.org/index.php/GNOME/Keyring#Automatic_login)
 - Better place for system envvars (Android, asdf)
 - Anacron on battery
+- Atom packages
+- GRUB + Anacron battery in dotdrop
+- myrepos package dependency

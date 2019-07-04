@@ -52,6 +52,7 @@ MSG_WIDTH=$(( MSG_WIDTH - $(printf "$INDENT" | wc -m) ))
 
 # Reset
 SHELL="$(ps --no-headers -p "$$" -o 'comm')"
+USER="$(id -un)"
 
 #######################################
 # Functions
@@ -305,7 +306,7 @@ prompt 'install your custom commands' 'sudo sh -e custom-commands/install.sh' \
 prompt 'initialize the shells' 'sh -e scripts/shell.sh' 'shells initialization'
 
 # Packages installation - they make commands available for other scripts.
-prompt 'install packages' "sudo sh -e scripts/packages.sh $(id -un)" \
+prompt 'install packages' "sudo sh -e scripts/packages.sh $USER" \
     'packages installation'
 
 # Locales
@@ -351,6 +352,10 @@ prompt 'install cursor, desktop and icon themes' \
 
 # Xfce
 prompt 'install Xfce' 'sh -e scripts/xfce.sh' 'installing Xfce'
+
+# Android
+prompt 'install Android SDK' "sudo sh -e scripts/android.sh $USER" \
+    'Android SDK installation'
 
 #######################################
 # Outro

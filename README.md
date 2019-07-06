@@ -8,5 +8,4 @@ My dotfiles repository. Really, just configuration files
 - GNOME keyring without LightDM
   (https://wiki.archlinux.org/index.php/GNOME/Keyring#Automatic_login)
 - Better place for system envvars (Android, asdf)
-- Atom packages
 - Antibody installation in anacron and shell

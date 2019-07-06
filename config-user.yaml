@@ -1,3 +1,9 @@
+actions:
+  post:
+    atom-install-packages: >-
+      export PATH="$(which python2 | xargs dirname):$PATH";
+      apm install --packages-file {0};
+      rm {0}
 config:
   backup: false
   banner: true
@@ -60,6 +66,12 @@ dotfiles:
   f_atom_keymap.cson:
     dst: ~/.atom/keymap.cson
     src: atom/keymap.cson
+  f_atom_packages-list.txt:
+    src: atom/packages-list.txt
+    dst: '{{@@ tmp_dst @@}}'
+    actions:
+    - atom-install-packages '{{@@ tmp_dst @@}}'
+    trans_write: atom-list-packages
   f_atom_snippets.cson:
     dst: ~/.atom/snippets.cson
     src: atom/snippets.cson
@@ -111,14 +123,21 @@ dotfiles:
   f_xsessionrc:
     src: xsessionrc
     dst: ~/.xsessionrc
+  f_packages-list.txt:
+    src: atom/packages-list.txt
+    dst: ~/.atom/packages-list.txt
 profiles:
   atom:
     dotfiles:
     - f_atom_config.cson
     - f_atom_init.coffee
     - f_atom_keymap.cson
+    - f_atom_packages-list.txt
     - f_atom_snippets.cson
     - f_atom_styles.less
+    - f_packages-list.txt
+    dynvariables:
+      tmp_dst: mktemp /tmp/atom-tmp.XXX
   cli:
     dotfiles:
     - f_docker_config.json
@@ -173,6 +192,8 @@ profiles:
     - d_xfce4
     - f_gtk-3.0_gtk.css
     - f_xfce-applications.menu
+trans_write:
+  atom-list-packages: apm list --bare --installed | grep -o '^[^@]\+' > {1}
 variables:
   mr_default_dir: $HOME
   user: user

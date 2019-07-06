@@ -1,12 +1,11 @@
-actions:
-  post:
-    anacron: sh ./actions/anacron.sh "{{@@ anacron_spool @@}}" '{{@@ tmp_dst @@}}'
 config:
   backup: false
   banner: true
   create: true
   dotpath: dotfiles
   ignoreempty: false
+  import_actions:
+  - actions.d/shared.yaml
   import_configs:
   - profiles.d/shared.yaml
   keepdot: false
@@ -137,7 +136,7 @@ profiles:
     dynvariables:
       tmp_dst: mktemp /tmp/cron-tmp.XXX
     actions:
-    - anacron
+    - anacron '{{@@ anacron_spool @@}}' '{{@@ tmp_dst @@}}'
   davide-debian:
     include:
     - cli

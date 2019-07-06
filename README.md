@@ -11,4 +11,4 @@ My dotfiles repository. Really, just configuration files
 - Anacron on battery
 - Atom packages
 - GRUB + Anacron battery in dotdrop
-- myrepos package dependency
+- Antibody installation in anacron and shell

@@ -12,6 +12,7 @@ config:
   import_actions:
   - actions.d/append.yaml
   - actions.d/insert.yaml
+  - actions.d/shared.yaml
   import_configs:
   - profiles.d/shared.yaml
   keepdot: false
@@ -125,6 +126,8 @@ profiles:
     - f_anacrontab
     - f_logrotate.d_custom.conf
     - f_rsyslog.d_custom.conf
+    actions:
+      - anacron '' ''
     dynvariables:
       anacrontab_tmp_dst: mktemp /tmp/anacrontab-append.XXX
     variables:

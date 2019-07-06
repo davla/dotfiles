@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # author: deadc0de6 (https://github.com/deadc0de6)
-# Copyright (c) 2017, deadc0de6
+# Copyright (c) 2019, deadc0de6
 #
-# test link of directory containing templates on home
-# returns 1 in case of error
+# test import file in directory
+# after having imported directory
 #
 
 # exit on first error
@@ -48,14 +48,13 @@ echo -e "$(tput setaf 6)==> RUNNING $(basename $BASH_SOURCE) <==$(tput sgr0)"
 # the dotfile source
 tmps=`mktemp -d --suffix='-dotdrop-tests' || mktemp -d`
 mkdir -p ${tmps}/dotfiles
-echo "dotfiles source (dotpath): ${tmps}"
 # the dotfile destination
-tmpd=`mktemp -d -p ${HOME} --suffix='-dotdrop-tests' || mktemp -d`
-echo "dotfiles destination: ${tmpd}"
-# the workdir
-tmpw=`mktemp -d -p ${HOME} --suffix='-dotdrop-tests' || mktemp -d`
-echo "workdir: ${tmpw}"
+tmpd=`mktemp -d --suffix='-dotdrop-tests' || mktemp -d`
+#echo "dotfile destination: ${tmpd}"
 
+# create the dotfile
+mkdir -p ${tmpd}/adir
+echo "first" > ${tmpd}/adir/file1
 
 # create the config file
 cfg="${tmps}/config.yaml"
@@ -65,39 +64,27 @@ config:
   backup: true
   create: true
   dotpath: dotfiles
-  workdir: ${tmpw}
 dotfiles:
-  f_abc:
-    dst: ${tmpd}/abc
-    src: abc
-    link: true
 profiles:
-  p1:
-    dotfiles:
-    - f_abc
 _EOF
 #cat ${cfg}
 
-# create the dotfile
-mkdir -p ${tmps}/dotfiles/abc
-echo "{{@@ profile @@}}" > ${tmps}/dotfiles/abc/template
-echo "blabla" >> ${tmps}/dotfiles/abc/template
-echo "blabla" > ${tmps}/dotfiles/abc/nottemplate
+# import dir
+cd ${ddpath} | ${bin} import -f -c ${cfg} -p p1 -V ${tmpd}/adir
 
-# install
-cd ${ddpath} | ${bin} install -f -c ${cfg} -p p1 -b -V
+# change the file
+echo "second" >> ${tmpd}/adir/file1
 
-# checks
-[ ! -d ${tmpd}/abc ] && echo "[ERROR] dotfile not installed" && exit 1
-[ ! -h ${tmpd}/abc ] && echo "[ERROR] dotfile is not a symlink" && exit 1
-#cat ${tmpd}/abc/template
-#tree -a ${tmpd}/abc/
-set +e
-grep '{{@@' ${tmpd}/abc/template >/dev/null 2>&1 && echo "[ERROR] template in dir not replace" && exit 1
-set -e
+# import file
+cd ${ddpath} | ${bin} import -f -c ${cfg} -p p1 -V ${tmpd}/adir/file1
+
+# test
+#cat ${tmps}/dotfiles/${tmpd}/adir/file1
+[ ! -e ${tmps}/dotfiles/${tmpd}/adir/file1 ] && echo "not exist" && exit 1
+grep 'second' ${tmps}/dotfiles/${tmpd}/adir/file1 >/dev/null
 
 ## CLEANING
-rm -rf ${tmps} ${tmpd} ${tmpw}
+rm -rf ${tmps} ${tmpd}
 
 echo "OK"
 exit 0

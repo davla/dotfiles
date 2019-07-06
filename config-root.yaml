@@ -1,5 +1,6 @@
 actions:
   post:
+    grub: update-grub
     locales: sh ./actions/locales.sh
     repo-keys: sh ./actions/repo-keys.sh
     xkb: sh ./actions/xkb.sh
@@ -54,6 +55,11 @@ dotfiles:
   f_frequent-hosts:
     src: usr/local/etc/frequent-hosts
     dst: /usr/local/etc/frequent-hosts
+  f_grub:
+    src: etc/default/grub
+    dst: /etc/default/grub
+    actions:
+      - grub
   f_hosts:
     dst: '{{@@ hosts_tmp_dst @@}}'
     src: etc/hosts
@@ -127,11 +133,11 @@ profiles:
     - f_logrotate.d_custom.conf
     - f_rsyslog.d_custom.conf
     actions:
-      - anacron '' ''
+    - anacron '' ''
     dynvariables:
       anacrontab_tmp_dst: mktemp /tmp/anacrontab-append.XXX
     variables:
-      anacrontab_append_marker: 'Custom jobs'
+      anacrontab_append_marker: Custom jobs
       anacrontab_dst: /etc/anacrontab
   davide-debian:
     include:
@@ -160,7 +166,7 @@ profiles:
     dynvariables:
       hosts_tmp_dst: mktemp /tmp/hosts-append.XXX
     variables:
-      hosts_append_marker: 'Local sites'
+      hosts_append_marker: Local sites
       hosts_dst: /etc/hosts
   packages:
     dotfiles:
@@ -175,11 +181,12 @@ profiles:
   startup:
     dotfiles:
     - f_fstab
+    - f_grub
     - f_underclock.service
     dynvariables:
       fstab_tmp_dst: mktemp /tmp/fstab-append.XXX
     variables:
-      fstab_append_marker: 'Custom mount points'
+      fstab_append_marker: Custom mount points
       fstab_dst: /etc/fstab
   xkb:
     dotfiles:
@@ -190,14 +197,14 @@ profiles:
     dynvariables:
       xkb_tmp_dst: mktemp /tmp/xkb-dotfiles.XXX
     variables:
-      base_lst_range_start: '^\s*\sintl\s\s*us'
-      base_lst_range_end: '^\s*\salt-intl\s\s*us'
+      base_lst_range_start: ^\s*\sintl\s\s*us
+      base_lst_range_end: ^\s*\salt-intl\s\s*us
       base_lst_dst: /usr/share/X11/xkb/rules/base.lst
-      base_xml_strip_xpath: ".//*[name='intl-custom'].."
+      base_xml_strip_xpath: .//*[name='intl-custom']..
       base_xml_insert_xpath: >
         .//*[description='English (US, intl., with dead keys)']..
       base_xml_dst: /usr/share/X11/xkb/rules/base.xml
-      symbols_append_marker: 'Custom layout symbols'
+      symbols_append_marker: Custom layout symbols
       symbols_dst: /usr/share/X11/xkb/symbols/us
     actions:
     - xkb

@@ -8,7 +8,5 @@ My dotfiles repository. Really, just configuration files
 - GNOME keyring without LightDM
   (https://wiki.archlinux.org/index.php/GNOME/Keyring#Automatic_login)
 - Better place for system envvars (Android, asdf)
-- Anacron on battery
 - Atom packages
-- GRUB + Anacron battery in dotdrop
 - Antibody installation in anacron and shell

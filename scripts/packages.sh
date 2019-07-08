@@ -176,7 +176,7 @@ apt-get upgrade
 
 # Docker non root access.
 groupadd -f docker
-usermod -g docker "$USER_NAME"
+usermod -aG docker "$USER_NAME"
 
 # Git credential helper
 ln -sf /usr/share/doc/git/contrib/credential/gnome-keyring/\

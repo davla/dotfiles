@@ -48,20 +48,14 @@ SDK_ZIP_HASH="${2:-4333796}"
 # Setting up Android environment
 #######################################
 
-# Creating $ANDROID_HOME
 mkdir -p "$ANDROID_HOME"
 
-# Creating android group
 groupadd -f android
-
-# Creating android user if it doesn't exist
 getent passwd android > /dev/null 2>&1 || useradd -r -g android android
-
-# Adding android user to android group, even if the user is not created above
+usermod -aG android "$USER_NAME"
+# Setting android user login group to android, even if the user is not created
+# above
 usermod -g android android
-
-# Adding the passed user to the android group
-usermod -g android "$USER_NAME"
 
 #######################################
 # SDK download

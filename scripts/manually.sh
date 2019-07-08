@@ -1,3 +1,48 @@
+#!/usr/bin/env sh
+
+# This script installs manually managed packages and applications.
+
+#######################################
+# Variables
+#######################################
+
+TELEGRAM_ARCH='telegram.tar.xz'
+TELEGRAM_HOME='/opt/telegram'
+
+#######################################
+# Input processing
+#######################################
+
+USER_NAME="${1:-$USER}"
+
+#######################################
+# Telegram
+#######################################
+
+# Installing the executables
+mkdir -p "$TELEGRAM_HOME"
+wget 'https://tdesktop.com/linux' -O "$TELEGRAM_ARCH"
+tar -xf "$TELEGRAM_ARCH" -C "$TELEGRAM_HOME" --strip-components=1
+rm "$TELEGRAM_ARCH"
+
+# Linking the main executable in $PATH
+ln -sf "$TELEGRAM_HOME/Telegram" '/usr/local/bin/telegram'
+
+# Making updater work also for unprivileged users in telegram group
+groupadd -f telegram
+getent passwd telegram > /dev/null 2>&1 || useradd -r -g telegram telegram
+usermod -aG telegram "$USER_NAME"
+# Setting telegram user login group to telegram, even if the user is not
+# created above
+usermod -g telegram telegram
+chown telegram:telegram -R "$TELEGRAM_HOME"
+
+#######################################
+# Dotfiles installation
+#######################################
+
+dotdrop install -p manual
+
 #!/usr/bin/env bash
 
 # This scripts sets up the machinery for manually installing and updating

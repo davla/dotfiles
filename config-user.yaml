@@ -37,9 +37,6 @@ dotfiles:
     - '*.README'
     upignore:
     - '*.README'
-  d_icons:
-    dst: ~/.local/share/icons
-    src: local/share/icons
   d_thunar:
     src: config/Thunar
     dst: ~/.config/Thunar
@@ -161,7 +158,6 @@ profiles:
     - cli
     - cron
     - gui
-    - menu
     - shell
     - startup
     - xfce
@@ -187,7 +183,6 @@ profiles:
     - f_xsessionrc
   xfce:
     dotfiles:
-    - d_desktop-directories
     - d_thunar
     - d_xfce4
     - f_gtk-3.0_gtk.css

@@ -21,9 +21,6 @@ config:
   showdiff: true
   workdir: ~/.config/dotdrop
 dotfiles:
-  d_applications:
-    dst: ~/.local/share/applications
-    src: local/share/applications
   d_autostart:
     dst: ~/.config/autostart
     src: config/autostart

@@ -23,6 +23,9 @@ config:
   showdiff: true
   workdir: ~/.config/dotdrop
 dotfiles:
+  d_applications:
+    src: usr/share/applications
+    dst: /usr/share/applications
   d_asdf:
     dst: '{{@@ asdf_config_path @@}}'
     src: asdf
@@ -59,7 +62,7 @@ dotfiles:
     src: etc/default/grub
     dst: /etc/default/grub
     actions:
-      - grub
+    - grub
   f_hosts:
     dst: '{{@@ hosts_tmp_dst @@}}'
     src: etc/hosts
@@ -158,6 +161,9 @@ profiles:
     - f_timezone
     actions:
     - locales
+  manual:
+    dotfiles:
+    - d_applications
   network:
     dotfiles:
     - f_99-no-wireless-on-wired

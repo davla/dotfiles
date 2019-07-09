@@ -22,12 +22,12 @@ PATH=/usr/local/bin:/bin:/usr/bin
 1   2   shell.plugins.update    zsh -c 'antibody update' > /dev/null 2>&1; cron-logger 'ANTIBODY' "$?"
 {%@@ if user == 'root' -@@%}
 
-1   1   manual.update           manual-install update; cron-logger 'MANUAL-INSTALL' "$?"
+1   1   manual.update           mr -d {{@@ mr_default_dir @@}} upgrade 2>&1 | grep -v 'finish' | grep -vP '^\S*$' | cron-logger 'MANUAL-INSTALL'
 1   1   host.refresh            host-refresh > /dev/null 2>&1; cron-logger 'HOST-REFRESH' "$?"
 
 {%@@ elif user == 'user' -@@%}
 
-1   1   repos.update            mr -d {{@@ mr_default_dir @@}} -m update 2>&1 | grep update | tac | cron-logger 'MYREPOS'
+1   1   repos.update            mr -md {{@@ mr_default_dir @@}} update 2>&1 | grep update | tac | cron-logger 'MYREPOS'
 1   1   atom.update             apm update -c false > /dev/null 2>&1; cron-logger 'APM-UPDATE' "$?"
 
 {%@@ endif @@%}

@@ -4,7 +4,7 @@
 # former into the latter
 
 #######################################
-# Variuables
+# Variables
 #######################################
 
 # Xkb rules directory path

@@ -309,6 +309,14 @@ prompt 'initialize the shells' 'sh -e scripts/shell.sh' 'shells initialization'
 prompt 'install packages' "sudo sh -e scripts/packages.sh $USER" \
     'packages installation'
 
+# Manual applications install
+prompt 'install manually managed applications' \
+    "sudo sh -e -l scripts/manually.sh $USER" \
+    'manually managed applications installation'
+
+# Zsh initialization - after manual since it needs antibody
+prompt 'initialize zsh' 'dotdrop -U both install -p zsh' 'zsh initialization'
+
 # Locales
 prompt 'configure locales' 'dotdrop --user root install -p locales' \
     'configuring locales'
@@ -332,9 +340,6 @@ prompt 'set up (ana)cron jobs' 'dotdrop --user both install -p cron' \
 # PolicyKit
 prompt 'configure PolicyKit' 'sudo -E dotdrop install -p polkit' \
     'configuring PolicyKit'
-
-# Asdf
-prompt 'install asdf' 'sudo bash -el scripts/asdf.sh' 'asdf installation'
 
 # SSH and GPG keys
 prompt 'generate SSH and GPG keys' 'sh -e scripts/security.sh' \

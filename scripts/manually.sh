@@ -1,12 +1,19 @@
 #!/usr/bin/env sh
 
-# This script installs manually managed packages and applications.
+# This script installs manually managed packages and applications and performs
+# their initial setup. Non self-updating applications are managed via myrepos,
+# while the other ones have custom installation process.
+#
+# Arguments:
+#   - $1: The user added to the telegram group. Optional, defaults to $USER.
+
+. ./.env
 
 #######################################
 # Variables
 #######################################
 
-TELEGRAM_ARCH='telegram.tar.xz'
+# The directory where Telegram will be installed
 TELEGRAM_HOME='/opt/telegram'
 
 #######################################
@@ -16,14 +23,17 @@ TELEGRAM_HOME='/opt/telegram'
 USER_NAME="${1:-$USER}"
 
 #######################################
+# Self-updating applications
+#######################################
+
+#######################################
 # Telegram
 #######################################
 
 # Installing the executables
 mkdir -p "$TELEGRAM_HOME"
-wget 'https://tdesktop.com/linux' -O "$TELEGRAM_ARCH"
-tar -xf "$TELEGRAM_ARCH" -C "$TELEGRAM_HOME" --strip-components=1
-rm "$TELEGRAM_ARCH"
+wget -qO - 'https://tdesktop.com/linux' \
+    | tar -xJC "$TELEGRAM_HOME" --strip-components=1
 
 # Linking the main executable in $PATH
 ln -sf "$TELEGRAM_HOME/Telegram" '/usr/local/bin/telegram'
@@ -38,73 +48,27 @@ usermod -g telegram telegram
 chown telegram:telegram -R "$TELEGRAM_HOME"
 
 #######################################
-# Dotfiles installation
+# Myrepos-based installation
 #######################################
 
-dotdrop install -p manual
+apt-get install myrepos
 
-#!/usr/bin/env bash
+# Can't install the whole profile now. It contains dotfiles in directories
+# created by checkout, which means that git clone would fail as the target
+# directory is not empty.
+dotdrop install -p manual f_mrconfig
 
-# This scripts sets up the machinery for manually installing and updating
-# applications that aren't packages in a repository. It then uses such
-# machinery immediately to install them.
-#
-# Arguments:
-#   - $1: The base directory where the manual install machinery will be
-#       installed. It's read also from the environment variable
-#       MANUAL_INST_BASE, and defaults to /usr/local/lib/manual-install
+mr -d '/opt' checkout
 
-# Every application should define the following functions:
-#   - is-installed: Exits with 0 if the application is installed,
-#       non-zero otherwise.
-#   - install: Installs the application.
-#   - installed-version: Prints the installed version on STDOUT.
-#   - latest-version: Prints the latest available version on STDOUT.
-#   - is-newer <v1> <v2>: Exits with 0 if v1 equal or newer than v2, non-zero
-#       otherwise.
-#   - remove: Removes the application.
-#
-# Such functions should be defined inside *.inst files, located in the
-# directory functions.d under the machinery installation path.
+# Need bash to initialize ASDF environment variables
+bash -lc 'source ./.env; dotdrop install -p manual'
 
-#####################################################
-#
-#                   Variables
-#
-#####################################################
+mr -d '/opt' install
 
-# Absolute path of this script's parent directory
-PARENT_DIR="$(dirname "${BASH_SOURCE[0]}")"
-MANUAL_INST_LIB_DIR="$PARENT_DIR/lib/manual-install"
+#######################################
+# Initial setup
+#######################################
 
-#####################################################
-#
-#               Input processing
-#
-#####################################################
-
-# Machinery directories
-MANUAL_INST_DIR="${MANUAL_INST_BASE:-/usr/local/lib/manual-install}"
-[[ -n "$1" ]] && MANUAL_INST_DIR="$1"
-MANUAL_INST_FUNCTIONS_DIR="$MANUAL_INST_DIR/functions.d"
-MANUAL_INST_LOG_DIR="$MANUAL_INST_DIR/log"
-
-#####################################################
-#
-#               Machinery setup
-#
-#####################################################
-
-mkdir -p "$MANUAL_INST_DIR" "$MANUAL_INST_FUNCTIONS_DIR" "$MANUAL_INST_LOG_DIR"
-
-cp "$MANUAL_INST_LIB_DIR/lib.sh" "$MANUAL_INST_DIR"
-cp "$MANUAL_INST_LIB_DIR/"*.inst "$MANUAL_INST_FUNCTIONS_DIR"
-
-#####################################################
-#
-#               Manual installations
-#
-#####################################################
-
-bash "$PARENT_DIR/custom-commands.sh" manual-install
-manual-install -f -b "$MANUAL_INST_DIR"
+# Asdf
+# The code is kept in a separate script as it needs to be run with bash.
+bash -l scripts/asdf.sh

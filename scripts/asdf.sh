@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# This script installs asdf and some language interpreters.
+# This script installs language interpreters via asdf.
 
 . ./.env
 
@@ -33,21 +33,10 @@ install_latest() {
 apt-get install libreadline-dev libncurses-dev libssl-dev libffi-dev
 
 #######################################
-# Installing and sourcing asdf
+# Sourcing asdf
 #######################################
 
-git clone 'https://github.com/asdf-vm/asdf.git' "$ASDF_PATH"
-git -C "$ASDF_PATH" describe --abbrev=0 --tags \
-    | xargs git -C "$ASDF_PATH" checkout 2> /dev/null
-mkdir -p "$ASDF_DATA_DIR"
-mkdir -p "$ASDF_CONFIG_PATH"
 source "$ASDF_PATH/asdf.sh"
-
-#######################################
-# Installing dotfiles
-#######################################
-
-dotdrop install -p asdf
 
 #######################################
 # Installing lua

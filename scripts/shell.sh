@@ -14,7 +14,8 @@ sudo apt-get install bash bash-completion dash exa fasd thefuck zsh xsel
 # Installing dotfiles
 #######################################
 
-dotdrop --user both install -p shell
+dotdrop --user both install -p sh
+dotdrop --user both install -p bash
 
 #######################################
 # Setting default shell

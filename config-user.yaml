@@ -101,7 +101,7 @@ dotfiles:
     dst: ~/.hgrc
   f_mrconfig:
     dst: ~/.mrconfig
-    src: mrconfig
+    src: mrconfig-user
   f_orage_oragerc:
     dst: ~/.config/orage/oragerc
     src: config/orage/oragerc
@@ -151,13 +151,7 @@ profiles:
     actions:
     - anacron '{{@@ anacron_spool @@}}' '{{@@ tmp_dst @@}}'
   davide-debian:
-    include:
-    - cli
-    - cron
-    - gui
-    - shell
-    - startup
-    - xfce
+    dotfiles: []
   geany:
     dotfiles:
     - d_geany_filedefs

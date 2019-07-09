@@ -2,6 +2,7 @@ actions:
   post:
     grub: update-grub
     locales: sh ./actions/locales.sh
+    mrconfig: apt-get install jq
     repo-keys: sh ./actions/repo-keys.sh
     xkb: sh ./actions/xkb.sh
 config:
@@ -81,6 +82,11 @@ dotfiles:
   f_logrotate.d_custom.conf:
     dst: /etc/logrotate.d/custom.conf
     src: etc/logrotate.d/custom.conf
+  f_mrconfig:
+    src: mrconfig-root
+    dst: ~/.mrconfig
+    actions:
+    - mrconfig
   f_org.xfce.xfce4-terminal.policy:
     dst: /usr/share/polkit-1/actions/org.xfce.xfce4-terminal.policy
     src: usr/share/polkit-1/actions/org.xfce.xfce4-terminal.policy
@@ -124,11 +130,6 @@ dotfiles:
     - strip '{{@@ symbols_append_marker @@}}' '{{@@ symbols_dst @@}}'
     - append '{{@@ symbols_dst @@}}' '{{@@ xkb_tmp_dst @@}}'
 profiles:
-  asdf:
-    dotfiles:
-    - d_asdf
-    dynvariables:
-      asdf_config_path: echo "$ASDF_CONFIG_PATH"
   cron:
     dotfiles:
     - f_anacron
@@ -143,14 +144,7 @@ profiles:
       anacrontab_append_marker: Custom jobs
       anacrontab_dst: /etc/anacrontab
   davide-debian:
-    include:
-    - git
-    - graphical-login
-    - shell
-    - network
-    - packages
-    - polkit
-    - startup
+    dotfiles: []
   graphical-login:
     dotfiles:
     - f_lightdm.conf.d_02_custom.conf
@@ -163,7 +157,11 @@ profiles:
     - locales
   manual:
     dotfiles:
+    - d_asdf
     - d_applications
+    - f_mrconfig
+    dynvariables:
+      asdf_config_path: echo "$ASDF_CONFIG_PATH"
   network:
     dotfiles:
     - f_99-no-wireless-on-wired

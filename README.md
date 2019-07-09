@@ -9,3 +9,6 @@ My dotfiles repository. Really, just configuration files
   (https://wiki.archlinux.org/index.php/GNOME/Keyring#Automatic_login)
 - Better place for system envvars (Android, asdf)
 - Antibody installation in anacron and shell
+- gulp-cli
+- Auto update languages
+- Scala in asdf

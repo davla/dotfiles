@@ -72,8 +72,8 @@ def cmd_install(o):
     """install dotfiles for this profile"""
     dotfiles = o.dotfiles
     prof = o.conf.get_profile(o.profile)
-    pro_pre_actions = prof.get_pre_actions()
-    pro_post_actions = prof.get_post_actions()
+    pro_pre_actions = prof.get_pre_actions() if prof else []
+    pro_post_actions = prof.get_post_actions() if prof else []
 
     if o.install_keys:
         # filtered dotfiles to install
@@ -161,7 +161,8 @@ def cmd_install(o):
                     LOG.dbg('force pre action execution ...')
                 pre_actions_exec()
                 # post-actions
-                LOG.dbg('force post action execution ...')
+                if o.debug:
+                    LOG.dbg('force post action execution ...')
                 postactions = dotfile.get_post_actions()
                 post_actions_exec = action_executor(o, postactions, defactions,
                                                     t, post=True)
@@ -352,7 +353,23 @@ def cmd_importer(o):
 
         # prepare hierarchy for dotfile
         srcf = os.path.join(o.dotpath, src)
-        if not os.path.exists(srcf):
+        overwrite = not os.path.exists(srcf)
+        if os.path.exists(srcf):
+            overwrite = True
+            if o.safe:
+                c = Comparator(debug=o.debug)
+                diff = c.compare(srcf, dst)
+                if diff != '':
+                    # files are different, dunno what to do
+                    LOG.log('diff \"{}\" VS \"{}\"'.format(dst, srcf))
+                    LOG.emph(diff)
+                    # ask user
+                    msg = 'Dotfile \"{}\" already exists, overwrite?'
+                    overwrite = LOG.ask(msg.format(srcf))
+
+        if o.debug:
+            LOG.dbg('will overwrite: {}'.format(overwrite))
+        if overwrite:
             cmd = ['mkdir', '-p', '{}'.format(os.path.dirname(srcf))]
             if o.dry:
                 LOG.dry('would run: {}'.format(' '.join(cmd)))

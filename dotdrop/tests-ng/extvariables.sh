@@ -39,17 +39,17 @@ echo "pythonpath: ${PYTHONPATH}"
 # get the helpers
 source ${cur}/helpers
 
-echo -e "\e[96m\e[1m==> RUNNING $(basename $BASH_SOURCE) <==\e[0m"
+echo -e "$(tput setaf 6)==> RUNNING $(basename $BASH_SOURCE) <==$(tput sgr0)"
 
 ################################################################
 # this is the test
 ################################################################
 
 # the dotfile source
-tmps=`mktemp -d --suffix='-dotdrop-tests'`
+tmps=`mktemp -d --suffix='-dotdrop-tests' || mktemp -d`
 mkdir -p ${tmps}/dotfiles
 # the dotfile destination
-tmpd=`mktemp -d --suffix='-dotdrop-tests'`
+tmpd=`mktemp -d --suffix='-dotdrop-tests' || mktemp -d`
 #echo "dotfile destination: ${tmpd}"
 
 # create the config file
@@ -116,7 +116,7 @@ grep '^var3: var1 var2 var3' ${tmpd}/abc >/dev/null
 grep '^dvar3: dvar1 dvar2 dvar3' ${tmpd}/abc >/dev/null
 grep '^var4: echo var1 var2 var3' ${tmpd}/abc >/dev/null
 grep '^dvar4: var1 var2 var3' ${tmpd}/abc >/dev/null
-grep '^varx: exttest' ${tmpd}/abc >/dev/null
+grep '^varx: profvarx' ${tmpd}/abc >/dev/null
 grep '^evar1: extevar1' ${tmpd}/abc >/dev/null
 grep '^provar: provar' ${tmpd}/abc >/dev/null
 
@@ -178,7 +178,7 @@ grep '^var3: extvar1 var2 var3' ${tmpd}/abc >/dev/null
 grep '^dvar3: extdvar1 dvar2 dvar3' ${tmpd}/abc >/dev/null
 grep '^var4: echo extvar1 var2 var3' ${tmpd}/abc >/dev/null
 grep '^dvar4: extvar1 var2 var3' ${tmpd}/abc >/dev/null
-grep '^varx: exttest' ${tmpd}/abc >/dev/null
+grep '^varx: profvarx' ${tmpd}/abc >/dev/null
 grep '^vary: profvary' ${tmpd}/abc >/dev/null
 
 ## CLEANING

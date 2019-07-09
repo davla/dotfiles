@@ -1,6 +1,8 @@
 actions:
   post:
+    grub: update-grub
     locales: sh ./actions/locales.sh
+    mrconfig: apt-get install jq
     repo-keys: sh ./actions/repo-keys.sh
     xkb: sh ./actions/xkb.sh
 config:
@@ -12,6 +14,7 @@ config:
   import_actions:
   - actions.d/append.yaml
   - actions.d/insert.yaml
+  - actions.d/shared.yaml
   import_configs:
   - profiles.d/shared.yaml
   keepdot: false
@@ -21,6 +24,9 @@ config:
   showdiff: true
   workdir: ~/.config/dotdrop
 dotfiles:
+  d_applications:
+    src: usr/share/applications
+    dst: /usr/share/applications
   d_asdf:
     dst: '{{@@ asdf_config_path @@}}'
     src: asdf
@@ -53,6 +59,11 @@ dotfiles:
   f_frequent-hosts:
     src: usr/local/etc/frequent-hosts
     dst: /usr/local/etc/frequent-hosts
+  f_grub:
+    src: etc/default/grub
+    dst: /etc/default/grub
+    actions:
+    - grub
   f_hosts:
     dst: '{{@@ hosts_tmp_dst @@}}'
     src: etc/hosts
@@ -71,6 +82,11 @@ dotfiles:
   f_logrotate.d_custom.conf:
     dst: /etc/logrotate.d/custom.conf
     src: etc/logrotate.d/custom.conf
+  f_mrconfig:
+    src: mrconfig-root
+    dst: ~/.mrconfig
+    actions:
+    - mrconfig
   f_org.xfce.xfce4-terminal.policy:
     dst: /usr/share/polkit-1/actions/org.xfce.xfce4-terminal.policy
     src: usr/share/polkit-1/actions/org.xfce.xfce4-terminal.policy
@@ -114,31 +130,21 @@ dotfiles:
     - strip '{{@@ symbols_append_marker @@}}' '{{@@ symbols_dst @@}}'
     - append '{{@@ symbols_dst @@}}' '{{@@ xkb_tmp_dst @@}}'
 profiles:
-  asdf:
-    dotfiles:
-    - d_asdf
-    dynvariables:
-      asdf_config_path: echo "$ASDF_CONFIG_PATH"
   cron:
     dotfiles:
     - f_anacron
     - f_anacrontab
     - f_logrotate.d_custom.conf
     - f_rsyslog.d_custom.conf
+    actions:
+    - anacron '' ''
     dynvariables:
       anacrontab_tmp_dst: mktemp /tmp/anacrontab-append.XXX
     variables:
-      anacrontab_append_marker: 'Custom jobs'
+      anacrontab_append_marker: Custom jobs
       anacrontab_dst: /etc/anacrontab
   davide-debian:
-    include:
-    - git
-    - graphical-login
-    - shell
-    - network
-    - packages
-    - polkit
-    - startup
+    dotfiles: []
   graphical-login:
     dotfiles:
     - f_lightdm.conf.d_02_custom.conf
@@ -149,6 +155,13 @@ profiles:
     - f_timezone
     actions:
     - locales
+  manual:
+    dotfiles:
+    - d_asdf
+    - d_applications
+    - f_mrconfig
+    dynvariables:
+      asdf_config_path: echo "$ASDF_CONFIG_PATH"
   network:
     dotfiles:
     - f_99-no-wireless-on-wired
@@ -157,7 +170,7 @@ profiles:
     dynvariables:
       hosts_tmp_dst: mktemp /tmp/hosts-append.XXX
     variables:
-      hosts_append_marker: 'Local sites'
+      hosts_append_marker: Local sites
       hosts_dst: /etc/hosts
   packages:
     dotfiles:
@@ -172,11 +185,12 @@ profiles:
   startup:
     dotfiles:
     - f_fstab
+    - f_grub
     - f_underclock.service
     dynvariables:
       fstab_tmp_dst: mktemp /tmp/fstab-append.XXX
     variables:
-      fstab_append_marker: 'Custom mount points'
+      fstab_append_marker: Custom mount points
       fstab_dst: /etc/fstab
   xkb:
     dotfiles:
@@ -187,14 +201,14 @@ profiles:
     dynvariables:
       xkb_tmp_dst: mktemp /tmp/xkb-dotfiles.XXX
     variables:
-      base_lst_range_start: '^\s*\sintl\s\s*us'
-      base_lst_range_end: '^\s*\salt-intl\s\s*us'
+      base_lst_range_start: ^\s*\sintl\s\s*us
+      base_lst_range_end: ^\s*\salt-intl\s\s*us
       base_lst_dst: /usr/share/X11/xkb/rules/base.lst
-      base_xml_strip_xpath: ".//*[name='intl-custom'].."
+      base_xml_strip_xpath: .//*[name='intl-custom']..
       base_xml_insert_xpath: >
         .//*[description='English (US, intl., with dead keys)']..
       base_xml_dst: /usr/share/X11/xkb/rules/base.xml
-      symbols_append_marker: 'Custom layout symbols'
+      symbols_append_marker: Custom layout symbols
       symbols_dst: /usr/share/X11/xkb/symbols/us
     actions:
     - xkb

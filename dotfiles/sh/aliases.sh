@@ -17,7 +17,6 @@ alias root='sudo -s'
 # Third-party commands aliases
 #######################################
 
-alias l='exa -aGxs type --color=always --color-scale'
 alias ls='exa'
 alias mr='mr -d {{@@ mr_default_dir @@}}'
 alias tree='exa -T'

@@ -7,7 +7,7 @@
 #######################################
 
 [ "$(ps --no-headings -p "$$" -o 'comm')" != 'sh' ] && {
-    export ASDF_PATH='/opt/asdf'
+    export ASDF_PATH='/opt/asdf-vm'
     export ASDF_CONFIG_PATH="$ASDF_PATH/etc"
     export ASDF_CONFIG_FILE="$ASDF_CONFIG_PATH/.asdfrc"
     export ASDF_DATA_DIR="$ASDF_PATH/data"

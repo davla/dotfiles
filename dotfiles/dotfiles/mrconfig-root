@@ -28,6 +28,7 @@ install =
 
 [/opt/asdf-vm]
 checkout = git clone 'https://github.com/asdf-vm/asdf.git' 'asdf-vm'
+install = true
 upgrade = bash -lc 'asdf update 2>&1 | grep "release"'
 
 

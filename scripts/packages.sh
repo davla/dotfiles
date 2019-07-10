@@ -44,6 +44,7 @@ clean() {
     apt-get purge -y xfce4-clipman
     apt-get purge -y xfce4-clipman-plugin
     apt-get purge -y disk-manager
+    apt-get purge -y epiphany-browser-data
     apt-get purge -y exaile
     apt-get purge -y exfalso
     apt-get purge -y fairymax
@@ -64,6 +65,7 @@ clean() {
     apt-get purge -y hexchat-python
     apt-get purge -y hoichess
     apt-get purge -y htop
+    apt-get purge -y hv3
     apt-get purge -y iagno
     apt-get purge -y icedove
     apt-get purge -y iceowl-extension
@@ -90,6 +92,7 @@ clean() {
     apt-get purge -y shotwell-common
     apt-get purge -y smtube
     apt-get purge -y tali
+    apt-get purge -y tk-html3
     apt-get purge -y terminator
     apt-get purge -y uget
     apt-get purge -y wbar
@@ -125,18 +128,18 @@ apt-get install firmware-realtek firmware-iwlwifi
 #######################################
 
 # Installation
-apt-get install aisleriot asunder atom baobab blueman brasero calibre \
-    camorama catfish dropbox enpass balena-etcher-electron evince \
-    galculator gdebi geany gimp gnome-mines gnome-sudoku gparted gufw \
-    handbrake-gtk libreoffice-calc libreoffice-impress libreoffice-writer \
-    gnome-mahjongg hardinfo kid3 parcellite pavucontrol quadrapassel \
-    recordmydesktop gtk-recordmydesktop remmina seahorse simple-scan \
-    slack-desktop skypeforlinux solaar soundconverter spotify-client synaptic \
+apt-get install aisleriot asunder atom baobab blueman brasero calibre catfish \
+    dropbox enpass balena-etcher-electron evince firefox galculator gdebi \
+    geany gimp gnome-mines gnome-sudoku gparted gufw handbrake-gtk \
+    libreoffice-calc libreoffice-impress libreoffice-writer gnome-mahjongg \
+    hardinfo kid3 parcellite pavucontrol quadrapassel recordmydesktop \
+    gtk-recordmydesktop remmina seahorse simple-scan slack-desktop \
+    skypeforlinux solaar soundconverter spotify-client synaptic \
     system-config-printer thunderbird transmission-gtk tuxguitar viewnior \
-    virtualbox visualboyadvance vlc
+    visualboyadvance vlc
 
 # Dotfiles
-sudo -u "$USER_NAME" dotdrop install -p gui
+sudo -u "$USER_NAME" --preserve-env=DOTFILES_HOME dotdrop install -p gui
 
 #######################################
 # Installing CLI applications
@@ -148,19 +151,19 @@ apt-get install apng2gif autoconf automake build-essential cabal-install \
     flashplayer-mozilla fonts-freefont-otf fortune g++ ghc gifsicle git \
     git-review gvfs-backends handbrake-cli heroku hlint hunspell \
     hunspell-en-us hunspell-it hub imagemagick intel-microcode jq lame \
-    libghc-hspec-dev libgit2-dev libgnome-keyring-dev lua5.1 lua-check make \
+    libghc-hspec-dev libgit2-dev libsecret-1-dev lua5.1 lua-check make \
     mercurial moreutils nfs-common nyancat p7zip pycodestyle \
     python-requests-futures python-pip python-setuptools python3-gdbm \
-    python3-lxml python3-pygments python3-requests python3-requests-oauthlib \
-    rar sct shellcheck software-properties-common thunar-archive-plugin \
-    thunar-dropbox-plugin tuxguitar-jsa uni2ascii unrar wmctrl xdotool \
-    xserver-xorg-input-synaptics yad zip
+    python3-gpg python3-lxml python3-pygments python3-requests \
+    python3-requests-oauthlib rar sct shellcheck software-properties-common \
+    thunar-archive-plugin thunar-dropbox-plugin tuxguitar-jsa uni2ascii unrar \
+    wmctrl xdotool xserver-xorg-input-synaptics yad zip
 
 # --no-install-recommends prevents node from being installed
 apt-get install --no-install-recommends yarn
 
 # Dotfiles
-sudo -u "$USER_NAME" dotdrop install -p cli
+sudo -u "$USER_NAME" --preserve-env=DOTFILES_HOME dotdrop install -p cli
 
 #######################################
 # Clean & upgrade
@@ -179,9 +182,7 @@ groupadd -f docker
 usermod -aG docker "$USER_NAME"
 
 # Git credential helper
-ln -sf /usr/share/doc/git/contrib/credential/gnome-keyring/\
-git-credential-gnome-keyring /usr/bin/git-credential-gnome-keyring
-make -C /usr/share/doc/git/contrib/credential/gnome-keyring
+make -C /usr/share/doc/git/contrib/credential/libsecret
 
 # Symlinking executables in a $PATH directory accessible to unpirvileged users
 echo "$EXECS" | while read EXEC; do

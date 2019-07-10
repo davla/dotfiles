@@ -7,9 +7,11 @@
 #######################################
 
 # 379CE192D401AB61 --> Etcher
+# 0AB215679C571D1C8325275B9BDB3D89CE49EC21 --> Firefox beta
 # C6ABDCF64DB9A0B2 --> Slack
 # 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90 --> Spotify
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys '379CE192D401AB61' \
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \
+    '0AB215679C571D1C8325275B9BDB3D89CE49EC21' '379CE192D401AB61' \
     'C6ABDCF64DB9A0B2' '931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90' \
     | apt-key add -
 wget -qO - 'https://packagecloud.io/AtomEditor/atom/gpgkey' | apt-key add -

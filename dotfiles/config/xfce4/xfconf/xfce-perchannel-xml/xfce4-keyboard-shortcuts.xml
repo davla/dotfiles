@@ -41,7 +41,6 @@
       <property name="&lt;Primary&gt;m" type="string" value="xfce4-popup-applicationsmenu"/>
       <property name="&lt;Super&gt;e" type="string" value="geany"/>
       <property name="&lt;Super&gt;s" type="string" value="xfce4-taskmanager"/>
-      <property name="&lt;Super&gt;d" type="string" value="atom"/>
       <property name="&lt;Super&gt;f" type="string" value="exo-open --launch FileManager"/>
       <property name="&lt;Super&gt;Escape" type="string" value="halt -p"/>
       <property name="&lt;Super&gt;F5" type="string" value="reboot"/>
@@ -56,6 +55,12 @@
       <property name="&lt;Super&gt;z" type="string" value="adjust-scaling"/>
       <property name="&lt;Super&gt;t" type="string" value="exo-open --launch TerminalEmulator"/>
       <property name="&lt;Super&gt;r" type="string" value="pkexec xfce4-terminal"/>
+      <property name="&lt;Super&gt;h" type="empty">
+        <property name="startup-notify" type="bool" value="true"/>
+      </property>
+      <property name="&lt;Super&gt;d" type="string" value="telegram">
+        <property name="startup-notify" type="bool" value="true"/>
+      </property>
     </property>
   </property>
   <property name="xfwm4" type="empty">

@@ -37,4 +37,5 @@ ColorCursorUseDefault=FALSE
 ColorCursor=#f5f579790000
 ColorForeground=#bc95bc95bc95
 ScrollingOnOutput=FALSE
+FontName=Monospace 13
 

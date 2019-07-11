@@ -16,3 +16,5 @@ My dotfiles repository. Really, just configuration files
 - fix timezones
 - fix virtualbox
 - fix dotdrop wrapper
+- Desktop directories not working
+- Remove orage

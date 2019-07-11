@@ -12,3 +12,7 @@ My dotfiles repository. Really, just configuration files
 - gulp-cli
 - Auto update languages
 - Scala in asdf
+- fix transformation
+- fix timezones
+- fix virtualbox
+- fix dotdrop wrapper

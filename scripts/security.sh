@@ -80,7 +80,7 @@ echo "$GIT_ORIGIN" | grep 'https' > /dev/null 2>&1 && {
 
     # Changing this repository URL to use SSH
     echo "$GIT_ORIGIN" | \
-        sed -E 's|https://(.+?)/(.+?)/(.+?).git|git@\1:\2/\3.git|' \
+        sed -E 's|https://(.+?)/(.+?)/(.+?)(.git)?|git@\1:\2/\3.git|' \
         | xargs git -C "$PARENT_DIR" remote set-url origin
 }
 

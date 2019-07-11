@@ -49,5 +49,9 @@ for HOME_PATH in $(grep -oP '(~|\$HOME)/[\w\d_\-/]+' "$SRC_FILE"); do
     FOUND_PATH="$(find '/home' -path "*/$HOME_REL_PATH" -print -quit \
         2> /dev/null)"
 
-    [ -n "$FOUND_PATH" ] && sed -i "s|$HOME_PATH|$FOUND_PATH|g" "$DST_FILE"
+    # Using an if statement rather than an && so as not to exit the whole
+    # script with an error if the condition doesn't hold
+    if [ -n "$FOUND_PATH" ]; then
+        sed -i "s|$HOME_PATH|$FOUND_PATH|g" "$DST_FILE"
+    fi
 done

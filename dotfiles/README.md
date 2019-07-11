@@ -13,6 +13,5 @@ My dotfiles repository. Really, just configuration files
 - Auto update languages
 - Scala in asdf
 - fix timezones
-- fix virtualbox
 - fix dotdrop wrapper
 - Desktop directories not working

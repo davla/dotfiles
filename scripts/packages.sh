@@ -136,7 +136,7 @@ apt-get install aisleriot asunder atom baobab blueman brasero calibre catfish \
     gtk-recordmydesktop remmina seahorse simple-scan slack-desktop \
     skypeforlinux solaar soundconverter spotify-client synaptic \
     system-config-printer thunderbird transmission-gtk tuxguitar viewnior \
-    visualboyadvance vlc
+    virtualbox-6.0 visualboyadvance vlc
 
 # Dotfiles
 sudo -u "$USER_NAME" --preserve-env=DOTFILES_HOME dotdrop install -p gui

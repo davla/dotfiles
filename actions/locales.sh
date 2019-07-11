@@ -19,9 +19,8 @@ echo "$LOCALES" | while read LOCALE; do
     sed -Ei "s/#\\s*(.*)$LOCALE/\\1$LOCALE/g" /etc/locale.gen
 done
 
-# Generating locales and timezones
+# Generating locales
 dpkg-reconfigure -f noninteractive locales
-dpkg-reconfigure -f noninteractive tzdata
 
 #######################################
 # Dealing with spellcheckers
@@ -32,5 +31,5 @@ for EN_US_FILE_PATH in /usr/share/hunspell/en_US.*; do
     EN_US_FILE_NAME="$(basename "$EN_US_FILE_PATH")"
     EN_US_EXT="$(echo "$EN_US_FILE_NAME" | cut -d '.' -f 2-)"
 
-    ln -s "./$EN_US_FILE_NAME" "/usr/share/hunspell/en_DK.$EN_US_EXT"
+    ln -sf "./$EN_US_FILE_NAME" "/usr/share/hunspell/en_DK.$EN_US_EXT"
 done

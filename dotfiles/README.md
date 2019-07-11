@@ -14,4 +14,3 @@ My dotfiles repository. Really, just configuration files
 - Scala in asdf
 - fix timezones
 - fix dotdrop wrapper
-- Desktop directories not working

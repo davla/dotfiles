@@ -4,6 +4,10 @@ actions:
     locales: sh ./actions/locales.sh
     mrconfig: apt-get install jq
     repo-keys: sh ./actions/repo-keys.sh
+    timezone: >-
+      cat {0} | xargs -i ln -sf '/usr/share/zoneinfo/{{}}' '/etc/localtime';
+      dpkg-reconfigure -f noninteractive tzdata;
+      rm {0}
     xkb: sh ./actions/xkb.sh
 config:
   backup: false
@@ -98,7 +102,9 @@ dotfiles:
     src: etc/apt/sources.list
   f_timezone:
     src: etc/timezone
-    dst: /etc/timezone
+    dst: '{{@@ locales_tmp_dst @@}}'
+    actions:
+      - timezone '{{@@ locales_tmp_dst @@}}'
   f_underclock.service:
     dst: /etc/systemd/system/underclock.service
     src: etc/systemd/system/underclock.service
@@ -151,6 +157,8 @@ profiles:
     dotfiles:
     - f_locale
     - f_timezone
+    dynvariables:
+      locales_tmp_dst: mktemp /tmp/locales-tmp.XXX
     actions:
     - locales
   manual:

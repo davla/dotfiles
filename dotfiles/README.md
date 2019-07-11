@@ -10,7 +10,11 @@ My dotfiles repository. Really, just configuration files
 - Better place for system envvars (Android, asdf)
 - Antibody installation in anacron and shell
 - gulp-cli
-- Auto update languages
 - Scala in asdf
-- fix timezones
 - fix dotdrop wrapper
+- More preferences
+  + Firefox
+  + Enpass
+  + Thunderbird
+  + Dropbox
+  + Telegram

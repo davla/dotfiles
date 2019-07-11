@@ -143,8 +143,6 @@ profiles:
     variables:
       anacrontab_append_marker: Custom jobs
       anacrontab_dst: /etc/anacrontab
-  davide-debian:
-    dotfiles: []
   graphical-login:
     dotfiles:
     - f_lightdm.conf.d_02_custom.conf

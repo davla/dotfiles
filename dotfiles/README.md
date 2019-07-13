@@ -7,7 +7,6 @@ My dotfiles repository. Really, just configuration files
 - LS_COLORS
 - GNOME keyring without LightDM
   (https://wiki.archlinux.org/index.php/GNOME/Keyring#Automatic_login)
-- Antibody installation in shell
 - gulp-cli
 - Scala in asdf
 - More preferences

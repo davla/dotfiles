@@ -54,6 +54,10 @@ dotfiles:
     actions:
     - strip '{{@@ anacrontab_append_marker @@}}' '{{@@ anacrontab_dst @@}}'
     - append '{{@@ anacrontab_dst @@}}' '{{@@ anacrontab_tmp_dst @@}}'
+  f_env-vars.sh:
+    src: etc/profile.d/env-vars.sh
+    dst: /etc/profile.d/env-vars.sh
+    trans_read: fix-home
   f_fstab:
     dst: '{{@@ fstab_tmp_dst @@}}'
     src: etc/fstab

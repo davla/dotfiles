@@ -7,6 +7,14 @@ actions:
             d
           }}
         }}' {2}
+    strip_file: >
+      START="$(head -n 1 {0} | xargs -i grep -nFm 1 '{{}}' {1} \
+          | cut -d ':' -f 1)";
+      END="$(nl -b a -w 1 -s ' ' {1} | tac | grep -Fm 1 "$(tail -n 1 {0})" \
+          | cut -d ' ' -f 1)";
+      if [ -n "$START" ] && [ -n "$END" ]; then
+          sed -i "$START,$END d" {1}
+      fi
     strip_xml: >-
       python -c "
         import xml.etree.ElementTree as ET
@@ -21,6 +29,10 @@ actions:
           document.write('{1}', encoding='UTF-8', xml_declaration=True)"
   post:
     insert_match: "sed -i -E '/{0}/ r {1}' {2}"
+    insert_match_once: >
+      LINE="$(grep -nPm 1 '{0}' {2} | cut -d ':' -f 1)";
+      [ -z "$LINE" ] && LINE="$(wc -l < {2})";
+      sed -i "$LINE r {1}" {2}
     insert_xml: >-
       python -c "
         import xml.etree.ElementTree as ET

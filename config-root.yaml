@@ -107,6 +107,20 @@ dotfiles:
   f_sources.list:
     dst: /etc/apt/sources.list
     src: etc/apt/sources.list
+  f_env-vars-bash.sh:
+    src: env/source-env-vars.sh
+    dst: '{{@@ env_tmp_dst @@}}'
+    actions:
+      - strip_file '{{@@ _dotfile_abs_src @@}}' /etc/bash.bashrc
+      - insert_match_once '(^$|^[^#])' '{{@@ env_tmp_dst @@}}' /etc/bash.bashrc
+      - rm '{{@@ env_tmp_dst @@}}'
+  f_env-vars-zsh.sh:
+    src: env/source-env-vars.sh
+    dst: '{{@@ env_tmp_dst @@}}'
+    actions:
+      - strip_file '{{@@ _dotfile_abs_src @@}}' /etc/zsh/zshenv
+      - insert_match_once '(^$|^[^#])' '{{@@ env_tmp_dst @@}}' /etc/zsh/zshenv
+      - rm '{{@@ env_tmp_dst @@}}'
   f_timezone:
     src: etc/timezone
     dst: '{{@@ locales_tmp_dst @@}}'
@@ -153,6 +167,13 @@ profiles:
     variables:
       anacrontab_append_marker: Custom jobs
       anacrontab_dst: /etc/anacrontab
+  environment:
+    dotfiles:
+    - f_env-vars.sh
+    - f_env-vars-bash.sh
+    - f_env-vars-zsh.sh
+    dynvariables:
+      env_tmp_dst: mktemp /tmp/anacrontab-tmp.XXX
   graphical-login:
     dotfiles:
     - f_lightdm.conf.d_02_custom.conf

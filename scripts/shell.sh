@@ -9,6 +9,7 @@
 #######################################
 
 sudo apt-get install bash bash-completion dash exa fasd thefuck zsh xsel
+sudo mr -d /opt/antibody install
 
 #######################################
 # Installing dotfiles

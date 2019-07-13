@@ -302,8 +302,9 @@ prompt 'set dotdrop up' 'sh -e scripts/dotdrop.sh ./dotfiles' 'dotdrop setup'
 prompt 'install your custom commands' 'sudo sh -e custom-commands/install.sh' \
     'custom commands installation'
 
-# Shells initialization - so that env vars can be used by other scripts.
-prompt 'initialize the shells' 'sh -e scripts/shell.sh' 'shells initialization'
+# Shell environment - environment variables are used in other scripts.
+prompt 'setup the environment' 'dotdrop -U root install -p environment' \
+    'setting up the environment'
 
 # Packages installation - they make commands available for other scripts.
 prompt 'install packages' "sudo sh -e scripts/packages.sh $USER" \
@@ -313,9 +314,6 @@ prompt 'install packages' "sudo sh -e scripts/packages.sh $USER" \
 prompt 'install manually managed applications' \
     "sudo sh -e -l scripts/manually.sh $USER" \
     'manually managed applications installation'
-
-# Zsh initialization - after manual since it needs antibody
-prompt 'initialize zsh' 'dotdrop -U both install -p zsh' 'zsh initialization'
 
 # Locales
 prompt 'configure locales' 'dotdrop --user root install -p locales' \
@@ -344,6 +342,9 @@ prompt 'configure PolicyKit' 'sudo -E dotdrop install -p polkit' \
 # SSH and GPG keys
 prompt 'generate SSH and GPG keys' 'sh -e scripts/security.sh' \
     'SSH and GPG keys generation'
+
+# Shells setup
+prompt 'initialize the shells' 'sh -e scripts/shell.sh' 'shells initialization'
 
 # Graphical login manager
 prompt 'install a graphical login manager' \

@@ -139,7 +139,7 @@ apt-get install aisleriot asunder atom baobab blueman brasero calibre catfish \
     transmission-gtk tuxguitar viewnior virtualbox-6.0 visualboyadvance vlc
 
 # Dotfiles
-sudo -u "$USER_NAME" --preserve-env=DOTFILES_HOME dotdrop install -p gui
+sudo -u "$USER_NAME" dotdrop install -p gui
 
 #######################################
 # Installing CLI applications
@@ -163,7 +163,7 @@ apt-get install apng2gif autoconf automake build-essential cabal-install \
 apt-get install --no-install-recommends yarn
 
 # Dotfiles
-sudo -u "$USER_NAME" --preserve-env=DOTFILES_HOME dotdrop install -p cli
+sudo -u "$USER_NAME" dotdrop install -p cli
 
 #######################################
 # Clean & upgrade

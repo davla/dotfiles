@@ -11,6 +11,7 @@ import glob
 from copy import deepcopy
 
 # local imports
+from dotdrop.version import __version__ as VERSION
 from dotdrop.settings import Settings
 from dotdrop.logger import Logger
 from dotdrop.templategen import Templategen
@@ -62,6 +63,7 @@ class CfgYaml:
     key_settings_workdir = 'workdir'
     key_settings_link_dotfile_default = 'link_dotfile_default'
     key_settings_noempty = 'ignoreempty'
+    key_settings_minversion = 'minversion'
     key_imp_link = 'link_on_import'
 
     # link values
@@ -80,7 +82,10 @@ class CfgYaml:
         self.profile = profile
         self.debug = debug
         self.log = Logger()
+        # config needs to be written
         self.dirty = False
+        # indicates the config has been updated
+        self.dirty_deprecated = False
 
         if not os.path.exists(path):
             err = 'invalid config path: \"{}\"'.format(path)
@@ -134,6 +139,11 @@ class CfgYaml:
         self.ori_settings = self._get_entry(dic, self.key_settings)
         self.settings = Settings(None).serialize().get(self.key_settings)
         self.settings.update(self.ori_settings)
+
+        # resolve minimum version
+        if self.key_settings_minversion in self.settings:
+            minversion = self.settings[self.key_settings_minversion]
+            self._check_minversion(minversion)
 
         # resolve settings paths
         p = self._norm_path(self.settings[self.key_settings_dotpath])
@@ -204,16 +214,29 @@ class CfgYaml:
 
     def _resolve_dotfile_paths(self):
         """resolve dotfile paths"""
+        t = Templategen(variables=self.variables)
+
         for dotfile in self.dotfiles.values():
+            # src
             src = dotfile[self.key_dotfile_src]
+            new = t.generate_string(src)
+            if new != src and self.debug:
+                self.log.dbg('dotfile: {} -> {}'.format(src, new))
+            src = new
             src = os.path.join(self.settings[self.key_settings_dotpath], src)
             dotfile[self.key_dotfile_src] = self._norm_path(src)
+            # dst
             dst = dotfile[self.key_dotfile_dst]
+            new = t.generate_string(dst)
+            if new != dst and self.debug:
+                self.log.dbg('dotfile: {} -> {}'.format(dst, new))
+            dst = new
             dotfile[self.key_dotfile_dst] = self._norm_path(dst)
 
     def _rec_resolve_vars(self, variables):
         """recursive resolve variables"""
-        t = Templategen(variables=variables)
+        default = self._get_variables_dict(self.profile)
+        t = Templategen(variables=self._merge_dict(default, variables))
         for k in variables.keys():
             val = variables[k]
             while Templategen.var_is_template(val):
@@ -280,15 +303,6 @@ class CfgYaml:
     def _apply_variables(self):
         """template any needed parts of the config"""
         t = Templategen(variables=self.variables)
-
-        # dotfiles src/dst/actions keys
-        for k, v in self.dotfiles.items():
-            # src
-            src = v.get(self.key_dotfile_src)
-            v[self.key_dotfile_src] = t.generate_string(src)
-            # dst
-            dst = v.get(self.key_dotfile_dst)
-            v[self.key_dotfile_dst] = t.generate_string(dst)
 
         # import_actions
         new = []
@@ -614,13 +628,15 @@ class CfgYaml:
         extdict = self._load_yaml(path)
         new = self._get_entry(extdict, key, mandatory=mandatory)
         if patch_func:
+            if self.debug:
+                self.log.dbg('calling patch: {}'.format(patch_func))
             new = patch_func(new)
         if not new and mandatory:
             err = 'no \"{}\" imported from \"{}\"'.format(key, path)
             self.log.warn(err)
             raise YamlException(err)
         if self.debug:
-            self.log.dbg('new \"{}\": {}'.format(key, new))
+            self.log.dbg('imported \"{}\": {}'.format(key, new))
         return new
 
     ########################################################
@@ -733,6 +749,7 @@ class CfgYaml:
         del config[key]
         self.log.warn('deprecated \"link_by_default\"')
         self.dirty = True
+        self.dirty_deprecated = True
 
     def _fix_deprecated_dotfile_link(self, yamldict):
         """fix deprecated link in dotfiles"""
@@ -751,6 +768,7 @@ class CfgYaml:
                     new = self.lnk_link
                 dotfile[self.key_dotfile_link] = new
                 self.dirty = True
+                self.dirty_deprecated = True
                 self.log.warn('deprecated \"link\" value')
 
             elif self.key_dotfile_link_children in dotfile and \
@@ -763,6 +781,7 @@ class CfgYaml:
                 del dotfile[self.key_dotfile_link_children]
                 dotfile[self.key_dotfile_link] = new
                 self.dirty = True
+                self.dirty_deprecated = True
                 self.log.warn('deprecated \"link_children\" value')
 
     ########################################################
@@ -784,6 +803,11 @@ class CfgYaml:
         if self.key_profiles not in content:
             content[self.key_profiles] = None
 
+        if self.dirty_deprecated:
+            # add minversion
+            settings = content[self.key_settings]
+            settings[self.key_settings_minversion] = VERSION
+
         # save to file
         if self.debug:
             self.log.dbg('saving to {}'.format(self.path))
@@ -793,7 +817,13 @@ class CfgYaml:
             self.log.err(e)
             raise YamlException('error saving config: {}'.format(self.path))
 
+        if self.dirty_deprecated:
+            warn = 'your config contained deprecated entries'
+            warn += ' and was updated'
+            self.log.warn(warn)
+
         self.dirty = False
+        self.cfg_updated = False
         return True
 
     def dump(self):
@@ -931,3 +961,17 @@ class CfgYaml:
                 self.log.dbg('resolved: {} -> {}'.format(e, et))
             new.append(et)
         return new
+
+    def _check_minversion(self, minversion):
+        if not minversion:
+            return
+        try:
+            cur = tuple([int(x) for x in VERSION.split('.')])
+            cfg = tuple([int(x) for x in minversion.split('.')])
+        except Exception:
+            err = 'bad version: \"{}\" VS \"{}\"'.format(VERSION, minversion)
+            raise YamlException(err)
+        if cur < cfg:
+            err = 'current dotdrop version is too old for that config file.'
+            err += ' Please update.'
+            raise YamlException(err)

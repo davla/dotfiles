@@ -167,6 +167,7 @@ profiles:
     - f_rsyslog.d_custom.conf
     actions:
     - anacron '' ''
+    - rm '{{@@ anacrontab_tmp_dst @@}}'
     dynvariables:
       anacrontab_tmp_dst: mktemp /tmp/anacrontab-append.XXX
     variables:
@@ -192,6 +193,7 @@ profiles:
     - f_timezone
     actions:
     - locales
+    - rm '{{@@ locales_tmp_dst @@}}'
     dynvariables:
       locales_tmp_dst: mktemp /tmp/locales-tmp.XXX
   manual:
@@ -206,6 +208,8 @@ profiles:
     - f_99-no-wireless-on-wired
     - f_frequent-hosts
     - f_hosts
+    actions:
+    - rm '{{@@ hosts_tmp_dst @@}}'
     dynvariables:
       hosts_tmp_dst: mktemp /tmp/hosts-append.XXX
     variables:
@@ -226,6 +230,8 @@ profiles:
     - f_fstab
     - f_grub
     - f_underclock.service
+    actions:
+    - rm '{{@@ fstab_tmp_dst @@}}'
     dynvariables:
       fstab_tmp_dst: mktemp /tmp/fstab-append.XXX
     variables:

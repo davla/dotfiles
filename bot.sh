@@ -316,11 +316,11 @@ prompt 'install manually managed applications' \
     'manually managed applications installation'
 
 # Locales
-prompt 'configure locales' 'dotdrop --user root install -p locales' \
+prompt 'configure locales' 'dotdrop -U root install -p locales' \
     'configuring locales'
 
 # Keyboard
-prompt 'add keyboard layouts' 'dotdrop --user root install -p xkb' \
+prompt 'add keyboard layouts' 'dotdrop -U root install -p xkb' \
     'adding keyboard layouts'
 
 # Network
@@ -332,7 +332,7 @@ prompt 'set up startup jobs' 'sh -e scripts/startup.sh' \
     'setting up startup jobs'
 
 # Cron & anacron jobs
-prompt 'set up (ana)cron jobs' 'dotdrop --user both install -p cron' \
+prompt 'set up (ana)cron jobs' 'dotdrop -U both install -p cron' \
     'setting up (ana)cron jobs'
 
 # PolicyKit

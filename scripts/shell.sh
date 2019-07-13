@@ -15,9 +15,9 @@ sudo mr -d /opt/antibody install
 # Installing dotfiles
 #######################################
 
-dotdrop --user both install -p sh
-dotdrop --user both install -p bash
-dotdrop --user both install -p zsh
+dotdrop -U both install -p sh
+dotdrop -U both install -p bash
+dotdrop -U both install -p zsh
 
 #######################################
 # Setting default shell

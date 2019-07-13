@@ -16,7 +16,7 @@ USER_DELAYED='*npass*.desktop'
 # Setting up system/user startup jobs
 #######################################
 
-dotdrop --user both install -p startup
+dotdrop -U both install -p startup
 
 #######################################
 # Further setup

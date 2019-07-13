@@ -19,6 +19,7 @@ CRONTAB_FILE="$2"
 #######################################
 
 sudo apt-get install atom myrepos zsh
+sudo mr -d /opt/antibody install
 
 #######################################
 # Initializing anacron
@@ -30,10 +31,7 @@ sudo apt-get install atom myrepos zsh
 # Setting up crontab
 #######################################
 
-[ -n "$CRONTAB_FILE" ] && {
+if [ -n "$CRONTAB_FILE" ]; then
     crontab "$CRONTAB_FILE"
     rm -f "$CRONTAB_FILE"
-}
-
-# Fixing error code for whole script when the above condition is not met
-exit 0
+fi

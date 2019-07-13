@@ -1,0 +1,4 @@
+# This file preserves in sudo the system environment variables declared in
+# /etc/profiles.d/env-vars.sh
+
+Defaults env_file = "/etc/profiles.d/env-vars.sh"

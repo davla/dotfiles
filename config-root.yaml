@@ -111,16 +111,19 @@ dotfiles:
     src: env/source-env-vars.sh
     dst: '{{@@ env_tmp_dst @@}}'
     actions:
-      - strip_file '{{@@ _dotfile_abs_src @@}}' /etc/bash.bashrc
-      - insert_match_once '(^$|^[^#])' '{{@@ env_tmp_dst @@}}' /etc/bash.bashrc
-      - rm '{{@@ env_tmp_dst @@}}'
+    - strip_file '{{@@ _dotfile_abs_src @@}}' /etc/bash.bashrc
+    - insert_match_once '(^$|^[^#])' '{{@@ env_tmp_dst @@}}' /etc/bash.bashrc
+    - rm '{{@@ env_tmp_dst @@}}'
   f_env-vars-zsh.sh:
     src: env/source-env-vars.sh
     dst: '{{@@ env_tmp_dst @@}}'
     actions:
-      - strip_file '{{@@ _dotfile_abs_src @@}}' /etc/zsh/zshenv
-      - insert_match_once '(^$|^[^#])' '{{@@ env_tmp_dst @@}}' /etc/zsh/zshenv
-      - rm '{{@@ env_tmp_dst @@}}'
+    - strip_file '{{@@ _dotfile_abs_src @@}}' /etc/zsh/zshenv
+    - insert_match_once '(^$|^[^#])' '{{@@ env_tmp_dst @@}}' /etc/zsh/zshenv
+    - rm '{{@@ env_tmp_dst @@}}'
+  f_sudo_sys-env-vars:
+    src: etc/sudoers.d/sys-env-vars
+    dst: /etc/sudoers.d/sys-env-vars
   f_timezone:
     src: etc/timezone
     dst: '{{@@ locales_tmp_dst @@}}'
@@ -172,6 +175,7 @@ profiles:
     - f_env-vars.sh
     - f_env-vars-bash.sh
     - f_env-vars-zsh.sh
+    - f_sudo_sys-env-vars
     dynvariables:
       env_tmp_dst: mktemp /tmp/anacrontab-tmp.XXX
   graphical-login:

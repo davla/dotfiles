@@ -74,6 +74,9 @@ dotfiles:
     actions:
     - strip '{{@@ hosts_append_marker @@}}' '{{@@ hosts_dst @@}}'
     - append '{{@@ hosts_dst @@}}' '{{@@ hosts_tmp_dst @@}}'
+  f_keyboard:
+    src: etc/default/keyboard
+    dst: /etc/default/keyboard
   f_lightdm-gtk-greeter.conf.d_02_custom.conf:
     dst: /usr/share/lightdm/lightdm-gtk-greeter.conf.d/02_custom.conf
     src: usr/share/lightdm/lightdm-gtk-greeter.conf.d/02_custom.conf
@@ -104,14 +107,11 @@ dotfiles:
     src: etc/timezone
     dst: '{{@@ locales_tmp_dst @@}}'
     actions:
-      - timezone '{{@@ locales_tmp_dst @@}}'
+    - timezone '{{@@ locales_tmp_dst @@}}'
   f_underclock.service:
     dst: /etc/systemd/system/underclock.service
     src: etc/systemd/system/underclock.service
-  f_keyboard:
-    src: etc/default/keyboard
-    dst: /etc/default/keyboard
-  f_base.lst:
+  f_xkb_base.lst:
     src: usr/share/X11/xkb/rules/base.lst
     dst: '{{@@ xkb_tmp_dst @@}}'
     actions:
@@ -121,7 +121,7 @@ dotfiles:
     - >-
       insert_match '{{@@ base_lst_range_start @@}}' '{{@@ xkb_tmp_dst @@}}'
         '{{@@ base_lst_dst @@}}'
-  f_base.xml:
+  f_xkb_base.xml:
     src: usr/share/X11/xkb/rules/base.xml
     dst: '{{@@ xkb_tmp_dst @@}}'
     actions:
@@ -129,7 +129,7 @@ dotfiles:
     - >-
       insert_xml '{{@@ base_xml_insert_xpath @@}}' '{{@@ xkb_tmp_dst @@}}'
         '{{@@ base_xml_dst @@}}'
-  f_us:
+  f_xkb_us:
     src: usr/share/X11/xkb/symbols/us
     dst: '{{@@ xkb_tmp_dst @@}}'
     actions:
@@ -200,10 +200,10 @@ profiles:
       fstab_dst: /etc/fstab
   xkb:
     dotfiles:
-    - f_base.lst
-    - f_base.xml
     - f_keyboard
-    - f_us
+    - f_xkb_base.lst
+    - f_xkb_base.xml
+    - f_xkb_us
     dynvariables:
       xkb_tmp_dst: mktemp /tmp/xkb-dotfiles.XXX
     variables:

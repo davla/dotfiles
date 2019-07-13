@@ -7,11 +7,9 @@ My dotfiles repository. Really, just configuration files
 - LS_COLORS
 - GNOME keyring without LightDM
   (https://wiki.archlinux.org/index.php/GNOME/Keyring#Automatic_login)
-- Better place for system envvars (Android, asdf)
 - Antibody installation in shell
 - gulp-cli
 - Scala in asdf
-- fix dotdrop wrapper
 - More preferences
   + Firefox
   + Enpass

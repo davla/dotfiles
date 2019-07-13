@@ -1,4 +1,6 @@
 actions:
+  pre:
+    env-shells: apt-get install bash zsh
   post:
     grub: update-grub
     locales: sh ./actions/locales.sh
@@ -176,6 +178,8 @@ profiles:
     - f_env-vars-bash.sh
     - f_env-vars-zsh.sh
     - f_sudo_sys-env-vars
+    actions:
+    - env-shells
     dynvariables:
       env_tmp_dst: mktemp /tmp/anacrontab-tmp.XXX
   graphical-login:

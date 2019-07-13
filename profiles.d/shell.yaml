@@ -19,14 +19,14 @@ dotfiles:
   d_bash:
     dst: ~/.bash
     src: bash
-    trans: fix-home
+    trans_read: fix-home
     upignore:
     - .bash_history
     - cache
   d_sh:
     dst: ~/.sh
     src: sh
-    trans: fix-home
+    trans_read: fix-home
     upignore:
     - data
     - cache
@@ -38,7 +38,7 @@ dotfiles:
   d_zsh:
     dst: ~/.zsh
     src: zsh
-    trans: fix-home
+    trans_read: fix-home
     upignore:
     - .zcompdump
     - .zsh_history

@@ -56,7 +56,7 @@
     excludesfile = ~/.gitignore
 
 [credential]
-    helper = /usr/bin/git-credential-gnome-keyring
+    helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
 
 [fetch]
     prune = true

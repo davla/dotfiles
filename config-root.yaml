@@ -1,9 +1,15 @@
 actions:
+  pre:
+    env-shells: apt-get install bash zsh
   post:
     grub: update-grub
     locales: sh ./actions/locales.sh
     mrconfig: apt-get install jq
     repo-keys: sh ./actions/repo-keys.sh
+    timezone: >-
+      cat {0} | xargs -i ln -sf '/usr/share/zoneinfo/{{}}' '/etc/localtime';
+      dpkg-reconfigure -f noninteractive tzdata;
+      rm {0}
     xkb: sh ./actions/xkb.sh
 config:
   backup: false
@@ -28,31 +34,35 @@ dotfiles:
     src: usr/share/applications
     dst: /usr/share/applications
   d_asdf:
-    dst: '{{@@ asdf_config_path @@}}'
     src: asdf
+    dst: '{{@@ asdf_config_path @@}}'
   d_sources.list.d:
-    dst: /etc/apt/sources.list.d
     src: etc/apt/sources.list.d
+    dst: /etc/apt/sources.list.d
     upignore:
     - '*.save'
   f_60-root.conf:
-    dst: /etc/polkit-1/localauthority.conf.d/60-root.conf
     src: etc/polkit-1/localauthority.conf.d/60-root.conf
+    dst: /etc/polkit-1/localauthority.conf.d/60-root.conf
   f_99-no-wireless-on-wired:
-    dst: /etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
     src: etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
+    dst: /etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
   f_anacron:
     src: etc/default/anacron
     dst: /etc/default/anacron
   f_anacrontab:
-    dst: '{{@@ anacrontab_tmp_dst @@}}'
     src: cron/anacrontab
+    dst: '{{@@ anacrontab_tmp_dst @@}}'
     actions:
     - strip '{{@@ anacrontab_append_marker @@}}' '{{@@ anacrontab_dst @@}}'
     - append '{{@@ anacrontab_dst @@}}' '{{@@ anacrontab_tmp_dst @@}}'
+  f_env-vars.sh:
+    src: etc/profile.d/env-vars.sh
+    dst: /etc/profile.d/env-vars.sh
+    trans_read: fix-home
   f_fstab:
-    dst: '{{@@ fstab_tmp_dst @@}}'
     src: etc/fstab
+    dst: '{{@@ fstab_tmp_dst @@}}'
     actions:
     - strip '{{@@ fstab_append_marker @@}}' '{{@@ fstab_dst @@}}'
     - append '{{@@ fstab_dst @@}}' '{{@@ fstab_tmp_dst @@}}'
@@ -65,47 +75,66 @@ dotfiles:
     actions:
     - grub
   f_hosts:
-    dst: '{{@@ hosts_tmp_dst @@}}'
     src: etc/hosts
+    dst: '{{@@ hosts_tmp_dst @@}}'
     actions:
     - strip '{{@@ hosts_append_marker @@}}' '{{@@ hosts_dst @@}}'
     - append '{{@@ hosts_dst @@}}' '{{@@ hosts_tmp_dst @@}}'
+  f_keyboard:
+    src: etc/default/keyboard
+    dst: /etc/default/keyboard
   f_lightdm-gtk-greeter.conf.d_02_custom.conf:
-    dst: /usr/share/lightdm/lightdm-gtk-greeter.conf.d/02_custom.conf
     src: usr/share/lightdm/lightdm-gtk-greeter.conf.d/02_custom.conf
+    dst: /usr/share/lightdm/lightdm-gtk-greeter.conf.d/02_custom.conf
   f_lightdm.conf.d_02_custom.conf:
-    dst: /usr/share/lightdm/lightdm.conf.d/02_custom.conf
     src: usr/share/lightdm/lightdm.conf.d/02_custom.conf
+    dst: /usr/share/lightdm/lightdm.conf.d/02_custom.conf
   f_locale:
     src: etc/default/locale
     dst: /etc/default/locale
   f_logrotate.d_custom.conf:
-    dst: /etc/logrotate.d/custom.conf
     src: etc/logrotate.d/custom.conf
+    dst: /etc/logrotate.d/custom.conf
   f_mrconfig:
     src: mrconfig-root
     dst: ~/.mrconfig
     actions:
     - mrconfig
   f_org.xfce.xfce4-terminal.policy:
-    dst: /usr/share/polkit-1/actions/org.xfce.xfce4-terminal.policy
     src: usr/share/polkit-1/actions/org.xfce.xfce4-terminal.policy
+    dst: /usr/share/polkit-1/actions/org.xfce.xfce4-terminal.policy
   f_rsyslog.d_custom.conf:
-    dst: /etc/rsyslog.d/custom.conf
     src: etc/rsyslog.d/custom.conf
+    dst: /etc/rsyslog.d/custom.conf
   f_sources.list:
-    dst: /etc/apt/sources.list
     src: etc/apt/sources.list
+    dst: /etc/apt/sources.list
+  f_env-vars-bash.sh:
+    dst: '{{@@ env_tmp_dst @@}}'
+    src: env/source-env-vars.sh
+    actions:
+    - strip_file '{{@@ _dotfile_abs_src @@}}' /etc/bash.bashrc
+    - insert_match_once '(^$|^[^#])' '{{@@ env_tmp_dst @@}}' /etc/bash.bashrc
+    - rm '{{@@ env_tmp_dst @@}}'
+  f_env-vars-zsh.sh:
+    src: env/source-env-vars.sh
+    dst: '{{@@ env_tmp_dst @@}}'
+    actions:
+    - strip_file '{{@@ _dotfile_abs_src @@}}' /etc/zsh/zshenv
+    - insert_match_once '(^$|^[^#])' '{{@@ env_tmp_dst @@}}' /etc/zsh/zshenv
+    - rm '{{@@ env_tmp_dst @@}}'
+  f_sudo_sys-env-vars:
+    src: etc/sudoers.d/sys-env-vars
+    dst: /etc/sudoers.d/sys-env-vars
   f_timezone:
     src: etc/timezone
-    dst: /etc/timezone
+    dst: '{{@@ locales_tmp_dst @@}}'
+    actions:
+    - timezone '{{@@ locales_tmp_dst @@}}'
   f_underclock.service:
-    dst: /etc/systemd/system/underclock.service
     src: etc/systemd/system/underclock.service
-  f_keyboard:
-    src: etc/default/keyboard
-    dst: /etc/default/keyboard
-  f_base.lst:
+    dst: /etc/systemd/system/underclock.service
+  f_xkb_base.lst:
     src: usr/share/X11/xkb/rules/base.lst
     dst: '{{@@ xkb_tmp_dst @@}}'
     actions:
@@ -115,7 +144,7 @@ dotfiles:
     - >-
       insert_match '{{@@ base_lst_range_start @@}}' '{{@@ xkb_tmp_dst @@}}'
         '{{@@ base_lst_dst @@}}'
-  f_base.xml:
+  f_xkb_base.xml:
     src: usr/share/X11/xkb/rules/base.xml
     dst: '{{@@ xkb_tmp_dst @@}}'
     actions:
@@ -123,7 +152,7 @@ dotfiles:
     - >-
       insert_xml '{{@@ base_xml_insert_xpath @@}}' '{{@@ xkb_tmp_dst @@}}'
         '{{@@ base_xml_dst @@}}'
-  f_us:
+  f_xkb_us:
     src: usr/share/X11/xkb/symbols/us
     dst: '{{@@ xkb_tmp_dst @@}}'
     actions:
@@ -138,13 +167,22 @@ profiles:
     - f_rsyslog.d_custom.conf
     actions:
     - anacron '' ''
+    - rm '{{@@ anacrontab_tmp_dst @@}}'
     dynvariables:
       anacrontab_tmp_dst: mktemp /tmp/anacrontab-append.XXX
     variables:
       anacrontab_append_marker: Custom jobs
       anacrontab_dst: /etc/anacrontab
-  davide-debian:
-    dotfiles: []
+  environment:
+    dotfiles:
+    - f_env-vars.sh
+    - f_env-vars-bash.sh
+    - f_env-vars-zsh.sh
+    - f_sudo_sys-env-vars
+    actions:
+    - env-shells
+    dynvariables:
+      env_tmp_dst: mktemp /tmp/anacrontab-tmp.XXX
   graphical-login:
     dotfiles:
     - f_lightdm.conf.d_02_custom.conf
@@ -155,6 +193,9 @@ profiles:
     - f_timezone
     actions:
     - locales
+    - rm '{{@@ locales_tmp_dst @@}}'
+    dynvariables:
+      locales_tmp_dst: mktemp /tmp/locales-tmp.XXX
   manual:
     dotfiles:
     - d_asdf
@@ -167,6 +208,8 @@ profiles:
     - f_99-no-wireless-on-wired
     - f_frequent-hosts
     - f_hosts
+    actions:
+    - rm '{{@@ hosts_tmp_dst @@}}'
     dynvariables:
       hosts_tmp_dst: mktemp /tmp/hosts-append.XXX
     variables:
@@ -187,6 +230,8 @@ profiles:
     - f_fstab
     - f_grub
     - f_underclock.service
+    actions:
+    - rm '{{@@ fstab_tmp_dst @@}}'
     dynvariables:
       fstab_tmp_dst: mktemp /tmp/fstab-append.XXX
     variables:
@@ -194,10 +239,13 @@ profiles:
       fstab_dst: /etc/fstab
   xkb:
     dotfiles:
-    - f_base.lst
-    - f_base.xml
     - f_keyboard
-    - f_us
+    - f_xkb_base.lst
+    - f_xkb_base.xml
+    - f_xkb_us
+    actions:
+    - xkb
+    - rm '{{@@ xkb_tmp_dst @@}}'
     dynvariables:
       xkb_tmp_dst: mktemp /tmp/xkb-dotfiles.XXX
     variables:
@@ -210,9 +258,6 @@ profiles:
       base_xml_dst: /usr/share/X11/xkb/rules/base.xml
       symbols_append_marker: Custom layout symbols
       symbols_dst: /usr/share/X11/xkb/symbols/us
-    actions:
-    - xkb
-    - rm '{{@@ xkb_tmp_dst @@}}'
 variables:
   mr_default_dir: /opt
   user: root

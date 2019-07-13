@@ -115,7 +115,7 @@ USER_NAME="${1:-$USER}"
 # Repositories dotfiles
 #######################################
 
-dotdrop --user root install -p packages
+dotdrop install -p packages
 
 #######################################
 # Installing Drivers

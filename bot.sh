@@ -49,6 +49,7 @@ RETRY_PROMPT="Do you want to retry? $CHOICES"
 # Misc
 MSG_WIDTH="${MSG_WIDTH:-80}"
 MSG_WIDTH=$(( MSG_WIDTH - $(printf "$INDENT" | wc -m) ))
+IN_ALTERNATE_BUFFER='false'
 
 # Reset
 SHELL="$(ps --no-headers -p "$$" -o 'comm')"
@@ -129,6 +130,7 @@ execute() {
     while [ "$RETRY" = 'true' ]; do
         tput smcup
         tput cup 0 0
+        IN_ALTERNATE_BUFFER='true'
 
         # This is executed in the background: stdin is detatched, while stdout
         # and stderr are shared with this script (likely connected to a tty).
@@ -143,6 +145,7 @@ execute() {
         kill "$!"
 
         tput rmcup
+        IN_ALTERNATE_BUFFER='false'
 
         if [ "$CMD_EXIT" -eq 0 ]; then
             ask "$OK_FACE" "Looks like everything went fine with $DESC! Hooray!
@@ -184,6 +187,9 @@ goodbye() {
     # This needs to be before positional parameter assignments, since they
     # would otherwise overwrite the exit code.
     EXIT_CODE="$?"
+
+    # This is used as a signal handler, the alternate buffer might be active
+    [ "$IN_ALTERNATE_BUFFER" = 'true' ] && tput rmcup
 
     SAY_OPTS="${1:--llt}"
 

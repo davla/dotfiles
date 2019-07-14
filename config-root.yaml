@@ -60,6 +60,24 @@ dotfiles:
     src: etc/profile.d/env-vars.sh
     dst: /etc/profile.d/env-vars.sh
     trans_read: fix-home
+  f_env-vars-bash.sh:
+    src: env/source-env-vars.sh
+    dst: '{{@@ env_tmp_dst @@}}'
+    actions:
+    - strip_file '{{@@ _dotfile_abs_src @@}}' '{{@@ bash_env_dst @@}}'
+    - >-
+      insert_match '(^$|^[^#])' '{{@@ env_tmp_dst @@}}'
+        '{{@@ bash_env_dst @@}}'
+    - rm '{{@@ env_tmp_dst @@}}'
+  f_env-vars-zsh.sh:
+    dst: '{{@@ env_tmp_dst @@}}'
+    src: env/source-env-vars.sh
+    actions:
+    - strip_file '{{@@ _dotfile_abs_src @@}}' '{{@@ zsh_env_dst @@}}'
+    - >-
+      insert_match '(^$|^[^#])' '{{@@ env_tmp_dst @@}}'
+        '{{@@ zsh_env_dst @@}}'
+    - rm '{{@@ env_tmp_dst @@}}'
   f_fstab:
     src: etc/fstab
     dst: '{{@@ fstab_tmp_dst @@}}'
@@ -109,20 +127,6 @@ dotfiles:
   f_sources.list:
     src: etc/apt/sources.list
     dst: /etc/apt/sources.list
-  f_env-vars-bash.sh:
-    dst: '{{@@ env_tmp_dst @@}}'
-    src: env/source-env-vars.sh
-    actions:
-    - strip_file '{{@@ _dotfile_abs_src @@}}' /etc/bash.bashrc
-    - insert_match_once '(^$|^[^#])' '{{@@ env_tmp_dst @@}}' /etc/bash.bashrc
-    - rm '{{@@ env_tmp_dst @@}}'
-  f_env-vars-zsh.sh:
-    src: env/source-env-vars.sh
-    dst: '{{@@ env_tmp_dst @@}}'
-    actions:
-    - strip_file '{{@@ _dotfile_abs_src @@}}' /etc/zsh/zshenv
-    - insert_match_once '(^$|^[^#])' '{{@@ env_tmp_dst @@}}' /etc/zsh/zshenv
-    - rm '{{@@ env_tmp_dst @@}}'
   f_sudo_sys-env-vars:
     src: etc/sudoers.d/sys-env-vars
     dst: /etc/sudoers.d/sys-env-vars
@@ -139,10 +143,9 @@ dotfiles:
     dst: '{{@@ xkb_tmp_dst @@}}'
     actions:
     - >-
-      strip_range '{{@@ base_lst_range_start @@}}'
-        '{{@@ base_lst_range_end @@}}' '{{@@ base_lst_dst @@}}'
+      strip_file '{{@@ _dotfile_abs_src @@}}' '{{@@ base_lst_dst @@}}'
     - >-
-      insert_match '{{@@ base_lst_range_start @@}}' '{{@@ xkb_tmp_dst @@}}'
+      insert_match '^\s*\sintl\s\s*us' '{{@@ xkb_tmp_dst @@}}'
         '{{@@ base_lst_dst @@}}'
   f_xkb_base.xml:
     src: usr/share/X11/xkb/rules/base.xml
@@ -183,6 +186,9 @@ profiles:
     - env-shells
     dynvariables:
       env_tmp_dst: mktemp /tmp/anacrontab-tmp.XXX
+    variables:
+      bash_env_dst: /etc/bash.bashrc
+      zsh_env_dst: /etc/zsh/zshenv
   graphical-login:
     dotfiles:
     - f_lightdm.conf.d_02_custom.conf
@@ -196,8 +202,6 @@ profiles:
     actions:
     - locales
     - rm '{{@@ locales_tmp_dst @@}}'
-    dynvariables:
-      locales_tmp_dst: mktemp /tmp/locales-tmp.XXX
   manual:
     dotfiles:
     - d_asdf
@@ -251,8 +255,6 @@ profiles:
     dynvariables:
       xkb_tmp_dst: mktemp /tmp/xkb-dotfiles.XXX
     variables:
-      base_lst_range_start: ^\s*\sintl\s\s*us
-      base_lst_range_end: ^\s*\salt-intl\s\s*us
       base_lst_dst: /usr/share/X11/xkb/rules/base.lst
       base_xml_strip_xpath: .//*[name='intl-custom']..
       base_xml_insert_xpath: >

@@ -1,13 +1,6 @@
 actions:
   pre:
-    strip_range: >
-      sed -i -E '/{0}/,/{1}/ {{
-          /{0}/n
-          /{1}/ ! {{
-            d
-          }}
-        }}' {2}
-    strip_file: >
+    strip_file: >-
       START="$(head -n 1 {0} | xargs -i grep -nFm 1 '{{}}' {1} \
           | cut -d ':' -f 1)";
       END="$(nl -b a -w 1 -s ' ' {1} | tac | grep -Fm 1 "$(tail -n 1 {0})" \
@@ -28,8 +21,7 @@ actions:
           parent.remove(target)
           document.write('{1}', encoding='UTF-8', xml_declaration=True)"
   post:
-    insert_match: "sed -i -E '/{0}/ r {1}' {2}"
-    insert_match_once: >
+    insert_match: >
       LINE="$(grep -nPm 1 '{0}' {2} | cut -d ':' -f 1)";
       [ -z "$LINE" ] && LINE="$(wc -l < {2})";
       sed -i "$LINE r {1}" {2}

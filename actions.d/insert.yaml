@@ -8,40 +8,42 @@ actions:
       if [ -n "$START" ] && [ -n "$END" ]; then
           sed -i "$START,$END d" {1}
       fi
-    strip_xml: >-
-      python -c "
-        import xml.etree.ElementTree as ET
+    strip_xml: |-
+      python -i <<EOF
+      import xml.etree.ElementTree as ET
 
-        with open('{1}', 'r') as f:
-            document = ET.parse(f)
+      with open('{1}', 'r') as f:
+          document = ET.parse(f)
 
-        parent = document.find("{0}/..")
-        if parent is not None:
+      parent = document.find("{0}/..")
+      if parent is not None:
           target = parent.find("{0}")
           parent.remove(target)
-          document.write('{1}', encoding='UTF-8', xml_declaration=True)"
+          document.write('{1}', encoding='UTF-8', xml_declaration=True)
+      EOF
   post:
     insert_match: >
       LINE="$(grep -nPm 1 '{0}' {2} | cut -d ':' -f 1)";
       [ -z "$LINE" ] && LINE="$(wc -l < {2})";
       sed -i "$LINE r {1}" {2}
-    insert_xml: >-
-      python -c "
-        import xml.etree.ElementTree as ET
+    insert_xml: |-
+      python -i <<EOF
+      import xml.etree.ElementTree as ET
 
-        with open('{1}', 'r') as source, open('{2}', 'r') as dest:
-            source_document = ET.parse(source)
-            dest_document = ET.parse(dest)
+      with open('{1}', 'r') as source, open('{2}', 'r') as dest:
+          source_document = ET.parse(source)
+          dest_document = ET.parse(dest)
 
-        node = source_document.find('.')
-        parent = dest_document.find("{0}/..")
-        target = parent.find("{0}")
+      node = source_document.find('.')
+      parent = dest_document.find("{0}/..")
+      target = parent.find("{0}")
 
-        index = next(
-            index
-            for index, child in enumerate(parent)
-            if child == target
-        )
-        parent.insert(index + 1, node)
-        document.write('{2}', encoding='UTF-8', xml_declaration=True)"
+      index = next(
+          index
+          for index, child in enumerate(parent)
+          if child == target
+      )
+      parent.insert(index + 1, node)
+      dest_document.write('{2}', encoding='UTF-8', xml_declaration=True)
+      EOF
     rm: rm -f {0}

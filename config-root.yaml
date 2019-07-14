@@ -151,10 +151,10 @@ dotfiles:
     src: usr/share/X11/xkb/rules/base.xml
     dst: '{{@@ xkb_tmp_dst @@}}'
     actions:
-    - strip_xml '{{@@ base_xml_strip_xpath @@}}' '{{@@ base_xml_dst @@}}'
+    - strip_xml ".//*[name='intl-custom'].." '{{@@ base_xml_dst @@}}'
     - >-
-      insert_xml '{{@@ base_xml_insert_xpath @@}}' '{{@@ xkb_tmp_dst @@}}'
-        '{{@@ base_xml_dst @@}}'
+      insert_xml ".//*[description='English (US, intl., with dead keys)'].."
+        '{{@@ xkb_tmp_dst @@}}' '{{@@ base_xml_dst @@}}'
   f_xkb_us:
     src: usr/share/X11/xkb/symbols/us
     dst: '{{@@ xkb_tmp_dst @@}}'
@@ -256,9 +256,6 @@ profiles:
       xkb_tmp_dst: mktemp /tmp/xkb-dotfiles.XXX
     variables:
       base_lst_dst: /usr/share/X11/xkb/rules/base.lst
-      base_xml_strip_xpath: .//*[name='intl-custom']..
-      base_xml_insert_xpath: >
-        .//*[description='English (US, intl., with dead keys)']..
       base_xml_dst: /usr/share/X11/xkb/rules/base.xml
       symbols_append_marker: Custom layout symbols
       symbols_dst: /usr/share/X11/xkb/symbols/us

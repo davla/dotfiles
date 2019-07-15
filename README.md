@@ -9,6 +9,7 @@ My dotfiles repository. Really, just configuration files
   (https://wiki.archlinux.org/index.php/GNOME/Keyring#Automatic_login)
 - gulp-cli
 - Scala in asdf
+- Root terminal preferences
 - More preferences
   + Firefox
   + Enpass

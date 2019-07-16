@@ -4,6 +4,7 @@ actions:
       export PATH="$(which python2 | xargs dirname):$PATH";
       apm install --packages-file {0};
       rm {0}
+    i3: sudo apt-get install dex
 config:
   backup: false
   banner: true
@@ -169,6 +170,13 @@ profiles:
     include:
     - atom
     - geany
+  i3:
+    dotfiles:
+    - d_i3
+    actions:
+    - 'i3'
+    include:
+    - startup
   startup:
     dotfiles:
     - d_autostart
@@ -180,9 +188,8 @@ profiles:
     - d_xfce4
     - f_gtk-3.0_gtk.css
     - f_xfce-applications.menu
-  i3:
-    dotfiles:
-    - d_i3
+    include:
+    - startup
 trans_write:
   atom-list-packages: apm list --bare --installed | grep -o '^[^@]\+' > {1}
 variables:

@@ -16,3 +16,8 @@ My dotfiles repository. Really, just configuration files
   + Thunderbird
   + Dropbox
   + Telegram
+- i3
+ + dunst
+ + gtk theme
+ + i3 status
+ + Xresources

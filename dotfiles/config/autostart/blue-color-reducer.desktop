@@ -5,8 +5,7 @@ Type=Application
 Name=Blue color reducer
 Comment=Reduces the display blue light
 Exec=sct 4000K
-OnlyShowIn=XFCE;
+NotShowIn=sway;
 StartupNotify=false
 Terminal=false
 Hidden=false
-

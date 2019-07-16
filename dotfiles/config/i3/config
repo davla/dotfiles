@@ -43,18 +43,15 @@ font pango:Sans, Regular 10
 # Applications
 #######################################
 
+bindsym $mod+Escape exec halt -p
+bindsym $mod+F5 exec reboot
+bindsym $mod+space exec i3-dmenu-desktop
+bindsym $mod+Shift+space exec dmenu_run
 bindsym $mod+d exec telegram
 bindsym $mod+e exec geany
 bindsym $mod+f exec thunar
 bindsym $mod+t exec xfce4-terminal
 bindsym $mod+w exec firefox
-
-# start dmenu (a program launcher)
-bindsym $mod+space exec dmenu_run
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 #######################################
 # Window controls

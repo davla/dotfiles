@@ -21,6 +21,12 @@ set $down semicolon
 set $left l
 
 #######################################
+# Defaults
+#######################################
+
+default_orientation horizontal
+
+#######################################
 # Font
 #######################################
 
@@ -28,30 +34,18 @@ set $left l
 # is used in the bar {} block below.
 font pango:Sans, Regular 10
 
-# This font is widely installed, provides lots of unicode glyphs, right-to-left
-# text rendering and scalabili3ity on retina/hidpi displays (thanks to pango).
-#font pango:DejaVu Sans Mono 8
-
-# Before i3 v4.8, we used to recommend this one as the default:
-# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-# The font above is very space-efficient, that is, it looks good, sharp and
-# clear in small sizes. However, its unicode glyph coverage is limited, the old
-# X core fonts rendering does not support right-to-left and this being a bitmap
-# font, it doesn’t scale on retina/hidpi displays.
-
 #######################################
-# Applications
+# Gaps
 #######################################
 
-bindsym $mod+Escape exec halt -p
-bindsym $mod+F5 exec reboot
-bindsym $mod+space exec i3-dmenu-desktop
-bindsym $mod+Shift+space exec dmenu_run
-bindsym $mod+d exec telegram
-bindsym $mod+e exec geany
-bindsym $mod+f exec thunar
-bindsym $mod+t exec xfce4-terminal
-bindsym $mod+w exec firefox
+# Necessary for i3-gaps to work properly (pixel can be any value)
+for_window [class="^.*"] border pixel 1
+
+smart_gaps on
+smart_borders on
+
+gaps inner 10
+gaps outer 0
 
 #######################################
 # Window controls
@@ -106,19 +100,6 @@ bindsym $mod+q kill
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
-
-#######################################
-# Gaps
-#######################################
-
-# Necessary for i3-gaps to work properly (pixel can be any value)
-for_window [class="^.*"] border pixel 1
-
-smart_gaps on
-smart_borders on
-
-gaps inner 10
-gaps outer 0
 
 #######################################
 # Workspaces
@@ -212,10 +193,18 @@ mode "resize" {
 bindsym $mod+Mod1+r mode "resize"
 
 #######################################
-# Defaults
+# Application shortcuts
 #######################################
 
-default_orientation horizontal
+bindsym $mod+Escape exec halt -p
+bindsym $mod+F5 exec reboot
+bindsym $mod+space exec i3-dmenu-desktop
+bindsym $mod+Shift+space exec dmenu_run
+bindsym $mod+d exec telegram
+bindsym $mod+e exec geany
+bindsym $mod+f exec thunar
+bindsym $mod+t exec xfce4-terminal
+bindsym $mod+w exec firefox
 
 #######################################
 # i3 Bar

@@ -16,7 +16,7 @@ config:
   import_configs:
   - profiles.d/shared.yaml
   import_variables:
-  - 'variables.d/*.yaml'
+  - variables.d/*.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -43,6 +43,9 @@ dotfiles:
   d_gtk-3.0:
     src: config/gtk-3.0
     dst: ~/.config/gtk-3.0
+  d_qt5ct:
+    src: config/qt5ct
+    dst: ~/.config/qt5ct
   d_thunar:
     src: config/Thunar
     dst: ~/.config/Thunar
@@ -117,6 +120,9 @@ dotfiles:
   f_parcellite_parcelliterc:
     dst: ~/.config/parcellite/parcelliterc
     src: config/parcellite/parcelliterc
+  f_trolltech.conf:
+    src: config/Trolltech.conf
+    dst: ~/.config/Trolltech.conf
   f_virtualbox_virtualbox.xml:
     dst: ~/.config/VirtualBox/VirtualBox.xml
     src: config/VirtualBox/VirtualBox.xml
@@ -186,7 +192,10 @@ profiles:
     dotfiles:
     - d_gtk-3.0
     - f_gtkrc-2.0
+    - d_qt5ct
+    - f_trolltech.conf
     - f_xresources
+    - f_xsessionrc
   startup:
     dotfiles:
     - d_autostart

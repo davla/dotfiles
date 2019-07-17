@@ -18,7 +18,6 @@ My dotfiles repository. Really, just configuration files
   + Telegram
 - i3
    + dunst
-   + qt theme
    + i3 status
    + Xresources
    + transparency

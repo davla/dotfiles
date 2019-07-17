@@ -4,3 +4,5 @@
 
 SCALING=$(which adjust-scaling)
 [ -f "$SCALING" ] && . "$SCALING"
+
+export QT_QPA_PLATFORMTHEME='qt5ct'

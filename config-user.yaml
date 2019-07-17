@@ -35,6 +35,9 @@ dotfiles:
     - '*.README'
     upignore:
     - '*.README'
+  d_gtk-3.0:
+    src: config/gtk-3.0
+    dst: ~/.config/gtk-3.0
   d_thunar:
     src: config/Thunar
     dst: ~/.config/Thunar
@@ -94,9 +97,9 @@ dotfiles:
   f_ghci:
     src: ghci
     dst: ~/.ghci
-  f_gtk-3.0_gtk.css:
-    dst: ~/.config/gtk-3.0/gtk.css
-    src: config/gtk-3.0/gtk.css
+  f_gtkrc-2.0:
+    src: gtkrc-2.0
+    dst: ~/.gtkrc-2.0
   f_hgrc:
     src: hgrc
     dst: ~/.hgrc
@@ -115,6 +118,9 @@ dotfiles:
   f_xfce-applications.menu:
     src: config/menus/xfce-applications.menu
     dst: ~/.config/menus/xfce-applications.menu
+  f_xresources:
+    src: Xresources
+    dst: ~/.Xresources
   f_xsessionrc:
     src: xsessionrc
     dst: ~/.xsessionrc
@@ -174,9 +180,15 @@ profiles:
     dotfiles:
     - d_i3
     actions:
-    - 'i3'
+    - i3
     include:
+    - look-and-feel
     - startup
+  look-and-feel:
+    dotfiles:
+    - d_gtk-3.0
+    - f_gtkrc-2.0
+    - f_xresources
   startup:
     dotfiles:
     - d_autostart
@@ -186,9 +198,9 @@ profiles:
     - d_desktop-directories
     - d_thunar
     - d_xfce4
-    - f_gtk-3.0_gtk.css
     - f_xfce-applications.menu
     include:
+    - look-and-feel
     - startup
 trans_write:
   atom-list-packages: apm list --bare --installed | grep -o '^[^@]\+' > {1}

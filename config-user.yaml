@@ -28,6 +28,9 @@ dotfiles:
   d_desktop-directories:
     dst: ~/.local/share/desktop-directories
     src: local/share/desktop-directories
+  d_i3:
+    src: config/i3
+    dst: ~/.config/i3
   d_geany_filedefs:
     dst: ~/.config/geany/filedefs
     src: config/geany/filedefs
@@ -124,12 +127,6 @@ dotfiles:
   f_xsessionrc:
     src: xsessionrc
     dst: ~/.xsessionrc
-  f_packages-list.txt:
-    src: atom/packages-list.txt
-    dst: ~/.atom/packages-list.txt
-  d_i3:
-    src: config/i3
-    dst: ~/.config/i3
 profiles:
   atom:
     dotfiles:
@@ -139,7 +136,6 @@ profiles:
     - f_atom_packages-list.txt
     - f_atom_snippets.cson
     - f_atom_styles.less
-    - f_packages-list.txt
     dynvariables:
       tmp_dst: mktemp /tmp/atom-tmp.XXX
   cli:
@@ -169,13 +165,13 @@ profiles:
   gui:
     dotfiles:
     - f_calibre_global.py
-    - f_gtk-3.0_gtk.css
     - f_orage_oragerc
     - f_parcellite_parcelliterc
     - f_virtualbox_virtualbox.xml
     include:
     - atom
     - geany
+    - look-and-feel
   i3:
     dotfiles:
     - d_i3

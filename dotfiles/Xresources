@@ -1,2 +1,4 @@
-Xcursor.theme: Comix-OrangeB
-Xcursor.size: 24
+# {{@@ header() @@}}
+
+Xcursor.theme: {{@@ cursor_theme @@}}
+Xcursor.size: {{@@ cursor_size @@}}

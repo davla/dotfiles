@@ -200,9 +200,11 @@ bindsym $mod+Escape exec halt -p
 bindsym $mod+F5 exec reboot
 bindsym $mod+space exec i3-dmenu-desktop
 bindsym $mod+Shift+space exec dmenu_run
+bindsym $mod+a exec firefox https://keep.google.com/#home
 bindsym $mod+d exec telegram
 bindsym $mod+e exec geany
 bindsym $mod+f exec thunar
+bindsym $mod+s exec firefox https://calendar.google.com/calendar/r
 bindsym $mod+t exec xfce4-terminal
 bindsym $mod+w exec firefox
 

@@ -43,9 +43,6 @@ dotfiles:
   d_gtk-3.0:
     src: config/gtk-3.0
     dst: ~/.config/gtk-3.0
-  d_qt5ct:
-    src: config/qt5ct
-    dst: ~/.config/qt5ct
   d_thunar:
     src: config/Thunar
     dst: ~/.config/Thunar
@@ -120,6 +117,9 @@ dotfiles:
   f_parcellite_parcelliterc:
     dst: ~/.config/parcellite/parcelliterc
     src: config/parcellite/parcelliterc
+  f_qt5ct.conf:
+    src: config/qt5ct/qt5ct.conf
+    dst: ~/.config/qt5ct/qt5ct.conf
   f_trolltech.conf:
     src: config/Trolltech.conf
     dst: ~/.config/Trolltech.conf
@@ -192,7 +192,7 @@ profiles:
     dotfiles:
     - d_gtk-3.0
     - f_gtkrc-2.0
-    - d_qt5ct
+    - f_qt5ct.conf
     - f_trolltech.conf
     - f_xresources
     - f_xsessionrc

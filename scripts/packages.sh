@@ -147,9 +147,9 @@ sudo -u "$USER_NAME" dotdrop install -p gui
 
 # Installation
 apt-get install apng2gif autoconf automake build-essential cabal-install \
-    cmake command-not-found cowsay cups curl dkms docker-ce dos2unix \
-    flashplayer-mozilla fonts-freefont-otf fortune g++ ghc gifsicle git \
-    git-review gvfs-backends handbrake-cli heroku hlint hunspell \
+    cmake command-not-found cowsay cups curl dex dkms docker-ce dos2unix \
+    flashplayer-mozilla fonts-freefont-otf fonts-nanum fortune g++ ghc \
+    gifsicle git git-review gvfs-backends handbrake-cli heroku hlint hunspell \
     hunspell-en-us hunspell-it hub imagemagick intel-microcode jq lame \
     libghc-hspec-dev libgit2-dev libsecret-1-dev lua5.1 lua-check make \
     mercurial moreutils nfs-common nyancat p7zip pycodestyle \

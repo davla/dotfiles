@@ -19,6 +19,7 @@ My dotfiles repository. Really, just configuration files
 - i3
    + dunst
    + i3 status
+   + volume
    + Xresources
    + transparency
    + background

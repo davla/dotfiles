@@ -41,6 +41,9 @@ dotfiles:
     dst: /etc/apt/sources.list.d
     upignore:
     - '*.save'
+  d_xorg.conf.d:
+    src: etc/X11/xorg.conf.d
+    dst: /etc/X11/xorg.conf.d
   f_60-root.conf:
     src: etc/polkit-1/localauthority.conf.d/60-root.conf
     dst: /etc/polkit-1/localauthority.conf.d/60-root.conf
@@ -243,6 +246,9 @@ profiles:
     variables:
       fstab_append_marker: Custom mount points
       fstab_dst: /etc/fstab
+  x11:
+    dotfiles:
+    - d_xorg.conf.d
   xkb:
     dotfiles:
     - f_keyboard

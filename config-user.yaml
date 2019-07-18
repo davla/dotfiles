@@ -4,7 +4,7 @@ actions:
       export PATH="$(which python2 | xargs dirname):$PATH";
       apm install --packages-file {0};
       rm {0}
-    i3: sudo apt-get install dex
+    i3: sudo apt-get install dex aptitude bash lm-sensors python3-keyring gnome-keyring
 config:
   backup: false
   banner: true
@@ -108,6 +108,9 @@ dotfiles:
   f_hgrc:
     src: hgrc
     dst: ~/.hgrc
+  f_i3blocks_config:
+    src: config/i3blocks/config
+    dst: ~/.config/i3blocks/config
   f_mrconfig:
     dst: ~/.mrconfig
     src: mrconfig-user
@@ -183,6 +186,7 @@ profiles:
   i3:
     dotfiles:
     - d_i3
+    - f_i3blocks_config
     actions:
     - i3
     include:

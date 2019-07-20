@@ -1,0 +1,7 @@
+# This file contains the i3blocks-contrib/email settings for the main mailbox
+# https://github.com/vivien/i3blocks-contrib/tree/master/email
+
+[MAIL]
+HOST: imap.gmx.com
+PORT: 993
+USER: davide.laezza@gmx.com

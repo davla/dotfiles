@@ -33,6 +33,9 @@ dotfiles:
   d_i3:
     src: config/i3
     dst: ~/.config/i3
+  d_i3blocks-email:
+    src: config/i3blocks-email
+    dst: ~/.config/i3blocks-email
   d_geany_filedefs:
     dst: ~/.config/geany/filedefs
     src: config/geany/filedefs
@@ -186,6 +189,7 @@ profiles:
   i3:
     dotfiles:
     - d_i3
+    - d_i3blocks-email
     - f_i3blocks_config
     actions:
     - i3

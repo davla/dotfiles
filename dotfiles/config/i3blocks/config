@@ -1,17 +1,35 @@
-# Date and time
+# This is the i3blocks config file
+
+# This block shows the time and the date, including the weekday
 [time]
-full_text=DATE
 command=date '+%H:%M:%S %d-%m-%Y (%a)'
+full_text=DATE
 interval=1
 
+# This block shows whether system updates are available
 [apt-upgrades]
-full_text=APT
 command=apt-upgrades -s ''
-signal=1
+full_text=APT
 interval=once
+signal=1
 
+# This block shows the CPU usage in percentage
 [cpu_usage2]
-full_text=CPU
-markup=pango
 command=cpu_usage2 -t 1 -l '' -d 0
+full_text=CPU
 interval=persist
+markup=pango
+
+# This block displays the main mail watcher
+[email]
+command=email | sed '1 s/^/main: /'
+full_text=MAIN MAIL
+instance=main
+interval=600
+
+# This block displays the spam mail watcher
+[email]
+command=email | sed '1 s/^/spam: /'
+full_text=SPAM MAIL
+instance=spam
+interval=600

@@ -47,6 +47,9 @@ dotfiles:
   f_60-root.conf:
     src: etc/polkit-1/localauthority.conf.d/60-root.conf
     dst: /etc/polkit-1/localauthority.conf.d/60-root.conf
+  f_80i3blocks:
+    src: etc/apt/apt.conf.d/80i3blocks
+    dst: /etc/apt/apt.conf.d/80i3blocks
   f_99-no-wireless-on-wired:
     src: etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
     dst: /etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
@@ -196,6 +199,9 @@ profiles:
     dotfiles:
     - f_lightdm.conf.d_02_custom.conf
     - f_lightdm-gtk-greeter.conf.d_02_custom.conf
+  i3:
+    dotfiles:
+    - f_80i3blocks
   locales:
     dotfiles:
     - f_locale

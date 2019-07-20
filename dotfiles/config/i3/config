@@ -14,12 +14,12 @@
 #######################################
 
 # Keys
-set $mod Mod4               # Main modifier
-set $mod_shifter Control    # Mode modifier
-set $up p                   # Up key
-set $right apostrophe       # Right key
-set $down semicolon         # Down key
-set $left l                 # Left key
+set $mod Mod4
+set $mod_shifter Control
+set $up p
+set $right apostrophe
+set $down semicolon
+set $left l
 
 #######################################
 # Defaults

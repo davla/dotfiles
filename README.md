@@ -17,9 +17,8 @@ My dotfiles repository. Really, just configuration files
   + Dropbox
   + Telegram
 - i3
+   + scratchpad workspace
    + dunst
-   + i3 status
-   + volume
    + Xresources
    + transparency
    + background

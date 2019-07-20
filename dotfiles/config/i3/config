@@ -15,6 +15,7 @@
 
 # Keys
 set $mod Mod4
+set $mod_shifter Control
 set $up p
 set $right apostrophe
 set $down semicolon
@@ -187,10 +188,10 @@ mode "resize" {
     # back to normal: Enter or Escape or $mod+r
     bindsym Return mode "default"
     bindsym Escape mode "default"
-    bindsym $mod+Mod1+r mode "default"
+    bindsym $mod+$mod_shifter+r mode "default"
 }
 
-bindsym $mod+Mod1+r mode "resize"
+bindsym $mod+$mod_shifter+r mode "resize"
 
 #######################################
 # Application shortcuts
@@ -213,6 +214,26 @@ bindsym $mod+w exec firefox
 #######################################
 
 exec dex -ae i3
+
+#######################################
+# Controls
+#######################################
+
+set $notification_duration 1000
+set $step 5
+
+mode "controls" {
+    bindsym l exec volume -np -d $step -e $notification_duration
+    bindsym apostrophe exec volume -npl 100 -i $step -e $notification_duration
+    bindsym semicolon exec volume -nm -e $notification_duration
+
+    # back to normal: Enter or Escape or $mod+r
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+$mod_shifter+c mode "default"
+}
+
+bindsym $mod+$mod_shifter+c mode "controls"
 
 #######################################
 # i3 Bar

@@ -14,12 +14,12 @@
 #######################################
 
 # Keys
-set $mod Mod4
-set $mod_shifter Control
-set $up p
-set $right apostrophe
-set $down semicolon
-set $left l
+set $mod Mod4               # Main modifier
+set $mod_shifter Control    # Mode modifier
+set $up p                   # Up key
+set $right apostrophe       # Right key
+set $down semicolon         # Down key
+set $left l                 # Left key
 
 #######################################
 # Defaults
@@ -76,7 +76,7 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+backslash focus parent
 
 # focus the child container
-#bindsym $mod+m focus child
+bindsym $mod+slash focus child
 
 # split
 bindsym $mod+minus split v
@@ -185,7 +185,7 @@ mode "resize" {
     bindsym Down resize grow height 10 px or 10 ppt
     bindsym Left resize shrink width 10 px or 10 ppt
 
-    # back to normal: Enter or Escape or $mod+r
+    # back to normal: Enter or Escape or mode-enabling shortcut
     bindsym Return mode "default"
     bindsym Escape mode "default"
     bindsym $mod+$mod_shifter+r mode "default"
@@ -219,15 +219,19 @@ exec dex -ae i3
 # Controls
 #######################################
 
+# This section defines shortcuts for "controls mode", eg, volume control or
+# screen brightness control
+
 set $notification_duration 1000
 set $step 5
 
 mode "controls" {
+    # Volume control
     bindsym l exec volume -np -d $step -e $notification_duration
     bindsym apostrophe exec volume -npl 100 -i $step -e $notification_duration
     bindsym semicolon exec volume -nm -e $notification_duration
 
-    # back to normal: Enter or Escape or $mod+r
+    # back to normal: Enter or Escape or mode-enabling shortcut
     bindsym Return mode "default"
     bindsym Escape mode "default"
     bindsym $mod+$mod_shifter+c mode "default"
@@ -239,8 +243,6 @@ bindsym $mod+$mod_shifter+c mode "controls"
 # i3 Bar
 #######################################
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
 bar {
     position top
     separator_symbol "  "

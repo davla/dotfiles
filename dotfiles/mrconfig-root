@@ -57,7 +57,6 @@ checkout =
         'i3blocks-contrib'
 install =
     make -C "$MR_REPO/cpu_usage2"
-    #
     for BLOCK in apt-upgrades cpu_usage2 email iface memory temperature wifi
     do
         find "$MR_REPO/$BLOCK" -type f -executable \

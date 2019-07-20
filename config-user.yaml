@@ -114,6 +114,9 @@ dotfiles:
   f_i3config:
     src: config/i3/config
     dst: ~/.config/i3/config
+  f_mimeapps.list:
+    src: config/mimeapps.list
+    dst: ~/.config/mimeapps.list
   f_mrconfig:
     dst: ~/.mrconfig
     src: mrconfig-user
@@ -180,6 +183,7 @@ profiles:
     dotfiles:
     - f_calibre_global.py
     - f_orage_oragerc
+    - f_mimeapps.list
     - f_parcellite_parcelliterc
     - f_virtualbox_virtualbox.xml
     include:

@@ -1,0 +1,38 @@
+# Default applications settings
+
+[Default Applications]
+x-scheme-handler/atom=atom.desktop
+x-scheme-handler/atom+xml=atom.desktop
+x-scheme-handler/about=firefox.desktop
+x-scheme-handler/ftp=thunar.desktop
+x-scheme-handler/sftp=thunar.desktop
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
+x-scheme-handler/mailto=thunderbird.desktop
+x-scheme-handler/spotify=spotify.desktop
+x-scheme-handler/tg=telegramdesktop.desktop
+x-scheme-handler/unknown=firefox.desktop
+
+[Added Associations]
+application/json=geany.desktop;
+application/ogg=vlc.desktop;
+application/pdf=atril.desktop;org.gnome.Evince.desktop;
+application/vnd.oasis.opendocument.text=libreoffice-writer.desktop;
+application/zip=xarchiver.desktop;
+audio/x-aac=vlc.desktop;
+audio/x-flac=vlc.desktop;
+audio/x-ogg=vlc.desktop;
+audio/x-aiff=vlc.desktop;
+audio/x-it=vlc.desktop;
+audio/x-mod=vlc.desktop;
+audio/x-ms-asx=vlc.desktop;
+audio/x-ms-wma=vlc.desktop;
+audio/x-musepack=vlc.desktop;
+audio/x-opus+ogg=vlc.desktop;
+audio/x-s3m=vlc.desktop;
+audio/x-speex+ogg=vlc.desktop;
+audio/x-tta=vlc.desktop;
+audio/x-wavpack=vlc.desktop;
+audio/x-xm=vlc.desktop;
+text/html=geany.desktop
+text/markdown=geany.desktop;

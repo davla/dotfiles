@@ -30,9 +30,6 @@ dotfiles:
   d_desktop-directories:
     dst: ~/.local/share/desktop-directories
     src: local/share/desktop-directories
-  d_i3:
-    src: config/i3
-    dst: ~/.config/i3
   d_i3blocks-email:
     src: config/i3blocks-email
     dst: ~/.config/i3blocks-email
@@ -114,6 +111,9 @@ dotfiles:
   f_i3blocks_config:
     src: config/i3blocks/config
     dst: ~/.config/i3blocks/config
+  f_i3config:
+    src: config/i3/config
+    dst: ~/.config/i3/config
   f_mrconfig:
     dst: ~/.mrconfig
     src: mrconfig-user
@@ -188,9 +188,9 @@ profiles:
     - look-and-feel
   i3:
     dotfiles:
-    - d_i3
     - d_i3blocks-email
     - f_i3blocks_config
+    - f_i3config
     actions:
     - i3
     include:

@@ -222,5 +222,6 @@ exec dex -ae i3
 # finds out, if available)
 bar {
     position top
+    separator_symbol "  "
     status_command i3blocks
 }

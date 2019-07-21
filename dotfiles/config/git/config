@@ -53,7 +53,7 @@
 [core]
     autocrlf = input
     editor = vim
-    excludesfile = ~/.gitignore
+    excludesfile = ~/.config/git/gitignore
 
 [credential]
     helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret

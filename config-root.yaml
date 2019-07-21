@@ -202,6 +202,8 @@ profiles:
   i3:
     dotfiles:
     - f_80i3blocks
+    include:
+    - x11
   locales:
     dotfiles:
     - f_locale

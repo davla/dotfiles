@@ -16,10 +16,6 @@
 # Keys
 set $mod Mod4
 set $mod_shifter Control
-set $up p
-set $right apostrophe
-set $down semicolon
-set $left l
 
 #######################################
 # Defaults
@@ -52,6 +48,11 @@ gaps outer 0
 # Window controls
 #######################################
 
+set $up w
+set $right d
+set $down s
+set $left a
+
 # change focus
 bindsym $mod+$up focus up
 bindsym $mod+$right focus right
@@ -73,14 +74,14 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Left move left
 
 # focus the parent container
-bindsym $mod+backslash focus parent
+bindsym $mod+z focus parent
 
 # focus the child container
-bindsym $mod+slash focus child
+bindsym $mod+x focus child
 
 # split
-bindsym $mod+minus split v
-bindsym $mod+plus split h
+bindsym $mod+f split v
+bindsym $mod+c split h
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+y layout stacking
@@ -106,13 +107,16 @@ floating_modifier $mod
 # Workspaces
 #######################################
 
+set $prev_ws e
+set $next_ws r
+
 # Cycling workspaces
-bindsym $mod+bracketleft workspace prev
-bindsym $mod+bracketright workspace next
+bindsym $mod+$prev_ws workspace prev
+bindsym $mod+$next_ws workspace next
 
 # Moving windows to cycle workspace
-bindsym $mod+Shift+bracketleft move window to workspace prev; workspace prev
-bindsym $mod+Shift+bracketright move window to workspace next; workspace next
+bindsym $mod+Shift+$prev_ws move window to workspace prev; workspace prev
+bindsym $mod+Shift+$next_ws move window to workspace next; workspace next
 
 # Define names for default workspaces for which we configure key bindings later
 # on. We use variables to avoid repeating the names in multiple places.
@@ -201,13 +205,13 @@ bindsym $mod+Escape exec halt -p
 bindsym $mod+F5 exec reboot
 bindsym $mod+space exec i3-dmenu-desktop
 bindsym $mod+Shift+space exec dmenu_run
-bindsym $mod+a exec firefox https://keep.google.com/#home
-bindsym $mod+d exec telegram
-bindsym $mod+e exec geany
-bindsym $mod+f exec thunar
-bindsym $mod+s exec firefox https://calendar.google.com/calendar/r
-bindsym $mod+t exec xfce4-terminal
-bindsym $mod+w exec firefox
+bindsym $mod+backslash exec firefox https://keep.google.com/#home
+bindsym $mod+semicolon exec telegram
+bindsym $mod+p exec geany
+bindsym $mod+l exec thunar
+bindsym $mod+apostrophe exec firefox https://calendar.google.com/calendar/r
+bindsym $mod+Return exec xfce4-terminal
+bindsym $mod+bracketleft exec firefox
 
 #######################################
 # Application startup
@@ -227,9 +231,9 @@ set $step 5
 
 mode "controls" {
     # Volume control
-    bindsym l exec volume -np -d $step -e $notification_duration
-    bindsym apostrophe exec volume -npl 100 -i $step -e $notification_duration
-    bindsym semicolon exec volume -nm -e $notification_duration
+    bindsym a exec volume -np -d $step -e $notification_duration
+    bindsym d exec volume -npl 100 -i $step -e $notification_duration
+    bindsym s exec volume -nm -e $notification_duration
 
     # back to normal: Enter or Escape or mode-enabling shortcut
     bindsym Return mode "default"

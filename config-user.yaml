@@ -84,6 +84,9 @@ dotfiles:
   f_calibre_global.py:
     dst: ~/.config/calibre/global.py
     src: config/calibre/global.py
+  f_compton.conf:
+    src: config/compton.conf
+    dst: ~/.config/compton.conf
   f_crontab:
     dst: '{{@@ tmp_dst @@}}'
     src: cron/crontab
@@ -193,6 +196,7 @@ profiles:
   i3:
     dotfiles:
     - d_i3blocks-email
+    - f_compton.conf
     - f_i3blocks_config
     - f_i3config
     actions:

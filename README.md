@@ -20,5 +20,6 @@ My dotfiles repository. Really, just configuration files
 - i3
    + scratchpad workspace
    + dunst
+   + text color in i3bar
    + Xresources
    + transparency

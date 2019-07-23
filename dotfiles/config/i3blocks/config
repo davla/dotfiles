@@ -19,12 +19,12 @@ interval=600
 
 # This block displays the Ethernet status (on/off) via a single colored letter
 [ethernet]
-command=i3blocks-network-status ethernet
+command=i3blocks-network-status -i ethernet
 interval=2
 
 # This block displays the Ethernet status (on/off) via a single colored letter
 [wireless]
-command=i3blocks-network-status wireless
+command=i3blocks-network-status -i wireless
 interval=2
 
 # This block shows whether system updates are available

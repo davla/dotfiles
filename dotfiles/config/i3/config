@@ -48,10 +48,11 @@ gaps outer 0
 # Window controls
 #######################################
 
-set $up w
-set $right d
-set $down s
-set $left a
+set $up e
+set $right f
+set $down d
+set $left s
+set $float g
 
 # change focus
 bindsym $mod+$up focus up
@@ -74,31 +75,31 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Left move left
 
 # focus the parent container
-bindsym $mod+z focus parent
+bindsym $mod+c focus parent
 
 # focus the child container
-bindsym $mod+x focus child
+bindsym $mod+v focus child
 
 # split
-bindsym $mod+f split v
-bindsym $mod+c split h
+bindsym $mod+z split v
+bindsym $mod+x split h
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+y layout stacking
 bindsym $mod+u layout tabbed
-bindsym $mod+g layout toggle split
+bindsym $mod+r layout toggle split
 
 # enter fullscreen mode for the focused container
 bindsym $mod+h fullscreen toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+j focus mode_toggle
+bindsym $mod+$float focus mode_toggle
 
 # toggle tiling / floating
-bindsym $mod+Shift+j floating toggle
+bindsym $mod+Shift+$float floating toggle
 
 # kill focused window
-bindsym $mod+q kill
+bindsym $mod+a kill
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -107,8 +108,8 @@ floating_modifier $mod
 # Workspaces
 #######################################
 
-set $prev_ws e
-set $next_ws r
+set $prev_ws q
+set $next_ws w
 
 # Cycling workspaces
 bindsym $mod+$prev_ws workspace prev

@@ -57,10 +57,10 @@ checkout =
 	       'i3blocks-contrib'
 install =
 	   make -C "$MR_REPO/cpu_usage2"
-	   for BLOCK in apt-upgrades cpu_usage2 email iface memory temperature wifi
+	   for BLOCK in apt-upgrades cpu_usage2 email memory temperature
 	   do
-	       find "$MR_REPO/$BLOCK" -type f -executable \
-	           -exec cp '{}' /usr/local/bin/ \;
+	       find "$MR_REPO/$BLOCK" -type f -executable -printf '%P' \
+               | xargs -i cp "$MR_REPO/$BLOCK/{}" '/usr/local/bin/i3blocks-{}'
 	   done
 
 

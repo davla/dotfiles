@@ -10,7 +10,7 @@ My dotfiles repository. Really, just configuration files
 - gulp-cli
 - Scala in asdf
 - Root terminal preferences
-- X session management and startup (not everythin in .xsessionrc)
+- X session management and startup (not everything in .xsessionrc)
 - More preferences
   + Firefox
   + Enpass
@@ -22,4 +22,3 @@ My dotfiles repository. Really, just configuration files
    + dunst
    + text color in i3bar
    + Xresources
-   + transparency

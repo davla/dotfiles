@@ -6,6 +6,7 @@ actions:
     locales: sh ./actions/locales.sh
     mrconfig: apt-get install jq
     repo-keys: sh ./actions/repo-keys.sh
+    systemd-enable: basename '{0}' '.service' | xargs systemctl enable
     timezone: >-
       cat {0} | xargs -i ln -sf '/usr/share/zoneinfo/{{}}' '/etc/localtime';
       dpkg-reconfigure -f noninteractive tzdata;
@@ -144,6 +145,8 @@ dotfiles:
   f_underclock.service:
     src: etc/systemd/system/underclock.service
     dst: /etc/systemd/system/underclock.service
+    actions:
+      - systemd-enable '{{@@ _dotfile_abs_src @@}}'
   f_xkb_base.lst:
     src: usr/share/X11/xkb/rules/base.lst
     dst: '{{@@ xkb_tmp_dst @@}}'

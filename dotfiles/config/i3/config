@@ -27,9 +27,11 @@ default_orientation horizontal
 # Font
 #######################################
 
+set_from_resource $font Gtk.FontName Sans, Regular 11
+
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:Sans, Regular 10
+font pango:$font
 
 #######################################
 # Gaps
@@ -165,17 +167,6 @@ for_window [class="Firefox"] focus
 for_window [class="TelegramDesktop"] focus
 
 #######################################
-# Reset
-#######################################
-
-# reload the configuration file
-bindsym $mod+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+x restart
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+v exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
-
-#######################################
 # Resize
 #######################################
 
@@ -199,26 +190,25 @@ mode "resize" {
 bindsym $mod+$mod_shifter+r mode "resize"
 
 #######################################
-# Application shortcuts
+# Reset
 #######################################
 
-bindsym $mod+Escape exec halt -p
-bindsym $mod+F5 exec reboot
-bindsym $mod+space exec i3-dmenu-desktop
-bindsym $mod+Shift+space exec dmenu_run
-bindsym $mod+backslash exec firefox https://keep.google.com/#home
-bindsym $mod+semicolon exec telegram
-bindsym $mod+p exec geany
-bindsym $mod+l exec thunar
-bindsym $mod+apostrophe exec firefox https://calendar.google.com/calendar/r
-bindsym $mod+Return exec xfce4-terminal
-bindsym $mod+bracketleft exec firefox
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+x restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+v exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 #######################################
-# Application startup
+# i3 Bar
 #######################################
 
-exec dex -ae i3
+bar {
+    position top
+    separator_symbol "  "
+    status_command i3blocks
+}
 
 #######################################
 # Controls
@@ -245,11 +235,23 @@ mode "controls" {
 bindsym $mod+$mod_shifter+c mode "controls"
 
 #######################################
-# i3 Bar
+# Application shortcuts
 #######################################
 
-bar {
-    position top
-    separator_symbol "  "
-    status_command i3blocks
-}
+bindsym $mod+Escape exec halt -p
+bindsym $mod+F5 exec reboot
+bindsym $mod+space exec i3-dmenu-desktop
+bindsym $mod+Shift+space exec dmenu_run
+bindsym $mod+backslash exec firefox https://keep.google.com/#home
+bindsym $mod+semicolon exec telegram
+bindsym $mod+p exec geany
+bindsym $mod+l exec thunar
+bindsym $mod+apostrophe exec firefox https://calendar.google.com/calendar/r
+bindsym $mod+Return exec xfce4-terminal
+bindsym $mod+bracketleft exec firefox
+
+#######################################
+# Application startup
+#######################################
+
+exec dex -ae i3

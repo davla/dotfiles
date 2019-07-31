@@ -1,9 +1,165 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
+# This script initialized the X11 session. It has these main tasks:
+# - Dealing with HiDPI screens, namely:
+#   - Setting the correct DPI value.
+#   - Scaling UI elements
+#   - Setting the correct resolution on all screens
+#   - Exporting the necessary environment Variables
+# - Performing initial setup
+
+#######################################
+# Variables
+#######################################
+
+DISPLAYS_FILE="$HOME/.displays"
+
+#######################################
+# Gathering active display information
+#######################################
+
+# Clearing previous display information
+printf '' > "$DISPLAYS_FILE"
+
+# Deriving display information
+xrandr | grep -E '\bconnected\b( primary)?\s+[0-9]' \
+    | while read DISPLAY_INFO; do
+    	DISPLAY_NAME="$(echo "$DISPLAY_INFO" | cut -d ' ' -f 1)"
+        RES_AND_SIZE="$(echo "$DISPLAY_INFO" \
+            | grep -oP '(\d+mm x \d+mm|\d+x\d+)' | tr -d ' ' | xargs)"
+
+        echo "$RES_AND_SIZE" | grep -oP '\d+' | xargs | awk '{print $1 / $3}' \
+            | xargs printf '%s %s %s\n' "$DISPLAY_NAME" "$RES_AND_SIZE" \
+                >> "$DISPLAYS_FILE"
+    done
+
+#######################################
+# Deriving physical DPI information
+#######################################
+
+TMP_FILE=$(mktemp)
+awk 'NR == 1 {
+    min = $4
+    max = $4
+    resolution = $2
+}
+$4 < min {
+    min = $4
+    resolution = $2
+}
+$4 > max {
+    max = $4
+}
+END {
+    printf "%.0f %.0f %s", (max - min), min, resolution
+}' "$DISPLAYS_FILE" > "$TMP_FILE"
+
+read MAX_DIFF MIN_DPI MIN_RES < "$TMP_FILE"
+
+#######################################
+# Setting resolution
+#######################################
+
+if [ "$MAX_DIFF" -ge 1 ]; then
+    RESOLUTION="--mode $MIN_RES"
+else
+    RESOLUTION='--auto'
+fi
+
+cut -d ' ' -f 1 < "$DISPLAYS_FILE" \
+    | xargs -i -n 1 xrandr --output '{}' $RESOLUTION
+
+#######################################
+# Setting scaling
+#######################################
+
+NORMLIZED_DE="$(echo $DESKTOP_SESSION | tr '[:upper:]' '[:lower:]')"
+
+if [ "$MIN_DPI" -gt 5 ]; then
+    xrdb -merge $HOME/.x11/Xresources.d/hidpi
+
+    GDK_SCALE=2
+    GDK_DPI_SCALE=0.5
+
+    THUNAR_ICON_SIZE='THUNAR_ICON_SIZE_LARGE'
+    THUNAR_SEPARATOR=324
+    THUNAR_ZOOM='THUNAR_ZOOM_LEVEL_LARGER'
+
+    case "$NORMLIZED_DE" in
+        'xfce')
+            EYES_THEME='Default'
+            PANEL_SIZE=48
+            SYSTRAY_ICON_SIZE=43
+            THUNAR_WINDOW_HEIGHT=965
+            THUNAR_WINDOW_WIDTH=1270
+            ;;
+    esac
+else
+
+    GDK_SCALE=1
+    GDK_DPI_SCALE=1
+
+    THUNAR_ICON_SIZE='THUNAR_ICON_SIZE_SMALL'
+    THUNAR_SEPARATOR=174
+    THUNAR_ZOOM='THUNAR_ZOOM_LEVEL_NORMAL'
+
+    case "$NORMLIZED_DE" in
+        'xfce')
+            EYES_THEME='Default-tiny'
+            PANEL_SIZE=24
+            SYSTRAY_ICON_SIZE=22
+            THUNAR_WINDOW_HEIGHT=520
+            THUNAR_WINDOW_WIDTH=700
+            ;;
+    esac
+fi
+
+# A list of tuples "<channel> <property> <type> <value>" to be used with
+# xfconf for all desktop environments
+XFCONF_SETTINGS="thunar /last-icon-view-zoom-level string $THUNAR_ZOOM
+thunar /last-separator-position int $THUNAR_SEPARATOR
+thunar /shortcuts-icon-size string $THUNAR_ICON_SIZE
+thunar /tree-icon-size string $THUNAR_ICON_SIZE"
+
+# Changing xfconf prperties
+echo "$XFCONF_SETTINGS" | while read CHANNEL PROPERTY TYPE VALUE; do
+    xfconf-query -n -c "$CHANNEL" -p "$PROPERTY" -t "$TYPE" -s "$VALUE"
+done
+
+case "$NORMLIZED_DE" in
+    'xfce')
+        # Fetching the base name of the xfconf system tray panel plugin
+        SYSTRAY_PROP_BASE="$(xfconf-query -c xfce4-panel -p '/plugins' -l -v \
+            | grep systray | cut -d ' ' -f 1)"
+
+        # A list of tuples "<channel> <property> <type> <value>" to be used with
+        # xfconf
+        echo "xfce4-panel /panels/panel-1/size int $PANEL_SIZE
+xfce4-panel $SYSTRAY_PROP_BASE/size-max int $SYSTRAY_ICON_SIZE
+thunar /last-window-height int $THUNAR_WINDOW_HEIGHT
+thunar /last-window-width int $THUNAR_WINDOW_WIDTH" \
+            | while read CHANNEL PROPERTY TYPE VALUE; do
+                xfconf-query -n -c "$CHANNEL" -p "$PROPERTY" -t "$TYPE" \
+                    -s "$VALUE"
+            done
+
+        # Changing the theme of the eyes plugin
+        sed -i -E "s/theme=.+/theme=$EYES_THEME/g" \
+            "$HOME/.config/xfce4/panel/eyes-4.rc"
+
+        # Killing panel for the changes to take effect
+        wmctrl -l | grep xfce4-panel | cut -d ' ' -f 1 | xargs xkill -id
+        ;;
+esac
+
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+
+#######################################
 # X session initialization
+#######################################
 
-SCALING=$(which adjust-scaling)
-[ -f "$SCALING" ] && . "$SCALING"
-
+# Qt theme
 export QT_QPA_PLATFORMTHEME='qt5ct'
+
+# Desktop background
 xsetroot -solid '#131313'

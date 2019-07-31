@@ -1,3 +1,4 @@
 variables:
+  cursor_size: 24
   font: Sans, Regular 11
   theme: Adwaita-dark

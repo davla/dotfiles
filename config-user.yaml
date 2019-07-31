@@ -57,6 +57,9 @@ dotfiles:
     - desktop
     - xfce4-screenshooter
     - xfwm4
+  d_xresources.d:
+    src: config/x11/Xresources.d
+    dst: ~/.config/x11/Xresources.d
   f_anacrontab:
     dst: ~/.anacron/anacrontab
     src: cron/anacrontab
@@ -211,10 +214,10 @@ profiles:
     - f_qt5ct.conf
     - f_trolltech.conf
     - f_xresources
-    - f_xsessionrc
   startup:
     dotfiles:
     - d_autostart
+    - d_xresources.d
     - f_xsessionrc
   xfce:
     dotfiles:

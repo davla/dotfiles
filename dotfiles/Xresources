@@ -1,4 +1,10 @@
-# {{@@ header() @@}}
+! {{@@ header() @@}}
 
+Gtk.CursorThemeName: {{@@ cursor_theme @@}}
+Gtk.CursorThemeSize: {{@@ cursor_size @@}}
+Gtk.IconSizes: ''
+Gtk.FontName: {{@@ font @@}}
+Net.IconThemeName: {{@@ icon_theme @@}}
+Net.ThemeName: {{@@ theme @@}}
 Xcursor.theme: {{@@ cursor_theme @@}}
 Xcursor.size: {{@@ cursor_size @@}}

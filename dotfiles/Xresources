@@ -1,5 +1,7 @@
 ! {{@@ header() @@}}
 
+! Xresources file
+
 Gtk.CursorThemeName: {{@@ cursor_theme @@}}
 Gtk.CursorThemeSize: {{@@ cursor_size @@}}
 Gtk.IconSizes: ''

@@ -1,6 +1,8 @@
+! {{@@ header() @@}}
+
 ! Xresources for HiDPI screens
 
-Gtk.CursorThemeSize: 48
+Gtk.CursorThemeSize: {{@@ cursor_size * 2 @@}}
 Gtk.IconSizes: gtk-menu=40,40:gtk-button=45,45:gtk-dialog=48,48:gtk-small-toolbar=78,78:gtk-large-toolbar=45,45
 Xft.dpi: 180
-Xcursor.size: 48
+Xcursor.size: {{@@ cursor_size * 2 @@}}

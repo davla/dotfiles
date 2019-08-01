@@ -76,7 +76,7 @@ cut -d ' ' -f 1 < "$DISPLAYS_FILE" \
 NORMLIZED_DE="$(echo $DESKTOP_SESSION | tr '[:upper:]' '[:lower:]')"
 
 if [ "$MIN_DPI" -gt 5 ]; then
-    xrdb -merge $HOME/.x11/Xresources.d/hidpi
+    xrdb -merge $HOME/.config/x11/Xresources.d/hidpi
 
     GDK_SCALE=2
     GDK_DPI_SCALE=0.5
@@ -125,6 +125,11 @@ thunar /tree-icon-size string $THUNAR_ICON_SIZE"
 echo "$XFCONF_SETTINGS" | while read CHANNEL PROPERTY TYPE VALUE; do
     xfconf-query -n -c "$CHANNEL" -p "$PROPERTY" -t "$TYPE" -s "$VALUE"
 done
+
+# Changing cursor size in gtk init files
+echo "$HOME/.gtkrc-2.0" "$HOME/.config/gtk-3.0/settings.ini" \
+    | xargs sed -i -E "s/gtk-cursor-theme-size = [0-9]+/\
+gtk-cursor-theme-size = $(xrdb -query | grep 'Xcursor.size' | cut -f 2)/g"
 
 case "$NORMLIZED_DE" in
     'xfce')

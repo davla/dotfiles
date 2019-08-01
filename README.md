@@ -21,4 +21,5 @@ My dotfiles repository. Really, just configuration files
    + scratchpad workspace
    + dunst
    + text color in i3bar
-   + Xresources
+   + split xsessionrc
+   + persistent display status

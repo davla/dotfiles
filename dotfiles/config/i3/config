@@ -17,6 +17,12 @@
 set $mod Mod4
 set $mod_shifter Control
 
+# Directional pad
+set $up p
+set $right apostrophe
+set $down semicolon
+set $left l
+
 #######################################
 # Defaults
 #######################################
@@ -28,9 +34,6 @@ default_orientation horizontal
 #######################################
 
 set_from_resource $font Gtk.FontName Sans, Regular 11
-
-# Font for window titles. Will also be used by the bar unless a different font
-# is used in the bar {} block below.
 font pango:$font
 
 #######################################
@@ -50,13 +53,7 @@ gaps outer 0
 # Window controls
 #######################################
 
-set $up p
-set $right apostrophe
-set $down semicolon
-set $left l
-set $float z
-
-# change focus
+# Change focus
 bindsym $mod+$up focus up
 bindsym $mod+$right focus right
 bindsym $mod+$down focus down
@@ -66,7 +63,7 @@ bindsym $mod+Right focus right
 bindsym $mod+Down focus down
 bindsym $mod+Left focus left
 
-# move focused window
+# Move focused window
 bindsym $mod+Shift+$up move up
 bindsym $mod+Shift+$right move right
 bindsym $mod+Shift+$down move down
@@ -76,39 +73,35 @@ bindsym $mod+Shift+Right move right
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Left move left
 
-# focus the parent container
-bindsym $mod+x focus parent
+# Kill focused window
+bindsym $mod+q kill
 
-# focus the child container
+#######################################
+# Tiling windows
+#######################################
+
+# Focus
+bindsym $mod+x focus parent
 bindsym $mod+c focus child
 
-# split
+# Split
 bindsym $mod+a split h
 bindsym $mod+s split v
 
-# change container layout (stacked, tabbed, toggle split)
+# Change container layout (stacked, tabbed, toggle split)
 bindsym $mod+y layout stacking
 bindsym $mod+h layout tabbed
 bindsym $mod+d layout toggle split
 
-# enter fullscreen mode for the focused container
+# Enter fullscreen mode for the focused container
 bindsym $mod+b fullscreen toggle
 
-# change focus between tiling / floating windows
-bindsym $mod+$float focus mode_toggle
-
-# toggle tiling / floating
-bindsym $mod+Shift+$float floating toggle
-
-# kill focused window
-bindsym $mod+q kill
-
-# Use Mouse+$mod to drag floating windows to their wanted position
-floating_modifier $mod
-
 #######################################
-# Floating
+# Floating windows
 #######################################
+
+# Floating modifier
+set $float z
 
 # Floating prefixes
 set $float_prefix float
@@ -123,7 +116,14 @@ set $sp_term_title scratchpad-terminal
 set $floating_width 900
 set $floating_height 550
 
-# Global float setter
+# Floating toggler
+bindsym $mod+$float focus mode_toggle
+bindsym $mod+Shift+$float floating toggle
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# Global floating settings
 for_window [title="^$float_prefix"] floating enable, \
     resize set $floating_width $floating_height
 for_window [title="^$scratchpad_prefix"] floating enable, \
@@ -133,7 +133,7 @@ for_window [instance="^$float_prefix"] floating enable, \
 for_window [instance="^$scratchpad_prefix"] floating enable, \
     resize set $floating_width $floating_height
 
-# Editor
+# Floating editor
 for_window [instance="$editor_title"] resize set 1000 850
 
 #######################################
@@ -185,19 +185,20 @@ for_window [class="Atom"] focus
 for_window [class="Firefox"] focus
 for_window [class="TelegramDesktop"] focus
 
-
 #######################################
 # Scratchpad
 #######################################
 
+# Screatchpad key
 set $scratchpad r
 
-# Scratchpad shortcuts
+# Scratchpad eybindings
 bindsym $mod+$scratchpad scratchpad show
 bindsym $mod+Shift+$scratchpad move scratchpad
 
-# Scratchpad terminal
-for_window [title="$sp_term_title"] move scratchpad
+# Global scratchpad settings
+for_window [instance="^$scratchpad_prefix"] move scratchpad
+for_window [title="^$scratchpad_prefix"] move scratchpad
 
 #######################################
 # Resize

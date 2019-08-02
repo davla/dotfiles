@@ -23,6 +23,9 @@ set $right apostrophe
 set $down semicolon
 set $left l
 
+# Misc
+set $term xfce4-terminal
+
 #######################################
 # Defaults
 #######################################
@@ -274,11 +277,11 @@ bindsym $mod+$mod_shifter+c mode "controls"
 
 bindsym $mod+Escape exec halt -p
 bindsym $mod+F5 exec reboot
-bindsym $mod+Tab exec xfce4-terminal
+bindsym $mod+Tab exec $term
 bindsym $mod+Shift+Tab [title="$sp_term_title"] scratchpad show
 bindsym $mod+comma exec firefox https://calendar.google.com/calendar/r
 bindsym $mod+e exec telegram
-bindsym $mod+Shift+e exec xfce4-terminal --title $calc_title -e lua
+bindsym $mod+Shift+e exec $term --title $calc_title -e lua
 bindsym $mod+f exec thunar
 bindsym $mod+k exec firefox https://keep.google.com/#home
 bindsym $mod+o exec geany --name=$editor_title
@@ -295,4 +298,4 @@ bindsym $mod+w exec firefox
 exec dex -ae i3
 
 # Scratchpad terminal
-exec xfce4-terminal --title $sp_term_title
+exec $term --title $sp_term_title

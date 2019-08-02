@@ -50,11 +50,12 @@ gaps outer 0
 # Window controls
 #######################################
 
-set $up e
-set $right f
-set $down d
-set $left s
+set $up p
+set $right apostrophe
+set $down semicolon
+set $left l
 set $float g
+set $sp_term r
 
 # change focus
 bindsym $mod+$up focus up
@@ -77,22 +78,22 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Left move left
 
 # focus the parent container
-bindsym $mod+c focus parent
+bindsym $mod+z focus parent
 
 # focus the child container
-bindsym $mod+v focus child
+bindsym $mod+x focus child
 
 # split
-bindsym $mod+z split v
-bindsym $mod+x split h
+bindsym $mod+a split h
+bindsym $mod+s split v
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+y layout stacking
-bindsym $mod+u layout tabbed
-bindsym $mod+r layout toggle split
+bindsym $mod+h layout tabbed
+bindsym $mod+d layout toggle split
 
 # enter fullscreen mode for the focused container
-bindsym $mod+h fullscreen toggle
+bindsym $mod+b fullscreen toggle
 
 # change focus between tiling / floating windows
 bindsym $mod+$float focus mode_toggle
@@ -101,7 +102,7 @@ bindsym $mod+$float focus mode_toggle
 bindsym $mod+Shift+$float floating toggle
 
 # kill focused window
-bindsym $mod+a kill
+bindsym $mod+q kill
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -109,17 +110,6 @@ floating_modifier $mod
 #######################################
 # Workspaces
 #######################################
-
-set $prev_ws q
-set $next_ws w
-
-# Cycling workspaces
-bindsym $mod+$prev_ws workspace prev
-bindsym $mod+$next_ws workspace next
-
-# Moving windows to cycle workspace
-bindsym $mod+Shift+$prev_ws move window to workspace prev; workspace prev
-bindsym $mod+Shift+$next_ws move window to workspace next; workspace next
 
 # Define names for default workspaces for which we configure key bindings later
 # on. We use variables to avoid repeating the names in multiple places.
@@ -222,9 +212,9 @@ set $step 5
 
 mode "controls" {
     # Volume control
-    bindsym a exec volume -np -d $step -e $notification_duration
-    bindsym d exec volume -npl 100 -i $step -e $notification_duration
-    bindsym s exec volume -nm -e $notification_duration
+    bindsym $left exec volume -np -d $step -e $notification_duration
+    bindsym $right exec volume -npl 100 -i $step -e $notification_duration
+    bindsym $down exec volume -nm -e $notification_duration
 
     # back to normal: Enter or Escape or mode-enabling shortcut
     bindsym Return mode "default"
@@ -242,13 +232,13 @@ bindsym $mod+Escape exec halt -p
 bindsym $mod+F5 exec reboot
 bindsym $mod+space exec i3-dmenu-desktop
 bindsym $mod+Shift+space exec dmenu_run
-bindsym $mod+backslash exec firefox https://keep.google.com/#home
-bindsym $mod+semicolon exec telegram
-bindsym $mod+p exec geany
-bindsym $mod+l exec thunar
-bindsym $mod+apostrophe exec firefox https://calendar.google.com/calendar/r
-bindsym $mod+Return exec xfce4-terminal
-bindsym $mod+bracketleft exec firefox
+bindsym $mod+k exec firefox https://keep.google.com/#home
+bindsym $mod+e exec telegram
+bindsym $mod+o exec geany
+bindsym $mod+f exec thunar
+bindsym $mod+comma exec firefox https://calendar.google.com/calendar/r
+bindsym $mod+Tab exec xfce4-terminal
+bindsym $mod+w exec firefox
 
 #######################################
 # Application startup

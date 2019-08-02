@@ -54,8 +54,7 @@ set $up p
 set $right apostrophe
 set $down semicolon
 set $left l
-set $float g
-set $sp_term r
+set $float z
 
 # change focus
 bindsym $mod+$up focus up
@@ -78,10 +77,10 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Left move left
 
 # focus the parent container
-bindsym $mod+z focus parent
+bindsym $mod+x focus parent
 
 # focus the child container
-bindsym $mod+x focus child
+bindsym $mod+c focus child
 
 # split
 bindsym $mod+a split h
@@ -106,6 +105,36 @@ bindsym $mod+q kill
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
+
+#######################################
+# Floating
+#######################################
+
+# Floating prefixes
+set $float_prefix float
+set $scratchpad_prefix scratchpad
+
+# Floating titles
+set $calc_title floating-calculator
+set $editor_title floating-editor
+set $sp_term_title scratchpad-terminal
+
+# Prefixed floating default sizes
+set $floating_width 900
+set $floating_height 550
+
+# Global float setter
+for_window [title="^$float_prefix"] floating enable, \
+    resize set $floating_width $floating_height
+for_window [title="^$scratchpad_prefix"] floating enable, \
+    resize set $floating_width $floating_height
+for_window [instance="^$float_prefix"] floating enable, \
+    resize set $floating_width $floating_height
+for_window [instance="^$scratchpad_prefix"] floating enable, \
+    resize set $floating_width $floating_height
+
+# Editor
+for_window [instance="$editor_title"] resize set 1000 850
 
 #######################################
 # Workspaces
@@ -155,6 +184,20 @@ assign [class="TelegramDesktop"] $ws4
 for_window [class="Atom"] focus
 for_window [class="Firefox"] focus
 for_window [class="TelegramDesktop"] focus
+
+
+#######################################
+# Scratchpad
+#######################################
+
+set $scratchpad r
+
+# Scratchpad shortcuts
+bindsym $mod+$scratchpad scratchpad show
+bindsym $mod+Shift+$scratchpad move scratchpad
+
+# Scratchpad terminal
+for_window [title="$sp_term_title"] move scratchpad
 
 #######################################
 # Resize
@@ -230,18 +273,25 @@ bindsym $mod+$mod_shifter+c mode "controls"
 
 bindsym $mod+Escape exec halt -p
 bindsym $mod+F5 exec reboot
+bindsym $mod+Tab exec xfce4-terminal
+bindsym $mod+Shift+Tab [title="$sp_term_title"] scratchpad show
+bindsym $mod+comma exec firefox https://calendar.google.com/calendar/r
+bindsym $mod+e exec telegram
+bindsym $mod+Shift+e exec xfce4-terminal --title $calc_title -e lua
+bindsym $mod+f exec thunar
+bindsym $mod+k exec firefox https://keep.google.com/#home
+bindsym $mod+o exec geany --name=$editor_title
+bindsym $mod+Shift+o exec geany
 bindsym $mod+space exec i3-dmenu-desktop
 bindsym $mod+Shift+space exec dmenu_run
-bindsym $mod+k exec firefox https://keep.google.com/#home
-bindsym $mod+e exec telegram
-bindsym $mod+o exec geany
-bindsym $mod+f exec thunar
-bindsym $mod+comma exec firefox https://calendar.google.com/calendar/r
-bindsym $mod+Tab exec xfce4-terminal
 bindsym $mod+w exec firefox
 
 #######################################
 # Application startup
 #######################################
 
+# Autostart
 exec dex -ae i3
+
+# Scratchpad terminal
+exec xfce4-terminal --title $sp_term_title

@@ -25,6 +25,7 @@ set $left l
 
 # Misc
 set $term xfce4-terminal
+set $startup_term_title startup-terminal
 
 #######################################
 # Defaults
@@ -183,9 +184,11 @@ bindsym $mod+Shift+0 move container to workspace $ws10; workspace $ws10
 # Assigning apps to workspaces
 assign [class="Atom"] $ws1
 assign [class="Firefox"] $ws2
+assign [title="$startup_term_title"] $ws3
 assign [class="TelegramDesktop"] $ws4
 for_window [class="Atom"] focus
 for_window [class="Firefox"] focus
+for_window [title="$startup_term_title"] focus
 for_window [class="TelegramDesktop"] focus
 
 #######################################
@@ -278,6 +281,7 @@ bindsym $mod+$mod_shifter+c mode "controls"
 bindsym $mod+Escape exec halt -p
 bindsym $mod+F5 exec reboot
 bindsym $mod+Tab exec $term
+bindsym $mod+Control+Tab exec $term --title $startup_term_title
 bindsym $mod+Shift+Tab [title="$sp_term_title"] scratchpad show
 bindsym $mod+comma exec firefox https://calendar.google.com/calendar/r
 bindsym $mod+e exec telegram
@@ -299,3 +303,6 @@ exec dex -ae i3
 
 # Scratchpad terminal
 exec $term --title $sp_term_title
+
+# Startup terminal
+exec_always $term --title $startup_term_title

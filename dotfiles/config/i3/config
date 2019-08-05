@@ -116,9 +116,13 @@ set $calc_title floating-calculator
 set $editor_title floating-editor
 set $sp_term_title scratchpad-terminal
 
-# Prefixed floating default sizes
-set $floating_width 900
-set $floating_height 550
+# Prefixed floating default sizes (from Xresources to accustom HiDPI)
+set_from_resource $floating_width i3wm.FloatingWidth 900
+set_from_resource $floating_height i3wm.FloatingHeight 550
+
+# Editor floating size (from Xresources to accustom HiDPI)
+set_from_resource $editor_width i3wm.EditorWidth 1000
+set_from_resource $editor_height i3wm.EditorHeight 850
 
 # Floating toggler
 bindsym $mod+$float focus mode_toggle
@@ -138,7 +142,7 @@ for_window [instance="^$scratchpad_prefix"] floating enable, \
     resize set $floating_width $floating_height
 
 # Floating editor
-for_window [instance="$editor_title"] resize set 1000 850
+for_window [instance="$editor_title"] resize set $editor_width $editor_height
 
 #######################################
 # Workspaces

@@ -1,0 +1,5 @@
+variables:
+  i3_floating_width: 900
+  i3_floating_height: 550
+  i3_editor_width: 1000
+  i3_editor_height: 850

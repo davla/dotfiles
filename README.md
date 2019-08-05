@@ -18,7 +18,6 @@ My dotfiles repository. Really, just configuration files
   + Dropbox
   + Telegram
 - i3
-   + scratchpad workspace
    + dunst
    + text color in i3bar
    + split xsessionrc

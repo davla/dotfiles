@@ -1,4 +1,12 @@
+%YAML 1.2
+---
+# This variables file contains i3-specific varables.
+
 variables:
+
+  # These variables define the size of floating windows. The reason why they
+  # are not in the i3 config file is HiDPI screens. Indeed, the size needs to
+  # be doubled up in a dedicated Xresources file for those monitors.
   i3_floating_width: 900
   i3_floating_height: 550
   i3_editor_width: 1000

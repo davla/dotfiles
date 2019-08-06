@@ -1,5 +1,14 @@
+%YAML 1.2
+---
+# This dotdrop config file is meant for user dotfiles
+
 actions:
   post:
+
+    # This action installs atom packages given in the first argument. This
+    # needs to be a file with one package specification per line. The $PATH
+    # mess is due to some packages expecting Python 2 to be the default
+    # Python version.
     atom-install-packages: >-
       export PATH="$(which python2 | xargs dirname):$PATH";
       apm install --packages-file {0};
@@ -61,50 +70,55 @@ dotfiles:
     src: config/x11/Xresources.d
     dst: ~/.config/x11/Xresources.d
   f_anacrontab:
-    dst: ~/.anacron/anacrontab
     src: cron/anacrontab
+    dst: ~/.anacron/anacrontab
   f_atom_config.cson:
-    dst: ~/.atom/config.cson
     src: atom/config.cson
+    dst: ~/.atom/config.cson
   f_atom_init.coffee:
-    dst: ~/.atom/init.coffee
     src: atom/init.coffee
+    dst: ~/.atom/init.coffee
   f_atom_keymap.cson:
-    dst: ~/.atom/keymap.cson
     src: atom/keymap.cson
+    dst: ~/.atom/keymap.cson
   f_atom_packages-list.txt:
     src: atom/packages-list.txt
+    # Temporary destination as the file is not read by Atom at runtime, so it
+    # can be deleted
     dst: '{{@@ tmp_dst @@}}'
     actions:
+    # This ation installs atom packages listed in the dotfile on-the-fly
     - atom-install-packages '{{@@ tmp_dst @@}}'
+    # This transformation actually creates the dotfile.
     trans_write: atom-list-packages
   f_atom_snippets.cson:
-    dst: ~/.atom/snippets.cson
     src: atom/snippets.cson
+    dst: ~/.atom/snippets.cson
   f_atom_styles.less:
-    dst: ~/.atom/styles.less
     src: atom/styles.less
+    dst: ~/.atom/styles.less
   f_calibre_global.py:
-    dst: ~/.config/calibre/global.py
     src: config/calibre/global.py
+    dst: ~/.config/calibre/global.py
   f_compton.conf:
     src: config/compton.conf
     dst: ~/.config/compton.conf
   f_crontab:
-    dst: '{{@@ tmp_dst @@}}'
     src: cron/crontab
+    # Temporary destintion as the dotfile is installed with crontab -e
+    dst: '{{@@ tmp_dst @@}}'
   f_docker_config.json:
-    dst: ~/.docker/config.json
     src: docker/config.json
+    dst: ~/.docker/config.json
   f_geany_colorschemes_on-my-own.conf:
-    dst: ~/.config/geany/colorschemes/on-my-own.conf
     src: config/geany/colorschemes/on-my-own.conf
+    dst: ~/.config/geany/colorschemes/on-my-own.conf
   f_geany_geany.conf:
-    dst: ~/.config/geany/geany.conf
     src: config/geany/geany.conf
+    dst: ~/.config/geany/geany.conf
   f_geany_keybindings.conf:
-    dst: ~/.config/geany/keybindings.conf
     src: config/geany/keybindings.conf
+    dst: ~/.config/geany/keybindings.conf
   f_ghci:
     src: ghci
     dst: ~/.ghci
@@ -124,14 +138,14 @@ dotfiles:
     src: config/mimeapps.list
     dst: ~/.config/mimeapps.list
   f_mrconfig:
-    dst: ~/.mrconfig
     src: mrconfig-user
+    dst: ~/.mrconfig
   f_orage_oragerc:
-    dst: ~/.config/orage/oragerc
     src: config/orage/oragerc
+    dst: ~/.config/orage/oragerc
   f_parcellite_parcelliterc:
-    dst: ~/.config/parcellite/parcelliterc
     src: config/parcellite/parcelliterc
+    dst: ~/.config/parcellite/parcelliterc
   f_qt5ct.conf:
     src: config/qt5ct/qt5ct.conf
     dst: ~/.config/qt5ct/qt5ct.conf
@@ -139,8 +153,8 @@ dotfiles:
     src: config/Trolltech.conf
     dst: ~/.config/Trolltech.conf
   f_virtualbox_virtualbox.xml:
-    dst: ~/.config/VirtualBox/VirtualBox.xml
     src: config/VirtualBox/VirtualBox.xml
+    dst: ~/.config/VirtualBox/VirtualBox.xml
   f_xfce-applications.menu:
     src: config/menus/xfce-applications.menu
     dst: ~/.config/menus/xfce-applications.menu
@@ -151,6 +165,11 @@ dotfiles:
     src: xsessionrc
     dst: ~/.xsessionrc
 profiles:
+
+  # This profile groups Atom-related dotfiles, as well as creating the
+  # necessary variables for dotfiles actions. It was chosen to address
+  # individual dotfiles rather than the whole ~/.atom directory as there are
+  # more files to ignore in that directory than the ones to be managed.
   atom:
     dotfiles:
     - f_atom_config.cson
@@ -161,6 +180,8 @@ profiles:
     - f_atom_styles.less
     dynvariables:
       tmp_dst: mktemp /tmp/atom-tmp.XXX
+
+  # This profile groups configuration files for CLI-based applictions.
   cli:
     dotfiles:
     - f_docker_config.json
@@ -168,23 +189,34 @@ profiles:
     - f_hgrc
     include:
     - git
+
+  # This profile groups together cron- and anacron-related configurations.
   cron:
     dotfiles:
     - f_anacrontab
     - f_crontab
     - f_mrconfig
     variables:
+      # This path is a variable as it is used both in a template and as an
+      # action argument.
       anacron_spool: $HOME/.anacron/spool
     dynvariables:
       tmp_dst: mktemp /tmp/cron-tmp.XXX
     actions:
     - anacron '{{@@ anacron_spool @@}}' '{{@@ tmp_dst @@}}'
+
+  # This profile groups geany-related dotfiles. Individual files are addressed,
+  # rather than the whole directory, as it was execssively complex to ignore
+  # all but one colorscheme.
   geany:
     dotfiles:
     - d_geany_filedefs
     - f_geany_colorschemes_on-my-own.conf
     - f_geany_geany.conf
     - f_geany_keybindings.conf
+
+  # This profile contains dotfiles used by GUI applications, plus the look &
+  # feel settings of the GUI itself.
   gui:
     dotfiles:
     - f_calibre_global.py
@@ -196,6 +228,9 @@ profiles:
     - atom
     - geany
     - look-and-feel
+
+  # This profile contains the dotfiles for the whole i3 session, that means a
+  # little bit more than just the i3 configuration file.
   i3:
     dotfiles:
     - d_i3blocks-email
@@ -207,6 +242,9 @@ profiles:
     include:
     - look-and-feel
     - startup
+
+  # This profile includes the dotfiles for look & feel of a GUI environment,
+  # both Gtk, Qt and bare X11.
   look-and-feel:
     dotfiles:
     - d_gtk-3.0
@@ -214,11 +252,15 @@ profiles:
     - f_qt5ct.conf
     - f_trolltech.conf
     - f_xresources
+
+  # This profile contains dotfiles usd when the X11 session starts.
   startup:
     dotfiles:
     - d_autostart
     - d_xresources.d
     - f_xsessionrc
+
+  # This profile contains the dotfiles for the whole Xfce session.
   xfce:
     dotfiles:
     - d_desktop-directories
@@ -228,9 +270,22 @@ profiles:
     include:
     - look-and-feel
     - startup
+
 trans_write:
+
+  # This transformation basically creates the dotfile. Indeed, it doesn't use
+  # the {0} argument, and simply dumps the output of the command to {1}
   atom-list-packages: apm list --bare --installed | grep -o '^[^@]\+' > {1}
+
 variables:
+
+  # This variable defines the default directory myrepos is run from, both as
+  # a shell alias and in anacron jobs.
   mr_default_dir: $HOME
+
+  # This variable is used to differentiate between user and root configuration
+  # in some dotfiles.
   user: user
+
+  # This variable defines the Zygal shell theme colorscheme.
   zygal_colorscheme: orange

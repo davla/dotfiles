@@ -298,6 +298,7 @@ bindsym $mod+o exec geany --name=$editor_title
 bindsym $mod+Shift+o exec geany
 bindsym $mod+space exec i3-dmenu-desktop
 bindsym $mod+Shift+space exec dmenu_run
+bindsym $mod+t exec thunderbird
 bindsym $mod+w exec firefox
 
 #######################################

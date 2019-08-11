@@ -28,7 +28,7 @@ dotfiles:
     src: sh
     trans_read: fix-home
     upignore:
-    - data
+    - plugins/data
     - cache
   d_thefuck:
     src: config/thefuck

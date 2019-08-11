@@ -1,2 +1,4 @@
-APT::Update::Post-Invoke { "pkill -RTMIN+1 i3blocks || true"; };
-DPkg::Post-Invoke { "pkill -RTMIN+1 i3blocks || true"; };
+# {{@@ header() @@}}
+
+APT::Update::Post-Invoke { "pkill -RTMIN+{{@@ apt_signal @@}} i3blocks || true"; };
+DPkg::Post-Invoke { "pkill -RTMIN+{{@@ apt_signal @@}} i3blocks || true"; };

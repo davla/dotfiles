@@ -11,3 +11,9 @@ variables:
   i3_floating_height: 550
   i3_editor_width: 1000
   i3_editor_height: 850
+
+  # These variables define i3blocks signals. They are here since the signals
+  # are consumed by i3blocks in its config file, but are produced somewhere
+  # else, in other dotfiles.
+  apt_signal: 10
+  caps_signal: 20

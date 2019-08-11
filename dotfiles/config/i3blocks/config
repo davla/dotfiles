@@ -1,3 +1,5 @@
+# {{@@ header() @@}}
+#
 # This is the i3blocks config file
 
 # This block shows the time and the date, including the weekday
@@ -9,29 +11,36 @@ interval=1
 [email]
 command=i3blocks-email | sed '1 s/^/main: /'
 instance=main
-interval=600
+interval={{@@ 60 * 10 @@}}
 
 # This block displays the spam mail watcher
 [email]
 command=i3blocks-email | sed '1 s/^/spam: /'
 instance=spam
-interval=600
+interval={{@@ 60 * 10 @@}}
+
+# This block shows whether system updates are available
+[apt-upgrades]
+command=i3blocks-apt-upgrades -s ''
+interval=once
+signal={{@@ apt_signal @@}}
+
+# This block displays whether Caps Lock is on
+[caps-indicator]
+command=export KEY=CAPS; i3blocks-keyindicator
+interval=once
+markup=pango
+signal={{@@ caps_signal @@}}
 
 # This block displays the Ethernet status (on/off) via a single colored letter
 [ethernet]
 command=i3blocks-network-status -i ethernet
 interval=2
 
-# This block displays the Ethernet status (on/off) via a single colored letter
+# This block displays the Wi-Fi status (on/off) via a single colored letter
 [wireless]
 command=i3blocks-network-status -i wireless
 interval=2
-
-# This block shows whether system updates are available
-[apt-upgrades]
-command=i3blocks-apt-upgrades -s ''
-interval=once
-signal=1
 
 # This block shows the CPU usage in percentage
 [cpu_usage2]

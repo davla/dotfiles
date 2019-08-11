@@ -56,9 +56,10 @@ checkout =
 	git clone 'https://github.com/vivien/i3blocks-contrib.git' \
 	       'i3blocks-contrib'
 install =
-	   make -C "$MR_REPO/cpu_usage2"
-	   for BLOCK in apt-upgrades cpu_usage2 email memory temperature
-	   do
+       BLOCKS='apt-upgrades cpu_usage2 email keyindicator memory temperature'
+       make -C "$MR_REPO/cpu_usage2"
+       echo $BLOCKS | xargs -n 1 -i rm '/usr/local/bin/i3blocks-{}'
+	   for BLOCK in $BLOCKS; do
 	       find "$MR_REPO/$BLOCK" -type f -executable -printf '%P' \
                | xargs -i cp "$MR_REPO/$BLOCK/{}" '/usr/local/bin/i3blocks-{}'
 	   done

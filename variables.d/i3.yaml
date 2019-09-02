@@ -17,3 +17,7 @@ variables:
   # else, in other dotfiles.
   apt_signal: 10
   caps_signal: 20
+
+  # These variables define the colors used in i3-blocks
+  i3_blocks_ok_color: '#00FF00'
+  i3_blocks_inactive_color: '#666666'

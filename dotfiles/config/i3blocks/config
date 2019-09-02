@@ -25,9 +25,9 @@ command=i3blocks-apt-upgrades -s ''
 interval=once
 signal={{@@ apt_signal @@}}
 
-# This block displays whether Caps Lock is on
-[caps-indicator]
-command=export KEY=CAPS; i3blocks-keyindicator
+# This block displays toggle and dead keys status
+[key-indicator]
+command=i3blocks-keyindicator2
 interval=once
 markup=pango
 signal={{@@ caps_signal @@}}

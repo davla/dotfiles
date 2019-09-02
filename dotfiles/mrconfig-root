@@ -53,12 +53,17 @@ install =
 
 [/opt/i3blocks-contrib]
 checkout =
-	git clone 'https://github.com/vivien/i3blocks-contrib.git' \
-	       'i3blocks-contrib'
+	   git clone 'https://github.com/davla/i3blocks-contrib' 'i3blocks-contrib'
 install =
-       BLOCKS='apt-upgrades cpu_usage2 email keyindicator memory temperature'
+       BLOCKS='apt-upgrades cpu_usage2 email keyindicator2 memory
+            network-status temperature'
+       #
        make -C "$MR_REPO/cpu_usage2"
-       echo $BLOCKS | xargs -n 1 -i rm '/usr/local/bin/i3blocks-{}'
+       env ACTIVE_COLOR='{{@@ i3_blocks_ok_color @@}}' CAPS_LABEL='C' \
+            INACTIVE_COLOR='{{@@ i3_blocks_inactive_color @@}}' NO_NUM \
+            make -C "$MR_REPO/keyindicator2"
+       #
+       rm /usr/local/bin/i3blocks-*
 	   for BLOCK in $BLOCKS; do
 	       find "$MR_REPO/$BLOCK" -type f -executable -printf '%P' \
                | xargs -i cp "$MR_REPO/$BLOCK/{}" '/usr/local/bin/i3blocks-{}'

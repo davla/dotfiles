@@ -1,3 +1,7 @@
+%YAML 1.2
+---
+# This dotdrop config file is meant for root dotfiles.
+
 actions:
   pre:
     env-shells: apt-get install bash zsh
@@ -24,6 +28,8 @@ config:
   - actions.d/shared.yaml
   import_configs:
   - profiles.d/shared.yaml
+  import_variables:
+  - variables.d/i3.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink

@@ -228,7 +228,7 @@ profiles:
     - d_applications
     - f_mrconfig
     dynvariables:
-      asdf_config_path: echo "$ASDF_CONFIG_PATH"
+      asdf_config_path: bash -lc 'echo "${ASDF_CONFIG_PATH:?}"'
   network:
     dotfiles:
     - f_99-no-wireless-on-wired

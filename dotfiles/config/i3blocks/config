@@ -32,15 +32,12 @@ interval=once
 markup=pango
 signal={{@@ caps_signal @@}}
 
-# This block displays the Ethernet status (on/off) via a single colored letter
-[ethernet]
-command=i3blocks-network-status -i ethernet
-interval=2
-
-# This block displays the Wi-Fi status (on/off) via a single colored letter
-[wireless]
-command=i3blocks-network-status -i wireless
-interval=2
+# This block displays the Ethernet and Wi-Fi status
+[network]
+command=i3blocks-network-status -i cable -i wireless
+interval=1
+markup=pango
+signal={{@@ network_signal @@}}
 
 # This block shows the CPU usage in percentage
 [cpu_usage2]

@@ -18,7 +18,7 @@
 log() {
 	local MSG="$*"
 
-    logger -t wifi-ctl "$MSG";
+    logger -p local0.info -t WIFI-CTL "$MSG";
 }
 
 #####################################################
@@ -38,11 +38,13 @@ case "$INTERFACE" in
             'up')
                 log 'disabling wifi'
                 nmcli radio wifi off
+                pkill -RTMIN+{{@@ network_signal @@}} i3blocks
                 ;;
 
             'down')
                 log 'enabling wifi'
                 nmcli radio wifi on
+                pkill -RTMIN+{{@@ network_signal @@}} i3blocks
                 ;;
         esac
         ;;

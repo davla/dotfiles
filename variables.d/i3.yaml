@@ -14,9 +14,10 @@ variables:
 
   # These variables define i3blocks signals. They are here since the signals
   # are consumed by i3blocks in its config file, but are produced somewhere
-  # else, in other dotfiles.
+  # else, generally in other dotfiles.
   apt_signal: 10
   caps_signal: 20
+  network_signal: 30
 
   # These variables define the colors used in i3-blocks
   i3_blocks_ok_color: '#00FF00'

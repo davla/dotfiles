@@ -60,8 +60,9 @@ install =
        #
        make -C "$MR_REPO/cpu_usage2"
        env ACTIVE_COLOR='{{@@ i3_blocks_ok_color @@}}' CAPS_LABEL='C' \
-            INACTIVE_COLOR='{{@@ i3_blocks_inactive_color @@}}' NO_NUM \
+            INACTIVE_COLOR='{{@@ i3_blocks_inactive_color @@}}' NO_NUM=1 \
             make -C "$MR_REPO/keyindicator2"
+       make -C "$MR_REPO/network-status"
        #
        rm /usr/local/bin/i3blocks-*
 	   for BLOCK in $BLOCKS; do

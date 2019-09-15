@@ -45,6 +45,7 @@ usermod -aG telegram "$USER_NAME"
 # Setting telegram user login group to telegram, even if the user is not
 # created above
 usermod -g telegram telegram
+chmod g+w "$TELEGRAM_HOME"
 chown telegram:telegram -R "$TELEGRAM_HOME"
 
 #######################################

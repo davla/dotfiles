@@ -13,14 +13,10 @@ config:
     showdiff: true
     workdir: ~/.config/dotdrop
 dotfiles:
-  f_gitconfig:
-    dst: ~/.gitconfig
-    src: gitconfig
-  f_gitignore:
-    dst: ~/.gitignore
-    src: gitignore
+  d_git:
+    src: config/git
+    dst: ~/.config/git
 profiles:
   git:
     dotfiles:
-      - f_gitconfig
-      - f_gitignore
+      - d_git

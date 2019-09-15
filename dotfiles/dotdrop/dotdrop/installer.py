@@ -10,7 +10,6 @@ import errno
 
 # local imports
 from dotdrop.logger import Logger
-from dotdrop.comparator import Comparator
 from dotdrop.templategen import Templategen
 import dotdrop.utils as utils
 
@@ -179,6 +178,7 @@ class Installer:
         dsts = [os.path.normpath(os.path.join(dst, child))
                 for child in children]
 
+        installed = 0
         for i in range(len(children)):
             src = srcs[i]
             dst = dsts[i]
@@ -197,17 +197,27 @@ class Installer:
                     continue
                 src = tmp
 
-            result = self._link(src, dst, actionexec=actionexec)
-
-            # void actionexec if dotfile installed
-            # to prevent from running actions multiple times
-            if len(result):
+            ret, err = self._link(src, dst, actionexec=actionexec)
+            if ret:
+                installed += 1
+                # void actionexec if dotfile installed
+                # to prevent from running actions multiple times
                 actionexec = None
+            else:
+                if err:
+                    return ret, err
 
-        return True, None
+        return installed > 0, None
 
     def _link(self, src, dst, actionexec=None):
-        """set src as a link target of dst"""
+        """
+        set src as a link target of dst
+
+        return
+        - True, None: success
+        - False, error_msg: error
+        - False, None, ignored
+        """
         overwrite = not self.safe
         if os.path.lexists(dst):
             if os.path.realpath(dst) == os.path.realpath(src):
@@ -219,9 +229,7 @@ class Installer:
                 self.log.dry('would remove {} and link to {}'.format(dst, src))
                 return True, None
             if self.showdiff:
-                with open(src, 'rb') as f:
-                    content = f.read()
-                self._diff_before_write(src, dst, content)
+                self._diff_before_write(src, dst)
             msg = 'Remove "{}" for link creation?'.format(dst)
             if self.safe and not self.log.ask(msg):
                 err = 'ignoring "{}", link was not created'.format(dst)
@@ -277,7 +285,8 @@ class Installer:
         content = templater.generate(src)
         templater.restore_vars(saved)
         if noempty and utils.content_empty(content):
-            self.log.dbg('ignoring empty template: {}'.format(src))
+            if self.debug:
+                self.log.dbg('ignoring empty template: {}'.format(src))
             return False, None
         if content is None:
             err = 'empty template {}'.format(src)
@@ -375,7 +384,7 @@ class Installer:
                 if self.debug:
                     self.log.dbg('change detected for {}'.format(dst))
                 if self.showdiff:
-                    self._diff_before_write(src, dst, content)
+                    self._diff_before_write(src, dst, content=content)
                 if not self.log.ask('Overwrite \"{}\"'.format(dst)):
                     self.log.warn('ignoring {}'.format(dst))
                     return 1, None
@@ -406,19 +415,20 @@ class Installer:
         os.chmod(dst, rights)
         return 0, None
 
-    def _diff_before_write(self, src, dst, src_content):
+    def _diff_before_write(self, src, dst, content=None):
         """diff before writing when using --showdiff - not efficient"""
-        # create tmp to diff for templates
-        tmpfile = utils.get_tmpfile()
-        with open(tmpfile, 'wb') as f:
-            f.write(src_content)
-        comp = Comparator(debug=self.debug)
-        diff = comp.compare(tmpfile, dst)
+        tmp = None
+        if content:
+            tmp = utils.write_to_tmpfile(content)
+            src = tmp
+        diff = utils.diff(src, dst, raw=False)
+        utils.remove(tmp, quiet=True)
+
         # fake the output for readability
+        if not diff:
+            return
         self.log.log('diff \"{}\" VS \"{}\"'.format(src, dst))
         self.log.emph(diff)
-        if tmpfile:
-            utils.remove(tmpfile)
 
     def _create_dirs(self, directory):
         """mkdir -p <directory>"""

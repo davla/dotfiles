@@ -1,0 +1,311 @@
+# {{@@ header() @@}}
+#
+# i3 config file (v4)
+
+#######################################
+# Variables
+#######################################
+
+# Keys
+set $mod Mod4
+set $mod_shifter Control
+
+# Directional pad
+set $up p
+set $right apostrophe
+set $down semicolon
+set $left l
+
+# Misc
+set $term xfce4-terminal
+set $startup_term_title startup-terminal
+
+#######################################
+# Defaults
+#######################################
+
+default_orientation horizontal
+
+#######################################
+# Font
+#######################################
+
+set_from_resource $font Gtk.FontName Sans, Regular 11
+font pango:$font
+
+#######################################
+# Gaps
+#######################################
+
+# Necessary for i3-gaps to work properly (pixel can be any value)
+for_window [class="^.*"] border pixel 0
+
+smart_gaps on
+smart_borders on
+
+gaps inner 10
+gaps outer 0
+
+#######################################
+# Window controls
+#######################################
+
+# Change focus
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+bindsym $mod+$down focus down
+bindsym $mod+$left focus left
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+bindsym $mod+Down focus down
+bindsym $mod+Left focus left
+
+# Move focused window
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Left move left
+
+# Kill focused window
+bindsym $mod+q kill
+
+#######################################
+# Tiling windows
+#######################################
+
+# Focus
+bindsym $mod+x focus parent
+bindsym $mod+c focus child
+
+# Split
+bindsym $mod+a split h
+bindsym $mod+s split v
+
+# Change container layout (stacked, tabbed, toggle split)
+bindsym $mod+y layout stacking
+bindsym $mod+h layout tabbed
+bindsym $mod+d layout toggle split
+
+# Enter fullscreen mode for the focused container
+bindsym $mod+b fullscreen toggle
+
+#######################################
+# Floating windows
+#######################################
+
+# Floating modifier
+set $float z
+
+# Floating prefixes
+set $float_prefix float
+set $scratchpad_prefix scratchpad
+
+# Floating titles
+set $calc_title floating-calculator
+set $editor_title floating-editor
+set $sp_term_title scratchpad-terminal
+
+# Prefixed floating default sizes (from Xresources to accustom HiDPI)
+set_from_resource $floating_width i3wm.FloatingWidth 900
+set_from_resource $floating_height i3wm.FloatingHeight 550
+
+# Editor floating size (from Xresources to accustom HiDPI)
+set_from_resource $editor_width i3wm.EditorWidth 1000
+set_from_resource $editor_height i3wm.EditorHeight 850
+
+# Floating toggler
+bindsym $mod+$float focus mode_toggle
+bindsym $mod+Shift+$float floating toggle
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# Global floating settings
+for_window [title="^$float_prefix"] floating enable, \
+    resize set $floating_width $floating_height
+for_window [title="^$scratchpad_prefix"] floating enable, \
+    resize set $floating_width $floating_height
+for_window [instance="^$float_prefix"] floating enable, \
+    resize set $floating_width $floating_height
+for_window [instance="^$scratchpad_prefix"] floating enable, \
+    resize set $floating_width $floating_height
+
+# Floating editor
+for_window [instance="$editor_title"] resize set $editor_width $editor_height
+
+#######################################
+# Workspaces
+#######################################
+
+# Define names for default workspaces for which we configure key bindings later
+# on. We use variables to avoid repeating the names in multiple places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1; workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2; workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3; workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4; workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5; workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6; workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9; workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10; workspace $ws10
+
+# Assigning apps to workspaces
+assign [class="Atom"] $ws1
+assign [class="Firefox"] $ws2
+assign [title="$startup_term_title"] $ws3
+assign [class="TelegramDesktop"] $ws4
+assign [class="Thunderbird"] $ws5
+for_window [class="Atom"] focus
+for_window [class="Firefox"] focus
+for_window [title="$startup_term_title"] focus
+for_window [class="TelegramDesktop"] focus
+for_window [class="Thunderbird"] focus
+
+#######################################
+# Scratchpad
+#######################################
+
+# Screatchpad key
+set $scratchpad r
+
+# Scratchpad eybindings
+bindsym $mod+$scratchpad scratchpad show
+bindsym $mod+Shift+$scratchpad move scratchpad
+
+# Global scratchpad settings
+for_window [instance="^$scratchpad_prefix"] move scratchpad
+for_window [title="^$scratchpad_prefix"] move scratchpad
+
+#######################################
+# Resize
+#######################################
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+    bindsym $up resize shrink height 10 px or 10 ppt
+    bindsym $right resize grow width 10 px or 10 ppt
+    bindsym $down resize grow height 10 px or 10 ppt
+    bindsym $left resize shrink width 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Left resize shrink width 10 px or 10 ppt
+
+    # back to normal: Enter or Escape or mode-enabling shortcut
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+$mod_shifter+r mode "default"
+}
+
+bindsym $mod+$mod_shifter+r mode "resize"
+
+#######################################
+# Reset
+#######################################
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+x restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+v exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+#######################################
+# i3 Bar
+#######################################
+
+bar {
+    position top
+    separator_symbol "  "
+    status_command i3blocks
+}
+
+#######################################
+# Controls
+#######################################
+
+# This section defines shortcuts for "controls mode", eg, volume control or
+# screen brightness control
+
+set $notification_duration 1000
+set $step 5
+
+mode "controls" {
+    # Volume control
+    bindsym $left exec volume -np -d $step -e $notification_duration
+    bindsym $right exec volume -npl 100 -i $step -e $notification_duration
+    bindsym $down exec volume -nm -e $notification_duration
+
+    # back to normal: Enter or Escape or mode-enabling shortcut
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+$mod_shifter+c mode "default"
+}
+
+bindsym $mod+$mod_shifter+c mode "controls"
+
+#######################################
+# Application shortcuts
+#######################################
+
+bindsym $mod+Escape exec halt -p
+bindsym $mod+F5 exec reboot
+bindsym $mod+Tab exec $term
+bindsym $mod+Control+Tab exec $term --title $startup_term_title
+bindsym $mod+Shift+Tab [title="$sp_term_title"] scratchpad show
+bindsym $mod+comma exec firefox https://calendar.google.com/calendar/r
+bindsym $mod+e exec telegram
+bindsym $mod+Shift+e exec $term --title $calc_title -e lua
+bindsym $mod+f exec thunar
+bindsym $mod+k exec firefox https://keep.google.com/#home
+bindsym $mod+o exec geany --name=$editor_title
+bindsym $mod+Shift+o exec geany
+bindsym $mod+space exec i3-dmenu-desktop
+bindsym $mod+Shift+space exec dmenu_run
+bindsym $mod+t exec thunderbird
+bindsym $mod+w exec firefox
+
+#######################################
+# Application startup
+#######################################
+
+# Autostart
+exec dex -ae i3
+
+# Scratchpad terminal
+exec $term --title $sp_term_title
+
+# Startup terminal
+exec $term --title $startup_term_title
+
+bindsym --release Caps_Lock exec pkill -SIGRTMIN+{{@@ caps_signal @@}} i3blocks
+# bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks

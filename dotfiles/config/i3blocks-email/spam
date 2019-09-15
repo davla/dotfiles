@@ -1,0 +1,8 @@
+# This file contains the i3blocks-contrib/email settings for the spam mailbox
+# https://github.com/vivien/i3blocks-contrib/tree/master/email
+
+# Spam GMX account
+[MAIL]
+HOST: imap.gmx.com
+PORT: 993
+USER: truzzialrogo@gmx.com

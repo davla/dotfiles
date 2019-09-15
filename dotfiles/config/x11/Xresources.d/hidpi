@@ -1,0 +1,19 @@
+! {{@@ header() @@}}
+
+! Xresources for HiDPI screens. Onl overrides necessary resources
+
+! Gtk resources
+Gtk.CursorThemeSize: {{@@ cursor_size * 2 @@}}
+Gtk.IconSizes: gtk-menu=40,40:gtk-button=45,45:gtk-dialog=48,48:gtk-small-toolbar=78,78:gtk-large-toolbar=45,45
+
+! Custom i3 resources
+i3wm.FloatingWidth: {{@@ i3_floating_width * 2 @@}}
+i3wm.FloatingHeight: {{@@ i3_floating_height * 2 @@}}
+i3wm.EditorWidth: {{@@ i3_editor_height * 2 @@}}
+i3wm.EditorHeight: {{@@ i3_editor_height * 2 @@}}
+
+! DPI
+Xft.dpi: 180
+
+! Cursor size
+Xcursor.size: {{@@ cursor_size * 2 @@}}

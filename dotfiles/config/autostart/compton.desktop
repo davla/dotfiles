@@ -2,10 +2,10 @@
 Encoding=UTF-8
 Version=0.9.4
 Type=Application
-Name=Blue color reducer
-Comment=Reduces the display blue light
-Exec=sct 4000K
-NotShowIn=sway;
+Name=Window composer
+Comment=Implements window compositing
+Exec=compton -b
+OnlyShowIn=i3;sway;
 StartupNotify=false
 Terminal=false
 Hidden=false

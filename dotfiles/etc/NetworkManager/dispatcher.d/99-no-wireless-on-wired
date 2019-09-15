@@ -10,15 +10,21 @@
 #
 #####################################################
 
-# This function logs on system logger the passed message
-# with some handy additional formatting
+# This function sets the wireless interface status. In doing so, it logs to
+# a custom log facility and sends a signal to i3blocks.
 #
 # Arguments:
-#   $*: The message to be logged.
-log() {
-	local MSG="$*"
+#   - $1: The new wireless interface status. One of:
+#       - on
+#       - off
+set_wireless() {
+    NEW_STATE="$1"
 
-    logger -t wifi-ctl "$MSG";
+    nmcli radio wifi "$NEW_STATE"
+    logger -p local0.info -t WIRELESS-CTRL "Wireless set $NEW_STATE"
+    pkill -RTMIN+{{@@ network_signal @@}} i3blocks
+
+    unset NEW_STATE
 }
 
 #####################################################
@@ -36,13 +42,11 @@ case "$INTERFACE" in
         case "$ACTION" in
 
             'up')
-                log 'disabling wifi'
-                nmcli radio wifi off
+                set_wireless 'off'
                 ;;
 
             'down')
-                log 'enabling wifi'
-                nmcli radio wifi on
+                set_wireless 'on'
                 ;;
         esac
         ;;

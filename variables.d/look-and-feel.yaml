@@ -1,0 +1,8 @@
+%YAML 1.2
+---
+# This variables file contains desktop look & feel variables
+
+variables:
+  cursor_size: 24
+  font: Sans, Regular 11
+  theme: Adwaita-dark

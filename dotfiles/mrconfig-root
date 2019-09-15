@@ -5,25 +5,25 @@ upgrade =
 	   mr updatet > /dev/null 2>&1 || mr -d "$MR_REPO" install
 lib =
 	   get_github_release() {
-	       REPO="$1"
-	       NAME_FILTER="$2"
-	       wget -qO- "https://api.github.com/repos/$REPO/releases/latest" \
-	           | jq -r ".assets[] | select(.name | $NAME_FILTER)
-	                       .browser_download_url" \
-	           | xargs wget -qO -
-	       unset ASSET_SUBSTR REPO
-	   }
+	      REPO="$1"
+	      NAME_FILTER="$2"
+	      wget -qO- "https://api.github.com/repos/$REPO/releases/latest" \
+	          | jq -r ".assets[] | select(.name | $NAME_FILTER)
+	                      .browser_download_url" \
+	          | xargs wget -qO -
+	      unset ASSET_SUBSTR REPO
+	  }
 
 
 [/opt/antibody]
 checkout =
-	   git clone 'https://github.com/getantibody/antibody.git' 'antibody'
+	  git clone 'https://github.com/getantibody/antibody.git' 'antibody'
 install =
-	   get_github_release 'getantibody/antibody' 'contains("linux_amd64")' \
-	       > antibody.deb;
-	   dpkg -i antibody.deb;
-	   apt-get install -f;
-	   rm antibody.deb
+	  get_github_release 'getantibody/antibody' 'contains("linux_amd64")' \
+	      > antibody.deb;
+	  dpkg -i antibody.deb;
+	  apt-get install -f;
+	  rm antibody.deb
 
 
 [/opt/asdf-vm]
@@ -34,35 +34,62 @@ upgrade = bash -lc 'asdf update 2>&1 | grep "release"'
 
 [/opt/docker-compose]
 checkout =
-	   git clone 'https://github.com/docker/compose.git' 'docker-compose'
+	  git clone 'https://github.com/docker/compose.git' 'docker-compose'
 install =
-	   get_github_release 'docker/compose' 'endswith("Linux-x86_64")' \
-	       > /usr/local/bin/docker-compose; \
-	   chmod +x /usr/local/bin/docker-compose
+	  get_github_release 'docker/compose' 'endswith("Linux-x86_64")' \
+	      > /usr/local/bin/docker-compose;
+	  chmod +x /usr/local/bin/docker-compose
 
 
 [/opt/docker-credential-helpers]
 checkout =
-	   git clone 'https://github.com/docker/docker-credential-helpers.git' \
-	       'docker-credential-helpers'
+	  git clone 'https://github.com/docker/docker-credential-helpers.git' \
+	      'docker-credential-helpers'
 install =
-	   get_github_release 'docker/docker-credential-helpers' \
-	       'contains("secretservice")' | tar zx -C /usr/local/bin; \
-	   chmod +x /usr/local/bin/docker-credential-secretservice
+	  get_github_release 'docker/docker-credential-helpers' \
+	      'contains("secretservice")' | tar zx -C /usr/local/bin;
+	  chmod +x /usr/local/bin/docker-credential-secretservice
+
+
+[/opt/i3blocks-contrib]
+checkout =
+	   git clone 'https://github.com/davla/i3blocks-contrib' 'i3blocks-contrib'
+install =
+       BLOCKS='apt-upgrades cpu_usage2 email keyindicator2 memory
+            network-status temperature'
+       #
+       make -C "$MR_REPO/cpu_usage2"
+       env ACTIVE_COLOR='{{@@ i3_blocks_ok_color @@}}' CAPS_LABEL='C' \
+            INACTIVE_COLOR='{{@@ i3_blocks_inactive_color @@}}' NO_NUM=1 \
+            make -C "$MR_REPO/keyindicator2"
+       make -C "$MR_REPO/network-status"
+       #
+       rm /usr/local/bin/i3blocks-*
+	   for BLOCK in $BLOCKS; do
+	       find "$MR_REPO/$BLOCK" -type f -executable -printf '%P' \
+               | xargs -i cp "$MR_REPO/$BLOCK/{}" '/usr/local/bin/i3blocks-{}'
+	   done
+
+
+[/opt/i3-volume]
+checkout =
+    git clone 'https://github.com/FFY00/i3-volume.git' 'i3-volume'
+install =
+    cp "$MR_REPO/volume" /usr/local/bin/volume
 
 
 [/opt/move-to-monitor]
 checkout =
-	   git clone 'https://github.com/vanaoff/move-to-next-monitor.git' \
-	       'move-to-monitor'
+	  git clone 'https://github.com/vanaoff/move-to-next-monitor.git' \
+	      'move-to-monitor'
 install =
-	   bash "$MR_REPO/install.sh"; \
-	   mv /usr/local/bin/move-to-next-monitor /usr/local/bin/move-to-monitor
+	  bash "$MR_REPO/install.sh";
+	  mv /usr/local/bin/move-to-next-monitor /usr/local/bin/move-to-monitor
 
 
 [/opt/underclock]
 checkout =
-	   git clone 'https://github.com/Sepero/temp-throttle.git' 'underclock'
+	  git clone 'https://github.com/Sepero/temp-throttle.git' 'underclock'
 install =
-	   cp "$MR_REPO/"*.sh /usr/local/sbin/underclock; \
-	   chmod +x /usr/local/sbin/underclock
+	  cp "$MR_REPO/"*.sh /usr/local/sbin/underclock; \
+	  chmod +x /usr/local/sbin/underclock

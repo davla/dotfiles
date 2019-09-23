@@ -110,6 +110,9 @@ dotfiles:
   f_docker_config.json:
     src: docker/config.json
     dst: ~/.docker/config.json
+  f_dunstrc:
+    src: config/dunst/dunstrc
+    dst: ~/.config/dunst/dunstrc
   f_geany_colorschemes_on-my-own.conf:
     src: config/geany/colorschemes/on-my-own.conf
     dst: ~/.config/geany/colorschemes/on-my-own.conf
@@ -235,6 +238,7 @@ profiles:
     dotfiles:
     - d_i3blocks-email
     - f_compton.conf
+    - f_dunstrc
     - f_i3blocks_config
     - f_i3config
     actions:

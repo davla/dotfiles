@@ -6,3 +6,4 @@
 variables:
   cursor_theme: Comix-OrangeB
   icon_theme: ACYLS-orange
+  theme_color: '#FF5500'

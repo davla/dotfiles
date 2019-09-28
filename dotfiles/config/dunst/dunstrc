@@ -1,7 +1,6 @@
-{%@@ macro dunstrc(margin, border_width, separator_height, horizontal_padding,
-    vertical_padding, width, icon_size, dpi) @@%}
+{%@@ macro dunstrc(border_width, dpi, horizontal_padding, icon_size,
+    icon_theme, margin, theme_color, vertical_padding, width) @@%}
 {%@@ set background_color = '#000000' @@%}
-{%@@ set theme_color = '#FF5500' @@%}
 {%@@ set text_color = theme_color @@%}
 {%@@ set border_color = theme_color @@%}
 {%@@ set notify_modifiers = 'mod4+ctrl' @@%}
@@ -38,7 +37,7 @@
     notification_height = 0
 
     # Draw a line of "separator_height" pixel height between two notifications.
-    separator_height = 2
+    separator_height = {{@@ border_width @@}}
 
     # Padding between text and separator.
     padding = {{@@ vertical_padding @@}}
@@ -130,7 +129,7 @@
     max_icon_size = {{@@ icon_size @@}}
 
     # Paths to default icons.
-    icon_path = {{@@ icon_path @@}}
+    icon_path = {{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/actions:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/apps:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/categories:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/devices:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/emblems:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/mimetypes:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/places:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/status:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/stock
 
     ### History ###
 

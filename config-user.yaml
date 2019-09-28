@@ -25,13 +25,22 @@ config:
   import_configs:
   - profiles.d/shared.yaml
   import_variables:
-  - variables.d/*.yaml
+  - variables.d/look-and-feel.yaml
+  - variables.d/*-look-and-feel.yaml
+  - variables.d/dpi.yaml
+  - variables.d/i3.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
   longkey: false
   showdiff: true
   workdir: ~/.config/dotdrop
+
+dynvariables:
+  # This variable is used in order not to hardcode the home directory where it
+  # can not be dynamically expanded
+  home: 'echo $HOME'
+
 dotfiles:
   d_autostart:
     dst: ~/.config/autostart

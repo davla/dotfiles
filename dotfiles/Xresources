@@ -1,18 +1,20 @@
 ! {{@@ header() @@}}
 
 ! Xresources file
+! Size values are for normal DPI screens. High DPI values are loaded when
+! necessary from a separate Xresources files
 
 ! Gtk resources
 Gtk.CursorThemeName: {{@@ cursor_theme @@}}
-Gtk.CursorThemeSize: {{@@ cursor_size @@}}
+Gtk.CursorThemeSize: {{@@ lodpi_cursor_size @@}}
 Gtk.IconSizes: ''
 Gtk.FontName: {{@@ font @@}}
 
 ! Custom i3 resources
-i3wm.FloatingWidth: {{@@ i3_floating_width @@}}
-i3wm.FloatingHeight: {{@@ i3_floating_height @@}}
-i3wm.EditorWidth: {{@@ i3_editor_height @@}}
-i3wm.EditorHeight: {{@@ i3_editor_height @@}}
+i3wm.FloatingWidth: {{@@ lodpi_i3_floating_width @@}}
+i3wm.FloatingHeight: {{@@ lodpi_i3_floating_height @@}}
+i3wm.EditorWidth: {{@@ lodpi_i3_editor_height @@}}
+i3wm.EditorHeight: {{@@ lodpi_i3_editor_height @@}}
 
 ! Look-and-feel resources
 Net.IconThemeName: {{@@ icon_theme @@}}
@@ -20,4 +22,4 @@ Net.ThemeName: {{@@ theme @@}}
 
 ! Cursor resources
 Xcursor.theme: {{@@ cursor_theme @@}}
-Xcursor.size: {{@@ cursor_size @@}}
+Xcursor.size: {{@@ lodpi_cursor_size @@}}

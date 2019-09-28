@@ -1,16 +1,13 @@
+{%@@ macro dunstrc(margin, border_width, separator_height, horizontal_padding,
+    vertical_padding, width, icon_size, dpi) @@%}
 {%@@ set background_color = '#000000' @@%}
 {%@@ set theme_color = '#FF5500' @@%}
 {%@@ set text_color = theme_color @@%}
 {%@@ set border_color = theme_color @@%}
-{%@@ set margin = 8 * 2 @@%}
-{%@@ set border_width = 1 * 2 @@%}
-{%@@ set separator_height = 8 * 2 @@%}
-{%@@ set horizontal_padding = 8 * 2 @@%}
-{%@@ set vertical_padding = 10 * 2 @@%}
-{%@@ set width = 350 * 2 @@%}
-{%@@ set icon_size = 40 * 2 @@%}
 {%@@ set notify_modifiers = 'mod4+ctrl' @@%}
 # {{@@ header() @@}}
+#
+# This is the dunstrc file for {{@@ dpi @@}} DPI monitors
 
 [global]
     ### Display ###
@@ -235,3 +232,4 @@
     timeout = 0
     #frame_color = "#ff0000"
     #icon = /path/to/icon
+{%@@ endmacro @@%}

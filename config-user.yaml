@@ -19,7 +19,7 @@ config:
   banner: true
   create: true
   dotpath: dotfiles
-  ignoreempty: false
+  ignoreempty: true
   import_actions:
   - actions.d/shared.yaml
   import_configs:
@@ -39,6 +39,9 @@ dotfiles:
   d_desktop-directories:
     dst: ~/.local/share/desktop-directories
     src: local/share/desktop-directories
+  d_dunst:
+    src: config/dunst
+    dst: ~/.config/dunst
   d_i3blocks-email:
     src: config/i3blocks-email
     dst: ~/.config/i3blocks-email
@@ -49,6 +52,9 @@ dotfiles:
     - '*.README'
     upignore:
     - '*.README'
+  d_gtk-2.0:
+    src: gtk-2.0
+    dst: '~'
   d_gtk-3.0:
     src: config/gtk-3.0
     dst: ~/.config/gtk-3.0
@@ -110,9 +116,6 @@ dotfiles:
   f_docker_config.json:
     src: docker/config.json
     dst: ~/.docker/config.json
-  f_dunstrc:
-    src: config/dunst/dunstrc
-    dst: ~/.config/dunst/dunstrc
   f_geany_colorschemes_on-my-own.conf:
     src: config/geany/colorschemes/on-my-own.conf
     dst: ~/.config/geany/colorschemes/on-my-own.conf
@@ -125,9 +128,6 @@ dotfiles:
   f_ghci:
     src: ghci
     dst: ~/.ghci
-  f_gtkrc-2.0:
-    src: gtkrc-2.0
-    dst: ~/.gtkrc-2.0
   f_hgrc:
     src: hgrc
     dst: ~/.hgrc
@@ -236,9 +236,9 @@ profiles:
   # little bit more than just the i3 configuration file.
   i3:
     dotfiles:
+    - d_dunst
     - d_i3blocks-email
     - f_compton.conf
-    - f_dunstrc
     - f_i3blocks_config
     - f_i3config
     actions:
@@ -251,8 +251,8 @@ profiles:
   # both Gtk, Qt and bare X11.
   look-and-feel:
     dotfiles:
+    - d_gtk-2.0
     - d_gtk-3.0
-    - f_gtkrc-2.0
     - f_qt5ct.conf
     - f_trolltech.conf
     - f_xresources

@@ -2,6 +2,7 @@
 System initial setup
 
 ## Roadmap
+- Fix Telegram updated
 - Ease log opening
 - Allow the bot to execute a specific script
 - i3 + sway in bot

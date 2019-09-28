@@ -94,8 +94,11 @@ if [ "$MIN_DPI" -gt 5 ]; then
             THUNAR_WINDOW_WIDTH=1270
             ;;
     esac
-else
 
+    # Suffix for files containing hardcoded DPI values
+    DPI_SUFFIX='hidpi'
+
+else
     GDK_SCALE=1
     GDK_DPI_SCALE=1
 
@@ -112,6 +115,9 @@ else
             THUNAR_WINDOW_WIDTH=700
             ;;
     esac
+
+    # Suffix for files containing hardcoded DPI values
+    DPI_SUFFIX='lodpi'
 fi
 
 # A list of tuples "<channel> <property> <type> <value>" to be used with
@@ -126,10 +132,11 @@ echo "$XFCONF_SETTINGS" | while read CHANNEL PROPERTY TYPE VALUE; do
     xfconf-query -n -c "$CHANNEL" -p "$PROPERTY" -t "$TYPE" -s "$VALUE"
 done
 
-# Changing cursor size in gtk init files
-echo "$HOME/.gtkrc-2.0" "$HOME/.config/gtk-3.0/settings.ini" \
-    | xargs sed -i -E "s/gtk-cursor-theme-size = [0-9]+/\
-gtk-cursor-theme-size = $(xrdb -query | grep 'Xcursor.size' | cut -f 2)/g"
+# Linking files containing hardcoded DPI-dependent values to their respective
+# high- or low-dpi counterpart.
+echo "$HOME/.gtkrc-2.0
+$HOME/.config/gtk-3.0/settings.ini
+$HOME/.config/dunst/dunstrc" | xargs -n 1 -i ln -sf "{}.$DPI_SUFFIX" '{}'
 
 case "$NORMLIZED_DE" in
     'xfce')

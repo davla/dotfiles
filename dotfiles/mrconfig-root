@@ -1,8 +1,8 @@
 [DEFAULT]
-updatet =
+updateWithResult =
 	   mr -d "$MR_REPO" update 2> /dev/null | grep 'up to date' > /dev/null 2>&1
 upgrade =
-	   mr updatet > /dev/null 2>&1 || mr -d "$MR_REPO" install
+	   mr updateWithResult > /dev/null 2>&1 || mr -d "$MR_REPO" install
 lib =
 	   get_github_release() {
 	      REPO="$1"

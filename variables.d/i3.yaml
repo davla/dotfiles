@@ -10,6 +10,5 @@ variables:
   caps_signal: 20
   network_signal: 30
 
-  # These variables define the colors used in i3-blocks
-  i3_blocks_ok_color: '#00FF00'
-  i3_blocks_inactive_color: '#666666'
+  # These variables define i3bar-specific colors
+  i3bar_inactive_color: '#666666'

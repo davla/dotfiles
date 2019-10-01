@@ -4,6 +4,11 @@
 # orange-based theme
 
 variables:
+  # GUI components theme names
   cursor_theme: Comix-OrangeB
   icon_theme: ACYLS-orange
-  theme_color: '#FF5500'
+
+  # Theme colors
+  dark_theme_color: '#801F00'
+  light_theme_color: '#FFC9AD'
+  main_theme_color: '#FF5500'

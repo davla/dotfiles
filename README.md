@@ -11,13 +11,13 @@ My dotfiles repository. Really, just configuration files
 - Root terminal preferences
 - X session management and startup (not everything in .xsessionrc)
 - More preferences
+- myrepos proper name thinghie
+- sct not working
   + Firefox
   + Enpass
   + Thunderbird
   + Dropbox
   + Telegram
 - i3
-   + dunst
-   + text color in i3bar
-   + split xsessionrc
-   + persistent display status
+  + split xsessionrc
+  + persistent display status

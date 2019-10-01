@@ -6,7 +6,6 @@
     icon_size=hidpi_dunst_icon_size,
     icon_theme=icon_theme,
     margin=hidpi_dunst_margin,
-    theme_color=theme_color,
     vertical_padding=hidpi_dunst_vertical_padding,
     width=hidpi_dunst_width
 ) @@}}

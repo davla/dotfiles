@@ -6,7 +6,6 @@
     icon_size=lodpi_dunst_icon_size,
     icon_theme=icon_theme,
     margin=lodpi_dunst_margin,
-    theme_color=theme_color,
     vertical_padding=lodpi_dunst_vertical_padding,
     width=lodpi_dunst_width
 ) @@}}

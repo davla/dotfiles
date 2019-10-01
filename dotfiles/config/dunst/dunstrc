@@ -1,8 +1,8 @@
 {%@@ macro dunstrc(border_width, dpi, horizontal_padding, icon_size,
-    icon_theme, margin, theme_color, vertical_padding, width) @@%}
+    icon_theme, margin, vertical_padding, width) @@%}
 {%@@ set background_color = '#000000' @@%}
-{%@@ set text_color = theme_color @@%}
-{%@@ set border_color = theme_color @@%}
+{%@@ set text_color = main_theme_color @@%}
+{%@@ set border_color = main_theme_color @@%}
 {%@@ set notify_modifiers = 'mod4+ctrl' @@%}
 # {{@@ header() @@}}
 #

@@ -55,12 +55,12 @@ install =
 checkout =
 	   git clone 'https://github.com/davla/i3blocks-contrib' 'i3blocks-contrib'
 install =
-       BLOCKS='apt-upgrades cpu_usage2 email keyindicator2 memory
-            network-status temperature'
+       BLOCKS='apt-upgrades cpu_usage2 email keyindicator2 network-status
+            temperature'
        #
        make -C "$MR_REPO/cpu_usage2"
-       env ACTIVE_COLOR='{{@@ i3_blocks_ok_color @@}}' CAPS_LABEL='C' \
-            INACTIVE_COLOR='{{@@ i3_blocks_inactive_color @@}}' NO_NUM=1 \
+       env ACTIVE_COLOR='{{@@ main_theme_color @@}}' CAPS_LABEL='C' \
+            INACTIVE_COLOR='{{@@ i3bar_inactive_color @@}}' NO_NUM=1 \
             make -C "$MR_REPO/keyindicator2"
        make -C "$MR_REPO/network-status"
        #

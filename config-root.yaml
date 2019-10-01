@@ -30,6 +30,8 @@ config:
   - profiles.d/shared.yaml
   import_variables:
   - variables.d/i3.yaml
+  - variables.d/look-and-feel.yaml
+  - variables.d/*-look-and-feel.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink

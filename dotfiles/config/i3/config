@@ -247,6 +247,22 @@ bar {
     position top
     separator_symbol "  "
     status_command i3blocks
+
+    # Disabling switching workspaces with scrolling
+    bindsym button4 nop
+    bindsym button5 nop
+
+    colors {
+        background #000000
+        statusline {{@@ main_theme_color @@}}
+
+        # In order: border - background - text
+        active_workspace {{@@ main_theme_color @@}} #000000 {{@@ main_theme_color @@}}
+        inactive_workspace #000000 #000000 {{@@ main_theme_color @@}}
+        focused_workspace {{@@ main_theme_color @@}} #000000 {{@@ main_theme_color @@}}
+        urgent_workspace #000000 {{@@ dark_theme_color @@}} {{@@ main_theme_color @@}}
+        binding_mode {{@@ main_theme_color @@}} #000000 {{@@ main_theme_color @@}}
+    }
 }
 
 #######################################

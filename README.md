@@ -18,5 +18,4 @@ My dotfiles repository. Really, just configuration files
   + Dropbox
   + Telegram
 - i3
-  + split xsessionrc
-  + persistent display status
+  + move xsessionrc in autorandr stuff

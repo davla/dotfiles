@@ -176,6 +176,9 @@ dotfiles:
   f_xsessionrc:
     src: xsessionrc
     dst: ~/.xsessionrc
+  d_autorandr:
+    src: config/autorandr
+    dst: ~/.config/autorandr
 profiles:
 
   # This profile groups Atom-related dotfiles, as well as creating the
@@ -245,6 +248,7 @@ profiles:
   # little bit more than just the i3 configuration file.
   i3:
     dotfiles:
+    - d_autorandr
     - d_dunst
     - d_i3blocks-email
     - f_compton.conf

@@ -4,7 +4,6 @@
 # - Dealing with HiDPI screens, namely:
 #   - Setting the correct DPI value.
 #   - Scaling UI elements
-#   - Setting the correct resolution on all screens
 #   - Exporting the necessary environment Variables
 # - Performing initial setup
 
@@ -37,43 +36,13 @@ xrandr | grep -E '\bconnected\b( primary)?\s+[0-9]' \
 # Deriving physical DPI information
 #######################################
 
-TMP_FILE=$(mktemp)
-awk 'NR == 1 {
-    min = $4
-    max = $4
-    resolution = $2
-}
-$4 < min {
-    min = $4
-    resolution = $2
-}
-$4 > max {
-    max = $4
-}
-END {
-    printf "%.0f %.0f %s", (max - min), min, resolution
-}' "$DISPLAYS_FILE" > "$TMP_FILE"
-
-read MAX_DIFF MIN_DPI MIN_RES < "$TMP_FILE"
-
-#######################################
-# Setting resolution
-#######################################
-
-if [ "$MAX_DIFF" -ge 1 ]; then
-    RESOLUTION="--mode $MIN_RES"
-else
-    RESOLUTION='--auto'
-fi
-
-cut -d ' ' -f 1 < "$DISPLAYS_FILE" \
-    | xargs -i -n 1 xrandr --output '{}' $RESOLUTION
+MIN_DPI="$(< "$DISPLAYS_FILE" cut -d ' ' -f 4 | sort -nr | head -n 1)"
 
 #######################################
 # Setting scaling
 #######################################
 
-NORMLIZED_DE="$(echo $DESKTOP_SESSION | tr '[:upper:]' '[:lower:]')"
+NORMLIZED_DE="$(echo "$DESKTOP_SESSION" | tr '[:upper:]' '[:lower:]')"
 
 if [ "$MIN_DPI" -gt 5 ]; then
     xrdb -merge $HOME/.config/x11/Xresources.d/hidpi

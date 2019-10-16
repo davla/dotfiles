@@ -1,4 +1,4 @@
-{%@@ set clean_force = 'clean -f' @@%}
+{%@@ set clean_force = 'clean -fd' @@%}
 {%@@ set reset_head = 'reset --hard HEAD' @@%}
 {%@@ set clear = '!git %s && git %s' | format(reset_head, clean_force) @@%}
 {%@@ set graph_format = '%C(yellow)%h %C(green)[%ar] %Creset%s%C(red)%d%n' @@%}
@@ -11,7 +11,7 @@
 {%@@ set squash = 'merge --squash' @@%}
 {%@@ set unadd = 'reset HEAD --' @@%}
 {%@@ set unstash = 'stash pop' @@%}
-{%@@ set update = 'rebase FETCH_HEAD' @@%}
+{%@@ set update = 'rebase @{u}' @@%}
 # {{@@ header() @@}}
 
 [alias]
@@ -27,7 +27,7 @@
     update = {{@@ update @@}}
 
     a = add
-    b = branch
+    b = branch --all
     c = commit
     f = fetch
     g = {{@@ graph @@}}
@@ -39,10 +39,10 @@
 
     aa = add --all
     ca = commit --amend
+    cf = {{@@ clean_force @@}}
     ck = checkout -q
-    cn = {{@@ clean_force @@}}
+    cl = {{@@ clear @@}}
     cp = cherry-pick
-    cr = {{@@ clear @@}}
     ga = {{@@ graph_all @@}}
     nb = {{@@ new_branch @@}}
     pl = pull
@@ -53,6 +53,8 @@
     ua = {{@@ unadd @@}}
     us = {{@@ unstash @@}}
     up = {{@@ update @@}}
+
+    mff = merge --ff-only
 
 [apply]
     ignoreWhitespace = false

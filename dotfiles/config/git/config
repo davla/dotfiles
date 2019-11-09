@@ -1,6 +1,5 @@
 {%@@ set clean_force = 'clean -fd' @@%}
-{%@@ set reset_head = 'reset --hard HEAD' @@%}
-{%@@ set clear = '!git %s && git %s' | format(reset_head, clean_force) @@%}
+{%@@ set clear = '!git reset --hard && git ' + clean_force @@%}
 {%@@ set graph_format = '%C(yellow)%h %C(green)[%ar] %Creset%s%C(red)%d%n' @@%}
 {%@@ set graph = "log --branches --remotes='origin' --remotes='upstream' "
     "--graph --format='%s'" | format(graph_format) @@%}
@@ -9,12 +8,13 @@
 {%@@ set info = 'status -sb' @@%}
 {%@@ set new_branch = 'checkout -qb' @@%}
 {%@@ set squash = 'merge --squash' @@%}
-{%@@ set unadd = 'reset HEAD --' @@%}
+{%@@ set unadd = 'reset --mixed HEAD --' @@%}
 {%@@ set unstash = 'stash pop' @@%}
 {%@@ set update = 'rebase @{u}' @@%}
 # {{@@ header() @@}}
 
 [alias]
+    # "new" commands
     clear = {{@@ clear @@}}
     graph = {{@@ graph @@}}
     graph-all = {{@@ graph_all @@}}
@@ -26,35 +26,88 @@
     unstash = {{@@ unstash @@}}
     update = {{@@ update @@}}
 
+    # add
     a = add
-    b = branch --all
+    aa = add --all
+
+    # branch
+    b = branch
+    ba = branch --all
+    nb = {{@@ new_branch @@}}
+
+    # chekcout
+    ck = checkout -q
+
+    # cherry-pick
+    cp = cherry-pick
+    cpa = cherry-pick --abort
+    cpc = cherry-pick --continue
+    cpn = cherry-pick --no-commit
+
+    # clean/clear
+    cf = {{@@ clean_force @@}}
+    cl = {{@@ clear @@}}
+
+    # commit
     c = commit
+    ca = commit --amend
+
+    # diff
+    d = diff
+    ds = diff --staged
+
+    # fetch
     f = fetch
+
+    # graph
     g = {{@@ graph @@}}
-    i = {{@@ info @@}}
+    ga = {{@@ graph_all @@}}
+
+    # log
     l = log
+
+    # merge
     m = merge --log
-    r = rebase
+    ma = merge --abort
+    mc = merge --continue
+    mff = merge --ff-only
+
+    # pull
+    pl = pull
+
+    # push
+    ps = push
+    psf = push --force
+
+    # rebase
+    rb = rebase
+    rba = rebase --abort
+    rbc = rebase --continue
+    rbf = rebase --interactive --autosquash
+    rbi = rebase --interactive
+
+    # reset
+    rs = reset
+    rsh = reset --hard
+    rsm = reset --mixed
+
+    # squash
+    sq = {{@@ squash @@}}
+
+    # status
+    i = {{@@ info @@}}
+
+    # stash
     s = stash
 
-    aa = add --all
-    ca = commit --amend
-    cf = {{@@ clean_force @@}}
-    ck = checkout -q
-    cl = {{@@ clear @@}}
-    cp = cherry-pick
-    ga = {{@@ graph_all @@}}
-    nb = {{@@ new_branch @@}}
-    pl = pull
-    ps = push
-    rc = rebase --continue
-    rh = {{@@ reset_head @@}}
-    sq = {{@@ squash @@}}
+    # unadd
     ua = {{@@ unadd @@}}
-    us = {{@@ unstash @@}}
-    up = {{@@ update @@}}
 
-    mff = merge --ff-only
+    # unstash
+    us = {{@@ unstash @@}}
+
+    # update
+    up = {{@@ update @@}}
 
 [apply]
     ignoreWhitespace = false

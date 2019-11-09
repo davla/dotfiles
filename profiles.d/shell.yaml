@@ -78,11 +78,6 @@ profiles:
     - f_profile
     actions:
     - sh
-  shell:
-    include:
-    - sh
-    - bash
-    - zsh
   zsh:
     dotfiles:
     - d_zsh

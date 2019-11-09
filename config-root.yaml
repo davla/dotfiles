@@ -202,7 +202,7 @@ profiles:
     actions:
     - env-shells
     dynvariables:
-      env_tmp_dst: mktemp /tmp/anacrontab-tmp.XXX
+      env_tmp_dst: mktemp /tmp/env-tmp.XXX
     variables:
       bash_env_dst: /etc/bash.bashrc
       zsh_env_dst: /etc/zsh/zshenv

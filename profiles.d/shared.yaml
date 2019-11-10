@@ -21,3 +21,8 @@ profiles:
   git:
     dotfiles:
       - d_git
+    dynvariables:
+      gpg_key_exists: >-
+        [ -n "$(gpg --list-secret-keys --keyid-format LONG)" ] \
+          && echo 'true' \
+          || echo 'false'

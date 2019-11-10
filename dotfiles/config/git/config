@@ -113,7 +113,7 @@
     ignoreWhitespace = false
     whitespace = fix
 
-{%@@ if gpg_key_exists @@%}
+{%@@ if git_commit_gpg_sign @@%}
 [commit]
     gpgsign = true
 {%@@ endif @@%}
@@ -123,9 +123,9 @@
     editor = vim
     excludesfile = ~/.config/git/gitignore
 
-{%@@ if git_credentials_helper_path and exists(git_credentials_helper_path) @@%}
+{%@@ if git_credentials_helper @@%}
 [credential]
-    helper = {{@@ git_credentials_helper_path @@}}
+    helper = {{@@ git_credentials_helper @@}}
 {%@@ endif @@%}
 
 [fetch]

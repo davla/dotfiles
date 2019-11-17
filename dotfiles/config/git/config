@@ -29,6 +29,7 @@
     # add
     a = add
     aa = add --all
+    ap = add --patch
 
     # branch
     b = branch

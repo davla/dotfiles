@@ -11,7 +11,11 @@
 alias c='xsel -i -b'
 alias mkdir='mkdir -p'
 alias p='xsel -o'
+{%@@ if user == 'user' @@%}
 alias root='sudo -s'
+{%@@ elif user == 'root' @@%}
+alias update='apt-get update && apt-get upgrade'
+{%@@ endif @@%}
 
 #######################################
 # Third-party commands aliases

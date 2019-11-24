@@ -4,6 +4,7 @@
 
 variables:
   cursor_size: 24
+  dpi: 90
   dunst_margin: 8
   dunst_border_width: 2
   dunst_separator_height: 8
@@ -18,6 +19,7 @@ variables:
 
   # Low (normal) DPI values
   lodpi_cursor_size: '{{@@ cursor_size @@}}'
+  lodpi_dpi: '{{@@ dpi @@}}'
   lodpi_dunst_margin: '{{@@ dunst_margin @@}}'
   lodpi_dunst_border_width: '{{@@ dunst_border_width @@}}'
   lodpi_dunst_horizontal_padding: '{{@@ dunst_horizontal_padding @@}}'
@@ -32,6 +34,7 @@ variables:
 
   # High DPI values
   hidpi_cursor_size: '{{@@ cursor_size * 2 @@}}'
+  hidpi_dpi: '{{@@ dpi * 2 @@}}'
   hidpi_dunst_margin: '{{@@ dunst_margin * 2 @@}}'
   hidpi_dunst_border_width: '{{@@ dunst_border_width @@}}'
   hidpi_dunst_horizontal_padding: '{{@@ dunst_horizontal_padding * 2 @@}}'

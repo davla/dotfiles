@@ -4,6 +4,7 @@
 
 actions:
   post:
+    autorandr: sh actions/autorandr.sh '{{@@ _dotfile_abs_dst @@}}'
 
     # This action installs atom packages given in the first argument. This
     # needs to be a file with one package specification per line. The $PATH
@@ -13,7 +14,9 @@ actions:
       export PATH="$(which python2 | xargs dirname):$PATH";
       apm install --packages-file {0};
       rm {0}
+
     i3: sh actions/i3.sh
+
 config:
   backup: false
   banner: true
@@ -42,6 +45,11 @@ dynvariables:
   home: 'echo $HOME'
 
 dotfiles:
+  d_autorandr:
+    src: config/autorandr
+    dst: ~/.config/autorandr
+    actions:
+    - autorandr
   d_autostart:
     dst: ~/.config/autostart
     src: config/autostart
@@ -176,9 +184,6 @@ dotfiles:
   f_xsessionrc:
     src: xsessionrc
     dst: ~/.xsessionrc
-  d_autorandr:
-    src: config/autorandr
-    dst: ~/.config/autorandr
 profiles:
 
   # This profile groups Atom-related dotfiles, as well as creating the

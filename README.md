@@ -9,13 +9,16 @@ My dotfiles repository. Really, just configuration files
   (https://wiki.archlinux.org/index.php/GNOME/Keyring#Automatic_login)
 - Scala in asdf
 - Root terminal preferences
-- X session management and startup (not everything in .xsessionrc)
-- More preferences
 - sct not working
+- dotdrop autocompletion
++ dotdrop executable permissions on install
+- More preferences
   + Firefox
   + Enpass
   + Thunderbird
   + Dropbox
   + Telegram
 - i3
-  + move xsessionrc in autorandr stuff
+  + restart xfce4-terminal in autorandr
+  + get i3 to use whole screen when autorandr to hidpi
+  + rename autorandr profiles

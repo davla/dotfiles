@@ -1,0 +1,68 @@
+{%@@ macro dpi_values(eyes_theme, dpi_name, dpi_suffix, is_hidpi,
+    gdk_dpi_scale, gdk_scale, panel_size, systray_icon_size, thunar_icon_size,
+    thunar_separator, thunar_window_height, thunar_window_width,
+    thunar_zoom) @@%}
+#!/usr/bin/env sh
+
+# {{@@ header() @@}}
+
+# This script sets some variables used to set up the X server. In particular,
+# it sets ONLY the variables and values for {{@@ dpi_name @@}} displays setup.
+# These variables are then used by another script sourced at the end. This
+# script is currently used as a profile-specific preswitch hook in autorandr.
+
+#######################################
+# Main HiDPI switch
+#######################################
+
+HIDPI='{{@@ is_hidpi @@}}'
+
+#######################################
+# Gtk+ variables
+#######################################
+
+export GDK_SCALE={{@@ gdk_scale @@}} \
+       GDK_DPI_SCALE={{@@ gdk_dpi_scale @@}}
+
+#######################################
+# Thunar variables
+#######################################
+
+THUNAR_ICON_SIZE='{{@@ thunar_icon_size @@}}'
+THUNAR_SEPARATOR={{@@ thunar_separator @@}}
+THUNAR_ZOOM='{{@@ thunar_zoom @@}}'
+
+#######################################
+# Hardcoded-DPI suffix
+#######################################
+
+# Suffix for files containing hardcoded DPI values
+DPI_SUFFIX='{{@@ dpi_suffix @@}}'
+
+#######################################
+# Shared variables
+#######################################
+
+# shellcheck disable=SC1083,2240
+. {{@@ _dotfile_abs_dst @@}}/scripts.d/shared
+
+#######################################
+# DE-specific variables
+#######################################
+
+case "$DE_NAME" in
+    'xfce')
+        EYES_THEME='{{@@ eyes_theme @@}}'
+        PANEL_SIZE={{@@ panel_size @@}}
+        SYSTRAY_ICON_SIZE={{@@ systray_icon_size @@}}
+        THUNAR_WINDOW_HEIGHT={{@@ thunar_window_height @@}}
+        THUNAR_WINDOW_WIDTH={{@@ thunar_window_width @@}}
+        ;;
+esac
+
+#######################################
+# Sourcing X server setup script
+#######################################
+
+. {{@@ _dotfile_abs_dst @@}}/scripts.d/dpi
+{%@@ endmacro @@%}

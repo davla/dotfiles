@@ -23,3 +23,6 @@ Net.ThemeName: {{@@ theme @@}}
 ! Cursor resources
 Xcursor.theme: {{@@ cursor_theme @@}}
 Xcursor.size: {{@@ lodpi_cursor_size @@}}
+
+! DPI
+Xft.dpi: {{@@ lodpi_dpi @@}}

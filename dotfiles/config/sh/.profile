@@ -2,6 +2,15 @@
 
 # This script initializes the POSIX shell
 
+# {{@@ header() @@}}
+
+#######################################
+# Loading configuration paths
+#######################################
+
+# shellcheck disable=2027,2140
+. "{{@@ dotdirs_file | replace("~", "$HOME") @@}}"
+
 #######################################
 # Loading environment variables
 #######################################

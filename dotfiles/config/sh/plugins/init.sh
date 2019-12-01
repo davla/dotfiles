@@ -31,4 +31,4 @@ alias v='f -e vim'
 # thefuck
 #######################################
 
-. "$SDOTDIR/cache/thefuck"
+# . "$SDOTDIR/cache/thefuck"

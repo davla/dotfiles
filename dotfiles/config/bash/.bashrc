@@ -2,6 +2,15 @@
 
 # This script initializes bash interactive shells
 
+# {{@@ header() @@}}
+
+#######################################
+# Loading configuration paths
+#######################################
+
+# shellcheck disable=2027,2140
+source "{{@@ dotdirs_file | replace("~", "$HOME") @@}}"
+
 #######################################
 # Loading environment variables
 #######################################

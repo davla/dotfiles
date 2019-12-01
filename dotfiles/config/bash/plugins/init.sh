@@ -18,4 +18,4 @@ source "$BDOTDIR/cache/fasd"
 # thefuck
 #######################################
 
-source "$BDOTDIR/cache/thefuck"
+# source "$BDOTDIR/cache/thefuck"

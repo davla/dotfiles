@@ -2,7 +2,7 @@ actions:
   post:
     bash: bash ./actions/bash.sh {{@@ dotdirs_file @@}}
     sh: env -i HOME="$HOME" sh ./actions/sh.sh {{@@ dotdirs_file @@}}
-    zsh: zsh ./actions/zsh.zsh
+    zsh: zsh ./actions/zsh.zsh {{@@ dotdirs_file @@}}
 config:
   backup: false
   banner: true
@@ -36,8 +36,8 @@ dotfiles:
     upignore:
     - '*.pyc'
   d_zsh:
-    dst: ~/.zsh
-    src: zsh
+    dst: '{{@@ zdotdir @@}}'
+    src: config/zsh
     trans_read: fix-home
     upignore:
     - .zcompdump
@@ -48,9 +48,6 @@ dotfiles:
   f_dotdirs:
     dst: '{{@@ dotdirs_file @@}}'
     src: config/dotdirs
-  f_zshenv:
-    dst: ~/.zshenv
-    src: zshenv
 profiles:
   bash:
     dotfiles:
@@ -69,7 +66,6 @@ profiles:
   zsh:
     dotfiles:
     - d_zsh
-    - f_zshenv
     include:
     - sh
     actions:
@@ -79,4 +75,5 @@ trans_read:
 variables:
   bdotdir: ~/.config/bash
   sdotdir: ~/.config/sh
+  zdotdir: ~/.config/zsh
   dotdirs_file: ~/.config/dotdirs

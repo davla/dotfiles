@@ -125,7 +125,7 @@ source "$ZDOTDIR/cache/fasd"
 # thefuck
 #######################################
 
-source "$ZDOTDIR/cache/thefuck"
+# source "$ZDOTDIR/cache/thefuck"
 
 #######################################
 # zsh-autopair

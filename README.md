@@ -3,7 +3,6 @@ My dotfiles repository. Really, just configuration files
 
 ## TODO
 - Fix thefuck
-- $HOME dotfiles linked to DOTDIR
 - interactive vs non-interactive in bashrc and zshrc
 - Plugin lists fine-controlled when imported (eg. bash sourcing sh)
 - LS_COLORS

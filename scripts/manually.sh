@@ -30,23 +30,28 @@ USER_NAME="${1:-$USER}"
 # Telegram
 #######################################
 
-# Installing the executables
-mkdir -p "$TELEGRAM_HOME"
-wget -qO - 'https://tdesktop.com/linux' \
-    | tar -xJC "$TELEGRAM_HOME" --strip-components=1
+case "$HOSTNAME" in
+    'personal')
+        # Installing the executables
+        mkdir -p "$TELEGRAM_HOME"
+        wget -qO - 'https://tdesktop.com/linux' \
+            | tar -xJC "$TELEGRAM_HOME" --strip-components=1
 
-# Linking the main executable in $PATH
-ln -sf "$TELEGRAM_HOME/Telegram" '/usr/local/bin/telegram'
+        # Linking the main executable in $PATH
+        ln -sf "$TELEGRAM_HOME/Telegram" '/usr/local/bin/telegram'
 
-# Making updater work also for unprivileged users in telegram group
-groupadd -f telegram
-getent passwd telegram > /dev/null 2>&1 || useradd -r -g telegram telegram
-usermod -aG telegram "$USER_NAME"
-# Setting telegram user login group to telegram, even if the user is not
-# created above
-usermod -g telegram telegram
-chmod g+w "$TELEGRAM_HOME"
-chown telegram:telegram -R "$TELEGRAM_HOME"
+        # Making updater work also for unprivileged users in telegram group
+        groupadd -f telegram
+        getent passwd telegram > /dev/null 2>&1 || useradd -r -g telegram \
+            telegram
+        usermod -aG telegram "$USER_NAME"
+        # Setting telegram user login group to telegram, even if the user is
+        # not created above
+        usermod -g telegram telegram
+        chmod g+w "$TELEGRAM_HOME"
+        chown telegram:telegram -R "$TELEGRAM_HOME"
+        ;;
+esac
 
 #######################################
 # Myrepos-based installation

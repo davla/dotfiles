@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-# This script installs the Xfce desktop environment and its configuration
+# This script installs Xfce desktop environment and its configuration
 
 . ./.env
 

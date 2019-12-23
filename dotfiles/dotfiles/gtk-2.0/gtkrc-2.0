@@ -1,0 +1,11 @@
+{%@@ macro gtkrc(cursor_size, dpi) @@%}
+# {{@@ header() @@}}
+#
+# This file contains gtk 2.0 settings for {{@@ dpi @@}} DPI monitors
+
+gtk-cursor-theme-name = "{{@@ cursor_theme @@}}"
+gtk-cursor-theme-size = {{@@ cursor_size @@}}
+gtk-font-name = "{{@@ font @@}}"
+gtk-icon-theme-name = "{{@@ icon_theme @@}}"
+gtk-theme-name = "{{@@ theme @@}}"
+{%@@ endmacro @@%}

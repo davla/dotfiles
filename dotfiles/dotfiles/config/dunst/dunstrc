@@ -1,0 +1,234 @@
+{%@@ macro dunstrc(border_width, dpi, horizontal_padding, icon_size,
+    icon_theme, margin, vertical_padding, width) @@%}
+{%@@ set background_color = '#000000' @@%}
+{%@@ set text_color = main_theme_color @@%}
+{%@@ set border_color = main_theme_color @@%}
+{%@@ set notify_modifiers = 'mod4+ctrl' @@%}
+# {{@@ header() @@}}
+#
+# This is the dunstrc file for {{@@ dpi @@}} DPI monitors
+
+[global]
+    ### Display ###
+
+    # Which monitor should the notifications be displayed on.
+    # monitor = 0
+
+    # Display notification on focused monitor.  Possible modes are:
+    #   mouse: follow mouse pointer
+    #   keyboard: follow window with keyboard focus
+    #   none: don't follow anything
+    follow = keyboard
+
+    # The geometry of the window:
+    #   [{width}]x{height}[+/-{x}+/-{y}]
+    geometry = "{{@@ width @@}}x5-{{@@ margin @@}}+{{@@ margin @@}}"
+
+    # Show how many messages are currently hidden (because of geometry).
+    indicate_hidden = yes
+
+    # Shrink window if it's smaller than the width.
+    shrink = no
+
+    # The transparency of the window.  Range: [0; 100].
+    transparency = 15
+
+    # The minimum height of the entire notification.
+    notification_height = 0
+
+    # Draw a line of "separator_height" pixel height between two notifications.
+    separator_height = {{@@ border_width @@}}
+
+    # Padding between text and separator.
+    padding = {{@@ vertical_padding @@}}
+
+    # Horizontal padding.
+    horizontal_padding = {{@@ horizontal_padding @@}}
+
+    # Defines width in pixels of frame around the notification window.
+    # Set to 0 to disable.
+    frame_width = {{@@ border_width @@}}
+
+    # Defines color of the frame around the notification window.
+    frame_color = "{{@@ border_color @@}}"
+
+    # Define a color for the separator. Possible values are:
+    #  * auto: dunst tries to find a color fitting to the background;
+    #  * foreground: use the same color as the foreground;
+    #  * frame: use the same color as the frame;
+    #  * anything else will be interpreted as a X color.
+    separator_color = frame
+
+    # Sort messages by urgency.
+    sort = yes
+
+    # Don't remove messages, if the user is idle (no mouse or keyboard input)
+    # for longer than this time.
+    idle_threshold = 5m
+
+    ### Text ###
+
+    font = {{@@ font @@}}
+
+    # The spacing between lines. If the height is smaller than the font height,
+    # it will get raised to the font height.
+    line_height = 0
+
+    # Possible values are:
+    # full: Allow a small subset of html markup in notifications:
+    #        For a complete reference see
+    #        <http://developer.gnome.org/pango/stable/PangoMarkupFormat.html>.
+    # strip: Dunst will try to strip the markup.
+    # no:    Disable markup parsing.
+    markup = full
+
+    # The format of the message.  Possible variables are:
+    #   %a  appname
+    #   %s  summary
+    #   %b  body
+    #   %i  iconname (including its path)
+    #   %I  iconname (without its path)
+    #   %p  progress value if set ([  0%] to [100%]) or nothing
+    #   %n  progress value if set without any extra characters
+    #   %%  Literal %
+    # Markup is allowed
+    format = "<b>%s</b>\n%b"
+
+    # Alignment of message text.
+    # Possible values are "left", "center" and "right".
+    alignment = left
+
+    # Show age of message if message is older than this time.
+    show_age_threshold = 2m
+
+    # Split notifications into multiple lines if they don't fit into geometry.
+    word_wrap = yes
+
+    # When word_wrap is set to no, specify where to make an ellipsis in long
+    # lines. Possible values are "start", "middle" and "end".
+    ellipsize = middle
+
+    # Ignore newlines '\n' in notifications.
+    ignore_newline = no
+
+    # Stack together notifications with the same content
+    stack_duplicates = yes
+
+    # Hide the count of stacked notifications with the same content
+    hide_duplicate_count = no
+
+    # Display indicators for URLs (U) and actions (A).
+    show_indicators = yes
+
+    ### Icons ###
+
+    # Align icons left/right/off
+    icon_position = left
+
+    # Scale larger icons down to this size, set to 0 to disable
+    max_icon_size = {{@@ icon_size @@}}
+
+    # Paths to default icons.
+    icon_path = {{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/actions:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/apps:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/categories:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/devices:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/emblems:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/mimetypes:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/places:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/status:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/stock
+
+    ### History ###
+
+    # Should a notification popped up from history be sticky or timeout as if
+    # it would normally do.
+    sticky_history = yes
+
+    # Maximum amount of notifications kept in history
+    history_length = 20
+
+    ### Misc/Advanced ###
+
+    # dmenu path.
+    dmenu = /usr/bin/dmenu -p dunst:
+
+    # Browser for opening urls in context menu.
+    browser = /usr/bin/sensible-browser
+
+    # Always run rule-defined scripts, even if the notification is suppressed
+    always_run_script = yes
+
+    # Define the title of the windows spawned by dunst
+    title = Dunst
+
+    # Define the class of the windows spawned by dunst
+    class = Dunst
+
+    # Print a notification on startup.
+    startup_notification = no
+
+    # Manage dunst's desire for talking. Can be one of the following values:
+    #  crit: Critical features. Dunst aborts
+    #  warn: Only non-fatal warnings
+    #  mesg: Important Messages
+    #  info: all unimportant stuff
+    # debug: all less than unimportant stuff
+    verbosity = mesg
+
+    # Define the corner radius of the notification window in pixel size.
+    corner_radius = 10
+
+    ### Legacy
+
+    # Use the Xinerama extension instead of RandR for multi-monitor support.
+    force_xinerama = no
+
+    ### mouse
+
+    # Defines action of mouse event
+    # Possible values are:
+    # * none: Don't do anything.
+    # * do_action: If the notification has exactly one action, or one is marked
+    #              as default, invoke it. If there are multiple and no default,
+    #              open the context menu.
+    # * close_current: Close current notification.
+    # * close_all: Close all notifications.
+    mouse_left_click = close_current
+    mouse_middle_click = do_action
+    mouse_right_click = close_all
+
+# Experimental features that may or may not work correctly. Do not expect them
+# to have a consistent behaviour across releases.
+[experimental]
+    # Calculate the dpi to use on a per-monitor basis.
+    per_monitor_dpi = no
+
+[shortcuts]
+    # Xev might be helpful to find names for keys.
+
+    # Close notification.
+    close = {{@@ notify_modifiers @@}}+bracketleft
+
+    # Close all notifications.
+    close_all = {{@@ notify_modifiers @@}}+bracketright
+
+    # Redisplay last message(s).
+    history = {{@@ notify_modifiers @@}}+apostrophe
+
+    # Context menu.
+    context = {{@@ notify_modifiers @@}}+semicolon
+
+[urgency_low]
+    # IMPORTANT: colors have to be defined in quotation marks.
+    # Otherwise the "#" and following would be interpreted as a comment.
+    background = "{{@@ background_color @@}}"
+    foreground = "{{@@ text_color @@}}"
+    timeout = 1s
+    #icon = /path/to/icon
+
+[urgency_normal]
+    background = "{{@@ background_color @@}}"
+    foreground = "{{@@ text_color @@}}"
+    timeout = 3s
+    #icon = /path/to/icon
+
+[urgency_critical]
+    background = "{{@@ background_color @@}}"
+    foreground = "{{@@ text_color @@}}"
+    timeout = 0
+    #frame_color = "#ff0000"
+    #icon = /path/to/icon
+{%@@ endmacro @@%}

@@ -1,0 +1,82 @@
+#!/usr/bin/env sh
+
+# This script sets up the X server and environment, potentially switching
+# betweeen low and high DPI. This is controlled by some variables, meant to be
+# in set before this script is run.
+
+#######################################
+# Loading HiDPi Xresources
+#######################################
+
+if [ "$HIDPI" = 'true' ]; then
+    xrdb -merge "$HOME/.config/x11/Xresources.d/hidpi"
+else
+    xrdb -merge "$HOME/.Xresources"
+fi
+
+#######################################
+# DE-specific variables
+#######################################
+
+case "$DE_NAME" in
+    'xfce')
+        # Fetching the base name of the xfconf system tray panel plugin
+        SYSTRAY_PROP_BASE="$(xfconf-query -c xfce4-panel -p '/plugins' -l -v \
+            | grep systray | cut -d ' ' -f 1)"
+
+        # A list of tuples "<channel> <property> <type> <value>" to be used
+        # with xfconf later
+        XFCONF_SETTINGS="xfce4-panel /panels/panel-1/size int $PANEL_SIZE
+xfce4-panel $SYSTRAY_PROP_BASE/size-max int $SYSTRAY_ICON_SIZE
+thunar /last-window-height int $THUNAR_WINDOW_HEIGHT
+thunar /last-window-width int $THUNAR_WINDOW_WIDTH"
+        ;;
+esac
+
+#######################################
+# Thunar configuration
+#######################################
+
+# A list of tuples "<channel> <property> <type> <value>" to be used with
+# xfconf for Thunar
+XFCONF_SETTINGS="thunar /last-icon-view-zoom-level string $THUNAR_ZOOM
+thunar /last-separator-position int $THUNAR_SEPARATOR
+thunar /shortcuts-icon-size string $THUNAR_ICON_SIZE
+thunar /tree-icon-size string $THUNAR_ICON_SIZE"
+
+#######################################
+# Setting Xfconf properties
+#######################################
+
+echo "$XFCONF_SETTINGS" | while read CHANNEL PROPERTY TYPE VALUE; do
+    xfconf-query -n -c "$CHANNEL" -p "$PROPERTY" -t "$TYPE" -s "$VALUE"
+done
+
+#######################################
+# Linking files with hardcoded values
+#######################################
+
+# Linking files containing hardcoded DPI-dependent values to their respective
+# high- or low-dpi counterpart.
+echo "$HOME/.gtkrc-2.0
+$HOME/.config/gtk-3.0/settings.ini
+$HOME/.config/dunst/dunstrc" | xargs -n 1 -i ln -sf "{}.$DPI_SUFFIX" '{}'
+
+#######################################
+# DE-specific command
+#######################################
+
+case "$(echo "$DESKTOP_SESSION" | tr '[:upper:]' '[:lower:]')" in
+    'i3')
+        i3-msg restart
+        ;;
+
+    'xfce')
+        # Changing the theme of the eyes plugin
+        sed -i -E "s/theme=.+/theme=$EYES_THEME/g" \
+            "$HOME/.config/xfce4/panel/eyes-4.rc"
+
+        # Killing panel for the changes to take effect
+        wmctrl -l | grep xfce4-panel | cut -d ' ' -f 1 | xargs xkill -id
+        ;;
+esac

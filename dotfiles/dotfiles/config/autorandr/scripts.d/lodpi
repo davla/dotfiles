@@ -1,0 +1,16 @@
+{%@@ from 'config/autorandr/scripts.d/dpi-values' import dpi_values @@%}
+{{@@ dpi_values(
+    eyes_theme='Default-tiny',
+    dpi_name='LoDPI',
+    dpi_suffix='lodpi',
+    is_hidpi='false',
+    gdk_dpi_scale=1,
+    gdk_scale=1,
+    panel_size=24,
+    systray_icon_size=22,
+    thunar_icon_size='THUNAR_ICON_SIZE_SMALL',
+    thunar_separator=174,
+    thunar_window_height=520,
+    thunar_window_width=700,
+    thunar_zoom='THUNAR_ZOOM_LEVEL_NORMAL'
+) @@}}

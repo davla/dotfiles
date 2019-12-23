@@ -1,0 +1,9 @@
+# git ignore file
+
+# gitsecret internals
+.gitsecret/keys/random_seed
+
+# encrypted files
+profiles.d/private.yaml
+variables.d/personal.yaml
+variables.d/work.yaml

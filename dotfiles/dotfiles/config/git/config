@@ -1,3 +1,5 @@
+{%@@ set clean_force = 'clean -fd' @@%}
+{%@@ set clear = '!git reset --hard && git ' + clean_force @@%}
 {%@@ set graph_format = '%C(yellow)%h %C(green)[%ar] %Creset%s%C(red)%d%n' @@%}
 {%@@ set graph = "log --branches --remotes='origin' --remotes='upstream' "
     "--graph --format='%s'" | format(graph_format) @@%}
@@ -8,9 +10,12 @@
 {%@@ set squash = 'merge --squash' @@%}
 {%@@ set unadd = 'reset HEAD --' @@%}
 {%@@ set unstash = 'stash pop' @@%}
+{%@@ set update = 'rebase @{u}' @@%}
 # {{@@ header() @@}}
 
 [alias]
+    # "new" commands
+    clear = {{@@ clear @@}}
     graph = {{@@ graph @@}}
     graph-all = {{@@ graph_all @@}}
     info = {{@@ info @@}}
@@ -19,50 +24,118 @@
     squash = {{@@ squash @@}}
     unadd = {{@@ unadd @@}}
     unstash = {{@@ unstash @@}}
+    update = {{@@ update @@}}
 
+    # add
     a = add
+    aa = add --all
+    ap = add --patch
+
+    # branch
     b = branch
+    ba = branch --all
+    nb = {{@@ new_branch @@}}
+
+    # chekcout
+    ck = checkout -q
+
+    # cherry-pick
+    cp = cherry-pick
+    cpa = cherry-pick --abort
+    cpc = cherry-pick --continue
+    cpn = cherry-pick --no-commit
+
+    # clean/clear
+    cf = {{@@ clean_force @@}}
+    cl = {{@@ clear @@}}
+
+    # commit
     c = commit
+    ca = commit --amend
+
+    # diff
+    d = diff
+    ds = diff --staged
+
+    # fetch
     f = fetch
+
+    # graph
     g = {{@@ graph @@}}
-    i = {{@@ info @@}}
+    ga = {{@@ graph_all @@}}
+
+    # log
     l = log
+
+    # merge
     m = merge --log
-    r = rebase
+    ma = merge --abort
+    mc = merge --continue
+    mff = merge --ff-only
+
+    # pull
+    pl = pull
+
+    # push
+    ps = push
+    psf = push --force
+
+    # rebase
+    rb = rebase
+    rba = rebase --abort
+    rbc = rebase --continue
+    rbf = rebase --interactive --autosquash
+    rbi = rebase --interactive
+
+    # reset
+    rs = reset
+    rsh = reset --hard
+    rsm = reset --mixed
+
+    # squash
+    sq = {{@@ squash @@}}
+
+    # status
+    i = {{@@ info @@}}
+
+    # stash
     s = stash
 
-    aa = add --all
-    ca = commit --amend
-    ck = checkout -q
-    cp = cherry-pick
-    ga = {{@@ graph_all @@}}
-    nb = {{@@ new_branch @@}}
-    pl = pull
-    ps = push
-    sq = {{@@ squash @@}}
+    # unadd
     ua = {{@@ unadd @@}}
+
+    # unstash
     us = {{@@ unstash @@}}
+
+    # update
+    up = {{@@ update @@}}
 
 [apply]
     ignoreWhitespace = false
     whitespace = fix
 
+{%@@ if git_commit_gpg_sign @@%}
 [commit]
     gpgsign = true
+{%@@ endif @@%}
 
 [core]
     autocrlf = input
     editor = vim
     excludesfile = ~/.config/git/gitignore
 
+{%@@ if git_credentials_helper @@%}
 [credential]
-    helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+    helper = {{@@ git_credentials_helper @@}}
+{%@@ endif @@%}
 
 [fetch]
     prune = true
 
+{%@@ if gitreview_username @@%}
 [gitreview]
-    username = davla
+    username = {{@@ gitreview_username @@}}
+{%@@ endif @@%}
 
 [help]
     autocorrect = 5
@@ -80,6 +153,6 @@
     sort = -version:refname
 
 [user]
-    name = Davide Laezza
-    email = truzzialrogo@gmx.com
-    username = davla
+    name = {{@@ full_name @@}}
+    email = {{@@ email @@}}
+    username = {{@@ git_username @@}}

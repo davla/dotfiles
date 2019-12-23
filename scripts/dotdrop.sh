@@ -18,4 +18,4 @@ sudo apt-get install python3 pipenv
 
 cd "$DOTDROP_DIR" || exit
 pipenv install
-cd - > /dev/null || exit
+cd - > /dev/null 2>&1 || exit

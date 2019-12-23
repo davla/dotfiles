@@ -13,13 +13,23 @@
 # Variables
 #######################################
 
-# Executable file names to be linked on $PATH
-EXECS='arduino
+case "$HOSTNAME" in
+    'personal')
+        # Executable file names to be linked on $PATH
+        EXECS='arduino
 halt
 mysql
 php
 reboot
 Telegram'
+        ;;
+
+    'work')
+    # Executable file names to be linked on $PATH
+    EXECS='halt
+reboot'
+        ;;
+esac
 
 # Directory in $PATH where executables are linked
 PATH_DIR='/usr/local/bin'
@@ -121,22 +131,32 @@ dotdrop install -p packages
 # Installing Drivers
 #######################################
 
-apt-get install firmware-realtek firmware-iwlwifi
+case "$HOSTNAME" in
+    'personal')
+        apt-get install firmware-realtek firmware-iwlwifi
+        ;;
+esac
 
 #######################################
 # Installing GUI applications
 #######################################
 
 # Installation
-apt-get install aisleriot asunder atom baobab blueman brasero calibre catfish \
-    dropbox enpass balena-etcher-electron evince firefox galculator gdebi \
-    geany gimp gnome-mines gnome-sudoku gparted gufw handbrake-gtk \
-    libreoffice-calc libreoffice-impress libreoffice-writer gnome-mahjongg \
-    hardinfo kid3 orage package-update-indicator parcellite pavucontrol \
-    quadrapassel recordmydesktop gtk-recordmydesktop remmina seahorse \
-    simple-scan slack-desktop skypeforlinux solaar soundconverter \
-    spotify-client synaptic system-config-printer thunderbird \
-    transmission-gtk tuxguitar viewnior virtualbox-6.0 visualboyadvance vlc
+case "$HOSTNAME" in
+    'personal')
+        apt-get install aisleriot asunder brasero calibre dropbox enpass \
+            balena-etcher-electron gimp gnome-mines gnome-sudoku gufw \
+            handbrake-gtk libreoffice-calc libreoffice-impress \
+            libreoffice-writer gnome-mahjongg kid3 quadrapassel simple-scan \
+            slack-desktop skypeforlinux solaar soundconverter spotify-client \
+            system-config-printer thunderbird transmission-gtk tuxguitar \
+            virtualbox-6.0 visualboyadvance vlc
+            ;;
+esac
+
+apt-get install atom baobab blueman catfish evince firefox galculator gdebi \
+    geany gparted hardinfo parcellite pavucontrol recordmydesktop \
+    gtk-recordmydesktop remmina seahorse synaptic viewnior
 
 # Dotfiles
 sudo -u "$USER_NAME" dotdrop install -p gui
@@ -146,21 +166,27 @@ sudo -u "$USER_NAME" dotdrop install -p gui
 #######################################
 
 # Installation
-apt-get install apng2gif autoconf automake build-essential cabal-install \
-    cmake command-not-found cowsay cups curl dex dkms docker-ce dos2unix \
-    flashplayer-mozilla fonts-freefont-otf fonts-nanum fortune g++ ghc \
-    gifsicle git git-review gvfs-backends handbrake-cli heroku hlint hunspell \
-    hunspell-en-us hunspell-it hub imagemagick intel-microcode jq lame \
-    libghc-hspec-dev libgit2-dev libsecret-1-dev lua5.1 lua-check make \
-    mercurial moreutils nfs-common nyancat p7zip pycodestyle \
-    python-requests-futures python-pip python-setuptools python3-gdbm \
-    python3-gpg python3-lxml python3-pygments python3-requests \
-    python3-requests-oauthlib rar sct shellcheck software-properties-common \
-    thunar-archive-plugin thunar-dropbox-plugin tuxguitar-jsa uni2ascii unrar \
-    wmctrl xdotool xserver-xorg-input-synaptics yad zip
+case "$HOSTNAME" in
+    'personal')
+        apt-get install apng2gif cabal-install cups ghc gifsicle git-review \
+            handbrake-cli heroku hlint imagemagick lame libghc-hspec-dev \
+            mercurial python-requests-futures python3-gdbm python3-gpg \
+            python3-lxml python3-pygments python3-requests \
+            python3-requests-oauthlib thunar-dropbox-plugin tuxguitar-jsa
 
-# --no-install-recommends prevents node from being installed
-apt-get install --no-install-recommends yarn
+            # --no-install-recommends prevents node from being installed
+            apt-get install --no-install-recommends yarn
+            ;;
+esac
+
+apt-get install autoconf automake build-essential cmake command-not-found \
+    cowsay curl dex dkms docker-ce dos2unix flashplayer-mozilla \
+    fonts-freefont-otf fonts-nanum fortune g++ git git-secret gvfs-backends \
+    hunspell hunspell-en-us hunspell-it intel-microcode jq libsecret-1-dev \
+    lua5.1 lua-check make moreutils nfs-common nyancat p7zip pycodestyle \
+    python-pip python-setuptools python3 python3-pip rar sct shellcheck \
+    software-properties-common thunar-archive-plugin uni2ascii unrar wmctrl \
+    xdotool xserver-xorg-input-synaptics yad zip
 
 # Dotfiles
 sudo -u "$USER_NAME" dotdrop install -p cli

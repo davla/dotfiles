@@ -1,0 +1,11 @@
+{%@@ from 'config/dunst/dunstrc' import dunstrc @@%}
+{{@@ dunstrc(
+    border_width=hidpi_dunst_border_width,
+    dpi=hidpi_name,
+    horizontal_padding=hidpi_dunst_horizontal_padding,
+    icon_size=hidpi_dunst_icon_size,
+    icon_theme=icon_theme,
+    margin=hidpi_dunst_margin,
+    vertical_padding=hidpi_dunst_vertical_padding,
+    width=hidpi_dunst_width
+) @@}}

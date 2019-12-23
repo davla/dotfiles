@@ -1,7 +1,0 @@
-# {{@@ header() @@}}
-
-gtk-cursor-theme-name = "{{@@ cursor_theme @@}}"
-gtk-cursor-theme-size = {{@@ cursor_size @@}}
-gtk-font-name = "{{@@ font @@}}"
-gtk-icon-theme-name = "{{@@ icon_theme @@}}"
-gtk-theme-name = "{{@@ theme @@}}"

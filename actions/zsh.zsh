@@ -1,17 +1,38 @@
 #!/usr/bin/env zsh
 
 # This script initializes the zsh dotfiles setup.
+#
+# Arguments:
+#   - $1: The file defining the zsh configuration directory path.
 
 #######################################
-# Loading environment
+# Arguments processing
 #######################################
 
-# The shell environment needs to be loaded manually, rather than by the shell
-# itself: indeed the dotfiles are not set up yet, as this very script is meant
-# to do so, meaning that some errors would occur when the shell sources them.
+ZDOTDIR_FILE="${1:?}"
 
-. "$HOME/.dotdirs"
-. "$ZDOTDIR/.zshenv"
+#######################################
+# Loading configuration paths
+#######################################
+
+# The shell configuration paths need to be loaded manually, rather than by the
+# shell itself. This is because the dotfiles are indeed not set up yet, as this
+# very script is meant to do so.
+
+. "$ZDOTDIR_FILE"
+
+#######################################
+# Creating symbolic links
+#######################################
+
+# zsh offers the possibility to change the default config path by setting the
+# ZDOTDIR environment variable. However, such variable needs to be set
+# BEFORE zsh is initialized, making the setup very convoluted without using the
+# default path. Therefore, the default path of first file to be loaded
+# ($HOME/.zshenv) has been turned to a symlink to the actual file in the zsh
+# configuration directory.
+
+ln -sf "${ZDOTDIR:?}/.zshenv" "$HOME/.zshenv"
 
 #######################################
 # Initializing $ZDOTDIR
@@ -23,8 +44,10 @@ mkdir -p "${ZDOTDIR:?}/cache"
 # Installing antibody
 #######################################
 
+sudo mr -d /opt/antibody install
+
 #######################################
-# Installing plugind
+# Installing plugins
 #######################################
 
 cd "$ZDOTDIR/plugins" || exit
@@ -38,7 +61,7 @@ cd - &> /dev/null || exit
 # Initializing cache
 #######################################
 
-thefuck --alias > "${ZDOTDIR:?}/cache/thefuck"
+# thefuck --alias > "${ZDOTDIR:?}/cache/thefuck"
 fasd --init zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install \
     > "${ZDOTDIR:?}/cache/fasd"
 

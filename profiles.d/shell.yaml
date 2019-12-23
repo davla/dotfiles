@@ -1,8 +1,8 @@
 actions:
   post:
-    bash: bash ./actions/bash.sh
-    sh: sh ./actions/sh.sh
-    zsh: zsh ./actions/zsh.zsh
+    bash: bash ./actions/bash.sh {{@@ dotdirs_file @@}}
+    sh: env -i HOME="$HOME" sh ./actions/sh.sh {{@@ dotdirs_file @@}}
+    zsh: zsh ./actions/zsh.zsh {{@@ dotdirs_file @@}}
 config:
   backup: false
   banner: true
@@ -17,15 +17,15 @@ config:
   workdir: ~/.config/dotdrop
 dotfiles:
   d_bash:
-    dst: ~/.bash
-    src: bash
+    dst: '{{@@ bdotdir @@}}'
+    src: config/bash
     trans_read: fix-home
     upignore:
     - .bash_history
     - cache
   d_sh:
-    dst: ~/.sh
-    src: sh
+    dst: ~/.config/sh
+    src: config/sh
     trans_read: fix-home
     upignore:
     - plugins/data
@@ -36,8 +36,8 @@ dotfiles:
     upignore:
     - '*.pyc'
   d_zsh:
-    dst: ~/.zsh
-    src: zsh
+    dst: '{{@@ zdotdir @@}}'
+    src: config/zsh
     trans_read: fix-home
     upignore:
     - .zcompdump
@@ -45,27 +45,13 @@ dotfiles:
     - .antibody
     - cache
     - 'plugins/plugins-*.zsh'
-  f_bash_profile:
-    dst: ~/.bash_profile
-    src: bash_profile
-  f_bashrc:
-    dst: ~/.bashrc
-    src: bashrc
   f_dotdirs:
-    dst: ~/.dotdirs
-    src: dotdirs
-  f_profile:
-    dst: ~/.profile
-    src: profile
-  f_zshenv:
-    dst: ~/.zshenv
-    src: zshenv
+    dst: '{{@@ dotdirs_file @@}}'
+    src: config/dotdirs
 profiles:
   bash:
     dotfiles:
     - d_bash
-    - f_bash_profile
-    - f_bashrc
     include:
     - sh
     actions:
@@ -75,21 +61,19 @@ profiles:
     - d_sh
     - d_thefuck
     - f_dotdirs
-    - f_profile
     actions:
     - sh
-  shell:
-    include:
-    - sh
-    - bash
-    - zsh
   zsh:
     dotfiles:
     - d_zsh
-    - f_zshenv
     include:
     - sh
     actions:
     - zsh
 trans_read:
   fix-home: sh ./transformations/fix-home.sh {0} {1}
+variables:
+  bdotdir: ~/.config/bash
+  sdotdir: ~/.config/sh
+  zdotdir: ~/.config/zsh
+  dotdirs_file: ~/.config/dotdirs

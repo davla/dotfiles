@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+# {{@@ header() @@}}
+
+# This script defines shell "dot directories", that is directories where shell
+# configuration files (dotfiles) are grouped. The idea was taken from zsh's
+# ZDOTDIR
+
+# POSIX shell dot directory
+# shellcheck disable=2027,2140
+export SDOTDIR="{{@@ sdotdir | replace("~", "$HOME") @@}}"
+
+# bash dot directory
+# shellcheck disable=2027,2140
+export BDOTDIR="{{@@ bdotdir | replace("~", "$HOME") @@}}"
+
+# zsh dot directory
+# shellcheck disable=2027,2140
+export ZDOTDIR="{{@@ zdotdir | replace("~", "$HOME") @@}}"

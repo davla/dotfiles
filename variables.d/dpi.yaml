@@ -1,0 +1,48 @@
+%YAML 1.2
+---
+# This variables file defines variables related to DPI settings
+
+variables:
+  cursor_size: 24
+  dpi: 90
+  dunst_margin: 8
+  dunst_border_width: 2
+  dunst_separator_height: 8
+  dunst_horizontal_padding: 8
+  dunst_vertical_padding: 10
+  dunst_width: 430
+  dunst_icon_size: 40
+  i3_floating_width: 900
+  i3_floating_height: 550
+  i3_editor_width: 1000
+  i3_editor_height: 850
+
+  # Low (normal) DPI values
+  lodpi_cursor_size: '{{@@ cursor_size @@}}'
+  lodpi_dpi: '{{@@ dpi @@}}'
+  lodpi_dunst_margin: '{{@@ dunst_margin @@}}'
+  lodpi_dunst_border_width: '{{@@ dunst_border_width @@}}'
+  lodpi_dunst_horizontal_padding: '{{@@ dunst_horizontal_padding @@}}'
+  lodpi_dunst_vertical_padding: '{{@@ dunst_vertical_padding @@}}'
+  lodpi_dunst_width: '{{@@ dunst_width @@}}'
+  lodpi_dunst_icon_size: '{{@@ dunst_icon_size @@}}'
+  lodpi_i3_floating_width: '{{@@ i3_floating_width @@}}'
+  lodpi_i3_floating_height: '{{@@ i3_floating_height @@}}'
+  lodpi_i3_editor_width: '{{@@ i3_editor_width @@}}'
+  lodpi_i3_editor_height: '{{@@ i3_editor_height @@}}'
+  lodpi_name: regular
+
+  # High DPI values
+  hidpi_cursor_size: '{{@@ cursor_size * 2 @@}}'
+  hidpi_dpi: '{{@@ dpi * 2 @@}}'
+  hidpi_dunst_margin: '{{@@ dunst_margin * 2 @@}}'
+  hidpi_dunst_border_width: '{{@@ dunst_border_width @@}}'
+  hidpi_dunst_horizontal_padding: '{{@@ dunst_horizontal_padding * 2 @@}}'
+  hidpi_dunst_vertical_padding: '{{@@ dunst_vertical_padding * 2 @@}}'
+  hidpi_dunst_width: '{{@@ dunst_width * 2 @@}}'
+  hidpi_dunst_icon_size: '{{@@ dunst_icon_size * 2 @@}}'
+  hidpi_i3_floating_width: '{{@@ i3_floating_width * 2 @@}}'
+  hidpi_i3_floating_height: '{{@@ i3_floating_height * 2 @@}}'
+  hidpi_i3_editor_width: '{{@@ i3_editor_width * 2 @@}}'
+  hidpi_i3_editor_height: '{{@@ i3_editor_height * 2 @@}}'
+  hidpi_name: high

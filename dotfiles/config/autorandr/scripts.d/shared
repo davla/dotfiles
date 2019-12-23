@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+# This script sets some variables used to set up the X server. In particular,
+# it sets ONLY the variables and values shared between LoDPI and HiDPI displays
+# setup. These variables are then used by another script sourced at the end.
+# This script is currently used as a profile-specific preswitch hook in
+# autorandr.
+
+# shellcheck disable=SC2034
+
+#######################################
+# Desktop environment name
+#######################################
+
+DE_NAME="$(echo "$DESKTOP_SESSION" | tr '[:upper:]' '[:lower:]')"

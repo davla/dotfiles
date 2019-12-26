@@ -5,7 +5,6 @@ config:
     dotpath: ../dotfiles
     ignoreempty: false
     import_configs:
-    - private.yaml
     - shell.yaml
     keepdot: false
     link_dotfile_default: nolink

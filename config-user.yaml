@@ -28,10 +28,12 @@ config:
   import_configs:
   - profiles.d/shared.yaml
   import_variables:
-  - variables.d/look-and-feel.yaml
-  - variables.d/*-look-and-feel.yaml
+  - 'variables.d/{{@@ host @@}}/*.yaml'
   - variables.d/dpi.yaml
   - variables.d/i3.yaml
+  - variables.d/look-and-feel.yaml
+  - 'variables.d/*-look-and-feel.yaml'
+  - variables.d/private.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -43,6 +45,18 @@ dynvariables:
   # This variable is used in order not to hardcode the home directory where it
   # can not be dynamically expanded
   home: 'echo $HOME'
+
+  # Mapping from real to generic hostnames
+  host: |-
+    case "$(hostname)" in
+        'davide-laptop')
+            echo 'personal'
+            ;;
+
+        *)
+            echo 'work'
+            ;;
+    esac
 
 dotfiles:
   d_autorandr:
@@ -275,7 +289,7 @@ profiles:
     - f_trolltech.conf
     - f_xresources
 
-  # This profile contains dotfiles usd when the X11 session starts.
+  # This profile contains dotfiles used when the X11 session starts.
   startup:
     dotfiles:
     - d_autostart

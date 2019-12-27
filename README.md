@@ -15,6 +15,7 @@ My dotfiles repository. Really, just configuration files
 - dotdrop autocompletion
 - dotdrop executable permissions on install
 - Custom jinja filter for $HOME
+- Kill {{@@ home @@}}
 - More preferences
   + Firefox
   + Enpass

@@ -108,7 +108,7 @@ dotfiles:
     dst: ~/.config/x11/Xresources.d
   f_anacrontab:
     src: cron/anacrontab
-    dst: ~/.anacron/anacrontab
+    dst: '{{@@ anacrontab @@}}'
   f_atom_config.cson:
     src: atom/config.cson
     dst: ~/.atom/config.cson
@@ -231,9 +231,10 @@ profiles:
     - f_crontab
     - f_mrconfig
     variables:
-      # This path is a variable as it is used both in a template and as an
-      # action argument.
-      anacron_spool: $HOME/.anacron/spool
+      # These paths are variables because they are used in multiple places,
+      # such as templates, dotfile entris dst and action arguments.
+      anacrontab: '{{@@ home @@}}/.config/anacrontab'
+      anacron_spool: '{{@@ home @@}}/.local/share/anacron/spool'
     dynvariables:
       tmp_dst: mktemp /tmp/cron-tmp.XXX
     actions:
@@ -295,7 +296,7 @@ profiles:
     - d_autostart
     - f_xsessionrc
     import:
-    - dotfiles.d/{{@@ host @@}}/startup.yaml
+    - 'dotfiles.d/{{@@ host @@}}/startup.yaml'
 
   # This profile contains the dotfiles for the whole Xfce session.
   xfce:
@@ -315,10 +316,9 @@ trans_write:
   atom-list-packages: apm list --bare --installed | grep -o '^[^@]\+' > {1}
 
 variables:
-
   # This variable defines the default directory myrepos is run from, both as
   # a shell alias and in anacron jobs.
-  mr_default_dir: $HOME
+  mr_default_dir: '$HOME'
 
   # This variable is used to differentiate between user and root configuration
   # in some dotfiles.

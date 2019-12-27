@@ -2,7 +2,6 @@
 My dotfiles repository. Really, just configuration files
 
 ## TODO
-- Startup multi-host
 - Sources.list multi-host
 - Fix thefuck
 - interactive vs non-interactive in bashrc and zshrc

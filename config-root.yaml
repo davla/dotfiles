@@ -269,9 +269,10 @@ profiles:
 
   startup:
     dotfiles:
-    - f_fstab
     - f_grub
     - f_underclock.service
+    import:
+    - 'dotfiles.d/{{@@ host @@}}/{{@@ user @@}}/startup.yaml'
     actions:
     - rm '{{@@ fstab_tmp_dst @@}}'
     dynvariables:

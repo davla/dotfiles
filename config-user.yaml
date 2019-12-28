@@ -296,7 +296,7 @@ profiles:
     - d_autostart
     - f_xsessionrc
     import:
-    - 'dotfiles.d/{{@@ host @@}}/startup.yaml'
+    - 'dotfiles.d/{{@@ host @@}}/{{@@ user @@}}/startup.yaml'
 
   # This profile contains the dotfiles for the whole Xfce session.
   xfce:

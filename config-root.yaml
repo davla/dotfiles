@@ -9,7 +9,6 @@ actions:
     grub: update-grub
     locales: sh ./actions/locales.sh
     mrconfig: apt-get install jq
-    repo-keys: sh ./actions/repo-keys.sh
     systemd-enable: basename '{0}' '.service' | xargs systemctl enable
     timezone: >-
       cat {0} | xargs -i ln -sf '/usr/share/zoneinfo/{{}}' '/etc/localtime';
@@ -28,6 +27,7 @@ config:
   - actions.d/insert.yaml
   - actions.d/shared.yaml
   import_configs:
+  - profiles.d/apt-repos.yaml
   - profiles.d/shared.yaml
   import_variables:
   - 'variables.d/{{@@ host @@}}/*.yaml'
@@ -63,11 +63,6 @@ dotfiles:
   d_asdf:
     src: asdf
     dst: '{{@@ asdf_config_path @@}}'
-  d_sources.list.d:
-    src: etc/apt/sources.list.d
-    dst: /etc/apt/sources.list.d
-    upignore:
-    - '*.save'
   d_xorg.conf.d:
     src: etc/X11/xorg.conf.d
     dst: /etc/X11/xorg.conf.d
@@ -157,9 +152,6 @@ dotfiles:
   f_rsyslog.d_custom.conf:
     src: etc/rsyslog.d/custom.conf
     dst: /etc/rsyslog.d/custom.conf
-  f_sources.list:
-    src: etc/apt/sources.list
-    dst: /etc/apt/sources.list
   f_sudo_sys-env-vars:
     src: etc/sudoers.d/sys-env-vars
     dst: /etc/sudoers.d/sys-env-vars
@@ -269,13 +261,6 @@ profiles:
     variables:
       hosts_append_marker: Local sites
       hosts_dst: /etc/hosts
-
-  packages:
-    dotfiles:
-    - d_sources.list.d
-    - f_sources.list
-    actions:
-    - repo-keys
 
   polkit:
     dotfiles:

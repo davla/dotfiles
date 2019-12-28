@@ -160,8 +160,8 @@ dotfiles:
     src: ghci
     dst: ~/.ghci
   f_hgrc:
-    src: hgrc
-    dst: ~/.hgrc
+    src: config/hg/hgrc
+    dst: ~/.config/hg/hgrc
   f_i3blocks_config:
     src: config/i3blocks/config
     dst: ~/.config/i3blocks/config

@@ -298,8 +298,6 @@ bindsym $mod+F5 exec reboot
 bindsym $mod+Tab exec $term
 bindsym $mod+Control+Tab exec $term --title $startup_term_title
 bindsym $mod+Shift+Tab [title="$sp_term_title"] scratchpad show
-bindsym $mod+comma exec firefox https://calendar.google.com/calendar/r
-bindsym $mod+e exec telegram
 bindsym $mod+Shift+e exec $term --title $calc_title -e lua
 bindsym $mod+f exec thunar
 bindsym $mod+k exec firefox https://keep.google.com/#home
@@ -307,8 +305,13 @@ bindsym $mod+o exec geany --name=$editor_title
 bindsym $mod+Shift+o exec geany
 bindsym $mod+space exec i3-dmenu-desktop
 bindsym $mod+Shift+space exec dmenu_run
-bindsym $mod+t exec thunderbird
 bindsym $mod+w exec firefox
+
+{%@@ if host == 'personal' @@%}
+bindsym $mod+comma exec firefox https://calendar.google.com/calendar/r
+bindsym $mod+e exec telegram
+bindsym $mod+t exec thunderbird
+{%@@ endif @@%}
 
 #######################################
 # Application startup
@@ -324,4 +327,3 @@ exec $term --title $sp_term_title
 exec $term --title $startup_term_title
 
 bindsym --release Caps_Lock exec pkill -SIGRTMIN+{{@@ caps_signal @@}} i3blocks
-# bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks

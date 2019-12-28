@@ -270,10 +270,11 @@ profiles:
     dotfiles:
     - d_autorandr
     - d_dunst
-    - d_i3blocks-email
     - f_compton.conf
     - f_i3blocks_config
     - f_i3config
+    import:
+    - 'dotfiles.d/{{@@ host @@}}/i3.yaml'
     actions:
     - i3
     include:

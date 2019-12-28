@@ -3,6 +3,7 @@ My dotfiles repository. Really, just configuration files
 
 ## TODO
 - Multi-host autorandr
+- gtkrc2.0 in ~/.config
 - Fix thefuck
 - interactive vs non-interactive in bashrc and zshrc
 - Plugin lists fine-controlled when imported (eg. bash sourcing sh)

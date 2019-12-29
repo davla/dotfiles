@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 
 # This script sets up the autorandr configuration. In particular:
-#   - it creates some symbolic links to generic hook scripts from specific
-#     configurations
-#   - it sets execution permission on hook scripts
+#   - it creates some symbolic links to generic hook scripts for specific
+#     configurations.
+#   - it sets execution permission on hook scripts.
 #
 # Arguments:
 #   - $1 - The directory where autorandr configurations are located.
@@ -13,25 +13,43 @@
 #######################################
 
 # This function creates symbolic links for autorandr hook scripts. In
-# particular, it acts on every configuration ending in a specific suffix
-# (which is prepended a dash). For such configurations, the preswitch hook
-# script is linked to the script in scripts.d named after the configuration
-# suffix.
-# As an example, the suffix "docked" would link the preswitch hook of the
-# configuration "my-docked" to "scripts.d/docked"
+# particular, it acts on the provided configurations, linking the preswitch
+# hook to the provided script in scripts.d.
 #
 # Arguments:
-#   - $1: The configuration name suffix (and target script name).
-#   - $2: The autorandr configuration directory.
+#   - $1: The input autorandr configurations.
+#   - $2: The script name in scripts.d.
+#   - $3: The autorandr configuration directory.
 link_hooks() {
-    TARGET_NAME="$1"
-    AUTORANDR_HOME="$2"
+    CONFIGS="$1"
+    SCRIPT_NAME="$2"
+    AUTORANDR_PATH="$3"
 
-    find "$AUTORANDR_HOME" -type d -name "*-$TARGET_NAME" \
-        -exec ln -sf "$AUTORANDR_HOME/scripts.d/$TARGET_NAME" '{}/preswitch' \;
+    for CONFIG in $CONFIGS; do
+        ln -sf "$AUTORANDR_PATH/scripts.d/$SCRIPT_NAME" \
+            "$AUTORANDR_PATH/$CONFIG/preswitch"
+    done
 
-    unset TARGET_NAME
+    unset AUTORANDR_PATH CONFIGS TARGET_NAME
 }
+
+#######################################
+# Variables
+#######################################
+
+# Lists of autorandr configuration names, split by dpi, based on host
+case "$(hostname)" in
+    'davide-laptop')
+        HIDPI_CONFIGS=''
+        LODPI_CONFIGS='hdmi-cph hdmi-fu dual-cph dual-fu'
+        ;;
+
+    *)
+        HIDPI_CONFIGS=''
+        LODPI_CONFIGS='hdmi dual'
+        ;;
+esac
+HIDPI_CONFIGS="laptop-only $HIDPI_CONFIGS"
 
 #######################################
 # Input processing
@@ -44,10 +62,10 @@ AUTORANDR_HOME="$(readlink -f "$1")"
 #######################################
 
 # Configuration with HiDPI monitors
-link_hooks 'hidpi' "$AUTORANDR_HOME"
+link_hooks "$HIDPI_CONFIGS" 'hidpi' "$AUTORANDR_HOME"
 
 # Configuration with LoDPI monitors
-link_hooks 'lodpi' "$AUTORANDR_HOME"
+link_hooks "$LODPI_CONFIGS" 'lodpi' "$AUTORANDR_HOME"
 
 #######################################
 # Setting executable permissions

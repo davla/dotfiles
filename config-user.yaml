@@ -254,11 +254,10 @@ profiles:
   # feel settings of the GUI itself.
   gui:
     dotfiles:
-    - f_calibre_global.py
-    - f_orage_oragerc
     - f_mimeapps.list
     - f_parcellite_parcelliterc
-    - f_virtualbox_virtualbox.xml
+    import:
+    - 'dotfiles.d/{{@@ host @@}}/gui.yaml'
     include:
     - atom
     - geany

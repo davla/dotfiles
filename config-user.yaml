@@ -219,8 +219,8 @@ profiles:
   cli:
     dotfiles:
     - f_docker_config.json
-    - f_ghci
-    - f_hgrc
+    import:
+    - 'dotfiles.d/{{@@ host @@}}/cli.yaml'
     include:
     - git
 

@@ -34,12 +34,9 @@ interval=once
 markup=pango
 signal={{@@ caps_signal @@}}
 
-{%@@ set interfaces = '-i cable'
-                      if host == 'work'
-                      else '-i cable -i wireless' @@%}
-# This block displays the Ethernet and Wi-Fi status
+# This block displays the network status
 [network]
-command=i3blocks-network-status {{@@ interfaces @@}} -G '{{@@ dark_theme_color @@}}' -M '{{@@ main_theme_color @@}}' -B '{{@@ light_theme_color @@}}' -D '{{@@ i3bar_inactive_color @@}}'
+command=i3blocks-network-status {{@@ i3blocks_network_interfaces @@}} -G '{{@@ dark_theme_color @@}}' -M '{{@@ main_theme_color @@}}' -B '{{@@ light_theme_color @@}}' -D '{{@@ i3bar_inactive_color @@}}'
 interval=1
 markup=pango
 signal={{@@ network_signal @@}}

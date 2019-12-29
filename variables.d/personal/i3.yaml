@@ -1,0 +1,17 @@
+%YAML 1.2
+---
+# This variables file defines some i3-relaed variables specific for my personal
+# system only.
+
+variables:
+  # These are the i3blocks blocks that are installed system-wide
+  i3blocks_list: >-
+    apt-upgrades
+    cpu_usage2
+    email
+    keyindicator2
+    network-status
+    temperature
+
+  # These are the interfaces CLI options for the network-status i3blocks block
+  i3blocks_network_interfaces: -i cable -i wireless

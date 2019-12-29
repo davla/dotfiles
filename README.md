@@ -3,7 +3,7 @@ My dotfiles repository. Really, just configuration files
 
 ## TODO
 - Multi-host autorandr
-- Multi-host mr
+- Better mr files layout
 - docker/config.json in ~/.config
 - gtkrc2.0 in ~/.config
 - Fix thefuck

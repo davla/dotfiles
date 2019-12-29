@@ -27,5 +27,4 @@ My dotfiles repository. Really, just configuration files
   + Telegram
 - i3
   + restart xfce4-terminal in autorandr
-  + get i3 to use whole screen when autorandr to hidpi
   + rename autorandr profiles

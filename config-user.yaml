@@ -28,11 +28,11 @@ config:
   import_configs:
   - profiles.d/shared.yaml
   import_variables:
-  - 'variables.d/{{@@ host @@}}/*.yaml'
+  - variables.d/{{@@ host @@}}/*.yaml
   - variables.d/dpi.yaml
   - variables.d/i3.yaml
   - variables.d/look-and-feel.yaml
-  - 'variables.d/*-look-and-feel.yaml'
+  - variables.d/*-look-and-feel.yaml
   - variables.d/private.yaml
   keepdot: false
   link_dotfile_default: nolink
@@ -220,7 +220,7 @@ profiles:
     dotfiles:
     - f_docker_config.json
     import:
-    - 'dotfiles.d/{{@@ host @@}}/cli.yaml'
+    - dotfiles.d/{{@@ host @@}}/cli.yaml
     include:
     - git
 
@@ -257,7 +257,7 @@ profiles:
     - f_mimeapps.list
     - f_parcellite_parcelliterc
     import:
-    - 'dotfiles.d/{{@@ host @@}}/gui.yaml'
+    - dotfiles.d/{{@@ host @@}}/gui.yaml
     include:
     - atom
     - geany
@@ -273,7 +273,7 @@ profiles:
     - f_i3blocks_config
     - f_i3config
     import:
-    - 'dotfiles.d/{{@@ host @@}}/i3.yaml'
+    - dotfiles.d/{{@@ host @@}}/i3.yaml
     actions:
     - i3
     include:
@@ -296,7 +296,7 @@ profiles:
     - d_autostart
     - f_xsessionrc
     import:
-    - 'dotfiles.d/{{@@ host @@}}/{{@@ user @@}}/startup.yaml'
+    - dotfiles.d/{{@@ host @@}}/{{@@ user @@}}/startup.yaml
 
   # This profile contains the dotfiles for the whole Xfce session.
   xfce:

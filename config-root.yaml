@@ -21,7 +21,7 @@ config:
   banner: true
   create: true
   dotpath: dotfiles
-  ignoreempty: false
+  ignoreempty: true
   import_actions:
   - actions.d/append.yaml
   - actions.d/insert.yaml

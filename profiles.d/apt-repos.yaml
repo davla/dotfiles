@@ -13,7 +13,7 @@ config:
   banner: true
   create: true
   dotpath: ../dotfiles
-  ignoreempty: false
+  ignoreempty: true
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink

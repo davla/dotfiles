@@ -3,7 +3,7 @@ config:
     banner: true
     create: true
     dotpath: ../dotfiles
-    ignoreempty: false
+    ignoreempty: true
     import_configs:
     - shell.yaml
     keepdot: false

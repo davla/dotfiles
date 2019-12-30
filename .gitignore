@@ -4,6 +4,5 @@
 .gitsecret/keys/random_seed
 
 # encrypted files
-profiles.d/private.yaml
-variables.d/personal.yaml
-variables.d/work.yaml
+variables.d/private.yaml
+variables.d/**/private.yaml

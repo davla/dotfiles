@@ -1,0 +1,17 @@
+%YAML 1.2
+---
+# This dotfiles file lists the apt sources dotfiles to be included in the
+# "packages" profile only on my personal machine
+
+dotfiles:
+- f_atom.list
+- f_deb-multimedia.list
+- f_dropbox.list
+- f_enpass.list
+- f_etcher.list
+- f_heroku.list
+- f_skype-stable.list
+- f_slack.list
+- f_spotify.list
+- f_virtualbox.list
+- f_yarn.list

@@ -4,7 +4,6 @@ atom-hg
 atom-ide-ui
 atom-java-snippets
 atom-jinja2
-atom-macros
 atom-save-all
 autoclose-html
 autocomplete-emojis

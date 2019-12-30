@@ -1,0 +1,9 @@
+%YAML 1.2
+---
+# This dotfiles file lists the dotfiles to be included in the "gui" profile
+# only on my personal machine.
+
+dotfiles:
+- f_calibre_global.py
+- f_orage_oragerc
+- f_virtualbox_virtualbox.xml

@@ -4,8 +4,6 @@
 
 actions:
   post:
-    autorandr: sh actions/autorandr.sh '{{@@ _dotfile_abs_dst @@}}'
-
     # This action installs atom packages given in the first argument. This
     # needs to be a file with one package specification per line. The $PATH
     # mess is due to some packages expecting Python 2 to be the default
@@ -26,12 +24,15 @@ config:
   import_actions:
   - actions.d/shared.yaml
   import_configs:
+  - profiles.d/autorandr.yaml
   - profiles.d/shared.yaml
   import_variables:
-  - variables.d/look-and-feel.yaml
-  - variables.d/*-look-and-feel.yaml
+  - variables.d/{{@@ host @@}}/*.yaml
   - variables.d/dpi.yaml
   - variables.d/i3.yaml
+  - variables.d/look-and-feel.yaml
+  - variables.d/*-look-and-feel.yaml
+  - variables.d/private.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -44,12 +45,19 @@ dynvariables:
   # can not be dynamically expanded
   home: 'echo $HOME'
 
+  # Mapping from real to generic hostnames
+  host: |-
+    case "$(hostname)" in
+        'davide-laptop')
+            echo 'personal'
+            ;;
+
+        *)
+            echo 'work'
+            ;;
+    esac
+
 dotfiles:
-  d_autorandr:
-    src: config/autorandr
-    dst: ~/.config/autorandr
-    actions:
-    - autorandr
   d_autostart:
     dst: ~/.config/autostart
     src: config/autostart
@@ -94,7 +102,7 @@ dotfiles:
     dst: ~/.config/x11/Xresources.d
   f_anacrontab:
     src: cron/anacrontab
-    dst: ~/.anacron/anacrontab
+    dst: '{{@@ anacrontab @@}}'
   f_atom_config.cson:
     src: atom/config.cson
     dst: ~/.atom/config.cson
@@ -146,8 +154,8 @@ dotfiles:
     src: ghci
     dst: ~/.ghci
   f_hgrc:
-    src: hgrc
-    dst: ~/.hgrc
+    src: config/hg/hgrc
+    dst: ~/.config/hg/hgrc
   f_i3blocks_config:
     src: config/i3blocks/config
     dst: ~/.config/i3blocks/config
@@ -184,8 +192,8 @@ dotfiles:
   f_xsessionrc:
     src: xsessionrc
     dst: ~/.xsessionrc
-profiles:
 
+profiles:
   # This profile groups Atom-related dotfiles, as well as creating the
   # necessary variables for dotfiles actions. It was chosen to address
   # individual dotfiles rather than the whole ~/.atom directory as there are
@@ -205,8 +213,8 @@ profiles:
   cli:
     dotfiles:
     - f_docker_config.json
-    - f_ghci
-    - f_hgrc
+    import:
+    - dotfiles.d/{{@@ host @@}}/cli.yaml
     include:
     - git
 
@@ -217,9 +225,10 @@ profiles:
     - f_crontab
     - f_mrconfig
     variables:
-      # This path is a variable as it is used both in a template and as an
-      # action argument.
-      anacron_spool: $HOME/.anacron/spool
+      # These paths are variables because they are used in multiple places,
+      # such as templates, dotfile entris dst and action arguments.
+      anacrontab: '{{@@ home @@}}/.config/anacrontab'
+      anacron_spool: '{{@@ home @@}}/.local/share/anacron/spool'
     dynvariables:
       tmp_dst: mktemp /tmp/cron-tmp.XXX
     actions:
@@ -239,11 +248,10 @@ profiles:
   # feel settings of the GUI itself.
   gui:
     dotfiles:
-    - f_calibre_global.py
-    - f_orage_oragerc
     - f_mimeapps.list
     - f_parcellite_parcelliterc
-    - f_virtualbox_virtualbox.xml
+    import:
+    - dotfiles.d/{{@@ host @@}}/gui.yaml
     include:
     - atom
     - geany
@@ -253,15 +261,16 @@ profiles:
   # little bit more than just the i3 configuration file.
   i3:
     dotfiles:
-    - d_autorandr
     - d_dunst
-    - d_i3blocks-email
     - f_compton.conf
     - f_i3blocks_config
     - f_i3config
+    import:
+    - dotfiles.d/{{@@ host @@}}/i3.yaml
     actions:
     - i3
     include:
+    - autorandr
     - look-and-feel
     - startup
 
@@ -275,12 +284,13 @@ profiles:
     - f_trolltech.conf
     - f_xresources
 
-  # This profile contains dotfiles usd when the X11 session starts.
+  # This profile contains dotfiles used when the X11 session starts.
   startup:
     dotfiles:
     - d_autostart
-    - d_xresources.d
     - f_xsessionrc
+    import:
+    - dotfiles.d/{{@@ host @@}}/{{@@ user @@}}/startup.yaml
 
   # This profile contains the dotfiles for the whole Xfce session.
   xfce:
@@ -300,10 +310,9 @@ trans_write:
   atom-list-packages: apm list --bare --installed | grep -o '^[^@]\+' > {1}
 
 variables:
-
   # This variable defines the default directory myrepos is run from, both as
   # a shell alias and in anacron jobs.
-  mr_default_dir: $HOME
+  mr_default_dir: '$HOME'
 
   # This variable is used to differentiate between user and root configuration
   # in some dotfiles.

@@ -128,9 +128,10 @@ def _fake_args():
     args['--ignore'] = []
     args['--show-patch'] = False
     args['--force-actions'] = False
+    args['--grepable'] = False
     # cmds
-    args['list'] = False
-    args['listfiles'] = False
+    args['profiles'] = False
+    args['files'] = False
     args['install'] = False
     args['compare'] = False
     args['import'] = False

@@ -9,35 +9,53 @@ actions:
     grub: update-grub
     locales: sh ./actions/locales.sh
     mrconfig: apt-get install jq
-    repo-keys: sh ./actions/repo-keys.sh
     systemd-enable: basename '{0}' '.service' | xargs systemctl enable
     timezone: >-
       cat {0} | xargs -i ln -sf '/usr/share/zoneinfo/{{}}' '/etc/localtime';
       dpkg-reconfigure -f noninteractive tzdata;
       rm {0}
     xkb: sh ./actions/xkb.sh
+
 config:
   backup: false
   banner: true
   create: true
   dotpath: dotfiles
-  ignoreempty: false
+  ignoreempty: true
   import_actions:
   - actions.d/append.yaml
   - actions.d/insert.yaml
   - actions.d/shared.yaml
   import_configs:
+  - profiles.d/apt-repos.yaml
   - profiles.d/shared.yaml
   import_variables:
+  - 'variables.d/{{@@ host @@}}/*.yaml'
   - variables.d/i3.yaml
   - variables.d/look-and-feel.yaml
-  - variables.d/*-look-and-feel.yaml
+  - 'variables.d/*-look-and-feel.yaml'
+  - variables.d/private.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
   longkey: false
   showdiff: true
   workdir: ~/.config/dotdrop
+
+dynvariables:
+
+  # Mapping from real to generic hostnames
+  host: |-
+    case "$(hostname)" in
+        'davide-laptop')
+            echo 'personal'
+            ;;
+
+        *)
+            echo 'work'
+            ;;
+    esac
+
 dotfiles:
   d_applications:
     src: usr/share/applications
@@ -45,11 +63,6 @@ dotfiles:
   d_asdf:
     src: asdf
     dst: '{{@@ asdf_config_path @@}}'
-  d_sources.list.d:
-    src: etc/apt/sources.list.d
-    dst: /etc/apt/sources.list.d
-    upignore:
-    - '*.save'
   d_xorg.conf.d:
     src: etc/X11/xorg.conf.d
     dst: /etc/X11/xorg.conf.d
@@ -139,9 +152,6 @@ dotfiles:
   f_rsyslog.d_custom.conf:
     src: etc/rsyslog.d/custom.conf
     dst: /etc/rsyslog.d/custom.conf
-  f_sources.list:
-    src: etc/apt/sources.list
-    dst: /etc/apt/sources.list
   f_sudo_sys-env-vars:
     src: etc/sudoers.d/sys-env-vars
     dst: /etc/sudoers.d/sys-env-vars
@@ -178,7 +188,9 @@ dotfiles:
     actions:
     - strip '{{@@ symbols_append_marker @@}}' '{{@@ symbols_dst @@}}'
     - append '{{@@ symbols_dst @@}}' '{{@@ xkb_tmp_dst @@}}'
+
 profiles:
+
   cron:
     dotfiles:
     - f_anacron
@@ -193,6 +205,7 @@ profiles:
     variables:
       anacrontab_append_marker: Custom jobs
       anacrontab_dst: /etc/anacrontab
+
   environment:
     dotfiles:
     - f_env-vars.sh
@@ -206,15 +219,18 @@ profiles:
     variables:
       bash_env_dst: /etc/bash.bashrc
       zsh_env_dst: /etc/zsh/zshenv
+
   graphical-login:
     dotfiles:
     - f_lightdm.conf.d_02_custom.conf
     - f_lightdm-gtk-greeter.conf.d_02_custom.conf
+
   i3:
     dotfiles:
     - f_80i3blocks
     include:
     - x11
+
   locales:
     dotfiles:
     - f_locale
@@ -224,6 +240,7 @@ profiles:
     actions:
     - locales
     - rm '{{@@ locales_tmp_dst @@}}'
+
   manual:
     dotfiles:
     - d_asdf
@@ -231,6 +248,7 @@ profiles:
     - f_mrconfig
     dynvariables:
       asdf_config_path: bash -lc 'echo "${ASDF_CONFIG_PATH:?}"'
+
   network:
     dotfiles:
     - f_99-no-wireless-on-wired
@@ -243,21 +261,18 @@ profiles:
     variables:
       hosts_append_marker: Local sites
       hosts_dst: /etc/hosts
-  packages:
-    dotfiles:
-    - d_sources.list.d
-    - f_sources.list
-    actions:
-    - repo-keys
+
   polkit:
     dotfiles:
     - f_60-root.conf
     - f_org.xfce.xfce4-terminal.policy
+
   startup:
     dotfiles:
-    - f_fstab
     - f_grub
     - f_underclock.service
+    import:
+    - 'dotfiles.d/{{@@ host @@}}/{{@@ user @@}}/startup.yaml'
     actions:
     - rm '{{@@ fstab_tmp_dst @@}}'
     dynvariables:
@@ -265,9 +280,11 @@ profiles:
     variables:
       fstab_append_marker: Custom mount points
       fstab_dst: /etc/fstab
+
   x11:
     dotfiles:
     - d_xorg.conf.d
+
   xkb:
     dotfiles:
     - f_keyboard
@@ -284,6 +301,7 @@ profiles:
       base_xml_dst: /usr/share/X11/xkb/rules/base.xml
       symbols_append_marker: Custom layout symbols
       symbols_dst: /usr/share/X11/xkb/symbols/us
+
 variables:
   mr_default_dir: /opt
   user: root

@@ -78,9 +78,8 @@ df="${tmpd}/qwert"
 cd ${ddpath} | ${bin} import -c ${cfg} -p p1 ${df} -V
 
 # checks
-cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V
-line=$(cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V | grep "f_`basename ${df}`")
-echo ${line} | grep 'link: nolink'
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V -G | grep "f_`basename ${df}`" | head -1 | grep ',link:nolink$'
 
 # try to install
 rm -rf ${tmpd}/qwert
@@ -113,9 +112,8 @@ df="${tmpd}/qwert"
 cd ${ddpath} | ${bin} import -c ${cfg} -p p1 ${df} -V
 
 # checks
-cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V
-line=$(cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V | grep "f_`basename ${df}`")
-echo ${line} | grep 'link: nolink'
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V -G | grep "f_`basename ${df}`" | head -1 | grep ',link:nolink$'
 
 # try to install
 rm -rf ${tmpd}/qwert
@@ -148,9 +146,8 @@ df="${tmpd}/qwert"
 cd ${ddpath} | ${bin} import -c ${cfg} -p p1 ${df} -V --link=nolink
 
 # checks
-cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V
-line=$(cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V | grep "f_`basename ${df}`")
-echo ${line} | grep 'link: nolink'
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V -G | grep "f_`basename ${df}`" | head -1 | grep ',link:nolink$'
 
 # try to install
 rm -rf ${tmpd}/qwert
@@ -183,9 +180,8 @@ df="${tmpd}/qwert"
 cd ${ddpath} | ${bin} import -c ${cfg} -p p1 ${df} -V --link=link
 
 # checks
-cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V
-line=$(cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V | grep "f_`basename ${df}`")
-echo ${line} | grep 'link: link'
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V -G | grep "f_`basename ${df}`" | head -1 | grep ',link:link$'
 
 # try to install
 rm -rf ${tmpd}/qwert
@@ -218,9 +214,8 @@ df="${tmpd}/qwert"
 cd ${ddpath} | ${bin} import -c ${cfg} -p p1 ${df} -V
 
 # checks
-cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V
-line=$(cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V | grep "f_`basename ${df}`")
-echo ${line} | grep 'link: link'
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V -G | grep "f_`basename ${df}`" | head -1 | grep ',link:link$'
 
 # try to install
 rm -rf ${tmpd}/qwert
@@ -253,9 +248,8 @@ df="${tmpd}/qwert"
 cd ${ddpath} | ${bin} import -c ${cfg} -p p1 ${df} -V --link=nolink
 
 # checks
-cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V
-line=$(cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V | grep "f_`basename ${df}`")
-echo ${line} | grep 'link: nolink'
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V -G | grep "f_`basename ${df}`" | head -1 | grep ',link:nolink$'
 
 # try to install
 rm -rf ${tmpd}/qwert
@@ -288,9 +282,8 @@ df="${tmpd}/qwert"
 cd ${ddpath} | ${bin} import -c ${cfg} -p p1 ${df} -V --link=nolink
 
 # checks
-cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V
-line=$(cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V | grep "f_`basename ${df}`")
-echo ${line} | grep 'link: nolink'
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V -G | grep "f_`basename ${df}`" | head -1 | grep ',link:nolink$'
 
 # try to install
 rm -rf ${tmpd}/qwert
@@ -323,9 +316,8 @@ df="${tmpd}/qwert"
 cd ${ddpath} | ${bin} import -c ${cfg} -p p1 ${df} -V --link=nolink
 
 # checks
-cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V
-line=$(cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V | grep "f_`basename ${df}`")
-echo ${line} | grep 'link: nolink'
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V -G | grep "f_`basename ${df}`" | head -1 | grep ',link:nolink$'
 
 # try to install
 rm -rf ${tmpd}/qwert
@@ -356,9 +348,8 @@ df="${tmpd}/qwert"
 cd ${ddpath} | ${bin} import -c ${cfg} --link=link -p p1 ${df} -V
 
 # checks
-cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V
-line=$(cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V | grep "f_`basename ${df}`")
-echo ${line} | grep 'link: link'
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V -G | grep "f_`basename ${df}`" | head -1 | grep ',link:link$'
 
 # try to install
 rm -rf ${tmpd}/qwert
@@ -418,9 +409,8 @@ df="${tmpd}/qwert"
 cd ${ddpath} | ${bin} import -c ${cfg} --link=link_children -p p1 ${df} -V
 
 # checks
-cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V
-line=$(cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V | grep "d_`basename ${df}`")
-echo ${line} | grep 'link: link_children'
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V -G | grep "d_`basename ${df}`" | head -1 | grep ',link:link_children$'
 
 # try to install
 rm -rf ${tmpd}/qwert
@@ -459,9 +449,8 @@ df="${tmpd}/qwert"
 cd ${ddpath} | ${bin} import -c ${cfg} -p p1 ${df} -V
 
 # checks
-cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V
-line=$(cd ${ddpath} | ${bin} listfiles -c ${cfg} -p p1 -V | grep "d_`basename ${df}`")
-echo ${line} | grep 'link: link_children'
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V -G | grep "d_`basename ${df}`" | head -1 | grep ',link:link_children$'
 
 # try to install
 rm -rf ${tmpd}/qwert

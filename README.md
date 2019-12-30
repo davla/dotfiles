@@ -2,6 +2,9 @@
 My dotfiles repository. Really, just configuration files
 
 ## TODO
+- Better mr files layout
+- docker/config.json in ~/.config
+- gtkrc2.0 in ~/.config
 - Fix thefuck
 - interactive vs non-interactive in bashrc and zshrc
 - Plugin lists fine-controlled when imported (eg. bash sourcing sh)
@@ -14,6 +17,7 @@ My dotfiles repository. Really, just configuration files
 - dotdrop autocompletion
 - dotdrop executable permissions on install
 - Custom jinja filter for $HOME
+- Kill {{@@ home @@}}
 - More preferences
   + Firefox
   + Enpass
@@ -22,5 +26,3 @@ My dotfiles repository. Really, just configuration files
   + Telegram
 - i3
   + restart xfce4-terminal in autorandr
-  + get i3 to use whole screen when autorandr to hidpi
-  + rename autorandr profiles

@@ -8,17 +8,26 @@ x-scheme-handler/ftp=thunar.desktop
 x-scheme-handler/sftp=thunar.desktop
 x-scheme-handler/http=firefox.desktop
 x-scheme-handler/https=firefox.desktop
+x-scheme-handler/unknown=firefox.desktop
+{%@@ if host == 'personal' @@%}
 x-scheme-handler/mailto=thunderbird.desktop
 x-scheme-handler/spotify=spotify.desktop
 x-scheme-handler/tg=telegramdesktop.desktop
-x-scheme-handler/unknown=firefox.desktop
+{%@@ endif @@%}
+
 
 [Added Associations]
 application/json=geany.desktop;
-application/ogg=vlc.desktop;
+application/octet-stream=viewnior.desktop;
 application/pdf=atril.desktop;org.gnome.Evince.desktop;
 application/vnd.oasis.opendocument.text=libreoffice-writer.desktop;
 application/zip=xarchiver.desktop;
+image/png=viewnior.desktop;
+text/html=geany.desktop
+text/markdown=geany.desktop;
+text/plain=geany.desktop;
+{%@@ if host == 'personal' @@%}
+application/ogg=vlc.desktop;
 audio/x-aac=vlc.desktop;
 audio/x-flac=vlc.desktop;
 audio/x-ogg=vlc.desktop;
@@ -34,5 +43,6 @@ audio/x-speex+ogg=vlc.desktop;
 audio/x-tta=vlc.desktop;
 audio/x-wavpack=vlc.desktop;
 audio/x-xm=vlc.desktop;
-text/html=geany.desktop
-text/markdown=geany.desktop;
+video/mp4=vlc.desktop;
+video/x-matroska=vlc.desktop;
+{%@@ endif @@%}

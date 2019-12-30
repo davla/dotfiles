@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+# This is a workaround for this bug, until 1.9 comes on debian:
+# https://github.com/phillipberndt/autorandr/issues/143
+xrandr --auto

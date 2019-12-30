@@ -7,6 +7,7 @@
 command=date '+%H:%M:%S        %d-%m-%Y (%a)'
 interval=1
 
+{%@@ if host == 'personal' @@%}
 # This block displays the main mail watcher
 [email]
 command=i3blocks-email | sed '1 s/^/main: /; s/#ededed/{{@@ i3bar_inactive_color @@}}/; s/#00ff00/{{@@ main_theme_color @@}}/'
@@ -18,6 +19,7 @@ interval={{@@ 60 * 10 @@}}
 command=i3blocks-email | sed '1 s/^/spam: /; s/#ededed/{{@@ i3bar_inactive_color @@}}/; s/#00ff00/{{@@ main_theme_color @@}}/'
 instance=spam
 interval={{@@ 60 * 10 @@}}
+{%@@ endif @@%}
 
 # This block shows whether system updates are available
 [apt-upgrades]
@@ -32,9 +34,9 @@ interval=once
 markup=pango
 signal={{@@ caps_signal @@}}
 
-# This block displays the Ethernet and Wi-Fi status
+# This block displays the network status
 [network]
-command=i3blocks-network-status -i cable -i wireless -G '{{@@ dark_theme_color @@}}' -M '{{@@ main_theme_color @@}}' -B '{{@@ light_theme_color @@}}' -D '{{@@ i3bar_inactive_color @@}}'
+command=i3blocks-network-status {{@@ i3blocks_network_interfaces @@}} -G '{{@@ dark_theme_color @@}}' -M '{{@@ main_theme_color @@}}' -B '{{@@ light_theme_color @@}}' -D '{{@@ i3bar_inactive_color @@}}'
 interval=1
 markup=pango
 signal={{@@ network_signal @@}}

@@ -3,9 +3,8 @@ config:
     banner: true
     create: true
     dotpath: ../dotfiles
-    ignoreempty: false
+    ignoreempty: true
     import_configs:
-    - private.yaml
     - shell.yaml
     keepdot: false
     link_dotfile_default: nolink

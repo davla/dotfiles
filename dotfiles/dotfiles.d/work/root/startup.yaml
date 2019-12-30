@@ -1,0 +1,6 @@
+%YAML 1.2
+---
+# This dotfiles file lists the dotfiles to be included in the "startup" profile
+# only on my work machine for root. So far, none.
+
+dotfiles: []

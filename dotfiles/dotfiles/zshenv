@@ -1,9 +1,0 @@
-#!/usr/bin/env zsh
-
-# This script is the entry point for zsh setup.
-# The actual setup is delegated to startup files in $ZDOTDIR. $ZDOTDIR/.zshenv
-# needs to be resourced manually as zsh found this very file and won't look for
-# another .zshenv
-
-source "$HOME/.dotdirs"
-source "$ZDOTDIR/.zshenv"

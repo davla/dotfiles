@@ -1,0 +1,94 @@
+%YAML 1.2
+---
+# This dotdrop config file defines the packages profile. It lists the apt
+# repository files individually in order to allow fine-grained control over
+# their inclusion in the profile.
+
+actions:
+  post:
+    repo-keys: sh ./actions/repo-keys.sh
+
+config:
+  backup: false
+  banner: true
+  create: true
+  dotpath: ../dotfiles
+  ignoreempty: true
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+  showdiff: true
+  workdir: ~/.config/dotdrop
+
+dotfiles:
+  f_atom.list:
+    src: etc/apt/sources.list.d/atom.list
+    dst: /etc/apt/sources.list.d/atom.list
+  f_deb-multimedia.list:
+    src: etc/apt/sources.list.d/deb-multimedia.list
+    dst: /etc/apt/sources.list.d/deb-multimedia.list
+  f_docker.list:
+    src: etc/apt/sources.list.d/docker.list
+    dst: /etc/apt/sources.list.d/docker.list
+  f_dropbox.list:
+    src: etc/apt/sources.list.d/dropbox.list
+    dst: /etc/apt/sources.list.d/dropbox.list
+  f_enpass.list:
+    src: etc/apt/sources.list.d/enpass.list
+    dst: /etc/apt/sources.list.d/enpass.list
+  f_etcher.list:
+    src: etc/apt/sources.list.d/etcher.list
+    dst: /etc/apt/sources.list.d/etcher.list
+  f_firefox-beta.list:
+    src: etc/apt/sources.list.d/firefox-beta.list
+    dst: /etc/apt/sources.list.d/firefox-beta.list
+  f_heroku.list:
+    src: etc/apt/sources.list.d/heroku.list
+    dst: /etc/apt/sources.list.d/heroku.list
+  f_sid.list:
+    src: etc/apt/sources.list.d/sid.list
+    dst: /etc/apt/sources.list.d/sid.list
+  f_skype-stable.list:
+    src: etc/apt/sources.list.d/skype-stable.list
+    dst: /etc/apt/sources.list.d/skype-stable.list
+  f_slack.list:
+    src: etc/apt/sources.list.d/slack.list
+    dst: /etc/apt/sources.list.d/slack.list
+  f_sources.list:
+    src: etc/apt/sources.list
+    dst: /etc/apt/sources.list
+  f_spotify.list:
+    src: etc/apt/sources.list.d/spotify.list
+    dst: /etc/apt/sources.list.d/spotify.list
+  f_virtualbox.list:
+    src: etc/apt/sources.list.d/virtualbox.list
+    dst: /etc/apt/sources.list.d/virtualbox.list
+  f_yarn.list:
+    src: etc/apt/sources.list.d/yarn.list
+    dst: /etc/apt/sources.list.d/yarn.list
+
+dynvariables:
+  # Mapping from real to generic hostnames
+  host: |-
+    case "$(hostname)" in
+        'davide-laptop')
+            echo 'personal'
+            ;;
+
+        *)
+            echo 'work'
+            ;;
+    esac
+
+profiles:
+  packages:
+    dotfiles:
+    - f_firefox-beta.list
+    - f_docker.list
+    - f_sources.list
+    - f_sid.list
+    import:
+    - '../dotfiles.d/{{@@ host @@}}/apt-sources.yaml'
+    actions:
+    - repo-keys

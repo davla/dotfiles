@@ -1,0 +1,6 @@
+%YAML 1.2
+---
+# This dotfiles file lists the dotfiles to be included in the "cli" profile
+# only on my work machine. So far, none.
+
+dotfiles: []

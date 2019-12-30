@@ -44,7 +44,7 @@ DPI_SUFFIX='{{@@ dpi_suffix @@}}'
 #######################################
 
 # shellcheck disable=SC1083,2240
-. {{@@ _dotfile_abs_dst @@}}/scripts.d/shared
+. {{@@ _dotfile_sub_abs_dst @@}}/shared
 
 #######################################
 # DE-specific variables
@@ -64,5 +64,5 @@ esac
 # Sourcing X server setup script
 #######################################
 
-. {{@@ _dotfile_abs_dst @@}}/scripts.d/dpi
+. {{@@ _dotfile_sub_abs_dst @@}}/dpi
 {%@@ endmacro @@%}

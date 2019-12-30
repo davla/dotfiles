@@ -17,18 +17,15 @@
 # hook to the provided script in scripts.d.
 #
 # Arguments:
-#   - $1: The input autorandr configurations.
-#   - $2: The script name in scripts.d.
-#   - $3: The autorandr configuration directory.
+#   - $1: The script name in scripts.d.
+#   - $2: The autorandr configuration directory.
+#   - stdin: The input autorandr configurations.
 link_hooks() {
-    CONFIGS="$1"
-    SCRIPT_NAME="$2"
-    AUTORANDR_PATH="$3"
+    SCRIPT_NAME="$1"
+    AUTORANDR_PATH="$2"
 
-    for CONFIG in $CONFIGS; do
-        ln -sf "$AUTORANDR_PATH/scripts.d/$SCRIPT_NAME" \
-            "$AUTORANDR_PATH/$CONFIG/preswitch"
-    done
+    xargs -i ln -sf "$AUTORANDR_PATH/scripts.d/$SCRIPT_NAME" \
+            "$AUTORANDR_PATH/{}/preswitch"
 
     unset AUTORANDR_PATH CONFIGS TARGET_NAME
 }
@@ -37,19 +34,22 @@ link_hooks() {
 # Variables
 #######################################
 
-# Lists of autorandr configuration names, split by dpi, based on host
+# Lists of autorandr configuration names that need dpi-adjusting hook scripts.
+# Split by host.
 case "$(hostname)" in
     'davide-laptop')
-        HIDPI_CONFIGS=''
-        LODPI_CONFIGS='hdmi-cph hdmi-fu dual-cph dual-fu'
+        HIDPI_CONFIGS='laptop-personal'
+        LODPI_CONFIGS='dual-personal-cph
+dual-personal-fu
+hdmi-personal-cph
+hdmi-personal-fu'
         ;;
 
     *)
         HIDPI_CONFIGS=''
-        LODPI_CONFIGS='hdmi dual'
+        LODPI_CONFIGS=''
         ;;
 esac
-HIDPI_CONFIGS="laptop-only $HIDPI_CONFIGS"
 
 #######################################
 # Input processing
@@ -62,10 +62,10 @@ AUTORANDR_HOME="$(readlink -f "$1")"
 #######################################
 
 # Configuration with HiDPI monitors
-link_hooks "$HIDPI_CONFIGS" 'hidpi' "$AUTORANDR_HOME"
+echo "$HIDPI_CONFIGS" | link_hooks 'hidpi' "$AUTORANDR_HOME"
 
 # Configuration with LoDPI monitors
-link_hooks "$LODPI_CONFIGS" 'lodpi' "$AUTORANDR_HOME"
+echo "$LODPI_CONFIGS" | link_hooks 'lodpi' "$AUTORANDR_HOME"
 
 #######################################
 # Setting executable permissions

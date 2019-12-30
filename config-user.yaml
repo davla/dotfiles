@@ -4,8 +4,6 @@
 
 actions:
   post:
-    autorandr: sh actions/autorandr.sh '{{@@ _dotfile_abs_dst @@}}'
-
     # This action installs atom packages given in the first argument. This
     # needs to be a file with one package specification per line. The $PATH
     # mess is due to some packages expecting Python 2 to be the default
@@ -26,6 +24,7 @@ config:
   import_actions:
   - actions.d/shared.yaml
   import_configs:
+  - profiles.d/autorandr.yaml
   - profiles.d/shared.yaml
   import_variables:
   - variables.d/{{@@ host @@}}/*.yaml
@@ -59,11 +58,6 @@ dynvariables:
     esac
 
 dotfiles:
-  d_autorandr:
-    src: config/autorandr
-    dst: ~/.config/autorandr
-    actions:
-    - autorandr
   d_autostart:
     dst: ~/.config/autostart
     src: config/autostart
@@ -198,8 +192,8 @@ dotfiles:
   f_xsessionrc:
     src: xsessionrc
     dst: ~/.xsessionrc
-profiles:
 
+profiles:
   # This profile groups Atom-related dotfiles, as well as creating the
   # necessary variables for dotfiles actions. It was chosen to address
   # individual dotfiles rather than the whole ~/.atom directory as there are
@@ -267,7 +261,6 @@ profiles:
   # little bit more than just the i3 configuration file.
   i3:
     dotfiles:
-    - d_autorandr
     - d_dunst
     - f_compton.conf
     - f_i3blocks_config
@@ -277,6 +270,7 @@ profiles:
     actions:
     - i3
     include:
+    - autorandr
     - look-and-feel
     - startup
 

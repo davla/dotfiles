@@ -1,0 +1,70 @@
+%YAML 1.2
+---
+# This dotdrop config file defines the autorandr profile. It lists the
+# autorandr configuration individually in order to allow fine-grained control
+# over their inclusion in the profile.
+
+actions:
+  post:
+    autorandr: sh actions/autorandr.sh {{@@ autorandr_home @@}}
+
+config:
+  backup: false
+  banner: true
+  create: true
+  dotpath: ../dotfiles
+  ignoreempty: true
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+  showdiff: true
+  workdir: ~/.config/dotdrop
+
+dotfiles:
+  d_dual-personal-cph:
+    src: config/autorandr/dual-personal-cph
+    dst: '{{@@ autorandr_home @@}}/dual-personal-cph'
+  d_dual-personal-fu:
+    src: config/autorandr/dual-personal-fu
+    dst: '{{@@ autorandr_home @@}}/dual-personal-fu'
+  d_hdmi-personal-cph:
+    src: config/autorandr/hdmi-personal-cph
+    dst: '{{@@ autorandr_home @@}}/hdmi-personal-cph'
+  d_hdmi-personal-fu:
+    src: config/autorandr/hdmi-personal-fu
+    dst: '{{@@ autorandr_home @@}}/hdmi-personal-fu'
+  d_laptop-personal:
+    src: config/autorandr/laptop-personal
+    dst: '{{@@ autorandr_home @@}}/laptop-personal'
+  d_scripts.d:
+    src: config/autorandr/scripts.d
+    dst: '{{@@ autorandr_home @@}}/scripts.d'
+  f_postswitch:
+    src: config/autorandr/postswitch
+    dst: '{{@@ autorandr_home @@}}/postswitch'
+
+dynvariables:
+  # Mapping from real to generic hostnames
+  host: |-
+    case "$(hostname)" in
+        'davide-laptop')
+            echo 'personal'
+            ;;
+
+        *)
+            echo 'work'
+            ;;
+    esac
+
+profiles:
+  autorandr:
+    dotfiles:
+    - f_postswitch
+    import:
+    - ../dotfiles.d/{{@@ host @@}}/autorandr.yaml
+    actions:
+    - autorandr
+
+variables:
+  autorandr_home: ~/.config/autorandr

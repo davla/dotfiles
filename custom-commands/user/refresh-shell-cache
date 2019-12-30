@@ -32,8 +32,15 @@ FASD_ZSH_CACHE="${ZDOTDIR:?}/cache/fasd"
 # thefuck
 #######################################
 
-THEFUCK_CACHE="${SDOTDIR:?}/cache/thefuck"
-[ -f "$THEFUCK_CACHE" ] && thefuck --alias > "$THEFUCK_CACHE"
+THEFUCK_SH_CACHE="${SDOTDIR:?}/cache/thefuck"
+[ -f "$THEFUCK_SH_CACHE" ] && sh -c 'thefuck --alias' > "$THEFUCK_SH_CACHE"
+
+THEFUCK_BASH_CACHE="${BDOTDIR:?}/cache/thefuck"
+[ -f "$THEFUCK_BASH_CACHE" ] \
+    && bash -c 'thefuck --alias' > "$THEFUCK_BASH_CACHE"
+
+THEFUCK_ZSH_CACHE="${ZDOTDIR:?}/cache/thefuck"
+[ -f "$THEFUCK_ZSH_CACHE" ] && zsh -c 'thefuck --alias' > "$THEFUCK_ZSH_CACHE"
 
 #######################################
 # zygal

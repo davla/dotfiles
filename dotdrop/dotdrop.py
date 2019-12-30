@@ -408,9 +408,14 @@ def cmd_importer(o):
 
 def cmd_list_profiles(o):
     """list all profiles"""
-    LOG.log('Available profile(s):')
+    LOG.emph('Available profile(s):\n')
     for p in o.profiles:
-        LOG.sub(p)
+        if o.profiles_grepable:
+            fmt = '{}'.format(p.key)
+            LOG.raw(fmt)
+        else:
+            LOG.sub(p.key, end='')
+            LOG.log(' ({} dotfiles)'.format(len(p.dotfiles)))
     LOG.log('')
 
 
@@ -420,17 +425,24 @@ def cmd_list_files(o):
         LOG.warn('unknown profile \"{}\"'.format(o.profile))
         return
     what = 'Dotfile(s)'
-    if o.listfiles_templateonly:
+    if o.files_templateonly:
         what = 'Template(s)'
-    LOG.emph('{} for profile \"{}\"\n'.format(what, o.profile))
+    LOG.emph('{} for profile \"{}\":\n'.format(what, o.profile))
     for dotfile in o.dotfiles:
-        if o.listfiles_templateonly:
+        if o.files_templateonly:
             src = os.path.join(o.dotpath, dotfile.src)
             if not Templategen.is_template(src):
                 continue
-        LOG.log('{} (src: \"{}\", link: {})'.format(dotfile.key, dotfile.src,
-                                                    dotfile.link.name.lower()))
-        LOG.sub('{}'.format(dotfile.dst))
+        if o.files_grepable:
+            fmt = '{},dst:{},src:{},link:{}'
+            fmt = fmt.format(dotfile.key, dotfile.dst,
+                             dotfile.src, dotfile.link.name.lower())
+            LOG.raw(fmt)
+        else:
+            LOG.log('{}'.format(dotfile.key), bold=True)
+            LOG.sub('dst: {}'.format(dotfile.dst))
+            LOG.sub('src: {}'.format(dotfile.src))
+            LOG.sub('link: {}'.format(dotfile.link.name.lower()))
     LOG.log('')
 
 
@@ -604,16 +616,16 @@ def main():
     ret = True
     try:
 
-        if o.cmd_list:
+        if o.cmd_profiles:
             # list existing profiles
             if o.debug:
-                LOG.dbg('running cmd: list')
+                LOG.dbg('running cmd: profiles')
             cmd_list_profiles(o)
 
-        elif o.cmd_listfiles:
+        elif o.cmd_files:
             # list files for selected profile
             if o.debug:
-                LOG.dbg('running cmd: listfiles')
+                LOG.dbg('running cmd: files')
             cmd_list_files(o)
 
         elif o.cmd_install:

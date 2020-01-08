@@ -84,6 +84,7 @@ dynvariables:
 profiles:
   packages:
     dotfiles:
+    - f_atom.list
     - f_firefox-beta.list
     - f_docker.list
     - f_sources.list

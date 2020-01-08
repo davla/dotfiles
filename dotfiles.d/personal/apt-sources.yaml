@@ -4,7 +4,6 @@
 # "packages" profile only on my personal machine
 
 dotfiles:
-- f_atom.list
 - f_deb-multimedia.list
 - f_dropbox.list
 - f_enpass.list

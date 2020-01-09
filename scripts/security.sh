@@ -89,14 +89,22 @@ echo "$GIT_ORIGIN" | grep 'https' > /dev/null 2>&1 && {
 #######################################
 
 [ -z "$(gpg --list-secret-keys)" ] && {
+    echo 'Generating gpg key'
+
+    printf 'Enter the gpg key name: '
+    read GPG_NAME
+
+    printf 'Enter the gpg email: '
+    read GPG_EMAIL
+
     echo 'Generating gpg keys with these parameters:'
     GPG_ARGS="$(mktemp)"
     tee "$GPG_ARGS" <<EOF
 Key-Type: 1
 Key-Length: 4096
 Expire-Date: 0
-Name-Real: Davide Laezza
-Name-Email: truzzialrogo@gmx.com
+Name-Real: $GPG_NAME
+Name-Email: $GPG_EMAIL
 EOF
     gpg --batch --generate-key "$GPG_ARGS"
     rm "$GPG_ARGS"

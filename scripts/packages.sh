@@ -13,6 +13,7 @@
 # Variables
 #######################################
 
+# shellcheck disable=2039
 case "$HOSTNAME" in
     'personal')
         # Executable file names to be linked on $PATH
@@ -126,11 +127,13 @@ USER_NAME="${1:-$USER}"
 #######################################
 
 dotdrop install -p packages
+apt-get update
 
 #######################################
 # Installing Drivers
 #######################################
 
+# shellcheck disable=2039
 case "$HOSTNAME" in
     'personal')
         apt-get install firmware-realtek firmware-iwlwifi
@@ -142,6 +145,7 @@ esac
 #######################################
 
 # Installation
+# shellcheck disable=2039
 case "$HOSTNAME" in
     'personal')
         apt-get install aisleriot asunder brasero calibre dropbox enpass \
@@ -166,6 +170,7 @@ sudo -u "$USER_NAME" dotdrop install -p gui
 #######################################
 
 # Installation
+# shellcheck disable=2039
 case "$HOSTNAME" in
     'personal')
         apt-get install apng2gif cabal-install cups ghc gifsicle git-review \

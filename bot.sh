@@ -128,9 +128,13 @@ execute() {
 
     RETRY='true'
     while [ "$RETRY" = 'true' ]; do
-        tput smcup
-        tput cup 0 0
-        IN_ALTERNATE_BUFFER='true'
+        # `tput smcup` exits with an error if "alternate buffers" are not
+        # supported by the terminal. In such case, we avoid changing the cursor
+        # position, so that the previous output is not overwritten
+        tput smcup && {
+            IN_ALTERNATE_BUFFER='true'
+            tput cup 0 0
+        }
 
         # This is executed in the background: stdin is detatched, while stdout
         # and stderr are shared with this script (likely connected to a tty).
@@ -144,8 +148,10 @@ execute() {
         # Killng tail, as the command is no longer writing to the file.
         kill "$!"
 
-        tput rmcup
-        IN_ALTERNATE_BUFFER='false'
+        [ "$IN_ALTERNATE_BUFFER" = 'true' ] && {
+            IN_ALTERNATE_BUFFER='false'
+            tput rmcup
+        }
 
         if [ "$CMD_EXIT" -eq 0 ]; then
             ask "$OK_FACE" "Looks like everything went fine with $DESC! Hooray!

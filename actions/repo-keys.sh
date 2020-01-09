@@ -14,9 +14,8 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
             'atom')
                 echo "Installing apt repository key for $REPO"
 
-                apt-key adv --fetch-keys \
-                    'https://packagecloud.io/AtomEditor/atom/gpgkey' \
-                    > /dev/null
+                wget -qO - 'https://packagecloud.io/AtomEditor/atom/gpgkey' \
+                    | apt-key add - > /dev/null
                 ;;
 
             'deb-multimedia')
@@ -38,7 +37,8 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
             'dropbox')
                 echo "Installing apt repository key for $REPO"
 
-                apt-key adv --keyserver pgp.mit.edu --recv-keys '5044912E' \
+                apt-key adv --keyserver 'hkp://pgp.mit.edu:80' \
+                    --recv-keys '1C61A2656FB57B7E4DE0F4C1FC918B335044912E' \
                     > /dev/null
                 ;;
 
@@ -52,15 +52,16 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
             'etcher')
                 echo "Installing apt repository key for $REPO"
 
-                apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \
-                    '379CE192D401AB61' > /dev/null
+                apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' \
+                    --recv-keys '379CE192D401AB61' > /dev/null
                 ;;
 
             'firefox-beta')
                 echo "Installing apt repository key for $REPO"
 
-                apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \
-                    '0AB215679C571D1C8325275B9BDB3D89CE49EC21' > /dev/null
+                apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' \
+                    --recv-keys '0AB215679C571D1C8325275B9BDB3D89CE49EC21' \
+                    > /dev/null
                 ;;
 
             'heroku')
@@ -80,15 +81,16 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
             'slack')
                 echo "Installing apt repository key for $REPO"
 
-                apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \
-                    'C6ABDCF64DB9A0B2' > /dev/null
+                apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' \
+                    --recv-keys 'C6ABDCF64DB9A0B2' > /dev/null
                 ;;
 
             'spotify')
                 echo "Installing apt repository key for $REPO"
 
-                apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \
-                    '931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90' > /dev/null
+                apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' \
+                    --recv-keys '931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90' \
+                    > /dev/null
                 ;;
 
             'virtualbox')

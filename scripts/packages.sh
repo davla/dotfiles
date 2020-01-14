@@ -151,16 +151,16 @@ case "$HOSTNAME" in
         apt-get install aisleriot asunder brasero calibre dropbox enpass \
             balena-etcher-electron gimp gnome-mines gnome-sudoku gufw \
             handbrake-gtk libreoffice-calc libreoffice-impress \
-            libreoffice-writer gnome-mahjongg kid3 quadrapassel simple-scan \
-            slack-desktop skypeforlinux solaar soundconverter spotify-client \
-            system-config-printer thunderbird transmission-gtk tuxguitar \
-            virtualbox-6.0 visualboyadvance vlc
+            libreoffice-writer gnome-mahjongg kid3 quadrapassel remmina \
+            simple-scan slack-desktop skypeforlinux solaar soundconverter \
+            spotify-client system-config-printer thunderbird transmission-gtk \
+            tuxguitar virtualbox-6.0 visualboyadvance vlc
             ;;
 esac
 
 apt-get install atom baobab blueman catfish evince firefox galculator gdebi \
     geany gparted hardinfo parcellite pavucontrol recordmydesktop \
-    gtk-recordmydesktop remmina seahorse synaptic viewnior
+    gtk-recordmydesktop seahorse synaptic viewnior
 
 # Dotfiles
 sudo -u "$USER_NAME" dotdrop install -p gui
@@ -185,11 +185,11 @@ case "$HOSTNAME" in
 esac
 
 apt-get install autoconf automake build-essential cmake command-not-found \
-    cowsay curl dex dkms docker-ce dos2unix flashplayer-mozilla \
-    fonts-freefont-otf fonts-nanum fortune g++ git git-secret gvfs-backends \
-    hunspell hunspell-en-us hunspell-it intel-microcode jq libsecret-1-dev \
-    lua5.1 lua-check make moreutils nfs-common nyancat p7zip pycodestyle \
-    python-pip python-setuptools python3 python3-pip rar sct shellcheck \
+    cowsay curl dex dkms docker-ce dos2unix fonts-freefont-otf fonts-nanum \
+    fortune g++ git git-secret gvfs-backends hunspell hunspell-en-us \
+    hunspell-it intel-microcode jq libsecret-1-dev lua5.1 lua-check make \
+    moreutils nfs-common nyancat p7zip pycodestyle python-pip \
+    python-setuptools python3 python3-pip rar sct shellcheck \
     software-properties-common thunar-archive-plugin uni2ascii unrar wmctrl \
     xdotool xserver-xorg-input-synaptics yad zip
 
@@ -201,7 +201,6 @@ sudo -u "$USER_NAME" dotdrop install -p cli
 #######################################
 
 clean
-apt-get update
 apt-get upgrade
 
 #######################################

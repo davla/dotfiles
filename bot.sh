@@ -322,10 +322,25 @@ prompt 'setup the environment' 'dotdrop -U root install -p environment' \
 prompt 'install packages' "sudo sh -e scripts/packages.sh $USER" \
     'packages installation'
 
+# Graphical login manager
+prompt 'install a graphical login manager' \
+    'sudo sh -e scripts/graphical-login.sh' \
+    'installing a graphical login manager'
+
 # Manual applications install
 prompt 'install manually managed applications' \
     "sudo sh -e -l scripts/manually.sh $USER" \
     'manually managed applications installation'
+
+# i3
+prompt 'install i3' 'sh -e scripts/i3.sh' 'installing i3'
+
+# Xfce
+prompt 'install Xfce' 'sh -e scripts/xfce.sh' 'installing Xfce'
+
+# SSH and GPG keys
+prompt 'generate SSH and GPG keys' 'sh -e scripts/security.sh' \
+    'SSH and GPG keys generation'
 
 # Locales
 prompt 'configure locales' 'dotdrop -U root install -p locales' \
@@ -351,28 +366,13 @@ prompt 'set up (ana)cron jobs' 'dotdrop -U both install -p cron' \
 prompt 'configure PolicyKit' 'sudo -E dotdrop install -p polkit' \
     'configuring PolicyKit'
 
-# SSH and GPG keys
-prompt 'generate SSH and GPG keys' 'sh -e scripts/security.sh' \
-    'SSH and GPG keys generation'
-
 # Shells setup
 prompt 'initialize the shells' 'sh -e scripts/shell.sh' 'shells initialization'
-
-# Graphical login manager
-prompt 'install a graphical login manager' \
-    'sudo sh -e scripts/graphical-login.sh' \
-    'installing a graphical login manager'
 
 # Themes
 prompt 'install cursor, desktop and icon themes' \
     'sh -e scripts/aesthetics.sh' \
     'cursor, desktop and icon themes installation'
-
-# i3
-prompt 'install i3' 'sh -e scripts/i3.sh' 'installing i3'
-
-# Xfce
-prompt 'install Xfce' 'sh -e scripts/xfce.sh' 'installing Xfce'
 
 # Android
 prompt 'install Android SDK' "sudo sh -e scripts/android.sh $USER" \

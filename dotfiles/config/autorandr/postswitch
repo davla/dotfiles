@@ -2,4 +2,7 @@
 
 # This is a workaround for this bug, until 1.9 comes on debian:
 # https://github.com/phillipberndt/autorandr/issues/143
-xrandr --auto
+
+# Disabling enabled but disconnected outputs
+xrandr -q | grep -P 'disconnected.+\).+$' | cut -f 1 -d ' ' \
+    | xargs -n 1 -i xrandr --output '{}' --off

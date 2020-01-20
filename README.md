@@ -16,7 +16,6 @@ My dotfiles repository. Really, just configuration files
 - sct not working
 - dotdrop autocompletion
 - dotdrop executable permissions on install
-- Custom jinja filter for $HOME
 - Kill {{@@ home @@}}
 - More preferences
   + Firefox

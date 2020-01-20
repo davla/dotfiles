@@ -1,13 +1,15 @@
 actions:
   post:
     bash: bash ./actions/bash.sh {{@@ dotdirs_file @@}}
-    sh: env -i HOME="$HOME" sh ./actions/sh.sh {{@@ dotdirs_file @@}}
+    sh: sh ./actions/sh.sh {{@@ dotdirs_file @@}}
     zsh: zsh ./actions/zsh.zsh {{@@ dotdirs_file @@}}
 config:
   backup: false
   banner: true
   create: true
   dotpath: ../dotfiles
+  filter_file:
+  - ../python/filters.py
   ignoreempty: true
   keepdot: false
   link_dotfile_default: nolink
@@ -19,14 +21,12 @@ dotfiles:
   d_bash:
     dst: '{{@@ bdotdir @@}}'
     src: config/bash
-    trans_read: fix-home
     upignore:
     - .bash_history
     - cache
   d_sh:
     dst: ~/.config/sh
     src: config/sh
-    trans_read: fix-home
     upignore:
     - plugins/data
     - cache
@@ -38,7 +38,6 @@ dotfiles:
   d_zsh:
     dst: '{{@@ zdotdir @@}}'
     src: config/zsh
-    trans_read: fix-home
     upignore:
     - .zcompdump
     - .zsh_history
@@ -70,8 +69,6 @@ profiles:
     - sh
     actions:
     - zsh
-trans_read:
-  fix-home: sh ./transformations/fix-home.sh {0} {1}
 variables:
   bdotdir: ~/.config/bash
   sdotdir: ~/.config/sh

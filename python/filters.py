@@ -7,10 +7,10 @@ This module defines some filters to be used in dotdrop jinja2 templates.
 
 from pathlib import Path
 
-import python.lib
+import python.lib as lib
 
 
-def tilde_to_home(path: str) -> str:
+def tilde2home(path: str) -> str:
     """Replace leading tilde with '$HOME'."""
     return lib.tilde_first.sub('$HOME', path)
 

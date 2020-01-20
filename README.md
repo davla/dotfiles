@@ -2,6 +2,8 @@
 My dotfiles repository. Really, just configuration files
 
 ## TODO
+- yaml subdir
+- use $XDG vars
 - Better mr files layout
 - docker/config.json in ~/.config
 - gtkrc2.0 in ~/.config
@@ -16,7 +18,7 @@ My dotfiles repository. Really, just configuration files
 - sct not working
 - dotdrop autocompletion
 - dotdrop executable permissions on install
-- Kill {{@@ home @@}}
+- absolute_path filter (root dunstrc)
 - More preferences
   + Firefox
   + Enpass

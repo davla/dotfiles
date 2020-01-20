@@ -1,3 +1,3 @@
 actions:
   post:
-    anacron: sh ./actions/anacron.sh {0} {1}
+    anacron: sh ./actions/anacron.sh "{0}" "{1}"

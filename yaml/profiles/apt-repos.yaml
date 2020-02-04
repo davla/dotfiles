@@ -12,7 +12,7 @@ config:
   backup: false
   banner: true
   create: true
-  dotpath: ../dotfiles
+  dotpath: ../../dotfiles
   ignoreempty: true
   keepdot: false
   link_dotfile_default: nolink
@@ -90,6 +90,6 @@ profiles:
     - f_sources.list
     - f_sid.list
     import:
-    - '../dotfiles.d/{{@@ host @@}}/apt-sources.yaml'
+    - '../dotfiles/{{@@ host @@}}/apt-sources.yaml'
     actions:
     - repo-keys

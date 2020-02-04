@@ -7,9 +7,9 @@ config:
   backup: false
   banner: true
   create: true
-  dotpath: ../dotfiles
+  dotpath: ../../dotfiles
   filter_file:
-  - ../python/filters.py
+  - ../../python/filters.py
   ignoreempty: true
   keepdot: false
   link_dotfile_default: nolink

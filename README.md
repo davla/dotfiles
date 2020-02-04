@@ -2,7 +2,6 @@
 My dotfiles repository. Really, just configuration files
 
 ## TODO
-- yaml subdir
 - use $XDG vars
 - Better mr files layout
 - docker/config.json in ~/.config

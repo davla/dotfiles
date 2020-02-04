@@ -25,18 +25,18 @@ config:
   - python/filters.py
   ignoreempty: true
   import_actions:
-  - actions.d/append.yaml
-  - actions.d/insert.yaml
-  - actions.d/shared.yaml
+  - yaml/actions/append.yaml
+  - yaml/actions/insert.yaml
+  - yaml/actions/shared.yaml
   import_configs:
-  - profiles.d/apt-repos.yaml
-  - profiles.d/shared.yaml
+  - yaml/profiles/apt-repos.yaml
+  - yaml/profiles/shared.yaml
   import_variables:
-  - 'variables.d/{{@@ host @@}}/*.yaml'
-  - variables.d/i3.yaml
-  - variables.d/look-and-feel.yaml
-  - 'variables.d/*-look-and-feel.yaml'
-  - variables.d/private.yaml
+  - 'yaml/variables/{{@@ host @@}}/*.yaml'
+  - yaml/variables/i3.yaml
+  - yaml/variables/look-and-feel.yaml
+  - 'yaml/variables/*-look-and-feel.yaml'
+  - yaml/variables/private.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -273,7 +273,7 @@ profiles:
     - f_grub
     - f_underclock.service
     import:
-    - 'dotfiles.d/{{@@ host @@}}/{{@@ user @@}}/startup.yaml'
+    - 'yaml/dotfiles/{{@@ host @@}}/{{@@ user @@}}/startup.yaml'
     actions:
     - rm '{{@@ fstab_tmp_dst @@}}'
     dynvariables:

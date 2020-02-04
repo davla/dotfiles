@@ -12,7 +12,7 @@ config:
   backup: false
   banner: true
   create: true
-  dotpath: ../dotfiles
+  dotpath: ../../dotfiles
   ignoreempty: true
   keepdot: false
   link_dotfile_default: nolink
@@ -62,7 +62,7 @@ profiles:
     dotfiles:
     - f_postswitch
     import:
-    - ../dotfiles.d/{{@@ host @@}}/autorandr.yaml
+    - ../dotfiles/{{@@ host @@}}/autorandr.yaml
     actions:
     - autorandr
 

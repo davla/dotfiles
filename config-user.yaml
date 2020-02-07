@@ -5,13 +5,8 @@
 actions:
   post:
     # This action installs atom packages given in the first argument. This
-    # needs to be a file with one package specification per line. The $PATH
-    # mess is due to some packages expecting Python 2 to be the default
-    # Python version.
-    atom-install-packages: >-
-      export PATH="$(which python2 | xargs dirname):$PATH";
-      apm install --packages-file {0};
-      rm {0}
+    # needs to be a file with one package specification per line.
+    atom-install-packages: apm install --packages-file {0};
 
     i3: sh actions/i3.sh
 
@@ -59,11 +54,11 @@ dynvariables:
 
 dotfiles:
   d_autostart:
-    dst: ~/.config/autostart
     src: config/autostart
+    dst: ~/.config/autostart
   d_desktop-directories:
-    dst: ~/.local/share/desktop-directories
     src: local/share/desktop-directories
+    dst: ~/.local/share/desktop-directories
   d_dunst:
     src: config/dunst
     dst: ~/.config/dunst
@@ -71,8 +66,8 @@ dotfiles:
     src: config/i3blocks-email
     dst: ~/.config/i3blocks-email
   d_geany_filedefs:
-    dst: ~/.config/geany/filedefs
     src: config/geany/filedefs
+    dst: ~/.config/geany/filedefs
     cmpignore:
     - '*.README'
     upignore:
@@ -102,6 +97,7 @@ dotfiles:
     dst: ~/.config/x11/Xresources.d
   f_anacrontab:
     src: cron/anacrontab
+    # Dynamic path as it's used somewhere else too
     dst: '{{@@ anacrontab @@}}'
   f_atom_config.cson:
     src: atom/config.cson
@@ -118,7 +114,7 @@ dotfiles:
     # can be deleted
     dst: '{{@@ tmp_dst @@}}'
     actions:
-    # This ation installs atom packages listed in the dotfile on-the-fly
+    # This action installs atom packages listed in the dotfile on-the-fly
     - atom-install-packages '{{@@ tmp_dst @@}}'
     # This transformation actually creates the dotfile.
     trans_write: atom-list-packages

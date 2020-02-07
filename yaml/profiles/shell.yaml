@@ -1,8 +1,14 @@
+%YAML 1.2
+---
+# This dotdrop config file is meant for shell-related, user-independent
+# profiles.
+
 actions:
   post:
     bash: bash ./actions/bash.sh {{@@ dotdirs_file @@}}
     sh: sh ./actions/sh.sh {{@@ dotdirs_file @@}}
     zsh: zsh ./actions/zsh.zsh {{@@ dotdirs_file @@}}
+
 config:
   backup: false
   banner: true
@@ -17,27 +23,31 @@ config:
   longkey: false
   showdiff: true
   workdir: ~/.config/dotdrop
+
 dotfiles:
   d_bash:
-    dst: '{{@@ bdotdir @@}}'
     src: config/bash
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ bdotdir @@}}'
     upignore:
     - .bash_history
     - cache
   d_sh:
-    dst: ~/.config/sh
     src: config/sh
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ sdotdir @@}}'
     upignore:
     - plugins/data
     - cache
   d_thefuck:
-    src: config/thefuck
     dst: ~/.config/thefuck
+    src: config/thefuck
     upignore:
     - '*.pyc'
   d_zsh:
-    dst: '{{@@ zdotdir @@}}'
     src: config/zsh
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ zdotdir @@}}'
     upignore:
     - .zcompdump
     - .zsh_history
@@ -45,9 +55,12 @@ dotfiles:
     - cache
     - 'plugins/plugins-*.zsh'
   f_dotdirs:
-    dst: '{{@@ dotdirs_file @@}}'
     src: config/dotdirs
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ dotdirs_file @@}}'
+
 profiles:
+  # This profile contains bash dotfiles
   bash:
     dotfiles:
     - d_bash
@@ -55,6 +68,8 @@ profiles:
     - sh
     actions:
     - bash
+
+  # This profile groups together POSIX shell dotfiles
   sh:
     dotfiles:
     - d_sh
@@ -62,6 +77,8 @@ profiles:
     - f_dotdirs
     actions:
     - sh
+
+  # This profile gathers zsh dotfiles
   zsh:
     dotfiles:
     - d_zsh
@@ -69,7 +86,10 @@ profiles:
     - sh
     actions:
     - zsh
+
 variables:
+  # These paths are variables because they are used in multiple places,
+  # such as templates, dotfile entris dst and action arguments.
   bdotdir: ~/.config/bash
   sdotdir: ~/.config/sh
   zdotdir: ~/.config/zsh

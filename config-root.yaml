@@ -4,16 +4,26 @@
 
 actions:
   pre:
-    env-shells: apt-get install bash zsh
+    # This action installs the packages necessary for the environment setup
+    environment: apt-get install bash zsh
+
   post:
+    # This action applies the grub configuration
     grub: update-grub
+
     locales: sh ./actions/locales.sh
+
+    # This action installs the packages providing the commands used in the root
+    # mrconfig file
     mrconfig: apt-get install jq
+
+    # This action enables the systemd service file passed as an argument
     systemd-enable: basename '{0}' '.service' | xargs systemctl enable
     timezone: >-
       cat {0} | xargs -i ln -sf '/usr/share/zoneinfo/{{}}' '/etc/localtime';
       dpkg-reconfigure -f noninteractive tzdata;
       rm {0}
+
     xkb: sh ./actions/xkb.sh
 
 config:
@@ -64,6 +74,7 @@ dotfiles:
     dst: /usr/share/applications
   d_asdf:
     src: asdf
+    # Dynamic path as it's used somewhere else too
     dst: '{{@@ asdf_config_path @@}}'
   d_xorg.conf.d:
     src: etc/X11/xorg.conf.d
@@ -82,6 +93,7 @@ dotfiles:
     dst: /etc/default/anacron
   f_anacrontab:
     src: cron/anacrontab
+    # Dynamic path since the dotfile content is appended to dst
     dst: '{{@@ anacrontab_tmp_dst @@}}'
     actions:
     - strip '{{@@ anacrontab_append_marker @@}}' '{{@@ anacrontab_dst @@}}'
@@ -91,24 +103,29 @@ dotfiles:
     dst: /etc/profile.d/env-vars.sh
   f_env-vars-bash.sh:
     src: env/source-env-vars.sh
+    # Dynamic path since the dotfile content is inserted into dst
     dst: '{{@@ env_tmp_dst @@}}'
     actions:
     - strip_file '{{@@ _dotfile_abs_src @@}}' '{{@@ bash_env_dst @@}}'
+    # Inserts after the first empty line or the first comment
     - >-
       insert_match '(^$|^[^#])' '{{@@ env_tmp_dst @@}}'
         '{{@@ bash_env_dst @@}}'
     - rm '{{@@ env_tmp_dst @@}}'
   f_env-vars-zsh.sh:
-    dst: '{{@@ env_tmp_dst @@}}'
     src: env/source-env-vars.sh
+    # Dynamic path since the dotfile content is inserted into dst
+    dst: '{{@@ env_tmp_dst @@}}'
     actions:
     - strip_file '{{@@ _dotfile_abs_src @@}}' '{{@@ zsh_env_dst @@}}'
+    # Inserts after the first empty line or the first comment
     - >-
       insert_match '(^$|^[^#])' '{{@@ env_tmp_dst @@}}'
         '{{@@ zsh_env_dst @@}}'
     - rm '{{@@ env_tmp_dst @@}}'
   f_fstab:
     src: etc/fstab
+    # Dynamic path since the dotfile content is appended to dst
     dst: '{{@@ fstab_tmp_dst @@}}'
     actions:
     - strip '{{@@ fstab_append_marker @@}}' '{{@@ fstab_dst @@}}'
@@ -123,6 +140,7 @@ dotfiles:
     - grub
   f_hosts:
     src: etc/hosts
+    # Dynamic path since the dotfile content is appended to dst
     dst: '{{@@ hosts_tmp_dst @@}}'
     actions:
     - strip '{{@@ hosts_append_marker @@}}' '{{@@ hosts_dst @@}}'
@@ -168,6 +186,7 @@ dotfiles:
       - systemd-enable '{{@@ _dotfile_abs_src @@}}'
   f_xkb_base.lst:
     src: usr/share/X11/xkb/rules/base.lst
+    # Dynamic path since the dotfile content is inserted into dst
     dst: '{{@@ xkb_tmp_dst @@}}'
     actions:
     - >-
@@ -177,6 +196,7 @@ dotfiles:
         '{{@@ base_lst_dst @@}}'
   f_xkb_base.xml:
     src: usr/share/X11/xkb/rules/base.xml
+    # Dynamic path since the dotfile content is inserted into dst
     dst: '{{@@ xkb_tmp_dst @@}}'
     actions:
     - strip_xml ".//*[name='intl-custom'].." '{{@@ base_xml_dst @@}}'
@@ -186,12 +206,14 @@ dotfiles:
   f_xkb_us:
     src: usr/share/X11/xkb/symbols/us
     dst: '{{@@ xkb_tmp_dst @@}}'
+    # Dynamic path since the dotfile content is appended to dst
     actions:
     - strip '{{@@ symbols_append_marker @@}}' '{{@@ symbols_dst @@}}'
     - append '{{@@ symbols_dst @@}}' '{{@@ xkb_tmp_dst @@}}'
 
 profiles:
-
+  # This profile groups cron- and anacron-related configuration, and the
+  # companion logging configuration
   cron:
     dotfiles:
     - f_anacron
@@ -207,6 +229,7 @@ profiles:
       anacrontab_append_marker: Custom jobs
       anacrontab_dst: /etc/anacrontab
 
+  # This profile contains dotfiles used to setup the global shell environment
   environment:
     dotfiles:
     - f_env-vars.sh
@@ -214,24 +237,28 @@ profiles:
     - f_env-vars-zsh.sh
     - f_sudo_sys-env-vars
     actions:
-    - env-shells
+    - environment
     dynvariables:
       env_tmp_dst: mktemp /tmp/env-tmp.XXX
     variables:
       bash_env_dst: /etc/bash.bashrc
       zsh_env_dst: /etc/zsh/zshenv
 
+  # This profile gathers the graphical login manager dotfiles
   graphical-login:
     dotfiles:
     - f_lightdm.conf.d_02_custom.conf
     - f_lightdm-gtk-greeter.conf.d_02_custom.conf
 
+  # This profile includes the i3 session dotfiles that require root privileges
+  # to be installed
   i3:
     dotfiles:
     - f_80i3blocks
     include:
     - x11
 
+  # This profile contains dotfiles related to localization and timezones
   locales:
     dotfiles:
     - f_locale
@@ -242,6 +269,8 @@ profiles:
     - locales
     - rm '{{@@ locales_tmp_dst @@}}'
 
+  # This profile holds dotfiles used to install software manually, that is
+  # without the aid of a package manager
   manual:
     dotfiles:
     - d_asdf
@@ -250,6 +279,7 @@ profiles:
     dynvariables:
       asdf_config_path: bash -lc 'echo "${ASDF_CONFIG_PATH:?}"'
 
+  # This profile contains network-related configuration files
   network:
     dotfiles:
     - f_99-no-wireless-on-wired
@@ -263,11 +293,13 @@ profiles:
       hosts_append_marker: Local sites
       hosts_dst: /etc/hosts
 
+  # This profile gathers PolicyKit dotfiles
   polkit:
     dotfiles:
     - f_60-root.conf
     - f_org.xfce.xfce4-terminal.policy
 
+  # This profile collects system startup jobs and configuration dotfiles
   startup:
     dotfiles:
     - f_grub
@@ -282,10 +314,12 @@ profiles:
       fstab_append_marker: Custom mount points
       fstab_dst: /etc/fstab
 
+  # This profile contains X11 configuration files
   x11:
     dotfiles:
     - d_xorg.conf.d
 
+  # This profile groups keyboard layout dotfiles
   xkb:
     dotfiles:
     - f_keyboard
@@ -304,6 +338,13 @@ profiles:
       symbols_dst: /usr/share/X11/xkb/symbols/us
 
 variables:
+  # This variable defines the default directory myrepos is run from, both as
+  # a shell alias and in anacron jobs.
   mr_default_dir: /opt
+
+  # This variable is used to differentiate between user and root configuration
+  # in some dotfiles.
   user: root
+
+  # This variable defines the Zygal shell theme colorscheme.
   zygal_colorscheme: green

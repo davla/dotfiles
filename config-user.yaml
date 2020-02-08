@@ -276,6 +276,7 @@ profiles:
     dotfiles:
     - d_gtk-2.0
     - d_gtk-3.0
+    - d_xresources.d
     - f_qt5ct.conf
     - f_trolltech.conf
     - f_xresources

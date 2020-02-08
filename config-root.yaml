@@ -43,6 +43,7 @@ config:
   - yaml/profiles/shared.yaml
   import_variables:
   - 'yaml/variables/{{@@ host @@}}/*.yaml'
+  - yaml/variables/asdf.yaml
   - yaml/variables/i3.yaml
   - yaml/variables/look-and-feel.yaml
   - 'yaml/variables/*-look-and-feel.yaml'
@@ -75,7 +76,7 @@ dotfiles:
   d_asdf:
     src: asdf
     # Dynamic path as it's used somewhere else too
-    dst: '{{@@ asdf_config_path @@}}'
+    dst: '{{@@ asdf_config @@}}'
   d_xorg.conf.d:
     src: etc/X11/xorg.conf.d
     dst: /etc/X11/xorg.conf.d
@@ -276,8 +277,6 @@ profiles:
     - d_asdf
     - d_applications
     - f_mrconfig
-    dynvariables:
-      asdf_config_path: bash -lc 'echo "${ASDF_CONFIG_PATH:?}"'
 
   # This profile contains network-related configuration files
   network:

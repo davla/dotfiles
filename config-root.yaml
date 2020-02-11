@@ -106,7 +106,8 @@ dotfiles:
     - append '{{@@ anacrontab_dst @@}}' '{{@@ anacrontab_tmp_dst @@}}'
   f_env-vars.sh:
     src: etc/profile.d/env-vars.sh
-    dst: /etc/profile.d/env-vars.sh
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ env_vars_path @@}}'
   f_env-vars-bash.sh:
     src: env/source-env-vars.sh
     # Dynamic path since the dotfile content is inserted into dst
@@ -247,6 +248,7 @@ profiles:
     dynvariables:
       env_tmp_dst: mktemp /tmp/env-tmp.XXX
     variables:
+      env_vars_path: /etc/profile.d/env-vars.sh
       bash_env_dst: /etc/bash.bashrc
       zsh_env_dst: /etc/zsh/zshenv
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 # {{@@ header() @@}}
-
+#
 # This file contains system environment variables, that is those not specific
 # to any user
 

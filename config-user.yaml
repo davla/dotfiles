@@ -6,7 +6,7 @@ actions:
   post:
     # This action installs atom packages given in the first argument. This
     # needs to be a file with one package specification per line.
-    atom-install-packages: apm install --packages-file {0};
+    atom-install-packages: apm install --packages-file {0}
 
     i3: sh actions/i3.sh
 

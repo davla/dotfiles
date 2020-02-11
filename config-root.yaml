@@ -19,10 +19,15 @@ actions:
 
     # This action enables the systemd service file passed as an argument
     systemd-enable: basename '{0}' '.service' | xargs systemctl enable
+
+    # This action applies the timezone settings.
+    # Non-interactive mode in dpkg-reconfigure needs both /etc/timezones and
+    # /etc/localtime in place to work. /etc/timezone is the dotfile itself
+    # ({0} here), while /etc/localtime is set according to the Debian wiki:
+    # https://wiki.debian.org/TimeZoneChanges
     timezone: >-
-      cat {0} | xargs -i ln -sf '/usr/share/zoneinfo/{{}}' '/etc/localtime';
-      dpkg-reconfigure -f noninteractive tzdata;
-      rm {0}
+      < '{0}' xargs -i cp --remove-destination '/usr/share/zoneinfo/{{}}' /etc/localtime;
+      dpkg-reconfigure -f noninteractive tzdata
 
     xkb: sh ./actions/xkb.sh
 
@@ -177,9 +182,9 @@ dotfiles:
     dst: /etc/sudoers.d/sys-env-vars
   f_timezone:
     src: etc/timezone
-    dst: '{{@@ locales_tmp_dst @@}}'
+    dst: /etc/timezone
     actions:
-    - timezone '{{@@ locales_tmp_dst @@}}'
+    - timezone '{{@@ _dotfile_abs_src @@}}'
   f_underclock.service:
     src: etc/systemd/system/underclock.service
     dst: /etc/systemd/system/underclock.service
@@ -264,11 +269,6 @@ profiles:
     dotfiles:
     - f_locale
     - f_timezone
-    dynvariables:
-      locales_tmp_dst: mktemp /tmp/locales-tmp.XXX
-    actions:
-    - locales
-    - rm '{{@@ locales_tmp_dst @@}}'
 
   # This profile holds dotfiles used to install software manually, that is
   # without the aid of a package manager

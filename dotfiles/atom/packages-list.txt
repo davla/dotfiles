@@ -1,5 +1,4 @@
 atom-center-comment
-atom-dark-fusion-syntax
 atom-hg
 atom-ide-ui
 atom-java-snippets
@@ -9,13 +8,11 @@ autoclose-html
 autocomplete-emojis
 autocomplete-paths
 awesome-python-snippets
-ayu-dark-syntax
-ayu-mirage-syntax
+ayu
 busy-signal
 css-declaration-sorter
 css-snippets
 darcula-syntax
-darkpython-syntax
 docblock-python
 docblockr
 file-type-icons
@@ -43,7 +40,6 @@ language-scala-plus
 language-unix-shell
 language-verilog
 language-vhdl
-latex
 linter
 linter-hlint
 linter-luacheck

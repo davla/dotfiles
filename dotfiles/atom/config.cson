@@ -36,7 +36,7 @@
     telemetryConsent: "limited"
     themes: [
       "one-dark-ui"
-      "ayu-dark-syntax"
+      "ayu"
     ]
     warnOnLargeFileLimit: 0.256
   "docblock-python":
@@ -116,15 +116,12 @@
       "descheduled"
       "deschedules"
       "descheduling"
-      ""
-      "ROS"
       "filesystem"
       "subdirectories"
       "runtime"
       "modularity"
       "parsers"
       "boolean"
-      "Haros"
       "namespace"
       "namespaces"
       "remappings"
@@ -154,9 +151,5 @@
   editor:
     autoIndent: true
     tabLength: 2
-latex:
-  buildOnSave: true
-  opener: "pdf-view"
-  outputDirectory: "build"
 "pdf-view":
   fitToWidthOnOpen: true

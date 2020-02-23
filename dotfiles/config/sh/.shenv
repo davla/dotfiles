@@ -5,6 +5,20 @@
 # This script defines environment variables for POSIX shell
 
 #######################################
+# Custom
+#######################################
+
+export DOTFILES_HOME="{{@@ "$HOME/Files/Programming/sys/dotfiles"
+    | find_in_home @@}}"
+export PYWIKIBOT_DIR="{{@@ "$HOME/Files/pywikibot" | find_in_home @@}}"
+
+#######################################
+# Gtk 2
+#######################################
+
+export GTK2_RC_FILES="{{@@ gtk2_path | home_abs2var @@}}/gtkrc"
+
+#######################################
 # Path
 #######################################
 
@@ -29,11 +43,3 @@ esac
 {%@@ endif @@%}
 
 unset LOCAL_PATH
-
-#######################################
-# Custom
-#######################################
-
-export DOTFILES_HOME="{{@@ "$HOME/Files/Programming/sys/dotfiles"
-    | find_in_home @@}}"
-export PYWIKIBOT_DIR="{{@@ "$HOME/Files/pywikibot" | find_in_home @@}}"

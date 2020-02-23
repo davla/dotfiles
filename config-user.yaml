@@ -75,8 +75,8 @@ dotfiles:
     upignore:
     - '*.README'
   d_gtk-2.0:
-    src: gtk-2.0
-    dst: '~'
+    src: config/gtk-2.0
+    dst: '{{@@ gtk2_path @@}}'
   d_gtk-3.0:
     src: config/gtk-3.0
     dst: '{{@@ xdg_config("gtk-3.0") @@}}'

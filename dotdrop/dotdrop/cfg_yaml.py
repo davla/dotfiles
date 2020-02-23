@@ -23,7 +23,7 @@ from dotdrop.exceptions import YamlException
 class CfgYaml:
 
     # global entries
-    key_settings = 'config'
+    key_settings = Settings.key_yaml
     key_dotfiles = 'dotfiles'
     key_profiles = 'profiles'
     key_actions = 'actions'
@@ -61,12 +61,12 @@ class CfgYaml:
     key_import_ignore_key = 'optional'
 
     # settings
-    key_settings_dotpath = 'dotpath'
-    key_settings_workdir = 'workdir'
-    key_settings_link_dotfile_default = 'link_dotfile_default'
-    key_settings_noempty = 'ignoreempty'
-    key_settings_minversion = 'minversion'
-    key_imp_link = 'link_on_import'
+    key_settings_dotpath = Settings.key_dotpath
+    key_settings_workdir = Settings.key_workdir
+    key_settings_link_dotfile_default = Settings.key_link_dotfile_default
+    key_settings_noempty = Settings.key_ignoreempty
+    key_settings_minversion = Settings.key_minversion
+    key_imp_link = Settings.key_link_on_import
 
     # link values
     lnk_nolink = LinkTypes.NOLINK.name.lower()
@@ -152,6 +152,16 @@ class CfgYaml:
         self.settings[self.key_settings_dotpath] = p
         p = self._norm_path(self.settings[self.key_settings_workdir])
         self.settings[self.key_settings_workdir] = p
+        p = [
+            self._norm_path(p)
+            for p in self.settings[Settings.key_filter_file]
+        ]
+        self.settings[Settings.key_filter_file] = p
+        p = [
+            self._norm_path(p)
+            for p in self.settings[Settings.key_func_file]
+        ]
+        self.settings[Settings.key_func_file] = p
         if self.debug:
             self.log.dbg('settings: {}'.format(self.settings))
 
@@ -216,29 +226,43 @@ class CfgYaml:
 
     def _resolve_dotfile_paths(self):
         """resolve dotfile paths"""
-        t = Templategen(variables=self.variables)
+        t = Templategen(variables=self.variables,
+                        func_file=self.settings[Settings.key_func_file],
+                        filter_file=self.settings[Settings.key_filter_file])
 
         for dotfile in self.dotfiles.values():
             # src
             src = dotfile[self.key_dotfile_src]
-            new = t.generate_string(src)
-            if new != src and self.debug:
-                self.log.dbg('dotfile: {} -> {}'.format(src, new))
-            src = new
-            src = os.path.join(self.settings[self.key_settings_dotpath], src)
-            dotfile[self.key_dotfile_src] = self._norm_path(src)
+            if not src:
+                dotfile[self.key_dotfile_src] = ''
+            else:
+                new = t.generate_string(src)
+                if new != src and self.debug:
+                    msg = 'dotfile src: \"{}\" -> \"{}\"'.format(src, new)
+                    self.log.dbg(msg)
+                src = new
+                src = os.path.join(self.settings[self.key_settings_dotpath],
+                                   src)
+                dotfile[self.key_dotfile_src] = self._norm_path(src)
+
             # dst
             dst = dotfile[self.key_dotfile_dst]
-            new = t.generate_string(dst)
-            if new != dst and self.debug:
-                self.log.dbg('dotfile: {} -> {}'.format(dst, new))
-            dst = new
-            dotfile[self.key_dotfile_dst] = self._norm_path(dst)
+            if not dst:
+                dotfile[self.key_dotfile_dst] = ''
+            else:
+                new = t.generate_string(dst)
+                if new != dst and self.debug:
+                    msg = 'dotfile dst: \"{}\" -> \"{}\"'.format(dst, new)
+                    self.log.dbg(msg)
+                dst = new
+                dotfile[self.key_dotfile_dst] = self._norm_path(dst)
 
     def _rec_resolve_vars(self, variables):
         """recursive resolve variables"""
         default = self._get_variables_dict(self.profile)
-        t = Templategen(variables=self._merge_dict(default, variables))
+        t = Templategen(variables=self._merge_dict(default, variables),
+                        func_file=self.settings[Settings.key_func_file],
+                        filter_file=self.settings[Settings.key_filter_file])
         for k in variables.keys():
             val = variables[k]
             while Templategen.var_is_template(val):
@@ -274,7 +298,10 @@ class CfgYaml:
             self._debug_vars(merged)
 
         # resolve profile includes
-        t = Templategen(variables=merged)
+        t = Templategen(variables=merged,
+                        func_file=self.settings[Settings.key_func_file],
+                        filter_file=self.settings[Settings.key_filter_file])
+
         for k, v in self.profiles.items():
             if self.key_profile_include in v:
                 new = []
@@ -304,7 +331,9 @@ class CfgYaml:
 
     def _apply_variables(self):
         """template any needed parts of the config"""
-        t = Templategen(variables=self.variables)
+        t = Templategen(variables=self.variables,
+                        func_file=self.settings[Settings.key_func_file],
+                        filter_file=self.settings[Settings.key_filter_file])
 
         # import_actions
         new = []
@@ -696,7 +725,8 @@ class CfgYaml:
         """add an existing dotfile key to a profile_key"""
         self._new_profile(profile_key)
         profile = self.yaml_dict[self.key_profiles][profile_key]
-        if self.key_profile_dotfiles not in profile:
+        if self.key_profile_dotfiles not in profile or \
+                profile[self.key_profile_dotfiles] is None:
             profile[self.key_profile_dotfiles] = []
         pdfs = profile[self.key_profile_dotfiles]
         if self.key_all not in pdfs and \
@@ -979,6 +1009,8 @@ class CfgYaml:
 
     def _norm_path(self, path):
         """resolve a path either absolute or relative to config path"""
+        if not path:
+            return path
         path = os.path.expanduser(path)
         if not os.path.isabs(path):
             d = os.path.dirname(self.path)

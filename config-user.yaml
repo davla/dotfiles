@@ -30,6 +30,7 @@ config:
   - yaml/variables/look-and-feel.yaml
   - yaml/variables/*-look-and-feel.yaml
   - yaml/variables/private.yaml
+  - yaml/variables/shared.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -137,8 +138,8 @@ dotfiles:
     # Temporary destintion as the dotfile is installed with crontab -e
     dst: '{{@@ tmp_dst @@}}'
   f_docker_config.json:
-    src: docker/config.json
-    dst: ~/.docker/config.json
+    src: config/docker/config.json
+    dst: '{{@@ docker_path @@}}/config.json'
   f_geany_colorschemes_on-my-own.conf:
     src: config/geany/colorschemes/on-my-own.conf
     dst: '{{@@ xdg_config("geany/colorschemes/on-my-own.conf") @@}}'

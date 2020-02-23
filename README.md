@@ -3,7 +3,7 @@ My dotfiles repository. Really, just configuration files
 
 ## TODO
 - Better mr files layout
-- docker/config.json in ~/.config
+- Fix parcellite theme
 - Fix thefuck
 - interactive vs non-interactive in bashrc and zshrc
 - Plugin lists fine-controlled when imported (eg. bash sourcing sh)

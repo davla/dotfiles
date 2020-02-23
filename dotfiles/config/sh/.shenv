@@ -13,6 +13,12 @@ export DOTFILES_HOME="{{@@ "$HOME/Files/Programming/sys/dotfiles"
 export PYWIKIBOT_DIR="{{@@ "$HOME/Files/pywikibot" | find_in_home @@}}"
 
 #######################################
+# Docker
+#######################################
+
+export DOCKER_CONFIG="{{@@ docker_path | home_abs2var @@}}"
+
+#######################################
 # Gtk 2
 #######################################
 

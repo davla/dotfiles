@@ -21,7 +21,7 @@ set_wireless() {
     NEW_STATE="$1"
 
     nmcli radio wifi "$NEW_STATE"
-    logger -p local0.info -t WIRELESS-CTRL "[root] Wireless set $NEW_STATE"
+    echo "Wireless set $NEW_STATE" | cron-logger 'WIRELESS-CTRL'
     pkill -RTMIN+{{@@ network_signal @@}} i3blocks
 
     unset NEW_STATE

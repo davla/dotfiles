@@ -4,24 +4,26 @@
 # user
 
 config:
-    backup: false
-    banner: true
-    create: true
-    dotpath: ../../dotfiles
-    ignoreempty: true
-    import_configs:
-    - shell.yaml
-    keepdot: false
-    link_dotfile_default: nolink
-    link_on_import: nolink
-    longkey: false
-    showdiff: true
-    workdir: ~/.config/dotdrop
+  backup: false
+  banner: true
+  create: true
+  dotpath: ../../dotfiles
+  func_file:
+  - ../../python/functions.py
+  ignoreempty: true
+  import_configs:
+  - shell.yaml
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+  showdiff: true
+  workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
   d_git:
     src: config/git
-    dst: ~/.config/git
+    dst: '{{@@ xdg_config("git") @@}}'
 
 profiles:
   # This profile groups git dotfiles

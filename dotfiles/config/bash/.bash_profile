@@ -10,7 +10,7 @@
 #######################################
 
 # shellcheck disable=2027,2140
-source "{{@@ dotdirs_file | replace("~", "$HOME") @@}}"
+source "{{@@ dotdirs_file | home_abs2var @@}}"
 
 #######################################
 # Delegating to bashrc

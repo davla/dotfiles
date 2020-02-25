@@ -9,7 +9,7 @@
 #######################################
 
 # shellcheck disable=2027,2140
-. "{{@@ dotdirs_file | replace("~", "$HOME") @@}}"
+. "{{@@ dotdirs_file | home_abs2var @@}}"
 
 #######################################
 # Loading environment variables

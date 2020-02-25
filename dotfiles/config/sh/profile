@@ -15,7 +15,7 @@
 # Loading environment variables
 #######################################
 
-. "$SDOTDIR/.shenv"
+. "$SDOTDIR/shenv"
 
 #######################################
 # Loading plugins

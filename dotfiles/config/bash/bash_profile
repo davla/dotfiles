@@ -16,4 +16,4 @@ source "{{@@ dotdirs_file | home_abs2var @@}}"
 # Delegating to bashrc
 #######################################
 
-source "$BDOTDIR/.bashrc"
+source "$BDOTDIR/bashrc"

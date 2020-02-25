@@ -15,7 +15,7 @@ source "{{@@ dotdirs_file | home_abs2var @@}}"
 # Inheriting from POSIX shell
 #######################################
 
-source "$SDOTDIR/.shenv"
+source "$SDOTDIR/shenv"
 
 ######################################
 # Antibody

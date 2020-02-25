@@ -15,7 +15,7 @@ source "{{@@ dotdirs_file | home_abs2var @@}}"
 # Loading environment variables
 #######################################
 
-source "$BDOTDIR/.bashenv"
+source "$BDOTDIR/bashenv"
 
 #######################################
 # Loading plugins

@@ -2,6 +2,8 @@
 My dotfiles repository. Really, just configuration files
 
 ## TODO
+- Split env vars between interactive and non-interactive
+  + Make sure that autorandr env vars are loaded in xsessionrc
 - Better mr files layout
 - Fix parcellite theme
 - Fix thefuck

@@ -19,12 +19,6 @@ export PYWIKIBOT_DIR="{{@@ "$HOME/Files/pywikibot" | find_in_home @@}}"
 export DOCKER_CONFIG="{{@@ docker_path | home_abs2var @@}}"
 
 #######################################
-# Gtk 2
-#######################################
-
-export GTK2_RC_FILES="{{@@ gtk2_path | home_abs2var @@}}/gtkrc"
-
-#######################################
 # Path
 #######################################
 

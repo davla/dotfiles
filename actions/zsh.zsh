@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+. ../.env
+
 # This script initializes the zsh dotfiles setup.
 #
 # Arguments:
@@ -44,7 +46,15 @@ mkdir -p "${ZDOTDIR:?}/cache"
 # Installing antibody
 #######################################
 
-sudo mr -d /opt/antibody install
+case "$DISTRO" in
+    'arch')
+        yay -S antibody-bin
+        ;;
+
+    'debian')
+        sudo mr -d /opt/antibody install
+        ;;
+esac
 
 #######################################
 # Installing plugins

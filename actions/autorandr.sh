@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+. ../.env
+
 # This script sets up the autorandr configuration. In particular:
 #   - it creates some symbolic links to generic hook scripts for specific
 #     configurations.

@@ -5,7 +5,16 @@
 actions:
   pre:
     # This action installs the packages necessary for the environment setup
-    environment: apt-get install bash zsh
+    environment: >-
+      case "$DISTRO" in
+          'arch')
+              pacman -S bash zsh
+              ;;
+
+          'debian')
+              apt-get install bash zsh
+              ;;
+      esac
 
   post:
     # This action applies the grub configuration
@@ -15,7 +24,16 @@ actions:
 
     # This action installs the packages providing the commands used in the root
     # mrconfig file
-    mrconfig: apt-get install jq
+    mrconfig: >-
+      case "$DISTRO" in
+          'arch')
+              pacman -S jq
+              ;;
+
+          'debian')
+              apt-get install jq
+              ;;
+      esac
 
     # This action enables the systemd service file passed as an argument
     systemd-enable: basename '{0}' '.service' | xargs systemctl enable

@@ -1,0 +1,9 @@
+%YAML 1.2
+---
+# This variables file defines some miscellaneous user-specific variables for
+# the root user.
+
+variables:
+
+  # This variable defines the Zygal shell theme colorscheme.
+  zygal_colorscheme: green

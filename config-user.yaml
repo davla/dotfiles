@@ -24,7 +24,9 @@ config:
   - yaml/profiles/autorandr.yaml
   - yaml/profiles/shared.yaml
   import_variables:
+  - yaml/variables/{{@@ user @@}}/*.yaml
   - yaml/variables/{{@@ host @@}}/*.yaml
+  - yaml/variables/{{@@ host @@}}/{{@@ user @@}}/*.yaml
   - yaml/variables/dpi.yaml
   - yaml/variables/i3.yaml
   - yaml/variables/look-and-feel.yaml
@@ -317,6 +319,3 @@ variables:
   # This variable is used to differentiate between user and root configuration
   # in some dotfiles.
   user: user
-
-  # This variable defines the Zygal shell theme colorscheme.
-  zygal_colorscheme: orange

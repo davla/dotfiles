@@ -65,11 +65,13 @@ config:
   - yaml/profiles/apt-repos.yaml
   - yaml/profiles/shared.yaml
   import_variables:
-  - 'yaml/variables/{{@@ host @@}}/*.yaml'
+  - yaml/variables/{{@@ user @@}}/*.yaml
+  - yaml/variables/{{@@ env['HOST'] @@}}/*.yaml
+  - yaml/variables/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml
   - yaml/variables/asdf.yaml
   - yaml/variables/i3.yaml
   - yaml/variables/look-and-feel.yaml
-  - 'yaml/variables/*-look-and-feel.yaml'
+  - yaml/variables/*-look-and-feel.yaml
   - yaml/variables/private.yaml
   keepdot: false
   link_dotfile_default: nolink
@@ -77,20 +79,6 @@ config:
   longkey: false
   showdiff: true
   workdir: ~/.config/dotdrop
-
-dynvariables:
-
-  # Mapping from real to generic hostnames
-  host: |-
-    case "$(hostname)" in
-        'davide-laptop')
-            echo 'personal'
-            ;;
-
-        *)
-            echo 'work'
-            ;;
-    esac
 
 dotfiles:
   d_applications:
@@ -100,6 +88,9 @@ dotfiles:
     src: asdf
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ asdf_config @@}}'
+  d_exports.d:
+    src: etc/exports.d
+    dst: /etc/exports.d
   d_xorg.conf.d:
     src: etc/X11/xorg.conf.d
     dst: /etc/X11/xorg.conf.d
@@ -122,6 +113,9 @@ dotfiles:
     actions:
     - strip '{{@@ anacrontab_append_marker @@}}' '{{@@ anacrontab_dst @@}}'
     - append '{{@@ anacrontab_dst @@}}' '{{@@ anacrontab_tmp_dst @@}}'
+  f_ddclient.conf:
+    src: etc/ddclient.conf
+    dst: /etc/ddclient.conf
   f_env-vars.sh:
     src: etc/profile.d/env-vars.sh
     # Dynamic path as it's used somewhere else too
@@ -193,9 +187,15 @@ dotfiles:
   f_org.xfce.xfce4-terminal.policy:
     src: usr/share/polkit-1/actions/org.xfce.xfce4-terminal.policy
     dst: /usr/share/polkit-1/actions/org.xfce.xfce4-terminal.policy
+  f_pam.d_system-login:
+    src: etc/pam.d/system-login
+    dst: /etc/pam.d/system-login
   f_rsyslog.d_custom.conf:
     src: etc/rsyslog.d/custom.conf
     dst: /etc/rsyslog.d/custom.conf
+  f_sshd_config:
+    src: etc/ssh/sshd_config
+    dst: /etc/ssh/sshd_config
   f_sudo_sys-env-vars:
     src: etc/sudoers.d/sys-env-vars
     dst: /etc/sudoers.d/sys-env-vars
@@ -208,7 +208,7 @@ dotfiles:
     src: etc/systemd/system/underclock.service
     dst: /etc/systemd/system/underclock.service
     actions:
-      - systemd-enable '{{@@ _dotfile_abs_src @@}}'
+    - systemd-enable '{{@@ _dotfile_abs_src @@}}'
   f_xkb_base.lst:
     src: usr/share/X11/xkb/rules/base.lst
     # Dynamic path since the dotfile content is inserted into dst
@@ -253,6 +253,11 @@ profiles:
     variables:
       anacrontab_append_marker: Custom jobs
       anacrontab_dst: /etc/anacrontab
+
+  # This profile includes configuration files for ddclient
+  ddclient:
+    dotfiles:
+    - f_ddclient.conf
 
   # This profile contains dotfiles used to setup the global shell environment
   environment:
@@ -312,11 +317,21 @@ profiles:
       hosts_append_marker: Local sites
       hosts_dst: /etc/hosts
 
+  # This profile holds nfs configurations and exports
+  nfs:
+    dotfiles:
+    - d_exports.d
+
   # This profile gathers PolicyKit dotfiles
   polkit:
     dotfiles:
     - f_60-root.conf
     - f_org.xfce.xfce4-terminal.policy
+
+  # This profile includes SSH server configuration files
+  ssh:
+    dotfiles:
+    - f_sshd_config
 
   # This profile collects system startup jobs and configuration dotfiles
   startup:
@@ -324,7 +339,7 @@ profiles:
     - f_grub
     - f_underclock.service
     import:
-    - 'yaml/dotfiles/{{@@ host @@}}/{{@@ user @@}}/startup.yaml'
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml
     actions:
     - rm '{{@@ fstab_tmp_dst @@}}'
     dynvariables:
@@ -364,6 +379,3 @@ variables:
   # This variable is used to differentiate between user and root configuration
   # in some dotfiles.
   user: root
-
-  # This variable defines the Zygal shell theme colorscheme.
-  zygal_colorscheme: green

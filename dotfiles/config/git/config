@@ -34,7 +34,9 @@
     # branch
     b = branch
     ba = branch --all
-    nb = {{@@ new_branch @@}}
+    bd = branch -d
+    bD = branch -D
+    bn = {{@@ new_branch @@}}
 
     # chekcout
     ck = checkout -q

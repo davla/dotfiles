@@ -46,25 +46,12 @@ dotfiles:
     src: config/autorandr/postswitch
     dst: '{{@@ autorandr_home @@}}/postswitch'
 
-dynvariables:
-  # Mapping from real to generic hostnames
-  host: |-
-    case "$(hostname)" in
-        'davide-laptop')
-            echo 'personal'
-            ;;
-
-        *)
-            echo 'work'
-            ;;
-    esac
-
 profiles:
   autorandr:
     dotfiles:
     - f_postswitch
     import:
-    - ../dotfiles/{{@@ host @@}}/autorandr.yaml
+    - ../dotfiles/{{@@ env['HOST'] @@}}/autorandr.yaml:optional
     actions:
     - autorandr
 

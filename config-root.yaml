@@ -65,9 +65,9 @@ config:
   - yaml/profiles/apt-repos.yaml
   - yaml/profiles/shared.yaml
   import_variables:
-  - yaml/variables/{{@@ user @@}}/*.yaml
-  - yaml/variables/{{@@ env['HOST'] @@}}/*.yaml
-  - yaml/variables/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml
+  - yaml/variables/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/{{@@ env['HOST'] @@}}/*.yaml:optional
+  - yaml/variables/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/asdf.yaml
   - yaml/variables/i3.yaml
   - yaml/variables/look-and-feel.yaml
@@ -339,7 +339,7 @@ profiles:
     - f_grub
     - f_underclock.service
     import:
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
     actions:
     - rm '{{@@ fstab_tmp_dst @@}}'
     dynvariables:

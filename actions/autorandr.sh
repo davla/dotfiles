@@ -38,7 +38,7 @@ link_hooks() {
 
 # Lists of autorandr configuration names that need dpi-adjusting hook scripts.
 # Split by host.
-case "$(hostname)" in
+case "$HOST" in
     'davide-laptop')
         HIDPI_CONFIGS='laptop-personal'
         LODPI_CONFIGS='dual-personal-cph

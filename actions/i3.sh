@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
-. ../.env
+# This doesn't work if this script is sourced
+. "$(dirname "$0")"/../.env
 
 # This script installs i3 customization dependencies
 

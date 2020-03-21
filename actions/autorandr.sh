@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
-. ../.env
+# This doesn't work if this script is sourced
+. "$(dirname "$0")"/../.env
 
 # This script sets up the autorandr configuration. In particular:
 #   - it creates some symbolic links to generic hook scripts for specific

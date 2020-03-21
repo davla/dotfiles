@@ -188,7 +188,7 @@ for_window [class="Atom"] focus
 for_window [class="Firefox"] focus
 for_window [title="$startup_term_title"] focus
 for_window [class="TelegramDesktop"] focus
-for_window [class="Thunderbird"] focus
+for_window [class="thunderbird"] focus
 
 #######################################
 # Scratchpad
@@ -326,4 +326,5 @@ exec $term --title $sp_term_title
 # Startup terminal
 exec $term --title $startup_term_title
 
+# Caps lock block indicator
 bindsym --release Caps_Lock exec pkill -SIGRTMIN+{{@@ caps_signal @@}} i3blocks

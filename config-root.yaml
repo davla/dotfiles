@@ -157,6 +157,9 @@ dotfiles:
     dst: /etc/default/grub
     actions:
     - grub
+  f_hostname:
+    src: etc/hostname
+    dst: /etc/hostname
   f_hosts:
     src: etc/hosts
     # Dynamic path since the dotfile content is appended to dst
@@ -184,6 +187,9 @@ dotfiles:
     dst: ~/.mrconfig
     actions:
     - mrconfig
+  f_networkd_20-wired.network:
+    src: etc/systemd/network/20-wired.network
+    dst: /etc/systemd/network/20-wired.network
   f_org.xfce.xfce4-terminal.policy:
     src: usr/share/polkit-1/actions/org.xfce.xfce4-terminal.policy
     dst: /usr/share/polkit-1/actions/org.xfce.xfce4-terminal.policy
@@ -303,8 +309,14 @@ profiles:
     - d_applications
     - f_mrconfig
 
-  # This profile contains network-related configuration files
+  # This profile contains network connection configuration files
   network:
+    dotfiles:
+    - f_hostname
+    - f_networkd_20-wired.network
+
+  # This profile contains network utilities configuration files
+  network-utils:
     dotfiles:
     - f_99-no-wireless-on-wired
     - f_frequent-hosts
@@ -314,7 +326,7 @@ profiles:
     dynvariables:
       hosts_tmp_dst: mktemp /tmp/hosts-append.XXX
     variables:
-      hosts_append_marker: Local sites
+      hosts_append_marker: Local hosts
       hosts_dst: /etc/hosts
 
   # This profile holds nfs configurations and exports

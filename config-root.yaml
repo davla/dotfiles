@@ -130,7 +130,7 @@ dotfiles:
     # Dynamic path since the dotfile content is inserted into dst
     dst: '{{@@ env_tmp_dst @@}}'
     actions:
-    - strip_file '{{@@ _dotfile_abs_src @@}}' '{{@@ bash_env_dst @@}}'
+    - strip_file '{{@@ env_tmp_dst @@}}' '{{@@ bash_env_dst @@}}'
     # Inserts after the first empty line or the first comment
     - >-
       insert_match '(^$|^[^#])' '{{@@ env_tmp_dst @@}}'
@@ -141,7 +141,7 @@ dotfiles:
     # Dynamic path since the dotfile content is inserted into dst
     dst: '{{@@ env_tmp_dst @@}}'
     actions:
-    - strip_file '{{@@ _dotfile_abs_src @@}}' '{{@@ zsh_env_dst @@}}'
+    - strip_file '{{@@ env_tmp_dst @@}}' '{{@@ zsh_env_dst @@}}'
     # Inserts after the first empty line or the first comment
     - >-
       insert_match '(^$|^[^#])' '{{@@ env_tmp_dst @@}}'

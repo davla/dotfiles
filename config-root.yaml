@@ -4,17 +4,7 @@
 
 actions:
   pre:
-    # This action installs the packages necessary for the environment setup
-    environment: >-
-      case "$DISTRO" in
-          'arch')
-              pacman -S bash zsh
-              ;;
-
-          'debian')
-              apt-get install bash zsh
-              ;;
-      esac
+    create_if_empty: "[ -s '{0}' ] || printf '{1}' > '{0}'"
 
   post:
     # This action applies the grub configuration
@@ -74,6 +64,7 @@ config:
   - yaml/variables/i3.yaml
   - yaml/variables/look-and-feel.yaml
   - yaml/variables/*-look-and-feel.yaml
+  - yaml/variables/shared.yaml
   - yaml/variables/private.yaml
   keepdot: false
   link_dotfile_default: nolink
@@ -130,6 +121,7 @@ dotfiles:
     # Dynamic path since the dotfile content is inserted into dst
     dst: '{{@@ env_tmp_dst @@}}'
     actions:
+    - create_if_empty '{{@@ bash_env_dst @@}}' '#!/usr/bin/env bash\n'
     - strip_file '{{@@ env_tmp_dst @@}}' '{{@@ bash_env_dst @@}}'
     # Inserts after the first empty line or the first comment
     - >-
@@ -141,6 +133,7 @@ dotfiles:
     # Dynamic path since the dotfile content is inserted into dst
     dst: '{{@@ env_tmp_dst @@}}'
     actions:
+    - create_if_empty '{{@@ zsh_env_dst @@}}' '#!/usr/bin/env zsh\n'
     - strip_file '{{@@ env_tmp_dst @@}}' '{{@@ zsh_env_dst @@}}'
     # Inserts after the first empty line or the first comment
     - >-
@@ -277,8 +270,6 @@ profiles:
     - f_env-vars-bash.sh
     - f_env-vars-zsh.sh
     - f_sudo_sys-env-vars
-    actions:
-    - environment
     dynvariables:
       env_tmp_dst: mktemp /tmp/env-tmp.XXX
     variables:

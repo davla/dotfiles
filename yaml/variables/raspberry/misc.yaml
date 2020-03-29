@@ -1,9 +1,0 @@
-%YAML 1.2
----
-# This variables file defines some miscellaneous host-specific variables for my
-# raspberry pi.
-
-dynvariables:
-  # This is the directory from where dotdrop is invoked by the wrapper custom
-  # command
-  dotfiles_home: git rev-parse --show-toplevel | xargs -i echo '{}/dotfiles'

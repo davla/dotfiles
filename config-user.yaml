@@ -200,10 +200,9 @@ profiles:
 
   # This profile groups configuration files for CLI-based applictions.
   cli:
-    dotfiles:
-    - f_docker_config.json
     import:
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/cli.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ user @@}}/cli.yaml:optional
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
     include:
     - git
 

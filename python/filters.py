@@ -34,7 +34,10 @@ def find_in_home(path: str) -> str:
         return str(path)
 
     found_paths = Path('/home').glob('**/{!s}'.format(path.strip_home()))
-    return str(next(found_paths))
+    try:
+        return str(next(found_paths))
+    except StopIteration:
+        return None
 
 
 def home_abs2var(path: str) -> str:

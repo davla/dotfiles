@@ -15,7 +15,7 @@ actions:
 
     # This action installs the packages providing the commands used in the root
     # mrconfig file
-    mrconfig: >-
+    mrconfig: |-
       case "$DISTRO" in
           'arch')
               pacman -S jq
@@ -30,13 +30,23 @@ actions:
     systemd-enable: basename '{0}' '.service' | xargs systemctl enable
 
     # This action applies the timezone settings.
-    # Non-interactive mode in dpkg-reconfigure needs both /etc/timezones and
-    # /etc/localtime in place to work. /etc/timezone is the dotfile itself
-    # ({0} here), while /etc/localtime is set according to the Debian wiki:
-    # https://wiki.debian.org/TimeZoneChanges
-    timezone: >-
-      < '{0}' xargs -i cp --remove-destination '/usr/share/zoneinfo/{{}}' /etc/localtime;
-      dpkg-reconfigure -f noninteractive tzdata
+    # In Debian, non-interactive mode in dpkg-reconfigure needs both
+    # /etc/timezones and /etc/localtime in place to work. /etc/timezone is the
+    # dotfile itself ({0} here), while /etc/localtime is set according to the
+    # Debian wiki: https://wiki.debian.org/TimeZoneChanges
+    timezone: |-
+      case "$DISTRO" in
+          'arch')
+              < '{0}' xargs timedatectl set-timezone
+              rm '{0}'
+              ;;
+
+          'debian')
+              < '{0}' xargs -i cp --remove-destination \
+                  '/usr/share/zoneinfo/{{}}' /etc/localtime
+              dpkg-reconfigure -f noninteractive tzdata
+              ;;
+      esac
 
     xkb: sh ./actions/xkb.sh
 
@@ -177,6 +187,9 @@ dotfiles:
   f_locale:
     src: etc/default/locale
     dst: /etc/default/locale
+  f_locale.conf:
+    src: etc/locale.conf
+    dst: /etc/locale.conf
   f_logrotate.d_custom.conf:
     src: etc/logrotate.d/custom.conf
     dst: /etc/logrotate.d/custom.conf
@@ -207,7 +220,7 @@ dotfiles:
     src: etc/timezone
     dst: /etc/timezone
     actions:
-    - timezone '{{@@ _dotfile_abs_src @@}}'
+    - timezone '{{@@ _dotfile_abs_dst @@}}'
   f_underclock.service:
     src: etc/systemd/system/underclock.service
     dst: /etc/systemd/system/underclock.service
@@ -293,9 +306,10 @@ profiles:
 
   # This profile contains dotfiles related to localization and timezones
   locales:
-    dotfiles:
-    - f_locale
-    - f_timezone
+    import:
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/locales.yaml
+    actions:
+    - locales
 
   # This profile holds dotfiles used to install software manually, that is
   # without the aid of a package manager

@@ -1,0 +1,8 @@
+%YAML 1.2
+---
+# This dotfiles file lists the dotfiles related to localization on a Debian
+# system.
+
+dotfiles:
+- f_locale
+- f_timezone

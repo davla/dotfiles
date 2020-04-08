@@ -114,3 +114,6 @@ Subsystem	sftp	/usr/lib/ssh/sftp-server
 #	AllowTcpForwarding no
 #	PermitTTY no
 #	ForceCommand cvs server
+
+# Use client locales
+AcceptEnv LANG LC_*

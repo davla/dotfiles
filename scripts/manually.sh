@@ -78,11 +78,3 @@ mr -d '/opt' checkout
 bash -lc 'source ./.env; dotdrop install -p manual'
 
 mr -d '/opt' install
-
-#######################################
-# Initial setup
-#######################################
-
-# Asdf
-# The code is kept in a separate script as it needs to be run with bash.
-bash -l scripts/asdf.sh

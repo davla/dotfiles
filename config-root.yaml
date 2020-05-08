@@ -64,7 +64,6 @@ config:
   import_actions:
   - yaml/actions/append.yaml
   - yaml/actions/insert.yaml
-  - yaml/actions/shared.yaml
   import_configs:
   - yaml/profiles/apt-repos.yaml
   - yaml/profiles/shared.yaml
@@ -503,10 +502,6 @@ profiles:
       symbols_dst: /usr/share/X11/xkb/symbols/us
 
 variables:
-  # This variable defines the default directory myrepos is run from, both as
-  # a shell alias and in anacron jobs.
-  mr_default_dir: /opt
-
   # This variable is used to differentiate between user and root configuration
   # in some dotfiles.
   user: root

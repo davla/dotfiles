@@ -7,7 +7,6 @@ My dotfiles repository. Really, just configuration files
 - cron -> systemd timers
 - Split env vars between interactive and non-interactive
   + Make sure that autorandr env vars are loaded in xsessionrc
-- Better mr files layout
 - Fix thefuck
 - interactive vs non-interactive in bashrc and zshrc
 - Plugin lists fine-controlled when imported (eg. bash sourcing sh)
@@ -19,7 +18,6 @@ My dotfiles repository. Really, just configuration files
 - sct not working
 - dotdrop autocompletion
 - dotdrop executable permissions on install
-- absolute_path filter (root dunstrc)
 - More preferences
   + Firefox
   + Enpass

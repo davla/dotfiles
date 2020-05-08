@@ -4,5 +4,5 @@
 
 {%@@ include 'cron/anacrontab.shared' @@%}
 
-1   1   manual.update           mr -d {{@@ mr_default_dir @@}} upgrade 2>&1 | grep -v 'finish' | grep -vP '^\S*$' | cron-logger 'MANUAL-INSTALL'
+1   1   manual.update           mr -d /opt upgrade 2>&1 | grep -v 'finish' | grep -vP '^\S*$' | cron-logger 'MANUAL-INSTALL'
 1   1   host.refresh            host-refresh > /dev/null 2>&1; cron-logger 'HOST-REFRESH' "$?"

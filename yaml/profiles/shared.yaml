@@ -1,7 +1,11 @@
 %YAML 1.2
 ---
-# This dotdrop config file is meant for dotfiles shared between both root and
-# user
+# This dotdrop config file is meant for dotfiles, actions, profiles etc. shared
+# between both root and user
+
+actions:
+  post:
+    anacron: sh ./actions/anacron.sh "{0}" "{1}"
 
 config:
   backup: false

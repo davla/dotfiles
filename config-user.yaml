@@ -18,8 +18,6 @@ config:
   func_file:
   - python/functions.py
   ignoreempty: true
-  import_actions:
-  - yaml/actions/shared.yaml
   import_configs:
   - yaml/profiles/autorandr.yaml
   - yaml/profiles/shared.yaml
@@ -39,11 +37,6 @@ config:
   longkey: false
   showdiff: true
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
-
-dynvariables:
-  # This variable is used in order not to hardcode the home directory where it
-  # can not be dynamically expanded
-  home: 'echo $HOME'
 
 dotfiles:
   d_autostart:
@@ -302,10 +295,6 @@ trans_write:
   atom-list-packages: apm list --bare --installed | grep -o '^[^@]\+' > {1}
 
 variables:
-  # This variable defines the default directory myrepos is run from, both as
-  # a shell alias and in anacron jobs.
-  mr_default_dir: '$HOME'
-
   # This variable is used to differentiate between user and root configuration
   # in some dotfiles.
   user: user

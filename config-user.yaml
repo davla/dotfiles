@@ -89,7 +89,7 @@ dotfiles:
     src: config/x11/Xresources.d
     dst: '{{@@ xdg_config("x11/Xresources.d") @@}}'
   f_anacrontab:
-    src: cron/anacrontab
+    src: cron/anacrontab.{{@@ user @@}}
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ anacrontab @@}}'
   f_atom_config.cson:
@@ -126,7 +126,7 @@ dotfiles:
   f_crontab:
     src: cron/crontab
     # Temporary destintion as the dotfile is installed with crontab -e
-    dst: '{{@@ tmp_dst @@}}'
+    dst: '{{@@ cron_tmp_dst @@}}'
   f_docker_config.json:
     src: config/docker/config.json
     dst: '{{@@ docker_path @@}}/config.json'
@@ -209,17 +209,15 @@ profiles:
   # This profile groups together cron- and anacron-related configurations.
   cron:
     dotfiles:
-    - f_anacrontab
     - f_crontab
-    variables:
-      # These paths are variables because they are used in multiple places,
-      # such as templates, dotfile entris dst and action arguments.
-      anacrontab: '{{@@ xdg_config("anacrontab") @@}}'
-      anacron_spool: '{{@@ xdg_data("anacron/spool") @@}}'
     dynvariables:
-      tmp_dst: mktemp /tmp/cron-tmp.XXX
+      cron_tmp_dst: mktemp /tmp/cron-tmp.XXX
     actions:
-    - anacron '{{@@ anacron_spool | home_abs2var @@}}' '{{@@ tmp_dst @@}}'
+    - >-
+        anacron '{{@@ anacron_spool | default('') | home_abs2var @@}}'
+          '{{@@ cron_tmp_dst @@}}'
+    import:
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/cron.yaml:optional
 
   # This profile groups geany-related dotfiles. Individual files are addressed,
   # rather than the whole directory, as it was execssively complex to ignore

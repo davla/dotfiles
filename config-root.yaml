@@ -416,6 +416,7 @@ profiles:
     - f_mrconfig-gui
     - f_mrconfig-host
     - f_mrconfig-main
+    - f_mrtrust
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/manual.yaml:optional
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/manual.yaml:optional

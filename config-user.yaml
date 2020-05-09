@@ -265,6 +265,8 @@ profiles:
 
   # This profile contains dotfiles for managing repositories with myrepos
   myrepos:
+    dotfiles:
+    - f_mrtrust
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/myrepos.yaml:optional
     - yaml/dotfiles/{{@@ user @@}}/myrepos.yaml:optional

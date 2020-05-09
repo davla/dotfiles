@@ -1,0 +1,8 @@
+{#@@
+    This dotfile simply includes the right content from other dotfiles based
+    on system variables like host or user.
+@@#}
+{%@@ include [
+    'config/mr/mrtrust.%s.%s' | format(env['HOST'], user),
+    'config/mr/mrtrust.%s' | format(user)
+] ignore missing @@%}

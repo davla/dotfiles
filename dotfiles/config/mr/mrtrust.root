@@ -1,0 +1,7 @@
+# This is the mrtrust file for root
+#
+# {{@@ header() @@}}
+
+/opt/.mrconfig
+/opt/.mrconfig.gui
+/opt/.mrconfig.{{@@ env['HOST'] @@}}

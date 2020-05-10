@@ -50,30 +50,30 @@ sudo pip3 install docker-compose
 #
 #####################################################
 
-sudo cp "$RASPI_LIB_DIR/config/exports" /etc
-sudo cp "$RASPI_LIB_DIR/config/pam_login" /etc/pam.d/login
-sudo cp "$RASPI_LIB_DIR/config/pam_sshd" /etc/pam.d/sshd
-sudo cp "$RASPI_LIB_DIR/config/sshd_config" /etc/ssh/sshd_config
-sudo cp "$RASPI_LIB_DIR/config/rsyslog-custom.conf" /etc/rsyslog.d
-sudo cp "$RASPI_LIB_DIR/config/logrotate-custom.conf" /etc/logrotate.d
-
+# sudo cp "$RASPI_LIB_DIR/config/exports" /etc
+# sudo cp "$RASPI_LIB_DIR/config/pam_login" /etc/pam.d/login
+# sudo cp "$RASPI_LIB_DIR/config/pam_sshd" /etc/pam.d/sshd
+# sudo cp "$RASPI_LIB_DIR/config/sshd_config" /etc/ssh/sshd_config
+# sudo cp "$RASPI_LIB_DIR/config/rsyslog-custom.conf" /etc/rsyslog.d
+# sudo cp "$RASPI_LIB_DIR/config/logrotate-custom.conf" /etc/logrotate.d
+#
 # Setting up ddclient. The lib configuration file is mean to override the
 # ddclient one anytime; however, as it doesn't have the password, this is
 # either grepped from the ddclient config file, if there is already one, or
 # asked interactively.
-if [[ -f /etc/ddclient.conf ]]; then
-    DNS_PASSWD="$(sudo grep -oP 'password=\K.+' /etc/ddclient.conf)"
-else
-    read -sp 'Insert DNS service password: ' DNS_PASSWD
-    echo ''
-fi
-sudo cp "$RASPI_LIB_DIR/config/ddclient.conf" /etc
-sudo sed -i "7ipassword=$DNS_PASSWD" /etc/ddclient.conf
-
-sudo adduser "$USER" docker
-
-git config --global user.email 'truzzialrogo@gmx.com'
-git config --global user.name 'Davide Laezza'
+# if [[ -f /etc/ddclient.conf ]]; then
+#     DNS_PASSWD="$(sudo grep -oP 'password=\K.+' /etc/ddclient.conf)"
+# else
+#     read -sp 'Insert DNS service password: ' DNS_PASSWD
+#     echo ''
+# fi
+# sudo cp "$RASPI_LIB_DIR/config/ddclient.conf" /etc
+# sudo sed -i "7ipassword=$DNS_PASSWD" /etc/ddclient.conf
+#
+# sudo adduser "$USER" docker
+#
+# git config --global user.email 'truzzialrogo@gmx.com'
+# git config --global user.name 'Davide Laezza'
 
 #####################################################
 #

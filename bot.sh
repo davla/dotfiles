@@ -315,7 +315,7 @@ prompt 'install your custom commands' 'sudo sh -e custom-commands/install.sh' \
     'custom commands installation'
 
 # Shell environment - environment variables are used in other scripts.
-prompt 'setup the environment' 'dotdrop -U root install -p environment' \
+prompt 'set up the environment' 'dotdrop -U root install -p environment' \
     'setting up the environment'
 
 # Packages installation - they make commands available for other scripts.
@@ -338,10 +338,6 @@ prompt 'install i3' 'sh -e scripts/i3.sh' 'installing i3'
 # Xfce
 prompt 'install Xfce' 'sh -e scripts/xfce.sh' 'installing Xfce'
 
-# SSH and GPG keys
-prompt 'generate SSH and GPG keys' 'sh -e scripts/security.sh' \
-    'SSH and GPG keys generation'
-
 # Locales
 prompt 'configure locales' 'dotdrop -U root install -p locales' \
     'configuring locales'
@@ -350,10 +346,6 @@ prompt 'configure locales' 'dotdrop -U root install -p locales' \
 prompt 'add keyboard layouts' 'dotdrop -U root install -p xkb' \
     'adding keyboard layouts'
 
-# Network
-prompt 'set up network tricks' 'sudo sh -e scripts/network.sh' \
-    'setting up network tricks'
-
 # Startup jobs
 prompt 'set up startup jobs' 'sh -e scripts/startup.sh' \
     'setting up startup jobs'
@@ -361,6 +353,30 @@ prompt 'set up startup jobs' 'sh -e scripts/startup.sh' \
 # Cron & anacron jobs
 prompt 'set up (ana)cron jobs' 'dotdrop -U both install -p cron' \
     'setting up (ana)cron jobs'
+
+# Network
+prompt 'set up the network' "sudo sh -e scripts/$HOSTNAME/network.sh" \
+    'setting up the network'
+
+# Users and passwords
+prompt 'set up users and their passwords' 'sh -e scripts/users.sh' \
+    'setting up users and passwords'
+
+# SSH and GPG keys
+prompt 'generate SSH and GPG keys' 'sh -e scripts/security.sh' \
+    'SSH and GPG keys generation'
+
+# SSH
+prompt 'set up the ssh server' 'dotdrop -U root install -p ssh' \
+    'setting up the ssh server'
+
+# NFS
+prompt 'set up the nfs sharing' 'dotdrop -U root install -p nfs' \
+    'setting up the nfs sharing'
+
+# Ddclient
+prompt 'set up ddclient' 'dotdrop -U root install -p ddclient' \
+    'setting up ddclient'
 
 # PolicyKit
 prompt 'configure PolicyKit' 'sudo -E dotdrop install -p polkit' \

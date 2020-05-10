@@ -1,8 +1,9 @@
 #!/usr/bin/env sh
 
-# This script sets up networking. It installs the network manager, a script
-# to disable Wi-Fi when cabled connection is available and it adds frequently
-# visited hosts IPs to /etc/hosts
+# This script sets up network utilities: it installs a GNOME-network-manager
+# script that disables Wi-Fi when cabled connection is available; it adds
+# local hosts to /etc/hosts; and it adds frequently visited hosts IPs to
+# /etc/hosts
 
 . ./.env
 
@@ -24,7 +25,7 @@ esac
 # Installing dotfiles
 #######################################
 
-dotdrop install -p network
+dotdrop install -p network-utils
 
 # Setting the right permissions and ownership for Wi-Fi dispatcher scripts
 chown -R 'root:root' /etc/NetworkManager/dispatcher.d/

@@ -17,7 +17,7 @@ DOTDROP_DIR="$1"
 case "$DISTRO" in
     'arch')
         yay -Syy
-        yay -S python pipenv
+        yay -S python python-pipenv
         ;;
 
     'debian')

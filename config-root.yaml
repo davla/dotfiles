@@ -20,6 +20,7 @@ actions:
     # This action applies the grub configuration
     grub: update-grub
 
+    ddclient: sh ./actions/ddclient.sh '{0}'
     locales: sh ./actions/locales.sh
 
     # This action installs the packages providing the commands used in the root
@@ -68,6 +69,7 @@ config:
   - yaml/variables/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/{{@@ env['HOST'] @@}}/*.yaml:optional
   - yaml/variables/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/*.yaml:optional
   - yaml/variables/asdf.yaml
   - yaml/variables/i3.yaml
   - yaml/variables/look-and-feel.yaml
@@ -115,7 +117,10 @@ dotfiles:
     - append '{{@@ anacrontab_dst @@}}' '{{@@ anacrontab_tmp_dst @@}}'
   f_ddclient.conf:
     src: etc/ddclient.conf
-    dst: /etc/ddclient.conf
+    # Dynamic path since it differs across distros
+    dst: '{{@@ ddclient_dst_path @@}}'
+    actions:
+    - ddclient '{{@@ _dotfile_abs_dst @@}}'
   f_env-vars.sh:
     src: etc/profile.d/env-vars.sh
     # Dynamic path as it's used somewhere else too

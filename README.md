@@ -5,7 +5,6 @@ My dotfiles repository. Really, just configuration files
 - Split env vars between interactive and non-interactive
   + Make sure that autorandr env vars are loaded in xsessionrc
 - Better mr files layout
-- Fix parcellite theme
 - Fix thefuck
 - interactive vs non-interactive in bashrc and zshrc
 - Plugin lists fine-controlled when imported (eg. bash sourcing sh)

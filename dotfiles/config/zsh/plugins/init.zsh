@@ -2,6 +2,8 @@
 
 # This script configures and loads zsh plugins
 
+# {{@@ header() @@}}
+
 #######################################
 # Inheriting from POSIX shell
 #######################################
@@ -61,6 +63,7 @@ ZSH_AUTOSUGGEST_USE_ASYNC=true
 
 ZSH_COMMAND_NOT_FOUND_NO_FAILURE_MSG=false
 
+{%@@ if not is_headless @@%}
 #######################################
 # zsh-notify
 #######################################
@@ -74,6 +77,7 @@ zstyle ':notify:*' error-title 'Error - took #{time_elapsed}s'
 zstyle ':notify:*' success-icon "$ICON_THEME_PATH/emblem-ok.svg"
 zstyle ':notify:*' success-title 'OK - took #{time_elapsed}s'
 
+{%@@ endif @@%}
 #######################################
 # zsh-syntax-highlight
 #######################################

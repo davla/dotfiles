@@ -8,5 +8,11 @@ dynvariables:
   # command
   dotfiles_home: git rev-parse --show-toplevel | xargs -i echo '{}/dotfiles'
 
+  # Whether dotdrop is running with a graphical user interface
+  is_headless: |-
+    SESSION="$(loginctl | head -n 2 | tail -n 1 | xargs | cut -f 1 -d ' ' | \
+        xargs -i loginctl show-session '{}' -p Type --value)"
+    [ "$SESSION" != 'tty' ] && echo 'false' || echo 'true'
+
 variables:
   docker_path: '{{@@ xdg_config("docker") @@}}'

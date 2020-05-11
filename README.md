@@ -2,6 +2,9 @@
 My dotfiles repository. Really, just configuration files
 
 ## TODO
+- mrtrust
+- Consistency of source and comments
+- cron -> systemd timers
 - Split env vars between interactive and non-interactive
   + Make sure that autorandr env vars are loaded in xsessionrc
 - Better mr files layout

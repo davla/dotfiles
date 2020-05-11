@@ -154,9 +154,9 @@ dotfiles:
   f_mimeapps.list:
     src: config/mimeapps.list
     dst: '{{@@ xdg_config("mimeapps.list") @@}}'
-  f_mrconfig:
-    src: mrconfig-user
-    dst: ~/.mrconfig
+  f_mrconfig_wiki:
+    src: code/wiki/mrconfig
+    dst: ~/code/wiki/.mrconfig
   f_orage_oragerc:
     src: config/orage/oragerc
     dst: '{{@@ xdg_config("orage/oragerc") @@}}'
@@ -211,7 +211,6 @@ profiles:
     dotfiles:
     - f_anacrontab
     - f_crontab
-    - f_mrconfig
     variables:
       # These paths are variables because they are used in multiple places,
       # such as templates, dotfile entris dst and action arguments.
@@ -272,6 +271,12 @@ profiles:
     - f_qt5ct.conf
     - f_trolltech.conf
     - f_xresources
+
+  # This profile contains dotfiles for managing repositories with myrepos
+  myrepos:
+    import:
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/myrepos.yaml:optional
+    - yaml/dotfiles/{{@@ user @@}}/myrepos.yaml:optional
 
   # This profile contains dotfiles used when the X11 session starts.
   startup:

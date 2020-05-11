@@ -6,10 +6,17 @@ This module defines some custom functions to be used in dotdrop jinja2
 templates.
 """
 
+from pathlib import Path
+
 from jinja2 import contextfunction
 from jinja2.runtime import Context
 
 from python.lib import expand_xdg as xdg
+
+
+def abs_path(path: str) -> str:
+    """Return the absolute pathname for a path."""
+    return Path(path).expand_home().resolve()
 
 
 @contextfunction

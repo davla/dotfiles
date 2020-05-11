@@ -1,13 +1,14 @@
 #!/usr/bin/env sh
 
-# This script installs packages not related to anything else on the system, and
-# performs some additional setup for some of them when required.
+# This script installs packages not related to anything else on a Debian
+# system, and performs some additional setup for some of them when required.
 #
 # Arguments:
 #   - $1: name of the user to be added to the docker group. Defaults to $USER
 #         variable.
 
-. ./.env
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/../../.env"
 
 #######################################
 # Variables
@@ -194,7 +195,7 @@ apt-get install autoconf automake build-essential cmake command-not-found \
     xdotool xserver-xorg-input-synaptics yad zip
 
 # Dotfiles
-sudo -u "$USER_NAME" dotdrop install -p cli
+sudo -u "$USER_NAME" dotdrop install -p cli -U both
 
 #######################################
 # Clean & upgrade

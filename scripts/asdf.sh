@@ -30,7 +30,15 @@ install_latest() {
 # Installing dependencies
 #######################################
 
-apt-get install libreadline-dev libncurses-dev libssl-dev libffi-dev
+case "$DISTRO" in
+    'arch')
+        # apt-get install libreadline-dev libncurses-dev libssl-dev libffi-dev
+        ;;
+
+    'debian')
+        apt-get install libreadline-dev libncurses-dev libssl-dev libffi-dev
+        ;;
+esac
 
 #######################################
 # Sourcing asdf

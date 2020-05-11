@@ -10,7 +10,15 @@
 # Installing the network manager
 #######################################
 
-apt-get install network-manager-gnome
+case "$DISTRO" in
+    'arch')
+        pacman -S network-manager-gnome
+        ;;
+
+    'debian')
+        apt-get install network-manager-gnome
+        ;;
+esac
 
 #######################################
 # Installing dotfiles

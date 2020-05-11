@@ -14,7 +14,17 @@ DOTDROP_DIR="$1"
 # Creating dotdrop virtualenv
 #######################################
 
-sudo apt-get install python3 pipenv
+case "$DISTRO" in
+    'arch')
+        yay -Syy
+        yay -S python pipenv
+        ;;
+
+    'debian')
+        sudo apt-get update
+        sudo apt-get install python3 pipenv
+        ;;
+esac
 
 cd "$DOTDROP_DIR" || exit
 pipenv install

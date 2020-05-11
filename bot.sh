@@ -319,7 +319,7 @@ prompt 'setup the environment' 'dotdrop -U root install -p environment' \
     'setting up the environment'
 
 # Packages installation - they make commands available for other scripts.
-prompt 'install packages' "sudo sh -e scripts/packages.sh $USER" \
+prompt 'install packages' "sudo sh -e scripts/$DISTRO/packages.sh $USER" \
     'packages installation'
 
 # Graphical login manager

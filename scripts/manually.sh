@@ -57,7 +57,15 @@ esac
 # Myrepos-based installation
 #######################################
 
-apt-get install myrepos
+case "$DISTRO" in
+    'arch')
+        yay -S myrepos
+        ;;
+
+    'debian')
+        apt-get install myrepos
+        ;;
+esac
 
 # Can't install the whole profile now. It contains dotfiles in directories
 # created by checkout, which means that git clone would fail as the target

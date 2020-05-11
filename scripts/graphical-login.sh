@@ -8,7 +8,15 @@
 # Installing LightDM
 #######################################
 
-apt-get install lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings
+case "$DISTRO" in
+    'arch')
+        # apt-get install lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings
+        ;;
+
+    'debian')
+        apt-get install lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings
+        ;;
+esac
 
 #######################################
 # Installing dotfiles

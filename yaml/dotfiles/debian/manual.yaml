@@ -1,7 +1,0 @@
-%YAML 1.2
----
-# This dotfiles file lists the dotfiles involved in manual management of
-# packages from sources for Debian systems.
-
-dotfiles:
-- d_asdf

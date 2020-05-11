@@ -1,7 +1,9 @@
 %YAML 1.2
 ---
 # This dotfiles file lists the dotfiles to be included in the "cli" profile
-# only on my work machine.
+# only on my personal machine for unprivileged users.
 
 dotfiles:
 - f_docker_config.json
+- f_ghci
+- f_hgrc

@@ -1,0 +1,6 @@
+# {{@@ header() @@}}
+#
+# This file preserves in sudo the asdf configuration environment variables
+# declared in {{@@ asdf_env_path @@}}
+
+Defaults env_file = "{{@@ asdf_env_path @@}}"

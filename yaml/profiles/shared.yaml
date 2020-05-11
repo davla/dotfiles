@@ -26,6 +26,9 @@ dotfiles:
     dst: '{{@@ xdg_config("git") @@}}'
 
 profiles:
+  # This profile serves as placeholder for profile includes
+  empty: {}
+
   # This profile groups git dotfiles
   git:
     dotfiles:

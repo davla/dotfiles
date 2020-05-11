@@ -16,3 +16,4 @@ dynvariables:
 
 variables:
   docker_path: '{{@@ xdg_config("docker") @@}}'
+  mr_libs_path: /usr/local/share/mr

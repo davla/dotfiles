@@ -94,6 +94,10 @@ dotfiles:
   d_exports.d:
     src: etc/exports.d
     dst: /etc/exports.d
+  d_myrepos-lib:
+    src: usr/local/share/mr
+    # Dynamic path since it's used somewhere else too
+    dst: '{{@@ mr_libs_path @@}}'
   d_xorg.conf.d:
     src: etc/X11/xorg.conf.d
     dst: /etc/X11/xorg.conf.d
@@ -193,11 +197,15 @@ dotfiles:
   f_logrotate.d_custom.conf:
     src: etc/logrotate.d/custom.conf
     dst: /etc/logrotate.d/custom.conf
-  f_mrconfig:
-    src: mrconfig-root
-    dst: ~/.mrconfig
-    actions:
-    - mrconfig
+  f_mrconfig-gui:
+    src: opt/mrconfig.gui
+    dst: /opt/.mrconfig.gui
+  f_mrconfig-host:
+    src: opt/mrconfig.{{@@ env['HOST'] @@}}
+    dst: /opt/.mrconfig.{{@@ env['HOST'] @@}}
+  f_mrconfig-main:
+    src: opt/mrconfig.{{@@ user @@}}
+    dst: /opt/.mrconfig
   f_networkd_20-wired.network:
     src: etc/systemd/network/20-wired.network
     dst: /etc/systemd/network/20-wired.network
@@ -315,9 +323,19 @@ profiles:
   # without the aid of a package manager
   manual:
     dotfiles:
-    - d_asdf
-    - d_applications
-    - f_mrconfig
+    - f_mrconfig-gui
+    - f_mrconfig-host
+    - f_mrconfig-main
+    import:
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/manual.yaml:optional
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/manual.yaml:optional
+    include:
+    - myrepos
+    - '{{@@ manual_asdf_include @@}}'
+
+  myrepos:
+    dotfiles:
+    - d_myrepos-lib
 
   # This profile contains network connection configuration files
   network:

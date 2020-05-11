@@ -1,0 +1,18 @@
+# This myrepos config file exports shell utility functions to work with
+# package installation from git source code.
+
+[DEFAULT]
+updateWithResult =
+    mr -d "$MR_REPO" update 2> /dev/null | grep 'up to date' > /dev/null 2>&1
+upgrade =
+    mr updateWithResult > /dev/null 2>&1 || mr -d "$MR_REPO" install
+lib =
+    get_github_release() {
+        REPO="$1"
+        NAME_FILTER="$2"
+        wget -qO- "https://api.github.com/repos/$REPO/releases/latest" \
+            | jq -r ".assets[] | select(.name | $NAME_FILTER)
+                .browser_download_url" \
+            | xargs wget -qO -
+        unset ASSET_SUBSTR REPO
+    }

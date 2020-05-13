@@ -3,4 +3,5 @@
 # This file preserves in sudo the asdf configuration environment variables
 # declared in {{@@ asdf_env_path @@}}
 
-Defaults env_file = "{{@@ asdf_env_path @@}}"
+Defaults    env_keep += "{{@@ vars_with_prefix('asdf_env_var').keys()
+    | map('upper') | join(' ') @@}}"

@@ -92,7 +92,7 @@ dotfiles:
     src: usr/share/applications
     dst: /usr/share/applications
   d_asdf:
-    src: asdf
+    src: usr/local/etc/asdf
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ asdf_config @@}}'
     actions:
@@ -127,7 +127,7 @@ dotfiles:
     - strip '{{@@ anacrontab_append_marker @@}}' '{{@@ anacrontab_dst @@}}'
     - append '{{@@ anacrontab_dst @@}}' '{{@@ anacrontab_tmp_dst @@}}'
   f_asdf-env:
-    src: etc/profile.d/asdf.sh
+    src: etc/profile.d/asdf-env.sh
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ asdf_env_path @@}}'
   f_asdf-env-bash:
@@ -160,34 +160,6 @@ dotfiles:
     dst: '{{@@ ddclient_dst_path @@}}'
     actions:
     - ddclient '{{@@ _dotfile_abs_dst @@}}'
-  f_env-vars.sh:
-    src: etc/profile.d/env-vars.sh
-    # Dynamic path as it's used somewhere else too
-    dst: '{{@@ env_vars_path @@}}'
-  f_env-vars-bash.sh:
-    src: env/source-env-vars.sh
-    # Dynamic path since the dotfile content is inserted into dst
-    dst: '{{@@ env_tmp_dst @@}}'
-    actions:
-    - create_if_empty '{{@@ bash_env_dst @@}}' '#!/usr/bin/env bash\n'
-    - strip_file '{{@@ env_tmp_dst @@}}' '{{@@ bash_env_dst @@}}'
-    # Inserts after the first empty line or the first comment
-    - >-
-      insert_match '(^$|^[^#])' '{{@@ env_tmp_dst @@}}'
-        '{{@@ bash_env_dst @@}}'
-    - rm '{{@@ env_tmp_dst @@}}'
-  f_env-vars-zsh.sh:
-    src: env/source-env-vars.sh
-    # Dynamic path since the dotfile content is inserted into dst
-    dst: '{{@@ env_tmp_dst @@}}'
-    actions:
-    - create_if_empty '{{@@ zsh_env_dst @@}}' '#!/usr/bin/env zsh\n'
-    - strip_file '{{@@ env_tmp_dst @@}}' '{{@@ zsh_env_dst @@}}'
-    # Inserts after the first empty line or the first comment
-    - >-
-      insert_match '(^$|^[^#])' '{{@@ env_tmp_dst @@}}'
-        '{{@@ zsh_env_dst @@}}'
-    - rm '{{@@ env_tmp_dst @@}}'
   f_fstab:
     src: etc/fstab
     # Dynamic path since the dotfile content is appended to dst
@@ -255,12 +227,43 @@ dotfiles:
   f_sshd_config:
     src: etc/ssh/sshd_config
     dst: /etc/ssh/sshd_config
-  f_sudo_sys-env-vars:
-    src: etc/sudoers.d/sys-env-vars
-    dst: /etc/sudoers.d/sys-env-vars
   f_sudo_asdf-env:
     src: etc/sudoers.d/asdf-env
     dst: /etc/sudoers.d/asdf-env
+  f_sudo_insults:
+    src: etc/sudoers.d/insults
+    dst: /etc/sudoers.d/insults
+  f_sudo_sys-env:
+    src: etc/sudoers.d/sys-env
+    dst: /etc/sudoers.d/sys-env
+  f_sys-env:
+    src: etc/profile.d/sys-env.sh
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ sys_env_path @@}}'
+  f_sys-env-bash:
+    src: env/source-sys-env
+    # Dynamic path since the dotfile content is inserted into dst
+    dst: '{{@@ sys_env_tmp_dst @@}}'
+    actions:
+    - create_if_empty '{{@@ bash_env_dst @@}}' '#!/usr/bin/env bash\n'
+    - strip_file '{{@@ sys_env_tmp_dst @@}}' '{{@@ bash_env_dst @@}}'
+    # Inserts after the first empty line or the first comment
+    - >-
+      insert_match '(^$|^[^#])' '{{@@ sys_env_tmp_dst @@}}'
+        '{{@@ bash_env_dst @@}}'
+    - rm '{{@@ sys_env_tmp_dst @@}}'
+  f_sys-env-zsh:
+    src: env/source-sys-env
+    # Dynamic path since the dotfile content is inserted into dst
+    dst: '{{@@ sys_env_tmp_dst @@}}'
+    actions:
+    - create_if_empty '{{@@ zsh_env_dst @@}}' '#!/usr/bin/env zsh\n'
+    - strip_file '{{@@ sys_env_tmp_dst @@}}' '{{@@ zsh_env_dst @@}}'
+    # Inserts after the first empty line or the first comment
+    - >-
+      insert_match '(^$|^[^#])' '{{@@ sys_env_tmp_dst @@}}'
+        '{{@@ zsh_env_dst @@}}'
+    - rm '{{@@ sys_env_tmp_dst @@}}'
   f_timezone:
     src: etc/timezone
     dst: /etc/timezone
@@ -378,12 +381,13 @@ profiles:
   # This profile contains dotfiles used to setup the global shell environment
   environment:
     dotfiles:
-    - f_env-vars.sh
-    - f_env-vars-bash.sh
-    - f_env-vars-zsh.sh
-    - f_sudo_sys-env-vars
+    - f_sys-env
+    - f_sys-env-bash
+    - f_sys-env-zsh
+    - f_sudo_sys-env
+    - f_sudo_insults
     dynvariables:
-      env_tmp_dst: mktemp /tmp/env-tmp.XXX
+      sys_env_tmp_dst: mktemp /tmp/sys-env-tmp.XXX
 
   # This profile gathers the graphical login manager dotfiles
   graphical-login:

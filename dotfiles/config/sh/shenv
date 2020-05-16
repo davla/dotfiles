@@ -8,7 +8,7 @@
 # Custom
 #######################################
 
-export DOTFILES_HOME="{{@@ dotfiles_home | find_in_home @@}}"
+export DOTFILES_HOME="{{@@ dotfiles_home | find_in_home | home_abs2var @@}}"
 
 {%@@ if exists(docker_path) @@%}
 #######################################

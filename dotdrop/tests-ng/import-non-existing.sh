@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 # author: deadc0de6 (https://github.com/deadc0de6)
-# Copyright (c) 2017, deadc0de6
+# Copyright (c) 2019, deadc0de6
 #
-# test recursive variables
-# returns 1 in case of error
+# test import not existing
 #
 
 # exit on first error
@@ -52,6 +51,9 @@ mkdir -p ${tmps}/dotfiles
 tmpd=`mktemp -d --suffix='-dotdrop-tests' || mktemp -d`
 #echo "dotfile destination: ${tmpd}"
 
+# create the dotfile
+echo "test" > ${tmps}/dotfiles/abc
+
 # create the config file
 cfg="${tmps}/config.yaml"
 
@@ -60,16 +62,15 @@ config:
   backup: true
   create: true
   dotpath: dotfiles
-variables:
-  var1: "var1"
-  var2: "{{@@ var1 @@}} var2"
-  var3: "{{@@ var2 @@}} var3"
-  var4: "{{@@ dvar4 @@}}"
-dynvariables:
-  dvar1: "echo dvar1"
-  dvar2: "{{@@ dvar1 @@}} dvar2"
-  dvar3: "{{@@ dvar2 @@}} dvar3"
-  dvar4: "echo {{@@ var3 @@}}"
+  import_variables:
+  - /variables/does/not/exist:optional
+  - /variables/does/not/::exist:optional
+  import_actions:
+  - /actions/does/not/exist:optional
+  - /actions/does/not/::exist:optional
+  import_configs:
+  - /configs/does/not/exist:optional
+  - /configs/does/not/::exist:optional
 dotfiles:
   f_abc:
     dst: ${tmpd}/abc
@@ -81,25 +82,77 @@ profiles:
 _EOF
 #cat ${cfg}
 
-# create the dotfile
-echo "var3: {{@@ var3 @@}}" > ${tmps}/dotfiles/abc
-echo "dvar3: {{@@ dvar3 @@}}" >> ${tmps}/dotfiles/abc
-echo "var4: {{@@ var4 @@}}" >> ${tmps}/dotfiles/abc
-echo "dvar4: {{@@ dvar4 @@}}" >> ${tmps}/dotfiles/abc
+# dummy call
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V
 
-#cat ${tmps}/dotfiles/abc
+cat > ${cfg} << _EOF
+config:
+  backup: true
+  create: true
+  dotpath: dotfiles
+  import_variables:
+  - /variables/does/not/exist
+dotfiles:
+  f_abc:
+    dst: ${tmpd}/abc
+    src: abc
+profiles:
+  p1:
+    dotfiles:
+    - f_abc
+_EOF
 
-# install
-cd ${ddpath} | ${bin} install -f -c ${cfg} -p p1 -V
+# dummy call
+set +e
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V
+[ "$?" = "0" ] && echo "variables" && exit 1
+set -e
 
-#cat ${tmpd}/abc
+cat > ${cfg} << _EOF
+config:
+  backup: true
+  create: true
+  dotpath: dotfiles
+  import_actions:
+  - /actions/does/not/exist
+dotfiles:
+  f_abc:
+    dst: ${tmpd}/abc
+    src: abc
+profiles:
+  p1:
+    dotfiles:
+    - f_abc
+_EOF
 
-grep '^var3: var1 var2 var3' ${tmpd}/abc >/dev/null
-grep '^dvar3: dvar1 dvar2 dvar3' ${tmpd}/abc >/dev/null
-grep '^var4: echo var1 var2 var3' ${tmpd}/abc >/dev/null
-grep '^dvar4: var1 var2 var3' ${tmpd}/abc >/dev/null
+# dummy call
+set +e
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V
+[ "$?" = "0" ] && echo "actions" && exit 1
+set -e
 
-#cat ${tmpd}/abc
+cat > ${cfg} << _EOF
+config:
+  backup: true
+  create: true
+  dotpath: dotfiles
+  import_configs:
+  - /configs/does/not/exist
+dotfiles:
+  f_abc:
+    dst: ${tmpd}/abc
+    src: abc
+profiles:
+  p1:
+    dotfiles:
+    - f_abc
+_EOF
+
+# dummy call
+set +e
+cd ${ddpath} | ${bin} files -c ${cfg} -p p1 -V
+[ "$?" = "0" ] && echo "configs" && exit 1
+set -e
 
 ## CLEANING
 rm -rf ${tmps} ${tmpd}

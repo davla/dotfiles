@@ -227,12 +227,12 @@ profiles:
     variables:
       # These paths are variables because they are used in multiple places,
       # such as templates, dotfile entris dst and action arguments.
-      anacrontab: '{{@@ home @@}}/.config/anacrontab'
-      anacron_spool: '{{@@ home @@}}/.local/share/anacron/spool'
+      anacrontab: '~/.config/anacrontab'
+      anacron_spool: '~/.local/share/anacron/spool'
     dynvariables:
       tmp_dst: mktemp /tmp/cron-tmp.XXX
     actions:
-    - anacron '{{@@ anacron_spool @@}}' '{{@@ tmp_dst @@}}'
+    - anacron '{{@@ anacron_spool | tilde2home @@}}' '{{@@ tmp_dst @@}}'
 
   # This profile groups geany-related dotfiles. Individual files are addressed,
   # rather than the whole directory, as it was execssively complex to ignore

@@ -21,6 +21,8 @@ config:
   banner: true
   create: true
   dotpath: dotfiles
+  filter_file:
+  - python/filters.py
   ignoreempty: true
   import_actions:
   - actions.d/append.yaml
@@ -87,7 +89,6 @@ dotfiles:
   f_env-vars.sh:
     src: etc/profile.d/env-vars.sh
     dst: /etc/profile.d/env-vars.sh
-    trans_read: fix-home
   f_env-vars-bash.sh:
     src: env/source-env-vars.sh
     dst: '{{@@ env_tmp_dst @@}}'

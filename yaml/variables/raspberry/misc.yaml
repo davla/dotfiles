@@ -13,3 +13,6 @@ variables:
   git_credentials_helper: /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
   git_commit_gpg_sign: true
   gitreview_username: davla
+
+  # Whether dotdrop is running with a graphical user interface
+  is_headless: true

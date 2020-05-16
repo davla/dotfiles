@@ -34,5 +34,6 @@ unset LOCAL_PATH
 # Custom
 #######################################
 
-export DOTFILES_HOME="$HOME/Files/Programming/sys/dotfiles"
-export PYWIKIBOT_DIR="$HOME/Files/pywikibot"
+export DOTFILES_HOME="{{@@ "$HOME/Files/Programming/sys/dotfiles"
+    | find_in_home @@}}"
+export PYWIKIBOT_DIR="{{@@ "$HOME/Files/pywikibot" | find_in_home @@}}"

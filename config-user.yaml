@@ -171,6 +171,12 @@ dotfiles:
   f_qt5ct.conf:
     src: config/qt5ct/qt5ct.conf
     dst: '{{@@ xdg_config("qt5ct/qt5ct.conf") @@}}'
+  f_systemd_user_shell-cache.service:
+    src: config/systemd/user/shell-cache.service
+    dst: '{{@@ xdg_config("systemd/user/shell-cache.service") @@}}'
+  f_systemd_user_shell-cache.timer:
+    src: config/systemd/user/shell-cache.timer
+    dst: '{{@@ xdg_config("systemd/user/shell-cache.timer") @@}}'
   f_trolltech.conf:
     src: config/Trolltech.conf
     dst: '{{@@ xdg_config("Trolltech.conf") @@}}'
@@ -215,6 +221,8 @@ profiles:
   cron:
     dotfiles:
     - f_crontab
+    - f_systemd_user_shell-cache.service
+    - f_systemd_user_shell-cache.timer
     dynvariables:
       cron_tmp_dst: mktemp /tmp/cron-tmp.XXX
     actions:

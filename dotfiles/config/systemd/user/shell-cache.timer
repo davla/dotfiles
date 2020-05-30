@@ -1,0 +1,11 @@
+# shell-cache systemd timer file
+
+[Unit]
+Description=Job refreshing shell caches
+
+[Install]
+WantedBy=multi-user.target
+
+[Timer]
+OnCalendar=*-*-* 00:05:00
+Persistent=true

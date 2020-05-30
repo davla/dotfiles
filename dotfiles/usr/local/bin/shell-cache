@@ -1,0 +1,129 @@
+#!/bin/env sh
+
+# This script refreshes the cached initialization code of some shell plugins
+#
+# {{@@ header() @@}}
+
+#######################################
+# Libraries includes
+#######################################
+
+. {{@@ logger_path @@}}
+
+#######################################
+# Input processing
+#######################################
+
+while [ "$#" -gt 0 ]; do
+    logging_parse_arg "$1" "$2"
+    case "$?" in
+        1)
+            shift 1
+            ;;
+
+        2)
+            shift 2
+            ;;
+
+        255)
+            exit 255
+            ;;
+    esac
+done
+
+#######################################
+# Loading environment
+#######################################
+
+# This script is meant to be used as a shell command. Therefore it can't be
+# assumed that startup files, such as ~/.profile, are sourced
+
+. "{{@@ dotdirs_file | home_abs2var @@}}"
+. "$SDOTDIR/shenv"
+
+#######################################
+# fasd
+#######################################
+
+log_debug "Testing for fasd POSIX shell cache refreshing"
+FASD_SH_CACHE="${SDOTDIR:?}/cache/fasd"
+if [ -f "$FASD_SH_CACHE" ]; then
+    log_info "Refreshing fasd POSIX shell cache"
+    fasd --init posix-alias 2>&1 > "$FASD_SH_CACHE" | log_error >&2
+else
+    log_debug "No fasd POSIX shell cache found"
+fi
+
+log_debug "Testing for fasd bash cache refreshing"
+FASD_BASH_CACHE="${BDOTDIR:?}/cache/fasd"
+if [ -f "$FASD_BASH_CACHE" ]; then
+    log_info "Refreshing fasd bash cache"
+    fasd --init bash-hook bash-ccomp bash-ccomp-install 2>&1 \
+        > "$FASD_BASH_CACHE" | log_error >&2
+else
+    log_debug "No fasd bash cache found"
+fi
+
+log_debug "Testing for fasd zsh cache refreshing"
+FASD_ZSH_CACHE="${ZDOTDIR:?}/cache/fasd"
+if [ -f "$FASD_ZSH_CACHE" ]; then
+    log_info "Refreshing fasd zsh cache"
+    fasd --init zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp \
+        zsh-wcomp-install 2>&1 > "$FASD_ZSH_CACHE" | log_error >&2
+else
+    log_debug "No fasd zsh cache found"
+fi
+
+#######################################
+# thefuck
+#######################################
+
+log_debug "Testing for thefuck POSIX shell cache refreshing"
+THEFUCK_SH_CACHE="${SDOTDIR:?}/cache/thefuck"
+if [ -f "$THEFUCK_SH_CACHE" ]; then
+    log_info "Refreshing thefuck POSIX shell cache"
+    sh -c 'thefuck --alias' 2>&1 > "$THEFUCK_SH_CACHE" | log_error >&2
+else
+    log_debug "No thefuck POSIX shell cache found"
+fi
+
+log_debug "Testing for thefuck bash cache refreshing"
+THEFUCK_BASH_CACHE="${BDOTDIR:?}/cache/thefuck"
+if [ -f "$THEFUCK_BASH_CACHE" ]; then
+    log_info "Refreshing thefuck bash shell cache"
+    bash -c 'thefuck --alias' 2>&1 > "$THEFUCK_BASH_CACHE" | log_error >&2
+else
+    log_debug "No thefuck bash cache found"
+fi
+
+log_debug "Testing for thefuck zsh cache refreshing"
+THEFUCK_ZSH_CACHE="${ZDOTDIR:?}/cache/thefuck"
+if [ -f "$THEFUCK_ZSH_CACHE" ]; then
+    log_info "Refreshing thefuck bash shell cache"
+    zsh -c 'thefuck --alias' 2>&1 > "$THEFUCK_ZSH_CACHE" | log_error >&2
+else
+    log_debug "No thefuck zsh cache found"
+fi
+
+#######################################
+# zygal
+#######################################
+
+log_debug "Testing for zygal zsh cache refreshing"
+ZYGAL_ZSH_CACHE="${ZDOTDIR:?}/cache/zygal"
+if [ -f "$ZYGAL_ZSH_CACHE" ]; then
+    ZYGAL_CONF_FILE="$ZDOTDIR/theme/dotfiles/zygal-conf.zsh"
+
+    log_debug "Testing for zygal configuration file"
+    if [ -f "$ZYGAL_CONF_FILE" ]; then
+        log_debug "Sourcing zygal configuration file"
+        . "$ZYGAL_CONF_FILE"
+    else
+        log_debug "Zygal configuration file not found"
+    fi
+
+    log_info "Refreshing zygal zsh cache"
+    zsh -ic zygal-static 2>&1 > "$ZYGAL_ZSH_CACHE" | log_error >&2
+else
+    log_debug "No zygal zsh cache found"
+fi

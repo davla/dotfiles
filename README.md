@@ -2,8 +2,10 @@
 My dotfiles repository. Really, just configuration files
 
 ## TODO
-- Consistency of source and comments
 - cron -> systemd timers
+- Better placement of logger_path variable
+- Logger colors with no tag
+- Consistency of source and comments
 - Split env vars between interactive and non-interactive
   + Make sure that autorandr env vars are loaded in xsessionrc
 - Fix thefuck

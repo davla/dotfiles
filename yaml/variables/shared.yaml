@@ -9,3 +9,7 @@ variables:
 
   # The path where myrepos library files are installed
   mr_libs_path: /usr/local/share/mr
+
+  # Command-related paths
+  libs_path: /usr/local/lib
+  logger_path: '{{@@ libs_path @@}}/sh/logger.sh'

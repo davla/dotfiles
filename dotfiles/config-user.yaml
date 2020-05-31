@@ -5,13 +5,8 @@
 actions:
   post:
     # This action installs atom packages given in the first argument. This
-    # needs to be a file with one package specification per line. The $PATH
-    # mess is due to some packages expecting Python 2 to be the default
-    # Python version.
-    atom-install-packages: >-
-      export PATH="$(which python2 | xargs dirname):$PATH";
-      apm install --packages-file {0};
-      rm {0}
+    # needs to be a file with one package specification per line.
+    atom-install-packages: apm install --packages-file {0}
 
     i3: sh actions/i3.sh
 
@@ -20,25 +15,28 @@ config:
   banner: true
   create: true
   dotpath: dotfiles
+  func_file:
+  - python/functions.py
   ignoreempty: true
   import_actions:
-  - actions.d/shared.yaml
+  - yaml/actions/shared.yaml
   import_configs:
-  - profiles.d/autorandr.yaml
-  - profiles.d/shared.yaml
+  - yaml/profiles/autorandr.yaml
+  - yaml/profiles/shared.yaml
   import_variables:
-  - variables.d/{{@@ host @@}}/*.yaml
-  - variables.d/dpi.yaml
-  - variables.d/i3.yaml
-  - variables.d/look-and-feel.yaml
-  - variables.d/*-look-and-feel.yaml
-  - variables.d/private.yaml
+  - yaml/variables/{{@@ host @@}}/*.yaml
+  - yaml/variables/dpi.yaml
+  - yaml/variables/i3.yaml
+  - yaml/variables/look-and-feel.yaml
+  - yaml/variables/*-look-and-feel.yaml
+  - yaml/variables/private.yaml
+  - yaml/variables/shared.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
   longkey: false
   showdiff: true
-  workdir: ~/.config/dotdrop
+  workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dynvariables:
   # This variable is used in order not to hardcode the home directory where it
@@ -59,36 +57,36 @@ dynvariables:
 
 dotfiles:
   d_autostart:
-    dst: ~/.config/autostart
     src: config/autostart
+    dst: '{{@@ xdg_config("autostart") @@}}'
   d_desktop-directories:
-    dst: ~/.local/share/desktop-directories
     src: local/share/desktop-directories
+    dst: '{{@@ xdg_data("desktop-directories") @@}}'
   d_dunst:
     src: config/dunst
-    dst: ~/.config/dunst
+    dst: '{{@@ xdg_config("dunst") @@}}'
   d_i3blocks-email:
     src: config/i3blocks-email
-    dst: ~/.config/i3blocks-email
+    dst: '{{@@ xdg_config("i3blocks-email") @@}}'
   d_geany_filedefs:
-    dst: ~/.config/geany/filedefs
     src: config/geany/filedefs
+    dst: '{{@@ xdg_config("geany/filedefs") @@}}'
     cmpignore:
     - '*.README'
     upignore:
     - '*.README'
   d_gtk-2.0:
-    src: gtk-2.0
-    dst: '~'
+    src: config/gtk-2.0
+    dst: '{{@@ gtk2_path @@}}'
   d_gtk-3.0:
     src: config/gtk-3.0
-    dst: ~/.config/gtk-3.0
+    dst: '{{@@ xdg_config("gtk-3.0") @@}}'
   d_thunar:
     src: config/Thunar
-    dst: ~/.config/Thunar
+    dst: '{{@@ xdg_config("Thunar") @@}}'
   d_xfce4:
     src: config/xfce4
-    dst: ~/.config/xfce4
+    dst: '{{@@ xdg_config("xfce4") @@}}'
     cmpignore:
     - desktop
     - xfce4-screenshooter
@@ -99,9 +97,10 @@ dotfiles:
     - xfwm4
   d_xresources.d:
     src: config/x11/Xresources.d
-    dst: ~/.config/x11/Xresources.d
+    dst: '{{@@ xdg_config("x11/Xresources.d") @@}}'
   f_anacrontab:
     src: cron/anacrontab
+    # Dynamic path as it's used somewhere else too
     dst: '{{@@ anacrontab @@}}'
   f_atom_config.cson:
     src: atom/config.cson
@@ -118,7 +117,7 @@ dotfiles:
     # can be deleted
     dst: '{{@@ tmp_dst @@}}'
     actions:
-    # This ation installs atom packages listed in the dotfile on-the-fly
+    # This action installs atom packages listed in the dotfile on-the-fly
     - atom-install-packages '{{@@ tmp_dst @@}}'
     # This transformation actually creates the dotfile.
     trans_write: atom-list-packages
@@ -130,62 +129,62 @@ dotfiles:
     dst: ~/.atom/styles.less
   f_calibre_global.py:
     src: config/calibre/global.py
-    dst: ~/.config/calibre/global.py
+    dst: '{{@@ xdg_config("calibre/global.py") @@}}'
   f_compton.conf:
     src: config/compton.conf
-    dst: ~/.config/compton.conf
+    dst: '{{@@ xdg_config("compton.conf") @@}}'
   f_crontab:
     src: cron/crontab
     # Temporary destintion as the dotfile is installed with crontab -e
     dst: '{{@@ tmp_dst @@}}'
   f_docker_config.json:
-    src: docker/config.json
-    dst: ~/.docker/config.json
+    src: config/docker/config.json
+    dst: '{{@@ docker_path @@}}/config.json'
   f_geany_colorschemes_on-my-own.conf:
     src: config/geany/colorschemes/on-my-own.conf
-    dst: ~/.config/geany/colorschemes/on-my-own.conf
+    dst: '{{@@ xdg_config("geany/colorschemes/on-my-own.conf") @@}}'
   f_geany_geany.conf:
     src: config/geany/geany.conf
-    dst: ~/.config/geany/geany.conf
+    dst: '{{@@ xdg_config("geany/geany.conf") @@}}'
   f_geany_keybindings.conf:
     src: config/geany/keybindings.conf
-    dst: ~/.config/geany/keybindings.conf
+    dst: '{{@@ xdg_config("geany/keybindings.conf") @@}}'
   f_ghci:
     src: ghci
     dst: ~/.ghci
   f_hgrc:
     src: config/hg/hgrc
-    dst: ~/.config/hg/hgrc
+    dst: '{{@@ xdg_config("hg/hgrc") @@}}'
   f_i3blocks_config:
     src: config/i3blocks/config
-    dst: ~/.config/i3blocks/config
+    dst: '{{@@ xdg_config("i3blocks/config") @@}}'
   f_i3config:
     src: config/i3/config
-    dst: ~/.config/i3/config
+    dst: '{{@@ xdg_config("i3/config") @@}}'
   f_mimeapps.list:
     src: config/mimeapps.list
-    dst: ~/.config/mimeapps.list
+    dst: '{{@@ xdg_config("mimeapps.list") @@}}'
   f_mrconfig:
     src: mrconfig-user
     dst: ~/.mrconfig
   f_orage_oragerc:
     src: config/orage/oragerc
-    dst: ~/.config/orage/oragerc
+    dst: '{{@@ xdg_config("orage/oragerc") @@}}'
   f_parcellite_parcelliterc:
     src: config/parcellite/parcelliterc
-    dst: ~/.config/parcellite/parcelliterc
+    dst: '{{@@ xdg_config("parcellite/parcelliterc") @@}}'
   f_qt5ct.conf:
     src: config/qt5ct/qt5ct.conf
-    dst: ~/.config/qt5ct/qt5ct.conf
+    dst: '{{@@ xdg_config("qt5ct/qt5ct.conf") @@}}'
   f_trolltech.conf:
     src: config/Trolltech.conf
-    dst: ~/.config/Trolltech.conf
+    dst: '{{@@ xdg_config("Trolltech.conf") @@}}'
   f_virtualbox_virtualbox.xml:
     src: config/VirtualBox/VirtualBox.xml
-    dst: ~/.config/VirtualBox/VirtualBox.xml
+    dst: '{{@@ xdg_config("VirtualBox/VirtualBox.xml") @@}}'
   f_xfce-applications.menu:
     src: config/menus/xfce-applications.menu
-    dst: ~/.config/menus/xfce-applications.menu
+    dst: '{{@@ xdg_config("menus/xfce-applications.menu") @@}}'
   f_xresources:
     src: Xresources
     dst: ~/.Xresources
@@ -214,7 +213,7 @@ profiles:
     dotfiles:
     - f_docker_config.json
     import:
-    - dotfiles.d/{{@@ host @@}}/cli.yaml
+    - yaml/dotfiles/{{@@ host @@}}/cli.yaml
     include:
     - git
 
@@ -227,12 +226,12 @@ profiles:
     variables:
       # These paths are variables because they are used in multiple places,
       # such as templates, dotfile entris dst and action arguments.
-      anacrontab: '~/.config/anacrontab'
-      anacron_spool: '~/.local/share/anacron/spool'
+      anacrontab: '{{@@ xdg_config("anacrontab") @@}}'
+      anacron_spool: '{{@@ xdg_data("anacron/spool") @@}}'
     dynvariables:
       tmp_dst: mktemp /tmp/cron-tmp.XXX
     actions:
-    - anacron '{{@@ anacron_spool | tilde2home @@}}' '{{@@ tmp_dst @@}}'
+    - anacron '{{@@ anacron_spool | home_abs2var @@}}' '{{@@ tmp_dst @@}}'
 
   # This profile groups geany-related dotfiles. Individual files are addressed,
   # rather than the whole directory, as it was execssively complex to ignore
@@ -251,7 +250,7 @@ profiles:
     - f_mimeapps.list
     - f_parcellite_parcelliterc
     import:
-    - dotfiles.d/{{@@ host @@}}/gui.yaml
+    - yaml/dotfiles/{{@@ host @@}}/gui.yaml
     include:
     - atom
     - geany
@@ -266,7 +265,7 @@ profiles:
     - f_i3blocks_config
     - f_i3config
     import:
-    - dotfiles.d/{{@@ host @@}}/i3.yaml
+    - yaml/dotfiles/{{@@ host @@}}/i3.yaml
     actions:
     - i3
     include:
@@ -280,6 +279,7 @@ profiles:
     dotfiles:
     - d_gtk-2.0
     - d_gtk-3.0
+    - d_xresources.d
     - f_qt5ct.conf
     - f_trolltech.conf
     - f_xresources
@@ -290,7 +290,7 @@ profiles:
     - d_autostart
     - f_xsessionrc
     import:
-    - dotfiles.d/{{@@ host @@}}/{{@@ user @@}}/startup.yaml
+    - yaml/dotfiles/{{@@ host @@}}/{{@@ user @@}}/startup.yaml
 
   # This profile contains the dotfiles for the whole Xfce session.
   xfce:

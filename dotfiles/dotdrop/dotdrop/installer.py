@@ -19,7 +19,7 @@ class Installer:
     def __init__(self, base='.', create=True, backup=True,
                  dry=False, safe=False, workdir='~/.config/dotdrop',
                  debug=False, diff=True, totemp=None, showdiff=False,
-                 backup_suffix='.dotdropbak'):
+                 backup_suffix='.dotdropbak', diff_cmd=''):
         """constructor
         @base: directory path where to search for templates
         @create: create directory hierarchy if missing when installing
@@ -32,6 +32,7 @@ class Installer:
         @totemp: deploy to this path instead of dotfile dst if not None
         @showdiff: show the diff before overwriting (or asking for)
         @backup_suffix: suffix for dotfile backup file
+        @diff_cmd: diff command to use
         """
         self.create = create
         self.backup = backup
@@ -44,6 +45,7 @@ class Installer:
         self.totemp = totemp
         self.showdiff = showdiff
         self.backup_suffix = backup_suffix
+        self.diff_cmd = diff_cmd
         self.comparing = False
         self.action_executed = False
         self.log = Logger()
@@ -66,7 +68,11 @@ class Installer:
         - False, None       : ignored
         """
         if self.debug:
-            self.log.dbg('install {} to {}'.format(src, dst))
+            self.log.dbg('install \"{}\" to \"{}\"'.format(src, dst))
+        if not dst or not src:
+            if self.debug:
+                self.log.dbg('empty dst for {}'.format(src))
+            return True, None
         self.action_executed = False
         src = os.path.join(self.base, os.path.expanduser(src))
         if not os.path.exists(src):
@@ -105,7 +111,11 @@ class Installer:
         - False, None       : ignored
         """
         if self.debug:
-            self.log.dbg('link {} to {}'.format(src, dst))
+            self.log.dbg('link \"{}\" to \"{}\"'.format(src, dst))
+        if not dst or not src:
+            if self.debug:
+                self.log.dbg('empty dst for {}'.format(src))
+            return True, None
         self.action_executed = False
         src = os.path.normpath(os.path.join(self.base,
                                             os.path.expanduser(src)))
@@ -142,7 +152,11 @@ class Installer:
         - False, None, ignored
         """
         if self.debug:
-            self.log.dbg('link_children {} to {}'.format(src, dst))
+            self.log.dbg('link_children \"{}\" to \"{}\"'.format(src, dst))
+        if not dst or not src:
+            if self.debug:
+                self.log.dbg('empty dst for {}'.format(src))
+            return True, None
         self.action_executed = False
         parent = os.path.join(self.base, os.path.expanduser(src))
 
@@ -437,14 +451,15 @@ class Installer:
         if content:
             tmp = utils.write_to_tmpfile(content)
             src = tmp
-        diff = utils.diff(src, dst, raw=False)
+        diff = utils.diff(modified=src, original=dst, raw=False,
+                          diff_cmd=self.diff_cmd)
         if tmp:
             utils.remove(tmp, quiet=True)
 
         # fake the output for readability
         if not diff:
             return
-        self.log.log('diff \"{}\" VS \"{}\"'.format(src, dst))
+        self.log.log('diff \"{}\" VS \"{}\"'.format(dst, src))
         self.log.emph(diff)
 
     def _create_dirs(self, directory):

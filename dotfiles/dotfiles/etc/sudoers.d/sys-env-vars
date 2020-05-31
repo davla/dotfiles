@@ -1,4 +1,6 @@
+# {{@@ header() @@}}
+#
 # This file preserves in sudo the system environment variables declared in
 # /etc/profiles.d/env-vars.sh
 
-Defaults env_file = "/etc/profile.d/env-vars.sh"
+Defaults env_file = "{{@@ env_vars_path @@}}"

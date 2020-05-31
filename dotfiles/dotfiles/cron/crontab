@@ -11,4 +11,4 @@
 # For more information see the manual pages of crontab(5) and cron(8)
 #
 # m h  dom mon dow   command
-@hourly /usr/sbin/anacron -t "{{@@ anacrontab | tilde2home @@}}" -S "{{@@ anacron_spool | tilde2home @@}}"
+@hourly /usr/sbin/anacron -t "{{@@ anacrontab | home_abs2var @@}}" -S "{{@@ anacron_spool | home_abs2var @@}}"

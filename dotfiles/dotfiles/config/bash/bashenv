@@ -6,4 +6,4 @@
 # Inheriting from POSIX shell
 #######################################
 
-source "$SDOTDIR/.shenv"
+source "$SDOTDIR/shenv"

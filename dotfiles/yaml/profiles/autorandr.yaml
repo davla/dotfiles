@@ -6,20 +6,22 @@
 
 actions:
   post:
-    autorandr: sh actions/autorandr.sh {{@@ autorandr_home @@}}
+    autorandr: sh actions/autorandr.sh "{{@@ autorandr_home @@}}"
 
 config:
   backup: false
   banner: true
   create: true
-  dotpath: ../dotfiles
+  dotpath: ../../dotfiles
+  func_file:
+  - ../../python/functions.py
   ignoreempty: true
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
   longkey: false
   showdiff: true
-  workdir: ~/.config/dotdrop
+  workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
   d_dual-personal-cph:
@@ -62,9 +64,9 @@ profiles:
     dotfiles:
     - f_postswitch
     import:
-    - ../dotfiles.d/{{@@ host @@}}/autorandr.yaml
+    - ../dotfiles/{{@@ host @@}}/autorandr.yaml
     actions:
     - autorandr
 
 variables:
-  autorandr_home: ~/.config/autorandr
+  autorandr_home: '{{@@ xdg_config("autorandr") @@}}'

@@ -2,11 +2,10 @@
 My dotfiles repository. Really, just configuration files
 
 ## TODO
-- yaml subdir
-- use $XDG vars
+- Split env vars between interactive and non-interactive
+  + Make sure that autorandr env vars are loaded in xsessionrc
 - Better mr files layout
-- docker/config.json in ~/.config
-- gtkrc2.0 in ~/.config
+- Fix parcellite theme
 - Fix thefuck
 - interactive vs non-interactive in bashrc and zshrc
 - Plugin lists fine-controlled when imported (eg. bash sourcing sh)

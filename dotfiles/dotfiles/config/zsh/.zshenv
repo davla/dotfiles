@@ -9,13 +9,13 @@
 #######################################
 
 # shellcheck disable=2027,2140
-source "{{@@ dotdirs_file | replace("~", "$HOME") @@}}"
+source "{{@@ dotdirs_file | home_abs2var @@}}"
 
 #######################################
 # Inheriting from POSIX shell
 #######################################
 
-source "$SDOTDIR/.shenv"
+source "$SDOTDIR/shenv"
 
 ######################################
 # Antibody

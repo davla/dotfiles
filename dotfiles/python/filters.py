@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-This module defines some filters to be used in dotdrop jinja2 templates.
+This module defines some custom filters to be used in dotdrop jinja2 templates.
 """
 
 from pathlib import Path
@@ -35,3 +35,8 @@ def find_in_home(path: str) -> str:
 
     found_paths = Path('/home').glob('**/{!s}'.format(path.strip_home()))
     return str(next(found_paths))
+
+
+def home_abs2var(path: str) -> str:
+    """Replace the user's home directory absolute path with '$HOME'."""
+    return lib.abs_home_first.sub('$HOME', path)

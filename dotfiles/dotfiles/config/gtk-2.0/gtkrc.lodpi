@@ -1,0 +1,2 @@
+{%@@ from 'config/gtk-2.0/gtkrc' import gtkrc @@%}
+{{@@ gtkrc(lodpi_cursor_size, lodpi_name) @@}}

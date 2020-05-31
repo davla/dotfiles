@@ -12,7 +12,7 @@ import uuid
 import fnmatch
 import inspect
 import importlib
-from shutil import rmtree
+from shutil import rmtree, which
 
 # local import
 from dotdrop.logger import Logger
@@ -224,3 +224,18 @@ def get_module_from_path(path):
     loader = importlib.machinery.SourceFileLoader(module_name, path)
     mod = loader.load_module()
     return mod
+
+
+def dependencies_met():
+    """make sure all dependencies are met"""
+    deps = ['file', 'diff', 'mkdir', 'cp']
+    err = 'The tool \"{}\" was not found in the PATH!'
+    for dep in deps:
+        if not which(dep):
+            raise Exception(err.format(dep))
+
+
+def mirror_file_rights(src, dst):
+    """mirror file rights of src to dst (can rise exc)"""
+    rights = os.stat(src).st_mode
+    os.chmod(dst, rights)

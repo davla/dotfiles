@@ -1,0 +1,15 @@
+# This myrepos config file exports shell utility functions to deal with asdf
+
+[DEFAULT]
+lib =
+    install_asdf_plugin() {
+        PLUGIN="$1"
+        # Checking whether the plugin is already installed because asdf exits
+        # with an error if so
+        asdf plugin list | grep "$PLUGIN" > /dev/null 2>&1 || {
+            sudo asdf plugin add "$PLUGIN"
+            # Nodejs requires an extra step
+            [ "$PLUGIN" = 'nodejs' ] \
+                && sudo bash "$ASDF_DATA_DIR/plugins/nodejs/bin/import-release-team-keyring"
+        }
+    }

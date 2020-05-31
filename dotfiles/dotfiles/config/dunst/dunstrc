@@ -1,9 +1,10 @@
 {%@@ macro dunstrc(border_width, dpi, horizontal_padding, icon_size,
     icon_theme, margin, vertical_padding, width) @@%}
 {%@@ set background_color = '#000000' @@%}
-{%@@ set text_color = main_theme_color @@%}
 {%@@ set border_color = main_theme_color @@%}
+{%@@ set home = abs_path(env['HOME']) @@%}
 {%@@ set notify_modifiers = 'mod4+ctrl' @@%}
+{%@@ set text_color = main_theme_color @@%}
 # {{@@ header() @@}}
 #
 # This is the dunstrc file for {{@@ dpi @@}} DPI monitors

@@ -25,7 +25,6 @@ alias update='apt-get update && apt-get upgrade'
 #######################################
 
 alias ls='exa'
-alias mr='mr -d "{{@@ mr_default_dir @@}}"'
 alias tree='exa -T'
 
 #######################################

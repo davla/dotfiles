@@ -1,0 +1,6 @@
+{#@@
+    This dotfile defines the default cron jobs for any host. It is meant to
+    be included in other dotfiles.
+@@#}
+
+@hourly /usr/sbin/anacron -t "{{@@ anacrontab | home_abs2var @@}}" -S "{{@@ anacron_spool | home_abs2var @@}}"

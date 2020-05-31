@@ -1,0 +1,27 @@
+{#@@
+    This dotfile defines cron jobs for my raspberry pi system. It is meant to
+    be included in other dotfiles
+@@#}
+
+#######################################
+# Pokémon Central Wiki
+#######################################
+
+# Fixes
+30  1   *   *   4       cd "{{@@ wiki_util_path | tilde2home @@}}/bash" && bash run.sh fixes.sh
+
+# Home refresh
+30  0   *   *   1       . "{{@@ pywikibot_venv_path | tilde2home @@}}/bin/activate" && python "{{@@ pywikibot_path | tilde2home @@}}/pwb.py" touch -page:Home > /dev/null 2>&1; cron-logger 'WIKI-HOME-REFRESH' "$?"
+
+#######################################
+# Updates
+#######################################
+
+# Myrepos
+0   3   *   *   *       mr -c "$HOME/code/wiki/.mrconfig" update
+
+# Shell cache
+0   4   *   *   *       refresh-shell-cache > /dev/null 2>&1; cron-logger 'SHELL-REFRESH' "$?"
+
+# Shell plugins
+0   5   *   *   *       zsh -c 'antibody update' > /dev/null 2>&1; cron-logger 'ANTIBODY' "$?"

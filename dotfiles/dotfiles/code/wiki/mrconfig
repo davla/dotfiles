@@ -1,0 +1,101 @@
+# This myrepos config file is used to bootstrap and keep up-to-date Pokémon
+# Central Wiki repositories
+#
+# {{@@ header() @@}}
+
+{#@@
+    This variable is used to allow pywikibot to be processed after util, as
+    pywikibot setup uses some files in util.
+@@#}
+{%@@ set util_order = 10 @@%}
+
+#######################################
+# Importing helpers
+#######################################
+
+
+include = cat '{{@@ mr_libs_path @@}}/asdf'
+
+
+#######################################
+# Repositories
+#######################################
+
+
+{%@@ set lua_modules_dir = basename(wiki_lua_modules_path) @@%}
+[{{@@ lua_modules_dir @@}}]
+checkout =
+    git clone 'git@github.com:pokemoncentral/wiki-lua-modules.git' \
+        '{{@@ lua_modules_dir @@}}'
+init =
+    install_asdf_plugin lua
+    sudo asdf install
+
+
+[macros]
+checkout = git clone 'git@github.com:pokemoncentral/wiki-macros.git' 'macros'
+
+
+{%@@ set pywikibot_dir = basename(pywikibot_path) @@%}
+[{{@@ pywikibot_dir @@}}]
+checkout =
+    git clone 'git@github.com:wikimedia/pywikibot.git' \
+        '{{@@ pywikibot_dir @@}}'
+    git submodule update --init
+init =
+    # Creating the virtual environment
+    ln -sf "{{@@ wiki_util_path | tilde2home @@}}/bot"/.tool-versions \
+        "$MR_REPO"
+    asdf which python | xargs -i virtualenv --python '{}' \
+        "{{@@ pywikibot_venv_path | tilde2home @@}}"
+    . "{{@@ pywikibot_venv_path | tilde2home @@}}/bin/activate"
+    pip install -r requirements.txt
+    #
+    # Setting up Pokémon Central Wiki connection
+    python pwb.py generate_family_file \
+        'https://bulbapedia.bulbagarden.net/wiki/Main_Page' ep
+    python pwb.py generate_user_files
+    python pwb.py login
+    deactivate
+    #
+    # Linking custom scripts
+    ln -sf "{{@@ wiki_util_path | tilde2home @@}}/bot"/*.py "$MR_REPO"
+
+# Higher order, so that it's cloned after util
+order = {{@@ util_order + 10 @@}}
+
+# The default is not enough since we need to pull submodules too
+update =
+    git pull --rebase --autostash
+    git submodule update --init
+
+
+[styles]
+checkout = git clone 'git@github.com:pokemoncentral/wiki-styles.git' 'styles'
+init =
+    install_asdf_plugin nodejs
+    sudo asdf install
+    npm install
+
+
+{%@@ set util_dir = basename(wiki_util_path) @@%}
+[{{@@ util_dir @@}}]
+checkout = git clone 'git@github.com:pokemoncentral/wiki-util.git' \
+    '{{@@ util_dir @@}}'
+init =
+    # Installing atom-macros dependencies
+    install_asdf_plugin nodejs
+    cd "$MR_REPO/js/atom-macros"
+    sudo asdf install
+    npm install
+    #
+    # Creating local config files
+    sed -e 's|PYWIKIBOT_DIR=ADD_YOUR_PATH_HERE|PYWIKIBOT_DIR="{{@@ pywikibot_path | tilde2home @@}}"|g' \
+        -e 's|WIKILUAMODULES_DIR=ADD_YOUR_PATH_HERE|WIKILUAMODULES_DIR="{{@@ wiki_lua_modules_path | tilde2home @@}}"|g' \
+        -e 's|MACROS_DIR=ADD_YOUR_PATH_HERE|MACROS_DIR="{{@@ wiki_util_path | tilde2home @@}}/js/atom-macros"|g' \
+        -e 's|# PYWIKIBOT_VIRTUALENV_DIR=ADD_YOUR_PATH_HERE|PYWIKIBOT_VIRTUALENV_DIR="{{@@ pywikibot_venv_path | tilde2home @@}}"|g' \
+        -e "s|# source \$PYWIKIBOT_VIRTUALENV_DIR'/bin/activate'|. \"\$PYWIKIBOT_VIRTUALENV_DIR/bin/activate\"|g" \
+        "$MR_REPO/config-templates/config.sh" > "$MR_REPO/bash/config.sh"
+    sed -e 's|modulesPath = ADD_YOUR_PATH_HERE|modulesPath = "{{@@ abs_path(wiki_lua_modules_path) @@}}"|g' \
+        "$MR_REPO/config-templates/config.lua" > "$MR_REPO/lua/config.lua"
+order = {{@@ util_order @@}}

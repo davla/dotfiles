@@ -18,8 +18,6 @@ config:
   func_file:
   - python/functions.py
   ignoreempty: true
-  import_actions:
-  - yaml/actions/shared.yaml
   import_configs:
   - yaml/profiles/autorandr.yaml
   - yaml/profiles/shared.yaml
@@ -39,11 +37,6 @@ config:
   longkey: false
   showdiff: true
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
-
-dynvariables:
-  # This variable is used in order not to hardcode the home directory where it
-  # can not be dynamically expanded
-  home: 'echo $HOME'
 
 dotfiles:
   d_autostart:
@@ -89,7 +82,7 @@ dotfiles:
     src: config/x11/Xresources.d
     dst: '{{@@ xdg_config("x11/Xresources.d") @@}}'
   f_anacrontab:
-    src: cron/anacrontab
+    src: cron/anacrontab.{{@@ user @@}}
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ anacrontab @@}}'
   f_atom_config.cson:
@@ -126,7 +119,7 @@ dotfiles:
   f_crontab:
     src: cron/crontab
     # Temporary destintion as the dotfile is installed with crontab -e
-    dst: '{{@@ tmp_dst @@}}'
+    dst: '{{@@ cron_tmp_dst @@}}'
   f_docker_config.json:
     src: config/docker/config.json
     dst: '{{@@ docker_path @@}}/config.json'
@@ -154,9 +147,9 @@ dotfiles:
   f_mimeapps.list:
     src: config/mimeapps.list
     dst: '{{@@ xdg_config("mimeapps.list") @@}}'
-  f_mrconfig:
-    src: mrconfig-user
-    dst: ~/.mrconfig
+  f_mrconfig_wiki:
+    src: code/wiki/mrconfig
+    dst: ~/code/wiki/.mrconfig
   f_orage_oragerc:
     src: config/orage/oragerc
     dst: '{{@@ xdg_config("orage/oragerc") @@}}'
@@ -209,18 +202,15 @@ profiles:
   # This profile groups together cron- and anacron-related configurations.
   cron:
     dotfiles:
-    - f_anacrontab
     - f_crontab
-    - f_mrconfig
-    variables:
-      # These paths are variables because they are used in multiple places,
-      # such as templates, dotfile entris dst and action arguments.
-      anacrontab: '{{@@ xdg_config("anacrontab") @@}}'
-      anacron_spool: '{{@@ xdg_data("anacron/spool") @@}}'
     dynvariables:
-      tmp_dst: mktemp /tmp/cron-tmp.XXX
+      cron_tmp_dst: mktemp /tmp/cron-tmp.XXX
     actions:
-    - anacron '{{@@ anacron_spool | home_abs2var @@}}' '{{@@ tmp_dst @@}}'
+    - >-
+        anacron '{{@@ anacron_spool | default('') | home_abs2var @@}}'
+          '{{@@ cron_tmp_dst @@}}'
+    import:
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/cron.yaml:optional
 
   # This profile groups geany-related dotfiles. Individual files are addressed,
   # rather than the whole directory, as it was execssively complex to ignore
@@ -273,6 +263,14 @@ profiles:
     - f_trolltech.conf
     - f_xresources
 
+  # This profile contains dotfiles for managing repositories with myrepos
+  myrepos:
+    dotfiles:
+    - f_mrtrust
+    import:
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/myrepos.yaml:optional
+    - yaml/dotfiles/{{@@ user @@}}/myrepos.yaml:optional
+
   # This profile contains dotfiles used when the X11 session starts.
   startup:
     dotfiles:
@@ -299,10 +297,6 @@ trans_write:
   atom-list-packages: apm list --bare --installed | grep -o '^[^@]\+' > {1}
 
 variables:
-  # This variable defines the default directory myrepos is run from, both as
-  # a shell alias and in anacron jobs.
-  mr_default_dir: '$HOME'
-
   # This variable is used to differentiate between user and root configuration
   # in some dotfiles.
   user: user

@@ -13,7 +13,7 @@ import filecmp
 from dotdrop.logger import Logger
 from dotdrop.templategen import Templategen
 from dotdrop.utils import patch_ignores, remove, get_unique_tmp_name, \
-    write_to_tmpfile, must_ignore
+    write_to_tmpfile, must_ignore, mirror_file_rights
 
 
 TILD = '~'
@@ -61,12 +61,21 @@ class Updater:
         if not os.path.lexists(path):
             self.log.err('\"{}\" does not exist!'.format(path))
             return False
-        dotfile = self.dotfile_dst_getter(path)
-        if not dotfile:
+        dotfiles = self.dotfile_dst_getter(path)
+        if not dotfiles:
             return False
-        if self.debug:
-            self.log.dbg('updating {} from path \"{}\"'.format(dotfile, path))
-        return self._update(path, dotfile)
+        for dotfile in dotfiles:
+            if not dotfile:
+                msg = 'invalid dotfile for update: {}'
+                self.log.err(msg.format(dotfile.key))
+                return False
+
+            if self.debug:
+                msg = 'updating {} from path \"{}\"'
+                self.log.dbg(msg.format(dotfile, path))
+            if not self._update(path, dotfile):
+                return False
+        return True
 
     def update_key(self, key):
         """update the dotfile referenced by key"""
@@ -139,6 +148,7 @@ class Updater:
         """provide a way to manually patch the template"""
         content = self._resolve_template(tpath)
         tmp = write_to_tmpfile(content)
+        mirror_file_rights(tpath, tmp)
         cmds = ['diff', '-u', tmp, fpath, '|', 'patch', tpath]
         self.log.warn('try patching with: \"{}\"'.format(' '.join(cmds)))
         return False
@@ -160,8 +170,7 @@ class Updater:
 
     def _mirror_rights(self, src, dst):
         try:
-            rights = os.stat(src).st_mode
-            os.chmod(dst, rights)
+            mirror_file_rights(src, dst)
         except OSError as e:
             self.log.err(e)
 

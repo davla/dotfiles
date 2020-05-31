@@ -1,0 +1,7 @@
+%YAML 1.2
+---
+# This variables file defines some miscellaneous distribution-specific
+# variables for Debian systems
+
+variables:
+  ddclient_dst_path: /etc/ddclient.conf

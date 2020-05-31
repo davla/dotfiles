@@ -4,6 +4,6 @@
 # work system.
 
 variables:
-  # This is the directory from where dotdrop is invoked by the wrapper custom
-  # command
-  dotfiles_home: git rev-parse --show-toplevel | xargs -i '{}/dotfiles'
+  # Git-related variables
+  git_credentials_helper: manager
+  git_commit_gpg_sign: false

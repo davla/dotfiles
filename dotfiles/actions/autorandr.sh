@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
-. ../.env
+# This doesn't work if this script is sourced
+. "$(dirname "$0")"/../.env
 
 # This script sets up the autorandr configuration. In particular:
 #   - it creates some symbolic links to generic hook scripts for specific
@@ -38,7 +39,7 @@ link_hooks() {
 
 # Lists of autorandr configuration names that need dpi-adjusting hook scripts.
 # Split by host.
-case "$(hostname)" in
+case "$HOST" in
     'davide-laptop')
         HIDPI_CONFIGS='laptop-personal'
         LODPI_CONFIGS='dual-personal-cph

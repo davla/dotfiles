@@ -8,16 +8,21 @@
 # Custom
 #######################################
 
-export DOTFILES_HOME="{{@@ "$HOME/Files/Programming/sys/dotfiles"
-    | find_in_home @@}}"
-export PYWIKIBOT_DIR="{{@@ "$HOME/Files/pywikibot" | find_in_home @@}}"
+export DOTFILES_HOME="{{@@ dotfiles_home | find_in_home @@}}"
 
+{%@@ set pywikibot_home = '$HOME/Files/pywikibot' | find_in_home @@%}
+{%@@ if pywikibot_home @@%}
+export PYWIKIBOT_DIR="{{@@ pywikibot_home @@}}"
+{%@@ endif @@%}
+
+{%@@ if exists(docker_path) @@%}
 #######################################
 # Docker
 #######################################
 
 export DOCKER_CONFIG="{{@@ docker_path | home_abs2var @@}}"
 
+{%@@ endif @@%}
 #######################################
 # Path
 #######################################

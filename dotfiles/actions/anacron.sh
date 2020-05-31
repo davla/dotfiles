@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
-. ../.env
+# This doesn't work if this script is sourced
+. "$(dirname "$0")"/../.env
 
 # This script sets up anacron environment. It installs programs used in
 # anacrontabs and sets up the spool directory and a custom crontab if passed.

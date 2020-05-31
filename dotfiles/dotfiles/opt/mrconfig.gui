@@ -1,0 +1,45 @@
+# This myrepos config file is used to install some packages system-wide and
+# keep them up-to-date, straight from git source repositories.
+#
+# In particular, this file groups packages used only in systems with a GUI
+#
+# {{@@ header() @@}}
+
+
+#######################################
+# Importing helpers
+#######################################
+
+
+include = cat '{{@@ mr_libs_path @@}}/git-install'
+
+
+#######################################
+# Repositories
+#######################################
+
+
+[/opt/i3blocks-contrib]
+checkout =
+	   git clone 'https://github.com/davla/i3blocks-contrib' 'i3blocks-contrib'
+install =
+    make -C "$MR_REPO/cpu_usage2"
+    env ACTIVE_COLOR='{{@@ main_theme_color @@}}' CAPS_LABEL='C'
+        INACTIVE_COLOR='{{@@ i3bar_inactive_color @@}}' NO_NUM=1
+        make -C "$MR_REPO/keyindicator2"
+    make -C "$MR_REPO/network-status"
+    #
+    rm -f /usr/local/bin/i3blocks-*
+    for BLOCK in {{@@ i3blocks_list @@}}; do
+        find "$MR_REPO/$BLOCK" -type f -executable -printf '%P'
+            | xargs -i cp "$MR_REPO/$BLOCK/{}" '/usr/local/bin/i3blocks-{}'
+    done
+
+
+[/opt/move-to-monitor]
+checkout =
+	git clone 'https://github.com/vanaoff/move-to-next-monitor.git'
+        'move-to-monitor'
+install =
+    bash "$MR_REPO/install.sh"
+    mv /usr/local/bin/move-to-next-monitor /usr/local/bin/move-to-monitor

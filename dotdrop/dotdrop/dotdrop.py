@@ -16,7 +16,7 @@ from dotdrop.installer import Installer
 from dotdrop.updater import Updater
 from dotdrop.comparator import Comparator
 from dotdrop.utils import get_tmpdir, remove, strip_home, \
-    run, uniq_list, patch_ignores
+    run, uniq_list, patch_ignores, dependencies_met
 from dotdrop.linktypes import LinkTypes
 from dotdrop.exceptions import YamlException
 
@@ -71,7 +71,7 @@ def action_executor(o, actions, defactions, templater, post=False):
 def cmd_install(o):
     """install dotfiles for this profile"""
     dotfiles = o.dotfiles
-    prof = o.conf.get_profile(o.profile)
+    prof = o.conf.get_profile()
     pro_pre_actions = prof.get_pre_actions() if prof else []
     pro_post_actions = prof.get_post_actions() if prof else []
 
@@ -193,7 +193,7 @@ def cmd_install(o):
 def cmd_compare(o, tmp):
     """compare dotfiles and return True if all identical"""
     dotfiles = o.dotfiles
-    if dotfiles == []:
+    if not dotfiles:
         msg = 'no dotfile defined for this profile (\"{}\")'
         LOG.warn(msg.format(o.profile))
         return True
@@ -209,6 +209,7 @@ def cmd_compare(o, tmp):
     t = Templategen(base=o.dotpath, variables=o.variables,
                     func_file=o.func_file, filter_file=o.filter_file,
                     debug=o.debug)
+    tvars = t.add_tmp_vars()
     inst = Installer(create=o.create, backup=o.backup,
                      dry=o.dry, base=o.dotpath,
                      workdir=o.workdir, debug=o.debug,
@@ -217,11 +218,16 @@ def cmd_compare(o, tmp):
     comp = Comparator(diff_cmd=o.diff_command, debug=o.debug)
 
     for dotfile in selected:
+        # add dotfile variables
+        t.restore_vars(tvars)
+        newvars = dotfile.get_dotfile_variables()
+        t.add_tmp_vars(newvars=newvars)
+
         if o.debug:
             LOG.dbg('comparing {}'.format(dotfile))
         src = dotfile.src
         if not os.path.lexists(os.path.expanduser(dotfile.dst)):
-            line = '=> compare {}: \"{}\" does not exist on local'
+            line = '=> compare {}: \"{}\" does not exist on destination'
             LOG.log(line.format(dotfile.key, dotfile.dst))
             same = False
             continue
@@ -341,7 +347,17 @@ def cmd_importer(o):
             continue
         dst = path.rstrip(os.sep)
         dst = os.path.abspath(dst)
+
         src = strip_home(dst)
+        if o.import_as:
+            # handle import as
+            src = os.path.expanduser(o.import_as)
+            src = src.rstrip(os.sep)
+            src = os.path.abspath(src)
+            src = strip_home(src)
+            if o.debug:
+                LOG.dbg('import src for {} as {}'.format(dst, src))
+
         strip = '.' + os.sep
         if o.keepdot:
             strip = os.sep
@@ -356,7 +372,26 @@ def cmd_importer(o):
             continue
 
         if o.debug:
-            LOG.dbg('new dotfile: src:{} dst:{}'.format(src, dst))
+            LOG.dbg('import dotfile: src:{} dst:{}'.format(src, dst))
+
+        # test no other dotfile exists with same
+        # dst for this profile but different src
+        dfs = o.conf.get_dotfile_by_dst(dst)
+        if dfs:
+            invalid = False
+            for df in dfs:
+                profiles = o.conf.get_profiles_by_dotfile_key(df.key)
+                profiles = [x.key for x in profiles]
+                if o.profile in profiles and \
+                        not o.conf.get_dotfile_by_src_dst(src, dst):
+                    # same profile
+                    # different src
+                    LOG.err('duplicate dotfile for this profile')
+                    ret = False
+                    invalid = True
+                    break
+            if invalid:
+                continue
 
         # prepare hierarchy for dotfile
         srcf = os.path.join(o.dotpath, src)
@@ -386,7 +421,7 @@ def cmd_importer(o):
                     LOG.err('importing \"{}\" failed!'.format(path))
                     ret = False
                     continue
-            cmd = ['cp', '-R', '-L', dst, srcf]
+            cmd = ['cp', '-R', '-L', '-T', dst, srcf]
             if o.dry:
                 LOG.dry('would run: {}'.format(' '.join(cmd)))
             else:
@@ -395,7 +430,7 @@ def cmd_importer(o):
                     LOG.err('importing \"{}\" failed!'.format(path))
                     ret = False
                     continue
-        retconf = o.conf.new(src, dst, linktype, o.profile)
+        retconf = o.conf.new(src, dst, linktype)
         if retconf:
             LOG.sub('\"{}\" imported'.format(path))
             cnt += 1
@@ -481,52 +516,54 @@ def cmd_remove(o):
     for key in paths:
         if not iskey:
             # by path
-            dotfile = o.conf.get_dotfile_by_dst(key)
-            if not dotfile:
+            dotfiles = o.conf.get_dotfile_by_dst(key)
+            if not dotfiles:
                 LOG.warn('{} ignored, does not exist'.format(key))
                 continue
-            k = dotfile.key
         else:
             # by key
             dotfile = o.conf.get_dotfile(key)
             if not dotfile:
                 LOG.warn('{} ignored, does not exist'.format(key))
                 continue
-            k = key
+            dotfiles = [dotfile]
 
-        # ignore if uses any type of link
-        if dotfile.link != LinkTypes.NOLINK:
-            LOG.warn('dotfile uses link, remove manually')
-            continue
+        for dotfile in dotfiles:
+            k = dotfile.key
+            # ignore if uses any type of link
+            if dotfile.link != LinkTypes.NOLINK:
+                LOG.warn('dotfile uses link, remove manually')
+                continue
 
-        if o.debug:
-            LOG.dbg('removing {}'.format(key))
+            if o.debug:
+                LOG.dbg('removing {}'.format(key))
 
-        # make sure is part of the profile
-        if dotfile.key not in [d.key for d in o.dotfiles]:
-            LOG.warn('{} ignored, not associated to this profile'.format(key))
-            continue
-        profiles = o.conf.get_profiles_by_dotfile_key(k)
-        pkeys = ','.join([p.key for p in profiles])
-        if o.dry:
-            LOG.dry('would remove {} from {}'.format(dotfile, pkeys))
-            continue
-        msg = 'Remove \"{}\" from all these profiles: {}'.format(k, pkeys)
-        if o.safe and not LOG.ask(msg):
-            return False
-        if o.debug:
-            LOG.dbg('remove dotfile: {}'.format(dotfile))
-
-        for profile in profiles:
-            if not o.conf.del_dotfile_from_profile(dotfile, profile):
+            # make sure is part of the profile
+            if dotfile.key not in [d.key for d in o.dotfiles]:
+                msg = '{} ignored, not associated to this profile'
+                LOG.warn(msg.format(key))
+                continue
+            profiles = o.conf.get_profiles_by_dotfile_key(k)
+            pkeys = ','.join([p.key for p in profiles])
+            if o.dry:
+                LOG.dry('would remove {} from {}'.format(dotfile, pkeys))
+                continue
+            msg = 'Remove \"{}\" from all these profiles: {}'.format(k, pkeys)
+            if o.safe and not LOG.ask(msg):
                 return False
-        if not o.conf.del_dotfile(dotfile):
-            return False
+            if o.debug:
+                LOG.dbg('remove dotfile: {}'.format(dotfile))
 
-        # remove dotfile from dotpath
-        dtpath = os.path.join(o.dotpath, dotfile.src)
-        remove(dtpath)
-        removed.append(dotfile.key)
+            for profile in profiles:
+                if not o.conf.del_dotfile_from_profile(dotfile, profile):
+                    return False
+            if not o.conf.del_dotfile(dotfile):
+                return False
+
+            # remove dotfile from dotpath
+            dtpath = os.path.join(o.dotpath, dotfile.src)
+            remove(dtpath)
+            removed.append(dotfile.key)
 
     if o.dry:
         LOG.dry('new config file would be:')
@@ -616,6 +653,13 @@ def main():
 
     if o.debug:
         LOG.dbg('\n\n')
+
+    # check dependencies are met
+    try:
+        dependencies_met()
+    except Exception as e:
+        LOG.err(e)
+        return False
 
     ret = True
     try:

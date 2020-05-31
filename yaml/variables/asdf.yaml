@@ -1,0 +1,7 @@
+%YAML 1.2
+---
+# This variables file defines variables related to asdf version manager
+
+variables:
+  asdf_home: /opt/asdf-vm
+  asdf_config: '{{@@ asdf_home @@}}/etc'

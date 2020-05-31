@@ -1,14 +1,14 @@
 #!/usr/bin/env sh
 
+# {{@@ header() @@}}
+
 # This is a NetworkManager dispatch script that disables Wi-Fi
 # when an Ethernet connection is active and enables it when
 # there is no cable connection up.
 
-#####################################################
-#
-#                   Functions
-#
-#####################################################
+#######################################
+# Functions
+#######################################
 
 # This function sets the wireless interface status. In doing so, it logs to
 # a custom log facility and sends a signal to i3blocks.
@@ -21,17 +21,15 @@ set_wireless() {
     NEW_STATE="$1"
 
     nmcli radio wifi "$NEW_STATE"
-    logger -p local0.info -t WIRELESS-CTRL "Wireless set $NEW_STATE"
+    echo "Wireless set $NEW_STATE" | cron-logger 'WIRELESS-CTRL'
     pkill -RTMIN+{{@@ network_signal @@}} i3blocks
 
     unset NEW_STATE
 }
 
-#####################################################
-#
-#               Wi-Fi management
-#
-#####################################################
+#######################################
+# Wi-Fi management
+#######################################
 
 INTERFACE="$1"
 ACTION="$2"

@@ -1,0 +1,32 @@
+%YAML 1.2
+---
+# This dotdrop config file is meant for dotfiles shared between both root and
+# user
+
+config:
+  backup: false
+  banner: true
+  create: true
+  dotpath: ../../dotfiles
+  func_file:
+  - ../../python/functions.py
+  ignoreempty: true
+  import_configs:
+  - shell.yaml
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+  showdiff: true
+  workdir: '{{@@ xdg_config("dotdrop") @@}}'
+
+dotfiles:
+  d_git:
+    src: config/git
+    dst: '{{@@ xdg_config("git") @@}}'
+
+profiles:
+  # This profile groups git dotfiles
+  git:
+    dotfiles:
+      - d_git

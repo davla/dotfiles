@@ -29,7 +29,7 @@ SDOTDIR_FILE="${1:?}"
 # $HOME/.profile. Here, symbolic links are created from those paths to the
 # actual files in the bash configuration directory.
 
-ln -sf "${SDOTDIR:?}/.profile" "$HOME/.profile"
+ln -sf "${SDOTDIR:?}/profile" "$HOME/.profile"
 
 #######################################
 # Initializing $SDOTDIR

@@ -6,7 +6,7 @@
 # asdf
 #######################################
 
-[ "$(ps --no-headings -p "$$" -o 'comm')" != 'sh' ] && . "$ASDF_PATH/asdf.sh"
+[ "$(ps --no-headings -p "$$" -o 'comm')" != 'sh' ] && . "$ASDF_HOME/asdf.sh"
 
 #######################################
 # exa

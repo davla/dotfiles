@@ -34,7 +34,15 @@
       "markdown-preview"
     ]
     telemetryConsent: "limited"
+    themes: [
+      "one-dark-ui"
+      "ayu"
+    ]
     warnOnLargeFileLimit: 0.256
+  "docblock-python":
+    style: "sphinx"
+    types:
+      separate_types: true
   docblockr:
     spacer_between_sections: "true"
   editor:
@@ -108,15 +116,12 @@
       "descheduled"
       "deschedules"
       "descheduling"
-      ""
-      "ROS"
       "filesystem"
       "subdirectories"
       "runtime"
       "modularity"
       "parsers"
       "boolean"
-      "Haros"
       "namespace"
       "namespaces"
       "remappings"
@@ -146,9 +151,5 @@
   editor:
     autoIndent: true
     tabLength: 2
-latex:
-  buildOnSave: true
-  opener: "pdf-view"
-  outputDirectory: "build"
 "pdf-view":
   fitToWidthOnOpen: true

@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+. ../.env
+
 # This script sets up anacron environment. It installs programs used in
 # anacrontabs and sets up the spool directory and a custom crontab if passed.
 #
@@ -18,8 +20,16 @@ CRONTAB_FILE="$2"
 # Installing dependencies
 #######################################
 
-sudo apt-get install atom myrepos zsh
-sudo mr -d /opt/antibody install
+case "$DISTRO" in
+    'arch')
+        yay -S antibody-bin atom myrepos zsh
+        ;;
+
+    'debian')
+        sudo apt-get install atom myrepos zsh
+        sudo mr -d /opt/antibody install
+        ;;
+esac
 
 #######################################
 # Initializing anacron

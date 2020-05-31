@@ -9,31 +9,30 @@
  * http://lesscss.org
  */
 
-
-/*
- * Examples
- * (To see them, uncomment and save)
- */
-
-// style the background color of the tree view
-.tree-view {
-  // background-color: whitesmoke;
-}
-
-// style the background and foreground colors on the atom-text-editor-element itself
 atom-text-editor {
-  // color: white;
-  // background-color: hsl(180, 24%, 12%);
-}
 
-// style UI elements inside atom-text-editor
-atom-text-editor .cursor {
-  border-left: none;
-  border-bottom: 1px solid #00D0FF;
-  // border: 1px solid #526fff;
-  // border-bottom: 1px solid #526fff;
-}
+  // Line cursor
+  .cursor {
+    border-left: none;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+  }
 
-atom-text-editor .line-number .icon-right {
+  // Bracket matcher highlight
+  .bracket-matcher .region {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+  }
+
+  // Bracker matcher highlight same line fix
+  .cursor-line {
+    // The RGB color is obtained by setting the HSL lightness of the current
+    // theme color to 80. 0.04 alpha is stolen from the One Dark syntax theme.
+    background-color: rgba(187, 204, 220, 0.04) !important;
+  }
+
+  // Gutter
+  .line-number .icon-right {
     padding: 0;
+  }
 }

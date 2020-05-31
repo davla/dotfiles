@@ -8,12 +8,12 @@
 
 # POSIX shell dot directory
 # shellcheck disable=2027,2140
-export SDOTDIR="{{@@ sdotdir | replace("~", "$HOME") @@}}"
+export SDOTDIR="{{@@ sdotdir | home_abs2var @@}}"
 
 # bash dot directory
 # shellcheck disable=2027,2140
-export BDOTDIR="{{@@ bdotdir | replace("~", "$HOME") @@}}"
+export BDOTDIR="{{@@ bdotdir | home_abs2var @@}}"
 
 # zsh dot directory
 # shellcheck disable=2027,2140
-export ZDOTDIR="{{@@ zdotdir | replace("~", "$HOME") @@}}"
+export ZDOTDIR="{{@@ zdotdir | home_abs2var @@}}"

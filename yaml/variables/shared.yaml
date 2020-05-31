@@ -1,0 +1,7 @@
+%YAML 1.2
+---
+# This dotdrop variables file is meant for variables shared between both root
+# and user
+
+variables:
+  docker_path: '{{@@ xdg_config("docker") @@}}'

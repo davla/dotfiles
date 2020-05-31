@@ -1,6 +1,14 @@
 #!/usr/bin/env sh
 
-# This script initialized the X11 session.
+# {{@@ header() @@}}
+
+# This script initializes the X11 session.
+
+#######################################
+# Gtk 2 environment variables
+#######################################
+
+export GTK2_RC_FILES="{{@@ gtk2_path | home_abs2var @@}}/gtkrc"
 
 #######################################
 # Qt environment variables

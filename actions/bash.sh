@@ -29,8 +29,8 @@ BDOTDIR_FILE="${1:?}"
 # symbolic links are created from those paths to the actual files in the bash
 # configuration directory.
 
-ln -sf "${BDOTDIR:?}/.bashrc" "$HOME/.bashrc"
-ln -sf "${BDOTDIR:?}/.bash_profile" "$HOME/.bash_profile"
+ln -sf "${BDOTDIR:?}/bashrc" "$HOME/.bashrc"
+ln -sf "${BDOTDIR:?}/bash_profile" "$HOME/.bash_profile"
 
 #######################################
 # Initializing $BDOTDIR

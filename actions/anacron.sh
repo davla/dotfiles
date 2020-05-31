@@ -38,7 +38,7 @@ case "$DISTRO" in
                 ;;
         esac
         sudo apt-get install myrepos zsh
-        sudo mr -d /opt/antibody install
+        sudo mr -d /opt/antibody -c /opt/.mrconfig install
         ;;
 esac
 

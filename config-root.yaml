@@ -205,9 +205,9 @@ dotfiles:
   f_mrconfig-gui:
     src: opt/mrconfig.gui
     dst: /opt/.mrconfig.gui
-  f_mrconfig-host:
-    src: opt/mrconfig.{{@@ env['HOST'] @@}}
-    dst: /opt/.mrconfig.{{@@ env['HOST'] @@}}
+  f_mrconfig-distro:
+    src: opt/mrconfig.{{@@ env['DISTRO'] @@}}
+    dst: /opt/.mrconfig.{{@@ env['DISTRO'] @@}}
   f_mrconfig-main:
     src: opt/mrconfig.{{@@ user @@}}
     dst: /opt/.mrconfig
@@ -413,8 +413,8 @@ profiles:
   # without the aid of a package manager
   manual:
     dotfiles:
+    - f_mrconfig-distro
     - f_mrconfig-gui
-    - f_mrconfig-host
     - f_mrconfig-main
     - f_mrtrust
     import:

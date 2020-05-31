@@ -1,0 +1,8 @@
+{#@@
+    This snippet adds system-wide asdf environment variables defined in
+    /etc/profile.d/asdf.sh to shell other than POSIX. It is meant to be
+    appended to shell-specific system-wide initialization files, such as
+    /etc/bash.bashrc.
+-@@#}
+
+. /etc/profile.d/asdf.sh

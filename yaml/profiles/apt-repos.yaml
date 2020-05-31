@@ -70,19 +70,6 @@ dotfiles:
     src: etc/apt/sources.list.d/yarn.list
     dst: /etc/apt/sources.list.d/yarn.list
 
-dynvariables:
-  # Mapping from real to generic hostnames
-  host: |-
-    case "$(hostname)" in
-        'davide-laptop')
-            echo 'personal'
-            ;;
-
-        *)
-            echo 'work'
-            ;;
-    esac
-
 profiles:
   packages:
     dotfiles:
@@ -92,6 +79,6 @@ profiles:
     - f_sources.list
     - f_sid.list
     import:
-    - '../dotfiles/{{@@ host @@}}/apt-sources.yaml'
+    - ../dotfiles/{{@@ env['HOST'] @@}}/apt-sources.yaml:optional
     actions:
     - repo-keys

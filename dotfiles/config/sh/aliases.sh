@@ -14,7 +14,10 @@ alias p='xsel -o'
 {%@@ if user == 'user' @@%}
 alias root='sudo -s'
 {%@@ elif user == 'root' @@%}
+{%@@ if env['DISTRO'] == 'arch' @@%}
+{%@@ elif env['DISTRO'] == 'debian' @@%}
 alias update='apt-get update && apt-get upgrade'
+{%@@ endif @@%}
 {%@@ endif @@%}
 
 #######################################

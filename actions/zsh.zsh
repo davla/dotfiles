@@ -48,7 +48,7 @@ mkdir -p "${ZDOTDIR:?}/cache"
 
 case "$DISTRO" in
     'arch')
-        yay -S antibody-bin
+        yay -S antibody-bin asdf-vm
         ;;
 
     'debian')

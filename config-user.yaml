@@ -24,7 +24,9 @@ config:
   - yaml/profiles/autorandr.yaml
   - yaml/profiles/shared.yaml
   import_variables:
-  - yaml/variables/{{@@ host @@}}/*.yaml
+  - yaml/variables/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/{{@@ env['HOST'] @@}}/*.yaml:optional
+  - yaml/variables/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/dpi.yaml
   - yaml/variables/i3.yaml
   - yaml/variables/look-and-feel.yaml
@@ -42,18 +44,6 @@ dynvariables:
   # This variable is used in order not to hardcode the home directory where it
   # can not be dynamically expanded
   home: 'echo $HOME'
-
-  # Mapping from real to generic hostnames
-  host: |-
-    case "$(hostname)" in
-        'davide-laptop')
-            echo 'personal'
-            ;;
-
-        *)
-            echo 'work'
-            ;;
-    esac
 
 dotfiles:
   d_autostart:
@@ -210,10 +200,9 @@ profiles:
 
   # This profile groups configuration files for CLI-based applictions.
   cli:
-    dotfiles:
-    - f_docker_config.json
     import:
-    - yaml/dotfiles/{{@@ host @@}}/cli.yaml
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ user @@}}/cli.yaml:optional
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
     include:
     - git
 
@@ -250,7 +239,7 @@ profiles:
     - f_mimeapps.list
     - f_parcellite_parcelliterc
     import:
-    - yaml/dotfiles/{{@@ host @@}}/gui.yaml
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/gui.yaml:optional
     include:
     - atom
     - geany
@@ -265,7 +254,7 @@ profiles:
     - f_i3blocks_config
     - f_i3config
     import:
-    - yaml/dotfiles/{{@@ host @@}}/i3.yaml
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/i3.yaml:optional
     actions:
     - i3
     include:
@@ -290,7 +279,7 @@ profiles:
     - d_autostart
     - f_xsessionrc
     import:
-    - yaml/dotfiles/{{@@ host @@}}/{{@@ user @@}}/startup.yaml
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
 
   # This profile contains the dotfiles for the whole Xfce session.
   xfce:
@@ -317,6 +306,3 @@ variables:
   # This variable is used to differentiate between user and root configuration
   # in some dotfiles.
   user: user
-
-  # This variable defines the Zygal shell theme colorscheme.
-  zygal_colorscheme: orange

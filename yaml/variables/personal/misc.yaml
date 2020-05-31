@@ -7,3 +7,9 @@ dynvariables:
   # This is the directory from where dotdrop is invoked by the wrapper custom
   # command
   dotfiles_home: git rev-parse --show-toplevel
+
+variables:
+  # Git-related variables
+  git_credentials_helper: /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+  git_commit_gpg_sign: true
+  gitreview_username: davla

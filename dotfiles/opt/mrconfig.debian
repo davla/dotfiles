@@ -1,0 +1,66 @@
+# This myrepos config file is used to install some packages system-wide and
+# keep them up-to-date, straight from git source repositories.
+#
+# In particular, this file groups packages necessary only on Debian systems.
+#
+# {{@@ header() @@}}
+
+
+#######################################
+# Importing helpers
+#######################################
+
+
+include = cat '{{@@ mr_libs_path @@}}/git-install'
+
+
+#######################################
+# Repositories
+#######################################
+
+
+[/opt/antibody]
+checkout =
+	  git clone 'https://github.com/getantibody/antibody.git' 'antibody'
+install =
+	  get_github_release 'getantibody/antibody' 'contains("linux_amd64")'
+	      > antibody.deb;
+	  dpkg -i antibody.deb;
+	  apt-get install -f;
+	  rm antibody.deb
+
+
+[{{@@ asdf_home @@}}]
+checkout =
+    git clone 'https://github.com/asdf-vm/asdf.git'
+        '{{@@ basename(asdf_home) @@}}'
+install = true
+upgrade = bash -lc 'asdf update 2>&1 | grep "release"'
+
+
+[/opt/docker-compose]
+checkout =
+	  git clone 'https://github.com/docker/compose.git' 'docker-compose'
+install =
+	  get_github_release 'docker/compose' 'endswith("Linux-x86_64")'
+	      > /usr/local/bin/docker-compose;
+	  chmod +x /usr/local/bin/docker-compose
+
+
+[/opt/docker-credential-helpers]
+checkout =
+	  git clone 'https://github.com/docker/docker-credential-helpers.git'
+	      'docker-credential-helpers'
+install =
+	  get_github_release 'docker/docker-credential-helpers'
+	      'contains("secretservice")' | tar zx -C /usr/local/bin;
+	  chmod +x /usr/local/bin/docker-credential-secretservice
+
+
+{%@@ if not is_headless @@%}
+[/opt/i3-volume]
+checkout =
+    git clone 'https://github.com/FFY00/i3-volume.git' 'i3-volume'
+install =
+    cp "$MR_REPO/volume" /usr/local/bin/volume
+{%@@ endif @@%}

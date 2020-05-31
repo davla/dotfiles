@@ -7,7 +7,7 @@
 command=date '+%H:%M:%S        %d-%m-%Y (%a)'
 interval=1
 
-{%@@ if host == 'personal' @@%}
+{%@@ if env['HOST'] == 'personal' @@%}
 # This block displays the main mail watcher
 [email]
 command=i3blocks-email | sed '1 s/^/main: /; s/#ededed/{{@@ i3bar_inactive_color @@}}/; s/#00ff00/{{@@ main_theme_color @@}}/'

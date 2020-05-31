@@ -1,0 +1,28 @@
+# This myrepos config file is used to install some packages system-wide and
+# keep them up-to-date, straight from git source repositories.
+#
+# {{@@ header() @@}}
+
+#######################################
+# Including other repositories
+#######################################
+
+
+{%@@ if not is_headless @@%}
+include = cat '{{@@ dirname(_dotfile_abs_dst) @@}}/.mrconfig.gui'
+{%@@ endif @@%}
+include = cat '{{@@ '.%s/.mrconfig.%s'
+    | format(dirname(_dotfile_abs_dst), env['DISTRO']) @@}}'
+
+
+#######################################
+# Repositories
+#######################################
+
+
+[/opt/underclock]
+checkout =
+    git clone 'https://github.com/Sepero/temp-throttle.git' 'underclock'
+install =
+    cp "$MR_REPO/"*.sh /usr/local/sbin/underclock;
+    chmod +x /usr/local/sbin/underclock

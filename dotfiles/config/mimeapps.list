@@ -9,7 +9,7 @@ x-scheme-handler/sftp=thunar.desktop
 x-scheme-handler/http=firefox.desktop
 x-scheme-handler/https=firefox.desktop
 x-scheme-handler/unknown=firefox.desktop
-{%@@ if host == 'personal' @@%}
+{%@@ if env['HOST'] == 'personal' @@%}
 x-scheme-handler/mailto=thunderbird.desktop
 x-scheme-handler/spotify=spotify.desktop
 x-scheme-handler/tg=telegramdesktop.desktop
@@ -26,7 +26,7 @@ image/png=viewnior.desktop;
 text/html=geany.desktop
 text/markdown=geany.desktop;
 text/plain=geany.desktop;
-{%@@ if host == 'personal' @@%}
+{%@@ if env['HOST'] == 'personal' @@%}
 application/ogg=vlc.desktop;
 audio/x-aac=vlc.desktop;
 audio/x-flac=vlc.desktop;

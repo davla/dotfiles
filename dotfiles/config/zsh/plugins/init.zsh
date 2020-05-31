@@ -2,6 +2,8 @@
 
 # This script configures and loads zsh plugins
 
+# {{@@ header() @@}}
+
 #######################################
 # Inheriting from POSIX shell
 #######################################
@@ -14,6 +16,14 @@ source "$SDOTDIR/plugins/init.sh"
 #
 ###############################################################################
 
+{%@@ if env['DISTRO'] == 'arch' @@%}
+#######################################
+# command-not-found
+#######################################
+
+source /usr/share/doc/pkgfile/command-not-found.zsh
+
+{%@@ endif @@%}
 #######################################
 # deer
 #######################################
@@ -61,6 +71,7 @@ ZSH_AUTOSUGGEST_USE_ASYNC=true
 
 ZSH_COMMAND_NOT_FOUND_NO_FAILURE_MSG=false
 
+{%@@ if not is_headless @@%}
 #######################################
 # zsh-notify
 #######################################
@@ -74,6 +85,7 @@ zstyle ':notify:*' error-title 'Error - took #{time_elapsed}s'
 zstyle ':notify:*' success-icon "$ICON_THEME_PATH/emblem-ok.svg"
 zstyle ':notify:*' success-title 'OK - took #{time_elapsed}s'
 
+{%@@ endif @@%}
 #######################################
 # zsh-syntax-highlight
 #######################################
@@ -142,7 +154,7 @@ HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=9,fg=15,bold'
 HISTORY_SUBSTRING_SEARCH_GLOBBING_FLAGS='l'
 HISTORY_SUBSTRING_SEARCH_FUZZY='on'
 
-bindkey "${key[Up]}" history-substring-search-up
-bindkey "${key[Down]}" history-substring-search-down
+bindkey "${terminfo[kcuu1]}" history-substring-search-up
+bindkey "${terminfo[kcud1]}" history-substring-search-down
 
 setopt HIST_IGNORE_ALL_DUPS

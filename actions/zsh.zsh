@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh
 
-. ../.env
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/../.env"
 
 # This script initializes the zsh dotfiles setup.
 #

@@ -54,6 +54,7 @@
     # commit
     c = commit
     ca = commit --amend
+    cx = commit --fixup
 
     # diff
     d = diff

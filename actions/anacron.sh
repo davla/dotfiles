@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 # This doesn't work if this script is sourced
-. "$(dirname "$0")"/../.env
+. "$(dirname "$0")/../.env"
 
 # This script sets up anacron environment. It installs programs used in
 # anacrontabs and sets up the spool directory and a custom crontab if passed.
@@ -23,11 +23,21 @@ CRONTAB_FILE="$2"
 
 case "$DISTRO" in
     'arch')
-        yay -S antibody-bin atom myrepos zsh
+        case "$HOST" in
+            'personal'|'work')
+                yay -Sy atom
+                ;;
+        esac
+        yay -Sy antibody-bin myrepos zsh
         ;;
 
     'debian')
-        sudo apt-get install atom myrepos zsh
+        case "$HOST" in
+            'personal'|'work')
+                sudo apt-get install atom
+                ;;
+        esac
+        sudo apt-get install myrepos zsh
         sudo mr -d /opt/antibody install
         ;;
 esac

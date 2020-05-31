@@ -1,2 +1,0 @@
-[Files/pywikibot]
-checkout = git clone 'ssh://davla@gerrit.wikimedia.org:29418/pywikibot/core.git' 'pywikibot'

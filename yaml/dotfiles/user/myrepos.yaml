@@ -1,0 +1,7 @@
+%YAML 1.2
+---
+# This dotfiles file lists the dotfiles for myrepos repositories management for
+# unprivilged users.
+
+dotfiles:
+- f_mrconfig_wiki

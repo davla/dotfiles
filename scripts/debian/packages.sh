@@ -185,14 +185,14 @@ case "$HOSTNAME" in
             ;;
 esac
 
-apt-get install autoconf automake build-essential cmake command-not-found \
-    cowsay curl dex dkms docker-ce dos2unix fonts-freefont-otf fonts-nanum \
-    fortune g++ git git-secret gvfs-backends hunspell hunspell-en-us \
-    hunspell-it intel-microcode jq libsecret-1-dev lua5.1 lua-check make \
-    moreutils nfs-common nyancat p7zip pycodestyle python-pip \
-    python-setuptools python3 python3-pip rar sct shellcheck \
-    software-properties-common thunar-archive-plugin uni2ascii unrar wmctrl \
-    xdotool xserver-xorg-input-synaptics yad zip
+apt-get install anacron autoconf automake build-essential cmake \
+    command-not-found cowsay curl dex dkms docker-ce dos2unix \
+    fonts-freefont-otf fonts-nanum fortune g++ git git-secret gvfs-backends \
+    hunspell hunspell-en-us hunspell-it intel-microcode jq libsecret-1-dev \
+    lua5.1 lua-check make moreutils nfs-common nyancat p7zip pycodestyle \
+    python3 python3-pip rar sct shellcheck software-properties-common \
+    thunar-archive-plugin uni2ascii unrar wmctrl xdotool \
+    xserver-xorg-input-synaptics yad zip
 
 # Dotfiles
 sudo -u "$USER_NAME" dotdrop install -p cli -U both

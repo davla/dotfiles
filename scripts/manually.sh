@@ -7,7 +7,8 @@
 # Arguments:
 #   - $1: The user added to the telegram group. Optional, defaults to $USER.
 
-. ./.env
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/../.env"
 
 #######################################
 # Variables
@@ -57,6 +58,7 @@ esac
 # Myrepos-based installation
 #######################################
 
+# Installing myrepos
 case "$DISTRO" in
     'arch')
         yay -S myrepos
@@ -67,14 +69,9 @@ case "$DISTRO" in
         ;;
 esac
 
-# Can't install the whole profile now. It contains dotfiles in directories
-# created by checkout, which means that git clone would fail as the target
-# directory is not empty.
-dotdrop install -p manual f_mrconfig
+# Installing manual package management dotfiles
+dotdrop install -p manual -U root
 
-mr -d '/opt' checkout
-
-# Need bash to initialize ASDF environment variables
-bash -lc 'source ./.env; dotdrop install -p manual'
-
-mr -d '/opt' install
+# Installing myrepos-managed packages
+mr -d /opt -c /opt/.mrconfig checkout
+mr -d /opt -c /opt/.mrconfig install

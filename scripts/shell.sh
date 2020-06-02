@@ -16,7 +16,7 @@ case "$DISTRO" in
     'debian')
         sudo apt-get install bash bash-completion dash exa fasd thefuck zsh \
             xsel
-        sudo mr -d /opt/antibody install
+        sudo mr -d /opt/antibody -c /opt/.mrconfig install
         ;;
 esac
 

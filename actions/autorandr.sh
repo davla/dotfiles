@@ -61,6 +61,12 @@ esac
 AUTORANDR_HOME="$(readlink -f "$1")"
 
 #######################################
+# Variables
+#######################################
+
+AUTORANDR_SCRIPTS_PATH="$AUTORANDR_HOME/scripts.d/"
+
+#######################################
 # Creating symbolic links
 #######################################
 
@@ -77,4 +83,4 @@ echo "$LODPI_CONFIGS" | link_hooks 'lodpi' "$AUTORANDR_HOME"
 find "$AUTORANDR_HOME" -type f -regextype awk \
     -regex '.*/(predetect|preswitch|postsave|postswitch)' \
     -exec chmod +x '{}' \+
-chmod +x "$AUTORANDR_HOME"/scripts.d/*
+[ -d "$AUTORANDR_SCRIPTS_PATH" ] && chmod +x "$AUTORANDR_SCRIPTS_PATH"/*

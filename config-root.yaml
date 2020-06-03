@@ -468,6 +468,7 @@ profiles:
   startup:
     dotfiles:
     - f_grub
+    - f_fstab
     - f_underclock.service
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional

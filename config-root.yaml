@@ -323,7 +323,7 @@ dynvariables:
             echo 'empty'
             ;;
     esac
-  manual_asdf_inlcude: |-
+  manual_asdf_include: |-
     case "$DISTRO" in
         'arch')
             echo 'empty'

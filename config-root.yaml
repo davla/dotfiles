@@ -53,13 +53,13 @@ actions:
     timezone: |-
       case "$DISTRO" in
           'arch')
-              < '{0}' xargs timedatectl set-timezone
+              xargs timedatectl set-timezone < '{0}'
               rm '{0}'
               ;;
 
           'debian')
-              < '{0}' xargs -i cp --remove-destination \
-                  '/usr/share/zoneinfo/{{}}' /etc/localtime
+              xargs -i cp --remove-destination '/usr/share/zoneinfo/{{}}' \
+                  /etc/localtime < '{0}'
               dpkg-reconfigure -f noninteractive tzdata
               ;;
       esac

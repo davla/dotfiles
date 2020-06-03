@@ -6,6 +6,19 @@ actions:
   pre:
     create_if_empty: "[ -s '{0}' ] || printf '{1}' > '{0}'"
 
+    # This action installs the packages providing the files modified by the
+    # environment profile
+    environment: |-
+      case "$DISTRO" in
+          'arch')
+              pacman -S dash bash zsh
+              ;;
+
+          'debian')
+              apt-get install bash dash zsh
+              ;;
+      esac
+
   post:
     # Just polishes custom dotfiles installation, does not install languages
     asdf: sh ./actions/asdf.sh '{{@@ asdf_config @@}}'
@@ -387,6 +400,8 @@ profiles:
     - f_sudo_insults
     dynvariables:
       sys_env_tmp_dst: mktemp /tmp/sys-env-tmp.XXX
+    actions:
+    - environment
 
   # This profile gathers the graphical login manager dotfiles
   graphical-login:

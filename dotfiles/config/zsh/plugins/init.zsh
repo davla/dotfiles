@@ -76,13 +76,13 @@ ZSH_COMMAND_NOT_FOUND_NO_FAILURE_MSG=false
 # zsh-notify
 #######################################
 
-readonly ICON_THEME="$(xfconf-query -c xsettings -p /Net/IconThemeName)"
-readonly ICON_THEME_PATH="$HOME/.icons/$ICON_THEME/scalable/emblems"
+{%@@ set icon_theme_path = '$HOME/.icons/%s/scalable/emblems'
+    | format(icon_theme) @@%}
 
 zstyle ':notify:*' command-complete-timeout 5
-zstyle ':notify:*' error-icon "$ICON_THEME_PATH/emblem-important.svg"
+zstyle ':notify:*' error-icon "{{@@ icon_theme_path @@}}/emblem-important.svg"
 zstyle ':notify:*' error-title 'Error - took #{time_elapsed}s'
-zstyle ':notify:*' success-icon "$ICON_THEME_PATH/emblem-ok.svg"
+zstyle ':notify:*' success-icon "{{@@ icon_theme_path @@}}/emblem-ok.svg"
 zstyle ':notify:*' success-title 'OK - took #{time_elapsed}s'
 
 {%@@ endif @@%}

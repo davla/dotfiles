@@ -119,7 +119,7 @@ dotfiles:
     src: etc/default/anacron
     dst: /etc/default/anacron
   f_anacrontab:
-    src: cron/anacrontab
+    src: cron/anacrontab.{{@@ user @@}}
     # Dynamic path since the dotfile content is appended to dst
     dst: '{{@@ anacrontab_tmp_dst @@}}'
     actions:

@@ -45,9 +45,6 @@ dotfiles:
   d_desktop-directories:
     src: local/share/desktop-directories
     dst: '{{@@ xdg_data("desktop-directories") @@}}'
-  d_dunst:
-    src: config/dunst
-    dst: '{{@@ xdg_config("dunst") @@}}'
   d_i3blocks-email:
     src: config/i3blocks-email
     dst: '{{@@ xdg_config("i3blocks-email") @@}}'
@@ -58,12 +55,6 @@ dotfiles:
     - '*.README'
     upignore:
     - '*.README'
-  d_gtk-2.0:
-    src: config/gtk-2.0
-    dst: '{{@@ gtk2_path @@}}'
-  d_gtk-3.0:
-    src: config/gtk-3.0
-    dst: '{{@@ xdg_config("gtk-3.0") @@}}'
   d_thunar:
     src: config/Thunar
     dst: '{{@@ xdg_config("Thunar") @@}}'
@@ -123,6 +114,12 @@ dotfiles:
   f_docker_config.json:
     src: config/docker/config.json
     dst: '{{@@ docker_path @@}}/config.json'
+  f_dunstrc.lodpi:
+    src: config/dunst/dunstrc.lodpi
+    dst: '{{@@ dunstrc_lodpi_dst @@}}'
+  f_dunstrc.hidpi:
+    src: config/dunst/dunstrc.hidpi
+    dst: '{{@@ xdg_config("dunst/dunstrc.hidpi") @@}}'
   f_geany_colorschemes_on-my-own.conf:
     src: config/geany/colorschemes/on-my-own.conf
     dst: '{{@@ xdg_config("geany/colorschemes/on-my-own.conf") @@}}'
@@ -135,6 +132,21 @@ dotfiles:
   f_ghci:
     src: ghci
     dst: ~/.ghci
+  f_gtk-2.0_gtkrc.lodpi:
+    src: config/gtk-2.0/gtkrc.lodpi
+    dst: '{{@@ "%s/%s" | format(gtk2_path, gtk2_gtkrc_lodpi_dst) @@}}'
+  f_gtk-2.0_gtkrc.hidpi:
+    src: config/gtk-2.0/gtkrc.hidpi
+    dst: '{{@@ gtk2_path + "/gtkrc.hidpi" @@}}'
+  f_gtk-3.0_gtk.css:
+    src: config/gtk-3.0/gtk.css
+    dst: '{{@@ xdg_config("gtk-3.0/gtk.css") @@}}'
+  f_gtk-3.0_settings.ini.lodpi:
+    src: config/gtk-3.0/settings.ini.lodpi
+    dst: '{{@@ gtk3_settings_lodpi_dst @@}}'
+  f_gtk-3.0_settings.ini.hidpi:
+    src: config/gtk-3.0/settings.ini.hidpi
+    dst: '{{@@ xdg_config("gtk-3.0/settings.ini.hidpi") @@}}'
   f_hgrc:
     src: config/hg/hgrc
     dst: '{{@@ xdg_config("hg/hgrc") @@}}'
@@ -239,7 +251,7 @@ profiles:
   # little bit more than just the i3 configuration file.
   i3:
     dotfiles:
-    - d_dunst
+    - f_dunstrc.lodpi
     - f_compton.conf
     - f_i3blocks_config
     - f_i3config
@@ -256,12 +268,14 @@ profiles:
   # both Gtk, Qt and bare X11.
   look-and-feel:
     dotfiles:
-    - d_gtk-2.0
-    - d_gtk-3.0
-    - d_xresources.d
+    - f_gtk-2.0_gtkrc.lodpi
+    - f_gtk-3.0_gtk.css
+    - f_gtk-3.0_settings.ini.lodpi
     - f_qt5ct.conf
     - f_trolltech.conf
     - f_xresources
+    import:
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/look-and-feel.yaml:optional
 
   # This profile contains dotfiles for managing repositories with myrepos
   myrepos:

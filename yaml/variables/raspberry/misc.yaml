@@ -16,3 +16,6 @@ variables:
 
   # Whether dotdrop is running with a graphical user interface
   is_headless: true
+
+  # Whether the GUI setup needs to handle different DPI values
+  has_dpi: false

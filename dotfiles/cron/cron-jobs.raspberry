@@ -19,6 +19,3 @@
 
 # Myrepos
 0   3   *   *   *       mr -c "$HOME/code/wiki/.mrconfig" update
-
-# Shell plugins
-0   5   *   *   *       zsh -c 'antibody update' > /dev/null 2>&1; cron-logger 'ANTIBODY' "$?"

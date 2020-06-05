@@ -177,6 +177,12 @@ dotfiles:
   f_systemd_user_shell-cache.timer:
     src: config/systemd/user/shell-cache.timer
     dst: '{{@@ xdg_config("systemd/user/shell-cache.timer") @@}}'
+  f_systemd_user_shell-plugins.service:
+    src: config/systemd/user/shell-plugins.service
+    dst: '{{@@ xdg_config("systemd/user/shell-plugins.service") @@}}'
+  f_systemd_user_shell-plugins.timer:
+    src: config/systemd/user/shell-plugins.timer
+    dst: '{{@@ xdg_config("systemd/user/shell-plugins.timer") @@}}'
   f_trolltech.conf:
     src: config/Trolltech.conf
     dst: '{{@@ xdg_config("Trolltech.conf") @@}}'
@@ -223,6 +229,8 @@ profiles:
     - f_crontab
     - f_systemd_user_shell-cache.service
     - f_systemd_user_shell-cache.timer
+    - f_systemd_user_shell-plugins.service
+    - f_systemd_user_shell-plugins.timer
     dynvariables:
       cron_tmp_dst: mktemp /tmp/cron-tmp.XXX
     actions:

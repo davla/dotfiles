@@ -282,6 +282,12 @@ dotfiles:
       insert_match '(^$|^[^#])' '{{@@ sys_env_tmp_dst @@}}'
         '{{@@ zsh_env_dst @@}}'
     - rm '{{@@ sys_env_tmp_dst @@}}'
+  f_systemd_myrepos-upgrade.service:
+    src: etc/systemd/system/myrepos-upgrade.service
+    dst: /etc/systemd/system/myrepos-upgrade.service
+  f_systemd_myrepos-upgrade.timer:
+    src: etc/systemd/system/myrepos-upgrade.timer
+    dst: /etc/systemd/system/myrepos-upgrade.timer
   f_timezone:
     src: etc/timezone
     dst: /etc/timezone
@@ -384,6 +390,8 @@ profiles:
   # companion logging configuration
   cron:
     dotfiles:
+    - f_systemd_myrepos-upgrade.service
+    - f_systemd_myrepos-upgrade.timer
     - f_anacron
     - f_anacrontab
     - f_logrotate.d_custom.conf

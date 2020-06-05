@@ -1,0 +1,13 @@
+# myrepos-upgrade systemd service file
+
+[Unit]
+Description=Job upgrading packages installed manually system-wide via myrepos
+
+[Service]
+ExecStart=mr -c /opt/.mrconfig -d /opt upgrade
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=myrepos-upgrade
+SyslogLevel=info
+SyslogLevelPrefix=true

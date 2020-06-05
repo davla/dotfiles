@@ -1,0 +1,11 @@
+# myrepos-upgrade systemd timer file
+
+[Unit]
+Description=Job upgrading packages installed manually system-wide via myrepos
+
+[Install]
+WantedBy=multi-user.target
+
+[Timer]
+OnCalendar=*-*-* 00:35:00
+Persistent=true

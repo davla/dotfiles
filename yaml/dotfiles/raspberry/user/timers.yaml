@@ -4,5 +4,7 @@
 # profile on my raspberry pi.
 
 dotfiles:
+- f_systemd_user_wiki-fixes.service
+- f_systemd_user_wiki-fixes.timer
 - f_systemd_user_working-repos.service
 - f_systemd_user_working-repos.timer

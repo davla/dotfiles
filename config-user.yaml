@@ -185,6 +185,12 @@ dotfiles:
   f_systemd_user_shell-plugins.timer:
     src: config/systemd/user/shell-plugins.timer
     dst: '{{@@ xdg_config("systemd/user/shell-plugins.timer") @@}}'
+  f_systemd_user_wiki-fixes.service:
+    src: config/systemd/user/wiki-fixes.service
+    dst: '{{@@ xdg_config("systemd/user/wiki-fixes.service") @@}}'
+  f_systemd_user_wiki-fixes.timer:
+    src: config/systemd/user/wiki-fixes.timer
+    dst: '{{@@ xdg_config("systemd/user/wiki-fixes.timer") @@}}'
   f_systemd_user_working-repos.service:
     src: config/systemd/user/working-repos.service
     dst: '{{@@ xdg_config("systemd/user/working-repos.service") @@}}'

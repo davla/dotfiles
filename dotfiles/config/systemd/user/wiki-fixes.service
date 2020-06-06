@@ -1,0 +1,15 @@
+# wiki-fixes systemd service file
+#
+# {{@@ header() @@}}
+
+[Unit]
+Description=job performing various automated fixes on Pokémon Central Wiki
+
+[Service]
+ExecStart=bash "{{@@ wiki_util_path | tilde2home @@}}/bash/run.sh" fixes.sh
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=wiki-fixes
+SyslogLevel=info
+SyslogLevelPrefix=true

@@ -1,0 +1,11 @@
+# wiki-fixes systemd service file
+
+[Unit]
+Description=job performing various automated fixes on Pokémon Central Wiki
+
+[Install]
+WantedBy=multi-user.target
+
+[Timer]
+OnCalendar=*-*-* 01:05:00
+Persistent=true

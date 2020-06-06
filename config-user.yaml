@@ -225,25 +225,6 @@ profiles:
     include:
     - git
 
-  # This profile groups together cron- and anacron-related configurations.
-  cron:
-    dotfiles:
-    - f_crontab
-    - f_systemd_user_atom-plugins.service
-    - f_systemd_user_atom-plugins.timer
-    - f_systemd_user_shell-cache.service
-    - f_systemd_user_shell-cache.timer
-    - f_systemd_user_shell-plugins.service
-    - f_systemd_user_shell-plugins.timer
-    dynvariables:
-      cron_tmp_dst: mktemp /tmp/cron-tmp.XXX
-    actions:
-    - >-
-        anacron '{{@@ anacron_spool | default('') | home_abs2var @@}}'
-          '{{@@ cron_tmp_dst @@}}'
-    import:
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/cron.yaml:optional
-
   # This profile groups geany-related dotfiles. Individual files are addressed,
   # rather than the whole directory, as it was execssively complex to ignore
   # all but one colorscheme.
@@ -312,6 +293,19 @@ profiles:
     - f_xsessionrc
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
+
+  # This profile groups together systemd timers configuration.
+  timers:
+    dotfiles:
+    - f_crontab
+    - f_systemd_user_shell-cache.service
+    - f_systemd_user_shell-cache.timer
+    - f_systemd_user_shell-plugins.service
+    - f_systemd_user_shell-plugins.timer
+    import:
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/timers.yaml:optional
+    dynvariables:
+      cron_tmp_dst: mktemp /tmp/cron-tmp.XXX
 
   # This profile contains the dotfiles for the whole Xfce session.
   xfce:

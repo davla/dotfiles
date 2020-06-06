@@ -1,0 +1,11 @@
+# atom-plugins systemd timer file
+
+[Unit]
+Description=Job updating Atom text editor's plugins
+
+[Install]
+WantedBy=multi-user.target
+
+[Timer]
+OnCalendar=*-*-* 00:25:00
+Persistent=true

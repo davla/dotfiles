@@ -171,6 +171,12 @@ dotfiles:
   f_qt5ct.conf:
     src: config/qt5ct/qt5ct.conf
     dst: '{{@@ xdg_config("qt5ct/qt5ct.conf") @@}}'
+  f_systemd_user_atom-plugins.service:
+    src: config/systemd/user/atom-plugins.service
+    dst: '{{@@ xdg_config("systemd/user/atom-plugins.service") @@}}'
+  f_systemd_user_atom-plugins.timer:
+    src: config/systemd/user/atom-plugins.timer
+    dst: '{{@@ xdg_config("systemd/user/atom-plugins.timer") @@}}'
   f_systemd_user_shell-cache.service:
     src: config/systemd/user/shell-cache.service
     dst: '{{@@ xdg_config("systemd/user/shell-cache.service") @@}}'
@@ -227,6 +233,8 @@ profiles:
   cron:
     dotfiles:
     - f_crontab
+    - f_systemd_user_atom-plugins.service
+    - f_systemd_user_atom-plugins.timer
     - f_systemd_user_shell-cache.service
     - f_systemd_user_shell-cache.timer
     - f_systemd_user_shell-plugins.service

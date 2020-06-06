@@ -8,4 +8,3 @@ SHELL=/bin/sh
 PATH=/usr/local/bin:/bin:/usr/bin
 
 #1   1   repos.update            mr -md "$HOME" update 2>&1 | grep update | tac | cron-logger 'MYREPOS'
-1   1   atom.update             apm update -c false > /dev/null 2>&1; cron-logger 'APM-UPDATE' "$?"

@@ -185,6 +185,12 @@ dotfiles:
   f_systemd_user_shell-plugins.timer:
     src: config/systemd/user/shell-plugins.timer
     dst: '{{@@ xdg_config("systemd/user/shell-plugins.timer") @@}}'
+  f_systemd_user_working-repos.service:
+    src: config/systemd/user/working-repos.service
+    dst: '{{@@ xdg_config("systemd/user/working-repos.service") @@}}'
+  f_systemd_user_working-repos.timer:
+    src: config/systemd/user/working-repos.timer
+    dst: '{{@@ xdg_config("systemd/user/working-repos.timer") @@}}'
   f_trolltech.conf:
     src: config/Trolltech.conf
     dst: '{{@@ xdg_config("Trolltech.conf") @@}}'

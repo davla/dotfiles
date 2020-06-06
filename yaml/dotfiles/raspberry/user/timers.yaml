@@ -3,4 +3,6 @@
 # This dotfiles file lists the extra dotfiles in unprivileged users' "timers"
 # profile on my raspberry pi.
 
-dotfiles: []
+dotfiles:
+- f_systemd_user_working-repos.service
+- f_systemd_user_working-repos.timer

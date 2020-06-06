@@ -303,7 +303,7 @@ profiles:
     - f_systemd_user_shell-plugins.service
     - f_systemd_user_shell-plugins.timer
     import:
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/timers.yaml:optional
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
     dynvariables:
       cron_tmp_dst: mktemp /tmp/cron-tmp.XXX
 

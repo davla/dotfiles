@@ -376,25 +376,6 @@ profiles:
     - d_local_lib_sh
     - f_local_bin_shell-cache
 
-  # This profile groups cron- and anacron-related configuration, and the
-  # companion logging configuration
-  cron:
-    dotfiles:
-    - f_systemd_myrepos-upgrade.service
-    - f_systemd_myrepos-upgrade.timer
-    - f_systemd_host-refresh.service
-    - f_systemd_host-refresh.timer
-    include:
-    - commands
-    dynvariables:
-      anacrontab_tmp_dst: mktemp /tmp/anacrontab-append.XXX
-    variables:
-      anacrontab_append_marker: Custom jobs
-      anacrontab_dst: /etc/anacrontab
-    actions:
-    - anacron '' ''
-    - rm '{{@@ anacrontab_tmp_dst @@}}'
-
   # This profile includes configuration files for ddclient
   ddclient:
     dotfiles:
@@ -504,6 +485,14 @@ profiles:
     variables:
       fstab_append_marker: Custom mount points
       fstab_dst: /etc/fstab
+
+  # This profile groups together systemd timers configuration.
+  timers:
+    dotfiles:
+    - f_systemd_host-refresh.service
+    - f_systemd_host-refresh.timer
+    import:
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
 
   # This profile contains X11 configuration files
   x11:

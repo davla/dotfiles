@@ -103,10 +103,6 @@ dotfiles:
   f_compton.conf:
     src: config/compton.conf
     dst: '{{@@ xdg_config("compton.conf") @@}}'
-  f_crontab:
-    src: cron/crontab
-    # Temporary destintion as the dotfile is installed with crontab -e
-    dst: '{{@@ cron_tmp_dst @@}}'
   f_docker_config.json:
     src: config/docker/config.json
     dst: '{{@@ docker_path @@}}/config.json'
@@ -315,15 +311,12 @@ profiles:
   # This profile groups together systemd timers configuration.
   timers:
     dotfiles:
-    - f_crontab
     - f_systemd_user_shell-cache.service
     - f_systemd_user_shell-cache.timer
     - f_systemd_user_shell-plugins.service
     - f_systemd_user_shell-plugins.timer
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
-    dynvariables:
-      cron_tmp_dst: mktemp /tmp/cron-tmp.XXX
 
   # This profile contains the dotfiles for the whole Xfce session.
   xfce:

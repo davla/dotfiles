@@ -1,0 +1,11 @@
+# host-refresh systemd timer file
+
+[Unit]
+Description=Job refreshing the content of /etc/host for faster domain lookup
+
+[Install]
+WantedBy=multi-user.target
+
+[Timer]
+OnCalendar=*-*-* 00:45:00
+Persistent=true

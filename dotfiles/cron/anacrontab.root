@@ -1,5 +1,3 @@
 # {{@@ anacrontab_append_marker @@}}
 #
 # {{@@ header() @@}}
-
-1   1   host.refresh            host-refresh > /dev/null 2>&1; cron-logger 'HOST-REFRESH' "$?"

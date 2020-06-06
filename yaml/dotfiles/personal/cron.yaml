@@ -3,5 +3,4 @@
 # This dotfiles file lists the dotfiles to be included in the "cron" profile
 # only on my personal machine.
 
-dotfiles:
-- f_anacrontab
+dotfiles: []

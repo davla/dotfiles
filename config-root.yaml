@@ -131,16 +131,6 @@ dotfiles:
   f_99-no-wireless-on-wired:
     src: etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
     dst: /etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
-  f_anacron:
-    src: etc/default/anacron
-    dst: /etc/default/anacron
-  f_anacrontab:
-    src: cron/anacrontab.{{@@ user @@}}
-    # Dynamic path since the dotfile content is appended to dst
-    dst: '{{@@ anacrontab_tmp_dst @@}}'
-    actions:
-    - strip '{{@@ anacrontab_append_marker @@}}' '{{@@ anacrontab_dst @@}}'
-    - append '{{@@ anacrontab_dst @@}}' '{{@@ anacrontab_tmp_dst @@}}'
   f_asdf-env:
     src: etc/profile.d/asdf-env.sh
     # Dynamic path as it's used somewhere else too
@@ -215,9 +205,6 @@ dotfiles:
   f_locale.conf:
     src: etc/locale.conf
     dst: /etc/locale.conf
-  f_logrotate.d_custom.conf:
-    src: etc/logrotate.d/custom.conf
-    dst: /etc/logrotate.d/custom.conf
   f_mrconfig-gui:
     src: opt/mrconfig.gui
     dst: /opt/.mrconfig.gui
@@ -239,9 +226,6 @@ dotfiles:
   f_local_bin_shell-cache:
     src: usr/local/bin/shell-cache
     dst: /usr/local/bin/shell-cache
-  f_rsyslog.d_custom.conf:
-    src: etc/rsyslog.d/custom.conf
-    dst: /etc/rsyslog.d/custom.conf
   f_sshd_config:
     src: etc/ssh/sshd_config
     dst: /etc/ssh/sshd_config
@@ -400,10 +384,6 @@ profiles:
     - f_systemd_myrepos-upgrade.timer
     - f_systemd_host-refresh.service
     - f_systemd_host-refresh.timer
-    - f_anacron
-    - f_anacrontab
-    - f_logrotate.d_custom.conf
-    - f_rsyslog.d_custom.conf
     include:
     - commands
     dynvariables:

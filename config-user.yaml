@@ -72,10 +72,6 @@ dotfiles:
   d_xresources.d:
     src: config/x11/Xresources.d
     dst: '{{@@ xdg_config("x11/Xresources.d") @@}}'
-  f_anacrontab:
-    src: cron/anacrontab.{{@@ user @@}}
-    # Dynamic path as it's used somewhere else too
-    dst: '{{@@ anacrontab @@}}'
   f_atom_config.cson:
     src: atom/config.cson
     dst: ~/.atom/config.cson

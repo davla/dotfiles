@@ -7,9 +7,6 @@
 # Pokémon Central Wiki
 #######################################
 
-# Home refresh
-30  0   *   *   1       . "{{@@ pywikibot_venv_path | tilde2home @@}}/bin/activate" && python "{{@@ pywikibot_path | tilde2home @@}}/pwb.py" touch -page:Home > /dev/null 2>&1; cron-logger 'WIKI-HOME-REFRESH' "$?"
-
 #######################################
 # Updates
 #######################################

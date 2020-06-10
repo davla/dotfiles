@@ -6,5 +6,7 @@
 dotfiles:
 - f_systemd_user_wiki-fixes.service
 - f_systemd_user_wiki-fixes.timer
+- f_systemd_user_wiki-home.service
+- f_systemd_user_wiki-home.timer
 - f_systemd_user_working-repos.service
 - f_systemd_user_working-repos.timer

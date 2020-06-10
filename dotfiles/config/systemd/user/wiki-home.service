@@ -1,0 +1,16 @@
+# wiki-home systemd service file
+#
+# {{@@ header() @@}}
+
+[Unit]
+Description=Job refreshing the Home page on Pokémon Central Wiki
+
+[Service]
+ExecStart=bash "{{@@ wiki_util_path | tilde2home @@}}/bash/run.sh" \
+    null-edit.sh -page:Home
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=wiki-home
+SyslogLevel=info
+SyslogLevelPrefix=true

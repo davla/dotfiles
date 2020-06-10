@@ -191,6 +191,12 @@ dotfiles:
   f_systemd_user_wiki-fixes.timer:
     src: config/systemd/user/wiki-fixes.timer
     dst: '{{@@ xdg_config("systemd/user/wiki-fixes.timer") @@}}'
+  f_systemd_user_wiki-home.service:
+    src: config/systemd/user/wiki-home.service
+    dst: '{{@@ xdg_config("systemd/user/wiki-home.service") @@}}'
+  f_systemd_user_wiki-home.timer:
+    src: config/systemd/user/wiki-home.timer
+    dst: '{{@@ xdg_config("systemd/user/wiki-home.timer") @@}}'
   f_systemd_user_working-repos.service:
     src: config/systemd/user/working-repos.service
     dst: '{{@@ xdg_config("systemd/user/working-repos.service") @@}}'

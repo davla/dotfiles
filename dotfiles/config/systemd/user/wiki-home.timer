@@ -6,7 +6,7 @@
 Description=Job refreshing the Home page on Pokémon Central Wiki
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=timers.target
 
 [Timer]
 OnCalendar=*-*-* 01:05:00

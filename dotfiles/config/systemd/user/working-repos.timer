@@ -4,7 +4,7 @@
 Description=Job keeping up-to-date working copies of repositories
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=timers.target
 
 [Timer]
 OnCalendar=*-*-* 00:55:00

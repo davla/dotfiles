@@ -4,7 +4,7 @@
 Description=Job upgrading packages installed manually system-wide via myrepos
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=timers.target
 
 [Timer]
 OnCalendar=*-*-* 00:35:00

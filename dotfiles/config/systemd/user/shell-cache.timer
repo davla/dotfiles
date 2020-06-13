@@ -4,7 +4,7 @@
 Description=Job refreshing shell caches
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=timers.target
 
 [Timer]
 OnCalendar=*-*-* 00:05:00

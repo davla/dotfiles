@@ -4,7 +4,7 @@
 Description=Job refreshing the content of /etc/host for faster domain lookup
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=timers.target
 
 [Timer]
 OnCalendar=*-*-* 00:45:00

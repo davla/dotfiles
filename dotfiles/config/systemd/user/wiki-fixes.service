@@ -13,3 +13,4 @@ SyslogFacility=local0
 SyslogIdentifier=wiki-fixes
 SyslogLevel=info
 SyslogLevelPrefix=true
+Type=oneshot

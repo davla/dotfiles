@@ -11,3 +11,4 @@ SyslogFacility=local0
 SyslogIdentifier=shell-plugins
 SyslogLevel=info
 SyslogLevelPrefix=true
+Type=oneshot

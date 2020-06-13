@@ -14,3 +14,4 @@ SyslogFacility=local0
 SyslogIdentifier=wiki-home
 SyslogLevel=info
 SyslogLevelPrefix=true
+Type=oneshot

@@ -170,17 +170,17 @@ dotfiles:
     src: config/systemd/user/atom-plugins.timer
     dst: '{{@@ xdg_config("systemd/user/atom-plugins.timer") @@}}'
   f_systemd_user_shell-cache.service:
-    src: config/systemd/user/shell-cache.service
-    dst: '{{@@ xdg_config("systemd/user/shell-cache.service") @@}}'
+    src: etc/systemd/share/shell-cache.service
+    dst: /etc/systemd/share/shell-cache.service
   f_systemd_user_shell-cache.timer:
-    src: config/systemd/user/shell-cache.timer
-    dst: '{{@@ xdg_config("systemd/user/shell-cache.timer") @@}}'
+    src: etc/systemd/share/shell-cache.timer
+    dst: /etc/systemd/share/shell-cache.timer
   f_systemd_user_shell-plugins.service:
-    src: config/systemd/user/shell-plugins.service
-    dst: '{{@@ xdg_config("systemd/user/shell-plugins.service") @@}}'
+    src: etc/systemd/share/shell-plugins.service
+    dst: /etc/systemd/share/shell-plugins.service
   f_systemd_user_shell-plugins.timer:
-    src: config/systemd/user/shell-plugins.timer
-    dst: '{{@@ xdg_config("systemd/user/shell-plugins.timer") @@}}'
+    src: etc/systemd/share/shell-plugins.timer
+    dst: /etc/systemd/share/shell-plugins.timer
   f_systemd_user_wiki-fixes.service:
     src: config/systemd/user/wiki-fixes.service
     dst: '{{@@ xdg_config("systemd/user/wiki-fixes.service") @@}}'

@@ -80,6 +80,7 @@ config:
   import_configs:
   - yaml/profiles/apt-repos.yaml
   - yaml/profiles/shared.yaml
+  - yaml/profiles/timers.yaml
   import_variables:
   - yaml/variables/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/{{@@ env['HOST'] @@}}/*.yaml:optional
@@ -266,18 +267,6 @@ dotfiles:
       insert_match '(^$|^[^#])' '{{@@ sys_env_tmp_dst @@}}'
         '{{@@ zsh_env_dst @@}}'
     - rm '{{@@ sys_env_tmp_dst @@}}'
-  f_systemd_host-refresh.service:
-    src: etc/systemd/system/host-refresh.service
-    dst: /etc/systemd/system/host-refresh.service
-  f_systemd_host-refresh.timer:
-    src: etc/systemd/system/host-refresh.timer
-    dst: /etc/systemd/system/host-refresh.timer
-  f_systemd_myrepos-upgrade.service:
-    src: etc/systemd/system/myrepos-upgrade.service
-    dst: /etc/systemd/system/myrepos-upgrade.service
-  f_systemd_myrepos-upgrade.timer:
-    src: etc/systemd/system/myrepos-upgrade.timer
-    dst: /etc/systemd/system/myrepos-upgrade.timer
   f_timezone:
     src: etc/timezone
     dst: /etc/timezone
@@ -489,8 +478,10 @@ profiles:
   # This profile groups together systemd timers configuration.
   timers:
     dotfiles:
-    - f_systemd_host-refresh.service
-    - f_systemd_host-refresh.timer
+    - f_systemd_root_host-refresh.service
+    - f_systemd_root_host-refresh.timer
+    include:
+    - shared-timers
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
 

@@ -21,6 +21,7 @@ config:
   import_configs:
   - yaml/profiles/autorandr.yaml
   - yaml/profiles/shared.yaml
+  - yaml/profiles/timers.yaml
   import_variables:
   - yaml/variables/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/{{@@ env['HOST'] @@}}/*.yaml:optional
@@ -163,42 +164,6 @@ dotfiles:
   f_qt5ct.conf:
     src: config/qt5ct/qt5ct.conf
     dst: '{{@@ xdg_config("qt5ct/qt5ct.conf") @@}}'
-  f_systemd_user_atom-plugins.service:
-    src: config/systemd/user/atom-plugins.service
-    dst: '{{@@ xdg_config("systemd/user/atom-plugins.service") @@}}'
-  f_systemd_user_atom-plugins.timer:
-    src: config/systemd/user/atom-plugins.timer
-    dst: '{{@@ xdg_config("systemd/user/atom-plugins.timer") @@}}'
-  f_systemd_user_shell-cache.service:
-    src: etc/systemd/share/shell-cache.service
-    dst: /etc/systemd/share/shell-cache.service
-  f_systemd_user_shell-cache.timer:
-    src: etc/systemd/share/shell-cache.timer
-    dst: /etc/systemd/share/shell-cache.timer
-  f_systemd_user_shell-plugins.service:
-    src: etc/systemd/share/shell-plugins.service
-    dst: /etc/systemd/share/shell-plugins.service
-  f_systemd_user_shell-plugins.timer:
-    src: etc/systemd/share/shell-plugins.timer
-    dst: /etc/systemd/share/shell-plugins.timer
-  f_systemd_user_wiki-fixes.service:
-    src: config/systemd/user/wiki-fixes.service
-    dst: '{{@@ xdg_config("systemd/user/wiki-fixes.service") @@}}'
-  f_systemd_user_wiki-fixes.timer:
-    src: config/systemd/user/wiki-fixes.timer
-    dst: '{{@@ xdg_config("systemd/user/wiki-fixes.timer") @@}}'
-  f_systemd_user_wiki-home.service:
-    src: config/systemd/user/wiki-home.service
-    dst: '{{@@ xdg_config("systemd/user/wiki-home.service") @@}}'
-  f_systemd_user_wiki-home.timer:
-    src: config/systemd/user/wiki-home.timer
-    dst: '{{@@ xdg_config("systemd/user/wiki-home.timer") @@}}'
-  f_systemd_user_working-repos.service:
-    src: config/systemd/user/working-repos.service
-    dst: '{{@@ xdg_config("systemd/user/working-repos.service") @@}}'
-  f_systemd_user_working-repos.timer:
-    src: config/systemd/user/working-repos.timer
-    dst: '{{@@ xdg_config("systemd/user/working-repos.timer") @@}}'
   f_trolltech.conf:
     src: config/Trolltech.conf
     dst: '{{@@ xdg_config("Trolltech.conf") @@}}'
@@ -310,11 +275,6 @@ profiles:
 
   # This profile groups together systemd timers configuration.
   timers:
-    dotfiles:
-    - f_systemd_user_shell-cache.service
-    - f_systemd_user_shell-cache.timer
-    - f_systemd_user_shell-plugins.service
-    - f_systemd_user_shell-plugins.timer
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
 

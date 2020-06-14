@@ -4,7 +4,7 @@
 Description=Job refreshing the content of /etc/host for faster domain lookup
 
 [Service]
-ExecStart=host-refresh
+ExecStart=host-refresh --info
 StandardError=journal
 StandardOutput=journal
 SyslogFacility=local0

@@ -175,7 +175,7 @@ dotfiles:
     - append '{{@@ fstab_dst @@}}' '{{@@ fstab_tmp_dst @@}}'
   f_frequent-hosts:
     src: usr/local/etc/frequent-hosts
-    dst: /usr/local/etc/frequent-hosts
+    dst: '{{@@ frequent_hosts_path @@}}'
   f_grub:
     src: etc/default/grub
     dst: /etc/default/grub
@@ -227,6 +227,9 @@ dotfiles:
   f_local_bin_shell-cache:
     src: usr/local/bin/shell-cache
     dst: /usr/local/bin/shell-cache
+  f_local_sbin_host-refresh:
+    src: usr/local/sbin/host-refresh
+    dst: /usr/local/sbin/host-refresh
   f_sshd_config:
     src: etc/ssh/sshd_config
     dst: /etc/ssh/sshd_config
@@ -364,6 +367,7 @@ profiles:
     dotfiles:
     - d_local_lib_sh
     - f_local_bin_shell-cache
+    - f_local_sbin_host-refresh
 
   # This profile includes configuration files for ddclient
   ddclient:

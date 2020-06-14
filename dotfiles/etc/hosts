@@ -7,4 +7,4 @@
 192.168.1.3     router2
 192.168.1.4   raspberry
 
-# Frequent hosts
+# {{@@ frequent_hosts_marker @@}}

@@ -66,6 +66,9 @@ dotfiles:
   f_virtualbox.list:
     src: etc/apt/sources.list.d/virtualbox.list
     dst: /etc/apt/sources.list.d/virtualbox.list
+  f_vscode.list:
+    src: etc/apt/sources.list.d/vscode.list
+    dst: /etc/apt/sources.list.d/vscode.list
   f_yarn.list:
     src: etc/apt/sources.list.d/yarn.list
     dst: /etc/apt/sources.list.d/yarn.list
@@ -78,6 +81,7 @@ profiles:
     - f_docker.list
     - f_sources.list
     - f_sid.list
+    - f_vscode.list
     import:
     - ../dotfiles/{{@@ env['HOST'] @@}}/apt-sources.yaml:optional
     actions:

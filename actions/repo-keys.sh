@@ -98,7 +98,15 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
 
                 apt-key adv --fetch-keys \
                     'https://www.virtualbox.org/download/oracle_vbox_2016.asc' \
-                     > /dev/null
+                    > /dev/null
+                ;;
+
+            'vscode')
+                echo "Installing apt repository key for $REPO"
+
+                apt-key adv --fetch-keys \
+                    'https://packages.microsoft.com/keys/microsoft.asc' \
+                    > /dev/null
                 ;;
 
             'yarn')

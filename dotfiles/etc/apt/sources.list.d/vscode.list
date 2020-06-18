@@ -1,0 +1,3 @@
+# Visual Studio Code text editor
+
+deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main

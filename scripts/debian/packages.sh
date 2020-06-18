@@ -191,7 +191,7 @@ apt-get install anacron autoconf automake build-essential cmake \
     hunspell hunspell-en-us hunspell-it intel-microcode jq libsecret-1-dev \
     lua5.1 lua-check make moreutils nfs-common nyancat p7zip pycodestyle \
     python3 python3-pip rar sct shellcheck software-properties-common \
-    thunar-archive-plugin uni2ascii unrar wmctrl xdotool \
+    thunar-archive-plugin uni2ascii unrar vim wmctrl xdotool \
     xserver-xorg-input-synaptics yad zip
 
 # Dotfiles

@@ -2,8 +2,10 @@
 My dotfiles repository. Really, just configuration files
 
 ## TODO
-- cron -> systemd timers
 - Better placement of logger_path variable
+- autorandr in autostart
+- github mails
+- ssh key passphrase
 - Logger colors with no tag
 - Consistency of source and comments
 - Split env vars between interactive and non-interactive

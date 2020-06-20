@@ -18,9 +18,13 @@
 # '{{@@ frequent_hosts_marker @@}}' marker from /etc/hosts, if the marker is
 # found.
 #
-# The command-line options are the ones used for logging, which are:
-# Arguments:
-#   - logging_set_level <LEVEL>
+# The command-line options are the ones used for logging. For detailed info,
+# check the source code at {{@@ logger_path @@}}. Here a quick summary:
+#   - --<log level>: sets the session log level. The log level must be valid
+#   - --color <on/off/auto>: configures the colored output settings
+#   - --journald <on/off>: configures the journald prefixes settings
+#   - --log-level <log level>: sets the session loggin level
+#   - --tag <on/off>: configures the tag settings
 #
 # {{@@ header() @@}}
 

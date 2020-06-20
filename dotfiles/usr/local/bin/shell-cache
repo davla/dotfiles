@@ -1,6 +1,16 @@
 #!/bin/env sh
 
-# This script refreshes the cached initialization code of some shell plugins
+# This script refreshes the cached initialization code of some shell plugins,
+# for POSIX shell, bash and zsh. Only plugins already having a cache file are
+# refreshed. The plugins are: fasd, thefuck and zygal.
+#
+# The command-line options are the ones used for logging. For detailed info,
+# check the source code at {{@@ logger_path @@}}. Here a quick summary:
+#   - --<log level>: sets the session log level. The log level must be valid
+#   - --color <on/off/auto>: configures the colored output settings
+#   - --journald <on/off>: configures the journald prefixes settings
+#   - --log-level <log level>: sets the session loggin level
+#   - --tag <on/off>: configures the tag settings
 #
 # {{@@ header() @@}}
 

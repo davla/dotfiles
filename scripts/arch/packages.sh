@@ -41,7 +41,7 @@ sudo -u "$USER" rm -rf "$YAY_DIR"
 #######################################
 
 sudo -u "$USER" yay -S antibody-bin apng2gif asdf-vm at autoconf automake \
-    certbot cmake cowsay curl ddclient dex dkms dos2unix fortune-mod gcc \
+    certbot cmake cowsay curl ddclient dex dkms dos2unix fortune-mod gcc gdb \
     gifsicle git-secret git-review jq lua man mercurial moreutils nfs-utils \
     nyancat p7zip pkgfile python python-pip python-pipenv sudo unzip vim zip
 

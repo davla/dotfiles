@@ -350,9 +350,9 @@ prompt 'add keyboard layouts' 'dotdrop -U root install -p xkb' \
 prompt 'set up startup jobs' 'sh -e scripts/startup.sh' \
     'setting up startup jobs'
 
-# Cron & anacron jobs
-prompt 'set up (ana)cron jobs' 'dotdrop -U both install -p cron' \
-    'setting up (ana)cron jobs'
+# Systemd timers
+prompt 'set up systemd timers' 'sh -e scripts/timers.sh' \
+    'setting up systemd timers'
 
 # Network
 prompt 'set up the network' "sudo sh -e scripts/$HOSTNAME/network.sh" \

@@ -409,16 +409,9 @@ profiles:
     dotfiles:
     - d_myrepos-lib
 
-  # This profile contains network connection configuration files
+  # This profile contains network-related configuration files
   network:
     dotfiles:
-    - f_hostname
-    - f_networkd_20-wired.network
-
-  # This profile contains network utilities configuration files
-  network-utils:
-    dotfiles:
-    - f_99-no-wireless-on-wired
     - f_frequent-hosts
     - f_hosts
     - f_local_sbin_host-refresh
@@ -429,6 +422,8 @@ profiles:
     variables:
       hosts_append_marker: Local hosts
       hosts_dst: /etc/hosts
+    import:
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/network.yaml:optional
 
   # This profile holds nfs configurations and exports
   nfs:

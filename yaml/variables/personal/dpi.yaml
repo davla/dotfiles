@@ -1,0 +1,9 @@
+%YAML 1.2
+---
+# This variables file defines variables related to DPI for my personal system
+
+variables:
+  # These variables define paths that change for system with multi-dpi support
+  dunstrc_lodpi_dst: '{{@@ xdg_config("dunst/dunstrc.lodpi") @@}}'
+  gtk2_gtkrc_lodpi_dst: gtkrc.lodpi
+  gtk3_settings_lodpi_dst: '{{@@ xdg_config("gtk-3.0/settings.ini.lodpi") @@}}'

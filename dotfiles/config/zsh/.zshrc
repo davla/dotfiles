@@ -35,6 +35,8 @@ source "$ZDOTDIR/functions.zsh"
 #autoload -Uz promptinit
 #promptinit
 
+setopt nomultios
+
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
 

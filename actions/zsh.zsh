@@ -53,7 +53,8 @@ case "$DISTRO" in
         ;;
 
     'debian')
-        sudo mr -d /opt/antibody install
+        sudo mr -d /opt/antibody -c /opt/.mrconfig install
+        sudo mr -d /opt/asdf-vm -c /opt/.mrconfig install
         ;;
 esac
 

@@ -1,10 +1,12 @@
 # shell-cache systemd service file
+#
+# {{@@ header() @@}}
 
 [Unit]
 Description=Job refreshing shell caches
 
 [Service]
-ExecStart=shell-cache --info
+ExecStart={{@@ shell_cache_path @@}} --info
 StandardError=journal
 StandardOutput=journal
 SyslogFacility=local0

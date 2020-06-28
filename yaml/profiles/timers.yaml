@@ -90,6 +90,7 @@ profiles:
   # and root
   shared-timers:
     dotfiles:
+    - f_local_bin_shell-cache
     - f_systemd_share_shell-cache.service
     - f_systemd_share_shell-cache.timer
     - f_systemd_share_shell-plugins.service

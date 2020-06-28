@@ -421,6 +421,7 @@ profiles:
     - f_99-no-wireless-on-wired
     - f_frequent-hosts
     - f_hosts
+    - f_local_sbin_host-refresh
     actions:
     - rm '{{@@ hosts_tmp_dst @@}}'
     dynvariables:
@@ -464,6 +465,8 @@ profiles:
   # This profile groups together systemd timers configuration.
   timers:
     dotfiles:
+    - f_frequent-hosts
+    - f_local_sbin_host-refresh
     - f_systemd_root_host-refresh.service
     - f_systemd_root_host-refresh.timer
     include:

@@ -114,6 +114,7 @@ class Options(AttrMonitor):
             self.args = docopt(USAGE, version=VERSION)
         self.log = Logger()
         self.debug = self.args['--verbose'] or ENV_DEBUG in os.environ
+        self.dry = self.args['--dry']
         if ENV_NODEBUG in os.environ:
             # force disabling debugs
             self.debug = False
@@ -180,11 +181,11 @@ class Options(AttrMonitor):
 
     def _read_config(self):
         """read the config file"""
-        self.conf = Cfg(self.confpath, self.profile, debug=self.debug)
+        self.conf = Cfg(self.confpath, self.profile, debug=self.debug,
+                        dry=self.dry)
         # transform the config settings to self attribute
+        self._debug_dict('effective settings', self.conf.get_settings())
         for k, v in self.conf.get_settings().items():
-            if self.debug:
-                self.log.dbg('new setting: {}={}'.format(k, v))
             setattr(self, k, v)
 
     def _apply_args(self):
@@ -200,7 +201,6 @@ class Options(AttrMonitor):
         self.cmd_remove = self.args['remove']
 
         # adapt attributes based on arguments
-        self.dry = self.args['--dry']
         self.safe = not self.args['--force']
 
         # import link default value
@@ -266,15 +266,41 @@ class Options(AttrMonitor):
         """debug display all of this class attributes"""
         if not self.debug:
             return
-        self.log.dbg('CLI options:')
+        self.log.dbg('effective options:')
         for att in dir(self):
             if att.startswith('_'):
                 continue
             val = getattr(self, att)
             if callable(val):
                 continue
-            self.log.dbg('- {}: {}'.format(att, val))
+            if type(val) is list:
+                self._debug_list('-> {}'.format(att), val)
+            elif type(val) is dict:
+                self._debug_dict('-> {}'.format(att), val)
+            else:
+                self.log.dbg('-> {}: {}'.format(att, val))
 
     def _attr_set(self, attr):
         """error when some inexistent attr is set"""
         raise Exception('bad option: {}'.format(attr))
+
+    def _debug_list(self, title, elems):
+        """pretty print list"""
+        if not self.debug:
+            return
+        self.log.dbg('{}:'.format(title))
+        for e in elems:
+            self.log.dbg('\t- {}'.format(e))
+
+    def _debug_dict(self, title, elems):
+        """pretty print dict"""
+        if not self.debug:
+            return
+        self.log.dbg('{}:'.format(title))
+        for k, v in elems.items():
+            if type(v) is list:
+                self.log.dbg('\t- \"{}\":'.format(k))
+                for i in v:
+                    self.log.dbg('\t\t- {}'.format(i))
+            else:
+                self.log.dbg('\t- \"{}\": {}'.format(k, v))

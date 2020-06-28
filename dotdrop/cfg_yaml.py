@@ -7,6 +7,7 @@ handle lower level of the config file
 
 import os
 import glob
+import io
 from copy import deepcopy
 from itertools import chain
 from ruamel.yaml import YAML as yaml
@@ -103,7 +104,7 @@ class CfgYaml:
         # parse to self variables
         self._parse_main_yaml(self.yaml_dict)
         if self.debug:
-            self.log.dbg('before normalization: {}'.format(self.yaml_dict))
+            self.log.dbg('BEFORE normalization: {}'.format(self.yaml_dict))
 
         # resolve variables
         self.variables, self.prokeys = self._merge_variables()
@@ -128,7 +129,7 @@ class CfgYaml:
         self._resolve_dotfile_paths()
 
         if self.debug:
-            self.log.dbg('after normalization: {}'.format(self.yaml_dict))
+            self.log.dbg('AFTER normalization: {}'.format(self.yaml_dict))
 
     def get_variables(self):
         """retrieve all variables"""
@@ -165,7 +166,7 @@ class CfgYaml:
         ]
         self.settings[Settings.key_func_file] = p
         if self.debug:
-            self.log.dbg('settings: {}'.format(self.settings))
+            self._debug_dict('settings', self.settings)
 
         # dotfiles
         self.ori_dotfiles = self._get_entry(dic, self.key_dotfiles)
@@ -177,14 +178,14 @@ class CfgYaml:
             raise YamlException(err)
         self.dotfiles = self._norm_dotfiles(self.dotfiles)
         if self.debug:
-            self.log.dbg('dotfiles: {}'.format(self.dotfiles))
+            self._debug_dict('dotfiles', self.dotfiles)
 
         # profiles
         self.ori_profiles = self._get_entry(dic, self.key_profiles)
         self.profiles = deepcopy(self.ori_profiles)
         self.profiles = self._norm_profiles(self.profiles)
         if self.debug:
-            self.log.dbg('profiles: {}'.format(self.profiles))
+            self._debug_dict('profiles', self.profiles)
 
         # actions
         self.ori_actions = self._get_entry(dic, self.key_actions,
@@ -192,7 +193,7 @@ class CfgYaml:
         self.actions = deepcopy(self.ori_actions)
         self.actions = self._norm_actions(self.actions)
         if self.debug:
-            self.log.dbg('actions: {}'.format(self.actions))
+            self._debug_dict('actions', self.actions)
 
         # trans_r
         key = self.key_trans_r
@@ -203,28 +204,28 @@ class CfgYaml:
         self.ori_trans_r = self._get_entry(dic, key, mandatory=False)
         self.trans_r = deepcopy(self.ori_trans_r)
         if self.debug:
-            self.log.dbg('trans_r: {}'.format(self.trans_r))
+            self._debug_dict('trans_r', self.trans_r)
 
         # trans_w
         self.ori_trans_w = self._get_entry(dic, self.key_trans_w,
                                            mandatory=False)
         self.trans_w = deepcopy(self.ori_trans_w)
         if self.debug:
-            self.log.dbg('trans_w: {}'.format(self.trans_w))
+            self._debug_dict('trans_w', self.trans_w)
 
         # variables
         self.ori_variables = self._get_entry(dic,
                                              self.key_variables,
                                              mandatory=False)
         if self.debug:
-            self.log.dbg('variables: {}'.format(self.ori_variables))
+            self._debug_dict('variables', self.ori_variables)
 
         # dynvariables
         self.ori_dvariables = self._get_entry(dic,
                                               self.key_dvariables,
                                               mandatory=False)
         if self.debug:
-            self.log.dbg('dynvariables: {}'.format(self.ori_dvariables))
+            self._debug_dict('dynvariables', self.ori_dvariables)
 
     def _resolve_dotfile_paths(self):
         """resolve dotfiles paths"""
@@ -304,13 +305,14 @@ class CfgYaml:
         # temporarly resolve all variables for "include"
         merged = self._merge_dict(dvar, var)
         merged = self._rec_resolve_vars(merged)
-        self._debug_vars(merged)
+        if self.debug:
+            self._debug_dict('variables', merged)
         # exec dynvariables
         self._shell_exec_dvars(dvar.keys(), merged)
 
         if self.debug:
             self.log.dbg('local variables resolved')
-            self._debug_vars(merged)
+            self._debug_dict('variables', merged)
 
         # resolve profile includes
         t = Templategen(variables=merged,
@@ -339,7 +341,7 @@ class CfgYaml:
 
         if self.debug:
             self.log.dbg('resolve all uses of variables in config')
-            self._debug_vars(merged)
+            self._debug_dict('variables', merged)
 
         prokeys = list(pro_var.keys()) + list(pro_dvar.keys())
         return merged, prokeys
@@ -750,7 +752,7 @@ class CfgYaml:
         self._clear_profile_vars(sub.variables)
 
         if self.debug:
-            self.log.dbg('add import_configs var: {}'.format(sub.variables))
+            self._debug_dict('add import_configs var', sub.variables)
         self.variables = self._merge_dict(sub.variables, self.variables)
 
     def _import_configs(self):
@@ -942,12 +944,8 @@ class CfgYaml:
     # yaml utils
     ########################################################
 
-    def save(self):
-        """save this instance and return True if saved"""
-        if not self.dirty:
-            return False
-
-        content = self._clear_none(self.dump())
+    def _prepare_to_save(self, content):
+        content = self._clear_none(content)
 
         # make sure we have the base entries
         if self.key_settings not in content:
@@ -956,6 +954,15 @@ class CfgYaml:
             content[self.key_dotfiles] = None
         if self.key_profiles not in content:
             content[self.key_profiles] = None
+
+        return content
+
+    def save(self):
+        """save this instance and return True if saved"""
+        if not self.dirty:
+            return False
+
+        content = self._prepare_to_save(self.yaml_dict)
 
         if self.dirty_deprecated:
             # add minversion
@@ -966,7 +973,8 @@ class CfgYaml:
         if self.debug:
             self.log.dbg('saving to {}'.format(self.path))
         try:
-            self._yaml_dump(content, self.path)
+            with open(self.path, 'w') as f:
+                self._yaml_dump(content, f)
         except Exception as e:
             self.log.err(e)
             raise YamlException('error saving config: {}'.format(self.path))
@@ -982,11 +990,22 @@ class CfgYaml:
 
     def dump(self):
         """dump the config dictionary"""
-        return self.yaml_dict
+        output = io.StringIO()
+        content = self._prepare_to_save(self.yaml_dict.copy())
+        self._yaml_dump(content, output)
+        return output.getvalue()
 
     def _load_yaml(self, path):
         """load a yaml file to a dict"""
         content = {}
+        if self.debug:
+            self.log.dbg('----------start:{}----------'.format(path))
+            cfg = '\n'
+            with open(path, 'r') as f:
+                for line in f:
+                    cfg += line
+            self.log.dbg(cfg.rstrip())
+            self.log.dbg('----------end:{}----------'.format(path))
         try:
             content = self._yaml_load(path)
         except Exception as e:
@@ -1002,14 +1021,13 @@ class CfgYaml:
             content = y.load(f)
         return content
 
-    def _yaml_dump(self, content, path):
+    def _yaml_dump(self, content, where):
         """dump to yaml"""
-        with open(self.path, 'w') as f:
-            y = yaml()
-            y.default_flow_style = False
-            y.indent = 2
-            y.typ = 'rt'
-            y.dump(content, f)
+        y = yaml()
+        y.default_flow_style = False
+        y.indent = 2
+        y.typ = 'rt'
+        y.dump(content, where)
 
     ########################################################
     # helpers
@@ -1065,29 +1083,22 @@ class CfgYaml:
         expanded_path = os.path.expanduser(path)
         return glob.glob(expanded_path, recursive=True)
 
-    def _debug_vars(self, variables):
-        """pretty print variables"""
-        if not self.debug:
-            return
-        self.log.dbg('variables:')
-        for k, v in variables.items():
-            self.log.dbg('\t\"{}\": {}'.format(k, v))
-
     def _norm_path(self, path):
         """Resolve a path either absolute or relative to config path"""
-        if self.debug:
-            self.log.dbg('normalizing path {}'.format(path))
         if not path:
             return path
         path = os.path.expanduser(path)
         if not os.path.isabs(path):
-            if self.debug:
-                self.log.dbg('normalizing path {} relative to config file '
-                             'directory'.format(path))
-
             d = os.path.dirname(self.path)
-            return os.path.join(d, path)
-        return os.path.normpath(path)
+            ret = os.path.join(d, path)
+            if self.debug:
+                msg = 'normalizing relative to cfg: {} -> {}'
+                self.log.dbg(msg.format(path, ret))
+            return ret
+        ret = os.path.normpath(path)
+        if self.debug and path != ret:
+            self.log.dbg('normalizing: {} -> {}'.format(path, ret))
+        return ret
 
     def _shell_exec_dvars(self, keys, variables):
         """shell execute dynvariables"""
@@ -1126,3 +1137,13 @@ class CfgYaml:
             err = 'current dotdrop version is too old for that config file.'
             err += ' Please update.'
             raise YamlException(err)
+
+    def _debug_dict(self, title, elems):
+        """pretty print dict"""
+        if not self.debug:
+            return
+        self.log.dbg('{}:'.format(title))
+        if not elems:
+            return
+        for k, v in elems.items():
+            self.log.dbg('\t- \"{}\": {}'.format(k, v))

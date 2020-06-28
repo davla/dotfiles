@@ -1,7 +1,0 @@
-{#@@
-    This dotfile defines anacron jobs shared by root and unprivileged users.
-    It is meant to be included in other dotfiles.
-@@#}
-
-1   1   shell.cache.refresh     refresh-shell-cache > /dev/null 2>&1; cron-logger 'SHELL-REFRESH' "$?"
-1   2   shell.plugins.update    zsh -c 'antibody update' > /dev/null 2>&1; cron-logger 'ANTIBODY' "$?"

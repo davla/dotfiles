@@ -10,9 +10,14 @@ from pathlib import Path
 import python.lib as lib
 
 
+def tildeTo(path: str, replacement: str) -> str:
+    """Replace leading tilde with a given string."""
+    return lib.tilde_first.sub(replacement, path)
+
+
 def tilde2home(path: str) -> str:
     """Replace leading tilde with '$HOME'."""
-    return lib.tilde_first.sub('$HOME', path)
+    return tildeTo(path, replacement='$HOME')
 
 
 def find_in_home(path: str) -> str:

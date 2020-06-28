@@ -4,9 +4,6 @@
 # between both root and user
 
 actions:
-  post:
-    anacron: sh ./actions/anacron.sh "{0}" "{1}"
-
     # This action links an mrtrust file to where myrepos expect it to be
     mrtrust: ln -sf '{0}' "$HOME/.mrtrust"
 

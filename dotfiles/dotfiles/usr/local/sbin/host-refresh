@@ -1,0 +1,137 @@
+#!/usr/bin/env sh
+
+# This script populates /etc/hosts file with most frequently visited remote
+# hosts.
+#
+# Frequent hosts are read from {{@@ frequent_hosts_path @@}}. /etc/hosts is
+# expected to have a line containing the marker
+# '{{@@ frequent_hosts_marker @@}}'. Frequent hosts entries are placed from
+# that marker until the end of the file. Nothing is done if the marker is not
+# found.
+#
+# This script exits with different errors if:
+# - The frequent hosts file is not found.
+# - The frequent hosts marker is not found.
+# - At least one host IP is not found.
+#
+# NOTE: this scripts DELETES everything after the
+# '{{@@ frequent_hosts_marker @@}}' marker from /etc/hosts, if the marker is
+# found.
+#
+# The command-line options are the ones used for logging. For detailed info,
+# check the source code at {{@@ logger_path @@}}. Here a quick summary:
+#   - --<log level>: sets the session log level. The log level must be valid
+#   - --color <on/off/auto>: configures the colored output settings
+#   - --journald <on/off>: configures the journald prefixes settings
+#   - --log-level <log level>: sets the session loggin level
+#   - --tag <on/off>: configures the tag settings
+#
+# {{@@ header() @@}}
+
+#######################################
+# Libraries includes
+#######################################
+
+. {{@@ logger_path @@}}
+
+#######################################
+# Input processing
+#######################################
+
+while [ "$#" -gt 0 ]; do
+    logging_parse_arg "$1" "$2"
+    case "$?" in
+        1)
+            shift 1
+            ;;
+
+        2)
+            shift 2
+            ;;
+
+        255)
+            exit 255
+            ;;
+    esac
+done
+
+#######################################
+# Variables
+#######################################
+
+# Exit code for the whoel script. Set to 1 if at least one host is not found
+EXIT_CODE=0
+
+log_debug 'Checking for frequent hosts file existence'
+[ ! -f '{{@@ frequent_hosts_path @@}}' ] && {
+    log_error >&2 'Frequent hosts file not found at {{@@ frequent_hosts_path @@}}'
+    exit 2
+}
+log_debug 'Frequent hosts file found at {{@@ frequent_hosts_path @@}}'
+
+#######################################
+# Finding frequent hosts marker
+#######################################
+
+# Line number of the frequent hosts marker
+log_debug 'Finding line number of frequent host marker'
+MARKER_LINE="$(grep -n '{{@@ frequent_hosts_marker @@}}' /etc/hosts \
+    | cut -d ':' -f 1)"
+
+# Frequent hosts marker not found
+[ -z "$MARKER_LINE" ] && {
+    log_error >&2 "Frequent hosts marker ({{@@ frequent_hosts_marker @@}}) " \
+        'not found in /etc/hosts'
+    exit 3
+}
+log_debug "Frequent hosts marker line number in /etc/host is '$MARKER_LINE'"
+
+#######################################
+# Adding remote websites
+#######################################
+
+# Advancing until AFTER the frequent hosts marker, so as not to delete the
+# marker itself
+log_debug 'Advancing frequent hosts maker line number'
+MARKER_LINE=$(( MARKER_LINE + 2 ))
+
+# Clearing frequent hosts entries
+log_debug 'Clearing frequent hosts entries'
+sed -i "$MARKER_LINE,\$d" /etc/hosts
+
+# Appending an entry in /etc/hosts for every frequent hosts
+log_debug 'Starting to update /etc/host'
+while read HOST; do
+    log_debug "Looking up ip for $HOST"
+	IPS="$(host "$HOST")"
+
+    if [ $? -eq 0 ]; then
+        log_debug "Updating IP for $HOST"
+    else
+        log_error >&2 "$HOST IP not found"
+        EXIT_CODE=1
+        continue
+    fi
+
+    log_debug "Checking IPv4 for $HOST"
+    IPv4="$(echo "$IPS" | grep 'has address')"
+    if [ -n "$IPv4" ]; then
+        echo "$IPv4" | tail -n 1 | cut -d ' ' -f 1,4 >> /etc/hosts
+        log_info "Updated IPv4 for $HOST"
+    else
+        log_info "IPv4 for $HOST not found"
+    fi
+
+    log_debug "Checking IPv6 for $HOST"
+    IPv6="$(echo "$IPS" | grep 'has IPv6 address')"
+    if [ -n "$IPv6" ]; then
+        echo "$IPv6" | tail -n 1 | cut -d ' ' -f 1,5 >> /etc/hosts
+        log_info "Updated IPv6 for $HOST"
+    else
+        log_info "IPv6 for $HOST not found"
+    fi
+
+done < '{{@@ frequent_hosts_path @@}}'
+
+log_debug 'Done updating /etc/host'
+exit $EXIT_CODE

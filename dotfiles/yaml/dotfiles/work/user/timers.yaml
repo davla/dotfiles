@@ -1,0 +1,8 @@
+%YAML 1.2
+---
+# This dotfiles file lists the extra dotfiles in unprivileged users' "timers"
+# profile on my work machine.
+
+dotfiles:
+- f_systemd_user_atom-plugins.service
+- f_systemd_user_atom-plugins.timer

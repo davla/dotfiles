@@ -1,0 +1,14 @@
+# shell-plugins systemd service file
+
+[Unit]
+Description=Job updating shell plugins
+
+[Service]
+ExecStart=zsh -c 'antibody update'
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=shell-plugins
+SyslogLevel=info
+SyslogLevelPrefix=true
+Type=oneshot

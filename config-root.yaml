@@ -80,6 +80,7 @@ config:
   import_configs:
   - yaml/profiles/apt-repos.yaml
   - yaml/profiles/shared.yaml
+  - yaml/profiles/timers.yaml
   import_variables:
   - yaml/variables/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/{{@@ env['HOST'] @@}}/*.yaml:optional
@@ -112,6 +113,9 @@ dotfiles:
   d_exports.d:
     src: etc/exports.d
     dst: /etc/exports.d
+  d_local_lib_sh:
+    src: usr/local/lib/sh
+    dst: /usr/local/lib/sh
   d_myrepos-lib:
     src: usr/local/share/mr
     # Dynamic path since it's used somewhere else too
@@ -128,16 +132,6 @@ dotfiles:
   f_99-no-wireless-on-wired:
     src: etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
     dst: /etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
-  f_anacron:
-    src: etc/default/anacron
-    dst: /etc/default/anacron
-  f_anacrontab:
-    src: cron/anacrontab.{{@@ user @@}}
-    # Dynamic path since the dotfile content is appended to dst
-    dst: '{{@@ anacrontab_tmp_dst @@}}'
-    actions:
-    - strip '{{@@ anacrontab_append_marker @@}}' '{{@@ anacrontab_dst @@}}'
-    - append '{{@@ anacrontab_dst @@}}' '{{@@ anacrontab_tmp_dst @@}}'
   f_asdf-env:
     src: etc/profile.d/asdf-env.sh
     # Dynamic path as it's used somewhere else too
@@ -181,7 +175,7 @@ dotfiles:
     - append '{{@@ fstab_dst @@}}' '{{@@ fstab_tmp_dst @@}}'
   f_frequent-hosts:
     src: usr/local/etc/frequent-hosts
-    dst: /usr/local/etc/frequent-hosts
+    dst: '{{@@ frequent_hosts_path @@}}'
   f_grub:
     src: etc/default/grub
     dst: /etc/default/grub
@@ -212,9 +206,6 @@ dotfiles:
   f_locale.conf:
     src: etc/locale.conf
     dst: /etc/locale.conf
-  f_logrotate.d_custom.conf:
-    src: etc/logrotate.d/custom.conf
-    dst: /etc/logrotate.d/custom.conf
   f_mrconfig-gui:
     src: opt/mrconfig.gui
     dst: /opt/.mrconfig.gui
@@ -233,9 +224,12 @@ dotfiles:
   f_pam.d_system-login:
     src: etc/pam.d/system-login
     dst: /etc/pam.d/system-login
-  f_rsyslog.d_custom.conf:
-    src: etc/rsyslog.d/custom.conf
-    dst: /etc/rsyslog.d/custom.conf
+  f_local_bin_shell-cache:
+    src: usr/local/bin/shell-cache
+    dst: /usr/local/bin/shell-cache
+  f_local_sbin_host-refresh:
+    src: usr/local/sbin/host-refresh
+    dst: /usr/local/sbin/host-refresh
   f_sshd_config:
     src: etc/ssh/sshd_config
     dst: /etc/ssh/sshd_config
@@ -368,22 +362,12 @@ profiles:
     - git
     - '{{@@ cli_asdf_include @@}}'
 
-  # This profile groups cron- and anacron-related configuration, and the
-  # companion logging configuration
-  cron:
+  # This profile gathers my custom shell commands
+  commands:
     dotfiles:
-    - f_anacron
-    - f_anacrontab
-    - f_logrotate.d_custom.conf
-    - f_rsyslog.d_custom.conf
-    actions:
-    - anacron '' ''
-    - rm '{{@@ anacrontab_tmp_dst @@}}'
-    dynvariables:
-      anacrontab_tmp_dst: mktemp /tmp/anacrontab-append.XXX
-    variables:
-      anacrontab_append_marker: Custom jobs
-      anacrontab_dst: /etc/anacrontab
+    - d_local_lib_sh
+    - f_local_bin_shell-cache
+    - f_local_sbin_host-refresh
 
   # This profile includes configuration files for ddclient
   ddclient:
@@ -494,6 +478,16 @@ profiles:
     variables:
       fstab_append_marker: Custom mount points
       fstab_dst: /etc/fstab
+
+  # This profile groups together systemd timers configuration.
+  timers:
+    dotfiles:
+    - f_systemd_root_host-refresh.service
+    - f_systemd_root_host-refresh.timer
+    include:
+    - shared-timers
+    import:
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
 
   # This profile contains X11 configuration files
   x11:

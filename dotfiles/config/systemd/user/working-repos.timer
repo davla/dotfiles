@@ -1,0 +1,11 @@
+# working-repos systemd service file
+
+[Unit]
+Description=Job keeping up-to-date working copies of repositories
+
+[Install]
+WantedBy=timers.target
+
+[Timer]
+OnCalendar=*-*-* 00:55:00
+Persistent=true

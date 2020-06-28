@@ -1,0 +1,96 @@
+%YAML 1.2
+---
+# This dotdrop config file is meant for systemd timers.
+
+actions:
+  post:
+    shell-plugins: |-
+      case "$DISTRO" in
+          'arch')
+              yay -Syy zsh antibody-bin
+              ;;
+
+          'debian')
+              apt-get install zsh
+              mr -c /opt/.mrconfig -d /opt/antibody install
+              ;;
+      esac
+
+config:
+  backup: false
+  banner: true
+  create: true
+  dotpath: ../../dotfiles
+  filter_file:
+  - ../../python/filters.py
+  func_file:
+  - ../../python/functions.py
+  ignoreempty: true
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+  showdiff: true
+  workdir: '{{@@ xdg_config("dotdrop") @@}}'
+
+dotfiles:
+  f_systemd_root_host-refresh.service:
+    src: etc/systemd/system/host-refresh.service
+    dst: /etc/systemd/system/host-refresh.service
+  f_systemd_root_host-refresh.timer:
+    src: etc/systemd/system/host-refresh.timer
+    dst: /etc/systemd/system/host-refresh.timer
+  f_systemd_root_myrepos-upgrade.service:
+    src: etc/systemd/system/myrepos-upgrade.service
+    dst: /etc/systemd/system/myrepos-upgrade.service
+  f_systemd_root_myrepos-upgrade.timer:
+    src: etc/systemd/system/myrepos-upgrade.timer
+    dst: /etc/systemd/system/myrepos-upgrade.timer
+  f_systemd_share_shell-cache.service:
+    src: etc/systemd/share/shell-cache.service
+    dst: /etc/systemd/share/shell-cache.service
+  f_systemd_share_shell-cache.timer:
+    src: etc/systemd/share/shell-cache.timer
+    dst: /etc/systemd/share/shell-cache.timer
+  f_systemd_share_shell-plugins.service:
+    src: etc/systemd/share/shell-plugins.service
+    dst: /etc/systemd/share/shell-plugins.service
+    actions:
+    - shell-plugins
+  f_systemd_share_shell-plugins.timer:
+    src: etc/systemd/share/shell-plugins.timer
+    dst: /etc/systemd/share/shell-plugins.timer
+  f_systemd_user_atom-plugins.service:
+    src: config/systemd/user/atom-plugins.service
+    dst: '{{@@ xdg_config("systemd/user/atom-plugins.service") @@}}'
+  f_systemd_user_atom-plugins.timer:
+    src: config/systemd/user/atom-plugins.timer
+    dst: '{{@@ xdg_config("systemd/user/atom-plugins.timer") @@}}'
+  f_systemd_user_wiki-fixes.service:
+    src: config/systemd/user/wiki-fixes.service
+    dst: '{{@@ xdg_config("systemd/user/wiki-fixes.service") @@}}'
+  f_systemd_user_wiki-fixes.timer:
+    src: config/systemd/user/wiki-fixes.timer
+    dst: '{{@@ xdg_config("systemd/user/wiki-fixes.timer") @@}}'
+  f_systemd_user_wiki-home.service:
+    src: config/systemd/user/wiki-home.service
+    dst: '{{@@ xdg_config("systemd/user/wiki-home.service") @@}}'
+  f_systemd_user_wiki-home.timer:
+    src: config/systemd/user/wiki-home.timer
+    dst: '{{@@ xdg_config("systemd/user/wiki-home.timer") @@}}'
+  f_systemd_user_working-repos.service:
+    src: config/systemd/user/working-repos.service
+    dst: '{{@@ xdg_config("systemd/user/working-repos.service") @@}}'
+  f_systemd_user_working-repos.timer:
+    src: config/systemd/user/working-repos.timer
+    dst: '{{@@ xdg_config("systemd/user/working-repos.timer") @@}}'
+
+profiles:
+  # This profile groups the systemd timers shared between unprivileged users
+  # and root
+  shared-timers:
+    dotfiles:
+    - f_systemd_share_shell-cache.service
+    - f_systemd_share_shell-cache.timer
+    - f_systemd_share_shell-plugins.service
+    - f_systemd_share_shell-plugins.timer

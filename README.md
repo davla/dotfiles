@@ -2,8 +2,12 @@
 My dotfiles repository. Really, just configuration files
 
 ## TODO
+- Better placement of logger_path variable
+- autorandr in autostart
+- github mails
+- ssh key passphrase
+- Logger colors with no tag
 - Consistency of source and comments
-- cron -> systemd timers
 - Split env vars between interactive and non-interactive
   + Make sure that autorandr env vars are loaded in xsessionrc
 - Fix thefuck

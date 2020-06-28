@@ -21,6 +21,7 @@ config:
   import_configs:
   - yaml/profiles/autorandr.yaml
   - yaml/profiles/shared.yaml
+  - yaml/profiles/timers.yaml
   import_variables:
   - yaml/variables/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/{{@@ env['HOST'] @@}}/*.yaml:optional
@@ -72,10 +73,6 @@ dotfiles:
   d_xresources.d:
     src: config/x11/Xresources.d
     dst: '{{@@ xdg_config("x11/Xresources.d") @@}}'
-  f_anacrontab:
-    src: cron/anacrontab.{{@@ user @@}}
-    # Dynamic path as it's used somewhere else too
-    dst: '{{@@ anacrontab @@}}'
   f_atom_config.cson:
     src: atom/config.cson
     dst: ~/.atom/config.cson
@@ -107,10 +104,6 @@ dotfiles:
   f_compton.conf:
     src: config/compton.conf
     dst: '{{@@ xdg_config("compton.conf") @@}}'
-  f_crontab:
-    src: cron/crontab
-    # Temporary destintion as the dotfile is installed with crontab -e
-    dst: '{{@@ cron_tmp_dst @@}}'
   f_docker_config.json:
     src: config/docker/config.json
     dst: '{{@@ docker_path @@}}/config.json'
@@ -211,19 +204,6 @@ profiles:
     include:
     - git
 
-  # This profile groups together cron- and anacron-related configurations.
-  cron:
-    dotfiles:
-    - f_crontab
-    dynvariables:
-      cron_tmp_dst: mktemp /tmp/cron-tmp.XXX
-    actions:
-    - >-
-        anacron '{{@@ anacron_spool | default('') | home_abs2var @@}}'
-          '{{@@ cron_tmp_dst @@}}'
-    import:
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/cron.yaml:optional
-
   # This profile groups geany-related dotfiles. Individual files are addressed,
   # rather than the whole directory, as it was execssively complex to ignore
   # all but one colorscheme.
@@ -292,6 +272,11 @@ profiles:
     - f_xsessionrc
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
+
+  # This profile groups together systemd timers configuration.
+  timers:
+    import:
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
 
   # This profile contains the dotfiles for the whole Xfce session.
   xfce:

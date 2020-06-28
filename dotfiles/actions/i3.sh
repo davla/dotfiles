@@ -17,8 +17,8 @@ case "$DISTRO" in
     'debian')
         sudo apt-get install dex i3blocks
         sudo apt-get purge i3status
-        sudo mr -d /opt/i3-volume checkout
-        sudo mr -d /opt/i3-volume install
+        sudo mr -d /opt/i3-volume -c /opt/.mrconfig checkout
+        sudo mr -d /opt/i3-volume -c /opt/.mrconfig install
         ;;
 esac
 
@@ -34,7 +34,7 @@ case "$DISTRO" in
     'debian')
         sudo apt-get install aptitude bash gnome-keyring lm-sensors \
             python3-keyring
-        sudo mr -d /opt/i3blocks-contrib checkout
-        sudo mr -d /opt/i3blocks-contrib install
+        sudo mr -d /opt/i3blocks-contrib -c /opt/.mrconfig checkout
+        sudo mr -d /opt/i3blocks-contrib -c /opt/.mrconfig install
         ;;
 esac

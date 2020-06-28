@@ -1,11 +1,6 @@
 "*":
-  "atom-ide-ui":
-    "atom-ide-code-format":
-      formatOnType: false
-    "atom-ide-find-references":
-      defaultLocationForPane: "right"
-    use:
-      "atom-ide-terminal": "never"
+  "atom-center-comment":
+    lineLength: 40
   "atom-toolbar":
     visible: false
   "autocomplete-paths":
@@ -23,14 +18,6 @@
         ".dockerignore"
       ]
     disabledPackages: [
-      "atom-ide-ui"
-      "language-unix-shell"
-      "ide-scala"
-      "language-scala"
-      "ide-typescript"
-      "ide-haskell-hoogle"
-      "linter-markdown"
-      "linter-hlint"
       "markdown-preview"
     ]
     telemetryConsent: "limited"
@@ -111,21 +98,7 @@
       "text.tex.latex"
       "meta.function.environment.list.latex"
     ]
-    knownWords: [
-      "deschedule"
-      "descheduled"
-      "deschedules"
-      "descheduling"
-      "filesystem"
-      "subdirectories"
-      "runtime"
-      "modularity"
-      "parsers"
-      "boolean"
-      "namespace"
-      "namespaces"
-      "remappings"
-    ]
+    knownWords: []
     locales: [
       "en-US"
     ]

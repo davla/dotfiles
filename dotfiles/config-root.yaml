@@ -6,6 +6,19 @@ actions:
   pre:
     create_if_empty: "[ -s '{0}' ] || printf '{1}' > '{0}'"
 
+    # This action installs the packages providing the files modified by the
+    # environment profile
+    environment: |-
+      case "$DISTRO" in
+          'arch')
+              pacman -S dash bash zsh
+              ;;
+
+          'debian')
+              apt-get install bash dash zsh
+              ;;
+      esac
+
   post:
     # Just polishes custom dotfiles installation, does not install languages
     asdf: sh ./actions/asdf.sh '{{@@ asdf_config @@}}'
@@ -40,13 +53,13 @@ actions:
     timezone: |-
       case "$DISTRO" in
           'arch')
-              < '{0}' xargs timedatectl set-timezone
+              xargs timedatectl set-timezone < '{0}'
               rm '{0}'
               ;;
 
           'debian')
-              < '{0}' xargs -i cp --remove-destination \
-                  '/usr/share/zoneinfo/{{}}' /etc/localtime
+              xargs -i cp --remove-destination '/usr/share/zoneinfo/{{}}' \
+                  /etc/localtime < '{0}'
               dpkg-reconfigure -f noninteractive tzdata
               ;;
       esac
@@ -119,7 +132,7 @@ dotfiles:
     src: etc/default/anacron
     dst: /etc/default/anacron
   f_anacrontab:
-    src: cron/anacrontab
+    src: cron/anacrontab.{{@@ user @@}}
     # Dynamic path since the dotfile content is appended to dst
     dst: '{{@@ anacrontab_tmp_dst @@}}'
     actions:
@@ -205,9 +218,9 @@ dotfiles:
   f_mrconfig-gui:
     src: opt/mrconfig.gui
     dst: /opt/.mrconfig.gui
-  f_mrconfig-host:
-    src: opt/mrconfig.{{@@ env['HOST'] @@}}
-    dst: /opt/.mrconfig.{{@@ env['HOST'] @@}}
+  f_mrconfig-distro:
+    src: opt/mrconfig.{{@@ env['DISTRO'] @@}}
+    dst: /opt/.mrconfig.{{@@ env['DISTRO'] @@}}
   f_mrconfig-main:
     src: opt/mrconfig.{{@@ user @@}}
     dst: /opt/.mrconfig
@@ -323,7 +336,7 @@ dynvariables:
             echo 'empty'
             ;;
     esac
-  manual_asdf_inlcude: |-
+  manual_asdf_include: |-
     case "$DISTRO" in
         'arch')
             echo 'empty'
@@ -387,6 +400,8 @@ profiles:
     - f_sudo_insults
     dynvariables:
       sys_env_tmp_dst: mktemp /tmp/sys-env-tmp.XXX
+    actions:
+    - environment
 
   # This profile gathers the graphical login manager dotfiles
   graphical-login:
@@ -413,8 +428,8 @@ profiles:
   # without the aid of a package manager
   manual:
     dotfiles:
+    - f_mrconfig-distro
     - f_mrconfig-gui
-    - f_mrconfig-host
     - f_mrconfig-main
     - f_mrtrust
     import:
@@ -468,6 +483,7 @@ profiles:
   startup:
     dotfiles:
     - f_grub
+    - f_fstab
     - f_underclock.service
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional

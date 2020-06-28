@@ -1,0 +1,56 @@
+%YAML 1.2
+---
+# This dotdrop config file is meant for custom commands dotfiles and their
+# utilities
+
+config:
+  backup: false
+  banner: true
+  create: true
+  dotpath: ../../dotfiles
+  import_actions:
+  - ../actions/append.yaml
+  func_file:
+  - ../../python/functions.py
+  import_variables:
+  - ../variables/shared.yaml
+  ignoreempty: true
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+  showdiff: true
+  workdir: '{{@@ xdg_config("dotdrop") @@}}'
+
+dotfiles:
+  d_local_lib_sh:
+    src: usr/local/lib/sh
+    dst: '{{@@ libs_path @@}}/sh'
+  f_frequent-hosts:
+    src: usr/local/etc/frequent-hosts.{{@@ env['HOST'] @@}}
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ frequent_hosts_path @@}}'
+  f_local_bin_shell-cache:
+    src: usr/local/bin/shell-cache
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ shell_cache_path @@}}'
+  f_local_sbin_host-refresh:
+    src: usr/local/sbin/host-refresh
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ host_refresh_path @@}}'
+
+profiles:
+  # This profile gathers my custom shell commands and their dependencies
+  commands:
+    dotfiles:
+    - d_local_lib_sh
+    - f_frequent-hosts
+    - f_local_bin_shell-cache
+    - f_local_sbin_host-refresh
+
+variables:
+  # These paths are kept as variables since they need to be used both as `dst`
+  # in dotfile entries and in dotfiles' content
+  frequent_hosts_path: /usr/local/etc/frequent-hosts
+  host_refresh_path: /usr/local/sbin/host-refresh
+  shell_cache_path: /usr/local/sbin/shell-cache

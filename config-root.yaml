@@ -79,6 +79,7 @@ config:
   - yaml/actions/insert.yaml
   import_configs:
   - yaml/profiles/apt-repos.yaml
+  - yaml/profiles/commands.yaml
   - yaml/profiles/shared.yaml
   - yaml/profiles/timers.yaml
   import_variables:
@@ -113,9 +114,6 @@ dotfiles:
   d_exports.d:
     src: etc/exports.d
     dst: /etc/exports.d
-  d_local_lib_sh:
-    src: usr/local/lib/sh
-    dst: /usr/local/lib/sh
   d_myrepos-lib:
     src: usr/local/share/mr
     # Dynamic path since it's used somewhere else too
@@ -173,9 +171,6 @@ dotfiles:
     actions:
     - strip '{{@@ fstab_append_marker @@}}' '{{@@ fstab_dst @@}}'
     - append '{{@@ fstab_dst @@}}' '{{@@ fstab_tmp_dst @@}}'
-  f_frequent-hosts:
-    src: usr/local/etc/frequent-hosts
-    dst: '{{@@ frequent_hosts_path @@}}'
   f_grub:
     src: etc/default/grub
     dst: /etc/default/grub
@@ -224,12 +219,6 @@ dotfiles:
   f_pam.d_system-login:
     src: etc/pam.d/system-login
     dst: /etc/pam.d/system-login
-  f_local_bin_shell-cache:
-    src: usr/local/bin/shell-cache
-    dst: /usr/local/bin/shell-cache
-  f_local_sbin_host-refresh:
-    src: usr/local/sbin/host-refresh
-    dst: /usr/local/sbin/host-refresh
   f_sshd_config:
     src: etc/ssh/sshd_config
     dst: /etc/ssh/sshd_config
@@ -362,13 +351,6 @@ profiles:
     - git
     - '{{@@ cli_asdf_include @@}}'
 
-  # This profile gathers my custom shell commands
-  commands:
-    dotfiles:
-    - d_local_lib_sh
-    - f_local_bin_shell-cache
-    - f_local_sbin_host-refresh
-
   # This profile includes configuration files for ddclient
   ddclient:
     dotfiles:
@@ -427,18 +409,12 @@ profiles:
     dotfiles:
     - d_myrepos-lib
 
-  # This profile contains network connection configuration files
+  # This profile contains network-related configuration files
   network:
     dotfiles:
-    - f_hostname
-    - f_networkd_20-wired.network
-
-  # This profile contains network utilities configuration files
-  network-utils:
-    dotfiles:
-    - f_99-no-wireless-on-wired
     - f_frequent-hosts
     - f_hosts
+    - f_local_sbin_host-refresh
     actions:
     - rm '{{@@ hosts_tmp_dst @@}}'
     dynvariables:
@@ -446,6 +422,8 @@ profiles:
     variables:
       hosts_append_marker: Local hosts
       hosts_dst: /etc/hosts
+    import:
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/network.yaml:optional
 
   # This profile holds nfs configurations and exports
   nfs:
@@ -482,6 +460,8 @@ profiles:
   # This profile groups together systemd timers configuration.
   timers:
     dotfiles:
+    - f_frequent-hosts
+    - f_local_sbin_host-refresh
     - f_systemd_root_host-refresh.service
     - f_systemd_root_host-refresh.timer
     include:

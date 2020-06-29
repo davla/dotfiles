@@ -4,7 +4,7 @@
 Description=Job updating Atom text editor's plugins
 
 [Service]
-ExecStart=apm upgrade -c false
+ExecStart=/usr/bin/apm upgrade -c false
 StandardError=journal
 StandardOutput=journal
 SyslogFacility=local0

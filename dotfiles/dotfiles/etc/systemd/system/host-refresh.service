@@ -1,10 +1,12 @@
 # host-refresh systemd service file
+#
+# {{@@ header() @@}}
 
 [Unit]
 Description=Job refreshing the content of /etc/host for faster domain lookup
 
 [Service]
-ExecStart=host-refresh --info
+ExecStart={{@@ host_refresh_path @@}} --info
 StandardError=journal
 StandardOutput=journal
 SyslogFacility=local0

@@ -6,7 +6,7 @@
 Description=Job refreshing the Home page on Pokémon Central Wiki
 
 [Service]
-ExecStart=bash "{{@@ wiki_util_path | tildeTo('%h') @@}}/bash/run.sh" \
+ExecStart=/usr/bin/bash "{{@@ wiki_util_path | tildeTo('%h') @@}}/bash/run.sh" \
     null-edit.sh -page:Home
 StandardError=journal
 StandardOutput=journal

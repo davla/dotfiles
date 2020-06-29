@@ -7,7 +7,7 @@ Description=Slows down the CPU if the guard temperature is reached
 WantedBy=multi-user.target
 
 [Service]
-ExecStart=underclock 55
+ExecStart=/usr/local/sbin/underclock 55
 StandardOutput=syslog
 SyslogFacility=local1
 SyslogIdentifier=UNDERCLOCK

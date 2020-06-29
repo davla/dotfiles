@@ -21,11 +21,11 @@ config:
   banner: true
   create: true
   dotpath: ../../dotfiles
-  filter_file:
-  - ../../python/filters.py
   func_file:
   - ../../python/functions.py
   ignoreempty: true
+  import_configs:
+  - commands.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -90,6 +90,7 @@ profiles:
   # and root
   shared-timers:
     dotfiles:
+    - f_local_bin_shell-cache
     - f_systemd_share_shell-cache.service
     - f_systemd_share_shell-cache.timer
     - f_systemd_share_shell-plugins.service

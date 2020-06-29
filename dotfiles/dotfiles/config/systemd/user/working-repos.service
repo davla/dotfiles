@@ -8,7 +8,7 @@
 Description=Job keeping up-to-date working copies of repositories
 
 [Service]
-ExecStart=mr -c "{{@@ repos_path @@}}/.mrconfig" -d "{{@@ repos_path @@}}" update
+ExecStart=/usr/bin/mr -c "{{@@ repos_path @@}}/.mrconfig" -d "{{@@ repos_path @@}}" update
 StandardError=journal
 StandardOutput=journal
 SyslogFacility=local0

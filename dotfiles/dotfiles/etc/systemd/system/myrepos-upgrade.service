@@ -4,7 +4,7 @@
 Description=Job upgrading packages installed manually system-wide via myrepos
 
 [Service]
-ExecStart=mr -c /opt/.mrconfig -d /opt upgrade
+ExecStart=/usr/bin/mr -c /opt/.mrconfig -d /opt upgrade
 StandardError=journal
 StandardOutput=journal
 SyslogFacility=local0

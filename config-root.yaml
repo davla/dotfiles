@@ -283,6 +283,9 @@ dotfiles:
     actions:
     - strip '{{@@ symbols_append_marker @@}}' '{{@@ symbols_dst @@}}'
     - append '{{@@ symbols_dst @@}}' '{{@@ xkb_tmp_dst @@}}'
+  f_xsession.options:
+    src: etc/X11/Xsession.options
+    dst: /etc/X11/Xsession.options
 
 dynvariables:
   # These variables define which profile should be included to have asdf
@@ -425,6 +428,7 @@ profiles:
     dotfiles:
     - f_grub
     - f_fstab
+    - f_xsession.options
     - f_underclock.service
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional

@@ -4,8 +4,8 @@
 # between both root and user
 
 actions:
-    # This action links an mrtrust file to where myrepos expect it to be
-    mrtrust: ln -sf '{0}' "$HOME/.mrtrust"
+  # This action links an mrtrust file to where myrepos expect it to be
+  mrtrust: ln -sf '{0}' "$HOME/.mrtrust"
 
 config:
   backup: false
@@ -34,6 +34,9 @@ dotfiles:
   d_git:
     src: config/git
     dst: '{{@@ xdg_config("git") @@}}'
+  f_ssh_config:
+    src: ssh/config
+    dst: ~/.ssh/config
   f_mrtrust:
     src: config/mr/mrtrust
     dst: '{{@@ xdg_config("mr/mrtrust") @@}}'
@@ -47,4 +50,6 @@ profiles:
   # This profile groups git dotfiles
   git:
     dotfiles:
-      - d_git
+    - d_git
+    import:
+    - ../dotfiles/{{@@ env['HOST'] @@}}/git.yaml:optional

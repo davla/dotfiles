@@ -2,6 +2,7 @@
 System initial setup
 
 ## Roadmap
+- Improve SSH and gpg script
 - ACYLS update
 - Ease log opening
 - Allow the bot to execute a specific script

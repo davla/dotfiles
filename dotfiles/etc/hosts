@@ -2,11 +2,13 @@
 #
 # {{@@ header() @@}}
 
-{%@@ if env['HOST'] == 'personal' @@%}
+{%@@ if env['HOST'] == 'personal' -@@%}
+
 192.168.1.254     router0
 192.168.1.2     router1
 192.168.1.3     router2
 192.168.1.4   raspberry
-{%@@ endif @@%}
+
+{%@@ endif -@@%}
 
 # {{@@ frequent_hosts_marker @@}}

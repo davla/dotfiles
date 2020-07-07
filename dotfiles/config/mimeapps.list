@@ -9,11 +9,14 @@ x-scheme-handler/sftp=thunar.desktop
 x-scheme-handler/http=firefox.desktop
 x-scheme-handler/https=firefox.desktop
 x-scheme-handler/unknown=firefox.desktop
-{%@@ if env['HOST'] == 'personal' @@%}
+
+{%@@- if env['HOST'] == 'personal' -@@%}
+
 x-scheme-handler/mailto=thunderbird.desktop
 x-scheme-handler/spotify=spotify.desktop
 x-scheme-handler/tg=telegramdesktop.desktop
-{%@@ endif @@%}
+
+{%@@- endif -@@%}
 
 
 [Added Associations]

@@ -10,14 +10,16 @@
 
 source "$SDOTDIR/plugins/init.sh"
 
-{%@@ if env['DISTRO'] == 'arch' @@%}
+{%@@ if env['DISTRO'] == 'arch' -@@%}
+
 #######################################
 # command-not-found
 #######################################
 
 source /usr/share/doc/pkgfile/command-not-found.bash
 
-{%@@ endif @@%}
+{%@@ endif -@@%}
+
 #######################################
 # fasd
 #######################################

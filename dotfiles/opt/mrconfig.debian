@@ -57,10 +57,12 @@ install =
 	  chmod +x /usr/local/bin/docker-credential-secretservice
 
 
-{%@@ if not is_headless @@%}
+{%@@ if not is_headless -@@%}
+
 [/opt/i3-volume]
 checkout =
     git clone 'https://github.com/FFY00/i3-volume.git' 'i3-volume'
 install =
     cp "$MR_REPO/volume" /usr/local/bin/volume
+
 {%@@ endif @@%}

@@ -16,14 +16,16 @@ source "$SDOTDIR/plugins/init.sh"
 #
 ###############################################################################
 
-{%@@ if env['DISTRO'] == 'arch' @@%}
+{%@@ if env['DISTRO'] == 'arch' -@@%}
+
 #######################################
 # command-not-found
 #######################################
 
 source /usr/share/doc/pkgfile/command-not-found.zsh
 
-{%@@ endif @@%}
+{%@@ endif -@@%}
+
 #######################################
 # deer
 #######################################
@@ -71,7 +73,8 @@ ZSH_AUTOSUGGEST_USE_ASYNC=true
 
 ZSH_COMMAND_NOT_FOUND_NO_FAILURE_MSG=false
 
-{%@@ if not is_headless @@%}
+{%@@ if not is_headless -@@%}
+
 #######################################
 # zsh-notify
 #######################################
@@ -85,7 +88,8 @@ zstyle ':notify:*' error-title 'Error - took #{time_elapsed}s'
 zstyle ':notify:*' success-icon "{{@@ icon_theme_path @@}}/emblem-ok.svg"
 zstyle ':notify:*' success-title 'OK - took #{time_elapsed}s'
 
-{%@@ endif @@%}
+{%@@ endif -@@%}
+
 #######################################
 # zsh-syntax-highlight
 #######################################

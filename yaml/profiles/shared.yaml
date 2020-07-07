@@ -17,6 +17,12 @@ config:
   ignoreempty: true
   import_configs:
   - shell.yaml
+  - timers.yaml
+  import_variables:
+  - ../variables/i3.yaml
+  - ../variables/look-and-feel.yaml
+  - ../variables/*-look-and-feel.yaml
+  - ../variables/private.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink

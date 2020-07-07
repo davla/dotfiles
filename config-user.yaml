@@ -21,16 +21,11 @@ config:
   import_configs:
   - yaml/profiles/autorandr.yaml
   - yaml/profiles/shared.yaml
-  - yaml/profiles/timers.yaml
   import_variables:
   - yaml/variables/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/{{@@ env['HOST'] @@}}/*.yaml:optional
   - yaml/variables/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/dpi.yaml
-  - yaml/variables/i3.yaml
-  - yaml/variables/look-and-feel.yaml
-  - yaml/variables/*-look-and-feel.yaml
-  - yaml/variables/private.yaml
   - yaml/variables/shared.yaml
   keepdot: false
   link_dotfile_default: nolink

@@ -1,0 +1,354 @@
+{
+    ///////////////////////////////////
+    // Debug
+    ///////////////////////////////////
+
+    "debug.console.fontSize": 15,
+    "debug.openExplorerOnEnd": true,
+    "debug.showInlineBreakpointCandidates": false,
+    "npm.enableRunFromFolder": true,
+    "terminal.explorerKind": "external",
+    "terminal.external.linuxExec": "xfce4-terminal",
+
+    ///////////////////////////////////
+    // Editor
+    ///////////////////////////////////
+
+    "breadcrumbs.filePath": "last",
+    "editor.codeLens": false,
+    "editor.colorDecorators": false,
+    "editor.copyWithSyntaxHighlighting": false,
+    "editor.cursorStyle": "underline-thin",
+    "editor.detectIndentation": false,
+    "editor.dragAndDrop": false,
+    "editor.emptySelectionClipboard": false,
+    "editor.folding": false,
+    "editor.foldingHighlight": false,
+    "editor.fontSize": 15,
+    "editor.matchBrackets": "never",
+    "editor.minimap.enabled": false,
+    "editor.occurrencesHighlight": false,
+    "editor.renderLineHighlightOnlyWhenFocus": true,
+    "editor.rulers": [
+        79
+    ],
+    "editor.scrollBeyondLastColumn": 0,
+    "editor.selectionHighlight": false,
+    "editor.suggest.insertMode": "replace",
+    "editor.suggest.localityBonus": true,
+    "editor.suggest.shareSuggestSelections": true,
+    "editor.tabCompletion": "onlySnippets",
+    "files.associations": {
+        "**/.i3/config": "i3",
+        "**/i3/config": "i3"
+    },
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+
+    ////////////////////////////////////////
+    // Extensions
+    ////////////////////////////////////////
+
+    "extensions.closeExtensionDetailsOnViewChange": true,
+    "extensions.ignoreRecommendations": true,
+    "extensions.showRecommendationsOnlyOnDemand": true,
+
+    ////////////////////////////////////////
+    // External tools
+    ////////////////////////////////////////
+
+    "grunt.autoDetect": "off",
+    "gulp.autoDetect": "off",
+    "jake.autoDetect": "off",
+
+    ///////////////////////////////////
+    // Filesystem
+    ///////////////////////////////////
+
+    "files.autoSave": "onFocusChange",
+    "files.enableTrash": false,
+
+    ///////////////////////////////////
+    // Search
+    ///////////////////////////////////
+
+    "search.exclude": {
+        "**/dist": true
+    },
+    "search.showLineNumbers": true,
+    "search.smartCase": true,
+    "search.useGlobalIgnoreFiles": true,
+
+    ///////////////////////////////////
+    // Tabs
+    ///////////////////////////////////
+
+    "workbench.editor.closeOnFileDelete": true,
+    "workbench.editor.enablePreview": false,
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "workbench.editor.focusRecentEditorAfterClose": false,
+    "workbench.editor.highlightModifiedTabs": true,
+    "workbench.editor.revealIfOpen": true,
+    "workbench.editor.untitled.labelFormat": "name",
+
+    ///////////////////////////////////
+    // Tree pane
+    ///////////////////////////////////
+
+    "explorer.enableDragAndDrop": false,
+    "explorer.openEditors.visible": 0,
+    "workbench.tree.indent": 18,
+    "workbench.tree.renderIndentGuides": "always",
+    "workbench.view.alwaysShowHeaderActions": true,
+
+    ////////////////////////////////////////
+    // Window
+    ////////////////////////////////////////
+
+    "window.menuBarVisibility": "toggle",
+    "window.newWindowDimensions": "maximized",
+    "window.restoreWindows": "folders",
+    "window.zoomLevel": 0.75,
+
+    ////////////////////////////////////////
+    // Misc
+    ////////////////////////////////////////
+
+    "git.enableCommitSigning": true,
+    "problems.autoReveal": false,
+    "scm.autoReveal": false,
+
+    ////////////////////////////////////////
+    // CSS
+    ////////////////////////////////////////
+
+    "css.lint.ieHack": "warning",
+    "css.lint.zeroUnits": "warning",
+
+    ////////////////////////////////////////
+    // HTML
+    ////////////////////////////////////////
+
+    "html.format.endWithNewline": true,
+    "html.format.indentInnerHtml": true,
+
+    ////////////////////////////////////////
+    // JavaScript
+    ////////////////////////////////////////
+
+    "debug.javascript.autoExpandGetters": true,
+    "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
+    "javascript.format.semicolons": "insert",
+    "javascript.implicitProjectConfig.checkJs": true,
+    "javascript.preferences.importModuleSpecifier": "non-relative",
+    "javascript.preferences.importModuleSpecifierEnding": "minimal",
+    "javascript.preferences.quoteStyle": "single",
+    "javascript.suggest.completeFunctionCalls": true,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+
+    ////////////////////////////////////////
+    // Less
+    ////////////////////////////////////////
+
+    "less.lint.idSelector": "warning",
+    "less.lint.ieHack": "warning",
+    "less.lint.unknownVendorSpecificProperties": "warning",
+
+    ////////////////////////////////////////
+    // SCSS
+    ////////////////////////////////////////
+
+    "scss.lint.idSelector": "warning",
+    "scss.lint.ieHack": "warning",
+    "scss.lint.unknownVendorSpecificProperties": "warning",
+
+    ////////////////////////////////////////
+    // TypeScript
+    ////////////////////////////////////////
+
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "typescript.format.semicolons": "insert",
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "typescript.preferences.importModuleSpecifierEnding": "minimal",
+    "typescript.preferences.quoteStyle": "single",
+    "typescript.suggest.completeFunctionCalls": true,
+    "typescript.updateImportsOnFileMove.enabled": "always",
+
+    ////////////////////////////////////////
+    // Look and feel
+    ////////////////////////////////////////
+
+    "workbench.colorCustomizations": {
+        "[Ayu Dark Bordered]": {
+            // Foreground colors
+            "activityBar.foreground": "#aaaaaa",
+            "activityBar.inactiveForeground": "#666666",
+            "breadcrumb.activeSelectionForeground": "#cccccc",
+            "breadcrumb.focusForeground": "#cccccc",
+            "breadcrumb.foreground": "#aaaaaa",
+            "checkbox.foreground": "#aaaaaa",
+            "descriptionForeground": "#aaaaaa",
+            "dropdown.foreground": "#aaaaaa",
+            // "editorHoverWidget.foreground": "#aaaaaa",
+            // "editorSuggestWidget.foreground": "#aaaaaa",
+            // "editorSuggestWidget.highlightForeground": "#cccccc",
+            // "editorWidget.foreground": "#aaaaaa",
+            "foreground": "#aaaaaa",
+            "icon.foreground": "#aaaaaa",
+            // "input.foreground": "#aaaaaa",
+            "input.placeholderForeground": "#aaaaaa",
+            "inputOption.activeForeground": "#aaaaaa",
+            "inputValidation.infoForeground": "#aaaaaa",
+            "list.activeSelectionForeground": "#cccccc",
+            "list.focusForeground": "#cccccc",
+            // "list.highlightForeground": "#cccccc",
+            "list.hoverForeground": "#cccccc",
+            "list.inactiveSelectionForeground": "#aaaaaa",
+            // "notifications.foreground": "#aaaaaa",
+            "pickerGroup.foreground": "#666666",
+            // "quickInput.foreground": "#aaaaaa",
+            "sideBar.foreground": "#aaaaaa",
+            "sideBarSectionHeader.foreground": "#aaaaaa",
+            "sideBarTitle.foreground": "#aaaaaa",
+            "statusBar.debuggingForeground": "#aaaaaa",
+            "statusBar.foreground": "#aaaaaa",
+            "tab.activeForeground": "#aaaaaa",
+            "tab.hoverForeground": "#cccccc",
+            "tab.inactiveForeground": "#666666",
+            "tab.unfocusedInactiveForeground": "#666666",
+
+            // Background colors
+            "editor.lineHighlightBackground": "#262e40AA",
+            "list.activeSelectionBackground": "#262e40AA",
+            "list.focusBackground": "#262e40AA",
+            "list.hoverBackground": "#262e40AA",
+            "list.inactiveSelectionBackground": "#262e40AA",
+            "statusBar.debuggingBackground": "#262e40",
+            "tab.hoverBackground": "#262e4077",
+
+            // Border colors
+            "activityBar.border": "#262e40",
+            "debugToolBar.border": "#262e40",
+            "editorGroupHeader.border": "#262e40",
+            "editorGroupHeader.tabsBorder": "#262e40",
+            "notificationCenter.border": "#262e40",
+            "notifications.border": "#262e40",
+            "notificationToast.border": "#262e40",
+            "sideBar.border": "#262e40",
+            "statusBar.border": "#262e40",
+            "tab.border": "#262e40",
+        }
+    },
+    "workbench.colorTheme": "Ayu Dark Bordered",
+    "workbench.iconTheme": "ayu",
+    "workbench.preferredDarkColorTheme": "Ayu Dark Bordered",
+
+    ////////////////////////////////////////
+    // Bracket pair colorizer 2 extension
+    ////////////////////////////////////////
+
+    "bracket-pair-colorizer-2.colors": [
+        "#00FFFF",
+        "#FF7700",
+        "#00FF22",
+        "#FF0015"
+    ],
+    "bracket-pair-colorizer-2.scopeLineCSS": [
+        "borderWidth : 1px",
+        "borderStyle : solid",
+        "borderWidth : 1px",
+        "borderColor : {color}",
+        "opacity: 1"
+    ],
+
+    ////////////////////////////////////////
+    // C/C++ extension
+    ////////////////////////////////////////
+
+    "C_Cpp.formatting": "Disabled",
+    "C_Cpp.updateChannel": "Insiders",
+    "C_Cpp.workspaceParsingPriority": "high",
+
+    ////////////////////////////////////////
+    // CMake extension
+    ////////////////////////////////////////
+
+    "cmake.clearOutputBeforeBuild": false,
+    "cmake.configureOnEdit": false,
+    "cmake.configureOnOpen": false,
+    "cmake.skipConfigureIfCachePresent": true,
+
+    ////////////////////////////////////////
+    // GitLens extension
+    ////////////////////////////////////////
+
+    "gitlens.blame.avatars": false,
+    "gitlens.currentLine.enabled": false,
+    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.hovers.enabled": false,
+    "gitlens.mode.statusBar.enabled": false,
+    "gitlens.statusBar.enabled": false,
+    "gitlens.views.compare.enabled": false,
+    "gitlens.views.compare.location": "scm",
+    "gitlens.views.fileHistory.location": "scm",
+    "gitlens.views.lineHistory.location": "scm",
+    "gitlens.views.repositories.location": "scm",
+    "gitlens.views.search.enabled": false,
+    "gitlens.views.search.location": "scm",
+
+    ////////////////////////////////////////
+    // Indent rainbow extension
+    ////////////////////////////////////////
+
+    "indentRainbow.colors": [
+        "#00FFFF1A",
+        "#FF77001A",
+        "#00FF221A",
+        "#FF00151A"
+    ],
+
+    ////////////////////////////////////////
+    // Lua extension
+    ////////////////////////////////////////
+
+    "Lua.develop.debuggerWait": true,
+    "Lua.hover.enable": false,
+    "Lua.hover.viewNumber": false,
+    "Lua.hover.viewString": false,
+
+    ////////////////////////////////////////
+    // Python extension
+    ////////////////////////////////////////
+
+    "python.analysis.logLevel": "Warning",
+    "python.dataScience.addGotoCodeLenses": false,
+    "python.dataScience.allowImportFromNotebook": false,
+    "python.dataScience.allowInput": false,
+    "python.dataScience.allowLiveShare": false,
+    "python.dataScience.askForKernelRestart": false,
+    "python.dataScience.askForLargeDataFrames": false,
+    "python.dataScience.collapseCellInputCodeByDefault": false,
+    "python.dataScience.colorizeInputBox": false,
+    "python.dataScience.decorateCells": false,
+    "python.dataScience.enableAutoMoveToNextCell": false,
+    "python.dataScience.enableCellCodeLens": false,
+    "python.dataScience.enabled": false,
+    "python.dataScience.enablePlotViewer": false,
+    "python.dataScience.enableScrollingForCellOutputs": false,
+    "python.dataScience.searchForJupyter": false,
+    "python.dataScience.showCellInputCode": false,
+    "python.dataScience.stopOnFirstLineWhileDebugging": false,
+    "python.dataScience.useDefaultConfigForJupyter": false,
+    "python.dataScience.useNotebookEditor": false,
+    "python.diagnostics.sourceMapsEnabled": true,
+    "python.disableInstallationCheck": true,
+    "python.terminal.executeInFileDir": true,
+
+    ////////////////////////////////////////
+    // Misc extensions
+    ////////////////////////////////////////
+
+    "[azure-pipelines].configure": false,
+    "auto-comment-blocks.singleLineBlockOnEnter": true,
+}

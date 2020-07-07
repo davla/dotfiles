@@ -8,6 +8,11 @@ actions:
     # needs to be a file with one package specification per line.
     atom-install-packages: apm install --packages-file {0}
 
+    # This action installs VSCode extensions given in the first argument. This
+    # needs to be a file with one package specification per line.
+    vscode-install-extensions: >-
+      xargs -n 1 code --force --install-extension < {0}
+
     i3: sh actions/i3.sh
 
 config:
@@ -57,6 +62,9 @@ dotfiles:
   d_thunar:
     src: config/Thunar
     dst: '{{@@ xdg_config("Thunar") @@}}'
+  d_vscode_snippets:
+    src: config/Code/User/snippets
+    dst: '{{@@ xdg_config("Code/User/snippets") @@}}'
   d_xfce4:
     src: config/xfce4
     dst: '{{@@ xdg_config("xfce4") @@}}'
@@ -84,7 +92,7 @@ dotfiles:
     src: atom/packages-list.txt
     # Temporary destination as the file is not read by Atom at runtime, so it
     # can be deleted
-    dst: '{{@@ tmp_dst @@}}'
+    dst: '{{@@ atom_tmp_dst @@}}'
     actions:
     # This action installs atom packages listed in the dotfile on-the-fly
     - atom-install-packages '{{@@ tmp_dst @@}}'
@@ -171,6 +179,22 @@ dotfiles:
   f_virtualbox_virtualbox.xml:
     src: config/VirtualBox/VirtualBox.xml
     dst: '{{@@ xdg_config("VirtualBox/VirtualBox.xml") @@}}'
+  f_vscode_extension-list.txt:
+    src: config/Code/User/extension-list.txt
+    # Temporary destination as the file is not read by VSCode at runtime, so it
+    # can be deleted
+    dst: '{{@@ vscode_tmp_dst @@}}'
+    actions:
+    # This action installs VSCode extensions listed in the dotfile on-the-fly
+    - vscode-install-extensions '{{@@ vscode_tmp_dst @@}}'
+    # This transformation actually creates the dotfile.
+    trans_write: vscode-list-extensions
+  f_vscode_keybindings.json:
+    src: config/Code/User/keybindings.json
+    dst: '{{@@ xdg_config("Code/User/keybindings.json") @@}}'
+  f_vscode_settings.json:
+    src: config/Code/User/settings.json
+    dst: '{{@@ xdg_config("Code/User/settings.json") @@}}'
   f_xfce-applications.menu:
     src: config/menus/xfce-applications.menu
     dst: '{{@@ xdg_config("menus/xfce-applications.menu") @@}}'
@@ -195,7 +219,7 @@ profiles:
     - f_atom_snippets.cson
     - f_atom_styles.less
     dynvariables:
-      tmp_dst: mktemp /tmp/atom-tmp.XXX
+      atom_tmp_dst: mktemp /tmp/atom-tmp.XXX
 
   # This profile groups configuration files for CLI-based applictions.
   cli:
@@ -286,6 +310,20 @@ profiles:
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
 
+  # This profile groups Atom-related dotfiles, as well as creating the
+  # necessary variables for dotfiles actions. It was chosen to address
+  # individual dotfiles rather than the whole ~/.config/Code/User directory as
+  # there are as many files to ignore in that directory than the ones to be
+  # managed.
+  vscode:
+    dotfiles:
+    - d_vscode_snippets
+    - f_vscode_extension-list.txt
+    - f_vscode_keybindings.json
+    - f_vscode_settings.json
+    dynvariables:
+      vscode_tmp_dst: mktemp /tmp/vscode-tmp.XXX
+
   # This profile contains the dotfiles for the whole Xfce session.
   xfce:
     dotfiles:
@@ -302,6 +340,10 @@ trans_write:
   # This transformation basically creates the dotfile. Indeed, it doesn't use
   # the {0} argument, and simply dumps the output of the command to {1}
   atom-list-packages: apm list --bare --installed | grep -o '^[^@]\+' > {1}
+
+  # This transformation basically creates the dotfile. Indeed, it doesn't use
+  # the {0} argument, and simply dumps the output of the command to {1}
+  vscode-list-extensions: code --list-extensions > {1}
 
 variables:
   # This variable is used to differentiate between user and root configuration

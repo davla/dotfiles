@@ -179,13 +179,6 @@ dotfiles:
   f_hostname:
     src: etc/hostname
     dst: /etc/hostname
-  f_hosts:
-    src: etc/hosts
-    # Dynamic path since the dotfile content is appended to dst
-    dst: '{{@@ hosts_tmp_dst @@}}'
-    actions:
-    - strip '{{@@ hosts_append_marker @@}}' '{{@@ hosts_dst @@}}'
-    - append '{{@@ hosts_dst @@}}' '{{@@ hosts_tmp_dst @@}}'
   f_keyboard:
     src: etc/default/keyboard
     dst: /etc/default/keyboard
@@ -411,17 +404,8 @@ profiles:
 
   # This profile contains network-related configuration files
   network:
-    dotfiles:
-    - f_frequent-hosts
-    - f_hosts
-    - f_local_sbin_host-refresh
-    actions:
-    - rm '{{@@ hosts_tmp_dst @@}}'
-    dynvariables:
-      hosts_tmp_dst: mktemp /tmp/hosts-append.XXX
-    variables:
-      hosts_append_marker: Local hosts
-      hosts_dst: /etc/hosts
+    include:
+    - host-refresh
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/network.yaml:optional
 
@@ -460,12 +444,11 @@ profiles:
   # This profile groups together systemd timers configuration.
   timers:
     dotfiles:
-    - f_frequent-hosts
-    - f_local_sbin_host-refresh
     - f_systemd_root_host-refresh.service
     - f_systemd_root_host-refresh.timer
     include:
     - shared-timers
+    - host-refresh
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
 

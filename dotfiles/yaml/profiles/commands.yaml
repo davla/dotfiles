@@ -8,6 +8,8 @@ config:
   banner: true
   create: true
   dotpath: ../../dotfiles
+  import_actions:
+  - ../actions/append.yaml
   func_file:
   - ../../python/functions.py
   import_variables:
@@ -28,6 +30,13 @@ dotfiles:
     src: usr/local/etc/frequent-hosts.{{@@ env['HOST'] @@}}
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ frequent_hosts_path @@}}'
+  f_hosts:
+    src: etc/hosts
+    # Dynamic path since the dotfile content is appended to dst
+    dst: '{{@@ hosts_tmp_dst @@}}'
+    actions:
+    - strip '{{@@ hosts_append_marker @@}}' '{{@@ hosts_dst @@}}'
+    - append '{{@@ hosts_dst @@}}' '{{@@ hosts_tmp_dst @@}}'
   f_local_bin_shell-cache:
     src: usr/local/bin/shell-cache
     # Dynamic path as it's used somewhere else too
@@ -40,11 +49,30 @@ dotfiles:
 profiles:
   # This profile gathers my custom shell commands and their dependencies
   commands:
+    include:
+    - host-refresh
+    - shell-cache
+
+  # This profile groups the dotfiles necessary for the host-refresh setup
+  host-refresh:
     dotfiles:
     - d_local_lib_sh
+    - f_hosts
     - f_frequent-hosts
-    - f_local_bin_shell-cache
     - f_local_sbin_host-refresh
+    actions:
+    - rm '{{@@ hosts_tmp_dst @@}}'
+    dynvariables:
+      hosts_tmp_dst: mktemp /tmp/hosts-append.XXX
+    variables:
+      hosts_append_marker: Local hosts
+      hosts_dst: /etc/hosts
+
+  # This profile includes the dotfiles used by the shell-cache command
+  shell-cache:
+    dotfiles:
+    - d_local_lib_sh
+    - f_local_bin_shell-cache
 
 variables:
   # These paths are kept as variables since they need to be used both as `dst`

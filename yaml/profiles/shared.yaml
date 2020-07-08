@@ -31,12 +31,6 @@ config:
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
-  d_git:
-    src: config/git
-    dst: '{{@@ xdg_config("git") @@}}'
-  f_ssh_config:
-    src: ssh/config
-    dst: ~/.ssh/config
   f_mrtrust:
     src: config/mr/mrtrust
     dst: '{{@@ xdg_config("mr/mrtrust") @@}}'
@@ -46,10 +40,3 @@ dotfiles:
 profiles:
   # This profile serves as placeholder for profile includes
   empty: {}
-
-  # This profile groups git dotfiles
-  git:
-    dotfiles:
-    - d_git
-    import:
-    - ../dotfiles/{{@@ env['HOST'] @@}}/git.yaml:optional

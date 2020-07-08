@@ -339,7 +339,6 @@ profiles:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ user @@}}/cli.yaml:optional
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
     include:
-    - git
     - '{{@@ cli_asdf_include @@}}'
 
   # This profile includes configuration files for ddclient

@@ -141,35 +141,66 @@ echo "$GIT_ORIGIN" | grep 'https' > /dev/null 2>&1 && {
 # Creating gpg keys
 #######################################
 
-[ -z "$(gpg --list-secret-keys)" ] && {
-    echo 'Generating gpg key'
+echo '\e[32m[INFO]\e[0m Creating gpg keys'
 
-    printf 'Enter the gpg key name: '
-    read GPG_NAME
+# Prompting the user for gpg key creation
+printf 'Do you want to create gpg keys? [y/n] '
+read CREATE_GPG_KEYS
 
-    printf 'Enter the gpg email: '
-    read GPG_EMAIL
+case "$(echo "$CREATE_GPG_KEYS" | tr '[:upper:]' '[:lower:]')" in
 
-    echo 'Generating gpg keys with these parameters:'
-    GPG_ARGS="$(mktemp)"
-    tee "$GPG_ARGS" <<EOF
+    # Creating gpg keys
+    'y'|'yes')
+
+        # Prompting the user for the name associated to the gpg key
+        printf 'Enter the gpg key name: '
+        read GPG_NAME
+
+        # Prompting the user for the email associated to the gpg key
+        printf 'Enter the gpg email: '
+        read GPG_EMAIL
+
+        # Removing and displaying temporary parameter file for gpg batch mode
+        echo '\e[32m[INFO]\e[0m Generating gpg keys with these parameters:'
+        GPG_ARGS="$(mktemp)"
+        tee "$GPG_ARGS" <<EOF
 Key-Type: 1
 Key-Length: 4096
 Expire-Date: 0
 Name-Real: $GPG_NAME
 Name-Email: $GPG_EMAIL
 EOF
-    gpg --batch --generate-key "$GPG_ARGS"
-    rm "$GPG_ARGS"
+        # Generating gpg key
+        gpg --batch --generate-key "$GPG_ARGS"
 
-    echo 'Copy the GPG key into GitHub.'
-    # Actually getting the content to paste on GitHub
-    gpg --list-secret-keys --with-colons | grep 'sec' | cut -d ':' -f 5 \
-        | xargs gpg --armor --export
-    # shellcheck disable=2034
-    read ANSWER
-    unset ANSWER
-}
+        # Removing temporary parameter file for gpg batch mode
+        echo '\e[32m[INFO]\e[0m Deleting temporary gpg parameter file'
+        rm "$GPG_ARGS"
+
+        # Displaying the public gpg key
+        echo '\e[32m[INFO]\e[0m This is the newly created public gpg key'
+        # Actually getting the content to paste on GitHub
+        gpg --list-secret-keys --with-colons | grep 'sec' | cut -d ':' -f 5 \
+            | xargs gpg --armor --export
+        # shellcheck disable=2034
+        read ANSWER
+        unset ANSWER
+
+        unset GPG_ARGS GPG_EMAIL GPG_NAME
+        ;;
+
+    # Not creating gpg keys
+    'n'|'no')
+        echo "OK. Gpg keys won't be created"
+        ;;
+
+    # Rejecting any other anser
+    *)
+        echo >&2 "Invalid answer: $CREATE_GPG_KEYS"
+        exit 1
+        ;;
+esac
+unset CREATE_GPG_KEYS
 
 #######################################
 # Copying ssh keys to remote host

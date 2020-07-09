@@ -117,28 +117,34 @@
     ignoreWhitespace = false
     whitespace = fix
 
-{%@@ if git_commit_gpg_sign @@%}
+{%@@ if git_commit_gpg_sign -@@%}
+
 [commit]
     gpgsign = true
-{%@@ endif @@%}
+
+{%@@ endif -@@%}
 
 [core]
     autocrlf = input
     editor = vim
     excludesfile = ~/.config/git/gitignore
 
-{%@@ if git_credentials_helper @@%}
+{%@@ if git_credentials_helper -@@%}
+
 [credential]
     helper = {{@@ git_credentials_helper @@}}
-{%@@ endif @@%}
+
+{%@@ endif -@@%}
 
 [fetch]
     prune = true
 
-{%@@ if gitreview_username @@%}
+{%@@ if gitreview_username -@@%}
+
 [gitreview]
     username = {{@@ gitreview_username @@}}
-{%@@ endif @@%}
+
+{%@@ endif -@@%}
 
 [help]
     autocorrect = 5

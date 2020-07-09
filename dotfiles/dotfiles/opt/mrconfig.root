@@ -8,9 +8,12 @@
 #######################################
 
 
-{%@@ if not is_headless @@%}
+{%@@ if not is_headless -@@%}
+
 include = cat '{{@@ dirname(_dotfile_abs_dst) @@}}/.mrconfig.gui'
-{%@@ endif @@%}
+
+{%@@- endif @@%}
+
 include = cat '{{@@ '%s/.mrconfig.%s'
     | format(dirname(_dotfile_abs_dst), env['DISTRO']) @@}}'
 

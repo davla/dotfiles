@@ -4,6 +4,16 @@
 
 # This script initializes the X11 session.
 
+{%@@ if user == 'user' -@@%}
+
+#######################################
+# GNOME keyring ssh agent
+#######################################
+
+export SSH_AUTH_SOCK="/run/user/$(id -u)/keyring/ssh"
+
+{%@@ endif -@@%}
+
 #######################################
 # Gtk 2 environment variables
 #######################################

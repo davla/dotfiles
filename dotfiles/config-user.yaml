@@ -21,16 +21,11 @@ config:
   import_configs:
   - yaml/profiles/autorandr.yaml
   - yaml/profiles/shared.yaml
-  - yaml/profiles/timers.yaml
   import_variables:
   - yaml/variables/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/{{@@ env['HOST'] @@}}/*.yaml:optional
   - yaml/variables/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/dpi.yaml
-  - yaml/variables/i3.yaml
-  - yaml/variables/look-and-feel.yaml
-  - yaml/variables/*-look-and-feel.yaml
-  - yaml/variables/private.yaml
   - yaml/variables/shared.yaml
   keepdot: false
   link_dotfile_default: nolink
@@ -46,6 +41,9 @@ dotfiles:
   d_desktop-directories:
     src: local/share/desktop-directories
     dst: '{{@@ xdg_data("desktop-directories") @@}}'
+  d_git:
+    src: config/git
+    dst: '{{@@ xdg_config("git") @@}}'
   d_i3blocks-email:
     src: config/i3blocks-email
     dst: '{{@@ xdg_config("i3blocks-email") @@}}'
@@ -164,6 +162,9 @@ dotfiles:
   f_qt5ct.conf:
     src: config/qt5ct/qt5ct.conf
     dst: '{{@@ xdg_config("qt5ct/qt5ct.conf") @@}}'
+  f_ssh_config:
+    src: ssh/config
+    dst: ~/.ssh/config
   f_trolltech.conf:
     src: config/Trolltech.conf
     dst: '{{@@ xdg_config("Trolltech.conf") @@}}'
@@ -203,6 +204,13 @@ profiles:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
     include:
     - git
+
+  # This profile groups git dotfiles
+  git:
+    dotfiles:
+    - d_git
+    import:
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/git.yaml:optional
 
   # This profile groups geany-related dotfiles. Individual files are addressed,
   # rather than the whole directory, as it was execssively complex to ignore

@@ -9,10 +9,8 @@ dynvariables:
   dotfiles_home: git rev-parse --show-toplevel
 
 variables:
-  # Git-related variables
-  git_credentials_helper: /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
-  git_commit_gpg_sign: true
-  gitreview_username: davla
+  # Email to be used for git. Also my Github email
+  email: truzzialrogo@gmx.com
 
   # Whether dotdrop is running with a graphical user interface
   is_headless: true

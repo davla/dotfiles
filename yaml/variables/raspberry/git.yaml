@@ -1,0 +1,10 @@
+%YAML 1.2
+---
+# This variables file defines git-related variables for my raspberry machine
+
+variables:
+  git_credentials_helper: /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+  git_commit_gpg_sign: true
+  git_username: davla
+  # Used by `git review` command, mostly for gerrit platforms
+  gitreview_username: davla

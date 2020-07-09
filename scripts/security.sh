@@ -12,6 +12,9 @@
 #   - $2+: The users to log in as in the host when copying SSH public key over.
 #          The same key is copied for all users. Only required if $1 is given.
 
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/../.env"
+
 #######################################
 # Variables
 #######################################
@@ -122,6 +125,16 @@ echo "$GIT_ORIGIN" | grep 'https' > /dev/null 2>&1 && {
         sed -E -e 's|https://(.+?)/(.+?)/(.+?)(.git)?|git@\1:\2/\3.git|' \
             -e 's/(\.git)+$/.git/g' \
         | xargs git remote set-url origin
+
+    # Changing this repository URL hostname to use the correct SSH key
+    echo '\e[32m[INFO]\e[0m Changing this repository URL hostname to use the' \
+        ' correct SSH key'
+    case "$HOST" in
+        *'work'*)
+            echo "$GIT_ORIGIN" | sed 's/@github.com/@personal.github.com/' \
+                | xargs git remote set-url origin
+            ;;
+    esac
 }
 
 #######################################

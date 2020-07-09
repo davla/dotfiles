@@ -10,14 +10,16 @@
 
 export DOTFILES_HOME="{{@@ dotfiles_home | find_in_home | home_abs2var @@}}"
 
-{%@@ if exists(docker_path) @@%}
+{%@@ if exists(docker_path) -@@%}
+
 #######################################
 # Docker
 #######################################
 
 export DOCKER_CONFIG="{{@@ docker_path | home_abs2var @@}}"
 
-{%@@ endif @@%}
+{%@@ endif -@@%}
+
 #######################################
 # Path
 #######################################
@@ -31,7 +33,8 @@ case "$PATH" in
         ;;
 esac
 
-{%@@ if user == 'root' @@%}
+{%@@ if user == 'root' -@@%}
+
 LOCAL_PATH='/usr/local/sbin'
 case "$PATH" in
     *$LOCAL_PATH*)
@@ -40,6 +43,7 @@ case "$PATH" in
         export PATH="$LOCAL_PATH:$PATH"
         ;;
 esac
-{%@@ endif @@%}
+
+{%@@ endif -@@%}
 
 unset LOCAL_PATH

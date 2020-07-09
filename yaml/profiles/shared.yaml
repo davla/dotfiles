@@ -4,8 +4,8 @@
 # between both root and user
 
 actions:
-    # This action links an mrtrust file to where myrepos expect it to be
-    mrtrust: ln -sf '{0}' "$HOME/.mrtrust"
+  # This action links an mrtrust file to where myrepos expect it to be
+  mrtrust: ln -sf '{0}' "$HOME/.mrtrust"
 
 config:
   backup: false
@@ -17,6 +17,12 @@ config:
   ignoreempty: true
   import_configs:
   - shell.yaml
+  - timers.yaml
+  import_variables:
+  - ../variables/i3.yaml
+  - ../variables/look-and-feel.yaml
+  - ../variables/*-look-and-feel.yaml
+  - ../variables/private.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -25,9 +31,6 @@ config:
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
-  d_git:
-    src: config/git
-    dst: '{{@@ xdg_config("git") @@}}'
   f_mrtrust:
     src: config/mr/mrtrust
     dst: '{{@@ xdg_config("mr/mrtrust") @@}}'
@@ -37,8 +40,3 @@ dotfiles:
 profiles:
   # This profile serves as placeholder for profile includes
   empty: {}
-
-  # This profile groups git dotfiles
-  git:
-    dotfiles:
-      - d_git

@@ -2,8 +2,12 @@
 #
 # {{@@ header() @@}}
 
-{%@@ if env['HOST'] == 'personal' @@%}
+{%@@ if env['HOST'] == 'personal' -@@%}
+
 raspberry:/ /home/maze/Files/Raspberry  nfs dev,exec,noauto,rw,suid,users   0   0
-{%@@ elif env['HOST'] == 'work' @@%}
+
+{%@@ elif env['HOST'] == 'work' -@@%}
+
 .host:/ /home/dlaezza/mounts    fuse.vmhgfs-fuse    allow_other,gid=1000,noexec,rw,uid=1000,umask=022,users 0   0
-{%@@ endif @@%}
+
+{%@@ endif -@@%}

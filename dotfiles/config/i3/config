@@ -307,11 +307,13 @@ bindsym $mod+space exec i3-dmenu-desktop
 bindsym $mod+Shift+space exec dmenu_run
 bindsym $mod+w exec firefox
 
-{%@@ if env['HOST'] == 'personal' @@%}
+{%@@ if env['HOST'] == 'personal' -@@%}
+
 bindsym $mod+comma exec firefox https://calendar.google.com/calendar/r
 bindsym $mod+e exec telegram
 bindsym $mod+t exec thunderbird
-{%@@ endif @@%}
+
+{%@@ endif -@@%}
 
 #######################################
 # Application startup

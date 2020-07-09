@@ -81,7 +81,6 @@ config:
   - yaml/profiles/apt-repos.yaml
   - yaml/profiles/commands.yaml
   - yaml/profiles/shared.yaml
-  - yaml/profiles/timers.yaml
   import_variables:
   - yaml/variables/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/{{@@ env['HOST'] @@}}/*.yaml:optional
@@ -89,11 +88,7 @@ config:
   - yaml/variables/{{@@ env['DISTRO'] @@}}/*.yaml:optional
   - yaml/variables/asdf.yaml
   - yaml/variables/env.yaml
-  - yaml/variables/i3.yaml
-  - yaml/variables/look-and-feel.yaml
-  - yaml/variables/*-look-and-feel.yaml
   - yaml/variables/shared.yaml
-  - yaml/variables/private.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -288,6 +283,9 @@ dotfiles:
     actions:
     - strip '{{@@ symbols_append_marker @@}}' '{{@@ symbols_dst @@}}'
     - append '{{@@ symbols_dst @@}}' '{{@@ xkb_tmp_dst @@}}'
+  f_xsession.options:
+    src: etc/X11/Xsession.options
+    dst: /etc/X11/Xsession.options
 
 dynvariables:
   # These variables define which profile should be included to have asdf
@@ -341,7 +339,6 @@ profiles:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ user @@}}/cli.yaml:optional
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
     include:
-    - git
     - '{{@@ cli_asdf_include @@}}'
 
   # This profile includes configuration files for ddclient
@@ -430,6 +427,7 @@ profiles:
     dotfiles:
     - f_grub
     - f_fstab
+    - f_xsession.options
     - f_underclock.service
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional

@@ -11,14 +11,18 @@
 alias c='xsel -i -b'
 alias mkdir='mkdir -p'
 alias p='xsel -o'
-{%@@ if user == 'user' @@%}
+
+{%@@- if user == 'user' @@%}
+
 alias root='sudo -s'
+
 {%@@ elif user == 'root' @@%}
-{%@@ if env['DISTRO'] == 'arch' @@%}
-{%@@ elif env['DISTRO'] == 'debian' @@%}
+{%@@- if env['DISTRO'] == 'debian' @@%}
+
 alias update='apt-get update && apt-get upgrade'
-{%@@ endif @@%}
-{%@@ endif @@%}
+
+{%@@ endif -@@%}
+{%@@ endif -@@%}
 
 #######################################
 # Third-party commands aliases

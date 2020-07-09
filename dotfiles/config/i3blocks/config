@@ -7,7 +7,8 @@
 command=date '+%H:%M:%S        %d-%m-%Y (%a)'
 interval=1
 
-{%@@ if env['HOST'] == 'personal' @@%}
+{%@@ if env['HOST'] == 'personal' -@@%}
+
 # This block displays the main mail watcher
 [email]
 command=i3blocks-email | sed '1 s/^/main: /; s/#ededed/{{@@ i3bar_inactive_color @@}}/; s/#00ff00/{{@@ main_theme_color @@}}/'
@@ -19,7 +20,8 @@ interval={{@@ 60 * 10 @@}}
 command=i3blocks-email | sed '1 s/^/spam: /; s/#ededed/{{@@ i3bar_inactive_color @@}}/; s/#00ff00/{{@@ main_theme_color @@}}/'
 instance=spam
 interval={{@@ 60 * 10 @@}}
-{%@@ endif @@%}
+
+{%@@ endif -@@%}
 
 # This block shows whether system updates are available
 [apt-upgrades]

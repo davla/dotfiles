@@ -4,9 +4,13 @@ robbyrussell/oh-my-zsh path:plugins/colorize
 Vifon/deer kind:fpath
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-completions
-{%@@ if not is_headless @@%}
+
+{%@@- if not is_headless @@%}
+
 marzocchi/zsh-notify
-{%@@ endif @@%}
+
+{%@@- endif @@%}
+
 RobSis/zsh-reentry-hook
 MichaelAquilina/zsh-you-should-use
 davla/zsh-command-not-found

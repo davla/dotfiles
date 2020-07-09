@@ -30,6 +30,7 @@
     a = add
     aa = add --all
     ap = add --patch
+    apa = add --patch --all
 
     # branch
     b = branch

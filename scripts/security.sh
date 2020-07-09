@@ -91,7 +91,25 @@ case "$(echo "$CREATE_SSH_KEYS" | tr '[:upper:]' '[:lower:]')" in
         [ -z "$SSH_KEY_FILE_NAME" ] && SSH_KEY_FILE_NAME="$DEFAULT_SSH_KEY"
 
         # Actually creating the SSH key (interactive)
-        ssh-keygen -f "$SSH_HOME/$SSH_KEY_FILE_NAME" -t rsa
+        SSH_KEY_PATH="$SSH_HOME/$SSH_KEY_FILE_NAME"
+        ssh-keygen -f "$SSH_KEY_PATH" -t rsa
+
+        # Displaying newly created public SSH key
+        echo "\e[32m[INFO]\e[0m Displaying new SSH key at $SSH_KEY_PATH.pub"
+        cat "$SSH_KEY_PATH.pub"
+        # shellcheck disable=2034
+        read ANSWER
+        unset ANSWER
+
+        [ -n "$HOST" ] && {
+            # Adding key to the given host's authorized keys as each provided
+            # user
+            echo "\e[32m[INFO]\e[0m Copying key $SSH_KEY_PATH.pub to hosts"
+            for SSH_USER in "$@"; do
+                copy_key "$SSH_USER" "$HOST" "$SSH_KEY_PATH.pub"
+            done
+        }
+        unset SSH_KEY_FILE_NAME SSH_KEY_PATH
         ;;
 
     # Not generating SSH key
@@ -105,7 +123,7 @@ case "$(echo "$CREATE_SSH_KEYS" | tr '[:upper:]' '[:lower:]')" in
         exit 1
         ;;
 esac
-unset CREATE_SSH_KEYS SSH_KEY_FILE_NAME
+unset CREATE_SSH_KEYS
 
 #######################################
 # Changing git origin of this repo
@@ -113,11 +131,6 @@ unset CREATE_SSH_KEYS SSH_KEY_FILE_NAME
 
 # If remote origin is https, it's not ssh
 echo "$GIT_ORIGIN" | grep 'https' > /dev/null 2>&1 && {
-    echo 'Copy the SSH key into GitHub.'
-    cat "$SSH_HOME/id_rsa.pub"
-    # shellcheck disable=2034
-    read ANSWER
-    unset ANSWER
     echo '\e[32m[INFO]\e[0m Changing this repository remote to use SSH'
 
     # Changing this repository URL to use SSH
@@ -201,17 +214,3 @@ EOF
         ;;
 esac
 unset CREATE_GPG_KEYS
-
-#######################################
-# Copying ssh keys to remote host
-#######################################
-
-# Need an if here to exit with no error in case no CLI parameters are passed.
-echo '\e[32m[INFO]\e[0m Copying SSH keys to hosts'
-if [ -n "$HOST" ]; then
-    for SSH_USER in "$@"; do
-        copy_key "$SSH_USER" "$HOST" "$SSH_HOME/id_rsa.pub"
-    done
-else
-    exit 0
-fi

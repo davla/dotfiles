@@ -1,11 +1,11 @@
 #!/usr/bin/env sh
 
-# This script deals with some security setup. Namely:
-#   - Generates SSH keys if not already present.
-#   - Changes this git repository's origin remote from HTTPS to SSH. It does
-#       also display the public SSH key so that it can be copied into GitHub.
-#   - Creates gpg keys if not already present
-#   - Copies SSH keys over to remote hosts if CLI arguments are passed.
+# This script deals with SSH and gpg keys. Namely:
+#   - Generates both SSH and gpg keys on demand, prompting the user.
+#   - Displays the created public keys.
+#   - Changes this git repository's origin remote from HTTPS to SSH.
+#   - If an SSH key is created, it can add it as an authorized key for remote
+#     hosts, given that the right CLI arguments are provided.
 #
 # Arguments:
 #   - $1: The host to copy SSH public key over to. Optional.
@@ -16,14 +16,15 @@
 # Variables
 #######################################
 
-# Path to this scrpt parent directory. Doesn't work if this script is sourced
-PARENT_DIR="$(dirname "$0")"
-
 # Git origin remote URL
-GIT_ORIGIN="$(git -C "$PARENT_DIR" remote get-url origin)"
+echo "\e[32m[INFO]\e[0m Getting git origin URL"
+GIT_ORIGIN="$(git remote get-url origin)"
 
 # SSH base directory
 SSH_HOME="$HOME/.ssh"
+
+# Default value for SSH key file name
+DEFAULT_SSH_KEY='id_rsa'
 
 #######################################
 # Functions
@@ -43,6 +44,10 @@ copy_key() {
 
     HOST_STRING="$COPIED_USER@$COPIED_HOST"
 
+    # This first makes sure shat ~/.ssh exists, and then adds the SSH key to
+    # the authorized ones on the remote host
+    printf "\e[32m[INFO]\e[0m Copying SSH key $COPIED_SSH_KEY as "
+    echo "$COPIED_USER@$COPIED_HOST"
 	ssh "$HOST_STRING" mkdir -p .ssh
 	cat "$COPIED_SSH_KEY" | ssh "$HOST_STRING" 'cat >> .ssh/authorized_keys'
 
@@ -55,6 +60,7 @@ copy_key() {
 
 [ $# -gt 0 ] && {
     HOST="$1"
+    # This discards the only CLI argument that is not an user name
     shift
 }
 
@@ -62,9 +68,41 @@ copy_key() {
 # Creating SSH keys
 #######################################
 
+# Ensuring that ~/.ssh exists
+echo "\e[32m[INFO]\e[0m Creating $SSH_HOME"
 mkdir -p "$SSH_HOME"
-[ ! -f "$SSH_HOME/id_rsa" ] \
-    && ssh-keygen -f "$SSH_HOME/id_rsa" -t rsa
+
+# Prompting the user for SSH key creation
+printf 'Do you want to create ssh keys? [y/n] '
+read CREATE_SSH_KEYS
+
+case "$(echo "$CREATE_SSH_KEYS" | tr '[:upper:]' '[:lower:]')" in
+
+    # Creating SSH key
+    'y'|'yes')
+        echo '\e[32m[INFO]\e[0m Creating SSH key'
+
+        # Prompting the user for SSH key filename, handling the default too
+        printf "Enter SSH key filename [default '$DEFAULT_SSH_KEY']: "
+        read SSH_KEY_FILE_NAME
+        [ -z "$SSH_KEY_FILE_NAME" ] && SSH_KEY_FILE_NAME="$DEFAULT_SSH_KEY"
+
+        # Actually creating the SSH key (interactive)
+        ssh-keygen -f "$SSH_HOME/$SSH_KEY_FILE_NAME" -t rsa
+        ;;
+
+    # Not generating SSH key
+    'n'|'no')
+        echo "OK. SSH keys won't be created"
+        ;;
+
+    # Rejecting any other answer
+    *)
+        echo >&2 "Invalid answer: $CREATE_SSH_KEYS"
+        exit 1
+        ;;
+esac
+unset CREATE_SSH_KEYS SSH_KEY_FILE_NAME
 
 #######################################
 # Changing git origin of this repo
@@ -77,12 +115,13 @@ echo "$GIT_ORIGIN" | grep 'https' > /dev/null 2>&1 && {
     # shellcheck disable=2034
     read ANSWER
     unset ANSWER
+    echo '\e[32m[INFO]\e[0m Changing this repository remote to use SSH'
 
     # Changing this repository URL to use SSH
     echo "$GIT_ORIGIN" | \
         sed -E -e 's|https://(.+?)/(.+?)/(.+?)(.git)?|git@\1:\2/\3.git|' \
             -e 's/(\.git)+$/.git/g' \
-        | xargs git -C "$PARENT_DIR" remote set-url origin
+        | xargs git remote set-url origin
 }
 
 #######################################
@@ -124,6 +163,7 @@ EOF
 #######################################
 
 # Need an if here to exit with no error in case no CLI parameters are passed.
+echo '\e[32m[INFO]\e[0m Copying SSH keys to hosts'
 if [ -n "$HOST" ]; then
     for SSH_USER in "$@"; do
         copy_key "$SSH_USER" "$HOST" "$SSH_HOME/id_rsa.pub"

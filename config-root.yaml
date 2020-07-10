@@ -395,6 +395,8 @@ profiles:
     - myrepos
     - '{{@@ manual_asdf_include @@}}'
 
+  # This profile includes the shared files for all myrepos configuration, both
+  # for root and unprivileged users
   myrepos:
     dotfiles:
     - d_myrepos-lib
@@ -444,6 +446,8 @@ profiles:
     dotfiles:
     - f_systemd_root_host-refresh.service
     - f_systemd_root_host-refresh.timer
+    - f_systemd_root_shell-cache.service.d_override.conf
+    - f_systemd_root_shell-plugins.service.d_override.conf
     include:
     - shared-timers
     - host-refresh

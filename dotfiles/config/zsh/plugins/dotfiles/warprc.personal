@@ -1,20 +1,16 @@
-bonsai:{{@@ "~/Files/Studies/Master/Thesis/bonsai" | find_in_home @@}}
-custom-commands:{{@@ "~/Files/Programming/sys/custom-commands"
-    | find_in_home @@}}
-cv:{{@@ "~/Files/Programming/python/cv/platform" | find_in_home @@}}
-diary:{{@@ "~/Files/diary" | find_in_home @@}}
-dotdrop:{{@@ "~/Files/Programming/python/dotdrop" | find_in_home @@}}
-dotdrop-wiki:{{@@ "~/Files/Programming/github-wikis/dotdrop.wiki"
-    | find_in_home @@}}
-dotfiles:{{@@ "~/Files/Programming/sys/dotfiles" | find_in_home @@}}
-haros:{{@@ "~/Files/Studies/Master/Thesis/haros" | find_in_home @@}}
-i3blocks-contrib:{{@@ "~/Files/Programming/sys/i3blocks-contrib"
-    | find_in_home @@}}
-pywikibot:{{@@ "~/Files/pywikibot" | find_in_home @@}}
-setup:{{@@ "~/Files/Programming/sys/setup" | find_in_home @@}}
-wiki-modules:{{@@ "~/Files/Programming/Wiki/modules" | find_in_home @@}}
-wiki-styles:{{@@ "~/Files/Programming/Wiki/styles" | find_in_home @@}}
-wiki-util:{{@@ "~/Files/Programming/Wiki/util" | find_in_home @@}}
-zsh-command-not-found:{{@@ "~/Files/Programming/zsh/zsh-command-not-found"
-    | find_in_home @@}}
-zygal:{{@@ "~/Files/Programming/shell/zygal" | find_in_home @@}}
+bonsai:~/Files/Studies/Master/Thesis/bonsai
+custom-commands:~/Files/Programming/sys/custom-commands
+cv:~/Files/Programming/python/cv/platform
+diary:~/Files/diary
+dotdrop:~/Files/Programming/python/dotdrop
+dotdrop-wiki:~/Files/Programming/github-wikis/dotdrop.wiki
+dotfiles:~/Files/Programming/sys/dotfiles
+haros:~/Files/Studies/Master/Thesis/haros
+i3blocks-contrib:~/Files/Programming/sys/i3blocks-contrib
+pywikibot:~/Files/pywikibot
+setup:~/Files/Programming/sys/setup
+wiki-modules:~/Files/Programming/Wiki/modules
+wiki-styles:~/Files/Programming/Wiki/styles
+wiki-util:~/Files/Programming/Wiki/util
+zsh-command-not-found:~/Files/Programming/zsh/zsh-command-not-found
+zygal:~/Files/Programming/shell/zygal

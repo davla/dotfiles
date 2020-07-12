@@ -64,6 +64,9 @@ actions:
               ;;
       esac
 
+    # This action creates the hid group used in udev rules
+    udev-hid: groupadd -fr hid
+
     xkb: sh ./actions/xkb.sh
 
 config:
@@ -247,6 +250,11 @@ dotfiles:
       insert_match '(^$|^[^#])' '{{@@ sys_env_tmp_dst @@}}'
         '{{@@ zsh_env_dst @@}}'
     - rm '{{@@ sys_env_tmp_dst @@}}'
+  f_udev_999-hid.rules:
+    src: etc/udev/rules.d/999-hid.rules
+    dst: /etc/udev/rules.d/999-hid.rules
+    actions:
+    - udev-hid
   f_timezone:
     src: etc/timezone
     dst: /etc/timezone
@@ -453,6 +461,11 @@ profiles:
     - host-refresh
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
+
+  # This profile includes udev configuration
+  udev:
+    dotfiles:
+    - f_udev_999-hid.rules
 
   # This profile contains X11 configuration files
   x11:

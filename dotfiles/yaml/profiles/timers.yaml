@@ -46,6 +46,12 @@ dotfiles:
   f_systemd_root_myrepos-upgrade.timer:
     src: etc/systemd/system/myrepos-upgrade.timer
     dst: /etc/systemd/system/myrepos-upgrade.timer
+  f_systemd_root_shell-cache.service.d_override.conf:
+    src: etc/systemd/system/shell-cache.service.d/override.conf
+    dst: /etc/systemd/system/shell-cache.service.d/override.conf
+  f_systemd_root_shell-plugins.service.d_override.conf:
+    src: etc/systemd/system/shell-plugins.service.d/override.conf
+    dst: /etc/systemd/system/shell-plugins.service.d/override.conf
   f_systemd_share_shell-cache.service:
     src: etc/systemd/share/shell-cache.service
     dst: /etc/systemd/share/shell-cache.service

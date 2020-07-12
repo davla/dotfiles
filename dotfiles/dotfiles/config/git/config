@@ -30,6 +30,7 @@
     a = add
     aa = add --all
     ap = add --patch
+    apa = add --patch --all
 
     # branch
     b = branch
@@ -161,7 +162,11 @@
 [tag]
     sort = -version:refname
 
+{%@@ if not env['HOST'].startswith('work') -@@%}
+
 [user]
     name = {{@@ full_name @@}}
     email = {{@@ email @@}}
     username = {{@@ git_username @@}}
+
+{%@@ endif -@@%}

@@ -4,6 +4,8 @@
 
 [Unit]
 Description=Job refreshing the content of /etc/host for faster domain lookup
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 ExecStart={{@@ host_refresh_path @@}} --info

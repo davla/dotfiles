@@ -44,7 +44,7 @@ DEER_KEYS[leave]=l
 # wd
 #######################################
 
-WD_CONFIG="$ZDOTDIR/plugins/dotfiles/.warprc"
+WD_CONFIG="$ZDOTDIR/plugins/dotfiles/warprc"
 WD_SKIP_EXPORT=true
 
 wd() { . "$ANTIBODY_HOME/"*wd/wd.sh }

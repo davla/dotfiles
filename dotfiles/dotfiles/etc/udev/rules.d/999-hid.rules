@@ -1,0 +1,4 @@
+# This udev rules file allows users in the hid group to operate with HID devices
+
+SUBSYSTEM=="hidraw", GROUP="hid", MODE="0660"
+SUBSYSTEM=="usbmisc", GROUP="hid", MODE="0660"

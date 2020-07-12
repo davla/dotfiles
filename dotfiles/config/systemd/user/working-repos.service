@@ -1,11 +1,13 @@
 # working-repos systemd service file
 #
 # {{@@ header() @@}}
-#
-# {%@@ set repos_path = wiki_path | tilde2home @@%}
+
+{%@@ set repos_path = wiki_path | tilde2home @@%}
 
 [Unit]
 Description=Job keeping up-to-date working copies of repositories
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 ExecStart=/usr/bin/mr -c "{{@@ repos_path @@}}/.mrconfig" -d "{{@@ repos_path @@}}" update

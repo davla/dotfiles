@@ -4,6 +4,8 @@
 
 [Unit]
 Description=job performing various automated fixes on Pokémon Central Wiki
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 ExecStart=/usr/bin/bash "{{@@ wiki_util_path | tildeTo('%h') @@}}/bash/run.sh" fixes.sh

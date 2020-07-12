@@ -2,6 +2,8 @@
 
 [Unit]
 Description=Job updating shell plugins
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 ExecStart=/usr/bin/zsh -c 'antibody update'

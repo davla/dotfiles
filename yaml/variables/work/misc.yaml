@@ -9,10 +9,6 @@ dynvariables:
   dotfiles_home: git rev-parse --show-toplevel | xargs -i echo '{}/dotfiles'
 
 variables:
-  # Git-related variables
-  git_credentials_helper: manager
-  git_commit_gpg_sign: false
-
   # Whether dotdrop is running with a graphical user interface
   is_headless: false
 

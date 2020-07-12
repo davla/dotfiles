@@ -1,0 +1,5 @@
+dotfiles:~/code/sys/dotfiles
+pywikibot:{{@@ pywikibot_path @@}}
+setup:~/code/sys/setup
+wiki-lua:{{@@ wiki_lua_modules_path @@}}
+wiki-util:{{@@ wiki_util_path @@}}

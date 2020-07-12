@@ -2,6 +2,8 @@
 
 [Unit]
 Description=Job updating Atom text editor's plugins
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 ExecStart=/usr/bin/apm upgrade -c false

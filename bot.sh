@@ -378,6 +378,10 @@ prompt 'set up the nfs sharing' 'dotdrop -U root install -p nfs' \
 prompt 'set up ddclient' 'dotdrop -U root install -p ddclient' \
     'setting up ddclient'
 
+# Udev
+prompt 'set up udev rules' "sudo sh -e scripts/udev.sh '$USER'" \
+    'setting up udev rules'
+
 # PolicyKit
 prompt 'configure PolicyKit' 'sudo -E dotdrop install -p polkit' \
     'configuring PolicyKit'

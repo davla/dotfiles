@@ -156,15 +156,15 @@ case "$HOSTNAME" in
             handbrake-gtk libreoffice-calc libreoffice-impress \
             libreoffice-writer gnome-mahjongg kid3 quadrapassel remmina \
             simple-scan slack-desktop skypeforlinux solaar soundconverter \
-            spotify-client system-config-printer thunderbird transmission-gtk \
-            tuxguitar virtualbox-6.0 visualboyadvance vlc
+            system-config-printer thunderbird transmission-gtk tuxguitar \
+            virtualbox-6.0 visualboyadvance vlc
             ;;
 esac
 
 apt-get install atom baobab blueman catfish code evince firefox galculator \
     gdebi geany gnome-clocks gparted hardinfo parcellite pavucontrol \
-    recordmydesktop gtk-recordmydesktop seahorse synaptic viewnior \
-    xfce4-screenshooter
+    recordmydesktop gtk-recordmydesktop seahorse spotify-client synaptic \
+    viewnior xfce4-screenshooter
 
 # Dotfiles
 sudo -u "$USER_NAME" dotdrop install -p gui
@@ -186,6 +186,10 @@ case "$HOSTNAME" in
             # --no-install-recommends prevents node from being installed
             apt-get install --no-install-recommends yarn
             ;;
+
+    'work')
+        apt-get install cppcheck libasound2-dev libssl-dev libudev-dev valgrind
+        ;;
 esac
 
 apt-get install autoconf automake build-essential cmake command-not-found \

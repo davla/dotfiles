@@ -9,12 +9,8 @@
 # Keys
 set $mod Mod4
 set $mod_shifter Control
-
-# Directional pad
-set $up p
-set $right apostrophe
-set $down semicolon
-set $left l
+set $mod_reset Shift
+set $mod_float f
 
 # Misc
 set $term xfce4-terminal
@@ -51,54 +47,73 @@ gaps outer 0
 #######################################
 
 # Change focus
-bindsym $mod+$up focus up
-bindsym $mod+$right focus right
-bindsym $mod+$down focus down
-bindsym $mod+$left focus left
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 bindsym $mod+Down focus down
 bindsym $mod+Left focus left
 
-# Move focused window
-bindsym $mod+Shift+$up move up
-bindsym $mod+Shift+$right move right
-bindsym $mod+Shift+$down move down
-bindsym $mod+Shift+$left move left
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Left move left
-
 # Kill focused window
 bindsym $mod+q kill
 
 #######################################
-# Tiling windows
+# Container configuration
 #######################################
 
-# Focus
-bindsym $mod+x focus parent
-bindsym $mod+c focus child
+# Container focus, split, layout, float and resize
+bindsym $mod+$mod_shifter+e mode "containers"
+mode "containers" {
+    # Focus
+    bindsym p focus parent
+    bindsym c focus child
+    bindsym Up focus up
+    bindsym Right focus right
+    bindsym Down focus down
+    bindsym Left focus left
 
-# Split
-bindsym $mod+a split h
-bindsym $mod+s split v
+    # Split
+    bindsym h split h
+    bindsym v split v
 
-# Change container layout (stacked, tabbed, toggle split)
-bindsym $mod+y layout stacking
-bindsym $mod+h layout tabbed
-bindsym $mod+d layout toggle split
+    # Layout
+    bindsym a layout stacking
+    bindsym t layout tabbed
+    bindsym s layout toggle split
 
-# Enter fullscreen mode for the focused container
-bindsym $mod+b fullscreen toggle
+    # Enter fullscreen mode for the focused container
+    bindsym l fullscreen toggle
+
+    # Float
+    bindsym $mod_float focus mode_toggle
+    bindsym Shift+$mod_float floating toggle
+
+    # Move
+    bindsym Shift+Up move up
+    bindsym Shift+Right move right
+    bindsym Shift+Down move down
+    bindsym Shift+Left move left
+    bindsym Shift+c move position center
+
+    # Resize
+    bindsym ctrl+Up resize shrink height 10 px or 10 ppt
+    bindsym ctrl+Right resize grow width 10 px or 10 ppt
+    bindsym ctrl+Down resize grow height 10 px or 10 ppt
+    bindsym ctrl+Left resize shrink width 10 px or 10 ppt
+
+    # Kill focused window
+    bindsym q kill
+
+    # back to normal: Enter or Escape or mode-enabling shortcut
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+$mod_shifter+r mode "default"
+}
 
 #######################################
 # Floating windows
 #######################################
 
-# Floating modifier
-set $float z
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
 
 # Floating prefixes
 set $float_prefix float
@@ -116,13 +131,6 @@ set_from_resource $floating_height i3wm.FloatingHeight 550
 # Editor floating size (from Xresources to accustom HiDPI)
 set_from_resource $editor_width i3wm.EditorWidth 1000
 set_from_resource $editor_height i3wm.EditorHeight 850
-
-# Floating toggler
-bindsym $mod+$float focus mode_toggle
-bindsym $mod+Shift+$float floating toggle
-
-# Use Mouse+$mod to drag floating windows to their wanted position
-floating_modifier $mod
 
 # Global floating settings
 for_window [title="^$float_prefix"] floating enable, \
@@ -154,29 +162,41 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
+# Workspace shortcut key
+set $ws1key a
+set $ws2key s
+set $ws3key d
+set $ws4key f
+set $ws5key g
+set $ws6key h
+set $ws7key j
+set $ws8key k
+set $ws9key l
+set $ws10key semicolon
+
 # switch to workspace
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace $ws8
-bindsym $mod+9 workspace $ws9
-bindsym $mod+0 workspace $ws10
+bindsym $mod+$ws1key workspace $ws1
+bindsym $mod+$ws2key workspace $ws2
+bindsym $mod+$ws3key workspace $ws3
+bindsym $mod+$ws4key workspace $ws4
+bindsym $mod+$ws5key workspace $ws5
+bindsym $mod+$ws6key workspace $ws6
+bindsym $mod+$ws7key workspace $ws7
+bindsym $mod+$ws8key workspace $ws8
+bindsym $mod+$ws9key workspace $ws9
+bindsym $mod+$ws10key workspace $ws10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $ws1; workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2; workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3; workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4; workspace $ws4
-bindsym $mod+Shift+5 move container to workspace $ws5; workspace $ws5
-bindsym $mod+Shift+6 move container to workspace $ws6; workspace $ws6
-bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7
-bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
-bindsym $mod+Shift+9 move container to workspace $ws9; workspace $ws9
-bindsym $mod+Shift+0 move container to workspace $ws10; workspace $ws10
+bindsym $mod+Shift+$ws1key move container to workspace $ws1; workspace $ws1
+bindsym $mod+Shift+$ws2key move container to workspace $ws2; workspace $ws2
+bindsym $mod+Shift+$ws3key move container to workspace $ws3; workspace $ws3
+bindsym $mod+Shift+$ws4key move container to workspace $ws4; workspace $ws4
+bindsym $mod+Shift+$ws5key move container to workspace $ws5; workspace $ws5
+bindsym $mod+Shift+$ws6key move container to workspace $ws6; workspace $ws6
+bindsym $mod+Shift+$ws7key move container to workspace $ws7; workspace $ws7
+bindsym $mod+Shift+$ws8key move container to workspace $ws8; workspace $ws8
+bindsym $mod+Shift+$ws9key move container to workspace $ws9; workspace $ws9
+bindsym $mod+Shift+$ws10key move container to workspace $ws10; workspace $ws10
 
 # Assigning apps to workspaces
 assign [class="Atom"] $ws1
@@ -205,29 +225,6 @@ bindsym $mod+Shift+$scratchpad move scratchpad
 # Global scratchpad settings
 for_window [instance="^$scratchpad_prefix"] move scratchpad
 for_window [title="^$scratchpad_prefix"] move scratchpad
-
-#######################################
-# Resize
-#######################################
-
-# resize window (you can also use the mouse for that)
-mode "resize" {
-    bindsym $up resize shrink height 10 px or 10 ppt
-    bindsym $right resize grow width 10 px or 10 ppt
-    bindsym $down resize grow height 10 px or 10 ppt
-    bindsym $left resize shrink width 10 px or 10 ppt
-    bindsym Up resize shrink height 10 px or 10 ppt
-    bindsym Right resize grow width 10 px or 10 ppt
-    bindsym Down resize grow height 10 px or 10 ppt
-    bindsym Left resize shrink width 10 px or 10 ppt
-
-    # back to normal: Enter or Escape or mode-enabling shortcut
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-    bindsym $mod+$mod_shifter+r mode "default"
-}
-
-bindsym $mod+$mod_shifter+r mode "resize"
 
 #######################################
 # Reset
@@ -276,19 +273,18 @@ bar {
 set $notification_duration 1000
 set $step 5
 
+bindsym $mod+$mod_shifter+c mode "controls"
 mode "controls" {
     # Volume control
-    bindsym $left exec volume -np -d $step -e $notification_duration
-    bindsym $right exec volume -npl 100 -i $step -e $notification_duration
-    bindsym $down exec volume -nm -e $notification_duration
+    bindsym Left exec volume -np -d $step -e $notification_duration
+    bindsym Right exec volume -npl 100 -i $step -e $notification_duration
+    bindsym Down exec volume -nm -e $notification_duration
 
     # back to normal: Enter or Escape or mode-enabling shortcut
     bindsym Return mode "default"
     bindsym Escape mode "default"
     bindsym $mod+$mod_shifter+c mode "default"
 }
-
-bindsym $mod+$mod_shifter+c mode "controls"
 
 #######################################
 # Application shortcuts
@@ -300,17 +296,17 @@ bindsym $mod+Tab exec $term
 bindsym $mod+Control+Tab exec $term --title $startup_term_title
 bindsym $mod+Shift+Tab [title="$sp_term_title"] scratchpad show
 bindsym $mod+Shift+e exec $term --title $calc_title -e lua
-bindsym $mod+f exec thunar
-bindsym $mod+k exec firefox https://keep.google.com/#home
-bindsym $mod+o exec geany --name=$editor_title
-bindsym $mod+Shift+o exec geany
+bindsym $mod+u exec thunar
+bindsym $mod+i exec firefox https://keep.google.com/#home
+bindsym $mod+y exec geany --name=$editor_title
+bindsym $mod+Shift+y exec geany
 bindsym $mod+space exec i3-dmenu-desktop
 bindsym $mod+Shift+space exec dmenu_run
 bindsym $mod+w exec firefox
 
 {%@@ if env['HOST'] == 'personal' -@@%}
 
-bindsym $mod+comma exec firefox https://calendar.google.com/calendar/r
+bindsym $mod+o exec firefox https://calendar.google.com/calendar/r
 bindsym $mod+e exec telegram
 bindsym $mod+t exec thunderbird
 

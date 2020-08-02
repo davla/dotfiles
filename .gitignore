@@ -6,3 +6,8 @@
 # encrypted files
 yaml/**/private.yaml
 dotfiles/config/zsh/plugins/dotfiles/warprc.work
+
+# VSCode
+.vscode/
+!.vscode/extension.json
+!.vscode/settings.json

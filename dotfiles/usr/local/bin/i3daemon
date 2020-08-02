@@ -6,20 +6,23 @@ from i3ipc.aio import Connection
 from i3ipc import Event
 
 
-def print_node(node):
+def represent_node(node):
+    text = node.name or node.layout
     color = '\033[92m' if node.focused else ''
-    return f'{color}{node.name}\033[0m'
+    return f'{color}{text}\033[0m'
 
-def out_tree(tree, *, indent_level=0):
-    for child in tree.nodes:
-        print(f'{" " * 2 * indent_level}' + print_node(child))
-    for child in tree.nodes:
-        out_tree(child, indent_level=indent_level + 1)
 
-async def print_tree(i3, event):
+def print_tree(tree, *, indent_level=0):
+    for child in tree.nodes:
+        print(f'{" " * 2 * indent_level}{represent_node(child)}')
+    for child in tree.nodes:
+        print_tree(child, indent_level=indent_level + 1)
+
+
+async def on_tree_change(i3, event):
     print('\033c')
     tree = await i3.get_tree()
-    out_tree(tree.find_focused().workspace())
+    print_tree(tree.find_focused().workspace())
 
 
 async def on_mode_change(i3, event):
@@ -32,14 +35,15 @@ async def on_mode_change(i3, event):
         print(child.border)
         # await child.command(command)
 
-async def i3daemon():
+
+async def i3_tree_drawer():
     i3 = await Connection().connect()
     # i3.on(Event.MODE, on_mode_change)
-    i3.on(Event.WINDOW, print_tree)
-    i3.on(Event.TICK, print_tree)
+    i3.on(Event.WINDOW, on_tree_change)
+    i3.on(Event.TICK, on_tree_change)
     await i3.main()
 
 
 loop = asyncio.get_event_loop()
-loop.run_until_complete(i3daemon())
+loop.run_until_complete(i3_tree_drawer())
 loop.close()

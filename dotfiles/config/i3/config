@@ -141,8 +141,8 @@ for_window [floating] move position center
 bindsym $mod+$mode_shifter_key+e mode "containers"
 mode "containers" {
     # Focus
-    bindsym p focus parent
-    bindsym c focus child
+    bindsym p focus parent; exec --no-startup-id "i3-msg -t send_tick"
+    bindsym c focus child; exec --no-startup-id "i3-msg -t send_tick"
     bindsym Up focus up
     bindsym Right focus right
     bindsym Down focus down

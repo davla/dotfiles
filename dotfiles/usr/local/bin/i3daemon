@@ -6,13 +6,37 @@ from i3ipc.aio import Connection
 from i3ipc import Event
 
 
-def on_mode_change(i3, event):
-    print(f'Mode changed to: {event.change}')
+def print_node(node):
+    color = '\033[92m' if node.focused else ''
+    return f'{color}{node.name}\033[0m'
 
+def out_tree(tree, *, indent_level=0):
+    for child in tree.nodes:
+        print(f'{" " * 2 * indent_level}' + print_node(child))
+    for child in tree.nodes:
+        out_tree(child, indent_level=indent_level + 1)
+
+async def print_tree(i3, event):
+    print('\033c')
+    tree = await i3.get_tree()
+    out_tree(tree.find_focused().workspace())
+
+
+async def on_mode_change(i3, event):
+    border_width = '1' if event.change == 'containers' else '0'
+    command = f'border pixel {border_width}'
+
+    tree = await i3.get_tree()
+    workspace = tree.find_focused().workspace()
+    for child in workspace.descendants():
+        print(child.border)
+        # await child.command(command)
 
 async def i3daemon():
     i3 = await Connection().connect()
-    i3.on(Event.MODE, on_mode_change)
+    # i3.on(Event.MODE, on_mode_change)
+    i3.on(Event.WINDOW, print_tree)
+    i3.on(Event.TICK, print_tree)
     await i3.main()
 
 

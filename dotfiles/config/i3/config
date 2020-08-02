@@ -149,20 +149,20 @@ mode "containers" {
     bindsym Left focus left
 
     # Split
-    bindsym h split h
-    bindsym v split v
+    bindsym h split h; exec --no-startup-id "i3-msg -t send_tick"
+    bindsym v split v; exec --no-startup-id "i3-msg -t send_tick"
 
     # Layout
-    bindsym a layout stacking
-    bindsym t layout tabbed
-    bindsym s layout toggle split
+    bindsym a layout stacking; exec --no-startup-id "i3-msg -t send_tick"
+    bindsym t layout tabbed; exec --no-startup-id "i3-msg -t send_tick"
+    bindsym s layout toggle split; exec --no-startup-id "i3-msg -t send_tick"
 
     # Fullscreen
     bindsym l fullscreen toggle
 
     # Float
-    bindsym $float_key focus mode_toggle
-    bindsym Shift+$float_key floating toggle
+    bindsym $mod_float focus mode_toggle; exec --no-startup-id "i3-msg -t send_tick"
+    bindsym Shift+$mod_float floating toggle; exec --no-startup-id "i3-msg -t send_tick"
 
     # Move
     bindsym Shift+Up move up

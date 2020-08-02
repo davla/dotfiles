@@ -15,7 +15,6 @@ def represent_node(node):
 def print_tree(tree, *, indent_level=0):
     for child in tree.nodes:
         print(f'{" " * 2 * indent_level}{represent_node(child)}')
-    for child in tree.nodes:
         print_tree(child, indent_level=indent_level + 1)
 
 

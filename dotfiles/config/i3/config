@@ -17,9 +17,9 @@ set $mode_shifter_key Control
 # Variables
 set $term xfce4-terminal
 
-# Floating titles
-set $calc_title floating-calculator
-set $editor_title floating-editor
+# Application instances titles
+set $calc_title calculator
+set $editor_title scratchpad-editor
 set $sp_term_title scratchpad-terminal
 
 bindsym $mod+Shift+e exec $term --title $calc_title -e lua
@@ -103,19 +103,10 @@ bindsym $mod+Shift+$ws10key move container to workspace $ws10; workspace $ws10
 
 # Variables
 set $scratchpad_key r
-set $scratchpad_title_prefix scratchpad
 
 # Scratchpad keybindings
 bindsym $mod+$scratchpad_key scratchpad show
 bindsym $mod+Shift+$scratchpad_key move scratchpad
-
-# Global scratchpad settings
-for_window [instance="^$scratchpad_title_prefix"] move scratchpad
-for_window [title="^$scratchpad_title_prefix"] floating enable, \
-    resize set $floating_width $floating_height
-for_window [title="^$scratchpad_title_prefix"] move scratchpad
-for_window [instance="^$scratchpad_title_prefix"] floating enable, \
-    resize set $floating_width $floating_height
 
 #######################################
 # Window controls
@@ -132,6 +123,11 @@ bindsym $mod+Left focus left
 
 # Kill focused window
 bindsym $mod+q kill
+
+# Floating windows
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+for_window [floating] move position center
 
 # Container focus, split, layout, float and resize
 bindsym $mod+$mode_shifter_key+e mode "containers"
@@ -182,24 +178,6 @@ mode "containers" {
     bindsym $mod+$mode_shifter_key+e mode "default"
 }
 
-#######################################
-# Floating windows
-#######################################
-
-# Use Mouse+$mod to drag floating windows to their wanted position
-floating_modifier $mod
-
-# Floating prefixes
-set $float_prefix float
-
-# Prefixed floating default sizes (from Xresources to accustom HiDPI)
-set_from_resource $floating_width i3wm.FloatingWidth 900
-set_from_resource $floating_height i3wm.FloatingHeight 550
-
-# Global floating settings
-for_window [floating] move position center, \
-    resize set $floating_width $floating_height
-
 ########################################
 # Application configuration
 ########################################
@@ -215,11 +193,24 @@ assign [class="thunderbird"] "5: mail"
 for_window [class="Atom"] focus
 for_window [class="Code"] focus
 
+# Prefixed floating default sizes (from Xresources to accustom HiDPI)
+set_from_resource $floating_width i3wm.FloatingWidth 900
+set_from_resource $floating_height i3wm.FloatingHeight 550
+
+# Calculator
+for_window [instance="$calc_title"] floating enable, \
+    resize set $floating_width $floating_height
+
 # Floating editor
 set_from_resource $editor_width i3wm.EditorWidth 1000
 set_from_resource $editor_height i3wm.EditorHeight 850
 for_window [instance="$editor_title"] floating enable, \
     resize set $editor_width $editor_height
+
+# Scratchpad terminal
+for_window [title="$sp_term_title"] floating enable, \
+    resize set $floating_width $floating_height, \
+    move scratchpad
 
 # Spotify
 set_from_resource $spotify_width i3wm.SpotifyWidth 1500

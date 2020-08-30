@@ -17,7 +17,14 @@ set $mode_shifter_key Control
 # Variables
 set $term xfce4-terminal
 
-# Application instances titles
+# Command criteria
+set $atom_criterion class="Atom"
+set $scratchpad_term_criterion title="scratchpad-terminal"
+set $spotify_criterion class="Spotify"
+set $telegram_criterion class="TelegramDesktop"
+set $vscode_criterion class="Code"
+
+# Application instance titles
 set $calc_title calculator
 set $editor_title scratchpad-editor
 set $sp_term_title scratchpad-terminal
@@ -31,9 +38,9 @@ bindsym $mod+y exec geany --name=$editor_title
 bindsym $mod+Escape exec halt -p
 bindsym $mod+F5 exec reboot
 bindsym $mod+Tab exec $term
-bindsym $mod+Shift+Tab [title="$sp_term_title"] scratchpad show
+bindsym $mod+Shift+Tab [$scratchpad_term_criterion] scratchpad show
 bindsym $mod+u exec thunar
-bindsym $mod+p exec pgrep spotify && i3-msg '[class="Spotify"] scratchpad show' || spotify
+bindsym $mod+p exec pgrep spotify && i3-msg '[$spotify_criterion] scratchpad show' || spotify
 
 {%@@ if env['HOST'] == 'personal' -@@%}
 
@@ -183,15 +190,15 @@ mode "containers" {
 ########################################
 
 # Assigning applications to workspaces
-assign [class="Atom"] "1: coding"
-assign [class="Code"] "1: coding"
+assign [$atom_criterion] "1: coding"
+assign [$vscode_criterion] "1: coding"
 assign [class="Firefox"] "2: browser"
 assign [class="TelegramDesktop"] 4
 assign [class="thunderbird"] "5: mail"
 
 # Switch to assigned workspace by focusing newly created windows
-for_window [class="Atom"] focus
-for_window [class="Code"] focus
+for_window [$atom_criterion] focus
+for_window [$vscode_criterion] focus
 
 # Prefixed floating default sizes (from Xresources to accustom HiDPI)
 set_from_resource $floating_width i3wm.FloatingWidth 900
@@ -208,14 +215,14 @@ for_window [instance="$editor_title"] floating enable, \
     resize set $editor_width $editor_height
 
 # Scratchpad terminal
-for_window [title="$sp_term_title"] floating enable, \
+for_window [$scratchpad_term_criterion] floating enable, \
     resize set $floating_width $floating_height, \
     move scratchpad
 
 # Spotify
 set_from_resource $spotify_width i3wm.SpotifyWidth 1500
 set_from_resource $spotify_height i3wm.SpotifyHeight 850
-for_window [class="Spotify"] floating enable, \
+for_window [$spotify_criterion] floating enable, \
     resize set $spotify_width $spotify_height
 
 #######################################

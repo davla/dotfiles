@@ -46,7 +46,7 @@ bindsym $mod+p exec pgrep spotify && i3-msg '[$spotify_criterion] scratchpad sho
 
 bindsym $mod+o exec firefox https://calendar.google.com/calendar/r; workspace "2: browser"
 bindsym $mod+i exec firefox https://keep.google.com/#home; workspace "2: browser"
-bindsym $mod+e exec telegram; workspace 4
+bindsym $mod+e exec pgrep telegram && i3-msg '[$telegram_criterion] scratchpad show' || telegram
 bindsym $mod+t exec thunderbird; workspace "5: mail"
 
 {%@@ endif -@@%}
@@ -193,7 +193,6 @@ mode "containers" {
 assign [$atom_criterion] "1: coding"
 assign [$vscode_criterion] "1: coding"
 assign [class="Firefox"] "2: browser"
-assign [class="TelegramDesktop"] 4
 assign [class="thunderbird"] "5: mail"
 
 # Switch to assigned workspace by focusing newly created windows
@@ -224,6 +223,12 @@ set_from_resource $spotify_width i3wm.SpotifyWidth 1500
 set_from_resource $spotify_height i3wm.SpotifyHeight 850
 for_window [$spotify_criterion] floating enable, \
     resize set $spotify_width $spotify_height
+
+# Telegram
+set_from_resource $telegram_width i3wm.TelegramWidth 900
+set_from_resource $telegram_height i3wm.TelegramHeight 800
+for_window [$telegram_criterion] floating enable, \
+    resize set $telegram_width $telegram_height
 
 #######################################
 # Defaults

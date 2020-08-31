@@ -11,6 +11,8 @@ i3wm.FloatingWidth: {{@@ hidpi_i3_floating_width @@}}
 i3wm.FloatingHeight: {{@@ hidpi_i3_floating_height @@}}
 i3wm.EditorWidth: {{@@ hidpi_i3_editor_height @@}}
 i3wm.EditorHeight: {{@@ hidpi_i3_editor_height @@}}
+i3wm.SpotifyWidth: {{@@ hidpi_i3_spotify_width @@}}
+i3wm.SpotifyHeight: {{@@ hidpi_i3_spotify_height @@}}
 
 ! Cursor size
 Xcursor.size: {{@@ hidpi_cursor_size @@}}

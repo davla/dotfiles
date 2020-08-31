@@ -10,6 +10,9 @@
 set $mod Mod4
 set $mode_shifter_key Control
 
+# Command aliases
+set $scratchpad_show scratchpad show, move position center
+
 #######################################
 # Application shortcuts
 #######################################
@@ -38,15 +41,15 @@ bindsym $mod+y exec geany --name=$editor_title
 bindsym $mod+Escape exec halt -p
 bindsym $mod+F5 exec reboot
 bindsym $mod+Tab exec $term
-bindsym $mod+Shift+Tab [$scratchpad_term_criterion] scratchpad show
+bindsym $mod+Shift+Tab [$scratchpad_term_criterion] $scratchpad_show
 bindsym $mod+u exec thunar
-bindsym $mod+p exec pgrep spotify && i3-msg '[$spotify_criterion] scratchpad show' || spotify
+bindsym $mod+p exec --no-startup-id "pgrep spotify && i3-msg '[class=\\"Spotify\\"] $scratchpad_show' || spotify"
 
 {%@@ if env['HOST'] == 'personal' -@@%}
 
 bindsym $mod+o exec firefox https://calendar.google.com/calendar/r; workspace "2: browser"
 bindsym $mod+i exec firefox https://keep.google.com/#home; workspace "2: browser"
-bindsym $mod+e exec pgrep telegram && i3-msg '[$telegram_criterion] scratchpad show' || telegram
+bindsym $mod+e exec "pgrep telegram && i3-msg '[class=\\"TelegramDesktop\\"] $scratchpad_show' || telegram"
 bindsym $mod+t exec thunderbird; workspace "5: mail"
 
 {%@@ endif -@@%}
@@ -112,7 +115,7 @@ bindsym $mod+Shift+$ws10key move container to workspace $ws10; workspace $ws10
 set $scratchpad_key r
 
 # Scratchpad keybindings
-bindsym $mod+$scratchpad_key scratchpad show
+bindsym $mod+$scratchpad_key $scratchpad_show
 bindsym $mod+Shift+$scratchpad_key move scratchpad
 
 #######################################

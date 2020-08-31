@@ -16,6 +16,8 @@ variables:
   i3_floating_height: 550
   i3_editor_width: 1000
   i3_editor_height: 850
+  i3_spotify_width: 1500
+  i3_spotify_height: 850
 
   # Low (normal) DPI values
   lodpi_cursor_size: '{{@@ cursor_size @@}}'
@@ -30,6 +32,8 @@ variables:
   lodpi_i3_floating_height: '{{@@ i3_floating_height @@}}'
   lodpi_i3_editor_width: '{{@@ i3_editor_width @@}}'
   lodpi_i3_editor_height: '{{@@ i3_editor_height @@}}'
+  lodpi_i3_spotify_width: '{{@@ i3_spotify_width @@}}'
+  lodpi_i3_spotify_height: '{{@@ i3_spotify_height @@}}'
   lodpi_name: regular
 
   # High DPI values
@@ -45,4 +49,6 @@ variables:
   hidpi_i3_floating_height: '{{@@ i3_floating_height * 2 @@}}'
   hidpi_i3_editor_width: '{{@@ i3_editor_width * 2 @@}}'
   hidpi_i3_editor_height: '{{@@ i3_editor_height * 2 @@}}'
+  hidpi_i3_spotify_width: '{{@@ i3_spotify_width * 2 @@}}'
+  hidpi_i3_spotify_height: '{{@@ i3_spotify_height * 2 @@}}'
   hidpi_name: high

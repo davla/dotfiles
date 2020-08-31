@@ -15,6 +15,8 @@ i3wm.FloatingWidth: {{@@ lodpi_i3_floating_width @@}}
 i3wm.FloatingHeight: {{@@ lodpi_i3_floating_height @@}}
 i3wm.EditorWidth: {{@@ lodpi_i3_editor_height @@}}
 i3wm.EditorHeight: {{@@ lodpi_i3_editor_height @@}}
+i3wm.SpotifyWidth: {{@@ lodpi_i3_spotify_width @@}}
+i3wm.SpotifyHeight: {{@@ lodpi_i3_spotify_height @@}}
 
 ! Look-and-feel resources
 Net.IconThemeName: {{@@ icon_theme @@}}

@@ -14,13 +14,13 @@ set $mode_shifter_key Control
 # Application shortcuts
 #######################################
 
+# Variables
+set $term xfce4-terminal
+
 # Floating titles
 set $calc_title floating-calculator
 set $editor_title floating-editor
 set $sp_term_title scratchpad-terminal
-
-set $term xfce4-terminal
-set $startup_term_title startup-terminal
 
 bindsym $mod+Shift+e exec $term --title $calc_title -e lua
 bindsym $mod+space exec i3-dmenu-desktop
@@ -331,4 +331,4 @@ exec dex -ae i3
 exec $term --title $sp_term_title
 
 # Startup terminal
-exec $term --title $startup_term_title
+exec i3-msg 'workspace "3: terminal"; exec $term'

@@ -21,11 +21,11 @@ set $scratchpad_show scratchpad show, move position center
 set $term xfce4-terminal
 
 # Command criteria
-set $atom_criterion class="Atom"
+set $atom_criterion instance="atom"
 set $scratchpad_term_criterion title="scratchpad-terminal"
-set $spotify_criterion class="Spotify"
-set $telegram_criterion class="TelegramDesktop"
-set $vscode_criterion class="Code"
+set $spotify_criterion instance="spotify"
+set $telegram_criterion instance="telegram"
+set $vscode_criterion instance="code"
 
 # Application instance titles
 set $calc_title calculator
@@ -43,13 +43,13 @@ bindsym $mod+F5 exec reboot
 bindsym $mod+Tab exec $term
 bindsym $mod+Shift+Tab [$scratchpad_term_criterion] $scratchpad_show
 bindsym $mod+u exec thunar
-bindsym $mod+p exec --no-startup-id "pgrep spotify && i3-msg '[class=\\"Spotify\\"] $scratchpad_show' || spotify"
+bindsym $mod+p exec --no-startup-id "pgrep spotify && i3-msg '[instance=\\"spotify\\"] $scratchpad_show' || spotify"
 
 {%@@ if env['HOST'] == 'personal' -@@%}
 
 bindsym $mod+o exec firefox https://calendar.google.com/calendar/r; workspace "2: browser"
 bindsym $mod+i exec firefox https://keep.google.com/#home; workspace "2: browser"
-bindsym $mod+e exec "pgrep telegram && i3-msg '[class=\\"TelegramDesktop\\"] $scratchpad_show' || telegram"
+bindsym $mod+e exec "pgrep telegram && i3-msg '[instance=\\"telegram\\"] $scratchpad_show' || telegram"
 bindsym $mod+t exec thunderbird; workspace "5: mail"
 
 {%@@ endif -@@%}
@@ -207,7 +207,7 @@ set_from_resource $floating_width i3wm.FloatingWidth 900
 set_from_resource $floating_height i3wm.FloatingHeight 550
 
 # Calculator
-for_window [instance="$calc_title"] floating enable, \
+for_window [title="$calc_title"] floating enable, \
     resize set $floating_width $floating_height
 
 # Floating editor

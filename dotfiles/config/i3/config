@@ -151,11 +151,11 @@ for_window [instance="$editor_title"] resize set $editor_width $editor_height
 
 # Define names for default workspaces for which we configure key bindings later
 # on. We use variables to avoid repeating the names in multiple places.
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
+set $ws1 "1: coding"
+set $ws2 "2: browser"
+set $ws3 "3: terminal"
 set $ws4 "4"
-set $ws5 "5"
+set $ws5 "5: mail"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
@@ -198,13 +198,13 @@ bindsym $mod+Shift+$ws8key move container to workspace $ws8; workspace $ws8
 bindsym $mod+Shift+$ws9key move container to workspace $ws9; workspace $ws9
 bindsym $mod+Shift+$ws10key move container to workspace $ws10; workspace $ws10
 
-# Assigning apps to workspaces
-assign [class="Atom"] $ws1
-assign [class="Code"] $ws1
-assign [class="Firefox"] $ws2
-assign [title="$startup_term_title"] $ws3
-assign [class="TelegramDesktop"] $ws4
-assign [class="thunderbird"] $ws5
+# Assigning applications to workspaces
+assign [class="Atom"] "1: coding"
+assign [class="Code"] "1: coding"
+assign [class="Firefox"] "2: browser"
+assign [title="$startup_term_title"] "3: terminal"
+assign [class="TelegramDesktop"] 4
+assign [class="thunderbird"] "5: mail"
 for_window [class="Atom"] focus
 for_window [class="Firefox"] focus
 for_window [title="$startup_term_title"] focus
@@ -245,6 +245,7 @@ bar {
     position top
     separator_symbol "  "
     status_command i3blocks
+    strip_workspace_name yes
 
     # Disabling switching workspaces with scrolling
     bindsym button4 nop

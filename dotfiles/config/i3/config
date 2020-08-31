@@ -38,8 +38,8 @@ bindsym $mod+Shift+space exec dmenu_run
 bindsym $mod+w exec firefox; workspace "2: browser"
 bindsym $mod+Shift+y exec geany
 bindsym $mod+y exec geany --name=$editor_title
-bindsym $mod+Escape exec halt -p
-bindsym $mod+F5 exec reboot
+bindsym $mod+Escape exec --no-startup-id halt -p
+bindsym $mod+F5 exec --no-startup-id reboot
 bindsym $mod+Tab exec $term
 bindsym $mod+Shift+Tab [$scratchpad_term_criterion] $scratchpad_show
 bindsym $mod+u exec thunar
@@ -49,7 +49,7 @@ bindsym $mod+p exec --no-startup-id "pgrep spotify && i3-msg '[instance=\\"spoti
 
 bindsym $mod+o exec firefox https://calendar.google.com/calendar/r; workspace "2: browser"
 bindsym $mod+i exec firefox https://keep.google.com/#home; workspace "2: browser"
-bindsym $mod+e exec "pgrep telegram && i3-msg '[instance=\\"telegram\\"] $scratchpad_show' || telegram"
+bindsym $mod+e exec --no-startup-id "pgrep telegram && i3-msg '[instance=\\"telegram\\"] $scratchpad_show' || telegram"
 bindsym $mod+t exec thunderbird; workspace "5: mail"
 
 {%@@ endif -@@%}
@@ -310,7 +310,7 @@ bar {
 }
 
 # This is necessary to make the i3block Caps lock indicator work
-bindsym --release Caps_Lock exec pkill -SIGRTMIN+{{@@ caps_signal @@}} i3blocks
+bindsym --release Caps_Lock exec --no-startup-id pkill -SIGRTMIN+{{@@ caps_signal @@}} i3blocks
 
 #######################################
 # Reset
@@ -331,10 +331,10 @@ bindsym $mod+$i3_reset_key+v exec "i3-nagbar -t warning -m 'You pressed the exit
 #######################################
 
 # Autostart
-exec dex -ae i3
+exec --no-startup-id dex -ae i3
 
 # Scratchpad terminal
 exec $term --title $sp_term_title
 
 # Startup terminal
-exec i3-msg 'workspace "3: terminal"; exec $term'
+exec --no-startup-id i3-msg 'workspace "3: terminal"; exec $term'

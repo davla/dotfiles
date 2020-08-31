@@ -206,10 +206,7 @@ assign [title="$startup_term_title"] "3: terminal"
 assign [class="TelegramDesktop"] 4
 assign [class="thunderbird"] "5: mail"
 for_window [class="Atom"] focus
-for_window [class="Firefox"] focus
 for_window [title="$startup_term_title"] focus
-for_window [class="TelegramDesktop"] focus
-for_window [class="thunderbird"] focus
 
 #######################################
 # Scratchpad
@@ -291,25 +288,25 @@ mode "controls" {
 # Application shortcuts
 #######################################
 
+bindsym $mod+Shift+e exec $term --title $calc_title -e lua
+bindsym $mod+space exec i3-dmenu-desktop
+bindsym $mod+Shift+space exec dmenu_run
+bindsym $mod+w exec firefox; workspace "2: browser"
+bindsym $mod+Shift+y exec geany
+bindsym $mod+y exec geany --name=$editor_title
 bindsym $mod+Escape exec halt -p
 bindsym $mod+F5 exec reboot
 bindsym $mod+Tab exec $term
 bindsym $mod+Control+Tab exec $term --title $startup_term_title
 bindsym $mod+Shift+Tab [title="$sp_term_title"] scratchpad show
-bindsym $mod+Shift+e exec $term --title $calc_title -e lua
 bindsym $mod+u exec thunar
-bindsym $mod+i exec firefox https://keep.google.com/#home
-bindsym $mod+y exec geany --name=$editor_title
-bindsym $mod+Shift+y exec geany
-bindsym $mod+space exec i3-dmenu-desktop
-bindsym $mod+Shift+space exec dmenu_run
-bindsym $mod+w exec firefox
 
 {%@@ if env['HOST'] == 'personal' -@@%}
 
-bindsym $mod+o exec firefox https://calendar.google.com/calendar/r
-bindsym $mod+e exec telegram
-bindsym $mod+t exec thunderbird
+bindsym $mod+o exec firefox https://calendar.google.com/calendar/r; workspace "2: browser"
+bindsym $mod+i exec firefox https://keep.google.com/#home; workspace "2: browser"
+bindsym $mod+e exec telegram; workspace 4
+bindsym $mod+t exec thunderbird; workspace "5: mail"
 
 {%@@ endif -@@%}
 

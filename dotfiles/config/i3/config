@@ -58,8 +58,7 @@ bindsym $mod+t exec thunderbird; workspace "5: mail"
 # Workspaces
 #######################################
 
-# Define names for default workspaces for which we configure key bindings later
-# on. We use variables to avoid repeating the names in multiple places.
+# Workspace names
 set $ws1 "1: coding"
 set $ws2 "2: browser"
 set $ws3 "3: terminal"
@@ -71,7 +70,7 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
-# Workspace shortcut key
+# Workspace shortcut keys
 set $ws1key a
 set $ws2key s
 set $ws3key d
@@ -135,7 +134,6 @@ bindsym $mod+Left focus left
 bindsym $mod+q kill
 
 # Floating windows
-# Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 for_window [floating] move position center
 
@@ -159,7 +157,7 @@ mode "containers" {
     bindsym t layout tabbed
     bindsym s layout toggle split
 
-    # Enter fullscreen mode for the focused container
+    # Fullscreen
     bindsym l fullscreen toggle
 
     # Float
@@ -182,7 +180,7 @@ mode "containers" {
     # Kill focused window
     bindsym q kill
 
-    # back to normal: Enter or Escape or mode-enabling shortcut
+    # Back to normal: Enter or Escape or mode-enabling shortcut
     bindsym Return mode "default"
     bindsym Escape mode "default"
     bindsym $mod+$mode_shifter_key+e mode "default"
@@ -191,6 +189,10 @@ mode "containers" {
 ########################################
 # Application configuration
 ########################################
+
+# Variables
+set_from_resource $floating_width i3wm.FloatingWidth 900
+set_from_resource $floating_height i3wm.FloatingHeight 550
 
 # Assigning applications to workspaces
 assign [$atom_criterion] "1: coding"
@@ -202,15 +204,11 @@ assign [class="thunderbird"] "5: mail"
 for_window [$atom_criterion] focus
 for_window [$vscode_criterion] focus
 
-# Prefixed floating default sizes (from Xresources to accustom HiDPI)
-set_from_resource $floating_width i3wm.FloatingWidth 900
-set_from_resource $floating_height i3wm.FloatingHeight 550
-
 # Calculator
 for_window [title="$calc_title"] floating enable, \
     resize set $floating_width $floating_height
 
-# Floating editor
+# Scratchpad editor
 set_from_resource $editor_width i3wm.EditorWidth 1000
 set_from_resource $editor_height i3wm.EditorHeight 850
 for_window [instance="$editor_title"] floating enable, \
@@ -276,7 +274,7 @@ mode "controls" {
     bindsym Right exec volume -npl 100 -i $step -e $notification_duration
     bindsym Down exec volume -nm -e $notification_duration
 
-    # back to normal: Enter or Escape or mode-enabling shortcut
+    # Back to normal: Enter or Escape or mode-enabling shortcut
     bindsym Return mode "default"
     bindsym Escape mode "default"
     bindsym $mod+$mode_shifter_key+c mode "default"
@@ -319,11 +317,11 @@ bindsym --release Caps_Lock exec --no-startup-id pkill -SIGRTMIN+{{@@ caps_signa
 # Variables
 set $i3_reset_key Shift
 
-# reload the configuration file
+# Reload the configuration file
 bindsym $mod+$i3_reset_key+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+# Restart
 bindsym $mod+$i3_reset_key+x restart
-# exit i3 (logs you out of your X session)
+# Exit
 bindsym $mod+$i3_reset_key+v exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 #######################################

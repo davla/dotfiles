@@ -1,2 +1,2 @@
-{%@@ from 'config/gtk-2.0/gtkrc' import gtkrc @@%}
+{%@@ from 'config/gtk-2.0/gtkrc' import gtkrc with context @@%}
 {{@@ gtkrc(hidpi_cursor_size, hidpi_name) @@}}

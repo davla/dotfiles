@@ -17,7 +17,7 @@
     graph-all = {{@@ graph_all @@}}
     info = {{@@ info @@}}
     ls-aliases = config --get-regexp ^alias\\.
-    new-branch = {{@@ new_branch @@}}
+    branch-new = {{@@ new_branch @@}}
     squash = {{@@ squash @@}}
     unadd = {{@@ unadd @@}}
     unstash = {{@@ unstash @@}}
@@ -48,7 +48,8 @@
 
     # commit
     c = commit
-    ca = commit --amend
+    ca = commit --amend --no-edit
+    car = commit --amend
     cx = commit --fixup
 
     # diff
@@ -86,7 +87,8 @@
 
     # reset
     rs = reset
-    rsh = reset --hard
+    rsk = reset --keep
+    rsh = checkout --
     rsm = reset --mixed
 
     # squash

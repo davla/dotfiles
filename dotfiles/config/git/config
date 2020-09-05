@@ -1,5 +1,3 @@
-{%@@ set clean_force = 'clean -fd' @@%}
-{%@@ set clear = '!git reset --hard && git ' + clean_force @@%}
 {%@@ set graph_format = '%C(yellow)%h %C(green)[%ar] %Creset%s%C(red)%d%n' @@%}
 {%@@ set graph = "log --branches --remotes='origin' --remotes='upstream' "
     "--graph --format='%s'" | format(graph_format) @@%}
@@ -15,7 +13,6 @@
 
 [alias]
     # "new" commands
-    clear = {{@@ clear @@}}
     graph = {{@@ graph @@}}
     graph-all = {{@@ graph_all @@}}
     info = {{@@ info @@}}
@@ -30,13 +27,11 @@
     a = add
     aa = add --all
     ap = add --patch
-    apa = add --patch --all
 
     # branch
     b = branch
     ba = branch --all
     bd = branch -d
-    bD = branch -D
     bn = {{@@ new_branch @@}}
 
     # chekcout
@@ -48,9 +43,8 @@
     cpc = cherry-pick --continue
     cpn = cherry-pick --no-commit
 
-    # clean/clear
-    cf = {{@@ clean_force @@}}
-    cl = {{@@ clear @@}}
+    # clean
+    cf = clean -fd
 
     # commit
     c = commit
@@ -89,7 +83,6 @@
     rba = rebase --abort
     rbc = rebase --continue
     rbf = rebase --interactive --autosquash
-    rbi = rebase --interactive
 
     # reset
     rs = reset

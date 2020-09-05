@@ -178,6 +178,9 @@
 [pull]
     rebase = true
 
+[push]
+    default = upstream
+
 [tag]
     sort = -version:refname
 

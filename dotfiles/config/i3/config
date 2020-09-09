@@ -123,6 +123,7 @@ bindsym $mod+Shift+$scratchpad_key move scratchpad
 
 # Variables
 set $float_key f
+set $float_center_criterion window_type="dialog" window_type="splash"
 
 # Change focus
 bindsym $mod+Up focus up
@@ -135,7 +136,7 @@ bindsym $mod+q kill
 
 # Floating windows
 floating_modifier $mod
-for_window [floating] move position center
+for_window [floating $float_center_criterion] move position center
 
 # Container focus, split, layout, float and resize
 bindsym $mod+$mode_shifter_key+e mode "containers"

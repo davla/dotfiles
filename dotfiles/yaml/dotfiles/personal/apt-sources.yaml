@@ -11,6 +11,5 @@ dotfiles:
 - f_heroku.list
 - f_skype-stable.list
 - f_slack.list
-- f_spotify.list
 - f_virtualbox.list
 - f_yarn.list

@@ -1,12 +1,16 @@
-{%@@ set clean_force = 'clean -fd' @@%}
-{%@@ set clear = '!git reset --hard && git ' + clean_force @@%}
+{%@@ set date_format = '%d %b %Y' @@%}
+{%@@ set commit_display_format = "%C(yellow)[%h]%C(reset) %an - %ad "
+    "%C(green)(%ar)%C(red)%d%C(reset)%n%n    %s" @@%}
 {%@@ set graph_format = '%C(yellow)%h %C(green)[%ar] %Creset%s%C(red)%d%n' @@%}
+{%@@ set file_history = "log --patch --format='%s' -- "
+    | format(commit_display_format) @@%}
 {%@@ set graph = "log --branches --remotes='origin' --remotes='upstream' "
     "--graph --format='%s'" | format(graph_format) @@%}
 {%@@ set graph_all = "log --all --graph --format='%s'"
     | format(graph_format) @@%}
 {%@@ set info = 'status -sb' @@%}
 {%@@ set new_branch = 'checkout -qb' @@%}
+{%@@ set restore = 'checkout -q HEAD --' @@%}
 {%@@ set squash = 'merge --squash' @@%}
 {%@@ set unadd = 'reset HEAD --' @@%}
 {%@@ set unstash = 'stash pop' @@%}
@@ -15,12 +19,13 @@
 
 [alias]
     # "new" commands
-    clear = {{@@ clear @@}}
+    file-history = {{@@ file_history @@}}
     graph = {{@@ graph @@}}
     graph-all = {{@@ graph_all @@}}
     info = {{@@ info @@}}
     ls-aliases = config --get-regexp ^alias\\.
-    new-branch = {{@@ new_branch @@}}
+    branch-new = {{@@ new_branch @@}}
+    restore = {{@@ restore @@}}
     squash = {{@@ squash @@}}
     unadd = {{@@ unadd @@}}
     unstash = {{@@ unstash @@}}
@@ -30,13 +35,11 @@
     a = add
     aa = add --all
     ap = add --patch
-    apa = add --patch --all
 
     # branch
     b = branch
     ba = branch --all
     bd = branch -d
-    bD = branch -D
     bn = {{@@ new_branch @@}}
 
     # chekcout
@@ -48,13 +51,14 @@
     cpc = cherry-pick --continue
     cpn = cherry-pick --no-commit
 
-    # clean/clear
-    cf = {{@@ clean_force @@}}
-    cl = {{@@ clear @@}}
+    # clean
+    cf = clean -fd
 
     # commit
     c = commit
-    ca = commit --amend
+    ca = commit --amend --no-edit
+    caa = commit --all
+    car = commit --amend
     cx = commit --fixup
 
     # diff
@@ -63,6 +67,9 @@
 
     # fetch
     f = fetch
+
+    # file history
+    fh = {{@@ file_history @@}}
 
     # graph
     g = {{@@ graph @@}}
@@ -89,12 +96,18 @@
     rba = rebase --abort
     rbc = rebase --continue
     rbf = rebase --interactive --autosquash
-    rbi = rebase --interactive
 
     # reset
     rs = reset
-    rsh = reset --hard
+    rsk = reset --keep
     rsm = reset --mixed
+
+    # restore
+    rt = {{@@ restore @@}}
+
+    # show
+    sw = {{@@ "show --patch --stat --compact-summary --format='%s%%n'"
+        | format(commit_display_format) @@}}
 
     # squash
     sq = {{@@ squash @@}}
@@ -117,6 +130,9 @@
 [apply]
     ignoreWhitespace = false
     whitespace = fix
+
+[blame]
+    date = format:{{@@ date_format @@}}
 
 {%@@ if git_commit_gpg_sign -@@%}
 
@@ -150,6 +166,9 @@
 [help]
     autocorrect = 5
 
+[log]
+    date = format:{{@@ date_format @@}}
+
 [merge]
     log = 1
 
@@ -158,6 +177,9 @@
 
 [pull]
     rebase = true
+
+[push]
+    default = upstream
 
 [tag]
     sort = -version:refname

@@ -88,8 +88,8 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
             'spotify')
                 echo "Installing apt repository key for $REPO"
 
-                apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' \
-                    --recv-keys '931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90' \
+                apt-key adv --fetch-keys \
+                    'https://download.spotify.com/debian/pubkey.gpg' \
                     > /dev/null
                 ;;
 

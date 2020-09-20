@@ -1,4 +1,4 @@
-{%@@ from 'config/autorandr/scripts.d/dpi-values' import dpi_values @@%}
+{%@@ from 'config/autorandr/scripts.d/dpi-values' import dpi_values with context @@%}
 {{@@ dpi_values(
     eyes_theme='Default',
     dpi_name='HiDPI',

@@ -1,4 +1,4 @@
-{%@@ from 'config/dunst/dunstrc' import dunstrc @@%}
+{%@@ from 'config/dunst/dunstrc' import dunstrc with context @@%}
 {{@@ dunstrc(
     border_width=hidpi_dunst_border_width,
     dpi=hidpi_name,

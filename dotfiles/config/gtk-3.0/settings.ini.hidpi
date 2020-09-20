@@ -1,2 +1,2 @@
-{%@@ from 'config/gtk-3.0/settings.ini' import settings_ini @@%}
+{%@@ from 'config/gtk-3.0/settings.ini' import settings_ini with context @@%}
 {{@@ settings_ini(hidpi_cursor_size, hidpi_name) @@}}

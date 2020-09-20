@@ -1,11 +1,13 @@
 # DOTDROP
 
 [![Build Status](https://travis-ci.org/deadc0de6/dotdrop.svg?branch=master)](https://travis-ci.org/deadc0de6/dotdrop)
+[![Doc Status](https://readthedocs.org/projects/dotdrop/badge/?version=latest)](https://dotdrop.readthedocs.io/en/latest/?badge=latest)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 [![Coverage Status](https://coveralls.io/repos/github/deadc0de6/dotdrop/badge.svg?branch=master)](https://coveralls.io/github/deadc0de6/dotdrop?branch=master)
 [![PyPI version](https://badge.fury.io/py/dotdrop.svg)](https://badge.fury.io/py/dotdrop)
 [![AUR](https://img.shields.io/aur/version/dotdrop.svg)](https://aur.archlinux.org/packages/dotdrop)
 [![Python](https://img.shields.io/pypi/pyversions/dotdrop.svg)](https://pypi.python.org/pypi/dotdrop)
+[![Donate](https://img.shields.io/badge/donate-KoFi-blue.svg)](https://ko-fi.com/deadc0de6)
 
 *Save your dotfiles once, deploy them everywhere*
 
@@ -25,7 +27,7 @@ a slightly different version of some of the dotfiles.
 Features:
 
 * Sync once every dotfile on git for different usages
-* Allow dotfiles templating by leveraging [jinja2](http://jinja.pocoo.org/)
+* Allow dotfiles templating by leveraging [jinja2](https://palletsprojects.com/p/jinja/)
 * Dynamically generated dotfile contents with pre-defined variables
 * Comparison between deployed and stored dotfiles
 * Handling multiple profiles with different sets of dotfiles
@@ -37,8 +39,8 @@ Features:
 * Provide solutions for handling dotfiles containing sensitive information
 
 Check also the [blog post](https://deadc0de.re/articles/dotfiles.html),
-the [example](#getting-started), the [wiki](https://github.com/deadc0de6/dotdrop/wiki) or
-how [people are using dotdrop](https://github.com/deadc0de6/dotdrop/wiki/people-using-dotdrop)
+the [example](#getting-started), the [documentation](https://dotdrop.readthedocs.io/) or
+how [people are using dotdrop](https://dotdrop.readthedocs.io/en/latest/misc/people-using-dotdrop/)
 for more.
 
 Quick start:
@@ -81,7 +83,7 @@ you are cloning your dotfiles git tree from you'll have dotdrop shipped with it.
 
 Below instructions show how to install dotdrop as a submodule. For alternative
 installation instructions (with virtualenv, pypi, aur, snap, etc) see the
-[wiki installation page](https://github.com/deadc0de6/dotdrop/wiki/installation).
+[installation documentation](https://dotdrop.readthedocs.io/en/latest/installation/).
 
 Dotdrop is also available on
 * pypi: https://pypi.org/project/dotdrop/
@@ -128,7 +130,7 @@ Completion scripts exist for `bash`, `zsh` and `fish`, see [the related doc](com
 
 Create a new repository to store your dotfiles with dotdrop. *Init* or *clone*
 that new repository and
-[install dotdrop](https://github.com/deadc0de6/dotdrop/wiki/installation#as-a-submodule).
+[install dotdrop](https://dotdrop.readthedocs.io/en/latest/installation/#as-a-submodule).
 
 Then import any dotfiles (files or directories) you want to manage with dotdrop.
 You can either use the default profile (which resolves to the *hostname* of the host
@@ -176,7 +178,7 @@ profiles:
     - d_polybar
 ```
 For a description of the different fields and their use,
-see the [config doc](https://github.com/deadc0de6/dotdrop/wiki/config).
+see the [config doc](https://dotdrop.readthedocs.io/en/latest/config-format/).
 
 Commit and push your changes.
 
@@ -205,7 +207,7 @@ profiles:
     - d_polybar
 ```
 
-Then adapt any dotfile using the [templating](https://github.com/deadc0de6/dotdrop/wiki/templating)
+Then adapt any dotfile using the [templating](https://dotdrop.readthedocs.io/en/latest/templating/)
 feature (if needed). For example you might want different fonts sizes on polybar for the different
 hosts:
 
@@ -261,21 +263,21 @@ That's it, a single repository with all your dotfiles for your different hosts.
 
 You can then
 
-* [create actions](https://github.com/deadc0de6/dotdrop/wiki/usage-actions)
-* [use transformations](https://github.com/deadc0de6/dotdrop/wiki/usage-transformations)
-* [use variables](https://github.com/deadc0de6/dotdrop/wiki/config-variables)
-* [symlink dotfiles](https://github.com/deadc0de6/dotdrop/wiki/symlinked-dotfiles)
-* [and more](https://github.com/deadc0de6/dotdrop/wiki)
+* [create actions](https://dotdrop.readthedocs.io/en/latest/config-details/#entry-actions)
+* [use transformations](https://dotdrop.readthedocs.io/en/latest/config-details/#entry-transformations)
+* [use variables](https://dotdrop.readthedocs.io/en/latest/config/#variables)
+* [symlink dotfiles](https://dotdrop.readthedocs.io/en/latest/config/#symlink-dotfiles)
+* [and more](https://dotdrop.readthedocs.io)
 
-For more options see `dotdrop --help` and the [wiki](https://github.com/deadc0de6/dotdrop/wiki).
+For more options see `dotdrop --help` and the [documentation](https://dotdrop.readthedocs.io).
 
 # Documentation
 
-Dotdrop's documentation is hosted on [its wiki](https://github.com/deadc0de6/dotdrop/wiki).
+Dotdrop's documentation is hosted on [readthedocs](https://dotdrop.readthedocs.io/en/latest/).
 
 # Thank you
 
-If you like dotdrop, <a href='https://ko-fi.com/I2I2ZZT4' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+If you like dotdrop, [buy me a coffee](https://ko-fi.com/deadc0de6).
 
 # Contribution
 

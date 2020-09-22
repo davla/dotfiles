@@ -1,4 +1,6 @@
 # working-repos systemd service file
+#
+# {{@@ header() @@}}
 
 [Unit]
 Description=Job keeping up-to-date working copies of repositories
@@ -7,5 +9,6 @@ Description=Job keeping up-to-date working copies of repositories
 WantedBy=timers.target
 
 [Timer]
-OnCalendar=*-*-* 00:55:00
+OnCalendar=daily
 Persistent=true
+RandomizedDelaySec={{@@ daily_timer_delay @@}}

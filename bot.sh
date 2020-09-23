@@ -16,7 +16,11 @@
 # Input processing
 #######################################
 
-MSG_WIDTH="${1:-$COLUMNS}"
+# Bot step to be executed
+STEP="$1"
+
+# Line length after wich bot messages should be wrapped
+MSG_WIDTH="${2:-$COLUMNS}"
 
 #######################################
 # Variables
@@ -307,96 +311,190 @@ Good luck, and let's hope it all goes well!"
 # Steps
 #######################################
 
-# Dotdrop setup - first as anything else depends on it.
-prompt 'set dotdrop up' 'sh -e scripts/dotdrop.sh ./dotfiles' 'dotdrop setup'
+# If a step name wasn't supplied as a cli argument, prompting the user for one
+[ -z "$STEP" ] && {
+    if ask "$PROMPT_FACE" "Do you want to execute a specific step? $CHOICES"
+    then
+        say "$PROMPT_FACE" "These are the available steps:
+dotdrop, custom-commands, environment, packages, graphical-login, manual, i3, \
+xfce, locales, keyboard-layout, startup, timers, network, users, security, \
+ssh, nfs, ddclient, udev, polkit, shells, themes, android: "
+        read STEP
+        printf '\n'
+    else
+        say -tt "$PROMPT_FACE" "I will guide you through all the steps then. \
+I'll prompt you before each one, so you can skip the steps you don't want to
+run"
+    fi
+}
 
-# Custom commands - they are used by other scripts.
-prompt 'install your custom commands' 'sudo sh -e custom-commands/install.sh' \
-    'custom commands installation'
+# Normalizing script name
+SCRIPT="$(echo "${SCRIPT}" | tr '[:upper:]' '[:lower:]')"
 
-# Shell environment - environment variables are used in other scripts.
-prompt 'set up the environment' 'dotdrop -U root install -p environment' \
-    'setting up the environment'
-
-# Packages installation - they make commands available for other scripts.
-prompt 'install packages' "sudo sh -e scripts/$DISTRO/packages.sh $USER" \
-    'packages installation'
-
-# Graphical login manager
-prompt 'install a graphical login manager' \
-    'sudo sh -e scripts/graphical-login.sh' \
-    'installing a graphical login manager'
-
-# Manual applications install
-prompt 'install manually managed applications' \
-    "sudo sh -e -l scripts/manually.sh $USER" \
-    'manually managed applications installation'
-
-# i3
-prompt 'install i3' 'sh -e scripts/i3.sh' 'installing i3'
-
-# Xfce
-prompt 'install Xfce' 'sh -e scripts/xfce.sh' 'installing Xfce'
-
-# Locales
-prompt 'configure locales' 'dotdrop -U root install -p locales' \
-    'configuring locales'
-
-# Keyboard
-prompt 'add keyboard layouts' 'dotdrop -U root install -p xkb' \
-    'adding keyboard layouts'
-
-# Startup jobs
-prompt 'set up startup jobs' 'sh -e scripts/startup.sh' \
-    'setting up startup jobs'
-
-# Systemd timers
-prompt 'set up systemd timers' 'sh -e scripts/timers.sh' \
-    'setting up systemd timers'
-
-# Network
-prompt 'set up the network' "sudo sh -e scripts/$HOSTNAME/network.sh" \
-    'setting up the network'
-
-# Users and passwords
-prompt 'set up users and their passwords' 'sh -e scripts/users.sh' \
-    'setting up users and passwords'
-
-# SSH and GPG keys
-prompt 'generate SSH and GPG keys' 'sh -e scripts/security.sh' \
-    'SSH and GPG keys generation'
-
-# SSH
-prompt 'set up the ssh server' 'dotdrop -U root install -p ssh' \
-    'setting up the ssh server'
-
-# NFS
-prompt 'set up the nfs sharing' 'dotdrop -U root install -p nfs' \
-    'setting up the nfs sharing'
-
-# Ddclient
-prompt 'set up ddclient' 'dotdrop -U root install -p ddclient' \
-    'setting up ddclient'
-
-# Udev
-prompt 'set up udev rules' "sudo sh -e scripts/udev.sh '$USER'" \
-    'setting up udev rules'
-
-# PolicyKit
-prompt 'configure PolicyKit' 'sudo -E dotdrop install -p polkit' \
-    'configuring PolicyKit'
-
-# Shells setup
-prompt 'initialize the shells' 'sh -e scripts/shell.sh' 'shells initialization'
-
-# Themes
-prompt 'install cursor, desktop and icon themes' \
-    'sh -e scripts/aesthetics.sh' \
-    'cursor, desktop and icon themes installation'
-
-# Android
-prompt 'install Android SDK' "sudo sh -e scripts/android.sh $USER" \
-    'Android SDK installation'
+case "$SCRIPT" in
+    'dotdrop'|'all')
+        # Dotdrop setup - first as anything else depends on it.
+        prompt 'set dotdrop up' 'sh -e scripts/dotdrop.sh ./dotfiles' \
+            'dotdrop setup'
+        ;;
+esac
+case "$SCRIPT" in
+    'custom-commands'|'all')
+        # Custom commands - they are used by other scripts.
+        prompt 'install your custom commands' \
+            'sudo sh -e custom-commands/install.sh' \
+            'custom commands installation'
+        ;;
+esac
+case "$SCRIPT" in
+    'environment'|'all')
+        # Shell environment - environment variables are used in other scripts.
+        prompt 'set up the environment' \
+            'dotdrop -U root install -p environment' \
+            'setting up the environment'
+        ;;
+esac
+case "$SCRIPT" in
+    'packages'|'all')
+        # Packages installation - they make commands available for other scripts.
+        prompt 'install packages' \
+            "sudo sh -e scripts/$DISTRO/packages.sh $USER" \
+            'packages installation'
+        ;;
+esac
+case "$SCRIPT" in
+    'graphical-login'|'all')
+        # Graphical login manager
+        prompt 'install a graphical login manager' \
+            'sudo sh -e scripts/graphical-login.sh' \
+            'installing a graphical login manager'
+        ;;
+esac
+case "$SCRIPT" in
+    'manual'|'all')
+        # Manual applications install
+        prompt 'install manually managed applications' \
+            "sudo sh -e -l scripts/manually.sh $USER" \
+            'manually managed applications installation'
+        ;;
+esac
+case "$SCRIPT" in
+    'i3'|'all')
+        # i3
+        prompt 'install i3' 'sh -e scripts/i3.sh' 'installing i3'
+        ;;
+esac
+case "$SCRIPT" in
+    'xfce'|'all')
+        # Xfce
+        prompt 'install Xfce' 'sh -e scripts/xfce.sh' 'installing Xfce'
+        ;;
+esac
+case "$SCRIPT" in
+    'locales'|'all')
+        # Locales
+        prompt 'configure locales' 'dotdrop -U root install -p locales' \
+            'configuring locales'
+        ;;
+esac
+case "$SCRIPT" in
+    'keyboard-layout'|'all')
+        # Keyboard
+        prompt 'add keyboard layouts' 'dotdrop -U root install -p xkb' \
+            'adding keyboard layouts'
+        ;;
+esac
+case "$SCRIPT" in
+    'startup'|'all')
+        # Startup jobs
+        prompt 'set up startup jobs' 'sh -e scripts/startup.sh' \
+            'setting up startup jobs'
+        ;;
+esac
+case "$SCRIPT" in
+    'timers'|'all')
+        # Systemd timers
+        prompt 'set up systemd timers' 'sh -e scripts/timers.sh' \
+            'setting up systemd timers'
+        ;;
+esac
+case "$SCRIPT" in
+    'network'|'all')
+        # Network
+        prompt 'set up the network' "sudo sh -e scripts/$HOSTNAME/network.sh" \
+            'setting up the network'
+        ;;
+esac
+case "$SCRIPT" in
+    'users'|'all')
+        # Users and passwords
+        prompt 'set up users and their passwords' 'sh -e scripts/users.sh' \
+            'setting up users and passwords'
+        ;;
+esac
+case "$SCRIPT" in
+    'security'|'all')
+        # SSH and GPG keys
+        prompt 'generate SSH and GPG keys' 'sh -e scripts/security.sh' \
+            'SSH and GPG keys generation'
+        ;;
+esac
+case "$SCRIPT" in
+    'ssh'|'all')
+        # SSH
+        prompt 'set up the ssh server' 'dotdrop -U root install -p ssh' \
+            'setting up the ssh server'
+        ;;
+esac
+case "$SCRIPT" in
+    'nfs'|'all')
+        # NFS
+        prompt 'set up the nfs sharing' 'dotdrop -U root install -p nfs' \
+            'setting up the nfs sharing'
+esac
+case "$SCRIPT" in
+    'ddclient'|'all')
+        # Ddclient
+        prompt 'set up ddclient' 'dotdrop -U root install -p ddclient' \
+            'setting up ddclient'
+        ;;
+esac
+case "$SCRIPT" in
+    'udev'|'all')
+        # Udev
+        prompt 'set up udev rules' "sudo sh -e scripts/udev.sh '$USER'" \
+            'setting up udev rules'
+        ;;
+esac
+case "$SCRIPT" in
+    'polkit'|'all')
+        # PolicyKit
+        prompt 'configure PolicyKit' 'sudo -E dotdrop install -p polkit' \
+            'configuring PolicyKit'
+        ;;
+esac
+case "$SCRIPT" in
+    'shells'|'all')
+        # Shells setup
+        prompt 'initialize the shells' 'sh -e scripts/shell.sh' \
+            'shells initialization'
+        ;;
+esac
+case "$SCRIPT" in
+    'themes'|'all')
+        # Themes
+        prompt 'install cursor, desktop and icon themes' \
+            'sh -e scripts/aesthetics.sh' \
+            'cursor, desktop and icon themes installation'
+        ;;
+esac
+case "$SCRIPT" in
+    'android'|'all')
+        # Android
+        prompt 'install Android SDK' "sudo sh -e scripts/android.sh $USER" \
+            'Android SDK installation'
+        ;;
+esac
 
 #######################################
 # Outro

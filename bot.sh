@@ -217,9 +217,9 @@ goodbye() {
 #   - $2: The command to be run.
 #   - $3: The command descrption, suitable for an affirmative sentence.
 prompt() {
-    PROMPT="$1"
-    CMD="$2"
-    DESC="$3"
+    PROMPT="$3"
+    CMD="$1"
+    DESC="$2"
 
     if ask "$PROMPT_FACE" "Do you want to $PROMPT? $CHOICES"; then
         execute "$CMD" "$DESC"
@@ -329,170 +329,174 @@ run"
 }
 
 # Normalizing script name
-SCRIPT="$(echo "${SCRIPT}" | tr '[:upper:]' '[:lower:]')"
+STEP="$(echo "${STEP:-all}" | tr '[:upper:]' '[:lower:]')"
 
-case "$SCRIPT" in
+# The command used to execute the step. When executing all steps, a prompt is
+# displayed to allow the user to skip steps interactively
+[ "$STEP" = 'all' ] && STEP_RUNNER='prompt' || STEP_RUNNER='execute'
+
+case "$STEP" in
     'dotdrop'|'all')
         # Dotdrop setup - first as anything else depends on it.
-        prompt 'set dotdrop up' 'sh -e scripts/dotdrop.sh ./dotfiles' \
-            'dotdrop setup'
+        $STEP_RUNNER 'sh -e scripts/dotdrop.sh ./dotfiles' 'dotdrop setup' \
+            'set dotdrop up'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'custom-commands'|'all')
         # Custom commands - they are used by other scripts.
-        prompt 'install your custom commands' \
-            'sudo sh -e custom-commands/install.sh' \
-            'custom commands installation'
+        $STEP_RUNNER 'sudo sh -e custom-commands/install.sh' \
+            'custom commands installation' \
+            'install your custom commands'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'environment'|'all')
         # Shell environment - environment variables are used in other scripts.
-        prompt 'set up the environment' \
-            'dotdrop -U root install -p environment' \
-            'setting up the environment'
+        $STEP_RUNNER 'dotdrop -U root install -p environment' \
+            'setting up the environment' 'set up the environment'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'packages'|'all')
         # Packages installation - they make commands available for other scripts.
-        prompt 'install packages' \
-            "sudo sh -e scripts/$DISTRO/packages.sh $USER" \
+        $STEP_RUNNER "sudo sh -e scripts/$DISTRO/packages.sh $USER" \
+            'install packages' \
             'packages installation'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'graphical-login'|'all')
         # Graphical login manager
-        prompt 'install a graphical login manager' \
-            'sudo sh -e scripts/graphical-login.sh' \
-            'installing a graphical login manager'
+        $STEP_RUNNER 'sudo sh -e scripts/graphical-login.sh' \
+            'installing a graphical login manager' \
+            'install a graphical login manager'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'manual'|'all')
         # Manual applications install
-        prompt 'install manually managed applications' \
-            "sudo sh -e -l scripts/manually.sh $USER" \
+        $STEP_RUNNER "sudo sh -e -l scripts/manually.sh $USER" \
+            'install manually managed applications' \
             'manually managed applications installation'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'i3'|'all')
         # i3
-        prompt 'install i3' 'sh -e scripts/i3.sh' 'installing i3'
+        $STEP_RUNNER 'sh -e scripts/i3.sh' 'installing i3' 'install i3'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'xfce'|'all')
         # Xfce
-        prompt 'install Xfce' 'sh -e scripts/xfce.sh' 'installing Xfce'
+        $STEP_RUNNER 'sh -e scripts/xfce.sh' 'installing Xfce' 'install Xfce'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'locales'|'all')
         # Locales
-        prompt 'configure locales' 'dotdrop -U root install -p locales' \
-            'configuring locales'
+        $STEP_RUNNER 'dotdrop -U root install -p locales' 'configuring locales' \
+            'configure locales'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'keyboard-layout'|'all')
         # Keyboard
-        prompt 'add keyboard layouts' 'dotdrop -U root install -p xkb' \
-            'adding keyboard layouts'
+        $STEP_RUNNER 'dotdrop -U root install -p xkb' 'adding keyboard layouts' \
+            'add keyboard layouts'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'startup'|'all')
         # Startup jobs
-        prompt 'set up startup jobs' 'sh -e scripts/startup.sh' \
-            'setting up startup jobs'
+        $STEP_RUNNER 'sh -e scripts/startup.sh' 'setting up startup jobs' \
+            'set up startup jobs'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'timers'|'all')
         # Systemd timers
-        prompt 'set up systemd timers' 'sh -e scripts/timers.sh' \
-            'setting up systemd timers'
+        $STEP_RUNNER 'sh -e scripts/timers.sh' 'setting up systemd timers' \
+            'set up systemd timers'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'network'|'all')
         # Network
-        prompt 'set up the network' "sudo sh -e scripts/$HOSTNAME/network.sh" \
-            'setting up the network'
+        $STEP_RUNNER "sudo sh -e scripts/$HOSTNAME/network.sh" \
+            'setting up the network' 'set up the network'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'users'|'all')
         # Users and passwords
-        prompt 'set up users and their passwords' 'sh -e scripts/users.sh' \
-            'setting up users and passwords'
+        $STEP_RUNNER 'sh -e scripts/users.sh' 'setting up users and passwords' \
+            'set up users and their passwords'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'security'|'all')
         # SSH and GPG keys
-        prompt 'generate SSH and GPG keys' 'sh -e scripts/security.sh' \
-            'SSH and GPG keys generation'
+        $STEP_RUNNER 'sh -e scripts/security.sh' 'SSH and GPG keys generation' \
+            'generate SSH and GPG keys'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'ssh'|'all')
         # SSH
-        prompt 'set up the ssh server' 'dotdrop -U root install -p ssh' \
-            'setting up the ssh server'
+        $STEP_RUNNER 'dotdrop -U root install -p ssh' 'setting up the ssh server' \
+            'set up the ssh server'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'nfs'|'all')
         # NFS
-        prompt 'set up the nfs sharing' 'dotdrop -U root install -p nfs' \
-            'setting up the nfs sharing'
+        $STEP_RUNNER 'dotdrop -U root install -p nfs' 'setting up the nfs sharing' \
+            'set up the nfs sharing'
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'ddclient'|'all')
         # Ddclient
-        prompt 'set up ddclient' 'dotdrop -U root install -p ddclient' \
-            'setting up ddclient'
+        $STEP_RUNNER 'dotdrop -U root install -p ddclient' 'setting up ddclient' \
+            'set up ddclient'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'udev'|'all')
         # Udev
-        prompt 'set up udev rules' "sudo sh -e scripts/udev.sh '$USER'" \
-            'setting up udev rules'
+        $STEP_RUNNER "sudo sh -e scripts/udev.sh '$USER'" 'setting up udev rules' \
+            'set up udev rules'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'polkit'|'all')
         # PolicyKit
-        prompt 'configure PolicyKit' 'sudo -E dotdrop install -p polkit' \
-            'configuring PolicyKit'
+        $STEP_RUNNER 'sudo -E dotdrop install -p polkit' 'configuring PolicyKit' \
+            'configure PolicyKit'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'shells'|'all')
         # Shells setup
-        prompt 'initialize the shells' 'sh -e scripts/shell.sh' \
-            'shells initialization'
+        $STEP_RUNNER 'sh -e scripts/shell.sh' 'shells initialization' \
+            'initialize the shells'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'themes'|'all')
         # Themes
-        prompt 'install cursor, desktop and icon themes' \
-            'sh -e scripts/aesthetics.sh' \
-            'cursor, desktop and icon themes installation'
+        $STEP_RUNNER 'sh -e scripts/aesthetics.sh' \
+            'cursor, desktop and icon themes installation' \
+            'install cursor, desktop and icon themes'
         ;;
 esac
-case "$SCRIPT" in
+case "$STEP" in
     'android'|'all')
         # Android
-        prompt 'install Android SDK' "sudo sh -e scripts/android.sh $USER" \
-            'Android SDK installation'
+        $STEP_RUNNER "sudo sh -e scripts/android.sh $USER" \
+            'Android SDK installation' \
+            'install Android SDK'
         ;;
 esac
 

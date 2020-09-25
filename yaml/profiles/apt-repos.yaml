@@ -24,6 +24,9 @@ config:
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
+  f_android-studio.list:
+    src: etc/apt/sources.list.d/android-studio.list
+    dst: /etc/apt/sources.list.d/android-studio.list
   f_atom.list:
     src: etc/apt/sources.list.d/atom.list
     dst: /etc/apt/sources.list.d/atom.list

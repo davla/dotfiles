@@ -1,0 +1,4 @@
+# Android studio PPA
+
+deb http://ppa.launchpad.net/maarten-fonville/android-studio/ubuntu focal main
+deb-src http://ppa.launchpad.net/maarten-fonville/android-studio/ubuntu focal main

@@ -17,6 +17,10 @@ set $scratchpad_show scratchpad show, move position center
 # Application shortcuts
 #######################################
 
+{%@@ set messaging_client = 'teams'
+    if env['HOST'] == 'work'
+    else 'telegram' @@%}
+
 # Variables
 set $term xfce4-terminal
 
@@ -25,6 +29,7 @@ set $android_studio_criterion class="jetbrains-studio"
 set $atom_criterion instance="atom"
 set $scratchpad_term_criterion title="scratchpad-terminal"
 set $spotify_criterion instance="spotify"
+set $teams_criterion instance=".*microsoft teams.*"
 set $telegram_criterion instance="telegram"
 set $vscode_criterion instance="code"
 
@@ -232,6 +237,14 @@ set_from_resource $spotify_width i3wm.SpotifyWidth 1500
 set_from_resource $spotify_height i3wm.SpotifyHeight 850
 for_window [$spotify_criterion] floating enable, \
     resize set $spotify_width $spotify_height
+
+# Teams
+set_from_resource $teams_width i3wm.TeamsWidth 1200
+set_from_resource $teams_height i3wm.TeamsHeight 950
+for_window [$teams_criterion] floating enable, \
+    resize set $teams_width $teams_height
+for_window [$teams_criterion window_type="notification"] \
+    floating enable
 
 # Telegram
 set_from_resource $telegram_width i3wm.TelegramWidth 900

@@ -66,6 +66,9 @@ dotfiles:
   f_spotify.list:
     src: etc/apt/sources.list.d/spotify.list
     dst: /etc/apt/sources.list.d/spotify.list
+  f_teams.list:
+    src: etc/apt/sources.list.d/teams.list
+    dst: /etc/apt/sources.list.d/teams.list
   f_virtualbox.list:
     src: etc/apt/sources.list.d/virtualbox.list
     dst: /etc/apt/sources.list.d/virtualbox.list

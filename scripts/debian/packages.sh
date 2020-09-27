@@ -177,10 +177,10 @@ sudo -u "$USER_NAME" dotdrop install -p gui
 # shellcheck disable=2039
 case "$HOSTNAME" in
     'personal')
-        apt-get install apng2gif cabal-install cups ghc gifsicle git-review \
-            handbrake-cli heroku hlint imagemagick lame libghc-hspec-dev \
-            mercurial python-requests-futures python3-gdbm python3-gpg \
-            python3-lxml python3-pygments python3-requests \
+        apt-get install apng2gif autorandr cabal-install cups ghc gifsicle \
+            git-review handbrake-cli heroku hlint imagemagick lame \
+            libghc-hspec-dev mercurial python-requests-futures python3-gdbm \
+            python3-gpg python3-lxml python3-pygments python3-requests \
             python3-requests-oauthlib thunar-dropbox-plugin tuxguitar-jsa
 
             # --no-install-recommends prevents node from being installed

@@ -48,8 +48,6 @@ dotfiles:
 
 profiles:
   autorandr:
-    dotfiles:
-    - f_postswitch
     import:
     - ../dotfiles/{{@@ env['HOST'] @@}}/autorandr.yaml:optional
     actions:

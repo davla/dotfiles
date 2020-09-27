@@ -10,3 +10,4 @@ dotfiles:
 - d_hdmi-personal-fu
 - d_laptop-personal
 - d_scripts.d
+- f_postswitch

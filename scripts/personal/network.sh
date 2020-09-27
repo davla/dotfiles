@@ -31,11 +31,6 @@ esac
 echo '\e[32m[INFO]\e[0m Installing network configuration'
 dotdrop install -p network
 
-# Setting the right permissions and ownership for Wi-Fi dispatcher scripts
-echo '\e[32m[INFO]\e[0m Setting permissions to GNOME network manager scripts'
-chown -R 'root:root' /etc/NetworkManager/dispatcher.d/
-chmod -R u+w,ga-w,u-s,+x /etc/NetworkManager/dispatcher.d/
-
 #######################################
 # Adding frequently visisted hosts
 #######################################

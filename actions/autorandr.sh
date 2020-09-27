@@ -75,12 +75,3 @@ echo "$HIDPI_CONFIGS" | link_hooks 'hidpi' "$AUTORANDR_HOME"
 
 # Configuration with LoDPI monitors
 echo "$LODPI_CONFIGS" | link_hooks 'lodpi' "$AUTORANDR_HOME"
-
-#######################################
-# Setting executable permissions
-#######################################
-
-find "$AUTORANDR_HOME" -type f -regextype awk \
-    -regex '.*/(predetect|preswitch|postsave|postswitch)' \
-    -exec chmod +x '{}' \+
-[ -d "$AUTORANDR_SCRIPTS_PATH" ] && chmod +x "$AUTORANDR_SCRIPTS_PATH"/*

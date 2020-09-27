@@ -45,17 +45,19 @@ bindsym $mod+w exec firefox; workspace "2: browser"
 bindsym $mod+Shift+y exec geany
 bindsym $mod+y exec geany --name=$editor_title
 bindsym $mod+Escape exec --no-startup-id halt -p
+bindsym $mod+e exec --no-startup-id i3-start-or-scratchpad \
+    '{{@@ messaging_client @@}}' '${{@@ messaging_client @@}}_criterion'
 bindsym $mod+F5 exec --no-startup-id reboot
 bindsym $mod+Tab exec $term
 bindsym $mod+Shift+Tab [$scratchpad_term_criterion] $scratchpad_show
 bindsym $mod+u exec thunar
-bindsym $mod+p exec --no-startup-id "pgrep spotify && i3-msg '[instance=\\"spotify\\"] $scratchpad_show' || spotify"
+bindsym $mod+p exec --no-startup-id i3-start-or-scratchpad 'spotify' \
+    '$spotify_criterion'
 
 {%@@ if env['HOST'] == 'personal' -@@%}
 
 bindsym $mod+o exec firefox https://calendar.google.com/calendar/r; workspace "2: browser"
 bindsym $mod+i exec firefox https://keep.google.com/#home; workspace "2: browser"
-bindsym $mod+e exec --no-startup-id "pgrep telegram && i3-msg '[instance=\\"telegram\\"] $scratchpad_show' || telegram"
 bindsym $mod+t exec thunderbird; workspace "5: mail"
 
 {%@@ endif -@@%}

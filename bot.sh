@@ -12,6 +12,16 @@
 
 . ./.env
 
+########################################
+# Variables
+########################################
+
+# All the available bot steps. In a variable so that we can check for validity
+# when interactively prompting the user.
+STEPS="dotdrop, custom-commands, environment, packages, graphical-login, \
+manual, i3, xfce, locales, keyboard-layout, startup, timers, network, users, \
+security, ssh, nfs, ddclient, udev, polkit, shells, themes, android"
+
 #######################################
 # Input processing
 #######################################
@@ -315,11 +325,19 @@ Good luck, and let's hope it all goes well!"
 [ -z "$STEP" ] && {
     if ask "$PROMPT_FACE" "Do you want to execute a specific step? $CHOICES"
     then
-        say "$PROMPT_FACE" "These are the available steps:
-dotdrop, custom-commands, environment, packages, graphical-login, manual, i3, \
-xfce, locales, keyboard-layout, startup, timers, network, users, security, \
-ssh, nfs, ddclient, udev, polkit, shells, themes, android: "
-        read STEP
+        # $STEP is empty here if not provided via cli arguments. It's kept
+        # empty until the user inputs a valid bot step
+        while [ -z "$STEP" ]; do
+            say "$PROMPT_FACE" "These are the available steps:
+$STEPS: "
+            read STEP
+            echo "$STEPS" | grep "$STEP" > /dev/null 2>&1 || {
+                # The step is invalid. Keeping $STEP empty to reenter the
+                # while loop
+                STEP=''
+                say -t "$PROMPT_FACE" "Sorry, I didn't get it."
+            }
+        done
         printf '\n'
     else
         say -tt "$PROMPT_FACE" "I will guide you through all the steps then. \

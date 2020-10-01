@@ -1,0 +1,3 @@
+# Microsoft Teams
+
+deb [arch=amd64] https://packages.microsoft.com/repos/ms-teams stable main

@@ -37,6 +37,9 @@ dotfiles:
     actions:
     - strip '{{@@ hosts_append_marker @@}}' '{{@@ hosts_dst @@}}'
     - append '{{@@ hosts_dst @@}}' '{{@@ hosts_tmp_dst @@}}'
+  f_local_bin_i3-start-or-scratchpad:
+    src: usr/local/bin/i3-start-or-scratchpad
+    dst: /usr/local/bin/i3-start-or-scratchpad
   f_local_bin_shell-cache:
     src: usr/local/bin/shell-cache
     # Dynamic path as it's used somewhere else too

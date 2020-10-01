@@ -1,4 +1,6 @@
 # myrepos-upgrade systemd timer file
+#
+# {{@@ header() @@}}
 
 [Unit]
 Description=Job upgrading packages installed manually system-wide via myrepos
@@ -7,5 +9,6 @@ Description=Job upgrading packages installed manually system-wide via myrepos
 WantedBy=timers.target
 
 [Timer]
-OnCalendar=*-*-* 00:35:00
+OnCalendar=daily
 Persistent=true
+RandomizedDelaySec={{@@ daily_timer_delay @@}}

@@ -19,7 +19,6 @@ My dotfiles repository. Really, just configuration files
 - Root terminal preferences
 - sct not working
 - dotdrop autocompletion
-- dotdrop executable permissions on install
 - More preferences
   + Firefox
   + Enpass

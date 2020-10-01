@@ -83,7 +83,7 @@ USER="$(id -un)"
 # Arguments:
 #   - $@: Same arguments as say
 ask() {
-    # THe function is recursice, and not iterative, since read needs not to be
+    # The function is recursive, and not iterative, since read needs not to be
     # in a loop, as this would execite it in a subshell, that is with no stdin.
 
     say "$@"
@@ -331,7 +331,7 @@ $STEPS: "
     else
         STEP='all'
         say -tt "$PROMPT_FACE" "I will guide you through all the steps then. \
-I'll prompt you before each one, so you can skip the steps you don't want to
+I'll prompt you before each one, so you can skip the steps you don't want to \
 run"
     fi
 }

@@ -13,6 +13,8 @@ i3wm.EditorWidth: {{@@ hidpi_i3_editor_width @@}}
 i3wm.EditorHeight: {{@@ hidpi_i3_editor_height @@}}
 i3wm.SpotifyWidth: {{@@ hidpi_i3_spotify_width @@}}
 i3wm.SpotifyHeight: {{@@ hidpi_i3_spotify_height @@}}
+i3wm.TeamsWidth: {{@@ hidpi_i3_teams_width @@}}
+i3wm.TeamsHeight: {{@@ hidpi_i3_teams_height @@}}
 i3wm.TelegramWidth: {{@@ hidpi_i3_telegram_width @@}}
 i3wm.TelegramHeight: {{@@ hidpi_i3_telegram_height @@}}
 

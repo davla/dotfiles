@@ -1,0 +1,8 @@
+%YAML 1.2
+---
+# This dotfiles file lists the apt sources dotfiles to be included in the
+# "packages" profile only on my work machine
+
+dotfiles:
+- f_android-studio.list
+- f_teams.list

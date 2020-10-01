@@ -1,6 +1,4 @@
 # wiki-home systemd service file
-#
-# {{@@ header() @@}}
 
 [Unit]
 Description=Job refreshing the Home page on Pokémon Central Wiki
@@ -9,5 +7,4 @@ Description=Job refreshing the Home page on Pokémon Central Wiki
 WantedBy=timers.target
 
 [Timer]
-OnCalendar=*-*-* 01:05:00
-Persistent=true
+OnCalendar=Mon *-*-* 00:00:00

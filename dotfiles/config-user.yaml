@@ -15,6 +15,10 @@ actions:
 
     i3: sh actions/i3.sh
 
+    # This action allows user systemd timers to be executed also when the user
+    # is not logged in, via lingering
+    timers: id -u | xargs sudo loginctl enable-linger
+
 config:
   backup: false
   banner: true
@@ -309,6 +313,8 @@ profiles:
   timers:
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
+    actions:
+    - timers
 
   # This profile groups Atom-related dotfiles, as well as creating the
   # necessary variables for dotfiles actions. It was chosen to address

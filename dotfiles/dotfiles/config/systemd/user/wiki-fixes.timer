@@ -1,4 +1,6 @@
 # wiki-fixes systemd service file
+#
+# {{@@ header() @@}}
 
 [Unit]
 Description=job performing various automated fixes on Pokémon Central Wiki
@@ -7,5 +9,4 @@ Description=job performing various automated fixes on Pokémon Central Wiki
 WantedBy=timers.target
 
 [Timer]
-OnCalendar=*-*-* 01:05:00
-Persistent=true
+OnCalendar=Thu *-*-* 04:30:00

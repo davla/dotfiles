@@ -1,4 +1,6 @@
 # shell-cache systemd timer file
+#
+# {{@@ header() @@}}
 
 [Unit]
 Description=Job refreshing shell caches
@@ -7,5 +9,6 @@ Description=Job refreshing shell caches
 WantedBy=timers.target
 
 [Timer]
-OnCalendar=*-*-* 00:05:00
+OnCalendar=daily
 Persistent=true
+RandomizedDelaySec={{@@ daily_timer_delay @@}}

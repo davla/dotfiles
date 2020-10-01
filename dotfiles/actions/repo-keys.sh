@@ -11,6 +11,14 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
     | xargs -0 -i basename '{}' '.list' | tr '[:upper:]' '[:lower:]' \
     | while read REPO; do
         case "$REPO" in
+            'android-studio')
+                echo "Installing apt repository key for $REPO"
+
+                apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' \
+                    --recv-keys 'ADC23DDFAE0436477B8CCDF54DEA8909DC6A13A3' \
+                    > /dev/null
+                ;;
+
             'atom')
                 echo "Installing apt repository key for $REPO"
 
@@ -88,8 +96,16 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
             'spotify')
                 echo "Installing apt repository key for $REPO"
 
-                apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' \
-                    --recv-keys '931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90' \
+                apt-key adv --fetch-keys \
+                    'https://download.spotify.com/debian/pubkey.gpg' \
+                    > /dev/null
+                ;;
+
+            'teams')
+                echo "Installing apt repository key for $REPO"
+
+                apt-key adv --fetch-keys \
+                    'https://packages.microsoft.com/keys/microsoft.asc' \
                     > /dev/null
                 ;;
 

@@ -1,4 +1,6 @@
 # shell-plugins systemd timer file
+#
+# {{@@ header() @@}}
 
 [Unit]
 Description=Job updating shell plugins
@@ -7,5 +9,6 @@ Description=Job updating shell plugins
 WantedBy=timers.target
 
 [Timer]
-OnCalendar=*-*-* 00:15:00
+OnCalendar=daily
 Persistent=true
+RandomizedDelaySec={{@@ daily_timer_delay @@}}

@@ -102,3 +102,10 @@ profiles:
     - f_systemd_share_shell-plugins.timer
     include:
     - shell-cache
+
+variables:
+  # This variable is used as value for RandomizedDelaySec in systemd daily
+  # timers with Persistent set to true, to prevent the jobs to be scheduled
+  # simultaneously and thus avoiding high resource utilization. Its value is
+  # half an hour in seconds (30 * 60 == 1800)
+  daily_timer_delay: 1800

@@ -325,29 +325,31 @@ Good luck, and let's hope it all goes well!"
 [ -z "$STEP" ] && {
     if ask "$PROMPT_FACE" "Do you want to execute a specific step? $CHOICES"
     then
-        # $STEP is empty here if not provided via cli arguments. It's kept
-        # empty until the user inputs a valid bot step
-        while [ -z "$STEP" ]; do
-            say "$PROMPT_FACE" "These are the available steps:
+        say "$PROMPT_FACE" "These are the available steps:
 $STEPS: "
             read STEP
-            echo "$STEPS" | grep "$STEP" > /dev/null 2>&1 || {
-                # The step is invalid. Keeping $STEP empty to reenter the
-                # while loop
-                STEP=''
-                say -t "$PROMPT_FACE" "Sorry, I didn't get it."
-            }
-        done
-        printf '\n'
     else
+        STEP='all'
         say -tt "$PROMPT_FACE" "I will guide you through all the steps then. \
 I'll prompt you before each one, so you can skip the steps you don't want to
 run"
     fi
 }
 
+# At this point, $STEP is either provided by the cli, or interactively entered
+# by the user, or programmatically set to 'all'. We can therefore proceed to
+# valiation. A valid step is either 'all' or one of the listed steps.
+while [ "$STEP" != 'all' ] && ! echo "$STEPS" | grep "$STEP" > /dev/null 2>&1
+do
+    say -t "$PROMPT_FACE" "Sorry, I don't know the '$STEP' step."
+    say "$PROMPT_FACE" "These are the available steps:
+$STEPS: "
+    read STEP
+    printf '\n'
+done
+
 # Normalizing script name
-STEP="$(echo "${STEP:-all}" | tr '[:upper:]' '[:lower:]')"
+STEP="$(echo "${STEP}" | tr '[:upper:]' '[:lower:]')"
 
 # The command used to execute the step. When executing all steps, a prompt is
 # displayed to allow the user to skip steps interactively

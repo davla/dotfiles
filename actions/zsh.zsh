@@ -1,12 +1,12 @@
 #!/usr/bin/env zsh
 
-# This doesn't work if this script is sourced
-. "$(dirname "$0")/../.env"
-
 # This script initializes the zsh dotfiles setup.
 #
 # Arguments:
 #   - $1: The file defining the zsh configuration directory path.
+
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/../.env"
 
 #######################################
 # Arguments processing

@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 
+# This script generating locales themselves and deals with spellcheckers
+
 # This doesn't work if this script is sourced
 . "$(dirname "$0")"/../.env
-
-# This script generating locales themselves and deals with spellcheckers
 
 #######################################
 # Variables

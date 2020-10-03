@@ -2,11 +2,11 @@
 My dotfiles repository. Really, just configuration files
 
 ## TODO
+- VSCode selected color
 - Better placement of logger_path variable
 - autorandr in autostart
 - github mails
 - Logger colors with no tag
-- Consistency of source and comments
 - Split env vars between interactive and non-interactive
   + Make sure that autorandr env vars are loaded in xsessionrc
 - Fix thefuck

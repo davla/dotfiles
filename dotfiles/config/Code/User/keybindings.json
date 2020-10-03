@@ -116,5 +116,21 @@
         "key": "f2",
         "command": "-editor.action.rename",
         "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
-    }
+    },
+    {
+        "key": "alt+g",
+        "command": "toggle",
+        "when": "editorTextFocus",
+        "args": {
+            "id": "lenses",
+            "value": [
+                {
+                    "editor.codeLens": true
+                },
+                {
+                    "editor.codeLens": false
+                }
+            ]
+        }
+    },
 ]

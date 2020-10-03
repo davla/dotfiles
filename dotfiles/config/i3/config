@@ -12,6 +12,7 @@ set $mode_shifter_key Control
 
 # Command aliases
 set $scratchpad_show scratchpad show, move position center
+set $floating_enable floating enable, move position center
 
 #######################################
 # Application shortcuts
@@ -217,33 +218,33 @@ for_window [$vscode_criterion] focus
 
 # Android studio splash
 for_window [$android_studio_criterion title="win0" workspace="1: coding"] \
-    floating enable move position center
+    $floating_enable
 
 # Calculator
-for_window [title="$calc_title"] floating enable, \
+for_window [title="$calc_title"] $floating_enable, \
     resize set $floating_width $floating_height
 
 # Scratchpad editor
 set_from_resource $editor_width i3wm.EditorWidth 1000
 set_from_resource $editor_height i3wm.EditorHeight 850
-for_window [instance="$editor_title"] floating enable, \
+for_window [instance="$editor_title"] $floating_enable, \
     resize set $editor_width $editor_height
 
 # Scratchpad terminal
-for_window [$scratchpad_term_criterion] floating enable, \
+for_window [$scratchpad_term_criterion] $floating_enable, \
     resize set $floating_width $floating_height, \
     move scratchpad
 
 # Spotify
 set_from_resource $spotify_width i3wm.SpotifyWidth 1500
 set_from_resource $spotify_height i3wm.SpotifyHeight 850
-for_window [$spotify_criterion] floating enable, \
+for_window [$spotify_criterion] $floating_enable, \
     resize set $spotify_width $spotify_height
 
 # Teams
 set_from_resource $teams_width i3wm.TeamsWidth 1200
 set_from_resource $teams_height i3wm.TeamsHeight 950
-for_window [$teams_criterion] floating enable, \
+for_window [$teams_criterion] $floating_enable, \
     resize set $teams_width $teams_height
 for_window [$teams_criterion window_type="notification"] \
     floating enable
@@ -251,7 +252,7 @@ for_window [$teams_criterion window_type="notification"] \
 # Telegram
 set_from_resource $telegram_width i3wm.TelegramWidth 900
 set_from_resource $telegram_height i3wm.TelegramHeight 800
-for_window [$telegram_criterion] floating enable, \
+for_window [$telegram_criterion] $floating_enable, \
     resize set $telegram_width $telegram_height
 
 #######################################

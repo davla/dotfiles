@@ -97,7 +97,7 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                 echo "Installing apt repository key for $REPO"
 
                 apt-key adv --fetch-keys \
-                    'https://download.spotify.com/debian/pubkey.gpg' \
+                    'https://download.spotify.com/debian/pubkey_0D811D58.gp' \
                     > /dev/null
                 ;;
 

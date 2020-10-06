@@ -246,8 +246,6 @@ set_from_resource $teams_width i3wm.TeamsWidth 1200
 set_from_resource $teams_height i3wm.TeamsHeight 950
 for_window [$teams_criterion] $floating_enable, \
     resize set $teams_width $teams_height
-for_window [$teams_criterion window_type="notification"] \
-    floating enable
 
 # Telegram
 set_from_resource $telegram_width i3wm.TelegramWidth 900

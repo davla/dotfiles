@@ -280,7 +280,6 @@
     ////////////////////////////////////////
 
     "C_Cpp.formatting": "Disabled",
-    "C_Cpp.updateChannel": "Insiders",
     "C_Cpp.workspaceParsingPriority": "high",
     "cmake.configureOnEdit": false,
     "cmake.configureOnOpen": false,

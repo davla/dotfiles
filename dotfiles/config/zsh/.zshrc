@@ -26,6 +26,12 @@ source "$ZDOTDIR/aliases.zsh"
 
 source "$ZDOTDIR/functions.zsh"
 
+########################################
+# Loading hooks
+########################################
+
+source "$ZDOTDIR/hooks.zsh"
+
 #######################################
 # Misc
 #######################################

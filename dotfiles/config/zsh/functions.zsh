@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-# This script contains useful (or not) zsh functiond
+# This script contains useful (or not) zsh functions
 
 #######################################
 # Inheriting from POSIX shell

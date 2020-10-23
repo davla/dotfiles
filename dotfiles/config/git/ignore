@@ -796,3 +796,8 @@ DerivedData/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # End of https://www.gitignore.io/api/android,androidstudio,compressedarchive,eclipse,emacs,jetbrains+all,linux,netbeans,notepadpp,osx,sublimetext,textmate,vim,visualstudio,visualstudiocode,windows,xamarinstudio,xcode
+
+#### Custom entries ####
+
+### Local environment files ###
+.env

@@ -161,8 +161,8 @@ case "$HOSTNAME" in
             ;;
 esac
 
-apt-get install atom baobab blueman catfish code evince firefox galculator \
-    gdebi geany gnome-clocks gparted hardinfo parcellite pavucontrol \
+apt-get install baobab blueman catfish code evince firefox galculator gdebi \
+    geany gnome-clocks gparted hardinfo parcellite pavucontrol \
     recordmydesktop gtk-recordmydesktop seahorse spotify-client synaptic \
     viewnior xfce4-screenshooter
 

@@ -52,6 +52,12 @@ dotfiles:
   f_systemd_root_shell-plugins.service.d_override.conf:
     src: etc/systemd/system/shell-plugins.service.d/override.conf
     dst: /etc/systemd/system/shell-plugins.service.d/override.conf
+  f_systemd_root_update-package-index.service:
+    src: etc/systemd/system/update-package-index.service
+    dst: /etc/systemd/system/update-package-index.service
+  f_systemd_root_update-package-index.timer:
+    src: etc/systemd/system/update-package-index.timer
+    dst: /etc/systemd/system/update-package-index.timer
   f_systemd_share_shell-cache.service:
     src: etc/systemd/share/shell-cache.service
     dst: /etc/systemd/share/shell-cache.service

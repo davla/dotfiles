@@ -1,0 +1,14 @@
+# update-package-index systemd timer file
+#
+# {{@@ header() @@}}
+
+[Unit]
+Description=Job updating the package index
+
+[Install]
+WantedBy=timers.target
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+RandomizedDelaySec={{@@ daily_timer_delay @@}}

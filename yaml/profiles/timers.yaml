@@ -66,12 +66,6 @@ dotfiles:
   f_systemd_share_shell-plugins.timer:
     src: etc/systemd/share/shell-plugins.timer
     dst: /etc/systemd/share/shell-plugins.timer
-  f_systemd_user_atom-plugins.service:
-    src: config/systemd/user/atom-plugins.service
-    dst: '{{@@ xdg_config("systemd/user/atom-plugins.service") @@}}'
-  f_systemd_user_atom-plugins.timer:
-    src: config/systemd/user/atom-plugins.timer
-    dst: '{{@@ xdg_config("systemd/user/atom-plugins.timer") @@}}'
   f_systemd_user_wiki-fixes.service:
     src: config/systemd/user/wiki-fixes.service
     dst: '{{@@ xdg_config("systemd/user/wiki-fixes.service") @@}}'

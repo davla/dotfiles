@@ -144,7 +144,6 @@
 
         <Layout>
             <Filename>jetbrains-studio.desktop</Filename>
-            <Filename>atom.desktop</Filename>
             <Filename>jetbrains-clion.desktop</Filename>
             <Filename>arduino-arduinoide.desktop</Filename>
             <Filename>geany.desktop</Filename>

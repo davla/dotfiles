@@ -19,13 +19,6 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                     > /dev/null
                 ;;
 
-            'atom')
-                echo "Installing apt repository key for $REPO"
-
-                wget -qO - 'https://packagecloud.io/AtomEditor/atom/gpgkey' \
-                    | apt-key add - > /dev/null
-                ;;
-
             'deb-multimedia')
                 echo "Installing apt repository key for $REPO"
 

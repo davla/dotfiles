@@ -26,7 +26,6 @@ set $term xfce4-terminal
 
 # Command criteria
 set $android_studio_criterion class="jetbrains-studio"
-set $atom_criterion instance="atom"
 set $scratchpad_term_criterion title="scratchpad-terminal"
 set $spotify_criterion instance="spotify"
 set $teams_criterion instance=".*microsoft teams.*"
@@ -205,14 +204,12 @@ set_from_resource $floating_height i3wm.FloatingHeight 550
 
 # Assigning applications to workspaces
 assign [$android_studio_criterion] "1: coding"
-assign [$atom_criterion] "1: coding"
 assign [$vscode_criterion] "1: coding"
 assign [class="Firefox"] "2: browser"
 assign [class="thunderbird"] "5: mail"
 
 # Switch to assigned workspace by focusing newly created windows
 for_window [$android_studio_criterion] focus
-for_window [$atom_criterion] focus
 for_window [$vscode_criterion] focus
 
 # Android studio splash

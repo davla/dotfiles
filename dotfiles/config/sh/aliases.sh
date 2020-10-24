@@ -9,7 +9,6 @@
 #######################################
 
 alias c='xsel -i -b'
-alias mkdir='mkdir -p'
 alias p='xsel -o'
 
 {%@@- if user == 'user' @@%}

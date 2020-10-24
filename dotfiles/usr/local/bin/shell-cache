@@ -92,7 +92,7 @@ log_debug "Testing for thefuck POSIX shell cache refreshing"
 THEFUCK_SH_CACHE="${SDOTDIR:?}/cache/thefuck"
 if [ -f "$THEFUCK_SH_CACHE" ]; then
     log_info "Refreshing thefuck POSIX shell cache"
-    sh -c 'thefuck --alias' 2>&1 > "$THEFUCK_SH_CACHE" | log_error >&2
+    ( thefuck --alias & ) 2>&1 > "$THEFUCK_SH_CACHE" | log_error >&2
 else
     log_debug "No thefuck POSIX shell cache found"
 fi
@@ -101,7 +101,8 @@ log_debug "Testing for thefuck bash cache refreshing"
 THEFUCK_BASH_CACHE="${BDOTDIR:?}/cache/thefuck"
 if [ -f "$THEFUCK_BASH_CACHE" ]; then
     log_info "Refreshing thefuck bash shell cache"
-    bash -c 'thefuck --alias' 2>&1 > "$THEFUCK_BASH_CACHE" | log_error >&2
+    env TF_SHELL='bash' thefuck --alias 2>&1 > "$THEFUCK_BASH_CACHE" \
+        | log_error >&2
 else
     log_debug "No thefuck bash cache found"
 fi
@@ -110,7 +111,8 @@ log_debug "Testing for thefuck zsh cache refreshing"
 THEFUCK_ZSH_CACHE="${ZDOTDIR:?}/cache/thefuck"
 if [ -f "$THEFUCK_ZSH_CACHE" ]; then
     log_info "Refreshing thefuck bash shell cache"
-    zsh -c 'thefuck --alias' 2>&1 > "$THEFUCK_ZSH_CACHE" | log_error >&2
+    env TF_SHELL='zsh' thefuck --alias 2>&1 > "$THEFUCK_ZSH_CACHE" \
+        | log_error >&2
 else
     log_debug "No thefuck zsh cache found"
 fi

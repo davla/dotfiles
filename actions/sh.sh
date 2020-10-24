@@ -43,5 +43,5 @@ mkdir -p "${SDOTDIR:?}/plugins/dotfiles"
 # Initializing cache
 #######################################
 
-# thefuck --alias > "${SDOTDIR:?}/cache/thefuck"
+( thefuck --alias & ) > "${SDOTDIR:?}/cache/thefuck"
 fasd --init posix-alias > "${SDOTDIR:?}/cache/fasd"

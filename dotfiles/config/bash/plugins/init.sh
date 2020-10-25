@@ -24,6 +24,9 @@ source /usr/share/doc/pkgfile/command-not-found.bash
 # fasd
 #######################################
 
+export _FASD_DATA="$BDOTDIR/plugins/data/.fasd"
+export _FASD_SHELL='bash'
+
 source "$BDOTDIR/cache/fasd"
 
 #######################################

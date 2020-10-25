@@ -135,6 +135,9 @@ source "$ZDOTDIR/plugins/plugins-after-compinit.zsh"
 # fasd
 #######################################
 
+export _FASD_DATA="$ZDOTDIR/plugins/data/.fasd"
+export _FASD_SHELL='zsh'
+
 source "$ZDOTDIR/cache/fasd"
 
 #######################################

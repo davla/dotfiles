@@ -156,7 +156,7 @@
 [fetch]
     prune = true
 
-{%@@ if gitreview_username -@@%}
+{%@@ if gitreview_username is defined -@@%}
 
 [gitreview]
     username = {{@@ gitreview_username @@}}

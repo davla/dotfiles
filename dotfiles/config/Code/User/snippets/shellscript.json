@@ -20,5 +20,26 @@
 			"########################################",
 		],
 		"description": "Section header"
-	}
+    },
+
+    "POSIX shebang": {
+        "prefix": "sh",
+        "body" : [
+            "#!/usr/bin/env sh"
+        ]
+    },
+
+    "bash shebang": {
+        "prefix": "bash",
+        "body" : [
+            "#!/usr/bin/env bash"
+        ]
+    },
+
+    "zsh shebang": {
+        "prefix": "zsh",
+        "body" : [
+            "#!/usr/bin/env zsh"
+        ]
+    }
 }

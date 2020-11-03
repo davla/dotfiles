@@ -1,10 +1,10 @@
 #!/usr/bin/env zsh
 
-# This scripts defines some zsh functions, used in bot interactive and
-# non-interactive shells
+# This scripts defines some zsh aliases that are useful in interactive shells
+# only
 
 #######################################
 # Inheriting from POSIX shell
 #######################################
 
-source "$SDOTDIR/functions.sh"
+source "$SDOTDIR/interactive/aliases.sh"

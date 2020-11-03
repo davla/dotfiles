@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh
 
-# This script contains functions that are added as zsh hooks
+# This script contains functions that are added as zsh hooks for both
+# interactive and non-interactive shells
 
 ########################################
 # Environmed loading hook

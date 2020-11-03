@@ -1,36 +1,12 @@
 #!/usr/bin/env zsh
 
-# .zshrc file
-
-#######################################
-# Loading plugins
-#######################################
-
-source "$ZDOTDIR/plugins/init.zsh"
-
-#######################################
-# Loading themes
-#######################################
-
-source "$ZDOTDIR/theme/init.zsh"
-
-#######################################
-# Loading aliases
-#######################################
-
-source "$ZDOTDIR/aliases.zsh"
-
-#######################################
-# Loading functions
-#######################################
-
-source "$ZDOTDIR/functions.zsh"
+# This script initializes zsh
 
 ########################################
-# Loading hooks
+# Loading interactive setup
 ########################################
 
-source "$ZDOTDIR/hooks.zsh"
+source "$ZDOTDIR/interactive/init.zsh"
 
 #######################################
 # Misc
@@ -67,7 +43,7 @@ zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' menu select=2
 eval "$(dircolors -b)"
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:default' list-colors ${(s.:.)EXA_COLORS}
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'

@@ -135,7 +135,7 @@ if [ -f "$ZYGAL_ZSH_CACHE" ]; then
     fi
 
     log_info "Refreshing zygal zsh cache"
-    zsh -ic zygal-static 2>&1 > "$ZYGAL_ZSH_CACHE" | log_error >&2
+    zsh -c zygal-static 2>&1 > "$ZYGAL_ZSH_CACHE" | log_error >&2
 else
     log_debug "No zygal zsh cache found"
 fi

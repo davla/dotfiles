@@ -7,7 +7,7 @@ actions:
   post:
     bash: bash ./actions/bash.sh "{{@@ dotdirs_file @@}}"
     sh: sh ./actions/sh.sh "{{@@ dotdirs_file @@}}"
-    zsh: zsh ./actions/zsh.zsh "{{@@ dotdirs_file @@}}"
+    zsh: zsh -f ./actions/zsh.zsh "{{@@ dotdirs_file @@}}"
 
 config:
   backup: false
@@ -51,7 +51,7 @@ dotfiles:
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ zdotdir @@}}'
     instignore:
-    - plugins/dotfiles/warprc.*
+    - interactive/plugins/dotfiles/warprc.*
     upignore:
     - .zcompdump
     - .zsh_history

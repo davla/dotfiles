@@ -36,8 +36,8 @@ ln -sf "${SDOTDIR:?}/profile" "$HOME/.profile"
 #######################################
 
 mkdir -p "${SDOTDIR:?}/cache"
-mkdir -p "${SDOTDIR:?}/plugins/data"
-mkdir -p "${SDOTDIR:?}/plugins/dotfiles"
+mkdir -p "${SDOTDIR:?}/interactive/plugins/data"
+mkdir -p "${SDOTDIR:?}/interactive/plugins/dotfiles"
 
 #######################################
 # Initializing cache

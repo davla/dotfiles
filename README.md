@@ -9,8 +9,6 @@ My dotfiles repository. Really, just configuration files
 - Logger colors with no tag
 - Split env vars between interactive and non-interactive
   + Make sure that autorandr env vars are loaded in xsessionrc
-- interactive vs non-interactive in bashrc and zshrc
-- Plugin lists fine-controlled when imported (eg. bash sourcing sh)
 - LS_COLORS
 - GNOME keyring without LightDM
   (https://wiki.archlinux.org/index.php/GNOME/Keyring#Automatic_login)

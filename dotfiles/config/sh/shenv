@@ -1,8 +1,15 @@
 #!/usr/bin/env sh
 
+# This script defines environment variables for POSIX shell
+
 # {{@@ header() @@}}
 
-# This script defines environment variables for POSIX shell
+#######################################
+# Loading configuration paths
+#######################################
+
+# shellcheck disable=2027,2140
+. "{{@@ dotdirs_file | home_abs2var @@}}"
 
 #######################################
 # Custom

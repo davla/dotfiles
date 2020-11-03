@@ -18,13 +18,6 @@
 . "$SDOTDIR/shenv"
 
 #######################################
-# Loading plugins
-#######################################
-
-. "$SDOTDIR/plugins/init.sh"
-. "$SDOTDIR/plugins/specific.sh"
-
-#######################################
 # Loading aliases
 #######################################
 
@@ -35,3 +28,13 @@
 #######################################
 
 . "$SDOTDIR/functions.sh"
+
+########################################
+# Loading interactive setup
+########################################
+
+case "$-" in
+    *i*)
+        . "$SDOTDIR/interactive/init.sh"
+        ;;
+esac

@@ -5,7 +5,7 @@
 
 actions:
   post:
-    bash: bash ./actions/bash.sh "{{@@ dotdirs_file @@}}"
+    bash: bash --norc --noprofile ./actions/bash.sh "{{@@ dotdirs_file @@}}"
     sh: sh ./actions/sh.sh "{{@@ dotdirs_file @@}}"
     zsh: zsh -f ./actions/zsh.zsh "{{@@ dotdirs_file @@}}"
 

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-# This scripts defines some bash functions, used in bot interactive and
-# non-interactive shells
+# This scripts defines some bash functions that are useful in interactive shells
+# only
 
 #######################################
 # Inheriting from POSIX shell
 #######################################
 
-source "$SDOTDIR/functions.sh"
+source "$SDOTDIR/interactive/functions.sh"

@@ -1,30 +1,33 @@
 #!/usr/bin/env bash
 
-# This script initializes non-interactive bash shells
+# This script initializes interactive bash shells
 
-# {{@@ header() @@}}
 
-#######################################
-# Loading configuration paths
-#######################################
-
-# shellcheck disable=2027,2140
-source "{{@@ dotdirs_file | home_abs2var @@}}"
+INTERACTIVE_BDOTDIR="$BDOTDIR/interactive"
 
 #######################################
-# Inheriting from POSIX shell
+# Loading plugins
 #######################################
 
-source "$SDOTDIR/shenv"
+source "$INTERACTIVE_BDOTDIR/plugins/init.sh"
+
+#######################################
+# Loading themes
+#######################################
+
+source "$INTERACTIVE_BDOTDIR/theme/init.sh"
 
 #######################################
 # Loading aliases
 #######################################
 
-source "$BDOTDIR/aliases.sh"
+source "$INTERACTIVE_BDOTDIR/aliases.sh"
 
 #######################################
 # Loading functions
 #######################################
 
-source "$BDOTDIR/functions.sh"
+source "$INTERACTIVE_BDOTDIR/functions.sh"
+
+
+unset INTERACTIVE_BDOTDIR

@@ -58,16 +58,6 @@
 	<audio-files/>
 </action>
 <action>
-	<icon>atom</icon>
-	<name>Open Atom here</name>
-	<unique-id>1528105705700378-1</unique-id>
-	<command>atom %f</command>
-	<description>Opens an Atom project in the current directory</description>
-	<patterns>*</patterns>
-	<startup-notify/>
-	<directories/>
-</action>
-<action>
 	<icon></icon>
 	<name>Open Baobab here</name>
 	<unique-id>1532769894923910-2</unique-id>

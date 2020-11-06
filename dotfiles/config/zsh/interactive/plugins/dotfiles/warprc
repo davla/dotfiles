@@ -6,7 +6,7 @@
     but all of them had worse drawbacks:
     - Dotdrop's dynamic `src` in dotfile entries could be used, so that `src`
       includes the hostname, but `dst` is constant. However, this would require
-      that this file has a standalone dotfile entry, while it is far more
+      that this file had a standalone dotfile entry, while it is far more
       convenient that it is part of the zsh directory dotfile.
     - The wd plugin could be initialized directly by the host-specific file,
       by using a jinja variable containing the hostname in `init.zsh`. However,
@@ -17,4 +17,5 @@
     as part of a directory dotfile and allows other hosts' files to be ignored
     when installing the zsh directory dotfile.
 @@#}
-{%@@ include 'config/zsh/plugins/dotfiles/warprc.%s' | format(env['HOST']) @@%}
+{%@@ include 'config/zsh/interactive/plugins/dotfiles/warprc.%s'
+    | format(env['HOST']) @@%}

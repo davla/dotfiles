@@ -1,12 +1,12 @@
 #!/usr/bin/env zsh
 
-# This doesn't work if this script is sourced
-. "$(dirname "$0")/../.env"
-
 # This script initializes the zsh dotfiles setup.
 #
 # Arguments:
 #   - $1: The file defining the zsh configuration directory path.
+
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/../.env"
 
 #######################################
 # Arguments processing
@@ -62,21 +62,25 @@ esac
 # Installing plugins
 #######################################
 
-cd "$ZDOTDIR/plugins" || exit
-< lists/plugins-before-compinit.list antibody bundle \
+cd "$ZDOTDIR/interactive/plugins" || exit
+antibody bundle < lists/plugins-before-compinit.list \
     > plugins-before-compinit.zsh
-< lists/plugins-after-compinit.list antibody bundle \
+antibody bundle < lists/plugins-after-compinit.list \
     > plugins-after-compinit.zsh
+cd - &> /dev/null || exit
+
+cd "$ZDOTDIR/theme" || exit
+antibody bundle < themes.list > themes.zsh
 cd - &> /dev/null || exit
 
 #######################################
 # Initializing cache
 #######################################
 
-# thefuck --alias > "${ZDOTDIR:?}/cache/thefuck"
+env TF_SHELL='zsh' thefuck --alias > "${ZDOTDIR:?}/cache/thefuck"
 fasd --init zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install \
     > "${ZDOTDIR:?}/cache/fasd"
 
 touch "${ZDOTDIR:?}/cache/zygal"
-source "$ZDOTDIR/theme/dotfiles/zygal-conf.zsh"
-zsh -ic zygal-static > "${ZDOTDIR:?}/cache/zygal"
+source "$ZDOTDIR/interactive/theme/dotfiles/zygal-conf.zsh"
+zsh -c zygal-static > "${ZDOTDIR:?}/cache/zygal"

@@ -4,20 +4,16 @@
 
 actions:
   post:
-    # This action installs atom packages given in the first argument. This
-    # needs to be a file with one package specification per line.
-    atom-install-packages: apm install --packages-file {0}
-
-    # This action installs VSCode extensions given in the first argument. This
-    # needs to be a file with one package specification per line.
-    vscode-install-extensions: >-
-      xargs -n 1 code --force --install-extension < {0}
-
     i3: sh actions/i3.sh
 
     # This action allows user systemd timers to be executed also when the user
     # is not logged in, via lingering
     timers: id -u | xargs sudo loginctl enable-linger
+
+    # This action installs VSCode extensions given in the first argument. This
+    # needs to be a file with one package specification per line.
+    vscode-install-extensions: >-
+      xargs -n 1 code --force --install-extension < {0}
 
 config:
   backup: false
@@ -83,31 +79,6 @@ dotfiles:
   d_xresources.d:
     src: config/x11/Xresources.d
     dst: '{{@@ xdg_config("x11/Xresources.d") @@}}'
-  f_atom_config.cson:
-    src: atom/config.cson
-    dst: ~/.atom/config.cson
-  f_atom_init.coffee:
-    src: atom/init.coffee
-    dst: ~/.atom/init.coffee
-  f_atom_keymap.cson:
-    src: atom/keymap.cson
-    dst: ~/.atom/keymap.cson
-  f_atom_packages-list.txt:
-    src: atom/packages-list.txt
-    # Temporary destination as the file is not read by Atom at runtime, so it
-    # can be deleted
-    dst: '{{@@ atom_tmp_dst @@}}'
-    actions:
-    # This action installs atom packages listed in the dotfile on-the-fly
-    - atom-install-packages '{{@@ tmp_dst @@}}'
-    # This transformation actually creates the dotfile.
-    trans_write: atom-list-packages
-  f_atom_snippets.cson:
-    src: atom/snippets.cson
-    dst: ~/.atom/snippets.cson
-  f_atom_styles.less:
-    src: atom/styles.less
-    dst: ~/.atom/styles.less
   f_calibre_global.py:
     src: config/calibre/global.py
     dst: '{{@@ xdg_config("calibre/global.py") @@}}'
@@ -210,21 +181,6 @@ dotfiles:
     dst: ~/.xsessionrc
 
 profiles:
-  # This profile groups Atom-related dotfiles, as well as creating the
-  # necessary variables for dotfiles actions. It was chosen to address
-  # individual dotfiles rather than the whole ~/.atom directory as there are
-  # more files to ignore in that directory than the ones to be managed.
-  atom:
-    dotfiles:
-    - f_atom_config.cson
-    - f_atom_init.coffee
-    - f_atom_keymap.cson
-    - f_atom_packages-list.txt
-    - f_atom_snippets.cson
-    - f_atom_styles.less
-    dynvariables:
-      atom_tmp_dst: mktemp /tmp/atom-tmp.XXX
-
   # This profile groups configuration files for CLI-based applictions.
   cli:
     import:
@@ -259,9 +215,9 @@ profiles:
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/gui.yaml:optional
     include:
-    - atom
     - geany
     - look-and-feel
+    - vscode
 
   # This profile contains the dotfiles for the whole i3 session, that means a
   # little bit more than just the i3 configuration file.
@@ -316,7 +272,7 @@ profiles:
     actions:
     - timers
 
-  # This profile groups Atom-related dotfiles, as well as creating the
+  # This profile groups VSCode-related dotfiles, as well as creating the
   # necessary variables for dotfiles actions. It was chosen to address
   # individual dotfiles rather than the whole ~/.config/Code/User directory as
   # there are as many files to ignore in that directory than the ones to be
@@ -342,10 +298,6 @@ profiles:
     - startup
 
 trans_write:
-
-  # This transformation basically creates the dotfile. Indeed, it doesn't use
-  # the {0} argument, and simply dumps the output of the command to {1}
-  atom-list-packages: apm list --bare --installed | grep -o '^[^@]\+' > {1}
 
   # This transformation basically creates the dotfile. Indeed, it doesn't use
   # the {0} argument, and simply dumps the output of the command to {1}

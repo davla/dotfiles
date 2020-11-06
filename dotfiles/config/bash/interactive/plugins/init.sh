@@ -8,7 +8,7 @@
 # Inheriting from POSIX shell
 #######################################
 
-source "$SDOTDIR/plugins/init.sh"
+source "$SDOTDIR/interactive/plugins/shared.sh"
 
 {%@@ if env['DISTRO'] == 'arch' -@@%}
 
@@ -24,10 +24,13 @@ source /usr/share/doc/pkgfile/command-not-found.bash
 # fasd
 #######################################
 
+export _FASD_DATA="$BDOTDIR/interactive/plugins/data/.fasd"
+export _FASD_SHELL='bash'
+
 source "$BDOTDIR/cache/fasd"
 
 #######################################
 # thefuck
 #######################################
 
-# source "$BDOTDIR/cache/thefuck"
+source "$BDOTDIR/cache/thefuck"

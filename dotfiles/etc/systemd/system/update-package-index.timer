@@ -1,9 +1,9 @@
-# atom-plugins systemd timer file
+# update-package-index systemd timer file
 #
 # {{@@ header() @@}}
 
 [Unit]
-Description=Job updating Atom text editor's plugins
+Description=Job updating the package index
 
 [Install]
 WantedBy=timers.target

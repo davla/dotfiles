@@ -1,9 +1,30 @@
 #!/usr/bin/env bash
 
-# This script sets the environment variables for bash
+# This script initializes non-interactive bash shells
+
+# {{@@ header() @@}}
+
+#######################################
+# Loading configuration paths
+#######################################
+
+# shellcheck disable=2027,2140
+source "{{@@ dotdirs_file | home_abs2var @@}}"
 
 #######################################
 # Inheriting from POSIX shell
 #######################################
 
 source "$SDOTDIR/shenv"
+
+#######################################
+# Loading aliases
+#######################################
+
+source "$BDOTDIR/aliases.sh"
+
+#######################################
+# Loading functions
+#######################################
+
+source "$BDOTDIR/functions.sh"

@@ -5,4 +5,4 @@
 
 # encrypted files
 yaml/**/private.yaml
-dotfiles/config/zsh/plugins/dotfiles/warprc.work
+dotfiles/config/zsh/interactive/plugins/dotfiles/warprc.work

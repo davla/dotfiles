@@ -1,8 +1,24 @@
 #!/usr/bin/env sh
 
+# This script defines environment variables for POSIX shell
+
 # {{@@ header() @@}}
 
-# This script defines environment variables for POSIX shell
+#######################################
+# Loading configuration paths
+#######################################
+
+# shellcheck disable=2027,2140
+. "{{@@ dotdirs_file | home_abs2var @@}}"
+
+########################################
+# Bash
+########################################
+
+# This variable defines the script to be sourced for bash non-interactive
+# shells. Since it needs to be defined *before* the bash non-interactive shell
+# is created, it is defined here for all POSIX-compliant shell.
+export BASH_ENV="$BDOTDIR/bashenv"
 
 #######################################
 # Custom

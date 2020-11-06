@@ -27,9 +27,6 @@ dotfiles:
   f_android-studio.list:
     src: etc/apt/sources.list.d/android-studio.list
     dst: /etc/apt/sources.list.d/android-studio.list
-  f_atom.list:
-    src: etc/apt/sources.list.d/atom.list
-    dst: /etc/apt/sources.list.d/atom.list
   f_deb-multimedia.list:
     src: etc/apt/sources.list.d/deb-multimedia.list
     dst: /etc/apt/sources.list.d/deb-multimedia.list
@@ -82,7 +79,6 @@ dotfiles:
 profiles:
   packages:
     dotfiles:
-    - f_atom.list
     - f_firefox-beta.list
     - f_docker.list
     - f_sid.list

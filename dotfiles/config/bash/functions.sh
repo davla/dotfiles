@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-# This script contains useful (or not) bash functions
+# This scripts defines some bash functions, used in bot interactive and
+# non-interactive shells
 
 #######################################
 # Inheriting from POSIX shell

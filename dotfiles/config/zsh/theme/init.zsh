@@ -1,9 +1,9 @@
 #!/usr/bin/env zsh
 
-# This scripts loads and configures the zsh theme
+# This scripts loads and configures the non-interactive parts of zsh themes
 
 #######################################
-# Sourcing zygal static script
+# Sourcing antibody output
 #######################################
 
-source "$ZDOTDIR/cache/zygal"
+source "$ZDOTDIR/theme/themes.zsh"

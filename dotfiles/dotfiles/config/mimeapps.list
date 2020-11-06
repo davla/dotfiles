@@ -1,8 +1,6 @@
 # Default applications settings
 
 [Default Applications]
-x-scheme-handler/atom=atom.desktop
-x-scheme-handler/atom+xml=atom.desktop
 x-scheme-handler/about=firefox.desktop
 x-scheme-handler/ftp=thunar.desktop
 x-scheme-handler/sftp=thunar.desktop

@@ -8,7 +8,7 @@
 # Inheriting from POSIX shell
 #######################################
 
-source "$SDOTDIR/plugins/init.sh"
+source "$SDOTDIR/interactive/plugins/shared.sh"
 
 ###############################################################################
 #
@@ -44,7 +44,7 @@ DEER_KEYS[leave]=l
 # wd
 #######################################
 
-WD_CONFIG="$ZDOTDIR/plugins/dotfiles/warprc"
+WD_CONFIG="$ZDOTDIR/interactive/plugins/dotfiles/warprc"
 WD_SKIP_EXPORT=true
 
 wd() { . "$ANTIBODY_HOME/"*wd/wd.sh }
@@ -117,13 +117,13 @@ YSU_MESSAGE_POSITION='after'
 #
 ###############################################################################
 
-source "$ZDOTDIR/plugins/plugins-before-compinit.zsh"
+source "$ZDOTDIR/interactive/plugins/plugins-before-compinit.zsh"
 
 autoload -Uz compinit bashcompinit
 compinit
 bashcompinit
 
-source "$ZDOTDIR/plugins/plugins-after-compinit.zsh"
+source "$ZDOTDIR/interactive/plugins/plugins-after-compinit.zsh"
 
 ###############################################################################
 #
@@ -135,13 +135,16 @@ source "$ZDOTDIR/plugins/plugins-after-compinit.zsh"
 # fasd
 #######################################
 
+export _FASD_DATA="$ZDOTDIR/interactive/plugins/data/.fasd"
+export _FASD_SHELL='zsh'
+
 source "$ZDOTDIR/cache/fasd"
 
 #######################################
 # thefuck
 #######################################
 
-# source "$ZDOTDIR/cache/thefuck"
+source "$ZDOTDIR/cache/thefuck"
 
 #######################################
 # zsh-autopair

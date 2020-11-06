@@ -17,29 +17,11 @@ source "{{@@ dotdirs_file | home_abs2var @@}}"
 
 source "$BDOTDIR/bashenv"
 
-#######################################
-# Loading plugins
-#######################################
+########################################
+# Loading interactive setup
+########################################
 
-source "$BDOTDIR/plugins/init.sh"
-
-#######################################
-# Loading themes
-#######################################
-
-source "$BDOTDIR/theme/init.sh"
-
-#######################################
-# Loading aliases
-#######################################
-
-source "$BDOTDIR/aliases.sh"
-
-#######################################
-# Loading functions
-#######################################
-
-source "$BDOTDIR/functions.sh"
+source "$BDOTDIR/interactive/init.sh"
 
 #######################################
 # Misc

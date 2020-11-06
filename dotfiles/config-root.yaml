@@ -461,6 +461,7 @@ profiles:
     - shared-timers
     - host-refresh
     import:
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/timers.yaml:optional
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
 
   # This profile includes udev configuration

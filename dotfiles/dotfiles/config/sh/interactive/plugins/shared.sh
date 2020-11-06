@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
-# This script configures and loads POSIX shell plugins and tools
+# This script configures and loads POSIX shell plugins and tools that are
+# useful in interactive shells only
 
 #######################################
 # asdf
@@ -12,23 +13,12 @@
 # exa
 #######################################
 
-EXA_COLORS="$(grep -vP '(^#|^\s*$)' "$SDOTDIR/plugins/dotfiles/exa_colors" \
-    | paste -sd ':')"
+EXA_COLORS="$(grep -vP '(^#|^\s*$)' \
+    "$SDOTDIR/interactive/plugins/dotfiles/exa_colors" | paste -sd ':')"
 export EXA_COLORS
 
 #######################################
 # fasd
 #######################################
 
-export _FASD_DATA="$SDOTDIR/plugins/data/.fasd"
-export _FASD_SHELL='sh'
-
-. "$SDOTDIR/cache/fasd"
-
 alias v='f -e vim'
-
-#######################################
-# thefuck
-#######################################
-
-# . "$SDOTDIR/cache/thefuck"

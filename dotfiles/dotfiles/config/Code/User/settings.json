@@ -206,6 +206,10 @@
             "list.hoverForeground": "#cccccc",
             "list.inactiveSelectionForeground": "#aaaaaa",
             // "notifications.foreground": "#aaaaaa",
+            "peekViewResult.fileForeground": "#aaaaaa",
+            "peekViewResult.lineForeground": "#666666",
+            "peekViewTitleDescription.foreground": "#aaaaaa",
+            "peekViewTitleLabel.foreground": "#666666",
             "pickerGroup.foreground": "#666666",
             // "quickInput.foreground": "#aaaaaa",
             "sideBar.foreground": "#aaaaaa",
@@ -220,21 +224,30 @@
 
             // Background colors
             "editor.lineHighlightBackground": "#262e40AA",
+            "editorSuggestWidget.selectedBackground": "#262e40AA",
             "list.activeSelectionBackground": "#262e40AA",
             "list.focusBackground": "#262e40AA",
             "list.hoverBackground": "#262e40AA",
             "list.inactiveSelectionBackground": "#262e40AA",
+            "peekViewEditor.background": "#111111",
+            "peekViewResult.background": "#0d1016",
+            "peekViewResult.selectionBackground": "#262e40AA",  // grab default
+            "peekViewEditor.matchHighlightBackground": "#e6b45033",
+            "peekViewTitle.background": "#0d1016",
             "statusBar.debuggingBackground": "#262e40",
             "tab.hoverBackground": "#262e4077",
 
             // Border colors
             "activityBar.border": "#262e40",
             "debugToolBar.border": "#262e40",
+            "editorSuggestWidget.border": "#60739f",
             "editorGroupHeader.border": "#262e40",
             "editorGroupHeader.tabsBorder": "#262e40",
-            "notificationCenter.border": "#262e40",
-            "notifications.border": "#262e40",
-            "notificationToast.border": "#262e40",
+            "editorHoverWidget.border": "#60739f",
+            "notificationCenter.border": "#60739f",
+            "notifications.border": "#60739f",
+            "notificationToast.border": "#60739f",
+            "peekView.border": "#60739f",
             "sideBar.border": "#262e40",
             "statusBar.border": "#262e40",
             "tab.border": "#262e40",
@@ -267,14 +280,7 @@
     ////////////////////////////////////////
 
     "C_Cpp.formatting": "Disabled",
-    "C_Cpp.updateChannel": "Insiders",
     "C_Cpp.workspaceParsingPriority": "high",
-
-    ////////////////////////////////////////
-    // CMake extension
-    ////////////////////////////////////////
-
-    "cmake.clearOutputBeforeBuild": false,
     "cmake.configureOnEdit": false,
     "cmake.configureOnOpen": false,
     "cmake.skipConfigureIfCachePresent": true,

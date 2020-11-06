@@ -1,0 +1,18 @@
+# update-package-index systemd service file
+#
+# {{@@ header() @@}}
+
+[Unit]
+Description=Job updating the package index
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=apt-get update ; apt-get upgrade -sqq
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=update-package-index
+SyslogLevel=info
+SyslogLevelPrefix=true
+Type=oneshot

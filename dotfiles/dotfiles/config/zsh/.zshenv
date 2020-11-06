@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-# This script sets the environment variables for zsh
+# This script initializes non-interactive zsh shells
 
 # {{@@ header() @@}}
 
@@ -18,7 +18,25 @@ source "{{@@ dotdirs_file | home_abs2var @@}}"
 source "$SDOTDIR/shenv"
 
 ######################################
-# Antibody
+# Defining Environment variables
 ######################################
 
 export ANTIBODY_HOME="$ZDOTDIR/.antibody"
+
+#######################################
+# Loading aliases
+#######################################
+
+source "$ZDOTDIR/aliases.zsh"
+
+#######################################
+# Loading functions
+#######################################
+
+source "$ZDOTDIR/functions.zsh"
+
+#######################################
+# Loading theme
+#######################################
+
+source "$ZDOTDIR/theme/init.zsh"

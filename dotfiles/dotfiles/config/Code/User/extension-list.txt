@@ -12,6 +12,7 @@ ms-vscode.cmake-tools
 ms-vscode.cpptools
 oderwat.indent-rainbow
 orepor.color-tabs-vscode-ext
+rebornix.toggle
 rubbersheep.gi
 sumneko.lua
 teabyii.ayu

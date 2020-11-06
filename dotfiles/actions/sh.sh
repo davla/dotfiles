@@ -36,12 +36,12 @@ ln -sf "${SDOTDIR:?}/profile" "$HOME/.profile"
 #######################################
 
 mkdir -p "${SDOTDIR:?}/cache"
-mkdir -p "${SDOTDIR:?}/plugins/data"
-mkdir -p "${SDOTDIR:?}/plugins/dotfiles"
+mkdir -p "${SDOTDIR:?}/interactive/plugins/data"
+mkdir -p "${SDOTDIR:?}/interactive/plugins/dotfiles"
 
 #######################################
 # Initializing cache
 #######################################
 
-# thefuck --alias > "${SDOTDIR:?}/cache/thefuck"
+( thefuck --alias & ) > "${SDOTDIR:?}/cache/thefuck"
 fasd --init posix-alias > "${SDOTDIR:?}/cache/fasd"

@@ -1,29 +1,10 @@
-// Place your key bindings in this file to override the defaultsauto[]
+// Place your key bindings in this file to override the defaults
 [
-    {
-        "key": "ctrl+d",
-        "command": "editor.action.duplicateSelection"
-    },
-    {
-        "key": "ctrl+down",
-        "command": "editor.action.moveLinesDownAction",
-        "when": "editorTextFocus && !editorReadonly"
-    },
-    {
-        "key": "alt+down",
-        "command": "-editor.action.moveLinesDownAction",
-        "when": "editorTextFocus && !editorReadonly"
-    },
-    {
-        "key": "ctrl+up",
-        "command": "editor.action.moveLinesUpAction",
-        "when": "editorTextFocus && !editorReadonly"
-    },
-    {
-        "key": "alt+up",
-        "command": "-editor.action.moveLinesUpAction",
-        "when": "editorTextFocus && !editorReadonly"
-    },
+    ////////////////////////////////////////
+    // Editing
+    ////////////////////////////////////////
+
+    // Comments (toggle)
     {
         "key": "alt+c",
         "command": "editor.action.commentLine",
@@ -34,6 +15,14 @@
         "command": "-editor.action.commentLine",
         "when": "editorTextFocus && !editorReadonly"
     },
+
+    // Duplicate
+    {
+        "key": "ctrl+d",
+        "command": "editor.action.duplicateSelection"
+    },
+
+    // Indent/deindent
     {
         "key": "ctrl+i",
         "command": "editor.action.indentLines",
@@ -64,6 +53,48 @@
         "command": "-editor.action.outdentLines",
         "when": "editorTextFocus && !editorReadonly"
     },
+
+    // Lens (toggle)
+    {
+        "key": "alt+g",
+        "command": "toggle",
+        "when": "editorTextFocus",
+        "args": {
+            "id": "lenses",
+            "value": [
+                {
+                    "editor.codeLens": true
+                },
+                {
+                    "editor.codeLens": false
+                }
+            ]
+        }
+    },
+
+    // Move lines
+    {
+        "key": "ctrl+down",
+        "command": "editor.action.moveLinesDownAction",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "alt+down",
+        "command": "-editor.action.moveLinesDownAction",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+up",
+        "command": "editor.action.moveLinesUpAction",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "alt+up",
+        "command": "-editor.action.moveLinesUpAction",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+
+    // Quotes (toggle)
     {
         "key": "alt+q",
         "command": "editor.togglequotes"
@@ -72,6 +103,19 @@
         "key": "ctrl+'",
         "command": "-editor.togglequotes"
     },
+
+    ////////////////////////////////////////
+    // Code navigation
+    ////////////////////////////////////////
+
+    // Declaration
+    {
+        "key": "alt+l",
+        "command": "editor.action.revealDeclaration",
+        "when": "editorHasDeclarationProvider && editorTextFocus && !isInEmbeddedEditor"
+    },
+
+    // Definition
     {
         "key": "alt+d",
         "command": "editor.action.revealDefinition",
@@ -82,11 +126,8 @@
         "command": "-editor.action.revealDefinition",
         "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
     },
-    {
-        "key": "alt+l",
-        "command": "editor.action.revealDeclaration",
-        "when": "editorHasDeclarationProvider && editorTextFocus && !isInEmbeddedEditor"
-    },
+
+    // Implementation
     {
         "key": "alt+i",
         "command": "editor.action.goToImplementation",
@@ -97,6 +138,8 @@
         "command": "-editor.action.goToImplementation",
         "when": "editorHasImplementationProvider && editorTextFocus && !isInEmbeddedEditor"
     },
+
+    // References
     {
         "key": "alt+r",
         "command": "references-view.find",
@@ -107,6 +150,8 @@
         "command": "-references-view.find",
         "when": "editorHasReferenceProvider"
     },
+
+    // Rename
     {
         "key": "alt+n",
         "command": "editor.action.rename",
@@ -116,5 +161,27 @@
         "key": "f2",
         "command": "-editor.action.rename",
         "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
+    },
+
+    ////////////////////////////////////////
+    // Tabs
+    ////////////////////////////////////////
+
+    // Tabs (previous/next)
+    {
+        "key": "alt+left",
+        "command": "workbench.action.previousEditor"
+    },
+    {
+        "key": "ctrl+pageup",
+        "command": "-workbench.action.previousEditor"
+    },
+    {
+        "key": "alt+right",
+        "command": "workbench.action.nextEditor"
+    },
+    {
+        "key": "ctrl+pagedown",
+        "command": "-workbench.action.nextEditor"
     }
 ]

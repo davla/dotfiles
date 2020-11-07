@@ -1,0 +1,7 @@
+%YAML 1.2
+---
+# This dotfiles file lists the extra custom commands dotfiles for my raspberry
+# pi.
+
+dotfiles:
+- f_local_bin_my-certbot

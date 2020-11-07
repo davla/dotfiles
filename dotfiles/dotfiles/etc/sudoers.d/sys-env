@@ -1,6 +1,0 @@
-# {{@@ header() @@}}
-#
-# This file preserves in sudo the system environment variables declared in
-# {{@@ sys_env_path @@}}
-
-Defaults env_keep += "DOTFILES_HOME"

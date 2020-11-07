@@ -219,37 +219,6 @@ dotfiles:
   f_sudo_insults:
     src: etc/sudoers.d/insults
     dst: /etc/sudoers.d/insults
-  f_sudo_sys-env:
-    src: etc/sudoers.d/sys-env
-    dst: /etc/sudoers.d/sys-env
-  f_sys-env:
-    src: etc/profile.d/sys-env.sh
-    # Dynamic path as it's used somewhere else too
-    dst: '{{@@ sys_env_path @@}}'
-  f_sys-env-bash:
-    src: env/source-sys-env
-    # Dynamic path since the dotfile content is inserted into dst
-    dst: '{{@@ sys_env_tmp_dst @@}}'
-    actions:
-    - create_if_empty '{{@@ bash_env_dst @@}}' '#!/usr/bin/env bash\n'
-    - strip_file '{{@@ sys_env_tmp_dst @@}}' '{{@@ bash_env_dst @@}}'
-    # Inserts after the first empty line or the first comment
-    - >-
-      insert_match '(^$|^[^#])' '{{@@ sys_env_tmp_dst @@}}'
-        '{{@@ bash_env_dst @@}}'
-    - rm '{{@@ sys_env_tmp_dst @@}}'
-  f_sys-env-zsh:
-    src: env/source-sys-env
-    # Dynamic path since the dotfile content is inserted into dst
-    dst: '{{@@ sys_env_tmp_dst @@}}'
-    actions:
-    - create_if_empty '{{@@ zsh_env_dst @@}}' '#!/usr/bin/env zsh\n'
-    - strip_file '{{@@ sys_env_tmp_dst @@}}' '{{@@ zsh_env_dst @@}}'
-    # Inserts after the first empty line or the first comment
-    - >-
-      insert_match '(^$|^[^#])' '{{@@ sys_env_tmp_dst @@}}'
-        '{{@@ zsh_env_dst @@}}'
-    - rm '{{@@ sys_env_tmp_dst @@}}'
   f_udev_999-hid.rules:
     src: etc/udev/rules.d/999-hid.rules
     dst: /etc/udev/rules.d/999-hid.rules
@@ -357,13 +326,7 @@ profiles:
   # This profile contains dotfiles used to setup the global shell environment
   environment:
     dotfiles:
-    - f_sys-env
-    - f_sys-env-bash
-    - f_sys-env-zsh
-    - f_sudo_sys-env
     - f_sudo_insults
-    dynvariables:
-      sys_env_tmp_dst: mktemp /tmp/sys-env-tmp.XXX
     actions:
     - environment
 

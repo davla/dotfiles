@@ -20,12 +20,6 @@
 # is created, it is defined here for all POSIX-compliant shell.
 export BASH_ENV="$BDOTDIR/bashenv"
 
-#######################################
-# Custom
-#######################################
-
-export DOTFILES_HOME="{{@@ dotfiles_home | find_in_home | home_abs2var @@}}"
-
 {%@@ if exists(docker_path) -@@%}
 
 #######################################

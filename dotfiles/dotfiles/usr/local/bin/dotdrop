@@ -8,18 +8,10 @@
 #       'root' or 'both'. Optional, defaults to 'user' for unprivileged users
 #        and to 'root' for root.
 #   - $@: dotdrop arguments.
-#
-# Environment:
-#   - $DOTFILES_HOME: the directory where Pipfile and dotdrop.sh are located.
-#                     Defaults to $HOME/Files/Programming/sys/dotfiles.
+
+# {{@@ header() @@}}
 
 set -e
-
-#######################################
-# Variables
-#######################################
-
-DOTFILES_HOME="${DOTFILES_HOME:-$HOME/Files/Programming/sys/dotfiles}"
 
 #######################################
 # Input processing
@@ -50,8 +42,8 @@ for ARG in "$@"; do
                 continue
             }
 
-            # Relative paths need to be resolved before cd-ing into
-            # $DOTFILES_HOME, otherwise they become invalid afterwards
+            # Relative paths need to be resolved before cd-ing into the
+            # dotfiles directory, otherwise they become invalid afterwards
             [ -e "$ARG" ] && ARG="$(readlink -f "$ARG")"
             ARGS+=("$ARG")
             ;;
@@ -75,18 +67,16 @@ esac
 # Executing dotdrop
 #######################################
 
-# Will exit the exript if $DOTFILES_HOME is not defined and
-# $HOME/Files/Programming/sys/dotfiles doesn't exist
-cd $DOTFILES_HOME || exit
+cd "{{@@ dotfiles_home | find_in_home | home_abs2var @@}}" || exit
 
 case "$WHO" in
-    user|both)
+    'user'|'both')
         pipenv run bash dotdrop.sh "$CMD" -c 'config-user.yaml' "${ARGS[@]}"
         ;;
 esac
 
 case "$WHO" in
-    root|both)
+    'root'|'both')
         if [ "$USER" = 'root' ]; then
             pipenv run bash dotdrop.sh "$CMD" -c 'config-root.yaml' \
                 "${ARGS[@]}"

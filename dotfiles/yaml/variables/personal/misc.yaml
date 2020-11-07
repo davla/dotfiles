@@ -3,11 +3,6 @@
 # This variables file defines some miscellaneous host-specific variables for my
 # personal system.
 
-dynvariables:
-  # This is the directory from where dotdrop is invoked by the wrapper custom
-  # command
-  dotfiles_home: git rev-parse --show-toplevel
-
 variables:
   # Email to be used for git. Also my Github email
   email: truzzialrogo@gmx.com

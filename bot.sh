@@ -444,7 +444,7 @@ esac
 case "$STEP" in
     'network'|'all')
         # Network
-        $STEP_RUNNER "sudo sh -e scripts/$HOSTNAME/network.sh" \
+        $STEP_RUNNER "sudo sh -e scripts/$HOST/network.sh" \
             'setting up the network' 'set up the network'
         ;;
 esac

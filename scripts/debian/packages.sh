@@ -15,7 +15,7 @@
 #######################################
 
 # shellcheck disable=2039
-case "$HOSTNAME" in
+case "$HOST" in
     'personal')
         # Executable file names to be linked on $PATH
         EXECS='arduino
@@ -137,7 +137,7 @@ apt-get update
 #######################################
 
 # shellcheck disable=2039
-case "$HOSTNAME" in
+case "$HOST" in
     'personal')
         apt-get install firmware-realtek firmware-iwlwifi
         ;;
@@ -149,7 +149,7 @@ esac
 
 # Installation
 # shellcheck disable=2039
-case "$HOSTNAME" in
+case "$HOST" in
     'personal')
         apt-get install aisleriot asunder brasero calibre dropbox enpass \
             balena-etcher-electron gimp gnome-mines gnome-sudoku gufw \
@@ -175,7 +175,7 @@ sudo -u "$USER_NAME" dotdrop install -p gui
 
 # Installation
 # shellcheck disable=2039
-case "$HOSTNAME" in
+case "$HOST" in
     'personal')
         apt-get install apng2gif autorandr cabal-install cups ghc gifsicle \
             git-review handbrake-cli heroku hlint imagemagick lame \

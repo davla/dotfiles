@@ -9,7 +9,7 @@
 #   - $1 - The directory where autorandr configurations are located.
 
 # This doesn't work if this script is sourced
-. "$(dirname "$0")"/../.env
+. "$(dirname "$0")"/../../.env
 
 #######################################
 # Functions

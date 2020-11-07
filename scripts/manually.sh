@@ -31,7 +31,7 @@ USER_NAME="${1:-$USER}"
 # Telegram
 #######################################
 
-case "$HOSTNAME" in
+case "$HOST" in
     'personal')
         # Installing the executables
         mkdir -p "$TELEGRAM_HOME"

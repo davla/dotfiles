@@ -1,0 +1,40 @@
+%YAML 1.2
+---
+# This dotdrop config file is meant for managing and bootstraping code
+# repositories and workspace setup
+
+actions:
+  # This action links an mrtrust file to where myrepos expect it to be
+  mrtrust: ln -sf '{0}' "$HOME/.mrtrust"
+
+config:
+  backup: false
+  banner: true
+  create: true
+  dotpath: ../../dotfiles
+  func_file:
+  - ../../python/functions.py
+  ignoreempty: true
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+  showdiff: true
+  workdir: '{{@@ xdg_config("dotdrop") @@}}'
+
+dotfiles:
+  f_code-mrconfig:
+    src: code/mrconfig.{{@@ env['HOST'] @@}}
+    dst: ~/code/.mrconfig
+  f_mrtrust:
+    src: config/mr/mrtrust
+    dst: '{{@@ xdg_config("mr/mrtrust") @@}}'
+    actions:
+    - mrtrust '{{@@ _dotfile_abs_dst @@}}'
+
+profiles:
+  # This profile groups myrepos config files to bootstrap a host's workspace
+  repos:
+    dotfiles:
+    - f_code-mrconfig
+    - f_mrtrust

@@ -3,6 +3,10 @@
 # This dotdrop config file is meant for dotfiles, actions, profiles etc. shared
 # between both root and user
 
+actions:
+  # This action links an mrtrust file to where myrepos expect it to be
+  mrtrust: ln -sf '{0}' "$HOME/.mrtrust"
+
 config:
   backup: false
   banner: true
@@ -26,7 +30,12 @@ config:
   showdiff: true
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
-dotfiles: []
+dotfiles:
+  f_mrtrust:
+    src: config/mr/mrtrust
+    dst: '{{@@ xdg_config("mr/mrtrust") @@}}'
+    actions:
+    - mrtrust '{{@@ _dotfile_abs_dst @@}}'
 
 profiles:
   # This profile serves as placeholder for profile includes

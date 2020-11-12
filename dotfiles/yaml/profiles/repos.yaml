@@ -15,6 +15,8 @@ config:
   func_file:
   - ../../python/functions.py
   ignoreempty: true
+  import_config:
+  - shared.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -29,11 +31,6 @@ dotfiles:
   f_secret_env:
     src: env/env.tar.{{@@ env['HOST'] @@}}
     dst:
-  f_mrtrust:
-    src: config/mr/mrtrust
-    dst: '{{@@ xdg_config("mr/mrtrust") @@}}'
-    actions:
-    - mrtrust '{{@@ _dotfile_abs_dst @@}}'
 
 profiles:
   # This profile groups myrepos config files to bootstrap a host's workspace

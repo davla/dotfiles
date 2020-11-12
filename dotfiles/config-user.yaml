@@ -25,6 +25,7 @@ config:
   ignoreempty: true
   import_configs:
   - yaml/profiles/autorandr.yaml
+  - yaml/profiles/repos.yaml
   - yaml/profiles/shared.yaml
   import_variables:
   - yaml/variables/{{@@ user @@}}/*.yaml:optional

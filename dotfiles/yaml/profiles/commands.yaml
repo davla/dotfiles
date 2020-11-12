@@ -61,7 +61,7 @@ profiles:
     dotfiles:
     - f_local_bin_dotdrop
     import:
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/commands.yaml:optional
+    - ../dotfiles/{{@@ env['HOST'] @@}}/commands.yaml:optional
     include:
     - host-refresh
     - shell-cache

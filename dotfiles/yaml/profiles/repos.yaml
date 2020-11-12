@@ -26,6 +26,9 @@ dotfiles:
   f_code-mrconfig:
     src: code/mrconfig.{{@@ env['HOST'] @@}}
     dst: ~/code/.mrconfig
+  f_secret_env:
+    src: env/env.tar.{{@@ env['HOST'] @@}}
+    dst:
   f_mrtrust:
     src: config/mr/mrtrust
     dst: '{{@@ xdg_config("mr/mrtrust") @@}}'
@@ -38,3 +41,5 @@ profiles:
     dotfiles:
     - f_code-mrconfig
     - f_mrtrust
+    import:
+    - ../dotfiles/{{@@ env['HOST'] @@}}/repos.yaml:optional

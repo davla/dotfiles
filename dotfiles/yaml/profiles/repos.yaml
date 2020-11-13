@@ -25,9 +25,12 @@ config:
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
-  f_code-mrconfig:
+  f_mrconfig_code:
     src: code/mrconfig.{{@@ env['HOST'] @@}}
     dst: ~/code/.mrconfig
+  f_mrconfig_wiki:
+    src: code/wiki/mrconfig
+    dst: ~/code/wiki/.mrconfig
   f_secret_env:
     src: env/env.tar.{{@@ env['HOST'] @@}}
     dst:
@@ -36,7 +39,7 @@ profiles:
   # This profile groups myrepos config files to bootstrap a host's workspace
   repos:
     dotfiles:
-    - f_code-mrconfig
+    - f_mrconfig_code
     - f_mrtrust
     import:
     - ../dotfiles/{{@@ env['HOST'] @@}}/repos.yaml:optional

@@ -134,9 +134,6 @@ dotfiles:
   f_mimeapps.list:
     src: config/mimeapps.list
     dst: '{{@@ xdg_config("mimeapps.list") @@}}'
-  f_mrconfig_wiki:
-    src: code/wiki/mrconfig
-    dst: ~/code/wiki/.mrconfig
   f_orage_oragerc:
     src: config/orage/oragerc
     dst: '{{@@ xdg_config("orage/oragerc") @@}}'
@@ -249,14 +246,6 @@ profiles:
     - f_xresources
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/look-and-feel.yaml:optional
-
-  # This profile contains dotfiles for managing repositories with myrepos
-  myrepos:
-    dotfiles:
-    - f_mrtrust
-    import:
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/myrepos.yaml:optional
-    - yaml/dotfiles/{{@@ user @@}}/myrepos.yaml:optional
 
   # This profile contains dotfiles used when the X11 session starts.
   startup:

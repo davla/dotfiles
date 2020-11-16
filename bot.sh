@@ -365,7 +365,7 @@ esac
 case "$STEP" in
     'custom-commands'|'all')
         # Custom commands - they are used by other scripts.
-        $STEP_RUNNER "sudo pipenv run bash dotfiles/dotdrop.sh install
+        $STEP_RUNNER "cd dotfiles && sudo pipenv run bash dotdrop.sh install \
 -c config-root.yaml -p commands" \
             'custom commands installation' \
             'install your custom commands'

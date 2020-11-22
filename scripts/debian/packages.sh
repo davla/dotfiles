@@ -151,7 +151,7 @@ esac
 # shellcheck disable=2039
 case "$HOST" in
     'personal')
-        apt-get install aisleriot asunder brasero calibre dropbox enpass \
+        apt-get install aisleriot asunder brasero calibre dropbox \
             balena-etcher-electron gimp gnome-mines gnome-sudoku gufw \
             handbrake-gtk libreoffice-calc libreoffice-impress \
             libreoffice-writer gnome-mahjongg kid3 quadrapassel remmina \

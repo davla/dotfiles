@@ -50,7 +50,6 @@
         <value type="string" value="camorama"/>
         <value type="string" value="discord"/>
         <value type="string" value="dropbox"/>
-        <value type="string" value="enpass-desktop"/>
         <value type="string" value="gtk-recordmydesktop"/>
         <value type="string" value="ibus panel"/>
         <value type="string" value="networkmanager applet"/>

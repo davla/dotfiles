@@ -6,7 +6,6 @@
 dotfiles:
 - f_deb-multimedia.list
 - f_dropbox.list
-- f_enpass.list
 - f_etcher.list
 - f_heroku.list
 - f_skype-stable.list

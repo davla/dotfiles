@@ -43,13 +43,6 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                     > /dev/null
                 ;;
 
-            'enpass')
-                echo "Installing apt repository key for $REPO"
-
-                apt-key adv --fetch-keys \
-                    'https://dl.sinew.in/keys/enpass-linux.key' > /dev/null
-                ;;
-
             'etcher')
                 echo "Installing apt repository key for $REPO"
 

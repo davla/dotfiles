@@ -36,9 +36,6 @@ dotfiles:
   f_dropbox.list:
     src: etc/apt/sources.list.d/dropbox.list
     dst: /etc/apt/sources.list.d/dropbox.list
-  f_enpass.list:
-    src: etc/apt/sources.list.d/enpass.list
-    dst: /etc/apt/sources.list.d/enpass.list
   f_etcher.list:
     src: etc/apt/sources.list.d/etcher.list
     dst: /etc/apt/sources.list.d/etcher.list

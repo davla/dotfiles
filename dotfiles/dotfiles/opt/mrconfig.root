@@ -28,7 +28,7 @@ checkout =
     git clone 'https://github.com/fboender/multi-git-status.git' \
         'multi-git-status'
 install =
-    sh "$MR_REPO/install.sh"
+    make install
 
 
 [/opt/underclock]

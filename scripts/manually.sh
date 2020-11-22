@@ -27,12 +27,31 @@ USER_NAME="${1:-$USER}"
 # Self-updating applications
 #######################################
 
+########################################
+# BitWarden
+########################################
+
+echo '\e[32m[INFO]\e[0m Installing BitWarden'
+
+# Downloading *.deb file
+BITWARDEN_DEB="$(mktemp /tmp/bitwarden-deb.XXX)"
+wget -qO "$BITWARDEN_DEB" \
+    'https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb'
+
+# Installing Debian package
+dpkg --install "$BITWARDEN_DEB"
+
+# Deleting *.deb file
+rm "$BITWARDEN_DEB"
+
 #######################################
 # Telegram
 #######################################
 
 case "$HOST" in
     'personal')
+        echo '\e[32m[INFO]\e[0m Installing Telegram'
+
         # Installing the executables
         mkdir -p "$TELEGRAM_HOME"
         wget -qO - 'https://tdesktop.com/linux' \

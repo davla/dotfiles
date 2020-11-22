@@ -19,9 +19,9 @@ My dotfiles repository. Really, just configuration files
 - dotdrop autocompletion
 - More preferences
   + Firefox
-  + Enpass
   + Thunderbird
   + Dropbox
   + Telegram
+  + BitWarden
 - i3
   + restart xfce4-terminal in autorandr

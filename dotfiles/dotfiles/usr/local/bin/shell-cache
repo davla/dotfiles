@@ -68,7 +68,7 @@ log_debug "Testing for fasd bash cache refreshing"
 FASD_BASH_CACHE="${BDOTDIR:?}/cache/fasd"
 if [ -f "$FASD_BASH_CACHE" ]; then
     log_info "Refreshing fasd bash cache"
-    fasd --init bash-hook bash-ccomp bash-ccomp-install 2>&1 \
+    fasd --init bash-hook bash-ccomp bash-ccomp-install posix-alias 2>&1 \
         > "$FASD_BASH_CACHE" | log_error >&2
 else
     log_debug "No fasd bash cache found"
@@ -78,7 +78,7 @@ log_debug "Testing for fasd zsh cache refreshing"
 FASD_ZSH_CACHE="${ZDOTDIR:?}/cache/fasd"
 if [ -f "$FASD_ZSH_CACHE" ]; then
     log_info "Refreshing fasd zsh cache"
-    fasd --init zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp \
+    fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp \
         zsh-wcomp-install 2>&1 > "$FASD_ZSH_CACHE" | log_error >&2
 else
     log_debug "No fasd zsh cache found"

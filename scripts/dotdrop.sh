@@ -2,7 +2,8 @@
 
 # This script installs dotdrop dependencies in a virtual environment
 
-. ./.env
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/../.env"
 
 #######################################
 # Input processing

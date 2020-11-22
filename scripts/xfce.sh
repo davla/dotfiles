@@ -2,7 +2,8 @@
 
 # This script installs Xfce desktop environment and its configuration
 
-. ./.env
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/../.env"
 
 #######################################
 # Installing Xfce

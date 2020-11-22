@@ -2,7 +2,8 @@
 
 # This script installs a graphical login manager (LightDM) and configures it.
 
-. ./.env
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/../.env"
 
 #######################################
 # Installing LightDM

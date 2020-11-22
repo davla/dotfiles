@@ -12,7 +12,8 @@
 #   - $2: the old user name. If not specified, an non-root user with an active
 #         password is used, provided that there's only one.
 
-. ./.env
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/../.env"
 
 #######################################
 # Input processing

@@ -2,7 +2,8 @@
 
 # This script installs i3 window manager and its configuration
 
-. ./.env
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/../.env"
 
 #######################################
 # Installing i3

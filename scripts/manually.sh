@@ -54,7 +54,7 @@ case "$HOST" in
 
         # Installing the executables
         mkdir -p "$TELEGRAM_HOME"
-        wget -qO - 'https://tdesktop.com/linux' \
+        wget -qO - 'https://telegram.org/dl/desktop/linux' \
             | tar -xJC "$TELEGRAM_HOME" --strip-components=1
 
         # Linking the main executable in $PATH

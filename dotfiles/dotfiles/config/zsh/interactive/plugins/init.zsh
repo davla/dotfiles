@@ -73,23 +73,6 @@ ZSH_AUTOSUGGEST_USE_ASYNC=true
 
 ZSH_COMMAND_NOT_FOUND_NO_FAILURE_MSG=false
 
-{%@@ if not is_headless -@@%}
-
-#######################################
-# zsh-notify
-#######################################
-
-{%@@ set icon_theme_path = '$HOME/.icons/%s/scalable/emblems'
-    | format(icon_theme) @@%}
-
-zstyle ':notify:*' command-complete-timeout 5
-zstyle ':notify:*' error-icon "{{@@ icon_theme_path @@}}/emblem-important.svg"
-zstyle ':notify:*' error-title 'Error - took #{time_elapsed}s'
-zstyle ':notify:*' success-icon "{{@@ icon_theme_path @@}}/emblem-ok.svg"
-zstyle ':notify:*' success-title 'OK - took #{time_elapsed}s'
-
-{%@@ endif -@@%}
-
 #######################################
 # zsh-syntax-highlight
 #######################################
@@ -165,3 +148,21 @@ bindkey "${terminfo[kcuu1]}" history-substring-search-up
 bindkey "${terminfo[kcud1]}" history-substring-search-down
 
 setopt HIST_IGNORE_ALL_DUPS
+
+{%@@ if not is_headless -@@%}
+
+#######################################
+# zsh-notify
+#######################################
+
+{%@@ set icon_theme_path = '$HOME/.icons/%s/scalable/emblems'
+    | format(icon_theme) -@@%}
+
+zstyle ':notify:*' app-name 'sh'
+zstyle ':notify:*' command-complete-timeout 5
+zstyle ':notify:*' error-icon "{{@@ icon_theme_path @@}}/emblem-important.svg"
+zstyle ':notify:*' error-title 'Error - took #{time_elapsed}s'
+zstyle ':notify:*' expire-time 2500
+zstyle ':notify:*' success-icon "{{@@ icon_theme_path @@}}/emblem-ok.svg"
+zstyle ':notify:*' success-title 'OK - took #{time_elapsed}s'
+{%@@ endif -@@%}

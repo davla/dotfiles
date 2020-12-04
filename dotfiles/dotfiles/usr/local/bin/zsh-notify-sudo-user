@@ -1,0 +1,48 @@
+#!/usr/bin/env zsh
+
+# This script is meant to be used as a 'notifier' executable in the
+# zsh-notify plugin (https://github.com/marzocchi/zsh-notify).
+#
+# Indeed, it reimplements some of the plugin logic, and uses some of the plugin
+# configuration values, in order to replicate the notifications as sent by
+# the plugin itself.
+#
+# Arguments:
+#   - $1: The type of notification to display. One of: 'error', 'success'.
+#   - $2: The elapsed time of the command that triggered the notification, in
+#         seconds.
+#   - stdin: The command that triggered the notification.
+
+########################################
+# Loading configuration
+########################################
+
+# The zsh-notify configuration needs to be in place, so that it can be used
+# below via `zstyle`. However, this is not an interactive script, so the
+# plugins configuration script needs to be sourced manually.
+source "$ZDOTDIR/interactive/plugins/init.zsh"
+
+########################################
+# Configuring
+########################################
+
+# Parameters
+TYPE="$1"
+ELAPSED_TIME="$2"
+read COMMAND
+
+# zsh-notify configuration
+zstyle -s ':notify:' "$TYPE-title" TITLE_FORMAT
+zstyle -s ':notify:' "$TYPE-icon" ICON
+zstyle -s ':notify:' 'expire-time' EXPIRE_TIME
+
+########################################
+# Notifying
+########################################
+
+# Creating the notification tile from format
+TITLE="$(sed "s/#{time_elapsed}/$ELAPSED_TIME/" <<<"$TITLE_FORMAT")"
+
+# Sending a notification as the user executing via "sudo"
+sudo -u "$SUDO_USER" notify-send -t "$EXPIRE_TIME" -i "$ICON" \
+    "$TITLE ($USER)" -- "$COMMAND"

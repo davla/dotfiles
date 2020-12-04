@@ -163,6 +163,9 @@ zstyle ':notify:*' command-complete-timeout 5
 zstyle ':notify:*' error-icon "{{@@ icon_theme_path @@}}/emblem-important.svg"
 zstyle ':notify:*' error-title 'Error - took #{time_elapsed}s'
 zstyle ':notify:*' expire-time 2500
+{%@@ if user == 'root' @@%}
+zstyle ':notify:*' notifier 'zsh-notify-sudo-user'
+{%@@ endif @@%}
 zstyle ':notify:*' success-icon "{{@@ icon_theme_path @@}}/emblem-ok.svg"
 zstyle ':notify:*' success-title 'OK - took #{time_elapsed}s'
 {%@@ endif -@@%}

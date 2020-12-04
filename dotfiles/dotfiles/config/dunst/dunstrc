@@ -2,7 +2,8 @@
     icon_theme, margin, vertical_padding, width) @@%}
 {%@@ set background_color = '#000000' @@%}
 {%@@ set border_color = main_theme_color @@%}
-{%@@ set home = abs_path(env['HOME']) @@%}
+{%@@ set icons_path = '/usr/share/icons/%s/scalable/real_icons'
+    | format(icon_theme) @@%}
 {%@@ set notify_modifiers = 'mod4+ctrl' @@%}
 {%@@ set text_color = main_theme_color @@%}
 # {{@@ header() @@}}
@@ -130,7 +131,9 @@
     max_icon_size = {{@@ icon_size @@}}
 
     # Paths to default icons.
-    icon_path = {{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/actions:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/apps:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/categories:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/devices:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/emblems:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/mimetypes:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/places:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/status:{{@@ home @@}}/.icons/{{@@ icon_theme @@}}/scalable/real_icons/stock
+    icon_path = {{@@ ['actions', 'apps', 'categories', 'devices', 'emblems',
+            'mimetypes', 'places', 'status', 'stock']
+        | map('format_by', icons_path + '/%s') | join(':') @@}}
 
     ### History ###
 

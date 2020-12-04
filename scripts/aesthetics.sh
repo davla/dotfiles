@@ -15,9 +15,9 @@
 #######################################
 
 # Path where themes are are installed
-CURSORS_PATH="$HOME/.icons"
-DESKTOP_PATH="$HOME/.local/share/themes"
-ICONS_PATH="$HOME/.icons"
+CURSORS_PATH="/usr/share/icons"
+DESKTOP_PATH="/usr/share/themes"
+ICONS_PATH="/usr/share/icons"
 
 #######################################
 # Functions

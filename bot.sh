@@ -507,7 +507,7 @@ esac
 case "$STEP" in
     'themes'|'all')
         # Themes
-        $STEP_RUNNER 'sh -e scripts/aesthetics.sh' \
+        $STEP_RUNNER 'sudo sh -e scripts/aesthetics.sh' \
             'cursor, desktop and icon themes installation' \
             'install cursor, desktop and icon themes'
         ;;

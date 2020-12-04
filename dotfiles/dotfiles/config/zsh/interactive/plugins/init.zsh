@@ -155,7 +155,7 @@ setopt HIST_IGNORE_ALL_DUPS
 # zsh-notify
 #######################################
 
-{%@@ set icon_theme_path = '$HOME/.icons/%s/scalable/emblems'
+{%@@ set icon_theme_path = '/usr/share/icons/%s/scalable/emblems'
     | format(icon_theme) -@@%}
 
 zstyle ':notify:*' app-name 'sh'

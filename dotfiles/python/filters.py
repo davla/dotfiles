@@ -7,17 +7,14 @@ This module defines some custom filters to be used in dotdrop jinja2 templates.
 
 from pathlib import Path
 
+from jinja2.utils import soft_unicode
+
 import python.lib as lib
 
 
-def tildeTo(path: str, replacement: str) -> str:
-    """Replace leading tilde with a given string."""
-    return lib.tilde_first.sub(replacement, path)
-
-
-def tilde2home(path: str) -> str:
-    """Replace leading tilde with '$HOME'."""
-    return tildeTo(path, replacement='$HOME')
+def format_by(arg: str, format: str) -> str:
+    """well"""
+    return soft_unicode(format) % arg
 
 
 def find_in_home(path: str) -> str:
@@ -48,3 +45,13 @@ def find_in_home(path: str) -> str:
 def home_abs2var(path: str) -> str:
     """Replace the user's home directory absolute path with '$HOME'."""
     return lib.abs_home_first.sub('$HOME', path)
+
+
+def tildeTo(path: str, replacement: str) -> str:
+    """Replace leading tilde with a given string."""
+    return lib.tilde_first.sub(replacement, path)
+
+
+def tilde2home(path: str) -> str:
+    """Replace leading tilde with '$HOME'."""
+    return tildeTo(path, replacement='$HOME')

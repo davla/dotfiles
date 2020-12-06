@@ -4,7 +4,7 @@
 
 # This block shows the time and the date, including the weekday
 [time]
-command=date '+%H:%M:%S        %d-%m-%Y (%a)'
+command=date '+%H:%M:%S        %d-%m-%Y (%a){%@@ if env['HOST'] == 'work' @@%} - %V{%@@ endif @@%}'
 interval=1
 
 {%@@ if env['HOST'] == 'personal' -@@%}

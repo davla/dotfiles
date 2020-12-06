@@ -82,5 +82,5 @@ fasd --init zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install \
     > "${ZDOTDIR:?}/cache/fasd"
 
 touch "${ZDOTDIR:?}/cache/zygal"
-source "$ZDOTDIR/interactive/theme/dotfiles/zygal-conf.zsh"
+source "$ZDOTDIR/theme/dotfiles/zygal-conf.zsh"
 zsh -c zygal-static > "${ZDOTDIR:?}/cache/zygal"

@@ -18,6 +18,7 @@ variables:
   i3_editor_height: 850
   i3_spotify_width: 1500
   i3_spotify_height: 850
+  i3_spotify_scale: 1
   i3_teams_width: 1200
   i3_teams_height: 950
   i3_telegram_width: 900
@@ -38,6 +39,7 @@ variables:
   lodpi_i3_editor_height: '{{@@ i3_editor_height @@}}'
   lodpi_i3_spotify_width: '{{@@ i3_spotify_width @@}}'
   lodpi_i3_spotify_height: '{{@@ i3_spotify_height @@}}'
+  lodpi_i3_spotify_scale: '{{@@ i3_spotify_scale @@}}'
   lodpi_i3_teams_width: '{{@@ i3_teams_width @@}}'
   lodpi_i3_teams_height: '{{@@ i3_teams_height @@}}'
   lodpi_i3_telegram_width: '{{@@ i3_telegram_width @@}}'
@@ -59,6 +61,7 @@ variables:
   hidpi_i3_editor_height: '{{@@ i3_editor_height * 2 @@}}'
   hidpi_i3_spotify_width: '{{@@ i3_spotify_width * 2 @@}}'
   hidpi_i3_spotify_height: '{{@@ i3_spotify_height * 2 @@}}'
+  hidpi_i3_spotify_scale: '{{@@ i3_spotify_scale * 2 @@}}'
   hidpi_i3_teams_width: '{{@@ i3_teams_width * 2 @@}}'
   hidpi_i3_teams_height: '{{@@ i3_teams_height * 2 @@}}'
   hidpi_i3_telegram_width: '{{@@ i3_telegram_width * 2 @@}}'

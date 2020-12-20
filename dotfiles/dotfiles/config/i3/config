@@ -36,6 +36,9 @@ set $vscode_criterion instance="code"
 # Application instance titles
 set $calc_title calculator
 
+# Resources
+set_from_resource $spotify_scale i3wm.SpotifyScale 1
+
 bindsym $mod+Shift+e exec $term --title $calc_title -e lua
 bindsym $mod+space exec i3-dmenu-desktop
 bindsym $mod+Shift+space exec dmenu_run
@@ -54,7 +57,8 @@ bindsym $mod+Shift+Tab exec --no-startup-id i3-start-or-scratchpad \
     '$term --title scratchpad-terminal' '--name scratchpad-terminal' \
     '$scratchpad_term_criterion'
 bindsym $mod+u exec thunar
-bindsym $mod+p exec --no-startup-id i3-start-or-scratchpad 'spotify' \
+bindsym $mod+p exec --no-startup-id i3-start-or-scratchpad \
+    'spotify --force-device-scale-factor=$spotify_scale' \
     '--classname spotify' '$spotify_criterion'
 
 {%@@ if env['HOST'] == 'personal' -@@%}

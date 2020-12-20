@@ -1,0 +1,51 @@
+#!/usr/bin/env sh
+
+# This script wraps `playerctl` to allow it to operate on the currently active
+# player(s)
+#
+# Arguments:
+# - $@: Arguments forwarded to playerctl
+
+########################################
+# Checking for explicit player
+########################################
+
+# If an explicit player is passed as an argument, just calling playerctl
+case "$*" in
+    '*--player*')
+        playerctl "$@"
+        exit
+        ;;
+esac
+
+########################################
+# Getting available players
+########################################
+
+PLAYERS_FILE="$(mktemp /tmp/players.XXX)"
+playerctl --list-all > "$PLAYERS_FILE"
+[ ! -s "$PLAYERS_FILE" ] && {
+    # Playerctl prints already an error message
+    rm "$PLAYERS_FILE"
+    exit 1
+}
+
+########################################
+# Getting active players
+########################################
+
+ACTIVE_PLAYERS="$(playerctl --all-players status | paste "$PLAYERS_FILE" - \
+    | grep 'Playing' | cut -f 1)"
+rm "$PLAYERS_FILE"
+
+########################################
+# Executing playerctl
+########################################
+
+# If there's no active player, fallbacking to playerctl behavior with no
+# specified player
+if [ -z "$ACTIVE_PLAYERS" ]; then
+    playerctl "$@"
+else
+    echo "$ACTIVE_PLAYERS" | xargs -I '{}' playerctl --player='{}' "$@"
+fi

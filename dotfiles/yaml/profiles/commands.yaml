@@ -37,6 +37,9 @@ dotfiles:
     actions:
     - strip '{{@@ hosts_append_marker @@}}' '{{@@ hosts_dst @@}}'
     - append '{{@@ hosts_dst @@}}' '{{@@ hosts_tmp_dst @@}}'
+  f_local_bin_active-playerctl:
+    src: usr/local/bin/active-playerctl
+    dst: /usr/local/bin/active-playerctl
   f_local_bin_dotdrop:
     src: usr/local/bin/dotdrop
     dst: /usr/local/bin/dotdrop
@@ -62,6 +65,7 @@ profiles:
   # This profile gathers my custom shell commands and their dependencies
   commands:
     dotfiles:
+    - f_local_bin_active-playerctl
     - f_local_bin_dotdrop
     - f_local_bin_zsh-notify-sudo-user
     import:

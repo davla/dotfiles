@@ -8,6 +8,29 @@
 
 source "$ZDOTDIR/interactive/init.zsh"
 
+########################################
+# History
+########################################
+
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_FCNTL_LOCK
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_NO_FUNCTIONS
+setopt HIST_REDUCE_BLANKS
+setopt HIST_REDUCE_BLANKS
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_VERIFY
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+
+export HISTFILE="$ZDOTDIR/.zsh_history"
+export HISTORY_IGNORE="($HIST_IGNORED_CMDS|$HIST_IGNORED_GIT|$HIST_IGNORED_TYPOS)"
+export HISTSIZE=1000
+export SAVEHIST=1000
+
 #######################################
 # Misc
 #######################################
@@ -22,15 +45,8 @@ setopt nomultios
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
 
-setopt histignorealldups sharehistory
-
 # Use emacs keybindings even if our EDITOR is set to vi
 #bindkey -e
-
-# Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
-HISTSIZE=1000
-SAVEHIST=1000
-HISTFILE="$ZDOTDIR/.zsh_history"
 
 # Use modern completion system
 #autoload -Uz compinit bashcompinit

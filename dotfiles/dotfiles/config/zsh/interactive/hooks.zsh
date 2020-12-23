@@ -18,3 +18,16 @@ function load_environment {
 
 # Adding load_environment as a chpwd hook
 add-zsh-hook chpwd load_environment
+
+########################################
+# History hooks
+########################################
+
+# This function is mean to be used as a zshaddhistory hook. It exits with 1 if
+# the first argument matches the content of $HISTORY_IGNORE, with 0 otherwise.
+not_in_history_ignore() {
+    emulate -L zsh
+    [[ "$(echo "$1" | xargs)" != ${~HISTORY_IGNORE} ]]
+}
+
+add-zsh-hook zshaddhistory not_in_history_ignore

@@ -30,6 +30,19 @@ export DOCKER_CONFIG="{{@@ docker_path | home_abs2var @@}}"
 
 {%@@ endif -@@%}
 
+########################################
+# History
+########################################
+
+# This variable lists the commands that shouldn't enter the shell history
+export HIST_IGNORED_CMDS='cd|cd -|clear|exit|l|root|t'
+
+# This variable lists the git commands that shouldn't enter the shell history
+export HIST_IGNORED_GIT='git ap|git c|git g|git i'
+
+# This varialbe lists my common typos that shouldn't enter the shell history
+export HIST_IGNORED_TYPOS='gi t*|gl'
+
 #######################################
 # Path
 #######################################

@@ -43,6 +43,24 @@ t() {
 }
 
 ########################################
+# Typo functions
+########################################
+
+# This function corrects my frequent swapping of the space and the t in git
+# command (e.g. gi tcommit).
+#
+# Arguments:
+#   - $1: The git command prefixed with a t (e.g. tlog)
+#   - $2+: The other git arguments
+gi() {
+    # Stripping the t from the first argument
+    1="$(echo $1 | sed 's/^t//')"
+
+    # Executing git command
+    git "$@"
+}
+
+########################################
 # Utility functions
 ########################################
 

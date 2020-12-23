@@ -29,3 +29,9 @@ alias update='apt-get update && apt-get upgrade'
 #######################################
 
 alias chuck="curl -s http://api.icndb.com/jokes/random/ | jq -r '.value.joke'"
+
+########################################
+# Typos aliases
+########################################
+
+alias gl=' clear'

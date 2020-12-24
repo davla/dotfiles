@@ -61,6 +61,7 @@ clean() {
     apt-get purge -y epiphany-browser-data
     apt-get purge -y exaile
     apt-get purge -y exfalso
+    apt-get purge -y evince
     apt-get purge -y fairymax
     apt-get purge -y firefox-esr
     apt-get purge -y geoclue-2.0
@@ -160,7 +161,7 @@ case "$HOST" in
             ;;
 esac
 
-apt-get install baobab blueman catfish code evince firefox galculator gdebi \
+apt-get install atril baobab blueman catfish code firefox galculator gdebi \
     geany gnome-clocks gparted hardinfo parcellite pavucontrol \
     recordmydesktop gtk-recordmydesktop seahorse spotify-client synaptic \
     viewnior xfce4-screenshooter

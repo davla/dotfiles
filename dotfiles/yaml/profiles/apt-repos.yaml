@@ -42,18 +42,9 @@ dotfiles:
   f_firefox-beta.list:
     src: etc/apt/sources.list.d/firefox-beta.list
     dst: /etc/apt/sources.list.d/firefox-beta.list
-  f_heroku.list:
-    src: etc/apt/sources.list.d/heroku.list
-    dst: /etc/apt/sources.list.d/heroku.list
   f_sid.list:
     src: etc/apt/sources.list.d/sid.list
     dst: /etc/apt/sources.list.d/sid.list
-  f_skype-stable.list:
-    src: etc/apt/sources.list.d/skype-stable.list
-    dst: /etc/apt/sources.list.d/skype-stable.list
-  f_slack.list:
-    src: etc/apt/sources.list.d/slack.list
-    dst: /etc/apt/sources.list.d/slack.list
   f_sources.list:
     src: etc/apt/sources.list
     dst: /etc/apt/sources.list
@@ -63,15 +54,9 @@ dotfiles:
   f_teams.list:
     src: etc/apt/sources.list.d/teams.list
     dst: /etc/apt/sources.list.d/teams.list
-  f_virtualbox.list:
-    src: etc/apt/sources.list.d/virtualbox.list
-    dst: /etc/apt/sources.list.d/virtualbox.list
   f_vscode.list:
     src: etc/apt/sources.list.d/vscode.list
     dst: /etc/apt/sources.list.d/vscode.list
-  f_yarn.list:
-    src: etc/apt/sources.list.d/yarn.list
-    dst: /etc/apt/sources.list.d/yarn.list
 
 profiles:
   packages:

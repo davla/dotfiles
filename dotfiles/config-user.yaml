@@ -149,9 +149,6 @@ dotfiles:
   f_trolltech.conf:
     src: config/Trolltech.conf
     dst: '{{@@ xdg_config("Trolltech.conf") @@}}'
-  f_virtualbox_virtualbox.xml:
-    src: config/VirtualBox/VirtualBox.xml
-    dst: '{{@@ xdg_config("VirtualBox/VirtualBox.xml") @@}}'
   f_vscode_extension-list.txt:
     src: config/Code/User/extension-list.txt
     # Temporary destination as the file is not read by VSCode at runtime, so it

@@ -58,9 +58,6 @@
         <value type="string" value="parcellite"/>
         <value type="string" value="remmina"/>
         <value type="string" value="scp-dbus-service.py"/>
-        <value type="string" value="skypeforlinux"/>
-        <value type="string" value="slack"/>
-        <value type="string" value="solaar"/>
         <value type="string" value="system-config-printer"/>
         <value type="string" value="task manager"/>
         <value type="string" value="thunar"/>

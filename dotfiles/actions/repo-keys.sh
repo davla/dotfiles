@@ -58,27 +58,6 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                     > /dev/null
                 ;;
 
-            'heroku')
-                echo "Installing apt repository key for $REPO"
-
-                apt-key adv --fetch-keys \
-                    'https://cli-assets.heroku.com/apt/release.key' > /dev/null
-                ;;
-
-            'skype-stable')
-                echo "Installing apt repository key for $REPO"
-
-                apt-key adv --fetch-keys \
-                    'https://repo.skype.com/data/SKYPE-GPG-KEY' > /dev/null
-                ;;
-
-            'slack')
-                echo "Installing apt repository key for $REPO"
-
-                apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' \
-                    --recv-keys 'C6ABDCF64DB9A0B2' > /dev/null
-                ;;
-
             'spotify')
                 echo "Installing apt repository key for $REPO"
 
@@ -95,27 +74,12 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                     > /dev/null
                 ;;
 
-            'virtualbox')
-                echo "Installing apt repository key for $REPO"
-
-                apt-key adv --fetch-keys \
-                    'https://www.virtualbox.org/download/oracle_vbox_2016.asc' \
-                    > /dev/null
-                ;;
-
             'vscode')
                 echo "Installing apt repository key for $REPO"
 
                 apt-key adv --fetch-keys \
                     'https://packages.microsoft.com/keys/microsoft.asc' \
                     > /dev/null
-                ;;
-
-            'yarn')
-                echo "Installing apt repository key for $REPO"
-
-                apt-key adv --fetch-keys \
-                    'https://dl.yarnpkg.com/debian/pubkey.gpg' > /dev/null
                 ;;
         esac 2> /dev/null
     done

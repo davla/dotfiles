@@ -155,9 +155,8 @@ case "$HOST" in
             balena-etcher-electron gimp gnome-mines gnome-sudoku gufw \
             handbrake-gtk libreoffice-calc libreoffice-impress \
             libreoffice-writer gnome-mahjongg kid3 quadrapassel remmina \
-            simple-scan slack-desktop skypeforlinux solaar soundconverter \
-            system-config-printer thunderbird transmission-gtk tuxguitar \
-            virtualbox-6.0 visualboyadvance vlc
+            simple-scan soundconverter system-config-printer thunderbird \
+            transmission-gtk tuxguitar visualboyadvance vlc
             ;;
 esac
 
@@ -178,13 +177,10 @@ sudo -u "$USER_NAME" dotdrop install -p gui
 case "$HOST" in
     'personal')
         apt-get install apng2gif autorandr cabal-install cups ghc gifsicle \
-            git-review handbrake-cli heroku hlint imagemagick lame \
-            libghc-hspec-dev mercurial python-requests-futures python3-gdbm \
-            python3-gpg python3-lxml python3-pygments python3-requests \
+            git-review handbrake-cli hlint imagemagick lame libghc-hspec-dev \
+            mercurial python-requests-futures python3-gdbm python3-gpg \
+            python3-lxml python3-pygments python3-requests \
             python3-requests-oauthlib thunar-dropbox-plugin tuxguitar-jsa
-
-            # --no-install-recommends prevents node from being installed
-            apt-get install --no-install-recommends yarn
             ;;
 
     'work')

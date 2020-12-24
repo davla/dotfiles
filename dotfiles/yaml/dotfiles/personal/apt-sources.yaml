@@ -7,8 +7,3 @@ dotfiles:
 - f_deb-multimedia.list
 - f_dropbox.list
 - f_etcher.list
-- f_heroku.list
-- f_skype-stable.list
-- f_slack.list
-- f_virtualbox.list
-- f_yarn.list

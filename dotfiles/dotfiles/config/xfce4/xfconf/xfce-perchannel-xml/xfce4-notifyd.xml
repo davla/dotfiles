@@ -23,9 +23,6 @@
       <value type="string" value="notify-send"/>
       <value type="string" value="org.guido-berhoerster.code.package-update-indicator"/>
       <value type="string" value="pk-update-icon"/>
-      <value type="string" value="Skype"/>
-      <value type="string" value="Slack"/>
-      <value type="string" value="Solaar"/>
       <value type="string" value="Spotify"/>
       <value type="string" value="System Config Printer Notification"/>
       <value type="string" value="Telegram Desktop"/>

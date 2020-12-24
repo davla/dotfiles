@@ -151,7 +151,6 @@
             <Filename>postman.desktop</Filename>
             <Filename>jetbrains-pycharm.desktop</Filename>
             <Filename>jetbrains-rubymine.desktop</Filename>
-            <Filename>virtualbox.desktop</Filename>
             <Filename>jetbrains-webstorm.desktop</Filename>
         </Layout>
     </Menu>

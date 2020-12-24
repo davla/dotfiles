@@ -6,4 +6,3 @@
 dotfiles:
 - f_calibre_global.py
 - f_orage_oragerc
-- f_virtualbox_virtualbox.xml

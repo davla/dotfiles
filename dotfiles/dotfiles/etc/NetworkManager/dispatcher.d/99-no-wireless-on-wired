@@ -21,7 +21,7 @@ set_wireless() {
     NEW_STATE="$1"
 
     nmcli radio wifi "$NEW_STATE"
-    echo "Wireless set $NEW_STATE" | cron-logger 'WIRELESS-CTRL'
+    echo "Wireless set $NEW_STATE" | systemd-cat -t 'WIRELESS-CTRL' -p info
     pkill -RTMIN+{{@@ network_signal @@}} i3blocks
 
     unset NEW_STATE

@@ -8,8 +8,7 @@ My dotfiles repository. Really, just configuration files
 - autorandr in autostart
 - github mails
 - Logger colors with no tag
-- Split env vars between interactive and non-interactive
-  + Make sure that autorandr env vars are loaded in xsessionrc
++ Make sure that autorandr env vars are loaded in xsessionrc
 - LS_COLORS
 - GNOME keyring without LightDM
   (https://wiki.archlinux.org/index.php/GNOME/Keyring#Automatic_login)

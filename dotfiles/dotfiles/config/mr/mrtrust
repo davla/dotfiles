@@ -1,6 +1,12 @@
 {#@@
     This dotfile simply includes the right content from other dotfiles based
     on system variables like host or user.
+
+    The mutually exclusive inclusion of host-specific and user-specific mrtrust
+    files is by design. In fact, this allows the host-specific mrtrust file
+    to completely override the user-specific one, while it is still possible
+    for the former to manually include the latter if necessary. Conversely,
+    this would not be possible if both the files were included top-level here.
 @@#}
 {%@@ include [
     'config/mr/mrtrust.%s.%s' | format(env['HOST'], user),

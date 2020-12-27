@@ -2,7 +2,6 @@
 My dotfiles repository. Really, just configuration files
 
 ## TODO
-- mrtrust includes
 - VSCode selected color
 - Better placement of logger_path variable
 - autorandr in autostart

@@ -83,9 +83,9 @@ dotfiles:
   f_calibre_global.py:
     src: config/calibre/global.py
     dst: '{{@@ xdg_config("calibre/global.py") @@}}'
-  f_compton.conf:
-    src: config/compton.conf
-    dst: '{{@@ xdg_config("compton.conf") @@}}'
+  f_picom.conf:
+    src: config/picom.conf
+    dst: '{{@@ xdg_config("picom.conf") @@}}'
   f_docker_config.json:
     src: config/docker/config.json
     dst: '{{@@ docker_path @@}}/config.json'
@@ -219,7 +219,7 @@ profiles:
   i3:
     dotfiles:
     - f_dunstrc.lodpi
-    - f_compton.conf
+    - f_picom.conf
     - f_i3blocks_config
     - f_i3config
     import:

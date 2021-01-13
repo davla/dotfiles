@@ -4,7 +4,7 @@
 {%@@ set border_color = main_theme_color @@%}
 {%@@ set icons_path = '/usr/share/icons/%s/scalable/real_icons'
     | format(icon_theme) @@%}
-{%@@ set notify_modifiers = 'mod4+ctrl' @@%}
+{%@@ set notify_modifiers = 'mod4' @@%}
 {%@@ set text_color = main_theme_color @@%}
 # {{@@ header() @@}}
 #
@@ -204,16 +204,16 @@
     # Xev might be helpful to find names for keys.
 
     # Close notification.
-    close = {{@@ notify_modifiers @@}}+bracketleft
+    close = {{@@ notify_modifiers @@}}+n
 
     # Close all notifications.
-    close_all = {{@@ notify_modifiers @@}}+bracketright
+    close_all = {{@@ notify_modifiers @@}}+m
 
     # Redisplay last message(s).
-    history = {{@@ notify_modifiers @@}}+apostrophe
+    history = {{@@ notify_modifiers @@}}+comma
 
     # Context menu.
-    context = {{@@ notify_modifiers @@}}+semicolon
+    context = {{@@ notify_modifiers @@}}+slash
 
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.

@@ -69,6 +69,8 @@ esac
 
 cd "{{@@ dotfiles_home | find_in_home | home_abs2var @@}}" || exit
 
+. ../.env
+
 case "$WHO" in
     'user'|'both')
         pipenv run bash dotdrop.sh "$CMD" -c 'config-user.yaml' "${ARGS[@]}"

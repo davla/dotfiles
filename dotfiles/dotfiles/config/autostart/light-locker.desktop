@@ -5,5 +5,5 @@ Comment=Launch screen locker program
 Icon=preferences-desktop-screensaver
 Exec=light-locker
 NoDisplay=true
-NotShowIn=GNOME;Unity;
+NotShowIn=GNOME;Unity
 Hidden=True

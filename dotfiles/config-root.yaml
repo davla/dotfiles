@@ -207,9 +207,13 @@ dotfiles:
   f_org.xfce.xfce4-terminal.policy:
     src: usr/share/polkit-1/actions/org.xfce.xfce4-terminal.policy
     dst: /usr/share/polkit-1/actions/org.xfce.xfce4-terminal.policy
-  f_pam.d_system-login:
-    src: etc/pam.d/system-login
-    dst: /etc/pam.d/system-login
+  f_pam.d_login:
+    src: etc/pam.d/login
+    dst: '{{@@ startup_tmp_dst @@}}'
+    # Dynamic path since the dotfile content is appended to dst
+    actions:
+    - strip '{{@@ pam_login_append_marker @@}}' '{{@@ pam_login_dst @@}}'
+    - append '{{@@ pam_login_dst @@}}' '{{@@ startup_tmp_dst @@}}'
   f_sshd_config:
     src: etc/ssh/sshd_config
     dst: /etc/ssh/sshd_config

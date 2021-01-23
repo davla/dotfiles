@@ -165,10 +165,10 @@ dotfiles:
   f_fstab:
     src: etc/fstab
     # Dynamic path since the dotfile content is appended to dst
-    dst: '{{@@ fstab_tmp_dst @@}}'
+    dst: '{{@@ startup_tmp_dst @@}}'
     actions:
     - strip '{{@@ fstab_append_marker @@}}' '{{@@ fstab_dst @@}}'
-    - append '{{@@ fstab_dst @@}}' '{{@@ fstab_tmp_dst @@}}'
+    - append '{{@@ fstab_dst @@}}' '{{@@ startup_tmp_dst @@}}'
   f_grub:
     src: etc/default/grub
     dst: /etc/default/grub
@@ -405,17 +405,21 @@ profiles:
     dotfiles:
     - f_grub
     - f_fstab
+    - f_pam.d_login
     - f_xsession.options
     - f_underclock.service
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
     actions:
-    - rm '{{@@ fstab_tmp_dst @@}}'
+    - rm '{{@@ startup_tmp_dst @@}}'
     dynvariables:
-      fstab_tmp_dst: mktemp /tmp/fstab-append.XXX
+      startup_tmp_dst: mktemp /tmp/startup-append.XXX
     variables:
       fstab_append_marker: Custom mount points
       fstab_dst: /etc/fstab
+      pam_login_append_marker: >-
+        GNOME Keyring startup and automatic login keyring unlocking
+      pam_login_dst: /etc/pam.d/login
 
   # This profile groups together systemd timers configuration.
   timers:

@@ -63,6 +63,9 @@ dotfiles:
     src: usr/local/bin/shell-cache
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ shell_cache_path @@}}'
+  f_local_bin_vscode:
+    src: usr/local/bin/vscode
+    dst: /usr/local/bin/vscode
   f_local_bin_zsh-notify-sudo-user:
     src: usr/local/bin/zsh-notify-sudo-user
     dst: /usr/local/bin/zsh-notify-sudo-user
@@ -102,6 +105,12 @@ profiles:
     dotfiles:
     - d_local_lib_sh
     - f_local_bin_shell-cache
+
+  # This profile includes some shell command wrapper that enable wayland for
+  # some other commands
+  wayland-wrappers:
+    dotfiles:
+    - f_local_bin_vscode
 
 variables:
   # These paths are kept as variables since they need to be used both as `dst`

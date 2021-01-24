@@ -81,7 +81,7 @@ config:
   - yaml/actions/append.yaml
   - yaml/actions/insert.yaml
   import_configs:
-  - yaml/profiles/apt-repos.yaml
+  - yaml/profiles/{{@@ env['DISTRO'] @@}}/*.yaml:optional
   - yaml/profiles/commands.yaml
   - yaml/profiles/shared.yaml
   import_variables:
@@ -228,6 +228,9 @@ dotfiles:
     dst: /etc/udev/rules.d/999-hid.rules
     actions:
     - udev-hid
+  f_temp-throttle.conf:
+    src: etc/temp-throttle.conf
+    dst: /etc/temp-throttle.conf
   f_timezone:
     src: etc/timezone
     dst: /etc/timezone
@@ -403,13 +406,12 @@ profiles:
   # This profile collects system startup jobs and configuration dotfiles
   startup:
     dotfiles:
-    - f_grub
     - f_fstab
     - f_pam.d_login
     - f_xsession.options
-    - f_underclock.service
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ env['DISTRO'] @@}}/{{@@ user @@}}/startup.yaml:optional
     actions:
     - rm '{{@@ startup_tmp_dst @@}}'
     dynvariables:

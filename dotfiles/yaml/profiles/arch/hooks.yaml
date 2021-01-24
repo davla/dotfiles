@@ -1,0 +1,29 @@
+%YAML 1.2
+---
+# This dotdrop config file defines the packages profile for Arch. It mostly
+# consists of pacman hooks.
+
+config:
+  backup: false
+  banner: true
+  create: true
+  dotpath: ../../../dotfiles
+  func_file:
+  - ../../../python/functions.py
+  ignoreempty: true
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+  showdiff: true
+  workdir: '{{@@ xdg_config("dotdrop") @@}}'
+
+dotfiles:
+  d_pacman_hooks:
+    src: etc/pacman.d/hooks
+    dst: /etc/pacman.d/hooks
+
+profiles:
+  packages:
+    dotfiles:
+    - d_pacman_hooks

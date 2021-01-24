@@ -1,0 +1,14 @@
+# Pacman hook that enables cups systemd socket
+
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Target = cups
+Target = cups-*
+Type = Package
+
+[Action]
+Description = Enabling cups systemd socket
+Depends = systemd
+When = PostTransaction
+Exec = /usr/bin/systemctl enable cups.socket

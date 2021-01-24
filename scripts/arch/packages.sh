@@ -37,15 +37,49 @@ cd - > /dev/null 2>&1 || exit
 sudo -u "$USER" rm -rf "$YAY_DIR"
 
 #######################################
+# Installing GUI applications
+#######################################
+
+case "$HOST" in
+    'personal')
+        sudo -u "$USER" yay -S asunder atril baobab bitwarden blueman brasero \
+            calibre code-git dropbox electron-ozone firefox-beta-bin geany \
+            gimp gnome-clocks gnome-keyring gparted gufw handbrake \
+            libreoffice-still kid3 remmina seahorse simple-scan \
+            soundconverter spotify telegram-desktop thunderbird \
+            transmission-gtk vlc
+            # balena-etcher-electron
+        ;;
+esac
+
+# Dotfiles
+sudo -u "$USER" dotdrop install -p gui
+
+#######################################
 # Installing CLI applications
 #######################################
 
-sudo -u "$USER" yay -S antibody-bin apng2gif asdf-vm at autoconf automake \
-    certbot cmake cowsay curl ddclient dex dkms dos2unix fortune-mod gcc gdb \
-    gifsicle git-secret git-review jq lua man mercurial moreutils nfs-utils \
+case "$HOST" in
+    'personal')
+        sudo -u "$USER" yay -S cups cups-pdf dex docker docker-compose \
+            docker-credential-secretservice gdb intel-ucode libsecret \
+            hunspell hunspell-da hunspell-en_US hunspell-it pulseaudio \
+            pulseaudio-alsa pulseaudio-bluetooth pulseaudio-jack \
+            temp-throttle-git zsa-wally-cli
+        ;;
+
+    'raspberry')
+        sudo -u "$USER" yay -S at certbot ddclient
+        ;;
+esac
+
+sudo -u "$USER" yay -S apng2gif asdf-vm autoconf automake cmake cowsay curl \
+    dkms dos2unix exa fasd fortune-mod gcc ghc gifsicle git-secret git-review \
+    gnupg jq lua man mercurial moreutils multi-git-status myrepos nfs-utils \
     nyancat otf-ipafont p7zip pkgfile python python-pip python-pipenv sudo \
-    ttf-baekmuk ttf-dejavu ttf-indic-otf ttf-khmer unzip vim \
-    wqy-microhei-lite zip
+    thefuck ttf-baekmuk ttf-dejavu ttf-indic-otf ttf-khmer unzip vim \
+    wqy-microhei-lite zip zsa-wally-cli
+    # luacheck shellcheck rar unrar
 
 # Dotfiles
 sudo -u "$USER" dotdrop install -p cli -U both
@@ -60,4 +94,5 @@ sudo -u "$USER" yay -Su
 # Initial setup
 #######################################
 
-systemctl enable --now pkgfile-update.timer
+# Docker non root access.
+usermod -aG docker "$USER"

@@ -1,0 +1,14 @@
+# Pacman hook that enables temp-throttle systemd service
+
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Target = temp-throttle
+Target = temp-throttle-*
+Type = Package
+
+[Action]
+Description = Enabling temp-throttle systemd service
+Depends = systemd
+When = PostTransaction
+Exec = /usr/bin/systemctl enable temp-throttle

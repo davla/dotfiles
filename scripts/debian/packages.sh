@@ -152,19 +152,17 @@ esac
 # shellcheck disable=2039
 case "$HOST" in
     'personal')
-        apt-get install aisleriot asunder brasero calibre dropbox \
-            balena-etcher-electron gimp gnome-mines gnome-sudoku gufw \
-            handbrake-gtk libreoffice-calc libreoffice-impress \
-            libreoffice-writer gnome-mahjongg kid3 quadrapassel remmina \
-            simple-scan soundconverter system-config-printer thunderbird \
-            transmission-gtk tuxguitar visualboyadvance vlc
+        apt-get install asunder brasero calibre dropbox \
+            balena-etcher-electron gimp gufw handbrake-gtk libreoffice-calc \
+            libreoffice-impress libreoffice-writer kid3 remmina simple-scan \
+            soundconverter system-config-printer thunderbird transmission-gtk \
+            vlc
             ;;
 esac
 
-apt-get install atril baobab blueman catfish code firefox galculator gdebi \
-    geany gnome-clocks gparted hardinfo parcellite pavucontrol \
-    recordmydesktop gtk-recordmydesktop seahorse spotify-client synaptic \
-    viewnior xfce4-screenshooter
+apt-get install atril baobab blueman code firefox gdebi geany gnome-clocks \
+    gparted hardinfo parcellite pavucontrol recordmydesktop \
+    gtk-recordmydesktop seahorse spotify-client synaptic xfce4-screenshooter
 
 # Dotfiles
 sudo -u "$USER_NAME" dotdrop install -p gui
@@ -181,7 +179,7 @@ case "$HOST" in
             git-review handbrake-cli hlint imagemagick lame libghc-hspec-dev \
             mercurial python-requests-futures python3-gdbm python3-gpg \
             python3-lxml python3-pygments python3-requests \
-            python3-requests-oauthlib thunar-dropbox-plugin tuxguitar-jsa
+            python3-requests-oauthlib thunar-dropbox-plugin
             ;;
 
     'work')

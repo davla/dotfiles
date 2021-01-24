@@ -217,9 +217,6 @@ apt-get upgrade
 groupadd -f docker
 usermod -aG docker "$USER_NAME"
 
-# Git credential helper
-make -C /usr/share/doc/git/contrib/credential/libsecret
-
 # Symlinking executables in a $PATH directory accessible to unpirvileged users
 echo "$EXECS" | while read EXEC; do
     # Trying to find another executable with the same name in $PATH. If no

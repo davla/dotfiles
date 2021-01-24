@@ -107,6 +107,9 @@ dotfiles:
   f_ghci:
     src: ghci
     dst: ~/.ghci
+  f_gpg-agent.conf:
+    src: gnupg/gpg-agent.conf
+    dst: ~/.gnupg/gpg-agent.conf
   f_gtk-2.0_gtkrc.lodpi:
     src: config/gtk-2.0/gtkrc.lodpi
     dst: '{{@@ "%s/%s" | format(gtk2_path, gtk2_gtkrc_lodpi_dst) @@}}'
@@ -248,6 +251,7 @@ profiles:
   startup:
     dotfiles:
     - d_autostart
+    - f_gpg-agent.conf
     - f_xsessionrc
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional

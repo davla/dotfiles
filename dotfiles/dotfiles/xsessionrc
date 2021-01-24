@@ -7,10 +7,11 @@
 {%@@ if user == 'user' -@@%}
 
 #######################################
-# GNOME keyring ssh agent
+# ssh-agent provided by gpg-agent
 #######################################
 
-export SSH_AUTH_SOCK="/run/user/$(id -u)/keyring/ssh"
+unset SSH_AGENT_PID
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 
 {%@@ endif -@@%}
 

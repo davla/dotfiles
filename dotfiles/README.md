@@ -9,7 +9,6 @@ My dotfiles repository. Really, just configuration files
 - Logger colors with no tag
 + Make sure that autorandr env vars are loaded in xsessionrc
 - LS_COLORS
-- GNOME keyring without LightDM in i3 and xfce (remove autostart)
 - Scala in asdf
 - Root terminal preferences
 - sct not working

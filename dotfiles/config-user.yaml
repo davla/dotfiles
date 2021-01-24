@@ -95,6 +95,9 @@ dotfiles:
   f_dunstrc.hidpi:
     src: config/dunst/dunstrc.hidpi
     dst: '{{@@ xdg_config("dunst/dunstrc.hidpi") @@}}'
+  f_fonts.conf:
+    src: config/fontconfig/fonts.conf
+    dst: '{{@@ xdg_config("fontconfig/fonts.conf") @@}}'
   f_geany_colorschemes_on-my-own.conf:
     src: config/geany/colorschemes/on-my-own.conf
     dst: '{{@@ xdg_config("geany/colorschemes/on-my-own.conf") @@}}'
@@ -238,6 +241,7 @@ profiles:
   # both Gtk, Qt and bare X11.
   look-and-feel:
     dotfiles:
+    - f_fonts.conf
     - f_gtk-2.0_gtkrc.lodpi
     - f_gtk-3.0_gtk.css
     - f_gtk-3.0_settings.ini.lodpi

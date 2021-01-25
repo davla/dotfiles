@@ -94,6 +94,11 @@ case "$(echo "$CREATE_SSH_KEYS" | tr '[:upper:]' '[:lower:]')" in
         SSH_KEY_PATH="$SSH_HOME/$SSH_KEY_FILE_NAME"
         ssh-keygen -f "$SSH_KEY_PATH" -t rsa
 
+        # Adding the newly created SSH key to gpg-agent (interactive)
+        printf "\e[32m[INFO]\e[0m Adding new SSH key at $SSH_KEY_PATH to "
+        echo 'gpg-agent'
+        ssh-add "$SSH_KEY_PATH"
+
         # Displaying newly created public SSH key
         echo "\e[32m[INFO]\e[0m Displaying new SSH key at $SSH_KEY_PATH.pub"
         cat "$SSH_KEY_PATH.pub"

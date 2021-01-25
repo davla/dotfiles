@@ -146,7 +146,7 @@ Comment[zh_HK]=GNOME 密碼匙圈：SSH 代理程式
 Comment[zh_TW]=GNOME 鑰匙圈：SSH 代理程式
 Comment=GNOME Keyring: SSH Agent
 Exec=/usr/bin/gnome-keyring-daemon --start --components=ssh
-NotShowIn=KDE;
+NotShowIn=i3;KDE;sway;XFCE
 X-GNOME-Autostart-Phase=PreDisplayServer
 X-GNOME-AutoRestart=false
 X-GNOME-Autostart-Notify=true

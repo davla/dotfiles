@@ -1,0 +1,3 @@
+# Chromium development builds PPA
+deb http://ppa.launchpad.net/chromium-team/dev/ubuntu bionic main
+deb-src http://ppa.launchpad.net/chromium-team/dev/ubuntu bionic main

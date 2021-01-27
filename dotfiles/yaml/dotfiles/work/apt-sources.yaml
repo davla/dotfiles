@@ -5,4 +5,5 @@
 
 dotfiles:
 - f_android-studio.list
+- f_chromium-dev.list
 - f_teams.list

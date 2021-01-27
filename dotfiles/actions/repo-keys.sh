@@ -19,6 +19,14 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                     > /dev/null
                 ;;
 
+            'chromium-dev')
+                echo "Installing apt repository key for $REPO"
+
+                apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' \
+                    --recv-keys 'EA6E302DC78CC4B087CFC3570EBEA9B02842F111' \
+                    > /dev/null
+                ;;
+
             'deb-multimedia')
                 echo "Installing apt repository key for $REPO"
 

@@ -83,6 +83,9 @@ dotfiles:
   d_xresources.d:
     src: config/x11/Xresources.d
     dst: '{{@@ xdg_config("x11/Xresources.d") @@}}'
+  f_alacritty.yml:
+    src: config/alacritty/alacritty.yml
+    dst: '{{@@ xdg_config("alacritty/alacritty.yml") @@}}'
   f_calibre_global.py:
     src: config/calibre/global.py
     dst: '{{@@ xdg_config("calibre/global.py") @@}}'
@@ -280,6 +283,7 @@ profiles:
   sway:
     dotfiles:
     - d_sway
+    - f_alacritty.yml
     - f_sway_bar
     - f_sway_containers
     - f_sway_modes

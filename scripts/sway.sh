@@ -9,7 +9,7 @@
 # Installing sway
 #######################################
 
-yay -S dex grimshot i3-volume sway wdisplays wev
+yay -S alacritty dex grimshot i3-volume sway wdisplays wev
 
 #######################################
 # Installing sway dotfiles

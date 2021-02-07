@@ -450,13 +450,14 @@ profiles:
   # This profile groups keyboard layout dotfiles
   xkb:
     dotfiles:
-    - f_keyboard
     - f_xkb_base.lst
     - f_xkb_base.xml
     - f_xkb_us
     actions:
     - xkb
     - rm '{{@@ xkb_tmp_dst @@}}'
+    import:
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/xkb.yaml:optional
     dynvariables:
       xkb_tmp_dst: mktemp /tmp/xkb-dotfiles.XXX
     variables:

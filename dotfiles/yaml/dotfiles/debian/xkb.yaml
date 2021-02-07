@@ -1,0 +1,7 @@
+%YAML 1.2
+---
+# This dotfiles file lists the dotfiles related to keyboard layout on a Debian
+# system.
+
+dotfiles:
+- f_keyboard

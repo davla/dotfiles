@@ -19,6 +19,14 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                     > /dev/null
                 ;;
 
+            'azure-cli')
+                echo "Installing apt repository key for $REPO"
+
+                apt-key adv --fetch-keys \
+                    'https://packages.microsoft.com/keys/microsoft.asc' \
+                    > /dev/null
+                ;;
+
             'chromium-dev')
                 echo "Installing apt repository key for $REPO"
 

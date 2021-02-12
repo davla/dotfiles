@@ -29,6 +29,28 @@ actions:
     ddclient: sh ./actions/ddclient.sh '{0}'
     locales: sh ./actions/locales.sh
 
+    # This action compiles the keyindicator2 custom i3block
+    i3blocks_keyindicator2: |
+      apt-get install build-essentials libx11-dev
+      cd '{{@@ _dotfile_abs_dst @@}}'
+      env ACTIVE_COLOR='{{@@ main_theme_color @@}}' CAPS_LABEL='C'
+          INACTIVE_COLOR='{{@@ i3bar_inactive_color @@}}' NO_NUM=1
+          make
+
+    # This action compiles the network-status custom i3block
+    i3blocks_network-status: |
+      case "$DISTRO" in
+          'arch')
+              pacman -S dash base-devel
+              ;;
+
+          'debian')
+              apt-get install build-essentials
+              ;;
+      esac
+      cd '{{@@ _dotfile_abs_dst @@}}'
+      make
+
     # This action installs the packages providing the commands used in the root
     # mrconfig file
     mrconfig: |-
@@ -114,6 +136,16 @@ dotfiles:
   d_exports.d:
     src: etc/exports.d
     dst: /etc/exports.d
+  d_i3blocks_keyindicator2:
+    src: usr/lib/i3blocks/keyindicator2
+    dst: /usr/lib/i3blocks/keyindicator2
+    actions:
+    - i3blocks_keyindicator2
+  d_i3blocks_network-status:
+    src: usr/lib/i3blocks/network-status
+    dst: /usr/lib/i3blocks/network-status
+    actions:
+    - i3blocks_network-status
   d_myrepos-lib:
     src: usr/local/share/mr
     # Dynamic path since it's used somewhere else too
@@ -371,7 +403,14 @@ profiles:
     dotfiles:
     - f_80i3blocks
     include:
+    - i3blocks-custom
     - x11
+
+  # This profile groups custom i3blocks
+  i3blocks-custom:
+    dotfiles:
+    - d_i3blocks_keyindicator2
+    - d_i3blocks_network-status
 
   # This profile contains dotfiles related to localization and timezones
   locales:
@@ -436,6 +475,8 @@ profiles:
   sway:
     dotfiles:
     - f_local_bin_launcher
+    include:
+    - i3blocks-custom
 
   # This profile includes udev configuration
   udev:

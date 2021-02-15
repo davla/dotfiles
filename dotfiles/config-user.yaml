@@ -141,6 +141,9 @@ dotfiles:
   f_ssh_config:
     src: ssh/config
     dst: ~/.ssh/config
+  f_sway_config:
+    src: config/sway/config
+    dst: '{{@@ xdg_config("sway/config") @@}}'
   f_trolltech.conf:
     src: config/Trolltech.conf
     dst: '{{@@ xdg_config("Trolltech.conf") @@}}'
@@ -250,6 +253,20 @@ profiles:
     include:
     - startup-{{@@ display_server @@}}
     - startup-{{@@ output_scaling @@}}
+
+  # This profile contains the dotfiles for the whole sway session, that means a
+  # little bit more than just the sway configuration files.
+  sway:
+    dotfiles:
+    - f_sway_config
+    include:
+    - look-and-feel
+    - startup
+    variables:
+      display_server: wayland
+      is_headless: false
+      on_wayland: true
+      on_x11: false
 
   # This profile groups VSCode-related dotfiles, as well as creating the
   # necessary variables for dotfiles actions. It was chosen to address

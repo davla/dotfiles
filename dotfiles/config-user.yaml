@@ -67,6 +67,9 @@ dotfiles:
     - '*.README'
     upignore:
     - '*.README'
+  d_sway:
+    src: config/sway
+    dst: '{{@@ xdg_config("sway") @@}}'
   d_thunar:
     src: config/Thunar
     dst: '{{@@ xdg_config("Thunar") @@}}'
@@ -141,9 +144,6 @@ dotfiles:
   f_ssh_config:
     src: ssh/config
     dst: ~/.ssh/config
-  f_sway_config:
-    src: config/sway/config
-    dst: '{{@@ xdg_config("sway/config") @@}}'
   f_trolltech.conf:
     src: config/Trolltech.conf
     dst: '{{@@ xdg_config("Trolltech.conf") @@}}'
@@ -228,6 +228,7 @@ profiles:
       is_headless: false
       on_wayland: false
       on_x11: true
+      term: xfce4-terminal
 
   # This profile includes the dotfiles for look & feel of a GUI environment,
   # both Gtk, Qt and bare X11.
@@ -258,7 +259,7 @@ profiles:
   # little bit more than just the sway configuration files.
   sway:
     dotfiles:
-    - f_sway_config
+    - d_sway
     include:
     - look-and-feel
     - startup
@@ -267,6 +268,7 @@ profiles:
       is_headless: false
       on_wayland: true
       on_x11: false
+      term: alacritty
 
   # This profile groups VSCode-related dotfiles, as well as creating the
   # necessary variables for dotfiles actions. It was chosen to address

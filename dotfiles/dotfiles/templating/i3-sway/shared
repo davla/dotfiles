@@ -2,6 +2,20 @@
     This file contains the shared configuration between i3 and sway.
 @@#}
 
+{#@@-
+    Emit an include command for sway; copy the whole file content for i3
+@@#}
+{%@@ macro include(path) @@%}
+{%@@ if on_wayland @@%}
+include {{@@ path @@}}
+{%@@- else @@%}
+{%@@ set abs_path = '%s/%s' | format(dirname(_dotfile_abs_src), path) @@%}
+{%@@ set abs_path = abs_path if exists(abs_path)
+    else 'templating/i3-sway/' + path @@%}
+{%@@ include abs_path with context @@%}
+{%@@ endif @@%}
+{%@@ endmacro -@@%}
+
 #######################################
 # Variables
 #######################################
@@ -13,61 +27,14 @@ set $mode_shifter_key Control
 # Command aliases
 set $scratchpad_show scratchpad show, move position center
 
+# Applications
+set $term {{@@ term @@}}
+
 #######################################
-# Application shortcuts
+# Applications
 #######################################
 
-{%@@ set messaging_client = 'teams'
-    if env['HOST'] == 'work'
-    else 'telegram' @@%}
-
-# Variables
-set $term xfce4-terminal
-
-# Command criteria
-set $android_studio_criterion class="jetbrains-studio"
-set $scratchpad_editor_criterion instance="scratchpad-editor"
-set $scratchpad_term_criterion title="scratchpad-terminal"
-set $spotify_criterion instance="spotify"
-set $teams_criterion instance=".*microsoft teams.*"
-set $telegram_criterion instance="telegram"
-set $vscode_criterion instance="code"
-
-# Application instance titles
-set $calc_title calculator
-
-# Resources
-set_from_resource $spotify_scale i3wm.SpotifyScale 1
-
-bindsym $mod+Shift+e exec $term --title $calc_title -e lua
-bindsym $mod+space exec i3-dmenu-desktop
-bindsym $mod+Shift+space exec dmenu_run
-bindsym $mod+w exec firefox; workspace "2: browser"
-bindsym $mod+Shift+y exec geany
-bindsym $mod+y exec --no-startup-id i3-start-or-scratchpad \
-    'geany --name scratchpad-editor' '--classname scratchpad-editor' \
-    '$scratchpad_editor_criterion'
-bindsym $mod+Escape exec --no-startup-id halt -p
-bindsym $mod+e exec --no-startup-id i3-start-or-scratchpad \
-    '{{@@ messaging_client @@}}' '--classname {{@@ messaging_client @@}}' \
-    '${{@@ messaging_client @@}}_criterion'
-bindsym $mod+F5 exec --no-startup-id reboot
-bindsym $mod+Tab exec $term
-bindsym $mod+Shift+Tab exec --no-startup-id i3-start-or-scratchpad \
-    '$term --title scratchpad-terminal' '--name scratchpad-terminal' \
-    '$scratchpad_term_criterion'
-bindsym $mod+u exec thunar
-bindsym $mod+p exec --no-startup-id i3-start-or-scratchpad \
-    'spotify --force-device-scale-factor=$spotify_scale' \
-    '--classname spotify' '$spotify_criterion'
-
-{%@@ if env['HOST'] == 'personal' -@@%}
-
-bindsym $mod+o exec firefox https://calendar.google.com/calendar/r; workspace "2: browser"
-bindsym $mod+i exec firefox https://keep.google.com/#home; workspace "2: browser"
-bindsym $mod+t exec thunderbird; workspace "5: mail"
-
-{%@@ endif -@@%}
+{{@@ include('applications') @@}}
 
 #######################################
 # Workspaces
@@ -202,72 +169,6 @@ mode "containers" {
     bindsym $mod+$mode_shifter_key+c mode "default"
 }
 
-########################################
-# Application configuration
-########################################
-
-# Variables
-set_from_resource $floating_width i3wm.FloatingWidth 900
-set_from_resource $floating_height i3wm.FloatingHeight 550
-
-# Assigning applications to workspaces
-assign [$android_studio_criterion] "1: coding"
-assign [$vscode_criterion] "1: coding"
-assign [class="Firefox"] "2: browser"
-assign [class="thunderbird"] "5: mail"
-
-# Switch to assigned workspace by focusing newly created windows
-for_window [$android_studio_criterion] focus
-for_window [$vscode_criterion] focus
-
-# Android studio splash
-for_window [$android_studio_criterion title="win0" workspace="1: coding"] \
-    floating enable
-
-# Calculator
-for_window [title="$calc_title"] floating enable
-for_window [floating title="$calc_title"] \
-    resize set $floating_width $floating_height, \
-    move position center
-
-# Scratchpad editor
-set_from_resource $editor_width i3wm.EditorWidth 1000
-set_from_resource $editor_height i3wm.EditorHeight 850
-for_window [$scratchpad_editor_criterion] floating enable
-for_window [floating $scratchpad_editor_criterion] \
-    resize set $editor_width $editor_height, \
-    move position center
-
-# Scratchpad terminal
-for_window [$scratchpad_term_criterion] floating enable
-for_window [floating $scratchpad_term_criterion] \
-    resize set $floating_width $floating_height, \
-    move position center
-
-# Spotify
-set_from_resource $spotify_width i3wm.SpotifyWidth 1500
-set_from_resource $spotify_height i3wm.SpotifyHeight 850
-for_window [$spotify_criterion] floating enable
-for_window [floating $spotify_criterion] \
-    resize set $spotify_width $spotify_height, \
-    move position center
-
-# Teams
-set_from_resource $teams_width i3wm.TeamsWidth 1200
-set_from_resource $teams_height i3wm.TeamsHeight 950
-for_window [$teams_criterion] floating enable
-for_window [floating $teams_criterion window_type="normal"] \
-    resize set $teams_width $teams_height, \
-    move position center
-
-# Telegram
-set_from_resource $telegram_width i3wm.TelegramWidth 900
-set_from_resource $telegram_height i3wm.TelegramHeight 800
-for_window [$telegram_criterion] floating enable
-for_window [floating $telegram_criterion] \
-    resize set $telegram_width $telegram_height, \
-    move position center
-
 #######################################
 # Defaults
 #######################################
@@ -391,16 +292,3 @@ bindsym $mod+$i3_reset_key+c reload
 bindsym $mod+$i3_reset_key+x restart
 # Exit
 bindsym $mod+$i3_reset_key+v exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
-
-#######################################
-# Application startup
-#######################################
-
-# Autostart
-exec --no-startup-id dex -ae i3
-
-# Scratchpad terminal
-exec $term --title $sp_term_title
-
-# Startup terminal
-exec --no-startup-id i3-msg 'workspace "3: terminal"; exec $term'

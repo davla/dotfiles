@@ -1,5 +1,5 @@
 # {{@@ header() @@}}
 #
-# i3 config file (v4)
+# sway config file
 
 {%@@ include 'templating/i3-sway/shared' @@%}

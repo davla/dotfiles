@@ -1,0 +1,406 @@
+{#@@
+    This file contains the shared configuration between i3 and sway.
+@@#}
+
+#######################################
+# Variables
+#######################################
+
+# Keys
+set $mod Mod4
+set $mode_shifter_key Control
+
+# Command aliases
+set $scratchpad_show scratchpad show, move position center
+
+#######################################
+# Application shortcuts
+#######################################
+
+{%@@ set messaging_client = 'teams'
+    if env['HOST'] == 'work'
+    else 'telegram' @@%}
+
+# Variables
+set $term xfce4-terminal
+
+# Command criteria
+set $android_studio_criterion class="jetbrains-studio"
+set $scratchpad_editor_criterion instance="scratchpad-editor"
+set $scratchpad_term_criterion title="scratchpad-terminal"
+set $spotify_criterion instance="spotify"
+set $teams_criterion instance=".*microsoft teams.*"
+set $telegram_criterion instance="telegram"
+set $vscode_criterion instance="code"
+
+# Application instance titles
+set $calc_title calculator
+
+# Resources
+set_from_resource $spotify_scale i3wm.SpotifyScale 1
+
+bindsym $mod+Shift+e exec $term --title $calc_title -e lua
+bindsym $mod+space exec i3-dmenu-desktop
+bindsym $mod+Shift+space exec dmenu_run
+bindsym $mod+w exec firefox; workspace "2: browser"
+bindsym $mod+Shift+y exec geany
+bindsym $mod+y exec --no-startup-id i3-start-or-scratchpad \
+    'geany --name scratchpad-editor' '--classname scratchpad-editor' \
+    '$scratchpad_editor_criterion'
+bindsym $mod+Escape exec --no-startup-id halt -p
+bindsym $mod+e exec --no-startup-id i3-start-or-scratchpad \
+    '{{@@ messaging_client @@}}' '--classname {{@@ messaging_client @@}}' \
+    '${{@@ messaging_client @@}}_criterion'
+bindsym $mod+F5 exec --no-startup-id reboot
+bindsym $mod+Tab exec $term
+bindsym $mod+Shift+Tab exec --no-startup-id i3-start-or-scratchpad \
+    '$term --title scratchpad-terminal' '--name scratchpad-terminal' \
+    '$scratchpad_term_criterion'
+bindsym $mod+u exec thunar
+bindsym $mod+p exec --no-startup-id i3-start-or-scratchpad \
+    'spotify --force-device-scale-factor=$spotify_scale' \
+    '--classname spotify' '$spotify_criterion'
+
+{%@@ if env['HOST'] == 'personal' -@@%}
+
+bindsym $mod+o exec firefox https://calendar.google.com/calendar/r; workspace "2: browser"
+bindsym $mod+i exec firefox https://keep.google.com/#home; workspace "2: browser"
+bindsym $mod+t exec thunderbird; workspace "5: mail"
+
+{%@@ endif -@@%}
+
+#######################################
+# Workspaces
+#######################################
+
+# Workspace names
+set $ws1 "1: coding"
+set $ws2 "2: browser"
+set $ws3 "3: terminal"
+set $ws4 "4"
+set $ws5 "5: mail"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Workspace shortcut keys
+set $ws1key a
+set $ws2key s
+set $ws3key d
+set $ws4key f
+set $ws5key g
+set $ws6key h
+set $ws7key j
+set $ws8key k
+set $ws9key l
+set $ws10key semicolon
+
+# switch to workspace
+bindsym $mod+$ws1key workspace $ws1
+bindsym $mod+$ws2key workspace $ws2
+bindsym $mod+$ws3key workspace $ws3
+bindsym $mod+$ws4key workspace $ws4
+bindsym $mod+$ws5key workspace $ws5
+bindsym $mod+$ws6key workspace $ws6
+bindsym $mod+$ws7key workspace $ws7
+bindsym $mod+$ws8key workspace $ws8
+bindsym $mod+$ws9key workspace $ws9
+bindsym $mod+$ws10key workspace $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+$ws1key move container to workspace $ws1; workspace $ws1
+bindsym $mod+Shift+$ws2key move container to workspace $ws2; workspace $ws2
+bindsym $mod+Shift+$ws3key move container to workspace $ws3; workspace $ws3
+bindsym $mod+Shift+$ws4key move container to workspace $ws4; workspace $ws4
+bindsym $mod+Shift+$ws5key move container to workspace $ws5; workspace $ws5
+bindsym $mod+Shift+$ws6key move container to workspace $ws6; workspace $ws6
+bindsym $mod+Shift+$ws7key move container to workspace $ws7; workspace $ws7
+bindsym $mod+Shift+$ws8key move container to workspace $ws8; workspace $ws8
+bindsym $mod+Shift+$ws9key move container to workspace $ws9; workspace $ws9
+bindsym $mod+Shift+$ws10key move container to workspace $ws10; workspace $ws10
+
+#######################################
+# Scratchpad
+#######################################
+
+# Variables
+set $scratchpad_key r
+
+# Scratchpad keybindings
+bindsym $mod+$scratchpad_key $scratchpad_show
+bindsym $mod+Shift+$scratchpad_key move scratchpad
+
+#######################################
+# Window controls
+#######################################
+
+# Variables
+set $float_key f
+set $float_center_criterion window_type="dialog" window_type="splash"
+
+# Change focus
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+bindsym $mod+Down focus down
+bindsym $mod+Left focus left
+
+# Kill focused window
+bindsym $mod+q kill
+
+# Floating windows
+floating_modifier $mod
+for_window [floating $float_center_criterion] move position center
+
+# Container focus, split, layout, float and resize
+bindsym $mod+$mode_shifter_key+c mode "containers"
+mode "containers" {
+    # Focus
+    bindsym p focus parent
+    bindsym c focus child
+    bindsym Up focus up
+    bindsym Right focus right
+    bindsym Down focus down
+    bindsym Left focus left
+
+    # Split
+    bindsym h split h
+    bindsym v split v
+
+    # Layout
+    bindsym a layout stacking
+    bindsym t layout tabbed
+    bindsym s layout toggle split
+
+    # Fullscreen
+    bindsym l fullscreen toggle
+
+    # Float
+    bindsym $float_key focus mode_toggle
+    bindsym Shift+$float_key floating toggle
+
+    # Move
+    bindsym Shift+Up move up
+    bindsym Shift+Right move right
+    bindsym Shift+Down move down
+    bindsym Shift+Left move left
+    bindsym Shift+c move position center
+
+    # Resize
+    bindsym ctrl+Up resize shrink height 10 px or 10 ppt
+    bindsym ctrl+Right resize grow width 10 px or 10 ppt
+    bindsym ctrl+Down resize grow height 10 px or 10 ppt
+    bindsym ctrl+Left resize shrink width 10 px or 10 ppt
+
+    # Kill focused window
+    bindsym q kill
+
+    # Back to normal: Enter or Escape or mode-enabling shortcut
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+$mode_shifter_key+c mode "default"
+}
+
+########################################
+# Application configuration
+########################################
+
+# Variables
+set_from_resource $floating_width i3wm.FloatingWidth 900
+set_from_resource $floating_height i3wm.FloatingHeight 550
+
+# Assigning applications to workspaces
+assign [$android_studio_criterion] "1: coding"
+assign [$vscode_criterion] "1: coding"
+assign [class="Firefox"] "2: browser"
+assign [class="thunderbird"] "5: mail"
+
+# Switch to assigned workspace by focusing newly created windows
+for_window [$android_studio_criterion] focus
+for_window [$vscode_criterion] focus
+
+# Android studio splash
+for_window [$android_studio_criterion title="win0" workspace="1: coding"] \
+    floating enable
+
+# Calculator
+for_window [title="$calc_title"] floating enable
+for_window [floating title="$calc_title"] \
+    resize set $floating_width $floating_height, \
+    move position center
+
+# Scratchpad editor
+set_from_resource $editor_width i3wm.EditorWidth 1000
+set_from_resource $editor_height i3wm.EditorHeight 850
+for_window [$scratchpad_editor_criterion] floating enable
+for_window [floating $scratchpad_editor_criterion] \
+    resize set $editor_width $editor_height, \
+    move position center
+
+# Scratchpad terminal
+for_window [$scratchpad_term_criterion] floating enable
+for_window [floating $scratchpad_term_criterion] \
+    resize set $floating_width $floating_height, \
+    move position center
+
+# Spotify
+set_from_resource $spotify_width i3wm.SpotifyWidth 1500
+set_from_resource $spotify_height i3wm.SpotifyHeight 850
+for_window [$spotify_criterion] floating enable
+for_window [floating $spotify_criterion] \
+    resize set $spotify_width $spotify_height, \
+    move position center
+
+# Teams
+set_from_resource $teams_width i3wm.TeamsWidth 1200
+set_from_resource $teams_height i3wm.TeamsHeight 950
+for_window [$teams_criterion] floating enable
+for_window [floating $teams_criterion window_type="normal"] \
+    resize set $teams_width $teams_height, \
+    move position center
+
+# Telegram
+set_from_resource $telegram_width i3wm.TelegramWidth 900
+set_from_resource $telegram_height i3wm.TelegramHeight 800
+for_window [$telegram_criterion] floating enable
+for_window [floating $telegram_criterion] \
+    resize set $telegram_width $telegram_height, \
+    move position center
+
+#######################################
+# Defaults
+#######################################
+
+default_orientation horizontal
+
+#######################################
+# Font
+#######################################
+
+set_from_resource $font Gtk.FontName Sans, Regular 11
+font pango:$font
+
+#######################################
+# Gaps
+#######################################
+
+# Necessary for i3-gaps to work properly (pixel can be any value)
+for_window [class="^.*"] border pixel 0
+
+smart_gaps on
+smart_borders on
+
+gaps inner 10
+gaps outer 0
+
+#######################################
+# Media
+#######################################
+
+# This section defines shortcuts for media controls, e.g. volume, screen
+# brightness, etc
+
+# Media commands
+set $playback_prev_command active-playerctl previous
+set $playback_next_command active-playerctl next
+set $playback_playpause_command active-playerctl play-pause
+set $select_player active-playerctl --list-all | dmenu | xargs -I '{}'
+set $volume_down_command volume -np -d 5 -e 1000
+set $volume_up_command volume -npl 100 -i 5 -e 1000
+set $volume_mute_command volume -nm -e 5
+
+# Playback
+bindsym XF86AudioPrev exec $playback_prev_command
+bindsym XF86AudioNext exec $playback_next_command
+bindsym XF86AudioPlay exec $playback_playpause_command
+bindsym Shift+XF86AudioPrev exec --no-startup-id $select_player $playback_prev_command --player='{}'
+bindsym Shift+XF86AudioNext exec --no-startup-id $select_player $playback_next_command --player='{}'
+bindsym Shift+XF86AudioPlay exec --no-startup-id $select_player $playback_playpause_command --player='{}'
+
+# Volume control
+bindsym XF86AudioLowerVolume exec $volume_down_command
+bindsym XF86AudioRaiseVolume exec $volume_up_command
+bindsym XF86AudioMute exec $volume_mute_command
+
+bindsym $mod+$mode_shifter_key+m mode "media"
+mode "media" {
+    # Browser
+    bindsym --release d exec xdotool key XF86Back
+    bindsym --release f exec xdotool key XF86Forward
+
+    # Playback
+    bindsym h exec --no-startup-id $playback_prev_command
+    bindsym k exec --no-startup-id $playback_next_command
+    bindsym j exec --no-startup-id $playback_playpause_command
+    bindsym Shift+h exec --no-startup-id $select_player $playback_prev_command --player='{}'
+    bindsym Shift+k exec --no-startup-id $select_player $playback_next_command --player='{}'
+    bindsym Shift+j exec --no-startup-id $select_player $playback_playpause_command --player='{}'
+
+    # Volume
+    bindsym y exec --no-startup-id $volume_up_command
+    bindsym u exec --no-startup-id $volume_down_command
+    bindsym i exec --no-startup-id $volume_up_command
+
+    # Back to normal: Enter or Escape or mode-enabling shortcut
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+$mode_shifter_key+m mode "default"
+}
+
+#######################################
+# i3 Bar
+#######################################
+
+bar {
+    position top
+    separator_symbol "  "
+    status_command i3blocks
+    strip_workspace_name yes
+
+    # Disabling switching workspaces with scrolling
+    bindsym button4 nop
+    bindsym button5 nop
+
+    colors {
+        background #000000
+        statusline {{@@ main_theme_color @@}}
+
+        # In order: border - background - text
+        active_workspace {{@@ main_theme_color @@}} #000000 {{@@ main_theme_color @@}}
+        inactive_workspace #000000 #000000 {{@@ main_theme_color @@}}
+        focused_workspace {{@@ main_theme_color @@}} #000000 {{@@ main_theme_color @@}}
+        urgent_workspace #000000 {{@@ dark_theme_color @@}} {{@@ main_theme_color @@}}
+        binding_mode {{@@ main_theme_color @@}} #000000 {{@@ main_theme_color @@}}
+    }
+}
+
+# This is necessary to make the i3block Caps lock indicator work
+bindsym --release Caps_Lock exec --no-startup-id pkill -SIGRTMIN+{{@@ caps_signal @@}} i3blocks
+
+#######################################
+# Reset
+#######################################
+
+# Variables
+set $i3_reset_key Shift
+
+# Reload the configuration file
+bindsym $mod+$i3_reset_key+c reload
+# Restart
+bindsym $mod+$i3_reset_key+x restart
+# Exit
+bindsym $mod+$i3_reset_key+v exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+#######################################
+# Application startup
+#######################################
+
+# Autostart
+exec --no-startup-id dex -ae i3
+
+# Scratchpad terminal
+exec $term --title $sp_term_title
+
+# Startup terminal
+exec --no-startup-id i3-msg 'workspace "3: terminal"; exec $term'

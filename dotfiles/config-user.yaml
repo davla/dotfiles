@@ -152,6 +152,9 @@ dotfiles:
   f_ssh_config:
     src: ssh/config
     dst: ~/.ssh/config
+  f_sway_config:
+    src: config/sway/config
+    dst: '{{@@ xdg_config("sway/config") @@}}'
   f_trolltech.conf:
     src: config/Trolltech.conf
     dst: '{{@@ xdg_config("Trolltech.conf") @@}}'
@@ -259,6 +262,14 @@ profiles:
     - f_xsessionrc
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
+
+  # This profile contains the dotfiles for the whole sway session, that means a
+  # little bit more than just the sway configuration files.
+  sway:
+    dotfiles:
+    - f_sway_config
+    - d_autostart
+    - f_gpg-agent.conf
 
   # This profile groups together systemd timers configuration.
   timers:

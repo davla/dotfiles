@@ -1,0 +1,55 @@
+# This i3/sway configuration file contains mode definitions
+
+#######################################
+# Media
+#######################################
+
+# This mode defines shortcuts for media controls, e.g. volume, screen
+# brightness, etc
+
+# Media commands
+set $playback_prev_command active-playerctl previous
+set $playback_next_command active-playerctl next
+set $playback_playpause_command active-playerctl play-pause
+set $select_player active-playerctl --list-all | dmenu | xargs -I '{}'
+set $volume_down_command volume -np -d 5 -e 1000
+set $volume_up_command volume -npl 100 -i 5 -e 1000
+set $volume_mute_command volume -nm -e 5
+
+# Playback
+bindsym XF86AudioPrev exec --no-startup-id $playback_prev_command
+bindsym XF86AudioNext exec --no-startup-id $playback_next_command
+bindsym XF86AudioPlay exec --no-startup-id $playback_playpause_command
+bindsym Shift+XF86AudioPrev exec $select_player $playback_prev_command --player='{}'
+bindsym Shift+XF86AudioNext exec $select_player $playback_next_command --player='{}'
+bindsym Shift+XF86AudioPlay exec $select_player $playback_playpause_command --player='{}'
+
+# Volume control
+bindsym XF86AudioMute exec --no-startup-id $volume_mute_command
+bindsym XF86AudioLowerVolume exec --no-startup-id $volume_down_command
+bindsym XF86AudioRaiseVolume exec --no-startup-id $volume_up_command
+
+bindsym $mod+$mode_shifter_key+m mode "media"
+mode "media" {
+    # Browser
+    bindsym --release d exec xdotool key XF86Back
+    bindsym --release f exec xdotool key XF86Forward
+
+    # Playback
+    bindsym h exec --no-startup-id $playback_prev_command
+    bindsym k exec --no-startup-id $playback_next_command
+    bindsym j exec --no-startup-id $playback_playpause_command
+    bindsym Shift+h exec $select_player $playback_prev_command --player='{}'
+    bindsym Shift+k exec $select_player $playback_next_command --player='{}'
+    bindsym Shift+j exec $select_player $playback_playpause_command --player='{}'
+
+    # Volume
+    bindsym y exec --no-startup-id $volume_mute_command
+    bindsym u exec --no-startup-id $volume_down_command
+    bindsym i exec --no-startup-id $volume_up_command
+
+    # Back to normal: Enter or Escape or mode-enabling shortcut
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+$mode_shifter_key+m mode "default"
+}

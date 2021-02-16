@@ -147,6 +147,9 @@ dotfiles:
   f_sway_containers:
     src: templating/i3-sway/containers
     dst: '{{@@ xdg_config("sway/containers") @@}}'
+  f_sway_modes:
+    src: templating/i3-sway/modes
+    dst: '{{@@ xdg_config("sway/modes") @@}}'
   f_trolltech.conf:
     src: config/Trolltech.conf
     dst: '{{@@ xdg_config("Trolltech.conf") @@}}'
@@ -264,6 +267,7 @@ profiles:
     dotfiles:
     - d_sway
     - f_sway_containers
+    - f_sway_modes
     include:
     - look-and-feel
     - startup

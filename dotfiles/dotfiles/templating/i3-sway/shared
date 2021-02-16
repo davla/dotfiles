@@ -34,16 +34,16 @@ set $scratchpad_show scratchpad show, move position center
 set $term {{@@ term @@}}
 
 #######################################
-# Applications
-#######################################
-
-{{@@ include('applications') @@}}
-
-#######################################
 # Containers
 #######################################
 
 {{@@ include('containers') @@}}
+
+#######################################
+# Applications
+#######################################
+
+{{@@ include('applications') @@}}
 
 #######################################
 # Font

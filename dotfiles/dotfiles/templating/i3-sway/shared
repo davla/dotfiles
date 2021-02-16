@@ -23,6 +23,7 @@ include {{@@ path @@}}
 # Keys
 set $mod Mod4
 set $mode_shifter_key Control
+set $wm_control_key Shift
 
 # Command aliases
 set $scratchpad_show scratchpad show, move position center
@@ -285,15 +286,7 @@ bar {
 bindsym --release Caps_Lock exec --no-startup-id pkill -SIGRTMIN+{{@@ caps_signal @@}} i3blocks
 
 #######################################
-# Reset
+# Window manager control
 #######################################
 
-# Variables
-set $i3_reset_key Shift
-
-# Reload the configuration file
-bindsym $mod+$i3_reset_key+c reload
-# Restart
-bindsym $mod+$i3_reset_key+x restart
-# Exit
-bindsym $mod+$i3_reset_key+v exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+{{@@ include('wm-control') @@}}

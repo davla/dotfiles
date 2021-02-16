@@ -1,0 +1,16 @@
+# This sway configuration file holds keyboard shortcuts to control sway itself
+
+#######################################
+# Shortcuts
+#######################################
+
+# Reload the configuration file
+bindsym $mod+$wm_control_key+c reload
+
+# Restart
+bindsym $mod+$wm_control_key+x restart
+
+# Exit
+bindsym $mod+$wm_control_key+v exec "swaynag -t warning \
+    -m 'You pressed the sway exit shortcut. Do you really want to exit sway?' \
+    -B 'Yes, exit sway' 'swaymsg exit'"

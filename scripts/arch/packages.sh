@@ -76,8 +76,8 @@ sudo -u "$USER" yay -S antibody-bin apng2gif asdf-vm autoconf automake cmake \
     cowsay curl dkms dos2unix fortune-mod gcc ghc gifsicle git-secret \
     git-review gnupg jq lua man mercurial moreutils multi-git-status myrepos \
     nfs-utils nyancat otf-ipafont p7zip pkgfile python python-pip \
-    python-pipenv sudo ttf-baekmuk ttf-indic-otf ttf-khmer unzip vim \
-    wqy-microhei-lite zip
+    python-pipenv sudo ttf-baekmuk ttf-dejavu ttf-indic-otf ttf-khmer unzip \
+    vim wqy-microhei-lite zip
     # luacheck shellcheck rar unrar
     # wmctrl xdotool for wayland
 

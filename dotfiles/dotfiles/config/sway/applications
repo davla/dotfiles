@@ -13,11 +13,13 @@
 
 # Command criteria
 set $android_studio_criterion app_id="jetbrains-studio"
+set $firefox_criterion app_id=".*Firefox.*"
 set $scratchpad_editor_criterion instance="scratchpad-editor"
 set $scratchpad_term_criterion title="scratchpad-terminal"
 set $spotify_criterion app_id="spotify"
 set $teams_criterion instance=".*microsoft teams.*"
 set $telegram_criterion app_id="telegramdesktop" title="Telegram.*"
+set $thunderbird_criterion app_id="thunderbird"
 set $vscode_criterion app_id="^code.*"
 
 # Application instance titles
@@ -30,7 +32,7 @@ set $calc_title calculator
 bindsym $mod+Shift+e exec $term --title $calc_title -e lua
 bindsym $mod+space exec i3-dmenu-desktop
 bindsym $mod+Shift+space exec dmenu_run
-bindsym $mod+w exec firefox; workspace "2: browser"
+bindsym $mod+w exec firefox
 bindsym $mod+Shift+y exec geany
 bindsym $mod+y exec --no-startup-id i3-start-or-scratchpad \
     'geany --name scratchpad-editor' '--classname scratchpad-editor' \
@@ -50,9 +52,9 @@ bindsym $mod+p exec --no-startup-id i3-start-or-scratchpad 'spotify' \
 
 {%@@ if env['HOST'] == 'personal' -@@%}
 
-bindsym $mod+o exec firefox https://calendar.google.com/calendar/r; workspace "2: browser"
-bindsym $mod+i exec firefox https://keep.google.com/#home; workspace "2: browser"
-bindsym $mod+t exec thunderbird; workspace "5: mail"
+bindsym $mod+o exec firefox https://calendar.google.com/calendar/r
+bindsym $mod+i exec firefox https://keep.google.com/#home
+bindsym $mod+t exec thunderbird
 
 {%@@ endif -@@%}
 
@@ -65,17 +67,19 @@ set $floating_width 900
 set $floating_height 550
 
 # Assigning applications to workspaces
-assign [$android_studio_criterion] "1: coding"
-assign [$vscode_criterion] "1: coding"
-assign [app_id=".*Firefox.*"] "2: browser"
-assign [app_id="thunderbird"] "5: mail"
+assign [$android_studio_criterion] $ws1
+assign [$vscode_criterion] $ws1
+assign [$firefox_criterion] $ws2
+assign [$thunderbird_criterion] $ws4
 
 # Switch to assigned workspace by focusing newly created windows
 for_window [$android_studio_criterion] focus
+for_window [$firefox_criterion] $ws2
+for_window [$thunderbird_criterion] $ws4
 for_window [$vscode_criterion] focus
 
 # Android studio splash
-for_window [$android_studio_criterion title="win0" workspace="1: coding"] \
+for_window [$android_studio_criterion title="win0" workspace=$ws1] \
     floating enable
 
 # Calculator
@@ -117,8 +121,5 @@ for_window [floating $telegram_criterion] \
 # Autostart
 exec --no-startup-id dex -ae sway
 
-# Scratchpad terminal
-exec $term --title $sp_term_title
-
 # Startup terminal
-exec --no-startup-id swaymsg 'workspace "3: terminal"; exec $term'
+exec --no-startup-id swaymsg 'workspace $ws3; exec $term'

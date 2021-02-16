@@ -1,0 +1,138 @@
+# This i3/sway configuration files defines keyboard shortcuts for containers
+# (e.g. workspaces and windows)
+
+#######################################
+# Workspaces
+#######################################
+
+# Workspace names
+set $ws1 "1: coding"
+set $ws2 "2: browser"
+set $ws3 "3: terminal"
+set $ws4 "4"
+set $ws5 "5: mail"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Workspace shortcut keys
+set $ws1key a
+set $ws2key s
+set $ws3key d
+set $ws4key f
+set $ws5key g
+set $ws6key h
+set $ws7key j
+set $ws8key k
+set $ws9key l
+set $ws10key semicolon
+
+# switch to workspace
+bindsym $mod+$ws1key workspace $ws1
+bindsym $mod+$ws2key workspace $ws2
+bindsym $mod+$ws3key workspace $ws3
+bindsym $mod+$ws4key workspace $ws4
+bindsym $mod+$ws5key workspace $ws5
+bindsym $mod+$ws6key workspace $ws6
+bindsym $mod+$ws7key workspace $ws7
+bindsym $mod+$ws8key workspace $ws8
+bindsym $mod+$ws9key workspace $ws9
+bindsym $mod+$ws10key workspace $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+$ws1key move container to workspace $ws1; workspace $ws1
+bindsym $mod+Shift+$ws2key move container to workspace $ws2; workspace $ws2
+bindsym $mod+Shift+$ws3key move container to workspace $ws3; workspace $ws3
+bindsym $mod+Shift+$ws4key move container to workspace $ws4; workspace $ws4
+bindsym $mod+Shift+$ws5key move container to workspace $ws5; workspace $ws5
+bindsym $mod+Shift+$ws6key move container to workspace $ws6; workspace $ws6
+bindsym $mod+Shift+$ws7key move container to workspace $ws7; workspace $ws7
+bindsym $mod+Shift+$ws8key move container to workspace $ws8; workspace $ws8
+bindsym $mod+Shift+$ws9key move container to workspace $ws9; workspace $ws9
+bindsym $mod+Shift+$ws10key move container to workspace $ws10; workspace $ws10
+
+# Orientation
+default_orientation horizontal
+
+#######################################
+# Scratchpad
+#######################################
+
+# Variables
+set $scratchpad_key r
+
+# Scratchpad keybindings
+bindsym $mod+$scratchpad_key $scratchpad_show
+bindsym $mod+Shift+$scratchpad_key move scratchpad
+
+#######################################
+# Windows
+#######################################
+
+# Variables
+set $float_key f
+set $float_center_criterion window_type="dialog" window_type="splash"
+
+# Change focus
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+bindsym $mod+Down focus down
+bindsym $mod+Left focus left
+
+# Kill focused window
+bindsym $mod+q kill
+
+# Floating windows
+floating_modifier $mod
+for_window [floating $float_center_criterion] move position center
+
+# Container focus, split, layout, float and resize
+bindsym $mod+$mode_shifter_key+c mode "containers"
+mode "containers" {
+    # Focus
+    bindsym p focus parent
+    bindsym c focus child
+    bindsym Up focus up
+    bindsym Right focus right
+    bindsym Down focus down
+    bindsym Left focus left
+
+    # Split
+    bindsym h split h
+    bindsym v split v
+
+    # Layout
+    bindsym a layout stacking
+    bindsym t layout tabbed
+    bindsym s layout toggle split
+
+    # Fullscreen
+    bindsym l fullscreen toggle
+
+    # Float
+    bindsym $float_key focus mode_toggle
+    bindsym Shift+$float_key floating toggle
+
+    # Move
+    bindsym Shift+Up move up
+    bindsym Shift+Right move right
+    bindsym Shift+Down move down
+    bindsym Shift+Left move left
+    bindsym Shift+c move position center
+
+    # Resize
+    bindsym ctrl+Up resize shrink height 10 px or 10 ppt
+    bindsym ctrl+Right resize grow width 10 px or 10 ppt
+    bindsym ctrl+Down resize grow height 10 px or 10 ppt
+    bindsym ctrl+Left resize shrink width 10 px or 10 ppt
+
+    # Kill focused window
+    bindsym q kill
+
+    # Back to normal: Enter or Escape or mode-enabling shortcut
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+$mode_shifter_key+c mode "default"
+}

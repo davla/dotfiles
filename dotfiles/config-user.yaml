@@ -144,6 +144,9 @@ dotfiles:
   f_ssh_config:
     src: ssh/config
     dst: ~/.ssh/config
+  f_sway_containers:
+    src: templating/i3-sway/containers
+    dst: '{{@@ xdg_config("sway/containers") @@}}'
   f_trolltech.conf:
     src: config/Trolltech.conf
     dst: '{{@@ xdg_config("Trolltech.conf") @@}}'
@@ -260,6 +263,7 @@ profiles:
   sway:
     dotfiles:
     - d_sway
+    - f_sway_containers
     include:
     - look-and-feel
     - startup

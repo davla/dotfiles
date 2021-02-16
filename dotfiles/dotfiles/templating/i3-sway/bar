@@ -1,0 +1,39 @@
+{%@@ if on_wayland @@%}
+# {{@@ header() @@}}
+#
+# This sway configuration file defines the configuration for swaybar
+{%@@ endif @@%}
+
+#######################################
+# Bar
+#######################################
+
+bar {
+    position top
+    separator_symbol "  "
+    status_command i3blocks
+    strip_workspace_name yes
+
+    # Disabling switching workspaces with scrolling
+    bindsym button4 nop
+    bindsym button5 nop
+
+    {%@@ if on_wayland @@%}
+    icon_theme {{@@ icon_theme @@}}
+    {%@@ endif @@%}
+
+    colors {
+        background #000000
+        statusline {{@@ main_theme_color @@}}
+
+        # In order: border - background - text
+        active_workspace {{@@ main_theme_color @@}} #000000 {{@@ main_theme_color @@}}
+        inactive_workspace #000000 #000000 {{@@ main_theme_color @@}}
+        focused_workspace {{@@ main_theme_color @@}} #000000 {{@@ main_theme_color @@}}
+        urgent_workspace #000000 {{@@ dark_theme_color @@}} {{@@ main_theme_color @@}}
+        binding_mode {{@@ main_theme_color @@}} #000000 {{@@ main_theme_color @@}}
+    }
+}
+
+# This is necessary to make the i3block Caps lock indicator work
+bindsym --release Caps_Lock exec --no-startup-id pkill -SIGRTMIN+{{@@ caps_signal @@}} i3blocks

@@ -144,6 +144,9 @@ dotfiles:
   f_ssh_config:
     src: ssh/config
     dst: ~/.ssh/config
+  f_sway_bar:
+    src: templating/i3-sway/bar
+    dst: '{{@@ xdg_config("sway/bar") @@}}'
   f_sway_containers:
     src: templating/i3-sway/containers
     dst: '{{@@ xdg_config("sway/containers") @@}}'
@@ -266,6 +269,7 @@ profiles:
   sway:
     dotfiles:
     - d_sway
+    - f_sway_bar
     - f_sway_containers
     - f_sway_modes
     include:

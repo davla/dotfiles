@@ -5,7 +5,7 @@
 
 variables:
   # These variables define the content of look-and-feel themes
-  font: Sans, Regular 11
+  font: Sans Regular 11
   theme: Adwaita-dark
 
   # These variables are used for configuring look-and-feel tools

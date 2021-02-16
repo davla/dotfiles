@@ -1,5 +1,7 @@
 {#@@
-    This file contains the shared configuration between i3 and sway.
+    This file contains the shared configuration between i3 and sway. Mostly a
+    hub to include other files, either by jinja inclusion for i3, or via
+    include directives for sway
 @@#}
 
 {#@@-
@@ -69,16 +71,16 @@ gaps inner 10
 gaps outer 0
 
 #######################################
-# Modes
-#######################################
-
-{{@@ include('modes') @@}}
-
-#######################################
 # Bar
 #######################################
 
 {{@@ include('bar') @@}}
+
+#######################################
+# Modes
+#######################################
+
+{{@@ include('modes') @@}}
 
 #######################################
 # Window manager control

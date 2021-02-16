@@ -179,7 +179,11 @@ default_orientation horizontal
 # Font
 #######################################
 
-set_from_resource $font Gtk.FontName Sans, Regular 11
+{%@@ if on_wayland @@%}
+set $font {{@@ font @@}}
+{%@@ else @@%}
+set_from_resource $font Gtk.FontName {{@@ font @@}}
+{%@@ endif @@%}
 font pango:$font
 
 #######################################

@@ -1,0 +1,38 @@
+# This sway configuration files contains input/output configuration
+
+#######################################
+# Output
+#######################################
+
+# Variables
+set $laptop_display eDP-1
+
+# Background
+output * bg #131313 solid_color
+
+# Laptop lid
+bindswitch --reload lid:on output $laptop_display disable
+bindswitch --reload lid:off output $laptop_display enable
+
+# Laptop display
+output $laptop_display scale 2
+
+#######################################
+# Input
+#######################################
+
+input type:keyboard {
+    xkb_layout us,us
+    xkb_variant intl-custom,
+    xkb_model kinesis
+}
+
+input type:touchpad {
+    dwt enabled
+    natural_scroll disabled
+    pointer_accel 0.2
+    scroll_factor 2
+    scroll_method two_finger
+    tap enabled
+    tap_button_map lrm
+}

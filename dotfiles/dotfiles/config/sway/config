@@ -3,3 +3,9 @@
 # sway config file
 
 {%@@ include 'templating/i3-sway/shared' @@%}
+
+#######################################
+# Input/Output
+#######################################
+
+include io

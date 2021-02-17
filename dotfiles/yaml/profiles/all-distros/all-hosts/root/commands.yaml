@@ -60,6 +60,9 @@ dotfiles:
     src: usr/local/bin/shell-cache
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ shell_cache_path @@}}'
+  f_local_bin_spotify:
+    src: usr/local/bin/spotify
+    dst: /usr/local/bin/spotify
   f_local_bin_vscode:
     src: usr/local/bin/vscode
     dst: /usr/local/bin/vscode
@@ -107,6 +110,7 @@ profiles:
   # some other commands
   wayland-wrappers:
     dotfiles:
+    - f_local_bin_spotify
     - f_local_bin_vscode
 
 variables:

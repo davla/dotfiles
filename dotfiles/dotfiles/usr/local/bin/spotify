@@ -1,0 +1,58 @@
+#!/usr/bin/env sh
+
+# This script is a temporary workaround that simulates the Spotify native
+# application by spawning the Spotify web application in a browser window
+# without bars.
+#
+# The browser window is given a sway mark, so that it can be handled
+# differently than the other, conventional browser windows, and look more like
+# a native application.
+#
+# The workaround is necessary since, unfortunately, the Spotify linux native
+# application is built on GTK2, that does not, and never will, support wayland.
+
+########################################
+# Opening the Spotify web app
+########################################
+
+MOZ_ENABLE_WAYLAND=1 firefox-beta -P Spotify --new-instance --kiosk \
+    'https://open.spotify.com' &
+
+# The PID is used later to identify the newly created Firefox window within
+# sway, and set a mark on it
+SPOTIFY_PID="$!"
+
+########################################
+# Setting the sway mark
+########################################
+
+# `swaymsg -t subscribe -m <...> | jq '...'` is not an option, even if the
+# filter would make `jq` exit before the input pipe is closed. Indeed
+# `swaymsg -t subscribe -m` doesn't terminate on output pipe closing when
+# launched via a sway keybinding, probably because it's a non-interactive
+# shell. This means that `swaymsg` would be running in the background,
+# regardless of `jq` exiting. This in turn implies that any subsequent
+# invocation of `swaymsg` would wait indefinitely for the first one to
+# complete. The end result is that the script would hang when executing
+# `swaymsg` a second time to set the "spotify" mark.
+#
+# The chosen workaround for this is to fork `swaymsg -t subscribe -m` to the
+# background and making it communicate with `jq` via a named pipe, so that
+# `swaymsg` can be manually killed after `jq` exits.
+
+PIPE="$(mktemp -u)"
+mkfifo "$PIPE"
+
+swaymsg -t subscribe -m '["window"]' >> "$PIPE" &
+SWAYMSG_PID="$!"
+
+# This waits until the Spotify window, idenfitied by PID, changes its title
+# three times. That's roughly when the Spotify web content is rendered.
+jq -ne "nth(2; inputs | select(.change == \"title\" \
+    and .container.pid == $SPOTIFY_PID))" < "$PIPE"
+# `jq` has terminated, we can kill `swaymsg -t subscribe -m`
+kill $SWAYMSG_PID
+
+rm "$PIPE"
+
+swaymsg "[pid=\"$SPOTIFY_PID\"] mark spotify"

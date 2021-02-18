@@ -24,6 +24,7 @@ for_window [{{@@ criterion @@}}] move scratchpad; \
 # Command criteria
 set $android_studio_criterion app_id="jetbrains-studio"
 set $firefox_criterion app_id=".*Firefox.*"
+set $launcher_criterion app_id="launcher"
 set $scratchpad_editor_criterion app_id="scratchpad-editor"
 set $scratchpad_term_criterion title="scratchpad-terminal"
 set $spotify_criterion con_mark="spotify"
@@ -40,8 +41,7 @@ set $calc_title calculator
 #######################################
 
 bindsym $mod+Shift+e exec $term --title $calc_title -e lua
-bindsym $mod+space exec i3-dmenu-desktop
-bindsym $mod+Shift+space exec dmenu_run
+bindsym $mod+space exec $term --class launcher -e sway-launcher-desktop
 bindsym $mod+w exec firefox
 bindsym $mod+Shift+y exec geany
 bindsym $mod+y exec --no-startup-id \
@@ -98,6 +98,10 @@ for_window [title="$calc_title"] floating enable
 for_window [floating title="$calc_title"] \
     resize set $floating_width $floating_height, \
     move position center
+
+# Launcher
+for_window [$launcher_criterion] floating enable, \
+    resize set $floating_width $floating_height, move position center
 
 # Scratchpad editor
 {{@@ init_scratchpad('$scratchpad_editor_criterion') @@}}

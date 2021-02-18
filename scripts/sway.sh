@@ -9,7 +9,8 @@
 # Installing sway
 #######################################
 
-yay -S alacritty dex grimshot i3-volume sway wdisplays wev
+yay -S alacritty dex grimshot i3-volume sway sway-launcher-desktop \
+    ttf-nerd-fonts-symbols wdisplays wev
 
 #######################################
 # Installing sway dotfiles

@@ -53,9 +53,6 @@ dotfiles:
   f_local_bin_dotdrop:
     src: usr/local/bin/dotdrop
     dst: /usr/local/bin/dotdrop
-  f_local_bin_i3-start-or-scratchpad:
-    src: usr/local/bin/i3-start-or-scratchpad
-    dst: /usr/local/bin/i3-start-or-scratchpad
   f_local_bin_my-certbot:
     src: usr/local/bin/my-certbot
     dst: /usr/local/bin/my-certbot

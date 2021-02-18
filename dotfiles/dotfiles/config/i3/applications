@@ -17,7 +17,7 @@ set $scratchpad_editor_criterion instance="scratchpad-editor"
 set $scratchpad_term_criterion title="scratchpad-terminal"
 set $spotify_criterion instance="spotify"
 set $teams_criterion instance=".*microsoft teams.*"
-set $telegram_criterion instance="telegram"
+set $telegram_criterion instance="telegram" title="Telegram.*"
 set $vscode_criterion instance="code"
 
 # Application instance titles
@@ -35,22 +35,22 @@ bindsym $mod+space exec i3-dmenu-desktop
 bindsym $mod+Shift+space exec dmenu_run
 bindsym $mod+w exec firefox
 bindsym $mod+Shift+y exec geany
-bindsym $mod+y exec --no-startup-id i3-start-or-scratchpad \
-    'geany --name scratchpad-editor' '--classname scratchpad-editor' \
-    '$scratchpad_editor_criterion'
+bindsym $mod+y exec --no-startup-id \
+    i3-msg '[$scratchpad_editor_criterion] scratchpad show' \
+    || geany --name scratchpad-editor
 bindsym $mod+Escape exec --no-startup-id halt -p
-bindsym $mod+e exec --no-startup-id i3-start-or-scratchpad \
-    '{{@@ messaging_client @@}}' '--classname {{@@ messaging_client @@}}' \
-    '${{@@ messaging_client @@}}_criterion'
+bindsym $mod+e exec --no-startup-id \
+    i3-msg '[${{@@ messaging_client @@}}_criterion] scratchpad show' \
+    || {{@@ messaging_client @@}}
 bindsym $mod+F5 exec --no-startup-id reboot
 bindsym $mod+Tab exec $term
-bindsym $mod+Shift+Tab exec --no-startup-id i3-start-or-scratchpad \
-    '$term --title scratchpad-terminal' '--name scratchpad-terminal' \
-    '$scratchpad_term_criterion'
+bindsym $mod+Shift+Tab exec --no-startup-id \
+    i3-msg '[$scratchpad_term_criterion] scratchpad show' \
+    || $term --title scratchpad-terminal
 bindsym $mod+u exec thunar
-bindsym $mod+p exec --no-startup-id i3-start-or-scratchpad \
-    'spotify --force-device-scale-factor=$spotify_scale' \
-    '--classname spotify' '$spotify_criterion'
+bindsym $mod+p exec --no-startup-id \
+    i3-msg '[$spotify_criterion] scratchpad show' \
+    || spotify --force-device-scale-factor=$spotify_scale
 
 {%@@ if env['HOST'] == 'personal' -@@%}
 
@@ -91,38 +91,30 @@ for_window [floating title="$calc_title"] \
 # Scratchpad editor
 set_from_resource $editor_width i3wm.EditorWidth 1000
 set_from_resource $editor_height i3wm.EditorHeight 850
-for_window [$scratchpad_editor_criterion] floating enable
-for_window [floating $scratchpad_editor_criterion] \
-    resize set $editor_width $editor_height, \
-    move position center
+for_window [$scratchpad_editor_criterion] move scratchpad, scratchpad show, \
+    resize set $editor_width $editor_height, move position center
 
 # Scratchpad terminal
-for_window [$scratchpad_term_criterion] floating enable
-for_window [floating $scratchpad_term_criterion] \
-    resize set $floating_width $floating_height, \
-    move position center
+for_window [$scratchpad_term_criterion] move scratchpad, scratchpad show, \
+    resize set $floating_width $floating_height, move position center
 
 # Spotify
 set_from_resource $spotify_width i3wm.SpotifyWidth 1500
 set_from_resource $spotify_height i3wm.SpotifyHeight 850
-for_window [$spotify_criterion] floating enable
-for_window [floating $spotify_criterion] \
-    resize set $spotify_width $spotify_height, \
-    move position center
+for_window [$spotify_criterion] move scratchpad, scratchpad show, \
+    resize set $spotify_width $spotify_height, move position center
 
 # Teams
 set_from_resource $teams_width i3wm.TeamsWidth 1200
 set_from_resource $teams_height i3wm.TeamsHeight 950
-for_window [$teams_criterion] floating enable
-for_window [floating $teams_criterion window_type="normal"] \
-    resize set $teams_width $teams_height, \
+for_window [$teams_criterion window_type="normal"] move scratchpad, \
+    scratchpad show, resize set $teams_width $teams_height, \
     move position center
 
 # Telegram
 set_from_resource $telegram_width i3wm.TelegramWidth 900
 set_from_resource $telegram_height i3wm.TelegramHeight 800
-for_window [$telegram_criterion] floating enable
-for_window [floating $telegram_criterion] \
+for_window [$telegram_criterion] move scratchpad, scratchpad show, \
     resize set $telegram_width $telegram_height, \
     move position center
 

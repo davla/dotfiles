@@ -41,7 +41,7 @@ set $calc_title calculator
 #######################################
 
 bindsym $mod+Shift+e exec $term --title $calc_title -e lua
-bindsym $mod+space exec $term --class launcher -e sway-launcher-desktop
+bindsym $mod+space exec launcher
 bindsym $mod+w exec firefox
 bindsym $mod+Shift+y exec geany
 bindsym $mod+y exec --no-startup-id \

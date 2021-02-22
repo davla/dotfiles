@@ -1,0 +1,79 @@
+#!/usr/bin/env sh
+
+# This script spawns an alacritty terminal running sway-launcher-desktop.
+#
+# The script acts as if stdout was attached directly to sway-launcher-desktop:
+# - if stdout is connected to a tty (e.g. run from an interactive terminal),
+#   the command selected by sway-launcher-desktop is executed directly.
+# - if stdout is *not* connected to a tty (e.g. it's piped), the command
+#   selected by sway-launcher-desktop is printed on stdout.
+#
+# The script provides some CLI options, mostly as a replacement for the
+# environment variables used by sway-launcher-desktop as configuration. Namely:
+#
+# --history, -h:
+#       The history file (HIST_FILE variable). Defaults to ''.
+#
+# --id, -i:
+#       The id used by the alacritty terminal (--class option).
+#       Defaults to 'launcher'.
+#
+# --no-history, -H:
+#       Disables history. Defaults to true.
+#
+# --providers, -p:
+#       The providers file (PROVIDERS_FILE variable). Defaults to ''.
+
+########################################
+# Input processing
+########################################
+
+export HIST_FILE=''
+export PROVIDERS_FILE=''
+TERM_ID='launcher'
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        '--history'|'-h')
+            HIST_FILE="$2"
+            shift
+            ;;
+
+        '--no-history'|'-H')
+            HIST_FILE=''
+            ;;
+
+        '--providers'|'-p')
+            PROVIDERS_FILE="$2"
+            shift
+            ;;
+
+        '--id'|'-i')
+            TERM_ID="$2"
+            shift
+            ;;
+    esac
+    shift
+done
+
+########################################
+# Spawning alacritty
+########################################
+
+if [ ! -p /dev/fd/1 ]; then
+    # Stdout is not piped. Just executing sway-launcher-desktop.
+    alacritty --class "$TERM_ID" -e sway-launcher-desktop
+else
+    # Stdout is piped. sway-launcher-desktop's output is then redirected to a
+    # named pipe shared with this script, that can then emit the pipe's content
+    # to stdout.
+    PIPE="$(mktemp -u)"
+    mkfifo "$PIPE"
+
+    # Redirecting sway-launcher-desktop's output requires alacritty to execute
+    # a shell line, rather than an executable, hence the `sh -c`.
+    alacritty --class "$TERM_ID" -e sh -c "sway-launcher-desktop > $PIPE" &
+
+    cat "$PIPE"
+    rm "$PIPE"
+fi

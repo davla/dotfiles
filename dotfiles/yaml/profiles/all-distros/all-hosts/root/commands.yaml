@@ -53,6 +53,9 @@ dotfiles:
   f_local_bin_dotdrop:
     src: usr/local/bin/dotdrop
     dst: /usr/local/bin/dotdrop
+  f_local_bin_launcher:
+    src: usr/local/bin/launcher
+    dst: /usr/local/bin/launcher
   f_local_bin_my-certbot:
     src: usr/local/bin/my-certbot
     dst: /usr/local/bin/my-certbot

@@ -431,6 +431,12 @@ profiles:
         GNOME Keyring startup and automatic login keyring unlocking
       pam_login_dst: /etc/pam.d/login
 
+  # This profile includes sway dotfiles that require root privileges to be
+  # installed
+  sway:
+    dotfiles:
+    - f_local_bin_launcher
+
   # This profile includes udev configuration
   udev:
     dotfiles:

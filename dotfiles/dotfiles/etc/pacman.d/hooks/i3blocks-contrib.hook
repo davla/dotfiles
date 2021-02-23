@@ -1,0 +1,18 @@
+# {{@@ header() @@}}
+#
+# Pacman hook that compiles and sets up some i3blocks-contrib blocklets
+
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Target = i3blocks-contrib
+Target = i3blocks-contrib-git
+Type = Package
+
+[Action]
+Description = Setting up i3blocks-contrib blocklets
+Depends = coreutils
+Depends = gcc
+Depends = make
+When = PostTransaction
+Exec = {{@@ i3blocks_contrib_setup_path @@}}

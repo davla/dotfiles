@@ -1,0 +1,8 @@
+%YAML 1.2
+---
+# This dotfiles file lists i3blocks dotfiles for my Debian system. These
+# dotfiles are distro-specific since they are very intertwined with the system,
+# and generally require root privileges to be installed.
+
+dotfiles:
+- f_80i3blocks

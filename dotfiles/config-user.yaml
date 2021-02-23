@@ -277,9 +277,11 @@ profiles:
   # little bit more than just the sway configuration files.
   sway:
     dotfiles:
+    - d_i3blocks-email
     - d_sway
     - d_sway-launcher-desktop
     - f_alacritty.yml
+    - f_i3blocks_config
     - f_mako_config
     - f_sway_bar
     - f_sway_containers

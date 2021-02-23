@@ -252,6 +252,16 @@ dotfiles:
   f_org.xfce.xfce4-terminal.policy:
     src: usr/share/polkit-1/actions/org.xfce.xfce4-terminal.policy
     dst: /usr/share/polkit-1/actions/org.xfce.xfce4-terminal.policy
+  f_pacman_i3blocks-contrib-arch-update.hook:
+    src: etc/pacman.d/hooks/i3blocks-contrib-arch-update.hook
+    dst: /etc/pacman.d/hooks/i3blocks-contrib-arch-update.hook
+  f_pacman_i3blocks-contrib.hook:
+    src: etc/pacman.d/hooks/i3blocks-contrib.hook
+    dst: /etc/pacman.d/hooks/i3blocks-contrib.hook
+  f_pacman_hooks.bin_i3blocks-contrib-setup:
+    src: usr/local/share/pacman/hooks.bin/i3blocks-contrib-setup
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ i3blocks_contrib_setup_path @@}}'
   f_pam.d_login:
     src: etc/pam.d/login
     dst: '{{@@ startup_tmp_dst @@}}'
@@ -400,17 +410,21 @@ profiles:
   # This profile includes the i3 session dotfiles that require root privileges
   # to be installed
   i3:
-    dotfiles:
-    - f_80i3blocks
     include:
-    - i3blocks-custom
+    - i3blocks
     - x11
 
-  # This profile groups custom i3blocks
-  i3blocks-custom:
+  # This profile groups i3blocks-related dotfiles, both for contrib and custom
+  # blocklets
+  i3blocks:
     dotfiles:
     - d_i3blocks_keyindicator2
     - d_i3blocks_network-status
+    import:
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/i3blocks.yaml:optional
+    variables:
+      i3blocks_contrib_setup_path: >-
+        /usr/local/share/pacman/hooks.bin/i3blocks-contrib-setup
 
   # This profile contains dotfiles related to localization and timezones
   locales:
@@ -476,7 +490,7 @@ profiles:
     dotfiles:
     - f_local_bin_launcher
     include:
-    - i3blocks-custom
+    - i3blocks
 
   # This profile includes udev configuration
   udev:

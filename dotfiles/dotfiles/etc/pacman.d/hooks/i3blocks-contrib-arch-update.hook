@@ -1,0 +1,17 @@
+# {{@@ header() @@}}
+#
+# Pacman hook that sends a signal to arch-update i3blocks-contrib blocklet
+# whenever there might be changes in updatable packages
+
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Target = *
+Type = Package
+
+[Action]
+Description = Sending signal to arch-update i3blocks-contrib blocklet
+Depends = procps-ng
+When = PostTransaction
+Exec = /usr/bin/pkill -RTMIN+{{@@ updates_signal @@}} i3blocks

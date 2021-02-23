@@ -9,8 +9,9 @@
 # Installing sway
 #######################################
 
-yay -S alacritty dex grimshot i3-volume mako-git sway sway-launcher-desktop \
-    ttf-nerd-fonts-symbols wdisplays wev
+yay -S alacritty dex grimshot i3-volume mako-git rust sway \
+    sway-launcher-desktop ttf-nerd-fonts-symbols wdisplays wev
+sudo cargo install --root /usr/local swayfocus
 
 #######################################
 # Installing sway dotfiles

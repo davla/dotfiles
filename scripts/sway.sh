@@ -9,7 +9,7 @@
 # Installing sway
 #######################################
 
-yay -S alacritty dex grimshot i3-volume sway sway-launcher-desktop \
+yay -S alacritty dex grimshot i3-volume mako-git sway sway-launcher-desktop \
     ttf-nerd-fonts-symbols wdisplays wev
 
 #######################################

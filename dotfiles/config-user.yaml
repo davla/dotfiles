@@ -141,6 +141,9 @@ dotfiles:
   f_i3config:
     src: config/i3/config
     dst: '{{@@ xdg_config("i3/config") @@}}'
+  f_mako_config:
+    src: config/mako/config
+    dst: '{{@@ xdg_config("mako/config") @@}}'
   f_mimeapps.list:
     src: config/mimeapps.list
     dst: '{{@@ xdg_config("mimeapps.list") @@}}'
@@ -277,6 +280,7 @@ profiles:
     - d_sway
     - d_sway-launcher-desktop
     - f_alacritty.yml
+    - f_mako_config
     - f_sway_bar
     - f_sway_containers
     - f_sway_modes

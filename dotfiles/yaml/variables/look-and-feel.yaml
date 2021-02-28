@@ -5,7 +5,8 @@
 variables:
   # These variables define the content of look-and-feel themes
   cursor_size: 24
-  font: DejaVu Sans 11
+  font_size: 11
+  font: 'DejaVu Sans {{@@ font_size @@}}'
   theme: Adwaita-dark
 
   # These variables are used for configuring look-and-feel tools

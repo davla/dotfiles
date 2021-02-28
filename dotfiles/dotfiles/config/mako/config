@@ -1,0 +1,56 @@
+# {{@@ header() @@}}
+#
+# Mako configuration file
+{%@@ set background_color = '#000000' @@%}
+{%@@ set border_color = main_theme_color @@%}
+{%@@ set icon_path = ['actions', 'apps', 'categories', 'devices', 'emblems',
+        'mimetypes', 'places', 'status', 'stock']
+      | map('format_by',
+        '/usr/share/icons/{}/scalable/real_icons/%s'.format(icon_theme))
+      | join(':') @@%}
+{%@@ set line_spacing = font_size // 2 @@%}
+{%@@ set text_color = main_theme_color @@%}
+
+{#@@
+    Add opacity to a hexadecimal color. Opacity must be in range [0; 100].
+@@#}
+{%@@ macro opacify(color, opacity=80) @@%}
+{{@@ color + ('%.2X' % (opacity * 255 / 100) | int) @@}}
+{%@@ endmacro -@@%}
+
+#######################################
+# Global options
+#######################################
+
+layer=overlay
+anchor=top-right
+font={{@@ font @@}}
+background-color={{@@ opacify(background_color) @@}}
+text-color={{@@ opacify(text_color) @@}}
+width={{@@ notification_width @@}}
+height={{@@ (notification_line_count * font_size
+    + line_spacing * (notification_line_count - 1)
+    + notification_vertical_padding * 2) @@}}
+margin={{@@ notification_margin @@}}
+padding={{@@ notification_vertical_padding @@}},{{@@ notification_horizontal_padding @@}}
+border-size={{@@ notification_border_width @@}}
+border-color={{@@ opacify(border_color) @@}}
+border-radius=10
+progress-color={{@@ opacify(text_color, 45) @@}}
+max-icon-size={{@@ notification_icon_size @@}}
+icon-path={{@@ icon_path @@}}
+format=<b>%s</b>\n%b
+default-timeout=3000
+
+#######################################
+# Criteria'ed options
+#######################################
+
+[actionable]
+format=<b><u>%s</u></b>\n%b
+
+[urgency=low]
+default-timeout=1000
+
+[urgency=high]
+default-timeout=0

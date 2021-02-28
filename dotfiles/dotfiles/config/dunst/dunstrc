@@ -2,8 +2,11 @@
     icon_theme, margin, vertical_padding, width) @@%}
 {%@@ set background_color = '#000000' @@%}
 {%@@ set border_color = main_theme_color @@%}
-{%@@ set icons_path = '/usr/share/icons/%s/scalable/real_icons'
-    | format(icon_theme) @@%}
+{%@@ set icon_path = ['actions', 'apps', 'categories', 'devices', 'emblems',
+        'mimetypes', 'places', 'status', 'stock']
+      | map('format_by',
+        '/usr/share/icons/{}/scalable/real_icons/%s'.format(icon_theme))
+      | join(':') @@%}
 {%@@ set notify_modifiers = 'mod4' @@%}
 {%@@ set text_color = main_theme_color @@%}
 # {{@@ header() @@}}
@@ -24,7 +27,7 @@
 
     # The geometry of the window:
     #   [{width}]x{height}[+/-{x}+/-{y}]
-    geometry = "{{@@ width @@}}x5-{{@@ margin @@}}+{{@@ margin @@}}"
+    geometry = "{{@@ width @@}}x{{@@ notification_line_count @@}}-{{@@ margin @@}}+{{@@ margin @@}}"
 
     # Show how many messages are currently hidden (because of geometry).
     indicate_hidden = yes
@@ -131,9 +134,7 @@
     max_icon_size = {{@@ icon_size @@}}
 
     # Paths to default icons.
-    icon_path = {{@@ ['actions', 'apps', 'categories', 'devices', 'emblems',
-            'mimetypes', 'places', 'status', 'stock']
-        | map('format_by', icons_path + '/%s') | join(':') @@}}
+    icon_path = {{@@ icon_path @@}}
 
     ### History ###
 

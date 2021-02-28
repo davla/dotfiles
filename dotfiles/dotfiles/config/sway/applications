@@ -21,57 +21,65 @@ for_window [{{@@ criterion @@}}] move scratchpad; \
     if env['HOST'] == 'work'
     else 'telegram' -@@%}
 
-# Command criteria
-set $android_studio_criterion app_id="jetbrains-studio"
-set $firefox_criterion app_id=".*Firefox.*"
-set $launcher_criterion app_id="launcher"
-set $scratchpad_editor_criterion app_id="scratchpad-editor"
-set $scratchpad_term_criterion title="scratchpad-terminal"
-set $spotify_criterion con_mark="spotify"
-set $teams_criterion instance=".*microsoft teams.*"
-set $telegram_criterion app_id="telegramdesktop" title="Telegram.*"
-set $thunderbird_criterion app_id="thunderbird"
-set $vscode_criterion app_id="^code.*"
+set {
+    # Command criteria
+    $android_studio_criterion app_id="jetbrains-studio"
+    $firefox_criterion app_id=".*Firefox.*"
+    $launcher_criterion app_id="launcher"
+    $scratchpad_editor_criterion app_id="scratchpad-editor"
+    $scratchpad_term_criterion title="scratchpad-terminal"
+    $spotify_criterion con_mark="spotify"
+    $teams_criterion instance=".*microsoft teams.*"
+    $telegram_criterion app_id="telegramdesktop" title="Telegram.*"
+    $thunderbird_criterion app_id="thunderbird"
+    $vscode_criterion app_id="^code.*"
 
-# Application instance titles
-set $calc_title calculator
+    # Application instance titles
+    $calc_title calculator
+}
 
 #######################################
 # Shortcuts
 #######################################
 
-bindsym $mod+Shift+e exec $term --title $calc_title -e lua
-bindsym $mod+space exec launcher
-bindsym $mod+w exec firefox
-bindsym $mod+Shift+y exec geany
-bindsym $mod+y exec --no-startup-id \
-    swaymsg '[$scratchpad_editor_criterion] $scratchpad_show' \
-        || geany --name scratchpad-editor
-bindsym $mod+Escape exec --no-startup-id halt -p
-bindsym $mod+e exec --no-startup-id \
-    swaymsg '[${{@@ messaging_client @@}}_criterion] $scratchpad_show' \
-    || {{@@ messaging_client @@}}
-bindsym $mod+F5 exec --no-startup-id reboot
-bindsym $mod+Tab exec $term
-bindsym $mod+Shift+Tab exec --no-startup-id \
-    swaymsg '[$scratchpad_term_criterion] $scratchpad_show' \
-    || $term --title scratchpad-terminal
-bindsym $mod+u exec thunar
-bindsym $mod+p exec --no-startup-id \
-    swaymsg '[$spotify_criterion] $scratchpad_show' \
-    || spotify
-bindsym ctrl+alt+v exec launcher -p clipman.conf
-bindsym $mod+m exec --no-startup-id makoctl dismiss --all
-bindsym $mod+n exec --no-startup-id makoctl dismiss
-bindsym $mod+comma exec --no-startup-id makoctl restore
+bindsym {
+    # GUI applications
+    $mod+e exec --no-startup-id \
+        swaymsg '[${{@@ messaging_client @@}}_criterion] $scratchpad_show' \
+            || {{@@ messaging_client @@}}
+    $mod+p exec --no-startup-id \
+        swaymsg '[$spotify_criterion] $scratchpad_show' \
+            || spotify
+    $mod+w exec firefox
+    $mod+Shift+y exec geany
+    $mod+y exec --no-startup-id \
+        swaymsg '[$scratchpad_editor_criterion] $scratchpad_show' \
+            || geany --name scratchpad-editor
+    $mod+Tab exec $term
+    $mod+Shift+Tab exec --no-startup-id \
+        swaymsg '[$scratchpad_term_criterion] $scratchpad_show' \
+            || $term --title scratchpad-terminal
+        $mod+u exec thunar
+    {%@@ if env['HOST'] == 'personal' -@@%}
 
-{%@@ if env['HOST'] == 'personal' -@@%}
+    $mod+o exec firefox https://calendar.google.com/calendar/r
+    $mod+i exec firefox https://keep.google.com/#home
+    $mod+t exec thunderbird
 
-bindsym $mod+o exec firefox https://calendar.google.com/calendar/r
-bindsym $mod+i exec firefox https://keep.google.com/#home
-bindsym $mod+t exec thunderbird
+    {%@@ endif -@@%}
 
-{%@@ endif -@@%}
+    # TUI applications
+    $mod+Shift+e exec $term --title $calc_title -e lua
+    ctrl+alt+v exec launcher -p clipman.conf
+    $mod+space exec launcher
+
+    # CLI commands
+    $mod+m exec --no-startup-id makoctl dismiss --all
+    $mod+n exec --no-startup-id makoctl dismiss
+    $mod+comma exec --no-startup-id makoctl restore
+    $mod+F5 exec --no-startup-id reboot
+    $mod+Escape exec --no-startup-id halt -p
+}
 
 #######################################
 # Windows
@@ -82,10 +90,12 @@ set $floating_width 900
 set $floating_height 550
 
 # Assigning applications to workspaces
-assign [$android_studio_criterion] $ws1
-assign [$vscode_criterion] $ws1
-assign [$firefox_criterion] $ws2
-assign [$thunderbird_criterion] $ws4
+assign {
+    [$android_studio_criterion] $ws1
+    [$vscode_criterion] $ws1
+    [$firefox_criterion] $ws2
+    [$thunderbird_criterion] $ws4
+}
 
 # Switch to assigned workspace by focusing newly created windows
 for_window [$android_studio_criterion] focus

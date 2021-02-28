@@ -4,13 +4,16 @@
 # Shortcuts
 #######################################
 
-# Reload the configuration file
-bindsym $mod+$wm_control_key+c reload
+bindsym {
+    # Reload the configuration file
+    $mod+$wm_control_key+c reload
 
-# Restart
-bindsym $mod+$wm_control_key+x restart
+    # Restart
+    $mod+$wm_control_key+x restart
 
-# Exit
-bindsym $mod+$wm_control_key+v exec "swaynag -t warning \
-    -m 'You pressed the sway exit shortcut. Do you really want to exit sway?' \
-    -B 'Yes, exit sway' 'swaymsg exit'"
+    # Exit
+    $mod+$wm_control_key+v exec "swaynag -t warning \
+        -m 'You pressed the sway exit shortcut. Do you really want to exit \
+sway?' \
+        -B 'Yes, exit sway' 'swaymsg exit'"
+}

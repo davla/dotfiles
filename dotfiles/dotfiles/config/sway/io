@@ -11,8 +11,10 @@ set $laptop_display eDP-1
 output * bg #131313 solid_color
 
 # Laptop lid
-bindswitch --reload lid:on output $laptop_display disable
-bindswitch --reload lid:off output $laptop_display enable
+bindswitch --reload {
+    lid:on output $laptop_display disable
+    lid:off output $laptop_display enable
+}
 
 # Laptop display
 output $laptop_display scale 2

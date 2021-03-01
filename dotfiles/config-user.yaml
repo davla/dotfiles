@@ -155,6 +155,9 @@ dotfiles:
   f_orage_oragerc:
     src: config/orage/oragerc
     dst: '{{@@ xdg_config("orage/oragerc") @@}}'
+  f_pam_environment:
+    src: pam_environment
+    dst: ~/.pam_environment
   f_parcellite_parcelliterc:
     src: config/parcellite/parcelliterc
     dst: '{{@@ xdg_config("parcellite/parcelliterc") @@}}'
@@ -281,6 +284,7 @@ profiles:
     - d_autostart
     - f_gpg-agent.conf
     - f_xsessionrc
+    - f_pam_environment
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
 
@@ -299,6 +303,7 @@ profiles:
     - f_sway_modes
     - d_autostart
     - f_gpg-agent.conf
+    - f_pam_environment
     variables:
       on_wayland: true
       term: alacritty

@@ -147,6 +147,9 @@ dotfiles:
   f_mimeapps.list:
     src: config/mimeapps.list
     dst: '{{@@ xdg_config("mimeapps.list") @@}}'
+  f_pam_environment:
+    src: pam_environment
+    dst: ~/.pam_environment
   f_qt5ct.conf:
     src: config/qt5ct/qt5ct.conf
     dst: '{{@@ xdg_config("qt5ct/qt5ct.conf") @@}}'
@@ -269,6 +272,7 @@ profiles:
     dotfiles:
     - d_autostart
     - f_gpg-agent.conf
+    - f_pam_environment
     include:
     - startup-{{@@ display_server @@}}
     - startup-{{@@ output_scaling @@}}

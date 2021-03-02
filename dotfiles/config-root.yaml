@@ -150,6 +150,15 @@ dotfiles:
     src: usr/local/share/mr
     # Dynamic path since it's used somewhere else too
     dst: '{{@@ mr_libs_path @@}}'
+  d_pacman_hooks:
+    src: etc/pacman.d/hooks
+    dst: /etc/pacman.d/hooks
+    cmpignore:
+    - '*/i3blocks-contrib*.hook'
+    instignore:
+    - '*/i3blocks-contrib*.hook'
+    upignore:
+    - '*/i3blocks-contrib*.hook'
   d_xorg.conf.d:
     src: etc/X11/xorg.conf.d
     dst: /etc/X11/xorg.conf.d
@@ -406,6 +415,11 @@ profiles:
     dotfiles:
     - f_lightdm.conf.d_02_custom.conf
     - f_lightdm-gtk-greeter.conf.d_02_custom.conf
+
+  # This profile contains pacman hooks
+  hooks:
+    dotfiles:
+    - d_pacman_hooks
 
   # This profile includes the i3 session dotfiles that require root privileges
   # to be installed

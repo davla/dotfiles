@@ -16,9 +16,9 @@ set $select_player launcher --providers players.conf | xargs -I "{}"
 {%@@ else @@%}
 set $select_player active-playerctl --list-all | dmenu | xargs -I '{}'
 {%@@ endif @@%}
-set $volume_down_command volume -np -d 5 -e 1000
-set $volume_up_command volume -npl 100 -i 5 -e 1000
-set $volume_mute_command volume -nm -e 5
+set $volume_down_command volume -ne 1000 down 5
+set $volume_up_command volume -ne 1000 -x 100 up 5
+set $volume_mute_command volume -ne 1000 mute
 
 # Playback
 bindsym XF86AudioPrev exec --no-startup-id $playback_prev_command

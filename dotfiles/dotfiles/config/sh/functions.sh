@@ -4,6 +4,19 @@
 # non-interactive shells
 
 ########################################
+# Login functions
+########################################
+
+# This function starts the graphical session of my choice, only if executed on
+# tty1 and if another instance of the same session is not already running.
+start_graphical_session() {
+    # So far I only start sway this way. Let's not overengineer it, then.
+    [ "$TTY" = /dev/tty1 ] && [ -z "$WAYLAND_DISPLAY" ] && {
+        systemd-cat --identifier=sway --stderr-priority=err sway
+    }
+}
+
+########################################
 # Utility functions
 ########################################
 

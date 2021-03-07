@@ -16,12 +16,18 @@ alias p='xsel -o'
 
 alias root='sudo -s'
 
+{#@@ yay can only be invoked by unprivileged users @@#}
+{%@@ if env['DISTRO'] == 'arch' -@@%}
+
+alias update='yay -Suyy'
+
+{%@@ endif @@%}
 {%@@ elif user == 'root' @@%}
-{%@@- if env['DISTRO'] == 'debian' @@%}
+{%@@ if env['DISTRO'] == 'debian' @@%}
 
 alias update='apt-get update && apt-get upgrade'
 
-{%@@ endif -@@%}
+{%@@ endif @@%}
 {%@@ endif -@@%}
 
 #######################################

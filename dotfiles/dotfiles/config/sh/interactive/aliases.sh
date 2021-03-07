@@ -9,10 +9,14 @@
 # Core commands aliases
 #######################################
 
+{#@@ On wayland copy and paste are only available to unprivileged users @@#}
+{%@@ if not on_wayland or user == 'user' -@@%}
+
 alias c='xsel -i -b'
 alias p='xsel -o'
 
-{%@@- if user == 'user' @@%}
+{%@@ endif @@%}
+{%@@ if user == 'user' -@@%}
 
 alias root='sudo -s'
 

@@ -42,9 +42,6 @@ export SAVEHIST=1000
 
 setopt nomultios
 
-bindkey '^[[1;5D' backward-word
-bindkey '^[[1;5C' forward-word
-
 # Use emacs keybindings even if our EDITOR is set to vi
 #bindkey -e
 

@@ -231,6 +231,9 @@ dotfiles:
   f_sudo_insults:
     src: etc/sudoers.d/insults
     dst: /etc/sudoers.d/insults
+  f_systemd_getty:
+    src: etc/systemd/system/getty@tty1.service.d/override.conf
+    dst: /etc/systemd/system/getty@tty1.service.d/override.conf
   f_udev_999-hid.rules:
     src: etc/udev/rules.d/999-hid.rules
     dst: /etc/udev/rules.d/999-hid.rules
@@ -344,6 +347,11 @@ profiles:
     - f_sudo_insults
     actions:
     - environment
+
+  # This profile groups dotfiles used to configure login from a getty
+  getty-login:
+    dotfiles:
+    - f_systemd_getty
 
   # This profile gathers the graphical login manager dotfiles
   graphical-login:

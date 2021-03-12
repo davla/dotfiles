@@ -18,9 +18,10 @@
 
 # All the available bot steps. In a variable so that we can check for validity
 # when interactively prompting the user.
-STEPS="dotdrop, custom-commands, environment, packages, graphical-login, \
-manual, i3, xfce, locales, keyboard-layout, startup, timers, network, users, \
-security, ssh, nfs, ddclient, udev, polkit, shells, themes, android"
+STEPS="dotdrop, custom-commands, environment, packages, getty-login, \
+graphical-login, manual, i3, xfce, locales, keyboard-layout, startup, timers, \
+network, users, security, ssh, nfs, ddclient, udev, polkit, shells, themes, \
+android"
 
 #######################################
 # Input processing
@@ -384,6 +385,13 @@ case "$STEP" in
         $STEP_RUNNER "sudo sh -e scripts/$DISTRO/packages.sh $USER" \
             'install packages' \
             'packages installation'
+        ;;
+esac
+case "$STEP" in
+    'getty-login'|'all')
+        # Getty login manager
+        $STEP_RUNNER 'dotdrop -U root install -p getty-login' \
+            'setting up getty login' 'set up getty login'
         ;;
 esac
 case "$STEP" in

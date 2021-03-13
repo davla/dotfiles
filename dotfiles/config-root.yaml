@@ -305,7 +305,7 @@ dynvariables:
             echo 'empty'
             ;;
     esac
-  manual_asdf_include: |-
+  manual_include: |-
     case "$DISTRO" in
         'arch')
             echo 'empty'
@@ -378,23 +378,11 @@ profiles:
   # This profile holds dotfiles used to install software manually, that is
   # without the aid of a package manager
   manual:
-    dotfiles:
-    - f_mrconfig-distro
-    - f_mrconfig-gui
-    - f_mrconfig-main
-    - f_mrtrust
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/manual.yaml:optional
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/manual.yaml:optional
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ env['DISTRO'] @@}}/manual.yaml:optional
     include:
-    - myrepos
-    - '{{@@ manual_asdf_include @@}}'
-
-  # This profile includes the shared files for all myrepos configuration, both
-  # for root and unprivileged users
-  myrepos:
-    dotfiles:
-    - d_myrepos-lib
+    - '{{@@ manual_include @@}}'
 
   # This profile contains network-related configuration files
   network:

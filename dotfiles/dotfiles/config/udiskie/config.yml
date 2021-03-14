@@ -1,0 +1,120 @@
+%YAML 1.2
+---
+# This is the udiskie configuration file
+
+program_options:
+  # [bool] Enable automatic mounting.
+  automount: true
+
+  # [string] Set program to open directories. It will be invoked with the
+  # folder path as its last command line argument.
+  file_manager: xdg-open
+
+  # ["flat" | "nested"] Set the systray menu behaviour.
+  menu: nested
+
+  # [string|list] Set command to be executed on any device event. This is
+  # specified like `password_prompt`.
+  notify_command: notify-send
+
+  # [bool] Enable notifications.
+  notify: true
+
+  # [int] Password cache in minutes. Caching is disabled by default. It can be
+  # disabled explicitly by setting it to false
+  password_cache: 10
+
+  # [string|list] Set command to retrieve passwords. If specified as a list it
+  # defines the ARGV array for the program call. If specified as a string, it
+  # will be expanded in a shell-like manner. Each string will be formatted
+  # using `str.format`. For a list of device attributes, see below. The two
+  # special string values "builtin:gui" and "builtin:tty" signify to use
+  # udiskie's builtin password prompt.
+  # password_prompt: ["gnome-keyring-query", "get", "{id_uuid}"]
+
+  # [string] Set terminal command line to open directories. It will be invoked
+  # with the folder path as its last command line argument.
+  terminal: alacritty --working-directory
+
+  # [bool] Enable the tray icon. "auto" means auto-hide the tray icon when
+  # there are no handled devices.
+  tray: false
+
+
+# Customize the icon set used by the tray widget. Each entry specifies a list
+# of icon names. The first installed icon from that list will be used.
+icon_names:
+  media:
+  - drive-removable-media
+  - media-optical
+
+  browse:
+  - document-open
+  - folder-open
+
+  terminal:
+  - terminal
+
+  mount:
+  - udiskie-mount
+
+  unmount:
+  - udiskie-unmount
+
+  unlock:
+  - udiskie-unlock
+
+  lock:
+  - udiskie-lock
+
+  eject:
+  - udiskie-eject
+  - media-eject
+
+  detach:
+  - udiskie-detach
+
+  delete:
+  - udiskie-eject
+
+  quit:
+  - application-exit
+
+notifications:
+  # Customize which notifications are shown for how long. Possible values are:
+  #   positive number         timeout in seconds
+  #   false                   disable
+  #   -1                      use the libnotify default timeout
+  #
+  # set the default for all notifications
+  timeout: -1
+
+  # device has appeared
+  device_added: false
+
+  # device has disappeared
+  device_removed: false
+
+  # mount/unlock/.. has failed
+  job_failed: 10
+
+# Define which actions should be shown on notifications. Note that there are
+# currently only a limited set of actions available for each notification.
+# Events that are not explicitly specified show the default set of actions.
+# Specify an empty list if you don't want to see any notification for the
+# specified event:
+notification_actions:
+  device_mounted:
+  - terminal
+
+  device_added: []
+
+# List of actions to be shown in the quickmenu or the special value 'all'.
+# The quickmenu is shown on left-click if using flat menu type.
+quickmenu_actions:
+- mount
+- unmount
+- unlock
+- terminal
+- detach
+- delete

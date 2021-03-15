@@ -48,7 +48,7 @@ SHARED_TIMERS="$(echo "$SHARED_UNITS" | grep '\.timer$' | xargs -n 1 basename)"
 
 # User timers
 echo '\e[32m[INFO]\e[0m Retrieving user timers'
-USER_TIMERS="$(dotdrop_files 'timers' | grep '\.timer$' | xargs -n 1 basename)"
+USER_TIMERS="$(dotdrop_files 'timers' | grep '\.timer$' | xargs -rn 1 basename)"
 
 #######################################
 # Root timers
@@ -72,6 +72,9 @@ echo "$ROOT_TIMERS" | xargs sudo systemctl start
 #######################################
 # User timers
 #######################################
+
+# There might be no user timers altogether
+[ -z "$USER_TIMERS" ] && exit
 
 # Installation
 echo '\e[32m[INFO]\e[0m Installing user timers and dependencies'

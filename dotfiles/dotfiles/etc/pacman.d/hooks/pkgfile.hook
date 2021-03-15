@@ -1,0 +1,13 @@
+# Pacman hook that enables pkgfile-update systemd timer
+
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Target = pkgfile
+Type = Package
+
+[Action]
+Description = Enabling pkgfile-update systemd timer
+Depends = systemd
+When = PostTransaction
+Exec = /usr/bin/systemctl pkgfile-update.timer

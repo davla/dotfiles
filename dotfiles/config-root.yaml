@@ -81,7 +81,7 @@ config:
   - yaml/actions/append.yaml
   - yaml/actions/insert.yaml
   import_configs:
-  - yaml/profiles/apt-repos.yaml
+  - yaml/profiles/{{@@ env['DISTRO'] @@}}/*.yaml:optional
   - yaml/profiles/commands.yaml
   - yaml/profiles/shared.yaml
   import_variables:
@@ -162,6 +162,14 @@ dotfiles:
     dst: '{{@@ ddclient_dst_path @@}}'
     actions:
     - ddclient '{{@@ _dotfile_abs_dst @@}}'
+  f_etc_zshrc:
+    src: etc/zsh/zshrc
+    # Dynamic path since the dotfile content is appended to dst
+    dst: '{{@@ zsh_tmp_dst @@}}'
+    actions:
+    - create_if_empty '{{@@ etc_zshrc_dst @@}}' '#!/usr/bin/env zsh\n'
+    - strip '{{@@ etc_zshrc_append_marker @@}}' '{{@@ etc_zshrc_dst @@}}'
+    - append '{{@@ etc_zshrc_dst @@}}' '{{@@ zsh_tmp_dst @@}}'
   f_fstab:
     src: etc/fstab
     # Dynamic path since the dotfile content is appended to dst
@@ -223,11 +231,17 @@ dotfiles:
   f_sudo_insults:
     src: etc/sudoers.d/insults
     dst: /etc/sudoers.d/insults
+  f_systemd_getty:
+    src: etc/systemd/system/getty@tty1.service.d/override.conf
+    dst: /etc/systemd/system/getty@tty1.service.d/override.conf
   f_udev_999-hid.rules:
     src: etc/udev/rules.d/999-hid.rules
     dst: /etc/udev/rules.d/999-hid.rules
     actions:
     - udev-hid
+  f_temp-throttle.conf:
+    src: etc/temp-throttle.conf
+    dst: /etc/temp-throttle.conf
   f_timezone:
     src: etc/timezone
     dst: /etc/timezone
@@ -291,7 +305,7 @@ dynvariables:
             echo 'empty'
             ;;
     esac
-  manual_asdf_include: |-
+  manual_include: |-
     case "$DISTRO" in
         'arch')
             echo 'empty'
@@ -334,6 +348,11 @@ profiles:
     actions:
     - environment
 
+  # This profile groups dotfiles used to configure login from a getty
+  getty-login:
+    dotfiles:
+    - f_systemd_getty
+
   # This profile gathers the graphical login manager dotfiles
   graphical-login:
     dotfiles:
@@ -359,23 +378,11 @@ profiles:
   # This profile holds dotfiles used to install software manually, that is
   # without the aid of a package manager
   manual:
-    dotfiles:
-    - f_mrconfig-distro
-    - f_mrconfig-gui
-    - f_mrconfig-main
-    - f_mrtrust
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/manual.yaml:optional
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/manual.yaml:optional
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ env['DISTRO'] @@}}/manual.yaml:optional
     include:
-    - myrepos
-    - '{{@@ manual_asdf_include @@}}'
-
-  # This profile includes the shared files for all myrepos configuration, both
-  # for root and unprivileged users
-  myrepos:
-    dotfiles:
-    - d_myrepos-lib
+    - '{{@@ manual_include @@}}'
 
   # This profile contains network-related configuration files
   network:
@@ -403,13 +410,12 @@ profiles:
   # This profile collects system startup jobs and configuration dotfiles
   startup:
     dotfiles:
-    - f_grub
     - f_fstab
     - f_pam.d_login
     - f_xsession.options
-    - f_underclock.service
     import:
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ env['DISTRO'] @@}}/{{@@ user @@}}/startup.yaml:optional
     actions:
     - rm '{{@@ startup_tmp_dst @@}}'
     dynvariables:
@@ -433,6 +439,7 @@ profiles:
     - host-refresh
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/timers.yaml:optional
+    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ env['DISTRO'] @@}}/{{@@ user @@}}/timers.yaml:optional
     - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
 
   # This profile includes udev configuration
@@ -448,13 +455,14 @@ profiles:
   # This profile groups keyboard layout dotfiles
   xkb:
     dotfiles:
-    - f_keyboard
     - f_xkb_base.lst
     - f_xkb_base.xml
     - f_xkb_us
     actions:
     - xkb
     - rm '{{@@ xkb_tmp_dst @@}}'
+    import:
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/xkb.yaml:optional
     dynvariables:
       xkb_tmp_dst: mktemp /tmp/xkb-dotfiles.XXX
     variables:
@@ -462,6 +470,18 @@ profiles:
       base_xml_dst: /usr/share/X11/xkb/rules/base.xml
       symbols_append_marker: Custom layout symbols
       symbols_dst: /usr/share/X11/xkb/symbols/us
+
+  # This profile holds the system-wide zsh dotfiles
+  zsh:
+    dotfiles:
+    - f_etc_zshrc
+    dynvariables:
+      zsh_tmp_dst: mktemp /tmp/zsh-dotfiles.XXX
+    variables:
+      etc_zshrc_append_marker: '# Custom'
+      etc_zshrc_dst: /etc/zsh/zshrc
+    actions:
+    - rm '{{@@ zsh_tmp_dst @@}}'
 
 variables:
   # This variable is used to differentiate between user and root configuration

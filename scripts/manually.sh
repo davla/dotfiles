@@ -2,13 +2,31 @@
 
 # This script installs manually managed packages and applications and performs
 # their initial setup. Non self-updating applications are managed via myrepos,
-# while the other ones have custom installation process.
+# while the others have a custom installation process.
+#
+# Some hosts/distros cause this script to exit early, as there's nothing to be
+# manually installed
 #
 # Arguments:
 #   - $1: The user added to the telegram group. Optional, defaults to $USER.
 
 # This doesn't work if this script is sourced
 . "$(dirname "$0")/../.env"
+
+########################################
+# Exit-early
+########################################
+
+[ "$DISTRO" = 'arch' ] && {
+    printf '\e[32m[INFO]\e[0m Nothing to install manually via myrepos in Arch,'
+    echo ' we have AUR :D'
+    exit 0
+}
+[ "$HOST" = 'raspberry' ] && {
+    printf '\e[32m[INFO]\e[0m Nothing to install manually via myrepos on the '
+    echo 'raspberry'
+    exit 0
+}
 
 #######################################
 # Variables

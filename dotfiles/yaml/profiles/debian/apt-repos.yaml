@@ -1,8 +1,8 @@
 %YAML 1.2
 ---
-# This dotdrop config file defines the packages profile. It lists the apt
-# repository files individually in order to allow fine-grained control over
-# their inclusion in the profile.
+# This dotdrop config file defines the packages profile for Debian. It lists
+# the apt repository files individually in order to allow fine-grained control
+# over their inclusion in the profile.
 
 actions:
   post:
@@ -12,9 +12,9 @@ config:
   backup: false
   banner: true
   create: true
-  dotpath: ../../dotfiles
+  dotpath: ../../../dotfiles
   func_file:
-  - ../../python/functions.py
+  - ../../../python/functions.py
   ignoreempty: true
   keepdot: false
   link_dotfile_default: nolink
@@ -74,6 +74,6 @@ profiles:
     - f_spotify.list
     - f_vscode.list
     import:
-    - ../dotfiles/{{@@ env['HOST'] @@}}/apt-sources.yaml:optional
+    - ../../dotfiles/{{@@ env['HOST'] @@}}/apt-sources.yaml:optional
     actions:
     - repo-keys

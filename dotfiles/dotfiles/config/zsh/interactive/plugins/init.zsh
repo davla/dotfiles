@@ -144,8 +144,8 @@ HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=9,fg=15,bold'
 HISTORY_SUBSTRING_SEARCH_GLOBBING_FLAGS='l'
 HISTORY_SUBSTRING_SEARCH_FUZZY='on'
 
-bindkey "${terminfo[kcuu1]}" history-substring-search-up
-bindkey "${terminfo[kcud1]}" history-substring-search-down
+bindkey "${key[Up]}" history-substring-search-up
+bindkey "${key[Down]}" history-substring-search-down
 
 setopt HIST_IGNORE_ALL_DUPS
 

@@ -1,0 +1,14 @@
+# Pacman hook that aliases firefox-beta to firefox
+
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Target = firefox-beta
+Target = firefox-beta-*
+Type = Package
+
+[Action]
+Description = Aliasing firefox-beta to firefox
+Depends = coreutils
+When = PostTransaction
+Exec = /usr/bin/sh -c 'which firefox-beta | xargs -I "{}" ln -sf "{}" /usr/local/bin/firefox'

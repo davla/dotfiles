@@ -74,6 +74,6 @@ profiles:
     - f_spotify.list
     - f_vscode.list
     import:
-    - ../../dotfiles/{{@@ env['HOST'] @@}}/apt-sources.yaml:optional
+    - ../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/apt-sources.yaml:optional
     actions:
     - repo-keys

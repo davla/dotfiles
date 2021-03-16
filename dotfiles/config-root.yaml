@@ -378,8 +378,7 @@ profiles:
   # without the aid of a package manager
   manual:
     import:
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/manual.yaml:optional
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ env['DISTRO'] @@}}/manual.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/manual.yaml:optional
     include:
     - '{{@@ manual_include @@}}'
 
@@ -413,8 +412,8 @@ profiles:
     - f_pam.d_login
     - f_xsession.options
     import:
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ env['DISTRO'] @@}}/{{@@ user @@}}/startup.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
     actions:
     - rm '{{@@ startup_tmp_dst @@}}'
     dynvariables:
@@ -437,9 +436,7 @@ profiles:
     - shared-timers
     - host-refresh
     import:
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/timers.yaml:optional
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ env['DISTRO'] @@}}/{{@@ user @@}}/timers.yaml:optional
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
 
   # This profile includes udev configuration
   udev:
@@ -461,7 +458,7 @@ profiles:
     - xkb
     - rm '{{@@ xkb_tmp_dst @@}}'
     import:
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/xkb.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/xkb.yaml:optional
     dynvariables:
       xkb_tmp_dst: mktemp /tmp/xkb-dotfiles.XXX
     variables:

@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 # This dotfiles file lists the extra dotfiles in unprivileged users' "timers"
-# profile on my raspberry pi.
+# profile on my raspberry pi for unprivileged users.
 
 dotfiles:
 - f_systemd_user_wiki-fixes.service

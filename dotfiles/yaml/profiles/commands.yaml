@@ -69,7 +69,7 @@ profiles:
     - f_local_bin_dotdrop
     - f_local_bin_zsh-notify-sudo-user
     import:
-    - ../dotfiles/{{@@ env['HOST'] @@}}/commands.yaml:optional
+    - ../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/commands.yaml:optional
     include:
     - host-refresh
     - shell-cache

@@ -49,7 +49,7 @@ dotfiles:
 profiles:
   autorandr:
     import:
-    - ../dotfiles/{{@@ env['HOST'] @@}}/autorandr.yaml:optional
+    - ../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/autorandr.yaml:optional
     actions:
     - autorandr
 

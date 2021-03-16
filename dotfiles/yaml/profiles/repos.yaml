@@ -42,4 +42,4 @@ profiles:
     - f_mrconfig_code
     - f_mrtrust
     import:
-    - ../dotfiles/{{@@ env['HOST'] @@}}/repos.yaml:optional
+    - ../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/repos.yaml:optional

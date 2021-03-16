@@ -185,8 +185,7 @@ profiles:
   # This profile groups configuration files for CLI-based applictions.
   cli:
     import:
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ user @@}}/cli.yaml:optional
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
     include:
     - git
 
@@ -195,7 +194,7 @@ profiles:
     dotfiles:
     - d_git
     import:
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/git.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/git.yaml:optional
 
   # This profile groups geany-related dotfiles. Individual files are addressed,
   # rather than the whole directory, as it was execssively complex to ignore
@@ -214,7 +213,7 @@ profiles:
     - f_mimeapps.list
     - f_parcellite_parcelliterc
     import:
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/gui.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/gui.yaml:optional
     include:
     - geany
     - look-and-feel
@@ -229,7 +228,7 @@ profiles:
     - f_i3blocks_config
     - f_i3config
     import:
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/i3.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/i3.yaml:optional
     actions:
     - i3
     include:
@@ -249,7 +248,7 @@ profiles:
     - f_trolltech.conf
     - f_xresources
     import:
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/look-and-feel.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/look-and-feel.yaml:optional
 
   # This profile contains dotfiles used when the X11 session starts.
   startup:
@@ -258,12 +257,12 @@ profiles:
     - f_gpg-agent.conf
     - f_xsessionrc
     import:
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
 
   # This profile groups together systemd timers configuration.
   timers:
     import:
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
     actions:
     - timers
 

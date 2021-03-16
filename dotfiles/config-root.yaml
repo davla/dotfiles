@@ -331,8 +331,7 @@ profiles:
   # This profile groups configuration files for CLI-based applictions.
   cli:
     import:
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ user @@}}/cli.yaml:optional
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
     include:
     - '{{@@ cli_asdf_include @@}}'
 
@@ -371,7 +370,7 @@ profiles:
   # This profile contains dotfiles related to localization and timezones
   locales:
     import:
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/locales.yaml
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/locales.yaml
     actions:
     - locales
 
@@ -389,7 +388,7 @@ profiles:
     include:
     - host-refresh
     import:
-    - yaml/dotfiles/{{@@ env['HOST'] @@}}/network.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/network.yaml:optional
 
   # This profile holds nfs configurations and exports
   nfs:

@@ -47,7 +47,7 @@ actions:
 
     # This action applies the timezone settings.
     # In Debian, non-interactive mode in dpkg-reconfigure needs both
-    # /etc/timezones and /etc/localtime in place to work. /etc/timezone is the
+    # /etc/timezone and /etc/localtime in place to work. /etc/timezone is the
     # dotfile itself ({0} here), while /etc/localtime is set according to the
     # Debian wiki: https://wiki.debian.org/TimeZoneChanges
     timezone: |-

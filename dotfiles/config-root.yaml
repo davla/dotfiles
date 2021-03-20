@@ -408,7 +408,6 @@ profiles:
   # This profile collects system startup jobs and configuration dotfiles
   startup:
     dotfiles:
-    - f_fstab
     - f_pam.d_login
     - f_xsession.options
     import:

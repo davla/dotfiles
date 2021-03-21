@@ -1,0 +1,8 @@
+%YAML 1.2
+---
+# This dotfiles file lists the extra dotfiles for the "network" profile on
+# Arch on my raspberry pi.
+
+dotfiles:
+- f_hostname
+- f_networkd_20-wired.network

@@ -64,6 +64,15 @@ dotfiles:
     src: etc/apt/sources.list.d/vscode.list
     dst: /etc/apt/sources.list.d/vscode.list
 
+dynvariables:
+  # This variable is used to differentiate between user and root configuration
+  # in some dotfiles.
+  #
+  # It needs to be defined here, rahter than in a shared variables files,
+  # because variables from external variables are not yet available when
+  # importing dotfiles.
+  user: '[ "$USER" = "root" ] && echo "root" || echo "user"'
+
 profiles:
   packages:
     dotfiles:
@@ -74,6 +83,6 @@ profiles:
     - f_spotify.list
     - f_vscode.list
     import:
-    - ../../dotfiles/{{@@ env['HOST'] @@}}/apt-sources.yaml:optional
+    - ../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/apt-sources.yaml:optional
     actions:
     - repo-keys

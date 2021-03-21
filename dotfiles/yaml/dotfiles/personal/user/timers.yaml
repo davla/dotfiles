@@ -1,6 +1,0 @@
-%YAML 1.2
----
-# This dotfiles file lists the extra dotfiles in unprivileged users' "timers"
-# profile on my personal machine.
-
-dotfiles: []

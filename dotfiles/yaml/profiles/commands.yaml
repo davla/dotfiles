@@ -12,15 +12,24 @@ config:
   - ../actions/append.yaml
   func_file:
   - ../../python/functions.py
+  ignoreempty: true
   import_variables:
   - ../variables/shared.yaml
-  ignoreempty: true
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
   longkey: false
   showdiff: true
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
+
+dynvariables:
+  # This variable is used to differentiate between user and root configuration
+  # in some dotfiles.
+  #
+  # It needs to be defined here, rahter than in a shared variables files,
+  # because variables from external variables are not yet available when
+  # importing dotfiles.
+  user: '[ "$USER" = "root" ] && echo "root" || echo "user"'
 
 dotfiles:
   d_local_lib_sh:
@@ -65,11 +74,9 @@ profiles:
   # This profile gathers my custom shell commands and their dependencies
   commands:
     dotfiles:
-    - f_local_bin_active-playerctl
     - f_local_bin_dotdrop
-    - f_local_bin_zsh-notify-sudo-user
     import:
-    - ../dotfiles/{{@@ env['HOST'] @@}}/commands.yaml:optional
+    - ../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/commands.yaml:optional
     include:
     - host-refresh
     - shell-cache

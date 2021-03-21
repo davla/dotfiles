@@ -1,7 +1,0 @@
-%YAML 1.2
----
-# This dotfiles file lists the extra dotfiles the "timers" profile for Debian.
-
-dotfiles:
-- f_systemd_root_update-package-index.service
-- f_systemd_root_update-package-index.timer

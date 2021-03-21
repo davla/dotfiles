@@ -1,8 +1,0 @@
-%YAML 1.2
----
-# This dotfiles file lists the extra dotfiles in root's "timers" profile on my
-# work machine.
-
-dotfiles:
-- f_systemd_root_myrepos-upgrade.service
-- f_systemd_root_myrepos-upgrade.timer

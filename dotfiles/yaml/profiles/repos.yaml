@@ -24,6 +24,15 @@ config:
   showdiff: true
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
+dynvariables:
+  # This variable is used to differentiate between user and root configuration
+  # in some dotfiles.
+  #
+  # It needs to be defined here, rahter than in a shared variables files,
+  # because variables from external variables are not yet available when
+  # importing dotfiles.
+  user: '[ "$USER" = "root" ] && echo "root" || echo "user"'
+
 dotfiles:
   f_mrconfig_code:
     src: code/mrconfig.{{@@ env['HOST'] @@}}
@@ -42,4 +51,4 @@ profiles:
     - f_mrconfig_code
     - f_mrtrust
     import:
-    - ../dotfiles/{{@@ env['HOST'] @@}}/repos.yaml:optional
+    - ../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/repos.yaml:optional

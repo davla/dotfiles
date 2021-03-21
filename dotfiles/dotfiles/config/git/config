@@ -146,7 +146,7 @@
     editor = vim
     excludesFile = ~/.config/git/ignore
 
-{%@@ if git_credentials_helper -@@%}
+{%@@ if git_credentials_helper is defined -@@%}
 
 [credential]
     helper = {{@@ git_credentials_helper @@}}

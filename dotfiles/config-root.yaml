@@ -89,7 +89,7 @@ config:
   - yaml/variables/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/{{@@ env['HOST'] @@}}/*.yaml:optional
   - yaml/variables/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
-  - yaml/variables/{{@@ env['DISTRO'] @@}}/*.yaml:optional
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/asdf.yaml
   - yaml/variables/env.yaml
   - yaml/variables/shared.yaml

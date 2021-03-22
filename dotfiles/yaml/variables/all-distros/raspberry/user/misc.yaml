@@ -1,0 +1,11 @@
+%YAML 1.2
+---
+# This variables file defines some miscellaneous host-specific variables on my
+# raspberry pi, for unprivileged users
+
+variables:
+  # Email to be used for git. Also my Github email
+  email: truzzialrogo@gmx.com
+
+  # This variable defines the Zygal shell theme colorscheme.
+  zygal_colorscheme: blue

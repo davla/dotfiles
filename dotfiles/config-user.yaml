@@ -31,7 +31,9 @@ config:
   - yaml/variables/{{@@ env['HOST'] @@}}/*.yaml:optional
   - yaml/variables/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/dpi.yaml
-  - yaml/variables/shared.yaml
+  - yaml/variables/all-distros/all-hosts/all-users/misc.yaml
+  - yaml/variables/all-distros/all-hosts/{{@@ user @@}}/*.yaml
+  - yaml/variables/all-distros/all-hosts/all-users/misc.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink

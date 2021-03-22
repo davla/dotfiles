@@ -1,0 +1,10 @@
+%YAML 1.2
+---
+# This variables file defines some miscellaneous variables for the root user.
+
+variables:
+
+  # This variable is related to static host-ip mapping in /etc/hosts. It's
+  # declared top-level because it needs to be available in a few places across
+  # different profiles
+  frequent_hosts_marker: Frequent hosts

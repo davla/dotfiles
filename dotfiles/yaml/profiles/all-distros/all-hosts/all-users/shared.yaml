@@ -20,8 +20,6 @@ config:
   - shell.yaml
   import_variables:
   - ../../../../variables/i3.yaml
-  - ../../../../variables/look-and-feel.yaml
-  - ../../../../variables/*-look-and-feel.yaml
   - ../../../../variables/private.yaml
   keepdot: false
   link_dotfile_default: nolink

@@ -28,7 +28,7 @@ config:
   - yaml/profiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
   import_variables:
   - yaml/variables/{{@@ user @@}}/*.yaml:optional
-  - yaml/variables/{{@@ env['HOST'] @@}}/*.yaml:optional
+  - yaml/variables/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/dpi.yaml
   - yaml/variables/all-distros/all-hosts/all-users/misc.yaml

@@ -1,0 +1,30 @@
+%YAML 1.2
+---
+# This dotdrop config file defines profile variants that extend the original
+# profile with X11-only dotfiles. It's meant for root
+
+config:
+  backup: false
+  banner: true
+  create: true
+  dotpath: ../../../../../dotfiles
+  func_file:
+  - ../../../../../python/functions.py
+  ignoreempty: true
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+  showdiff: true
+  workdir: '{{@@ xdg_config("dotdrop") @@}}'
+
+dotfiles:
+  f_xsession.options:
+    src: etc/X11/Xsession.options
+    dst: /etc/X11/Xsession.options
+
+profiles:
+  # This profile gathers dotfiles used for system startup only on X11
+  startup-x11:
+    dotfiles:
+    - f_xsession.options

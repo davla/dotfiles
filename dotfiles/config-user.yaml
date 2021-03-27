@@ -243,8 +243,6 @@ profiles:
     dotfiles:
     - d_autostart
     - f_gpg-agent.conf
-    import:
-    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
     include:
     - startup-{{@@ display_server @@}}
     - startup-{{@@ output_scaling @@}}

@@ -88,9 +88,9 @@ dotfiles:
   f_docker_config.json:
     src: config/docker/config.json
     dst: '{{@@ docker_path @@}}/config.json'
-  f_dunstrc.lodpi:
+  f_dunstrc:
     src: config/dunst/dunstrc.lodpi
-    dst: '{{@@ dunstrc_lodpi_dst @@}}'
+    dst: '{{@@ dunstrc_dst | default(xdg_config("dunst/dunstrc")) @@}}'
   f_fonts.conf:
     src: config/fontconfig/fonts.conf
     dst: '{{@@ xdg_config("fontconfig/fonts.conf") @@}}'
@@ -109,15 +109,15 @@ dotfiles:
   f_gpg-agent.conf:
     src: gnupg/gpg-agent.conf
     dst: ~/.gnupg/gpg-agent.conf
-  f_gtk-2.0_gtkrc.lodpi:
+  f_gtk-2.0_gtkrc:
     src: config/gtk-2.0/gtkrc.lodpi
-    dst: '{{@@ "%s/%s" | format(gtk2_path, gtk2_gtkrc_lodpi_dst) @@}}'
+    dst: '{{@@ "%s/%s" | format(gtk2_path, gtk2_gtkrc_dst | default("gtkrc")) @@}}'
   f_gtk-3.0_gtk.css:
     src: config/gtk-3.0/gtk.css
     dst: '{{@@ xdg_config("gtk-3.0/gtk.css") @@}}'
-  f_gtk-3.0_settings.ini.lodpi:
+  f_gtk-3.0_settings.ini:
     src: config/gtk-3.0/settings.ini.lodpi
-    dst: '{{@@ gtk3_settings_lodpi_dst @@}}'
+    dst: '{{@@ gtk3_settings_dst | default(xdg_config("gtk-3.0/settings.ini")) @@}}'
   f_hgrc:
     src: config/hg/hgrc
     dst: '{{@@ xdg_config("hg/hgrc") @@}}'
@@ -203,7 +203,7 @@ profiles:
   # little bit more than just the i3 configuration file.
   i3:
     dotfiles:
-    - f_dunstrc.lodpi
+    - f_dunstrc
     - f_picom.conf
     - f_i3blocks_config
     - f_i3config
@@ -227,9 +227,9 @@ profiles:
   look-and-feel:
     dotfiles:
     - f_fonts.conf
-    - f_gtk-2.0_gtkrc.lodpi
+    - f_gtk-2.0_gtkrc
     - f_gtk-3.0_gtk.css
-    - f_gtk-3.0_settings.ini.lodpi
+    - f_gtk-3.0_settings.ini
     - f_qt5ct.conf
     - f_trolltech.conf
     include:

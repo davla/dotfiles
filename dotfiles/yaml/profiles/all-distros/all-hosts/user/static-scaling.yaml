@@ -38,11 +38,9 @@ dotfiles:
 
 profiles:
   # This profile contains i3-related dotfiles that deal with output scaling
-  i3-static-scaling:
+  i3-output-scaling:
     dotfiles:
     - f_dunstrc.hidpi
-    variables:
-      dunstrc_lodpi_dst: '{{@@ xdg_config("dunst/dunstrc.lodpi") @@}}'
 
   # This profile holds dotfiles used for look & feel when output scaling is
   # necessary
@@ -51,12 +49,14 @@ profiles:
     - d_xresources.d
     - f_gtk-2.0_gtkrc.hidpi
     - f_gtk-3.0_settings.ini.hidpi
-    variables:
-      gtk2_gtkrc_lodpi_dst: gtkrc.lodpi
-      gtk3_settings_lodpi_dst: '{{@@ xdg_config("gtk-3.0/settings.ini.lodpi") @@}}'
 
   # This profile gathers dotfiles used for user session startup in relation to
   # output scaling
   startup-static-scaling:
     dotfiles:
     - d_xresources.d
+
+variables:
+  dunstrc_dst: '{{@@ xdg_config("dunst/dunstrc.lodpi") @@}}'
+  gtk2_gtkrc_dst: gtkrc.lodpi
+  gtk3_settings_dst: '{{@@ xdg_config("gtk-3.0/settings.ini.lodpi") @@}}'

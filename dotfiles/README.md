@@ -13,6 +13,7 @@ My dotfiles repository. Really, just configuration files
 - Root terminal preferences
 - sct not working
 - dotdrop autocompletion
+- More uses for jinja default
 - More preferences
   + Firefox
   + Thunderbird

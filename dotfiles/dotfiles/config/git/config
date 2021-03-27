@@ -84,7 +84,7 @@
     m = merge --log
     ma = merge --abort
     mc = merge --continue
-    mf = merge --no-ff
+    mf = merge --log --no-ff
     mff = merge --ff-only
 
     # pull

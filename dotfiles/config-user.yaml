@@ -312,7 +312,7 @@ variables:
   #   on_x11: true
   #   is_headless: false
   display_server: '{{@@ env["DISPLAY_SERVER"] @@}}'
-  is_headless: '{{@@ display_server == "none" @@}}'
+  is_headless: '{{@@ display_server == "headless" @@}}'
   on_wayland: '{{@@ display_server == "wayland" @@}}'
   on_x11: '{{@@ display_server == "x11" @@}}'
 

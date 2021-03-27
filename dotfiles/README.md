@@ -21,3 +21,4 @@ My dotfiles repository. Really, just configuration files
   + BitWarden
 - i3
   + restart xfce4-terminal in autorandr
+- GNOME keyring/gpg agent on raspberry

@@ -75,10 +75,10 @@ esac
 
 sudo -u "$USER" yay -S apng2gif asdf-vm autoconf automake cmake cowsay curl \
     dkms dos2unix exa fasd fortune-mod gcc ghc gifsicle git-secret git-review \
-    gnupg jq lua man mercurial moreutils multi-git-status myrepos nfs-utils \
-    nyancat otf-ipafont p7zip pkgfile python python-pip python-pipenv sudo \
-    thefuck ttf-baekmuk ttf-dejavu ttf-indic-otf ttf-khmer unzip vim \
-    wqy-microhei-lite zip zsa-wally-cli
+    gnupg jq lua macchina man mercurial moreutils multi-git-status myrepos \
+    nfs-utils nyancat otf-ipafont p7zip pkgfile python python-pip \
+    python-pipenv sudo thefuck ttf-baekmuk ttf-dejavu ttf-indic-otf ttf-khmer \
+    unzip vim wqy-microhei-lite zip zsa-wally-cli
     # luacheck shellcheck rar unrar
 
 # Dotfiles

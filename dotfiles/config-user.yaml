@@ -205,6 +205,8 @@ profiles:
     - f_geany_colorschemes_on-my-own.conf
     - f_geany_geany.conf
     - f_geany_keybindings.conf
+    variables:
+      is_headless: false
 
   # This profile contains dotfiles used by GUI applications, plus the look &
   # feel settings of the GUI itself.
@@ -218,6 +220,8 @@ profiles:
     - geany
     - look-and-feel
     - vscode
+    variables:
+      is_headless: false
 
   # This profile contains the dotfiles for the whole i3 session, that means a
   # little bit more than just the i3 configuration file.
@@ -235,6 +239,10 @@ profiles:
     - autorandr
     - look-and-feel
     - startup
+    variables:
+      display_server: x11
+      is_headless: false
+      on_x11: true
 
   # This profile includes the dotfiles for look & feel of a GUI environment,
   # both Gtk, Qt and bare X11.
@@ -249,8 +257,10 @@ profiles:
     - f_xresources
     import:
     - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/look-and-feel.yaml:optional
+    variables:
+      is_headless: false
 
-  # This profile contains dotfiles used when the X11 session starts.
+  # This profile contains dotfiles used when the user session starts.
   startup:
     dotfiles:
     - d_autostart
@@ -279,6 +289,8 @@ profiles:
     - f_vscode_settings.json
     dynvariables:
       vscode_tmp_dst: mktemp /tmp/vscode-tmp.XXX
+    variables:
+      is_headless: false
 
   # This profile contains the dotfiles for the whole Xfce session.
   xfce:
@@ -290,6 +302,8 @@ profiles:
     include:
     - look-and-feel
     - startup
+    variables:
+      is_headless: false
 
 trans_write:
 
@@ -301,3 +315,20 @@ variables:
   # This variable is used to differentiate between user and root configuration
   # in some dotfiles.
   user: user
+
+  # These variables are used to tell which display server is in use on the
+  # system dotdrop is currently executing. They're defined here as they're used
+  # in this config file when importing sub-config and including profiles, when
+  # variables from external files are not yet available.
+  #
+  # Some profiles override these variables, in a sort-of "cross-deployment"
+  # fashion, since they only make sense with some values (e.g. the i3 profile
+  # overrides this way:
+  #   display_server: x11
+  #   on_wayland: true
+  #   on_x11: true
+  #   is_headless: false
+  display_server: '{{@@ env["DISPLAY_SERVER"] @@}}'
+  is_headless: '{{@@ display_server == "none" @@}}'
+  on_wayland: '{{@@ display_server == "wayland" @@}}'
+  on_x11: '{{@@ display_server == "x11" @@}}'

@@ -1,9 +1,0 @@
-%YAML 1.2
----
-# This dotfiles file lists the dotfiles to be included in the "look-and-feel"
-# profile only on my personal machine.
-
-dotfiles:
-- d_xresources.d
-- f_gtk-2.0_gtkrc.hidpi
-- f_gtk-3.0_settings.ini.hidpi

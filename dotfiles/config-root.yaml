@@ -81,6 +81,7 @@ config:
   - yaml/actions/append.yaml
   - yaml/actions/insert.yaml
   import_configs:
+  - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
   - yaml/profiles/{{@@ env['DISTRO'] @@}}/*.yaml:optional
   - yaml/profiles/commands.yaml
   - yaml/profiles/shared.yaml
@@ -278,9 +279,6 @@ dotfiles:
     actions:
     - strip '{{@@ symbols_append_marker @@}}' '{{@@ symbols_dst @@}}'
     - append '{{@@ symbols_dst @@}}' '{{@@ xkb_tmp_dst @@}}'
-  f_xsession.options:
-    src: etc/X11/Xsession.options
-    dst: /etc/X11/Xsession.options
 
 dynvariables:
   # These variables define which profile should be included to have asdf
@@ -409,10 +407,11 @@ profiles:
   startup:
     dotfiles:
     - f_pam.d_login
-    - f_xsession.options
     import:
     - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
+    include:
+    - startup-{{@@ display_server @@}}
     actions:
     - rm '{{@@ startup_tmp_dst @@}}'
     dynvariables:
@@ -482,3 +481,12 @@ variables:
   # This variable is used to differentiate between user and root configuration
   # in some dotfiles.
   user: root
+
+  # These variables are used to tell which display server is in use on the
+  # system dotdrop is currently executing. They're defined here as they're used
+  # in this config file when importing sub-config and including profiles, when
+  # variables from external files are not yet available.
+  display_server: '{{@@ env["DISPLAY_SERVER"] @@}}'
+  is_headless: '{{@@ display_server == "none" @@}}'
+  on_wayland: '{{@@ display_server == "wayland" @@}}'
+  on_x11: '{{@@ display_server == "x11" @@}}'

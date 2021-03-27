@@ -40,7 +40,7 @@ export HIST_IGNORED_CMDS='cd|cd -|clear|exit|l|root|t'
 # This variable lists the git commands that shouldn't enter the shell history
 export HIST_IGNORED_GIT='git ap|git c|git g|git i'
 
-# This varialbe lists my common typos that shouldn't enter the shell history
+# This variable lists my common typos that shouldn't enter the shell history
 export HIST_IGNORED_TYPOS='gi t*|gl'
 
 #######################################

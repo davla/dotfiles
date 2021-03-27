@@ -25,6 +25,7 @@ config:
   ignoreempty: true
   import_configs:
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
+  - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ output_scaling @@}}.yaml:optional
   - yaml/profiles/autorandr.yaml
   - yaml/profiles/repos.yaml
   - yaml/profiles/shared.yaml
@@ -78,9 +79,6 @@ dotfiles:
     - desktop
     - xfce4-screenshooter
     - xfwm4
-  d_xresources.d:
-    src: config/x11/Xresources.d
-    dst: '{{@@ xdg_config("x11/Xresources.d") @@}}'
   f_calibre_global.py:
     src: config/calibre/global.py
     dst: '{{@@ xdg_config("calibre/global.py") @@}}'
@@ -93,9 +91,6 @@ dotfiles:
   f_dunstrc.lodpi:
     src: config/dunst/dunstrc.lodpi
     dst: '{{@@ dunstrc_lodpi_dst @@}}'
-  f_dunstrc.hidpi:
-    src: config/dunst/dunstrc.hidpi
-    dst: '{{@@ xdg_config("dunst/dunstrc.hidpi") @@}}'
   f_fonts.conf:
     src: config/fontconfig/fonts.conf
     dst: '{{@@ xdg_config("fontconfig/fonts.conf") @@}}'
@@ -117,18 +112,12 @@ dotfiles:
   f_gtk-2.0_gtkrc.lodpi:
     src: config/gtk-2.0/gtkrc.lodpi
     dst: '{{@@ "%s/%s" | format(gtk2_path, gtk2_gtkrc_lodpi_dst) @@}}'
-  f_gtk-2.0_gtkrc.hidpi:
-    src: config/gtk-2.0/gtkrc.hidpi
-    dst: '{{@@ gtk2_path + "/gtkrc.hidpi" @@}}'
   f_gtk-3.0_gtk.css:
     src: config/gtk-3.0/gtk.css
     dst: '{{@@ xdg_config("gtk-3.0/gtk.css") @@}}'
   f_gtk-3.0_settings.ini.lodpi:
     src: config/gtk-3.0/settings.ini.lodpi
     dst: '{{@@ gtk3_settings_lodpi_dst @@}}'
-  f_gtk-3.0_settings.ini.hidpi:
-    src: config/gtk-3.0/settings.ini.hidpi
-    dst: '{{@@ xdg_config("gtk-3.0/settings.ini.hidpi") @@}}'
   f_hgrc:
     src: config/hg/hgrc
     dst: '{{@@ xdg_config("hg/hgrc") @@}}'
@@ -224,6 +213,7 @@ profiles:
     - i3
     include:
     - autorandr
+    - i3-{{@@ output_scaling @@}}
     - look-and-feel
     - startup
     variables:
@@ -242,10 +232,9 @@ profiles:
     - f_gtk-3.0_settings.ini.lodpi
     - f_qt5ct.conf
     - f_trolltech.conf
-    import:
-    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/look-and-feel.yaml:optional
     include:
     - look-and-feel-{{@@ display_server @@}}
+    - look-and-feel-{{@@ output_scaling @@}}
     variables:
       is_headless: false
 
@@ -258,6 +247,7 @@ profiles:
     - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
     include:
     - startup-{{@@ display_server @@}}
+    - startup-{{@@ output_scaling @@}}
 
   # This profile groups together systemd timers configuration.
   timers:
@@ -325,3 +315,9 @@ variables:
   is_headless: '{{@@ display_server == "none" @@}}'
   on_wayland: '{{@@ display_server == "wayland" @@}}'
   on_x11: '{{@@ display_server == "x11" @@}}'
+
+  # This variable determines which type of output scaling is in use on the
+  # system where dotdrop is running. It's defined here as it's used in this
+  # config file when importing sub-config and including profiles, when
+  # variables from external files are not yet available.
+  output_scaling: '{{@@ env["OUTPUT_SCALING"] + "-scaling" @@}}'

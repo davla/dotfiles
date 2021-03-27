@@ -1,0 +1,62 @@
+%YAML 1.2
+---
+# This dotdrop config file defines profiles only necessary for environment that
+# don't support scaling of all display elements (e.g. X11 that can only scale
+# text), but need output scaling different than 1 (e.g. HiDPI displays).
+#
+# The profiles defined here are meant for unprivileged users, and are mostly
+# extensions for already existing profiles.
+
+config:
+  backup: false
+  banner: true
+  create: true
+  dotpath: ../../../../../dotfiles
+  func_file:
+  - ../../../../../python/functions.py
+  ignoreempty: true
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+  showdiff: true
+  workdir: '{{@@ xdg_config("dotdrop") @@}}'
+
+dotfiles:
+  d_xresources.d:
+    src: config/x11/Xresources.d
+    dst: '{{@@ xdg_config("x11/Xresources.d") @@}}'
+  f_dunstrc.hidpi:
+    src: config/dunst/dunstrc.hidpi
+    dst: '{{@@ xdg_config("dunst/dunstrc.hidpi") @@}}'
+  f_gtk-2.0_gtkrc.hidpi:
+    src: config/gtk-2.0/gtkrc.hidpi
+    dst: '{{@@ gtk2_path + "/gtkrc.hidpi" @@}}'
+  f_gtk-3.0_settings.ini.hidpi:
+    src: config/gtk-3.0/settings.ini.hidpi
+    dst: '{{@@ xdg_config("gtk-3.0/settings.ini.hidpi") @@}}'
+
+profiles:
+  # This profile contains i3-related dotfiles that deal with output scaling
+  i3-static-scaling:
+    dotfiles:
+    - f_dunstrc.hidpi
+    variables:
+      dunstrc_lodpi_dst: '{{@@ xdg_config("dunst/dunstrc.lodpi") @@}}'
+
+  # This profile holds dotfiles used for look & feel when output scaling is
+  # necessary
+  look-and-feel-static-scaling:
+    dotfiles:
+    - d_xresources.d
+    - f_gtk-2.0_gtkrc.hidpi
+    - f_gtk-3.0_settings.ini.hidpi
+    variables:
+      gtk2_gtkrc_lodpi_dst: gtkrc.lodpi
+      gtk3_settings_lodpi_dst: '{{@@ xdg_config("gtk-3.0/settings.ini.lodpi") @@}}'
+
+  # This profile gathers dotfiles used for user session startup in relation to
+  # output scaling
+  startup-static-scaling:
+    dotfiles:
+    - d_xresources.d

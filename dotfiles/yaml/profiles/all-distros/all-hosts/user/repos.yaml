@@ -3,20 +3,16 @@
 # This dotdrop config file is meant for managing and bootstraping code
 # repositories and workspace setup
 
-actions:
-  # This action links an mrtrust file to where myrepos expect it to be
-  mrtrust: ln -sf '{0}' "$HOME/.mrtrust"
-
 config:
   backup: false
   banner: true
   create: true
-  dotpath: ../../dotfiles
+  dotpath: ../../../../../dotfiles
   func_file:
-  - ../../python/functions.py
+  - ../../../../../python/functions.py
   ignoreempty: true
   import_config:
-  - shared.yaml
+  - ../../../../shared.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -51,4 +47,4 @@ profiles:
     - f_mrconfig_code
     - f_mrtrust
     import:
-    - ../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/repos.yaml:optional
+    - ../../../../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/repos.yaml:optional

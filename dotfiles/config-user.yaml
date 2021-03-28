@@ -27,7 +27,7 @@ config:
   import_configs:
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ output_scaling @@}}.yaml:optional
-  - yaml/profiles/repos.yaml
+  - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/repos.yaml:optional
   - yaml/profiles/shared.yaml
   import_variables:
   - yaml/variables/{{@@ user @@}}/*.yaml:optional

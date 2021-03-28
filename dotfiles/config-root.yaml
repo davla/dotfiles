@@ -82,8 +82,8 @@ config:
   - yaml/actions/insert.yaml
   import_configs:
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
+  - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/commands.yaml:optional
   - yaml/profiles/{{@@ env['DISTRO'] @@}}/*.yaml:optional
-  - yaml/profiles/commands.yaml
   - yaml/profiles/shared.yaml
   import_variables:
   - yaml/variables/{{@@ user @@}}/*.yaml:optional
@@ -422,19 +422,6 @@ profiles:
       pam_login_append_marker: >-
         GNOME Keyring startup and automatic login keyring unlocking
       pam_login_dst: /etc/pam.d/login
-
-  # This profile groups together systemd timers configuration.
-  timers:
-    dotfiles:
-    - f_systemd_root_host-refresh.service
-    - f_systemd_root_host-refresh.timer
-    - f_systemd_root_shell-cache.service.d_override.conf
-    - f_systemd_root_shell-plugins.service.d_override.conf
-    include:
-    - shared-timers
-    - host-refresh
-    import:
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
 
   # This profile includes udev configuration
   udev:

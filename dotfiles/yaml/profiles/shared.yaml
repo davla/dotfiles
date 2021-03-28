@@ -16,8 +16,8 @@ config:
   - ../../python/functions.py
   ignoreempty: true
   import_configs:
+  - all-distros/all-hosts/{{@@ user @@}}/timers.yaml:optional
   - shell.yaml
-  - timers.yaml
   import_variables:
   - ../variables/i3.yaml
   - ../variables/look-and-feel.yaml
@@ -36,6 +36,15 @@ dotfiles:
     dst: '{{@@ xdg_config("mr/mrtrust") @@}}'
     actions:
     - mrtrust '{{@@ _dotfile_abs_dst @@}}'
+
+dynvariables:
+  # This variable is used to differentiate between user and root configuration
+  # in some dotfiles.
+  #
+  # It needs to be defined here, rahter than in a shared variables files,
+  # because variables from external variables are not yet available when
+  # importing dotfiles.
+  user: '[ "$USER" = "root" ] && echo "root" || echo "user"'
 
 profiles:
   # This profile serves as placeholder for profile includes

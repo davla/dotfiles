@@ -4,6 +4,7 @@
 
 actions:
   post:
+    autorandr: sh actions/autorandr.sh "{0}"
     i3: sh actions/i3.sh
 
     # This action allows user systemd timers to be executed also when the user
@@ -26,7 +27,6 @@ config:
   import_configs:
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ output_scaling @@}}.yaml:optional
-  - yaml/profiles/autorandr.yaml
   - yaml/profiles/repos.yaml
   - yaml/profiles/shared.yaml
   import_variables:
@@ -46,6 +46,11 @@ dotfiles:
   d_autostart:
     src: config/autostart
     dst: '{{@@ xdg_config("autostart") @@}}'
+  d_autorandr:
+    src: config/autorandr
+    dst: '{{@@ xdg_config("autorandr") @@}}'
+    actions:
+    - autorandr '{{@@ _dotfile_abs_dst @@}}'
   d_desktop-directories:
     src: local/share/desktop-directories
     dst: '{{@@ xdg_data("desktop-directories") @@}}'
@@ -212,7 +217,6 @@ profiles:
     actions:
     - i3
     include:
-    - autorandr
     - i3-{{@@ output_scaling @@}}
     - look-and-feel
     - startup
@@ -293,10 +297,6 @@ trans_write:
   vscode-list-extensions: code --list-extensions > {1}
 
 variables:
-  # This variable is used to differentiate between user and root configuration
-  # in some dotfiles.
-  user: user
-
   # These variables are used to tell which display server is in use on the
   # system dotdrop is currently executing. They're defined here as they're used
   # in this config file when importing sub-config and including profiles, when
@@ -319,3 +319,7 @@ variables:
   # config file when importing sub-config and including profiles, when
   # variables from external files are not yet available.
   output_scaling: '{{@@ env["OUTPUT_SCALING"] + "-scaling" @@}}'
+
+  # This variable is used to differentiate between user and root configuration
+  # in some dotfiles.
+  user: user

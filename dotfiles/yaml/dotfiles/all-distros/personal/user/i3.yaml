@@ -4,4 +4,5 @@
 # only on my personal machine.
 
 dotfiles:
+- d_autorandr
 - d_i3blocks-email

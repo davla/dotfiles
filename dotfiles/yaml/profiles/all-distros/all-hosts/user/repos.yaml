@@ -12,7 +12,7 @@ config:
   - ../../../../../python/functions.py
   ignoreempty: true
   import_config:
-  - ../../../../shared.yaml
+  - ../all-users/shared.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink

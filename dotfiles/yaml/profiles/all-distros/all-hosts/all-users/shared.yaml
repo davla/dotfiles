@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 # This dotdrop config file is meant for dotfiles, actions, profiles etc. shared
-# between both root and user
+# between both root and user, on all hosts and on all distros
 
 actions:
   # This action links an mrtrust file to where myrepos expect it to be
@@ -11,18 +11,18 @@ config:
   backup: false
   banner: true
   create: true
-  dotpath: ../../dotfiles
+  dotpath: ../../../../../dotfiles
   func_file:
-  - ../../python/functions.py
+  - ../../../../../python/functions.py
   ignoreempty: true
   import_configs:
-  - all-distros/all-hosts/{{@@ user @@}}/timers.yaml:optional
+  - ../{{@@ user @@}}/timers.yaml:optional
   - shell.yaml
   import_variables:
-  - ../variables/i3.yaml
-  - ../variables/look-and-feel.yaml
-  - ../variables/*-look-and-feel.yaml
-  - ../variables/private.yaml
+  - ../../../../variables/i3.yaml
+  - ../../../../variables/look-and-feel.yaml
+  - ../../../../variables/*-look-and-feel.yaml
+  - ../../../../variables/private.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink

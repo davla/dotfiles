@@ -7,9 +7,9 @@ config:
   backup: false
   banner: true
   create: true
-  dotpath: ../../../dotfiles
+  dotpath: ../../../../../dotfiles
   func_file:
-  - ../../../python/functions.py
+  - ../../../../../python/functions.py
   ignoreempty: true
   keepdot: false
   link_dotfile_default: nolink
@@ -24,6 +24,7 @@ dotfiles:
     dst: /etc/pacman.d/hooks
 
 profiles:
+  # This profile contains pacman hooks
   packages:
     dotfiles:
     - d_pacman_hooks

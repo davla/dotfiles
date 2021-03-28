@@ -12,9 +12,9 @@ config:
   backup: false
   banner: true
   create: true
-  dotpath: ../../../dotfiles
+  dotpath: ../../../../../dotfiles
   func_file:
-  - ../../../python/functions.py
+  - ../../../../../python/functions.py
   ignoreempty: true
   keepdot: false
   link_dotfile_default: nolink
@@ -74,6 +74,7 @@ dynvariables:
   user: '[ "$USER" = "root" ] && echo "root" || echo "user"'
 
 profiles:
+  # This profile collects apt repository files
   packages:
     dotfiles:
     - f_firefox-beta.list
@@ -83,6 +84,6 @@ profiles:
     - f_spotify.list
     - f_vscode.list
     import:
-    - ../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/apt-sources.yaml:optional
+    - ../../../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/apt-sources.yaml:optional
     actions:
     - repo-keys

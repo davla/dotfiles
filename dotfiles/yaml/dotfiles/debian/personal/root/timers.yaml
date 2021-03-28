@@ -4,7 +4,7 @@
 # on my personal machine for root
 
 dotfiles:
-- f_systemd_root_myrepos-upgrade.service
-- f_systemd_root_myrepos-upgrade.timer
-- f_systemd_root_update-package-index.service
-- f_systemd_root_update-package-index.timer
+- f_root_myrepos-upgrade.service
+- f_root_myrepos-upgrade.timer
+- f_root_update-package-index.service
+- f_root_update-package-index.timer

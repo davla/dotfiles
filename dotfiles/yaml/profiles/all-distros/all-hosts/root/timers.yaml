@@ -1,6 +1,7 @@
 %YAML 1.2
 ---
-# This dotdrop config file is meant for systemd timers.
+# This dotdrop config file contains timers-related profiles, mostly systemd
+# timers.
 
 actions:
   post:
@@ -20,9 +21,9 @@ config:
   backup: false
   banner: true
   create: true
-  dotpath: ../../dotfiles
+  dotpath: ../../../../../dotfiles
   func_file:
-  - ../../python/functions.py
+  - ../../../../../python/functions.py
   ignoreempty: true
   import_configs:
   - commands.yaml
@@ -34,74 +35,79 @@ config:
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
-  f_systemd_root_host-refresh.service:
+  f_root_host-refresh.service:
     src: etc/systemd/system/host-refresh.service
     dst: /etc/systemd/system/host-refresh.service
-  f_systemd_root_host-refresh.timer:
+  f_root_host-refresh.timer:
     src: etc/systemd/system/host-refresh.timer
     dst: /etc/systemd/system/host-refresh.timer
-  f_systemd_root_myrepos-upgrade.service:
+  f_root_myrepos-upgrade.service:
     src: etc/systemd/system/myrepos-upgrade.service
     dst: /etc/systemd/system/myrepos-upgrade.service
-  f_systemd_root_myrepos-upgrade.timer:
+  f_root_myrepos-upgrade.timer:
     src: etc/systemd/system/myrepos-upgrade.timer
     dst: /etc/systemd/system/myrepos-upgrade.timer
-  f_systemd_root_shell-cache.service.d_override.conf:
+  f_root_shell-cache.service.d_override.conf:
     src: etc/systemd/system/shell-cache.service.d/override.conf
     dst: /etc/systemd/system/shell-cache.service.d/override.conf
-  f_systemd_root_shell-plugins.service.d_override.conf:
+  f_root_shell-plugins.service.d_override.conf:
     src: etc/systemd/system/shell-plugins.service.d/override.conf
     dst: /etc/systemd/system/shell-plugins.service.d/override.conf
-  f_systemd_root_update-package-index.service:
+  f_root_update-package-index.service:
     src: etc/systemd/system/update-package-index.service
     dst: /etc/systemd/system/update-package-index.service
-  f_systemd_root_update-package-index.timer:
+  f_root_update-package-index.timer:
     src: etc/systemd/system/update-package-index.timer
     dst: /etc/systemd/system/update-package-index.timer
-  f_systemd_share_shell-cache.service:
+  f_share_shell-cache.service:
     src: etc/systemd/share/shell-cache.service
     dst: /etc/systemd/share/shell-cache.service
-  f_systemd_share_shell-cache.timer:
+  f_share_shell-cache.timer:
     src: etc/systemd/share/shell-cache.timer
     dst: /etc/systemd/share/shell-cache.timer
-  f_systemd_share_shell-plugins.service:
+  f_share_shell-plugins.service:
     src: etc/systemd/share/shell-plugins.service
     dst: /etc/systemd/share/shell-plugins.service
     actions:
     - shell-plugins
-  f_systemd_share_shell-plugins.timer:
+  f_share_shell-plugins.timer:
     src: etc/systemd/share/shell-plugins.timer
     dst: /etc/systemd/share/shell-plugins.timer
-  f_systemd_user_wiki-fixes.service:
-    src: config/systemd/user/wiki-fixes.service
-    dst: '{{@@ xdg_config("systemd/user/wiki-fixes.service") @@}}'
-  f_systemd_user_wiki-fixes.timer:
-    src: config/systemd/user/wiki-fixes.timer
-    dst: '{{@@ xdg_config("systemd/user/wiki-fixes.timer") @@}}'
-  f_systemd_user_wiki-home.service:
-    src: config/systemd/user/wiki-home.service
-    dst: '{{@@ xdg_config("systemd/user/wiki-home.service") @@}}'
-  f_systemd_user_wiki-home.timer:
-    src: config/systemd/user/wiki-home.timer
-    dst: '{{@@ xdg_config("systemd/user/wiki-home.timer") @@}}'
-  f_systemd_user_working-repos.service:
-    src: config/systemd/user/working-repos.service
-    dst: '{{@@ xdg_config("systemd/user/working-repos.service") @@}}'
-  f_systemd_user_working-repos.timer:
-    src: config/systemd/user/working-repos.timer
-    dst: '{{@@ xdg_config("systemd/user/working-repos.timer") @@}}'
+
+dynvariables:
+  # This variable is used to differentiate between user and root configuration
+  # in some dotfiles.
+  #
+  # It needs to be defined here, rahter than in a shared variables files,
+  # because variables from external variables are not yet available when
+  # importing dotfiles.
+  user: '[ "$USER" = "root" ] && echo "root" || echo "user"'
 
 profiles:
   # This profile groups the systemd timers shared between unprivileged users
   # and root
   shared-timers:
     dotfiles:
-    - f_systemd_share_shell-cache.service
-    - f_systemd_share_shell-cache.timer
-    - f_systemd_share_shell-plugins.service
-    - f_systemd_share_shell-plugins.timer
+    - f_share_shell-cache.service
+    - f_share_shell-cache.timer
+    - f_share_shell-plugins.service
+    - f_share_shell-plugins.timer
     include:
     - shell-cache
+
+  # This profile groups together systemd timers configuration.
+  timers:
+    dotfiles:
+    - f_root_host-refresh.service
+    - f_root_host-refresh.timer
+    - f_root_shell-cache.service.d_override.conf
+    - f_root_shell-plugins.service.d_override.conf
+    include:
+    - shared-timers
+    - host-refresh
+    import:
+    - ../../../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
+
 
 variables:
   # This variable is used as value for RandomizedDelaySec in systemd daily

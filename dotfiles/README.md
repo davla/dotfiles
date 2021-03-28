@@ -3,6 +3,7 @@ My dotfiles repository. Really, just configuration files
 
 ## TODO
 - VSCode selected color
+- Fix root zsh
 - Better placement of logger_path variable
 - autorandr in autostart
 - github mails

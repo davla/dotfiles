@@ -7,14 +7,14 @@ config:
   backup: false
   banner: true
   create: true
-  dotpath: ../../dotfiles
+  dotpath: ../../../../../dotfiles
   import_actions:
-  - ../actions/append.yaml
+  - ../../../../actions/append.yaml
   func_file:
-  - ../../python/functions.py
+  - ../../../../../python/functions.py
   ignoreempty: true
   import_variables:
-  - ../variables/shared.yaml
+  - ../../../../variables/shared.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -76,7 +76,7 @@ profiles:
     dotfiles:
     - f_local_bin_dotdrop
     import:
-    - ../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/commands.yaml:optional
+    - ../../../../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/commands.yaml:optional
     include:
     - host-refresh
     - shell-cache

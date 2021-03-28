@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
-# This dotdrop config file is meant for managing and bootstraping code
-# repositories and workspace setup
+# This dotdrop config file is meant for dotfiles, actions, profiles etc. shared
+# between both root and user, on all hosts and on all distros
 
 actions:
   # This action links an mrtrust file to where myrepos expect it to be
@@ -11,18 +11,31 @@ config:
   backup: false
   banner: true
   create: true
-  dotpath: ../../dotfiles
+  dotpath: ../../../../../dotfiles
   func_file:
-  - ../../python/functions.py
+  - ../../../../../python/functions.py
   ignoreempty: true
-  import_config:
-  - shared.yaml
+  import_configs:
+  - ../{{@@ user @@}}/timers.yaml:optional
+  - shell.yaml
+  import_variables:
+  - ../../../../variables/i3.yaml
+  - ../../../../variables/look-and-feel.yaml
+  - ../../../../variables/*-look-and-feel.yaml
+  - ../../../../variables/private.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
   longkey: false
   showdiff: true
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
+
+dotfiles:
+  f_mrtrust:
+    src: config/mr/mrtrust
+    dst: '{{@@ xdg_config("mr/mrtrust") @@}}'
+    actions:
+    - mrtrust '{{@@ _dotfile_abs_dst @@}}'
 
 dynvariables:
   # This variable is used to differentiate between user and root configuration
@@ -33,22 +46,6 @@ dynvariables:
   # importing dotfiles.
   user: '[ "$USER" = "root" ] && echo "root" || echo "user"'
 
-dotfiles:
-  f_mrconfig_code:
-    src: code/mrconfig.{{@@ env['HOST'] @@}}
-    dst: ~/code/.mrconfig
-  f_mrconfig_wiki:
-    src: code/wiki/mrconfig
-    dst: ~/code/wiki/.mrconfig
-  f_secret_env:
-    src: env/env.tar.{{@@ env['HOST'] @@}}
-    dst:
-
 profiles:
-  # This profile groups myrepos config files to bootstrap a host's workspace
-  repos:
-    dotfiles:
-    - f_mrconfig_code
-    - f_mrtrust
-    import:
-    - ../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/repos.yaml:optional
+  # This profile serves as placeholder for profile includes
+  empty: {}

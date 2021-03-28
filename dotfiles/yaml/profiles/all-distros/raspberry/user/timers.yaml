@@ -1,0 +1,74 @@
+%YAML 1.2
+---
+# This dotdrop config file defines the "timers" profile on my rasperry pi for
+# unprivileged users. It mostly contains systemd timers.
+
+actions:
+  post:
+    # This action allows user systemd timers to be executed also when the user
+    # is not logged in, via lingering
+    linger: id -u | xargs sudo loginctl enable-linger
+
+config:
+  backup: false
+  banner: true
+  create: true
+  dotpath: ../../../../../dotfiles
+  func_file:
+  - ../../../../../python/functions.py
+  ignoreempty: true
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+  showdiff: true
+  workdir: '{{@@ xdg_config("dotdrop") @@}}'
+
+dotfiles:
+  f_wiki-fixes.service:
+    src: config/systemd/user/wiki-fixes.service
+    dst: '{{@@ xdg_config("systemd/user/wiki-fixes.service") @@}}'
+  f_wiki-fixes.timer:
+    src: config/systemd/user/wiki-fixes.timer
+    dst: '{{@@ xdg_config("systemd/user/wiki-fixes.timer") @@}}'
+  f_wiki-home.service:
+    src: config/systemd/user/wiki-home.service
+    dst: '{{@@ xdg_config("systemd/user/wiki-home.service") @@}}'
+  f_wiki-home.timer:
+    src: config/systemd/user/wiki-home.timer
+    dst: '{{@@ xdg_config("systemd/user/wiki-home.timer") @@}}'
+  f_working-repos.service:
+    src: config/systemd/user/working-repos.service
+    dst: '{{@@ xdg_config("systemd/user/working-repos.service") @@}}'
+  f_working-repos.timer:
+    src: config/systemd/user/working-repos.timer
+    dst: '{{@@ xdg_config("systemd/user/working-repos.timer") @@}}'
+
+dynvariables:
+  # This variable is used to differentiate between user and root configuration
+  # in some dotfiles.
+  #
+  # It needs to be defined here, rahter than in a shared variables files,
+  # because variables from external variables are not yet available when
+  # importing dotfiles.
+  user: '[ "$USER" = "root" ] && echo "root" || echo "user"'
+
+profiles:
+  # This profile groups together systemd timers configuration.
+  timers:
+    dotfiles:
+    - f_wiki-fixes.service
+    - f_wiki-fixes.timer
+    - f_wiki-home.service
+    - f_wiki-home.timer
+    - f_working-repos.service
+    - f_working-repos.timer
+    actions:
+    - linger
+
+variables:
+  # This variable is used as value for RandomizedDelaySec in systemd daily
+  # timers with Persistent set to true, to prevent the jobs to be scheduled
+  # simultaneously and thus avoiding high resource utilization. Its value is
+  # half an hour in seconds (30 * 60 == 1800)
+  daily_timer_delay: 1800

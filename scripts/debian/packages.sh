@@ -177,8 +177,8 @@ case "$HOST" in
     'personal')
         apt-get install apng2gif autorandr cabal-install cups ghc gifsicle \
             git-review handbrake-cli hlint imagemagick lame libghc-hspec-dev \
-            mercurial python-requests-futures python3-gdbm python3-gpg \
-            python3-lxml python3-pygments python3-requests \
+            mercurial nordvpn python-requests-futures python3-gdbm \
+            python3-gpg python3-lxml python3-pygments python3-requests \
             python3-requests-oauthlib thunar-dropbox-plugin
             ;;
 

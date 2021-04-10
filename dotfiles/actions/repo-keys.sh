@@ -74,6 +74,14 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                     > /dev/null
                 ;;
 
+            'nordvpn')
+                echo "Installing apt repository key for $REPO"
+
+                apt-key adv --fetch-keys \
+                    'https://repo.nordvpn.com/gpg/nordvpn_public.asc' \
+                    > /dev/null
+                ;;
+
             'spotify')
                 echo "Installing apt repository key for $REPO"
 

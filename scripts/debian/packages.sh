@@ -211,9 +211,14 @@ apt-get upgrade
 # Packages setup
 #######################################
 
-# Docker non root access.
+# Docker
 groupadd -f docker
 usermod -aG docker "$USER_NAME"
+
+# NordVPN
+groupadd -r nordvpn
+usermod -aG nordvpn "$USER_NAME"
+sudo -u "$USER_NAME" nordvpn-config
 
 # Symlinking executables in a $PATH directory accessible to unpirvileged users
 echo "$EXECS" | while read EXEC; do

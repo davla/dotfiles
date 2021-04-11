@@ -98,7 +98,7 @@
     rb = rebase
     rba = rebase --abort
     rbc = rebase --continue
-    rbf = rebase --interactive --autosquash
+    rbi = rebase --interactive
 
     # reset
     rs = reset
@@ -176,7 +176,11 @@
     log = 1
 
 [rebase]
+    abbreviateCommands = true
+    autoSquash = true
     autoStash = true
+    missingCommitsCheck = warn
+    rescheduleFailedExec = true
 
 [pull]
     rebase = true

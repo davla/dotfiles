@@ -195,6 +195,9 @@ dotfiles:
   f_lightdm.conf.d_02_custom.conf:
     src: usr/share/lightdm/lightdm.conf.d/02_custom.conf
     dst: /usr/share/lightdm/lightdm.conf.d/02_custom.conf
+  f_local_bin_nordvpn-config:
+    src: usr/local/bin/nordvpn-config
+    dst: /usr/local/bin/nordvpn-config
   f_locale:
     src: etc/default/locale
     dst: /etc/default/locale
@@ -329,6 +332,7 @@ profiles:
   # This profile groups configuration files for CLI-based applictions.
   cli:
     import:
+    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
     include:
     - '{{@@ cli_asdf_include @@}}'

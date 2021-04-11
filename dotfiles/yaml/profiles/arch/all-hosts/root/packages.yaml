@@ -22,9 +22,16 @@ dotfiles:
   d_pacman_hooks:
     src: etc/pacman.d/hooks
     dst: /etc/pacman.d/hooks
+  f_pacman_hooks.bin_nordvpn-setup:
+    src: usr/local/share/pacman/hooks.bin/nordvpn-setup
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ nordvpn_setup_path @@}}'
 
 profiles:
   # This profile contains pacman hooks
   packages:
     dotfiles:
     - d_pacman_hooks
+    - f_pacman_hooks.bin_nordvpn-setup
+    variables:
+      nordvpn_setup_path: /usr/local/share/pacman/hooks.bin/nordvpn-setup

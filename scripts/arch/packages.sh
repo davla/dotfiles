@@ -63,8 +63,8 @@ case "$HOST" in
     'personal')
         sudo -u "$USER" yay -S cups cups-pdf dex docker docker-compose \
             docker-credential-secretservice gdb intel-ucode libsecret \
-            hunspell hunspell-da hunspell-en_US hunspell-it pulseaudio \
-            pulseaudio-alsa pulseaudio-bluetooth pulseaudio-jack \
+            hunspell hunspell-da hunspell-en_US hunspell-it nordvpn \
+            pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-jack \
             temp-throttle-git zsa-wally-cli
         ;;
 
@@ -94,5 +94,9 @@ sudo -u "$USER" yay -Su
 # Initial setup
 #######################################
 
-# Docker non root access.
+# Docker
 usermod -aG docker "$USER"
+
+# NordVPN
+usermod -aG nordvpn "$USER"
+sudo -u "$USER" nordvpn-config

@@ -11,4 +11,4 @@ Type = Package
 Description = Enabling temp-throttle systemd service
 Depends = systemd
 When = PostTransaction
-Exec = /usr/bin/systemctl enable temp-throttle
+Exec = /usr/bin/systemctl enable --now temp-throttle

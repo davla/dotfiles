@@ -10,4 +10,4 @@ Type = Package
 Description = Enabling pkgfile-update systemd timer
 Depends = systemd
 When = PostTransaction
-Exec = /usr/bin/systemctl pkgfile-update.timer
+Exec = /usr/bin/systemctl enable pkgfile-update.timer

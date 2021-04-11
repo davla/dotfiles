@@ -64,7 +64,6 @@ case "$HOST" in
         sudo -u "$USER" yay -S cups cups-pdf dex docker docker-compose \
             docker-credential-secretservice gdb intel-ucode libsecret \
             hunspell hunspell-da hunspell-en_US hunspell-it nordvpn \
-            pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-jack \
             temp-throttle-git zsa-wally-cli
         ;;
 

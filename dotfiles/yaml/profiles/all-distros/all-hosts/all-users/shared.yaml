@@ -18,9 +18,6 @@ config:
   import_configs:
   - ../{{@@ user @@}}/timers.yaml:optional
   - shell.yaml
-  import_variables:
-  - ../../../../variables/i3.yaml
-  - ../../../../variables/private.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink

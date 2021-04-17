@@ -14,7 +14,16 @@ import python.lib as lib
 
 
 def format_by(arg: str, format: str) -> str:
-    """well"""
+    """Format filter alternative to be used with jinja map filter.
+
+    The rationale behind this filter is that the built-in format filter can't
+    take in the placeholder values via the map filter, as it takes the format
+    as the first argument. Therefore, this filter achieves a similar goal, but
+    with the arguments swapped.
+
+    :param arg: The values for the placeholders in the format string.
+    :return: The formatted string.
+    """
     return soft_unicode(format) % arg
 
 

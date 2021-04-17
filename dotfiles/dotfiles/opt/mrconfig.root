@@ -8,7 +8,7 @@
 #######################################
 
 
-{%@@ if not is_headless -@@%}
+{%@@ if not is_headless | is_truthy -@@%}
 
 include = cat '{{@@ dirname(_dotfile_abs_dst) @@}}/.mrconfig.gui'
 

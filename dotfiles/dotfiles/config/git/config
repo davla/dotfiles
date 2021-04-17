@@ -137,7 +137,7 @@
 [blame]
     date = format:{{@@ date_format @@}}
 
-{%@@ if git_commit_gpg_sign -@@%}
+{%@@ if git_commit_gpg_sign | is_truthy -@@%}
 
 [commit]
     gpgsign = true

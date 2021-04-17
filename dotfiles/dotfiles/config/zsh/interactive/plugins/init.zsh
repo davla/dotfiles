@@ -149,7 +149,7 @@ bindkey "${key[Down]}" history-substring-search-down
 
 setopt HIST_IGNORE_ALL_DUPS
 
-{%@@ if not is_headless -@@%}
+{%@@ if not is_headless | is_truthy -@@%}
 
 #######################################
 # zsh-notify

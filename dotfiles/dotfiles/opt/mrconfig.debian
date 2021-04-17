@@ -57,7 +57,7 @@ install =
 	  chmod +x /usr/local/bin/docker-credential-secretservice
 
 
-{%@@ if not is_headless -@@%}
+{%@@ if not is_headless | is_truthy -@@%}
 
 [/opt/i3-volume]
 checkout =

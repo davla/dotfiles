@@ -6,6 +6,7 @@ This module defines some custom filters to be used in dotdrop jinja2 templates.
 """
 
 from pathlib import Path
+from typing import Union
 
 from jinja2.utils import soft_unicode
 
@@ -40,6 +41,27 @@ def find_in_home(path: str) -> str:
         return str(next(found_paths))
     except StopIteration:
         return None
+
+
+def is_truthy(value: Union[bool, str]) -> bool:
+    """Return true if value is True or 'true' (case insensitive).
+
+    This filter normalizes bool values and strings to bools. The former are
+    returned untouched, while the latter is mapped to True only if it's
+    case-insensitively equal to 'true'.
+
+    The rationale behind this filter is that in templated expressions in
+    dotdrop config files are always types as YAML strings, because Jinja
+    renders templates as strings. This filter is thus meant to overcome this
+    limitation for boolean expressions, by allowing "boolean" strings and YAML
+    booleans to be used interchangeably.
+
+    :param value: The input value.
+    :return: whether value is to be considered as a bool True.
+    """
+    if type(value) == str:
+        value = value.lower() == 'true'
+    return value
 
 
 def home_abs2var(path: str) -> str:

@@ -64,6 +64,8 @@ gi() {
 # Utility functions
 ########################################
 
+{%@@ if env['HOST'] != 'work' -@@%}
+
 # This is a utility function used to connect to/disconnect from NordVPN. Its
 # main convenience consists in activating/deactivating the killswitch upon
 # connection/disconnection, but it also uses some defaults of my choice when
@@ -91,6 +93,8 @@ vpn() {
             ;;
     esac
 }
+
+{%@@ endif -@@%}
 
 # This is a utility function that operates with week numbers. It can perform a
 # few seemingly unrelated tasks, based on the arguments it's called with:

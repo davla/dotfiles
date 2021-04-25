@@ -6,4 +6,3 @@
 variables:
   git_credentials_helper: manager
   git_commit_gpg_sign: false
-  

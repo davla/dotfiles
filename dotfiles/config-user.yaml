@@ -27,11 +27,15 @@ config:
   - yaml/profiles/all-distros/all-hosts/all-users/shared.yaml
   - yaml/profiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
   import_variables:
-  - yaml/variables/{{@@ user @@}}/*.yaml:optional
-  - yaml/variables/{{@@ env['HOST'] @@}}/*.yaml:optional
-  - yaml/variables/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/dpi.yaml
-  - yaml/variables/shared.yaml
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/all-users/*.yaml:optional
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/all-hosts/all-users/*.yaml:optional
+  - yaml/variables/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/all-distros/{{@@ env['HOST'] @@}}/all-users/*.yaml:optional
+  - yaml/variables/all-distros/all-hosts/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/all-distros/all-hosts/all-users/*.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink

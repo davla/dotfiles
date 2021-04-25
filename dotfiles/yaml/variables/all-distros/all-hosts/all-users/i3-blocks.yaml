@@ -1,6 +1,7 @@
 %YAML 1.2
 ---
-# This variables file contains i3-specific varables.
+# This variables file contains i3-blocks varables that are needeed by both root
+# and unprivileged users.
 
 variables:
   # These variables define i3blocks signals. They are here since the signals

@@ -1,6 +1,7 @@
 %YAML 1.2
 ---
-# This variables file defines variables used by myrepos configuration
+# This variables file defines variables used by myrepos configuration for
+# unprivileged users
 
 variables:
   # These variables are used by Pokémon Central Wiki-related software.

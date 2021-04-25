@@ -86,13 +86,15 @@ config:
   - yaml/profiles/all-distros/all-hosts/all-users/shared.yaml
   - yaml/profiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/packages.yaml:optional
   import_variables:
-  - yaml/variables/{{@@ user @@}}/*.yaml:optional
-  - yaml/variables/{{@@ env['HOST'] @@}}/*.yaml:optional
-  - yaml/variables/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
-  - yaml/variables/{{@@ env['DISTRO'] @@}}/*.yaml:optional
-  - yaml/variables/asdf.yaml
-  - yaml/variables/env.yaml
-  - yaml/variables/shared.yaml
+  - yaml/variables/dpi.yaml
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/all-users/*.yaml:optional
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/all-hosts/all-users/*.yaml:optional
+  - yaml/variables/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/all-distros/{{@@ env['HOST'] @@}}/all-users/*.yaml:optional
+  - yaml/variables/all-distros/all-hosts/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/all-distros/all-hosts/all-users/*.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -328,6 +330,10 @@ profiles:
     - f_sudo_asdf-env
     dynvariables:
       asdf_env_tmp_dst: mktemp /tmp/asdf-env-tmp.XXX
+    variables:
+      asdf_env_path: /etc/profile.d/asdf-env.sh
+      bash_env_dst: /etc/bash.bashrc
+      zsh_env_dst: /etc/zsh/zshenv
 
   # This profile groups configuration files for CLI-based applictions.
   cli:

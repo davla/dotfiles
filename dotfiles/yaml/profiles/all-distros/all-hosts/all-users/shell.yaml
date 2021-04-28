@@ -19,6 +19,8 @@ config:
   func_file:
   - ../../../../../python/functions.py
   ignoreempty: true
+  import_variables:
+  - ../../../../variables/all-distros/all-hosts/all-users/misc.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink

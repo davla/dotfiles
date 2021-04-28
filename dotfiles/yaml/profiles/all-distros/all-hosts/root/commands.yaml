@@ -15,6 +15,7 @@ config:
   ignoreempty: true
   import_variables:
   - ../../../../variables/all-distros/all-hosts/all-users/misc.yaml
+  - ../../../../variables/all-distros/all-hosts/{{@@ user @@}}/misc.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink

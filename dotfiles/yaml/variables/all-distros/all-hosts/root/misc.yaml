@@ -6,5 +6,5 @@ variables:
 
   # This variable is related to static host-ip mapping in /etc/hosts. It's
   # declared top-level because it needs to be available in a few places across
-  # different profiles
+  # different profiles and config files
   frequent_hosts_marker: Frequent hosts

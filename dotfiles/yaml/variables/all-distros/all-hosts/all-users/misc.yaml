@@ -9,7 +9,8 @@ dynvariables:
   dotfiles_home: git rev-parse --show-toplevel | xargs -i echo '{}/dotfiles'
 
 variables:
-  # The path where docker dotfiles are installed
+  # The path where docker dotfiles are installed. It's defined here as it's
+  # used in more than one config file
   docker_path: '{{@@ xdg_config("docker") @@}}'
 
   # The path where myrepos library files are installed

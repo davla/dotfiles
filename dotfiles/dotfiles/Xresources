@@ -6,22 +6,22 @@
 
 ! Gtk resources
 Gtk.CursorThemeName: {{@@ cursor_theme @@}}
-Gtk.CursorThemeSize: {{@@ lodpi_cursor_size @@}}
+Gtk.CursorThemeSize: {{@@ cursor_size @@}}
 Gtk.IconSizes: ''
 Gtk.FontName: {{@@ font @@}}
 
 ! Custom i3 resources
-i3wm.FloatingWidth: {{@@ lodpi_i3_floating_width @@}}
-i3wm.FloatingHeight: {{@@ lodpi_i3_floating_height @@}}
-i3wm.EditorWidth: {{@@ lodpi_i3_editor_width @@}}
-i3wm.EditorHeight: {{@@ lodpi_i3_editor_height @@}}
-i3wm.SpotifyWidth: {{@@ lodpi_i3_spotify_width @@}}
-i3wm.SpotifyHeight: {{@@ lodpi_i3_spotify_height @@}}
-i3wm.SpotifyScale: {{@@ lodpi_i3_spotify_scale @@}}
-i3wm.TeamsWidth: {{@@ lodpi_i3_teams_width @@}}
-i3wm.TeamsHeight: {{@@ lodpi_i3_teams_height @@}}
-i3wm.TelegramWidth: {{@@ lodpi_i3_telegram_width @@}}
-i3wm.TelegramHeight: {{@@ lodpi_i3_telegram_height @@}}
+i3wm.FloatingWidth: {{@@ i3_floating_width @@}}
+i3wm.FloatingHeight: {{@@ i3_floating_height @@}}
+i3wm.EditorWidth: {{@@ i3_editor_width @@}}
+i3wm.EditorHeight: {{@@ i3_editor_height @@}}
+i3wm.SpotifyWidth: {{@@ i3_spotify_width @@}}
+i3wm.SpotifyHeight: {{@@ i3_spotify_height @@}}
+i3wm.SpotifyScale: {{@@ i3_spotify_scale @@}}
+i3wm.TeamsWidth: {{@@ i3_teams_width @@}}
+i3wm.TeamsHeight: {{@@ i3_teams_height @@}}
+i3wm.TelegramWidth: {{@@ i3_telegram_width @@}}
+i3wm.TelegramHeight: {{@@ i3_telegram_height @@}}
 
 ! Look-and-feel resources
 Net.IconThemeName: {{@@ icon_theme @@}}
@@ -29,7 +29,7 @@ Net.ThemeName: {{@@ theme @@}}
 
 ! Cursor resources
 Xcursor.theme: {{@@ cursor_theme @@}}
-Xcursor.size: {{@@ lodpi_cursor_size @@}}
+Xcursor.size: {{@@ cursor_size @@}}
 
 ! DPI
-Xft.dpi: {{@@ lodpi_dpi @@}}
+Xft.dpi: {{@@ dpi @@}}

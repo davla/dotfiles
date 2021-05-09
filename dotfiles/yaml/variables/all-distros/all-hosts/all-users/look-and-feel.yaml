@@ -5,7 +5,8 @@
 
 variables:
   # These variables define the content of look-and-feel themes
-  font: Sans, Regular 11
+  font_size: 11
+  font: DejaVu Sans {{@@ font_size @@}}
   theme: Adwaita-dark
 
   # These variables are used for configuring look-and-feel tools
@@ -17,13 +18,6 @@ variables:
   # Normal DPI values
   cursor_size: 24
   dpi: 90
-  dunst_margin: 8
-  dunst_border_width: 2
-  dunst_separator_height: 8
-  dunst_horizontal_padding: 8
-  dunst_vertical_padding: 10
-  dunst_width: 430
-  dunst_icon_size: 40
   i3_floating_width: 900
   i3_floating_height: 550
   i3_editor_width: 1000
@@ -36,16 +30,17 @@ variables:
   i3_telegram_width: 900
   i3_telegram_height: 800
   lodpi_name: regular
+  notification_border_width: 2
+  notification_horizontal_padding: 8
+  notification_icon_size: 40
+  notification_line_count: 5
+  notification_margin: 8
+  notification_vertical_padding: 10
+  notification_width: 430
 
   # High DPI values
   hidpi_cursor_size: '{{@@ cursor_size * 2 @@}}'
   hidpi_dpi: '{{@@ dpi * 2 @@}}'
-  hidpi_dunst_margin: '{{@@ dunst_margin * 2 @@}}'
-  hidpi_dunst_border_width: '{{@@ dunst_border_width @@}}'
-  hidpi_dunst_horizontal_padding: '{{@@ dunst_horizontal_padding * 2 @@}}'
-  hidpi_dunst_vertical_padding: '{{@@ dunst_vertical_padding * 2 @@}}'
-  hidpi_dunst_width: '{{@@ dunst_width * 2 @@}}'
-  hidpi_dunst_icon_size: '{{@@ dunst_icon_size * 2 @@}}'
   hidpi_i3_floating_width: '{{@@ i3_floating_width * 2 @@}}'
   hidpi_i3_floating_height: '{{@@ i3_floating_height * 2 @@}}'
   hidpi_i3_editor_width: '{{@@ i3_editor_width * 2 @@}}'
@@ -58,3 +53,11 @@ variables:
   hidpi_i3_telegram_width: '{{@@ i3_telegram_width * 2 @@}}'
   hidpi_i3_telegram_height: '{{@@ i3_telegram_height * 2 @@}}'
   hidpi_name: high
+  hidpi_notification_border_width: '{{@@ notification_border_width * 2 @@}}'
+  hidpi_notification_horizontal_padding: >-
+    {{@@ notification_horizontal_padding * 2 @@}}
+  hidpi_notification_icon_size: '{{@@ notification_icon_size * 2 @@}}'
+  hidpi_notification_margin: '{{@@ notification_margin * 2 @@}}'
+  hidpi_notification_vertical_padding: >-
+    {{@@ notification_vertical_padding * 2 @@}}
+  hidpi_notification_width: '{{@@ notification_width * 2 @@}}'

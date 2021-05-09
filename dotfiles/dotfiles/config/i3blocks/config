@@ -2,6 +2,18 @@
 #
 # This is the i3blocks config file
 
+{#@@
+    Emits a different command for different distros, since the i3blocks-contrib
+    installation location is different.
+@@#}
+{%@@ macro command(bin) @@%}
+{%@@ if env['DISTRO'] == 'arch' @@%}
+{{@@ '/usr/lib/i3blocks/%s/%s' | format(bin, bin) @@}}
+{%@@- elif env['DISTRO'] == 'debian' @@%}
+{{@@ 'i3blocks-%s' | format(bin) @@}}
+{%@@- endif @@%}
+{%@@ endmacro -@@%}
+
 # This block shows the time and the date, including the weekday
 [time]
 command=date '+%H:%M:%S        %d-%m-%Y (%a){%@@ if env['HOST'] == 'work' @@%} - %V{%@@ endif @@%}'
@@ -11,34 +23,57 @@ interval=1
 
 # This block displays the main mail watcher
 [email]
-command=i3blocks-email | sed '1 s/^/main: /; s/#ededed/{{@@ i3bar_inactive_color @@}}/; s/#00ff00/{{@@ main_theme_color @@}}/'
+command={{@@ command('email') @@}} | sed '1 s/^/main: /; s/#ededed/{{@@ i3bar_inactive_color @@}}/; s/#00ff00/{{@@ main_theme_color @@}}/'
 instance=main
 interval={{@@ 60 * 10 @@}}
 
 # This block displays the spam mail watcher
 [email]
-command=i3blocks-email | sed '1 s/^/spam: /; s/#ededed/{{@@ i3bar_inactive_color @@}}/; s/#00ff00/{{@@ main_theme_color @@}}/'
+command={{@@ command('email') @@}} | sed '1 s/^/spam: /; s/#ededed/{{@@ i3bar_inactive_color @@}}/; s/#00ff00/{{@@ main_theme_color @@}}/'
 instance=spam
 interval={{@@ 60 * 10 @@}}
 
 {%@@ endif -@@%}
 
 # This block shows whether system updates are available
+{%@@ if env['DISTRO'] == 'debian' -@@%}
+
 [apt-upgrades]
-command=i3blocks-apt-upgrades -s '' -c '{{@@ main_theme_color @@}}' -n '{{@@ i3bar_inactive_color @@}}'
+command={{@@ command('apt-upgrades') @@}} -s '' -c '{{@@ main_theme_color @@}}' -n '{{@@ i3bar_inactive_color @@}}'
 interval=once
-signal={{@@ apt_signal @@}}
+signal={{@@ updates_signal @@}}
+
+{%@@ elif env['DISTRO'] == 'arch' -@@%}
+
+[arch-upgrades]
+command={{@@ command('arch-update') @@}} | sed -E 's/ updates? available//; s/system up to date/0/'
+markup=pango
+interval=once
+signal={{@@ updates_signal @@}}
+AUR=true
+BASE_COLOR={{@@ i3bar_inactive_color @@}}
+UPDATE_COLOR={{@@ main_theme_color @@}}
+
+{%@@ endif -@@%}
+
+{%@@ if not on_wayland -@@%}
+{#@@
+    Temporarily disabling this on wayland, I haven't coded wayland support for
+    this block yet.
+@@#}
 
 # This block displays toggle and dead keys status
 [key-indicator]
-command=i3blocks-keyindicator2
+command={{@@ command('keyindicator2') @@}}
 interval=once
 markup=pango
 signal={{@@ caps_signal @@}}
 
+{%@@ endif -@@%}
+
 # This block displays the network status
 [network]
-command=i3blocks-network-status {{@@ i3blocks_network_interfaces @@}} -G '{{@@ dark_theme_color @@}}' -M '{{@@ main_theme_color @@}}' -B '{{@@ light_theme_color @@}}' -D '{{@@ i3bar_inactive_color @@}}'
+command={{@@ command('network-status') @@}} {{@@ i3blocks_network_interfaces @@}} -G '{{@@ dark_theme_color @@}}' -M '{{@@ main_theme_color @@}}' -B '{{@@ light_theme_color @@}}' -D '{{@@ i3bar_inactive_color @@}}'
 interval=1
 markup=pango
 signal={{@@ network_signal @@}}
@@ -46,7 +81,7 @@ signal={{@@ network_signal @@}}
 # This block shows the CPU usage in percentage
 [cpu_usage2]
 color={{@@ dark_theme_color @@}}
-command=i3blocks-cpu_usage2 -t 2 -l '' -d 0 | sed -u 's/#FF7373/{{@@ light_theme_color @@}}/g; s/#ffa500/{{@@ main_theme_color @@}}/g'
+command={{@@ command('cpu_usage2') @@}} -t 2 -l '' -d 0 | sed -u 's/#FF7373/{{@@ light_theme_color @@}}/g; s/#ffa500/{{@@ main_theme_color @@}}/g'
 interval=persist
 markup=pango
 min_width= 100%
@@ -54,5 +89,5 @@ min_width= 100%
 # This block displays CPU temperature
 [temperature]
 color={{@@ dark_theme_color @@}}
-command=i3blocks-temperature -w 60 -c 80 | sed 's/#FF0000/{{@@ light_theme_color @@}}/; s/#FFFC00/{{@@ main_theme_color @@}}/'
+command={{@@ command('temperature') @@}} -w 60 -c 80 --chip coretemp-isa-0000 | sed 's/#FF0000/{{@@ light_theme_color @@}}/; s/#FFFC00/{{@@ main_theme_color @@}}/'
 interval=2

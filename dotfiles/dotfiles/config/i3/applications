@@ -1,0 +1,129 @@
+{#@@
+    This i3 configuration file contains application configuration, mainly
+    keyboard shortcuts and window management (e.g. workspace assignment)
+@@#}
+
+#######################################
+# Variables
+#######################################
+
+{%@@ set messaging_client = 'teams'
+    if env['HOST'] == 'work'
+    else 'telegram' @@%}
+
+# Command criteria
+set $android_studio_criterion class="jetbrains-studio"
+set $scratchpad_editor_criterion instance="scratchpad-editor"
+set $scratchpad_term_criterion title="scratchpad-terminal"
+set $spotify_criterion instance="spotify"
+set $teams_criterion instance=".*microsoft teams.*"
+set $telegram_criterion instance="telegram" title="Telegram.*"
+set $vscode_criterion instance="code"
+
+# Application instance titles
+set $calc_title calculator
+
+# Resources
+set_from_resource $spotify_scale i3wm.SpotifyScale 1
+
+#######################################
+# Shortcuts
+#######################################
+
+bindsym $mod+Shift+e exec $term --title $calc_title -e lua
+bindsym $mod+space exec i3-dmenu-desktop
+bindsym $mod+Shift+space exec dmenu_run
+bindsym $mod+w exec firefox
+bindsym $mod+Shift+y exec geany
+bindsym $mod+y exec --no-startup-id \
+    i3-msg '[$scratchpad_editor_criterion] scratchpad show' \
+    || geany --name scratchpad-editor
+bindsym $mod+Escape exec --no-startup-id halt -p
+bindsym $mod+e exec --no-startup-id \
+    i3-msg '[${{@@ messaging_client @@}}_criterion] scratchpad show' \
+    || {{@@ messaging_client @@}}
+bindsym $mod+F5 exec --no-startup-id reboot
+bindsym $mod+Tab exec $term
+bindsym $mod+Shift+Tab exec --no-startup-id \
+    i3-msg '[$scratchpad_term_criterion] scratchpad show' \
+    || $term --title scratchpad-terminal
+bindsym $mod+u exec thunar
+bindsym $mod+p exec --no-startup-id \
+    i3-msg '[$spotify_criterion] scratchpad show' \
+    || spotify --force-device-scale-factor=$spotify_scale
+
+{%@@ if env['HOST'] == 'personal' -@@%}
+
+bindsym $mod+o exec firefox https://calendar.google.com/calendar/r
+bindsym $mod+i exec firefox https://keep.google.com/#home
+bindsym $mod+t exec thunderbird
+
+{%@@ endif -@@%}
+
+########################################
+# Windows
+########################################
+
+# Variables
+set_from_resource $floating_width i3wm.FloatingWidth 900
+set_from_resource $floating_height i3wm.FloatingHeight 550
+
+# Assigning applications to workspaces
+assign [$android_studio_criterion] $ws1
+assign [$vscode_criterion] $ws1
+assign [class="Firefox"] $ws2
+assign [class="thunderbird"] $ws4
+
+# Switch to assigned workspace by focusing newly created windows
+for_window [$android_studio_criterion] focus
+for_window [$vscode_criterion] focus
+
+# Android studio splash
+for_window [$android_studio_criterion title="win0" workspace=$ws1] \
+    floating enable
+
+# Calculator
+for_window [title="$calc_title"] floating enable
+for_window [floating title="$calc_title"] \
+    resize set $floating_width $floating_height, \
+    move position center
+
+# Scratchpad editor
+set_from_resource $editor_width i3wm.EditorWidth 1000
+set_from_resource $editor_height i3wm.EditorHeight 850
+for_window [$scratchpad_editor_criterion] move scratchpad, scratchpad show, \
+    resize set $editor_width $editor_height, move position center
+
+# Scratchpad terminal
+for_window [$scratchpad_term_criterion] move scratchpad, scratchpad show, \
+    resize set $floating_width $floating_height, move position center
+
+# Spotify
+set_from_resource $spotify_width i3wm.SpotifyWidth 1500
+set_from_resource $spotify_height i3wm.SpotifyHeight 850
+for_window [$spotify_criterion] move scratchpad, scratchpad show, \
+    resize set $spotify_width $spotify_height, move position center
+
+# Teams
+set_from_resource $teams_width i3wm.TeamsWidth 1200
+set_from_resource $teams_height i3wm.TeamsHeight 950
+for_window [$teams_criterion window_type="normal"] move scratchpad, \
+    scratchpad show, resize set $teams_width $teams_height, \
+    move position center
+
+# Telegram
+set_from_resource $telegram_width i3wm.TelegramWidth 900
+set_from_resource $telegram_height i3wm.TelegramHeight 800
+for_window [$telegram_criterion] move scratchpad, scratchpad show, \
+    resize set $telegram_width $telegram_height, \
+    move position center
+
+#######################################
+# Application startup
+#######################################
+
+# Autostart
+exec --no-startup-id dex -ae i3
+
+# Startup terminal
+exec --no-startup-id i3-msg 'workspace $ws3; exec $term'

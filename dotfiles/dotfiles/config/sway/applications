@@ -1,0 +1,154 @@
+# {{@@ header() @@}}
+#
+# This sway configuration file contains application configuration, mainly
+# keyboard shortcuts and window management (e.g. workspace assignment)
+
+{#@@
+    This macro is a workaround for `scratchpad show` discarding window criteria
+    when chained via a comma. An issue has been open on the sway repository
+    about this: https://github.com/swaywm/sway/issues/6031
+@@#}
+{%@@ macro init_scratchpad(criterion) @@%}
+for_window [{{@@ criterion @@}}] move scratchpad; \
+    [{{@@ criterion @@}}] $scratchpad_show
+{%@@ endmacro -@@%}
+
+#######################################
+# Variables
+#######################################
+
+{%@@ set messaging_client = 'teams'
+    if env['HOST'] == 'work'
+    else 'telegram' -@@%}
+
+set {
+    # Command criteria
+    $android_studio_criterion app_id="jetbrains-studio"
+    $firefox_criterion app_id=".*Firefox.*"
+    $launcher_criterion app_id="launcher"
+    $scratchpad_editor_criterion app_id="scratchpad-editor"
+    $scratchpad_term_criterion title="scratchpad-terminal"
+    $spotify_criterion con_mark="spotify"
+    $teams_criterion instance=".*microsoft teams.*"
+    $telegram_criterion app_id="telegramdesktop" title="Telegram.*"
+    $thunderbird_criterion app_id="thunderbird"
+    $vscode_criterion app_id="^code.*"
+
+    # Application instance titles
+    $calc_title calculator
+}
+
+#######################################
+# Shortcuts
+#######################################
+
+bindsym {
+    # GUI applications
+    $mod+e exec --no-startup-id \
+        swaymsg '[${{@@ messaging_client @@}}_criterion] $scratchpad_show' \
+            || {{@@ messaging_client @@}}
+    $mod+p exec --no-startup-id \
+        swaymsg '[$spotify_criterion] $scratchpad_show' \
+            || spotify
+    $mod+w exec firefox
+    $mod+Shift+y exec geany
+    $mod+y exec --no-startup-id \
+        swaymsg '[$scratchpad_editor_criterion] $scratchpad_show' \
+            || geany --name scratchpad-editor
+    $mod+Tab exec $term
+    $mod+Shift+Tab exec --no-startup-id \
+        swaymsg '[$scratchpad_term_criterion] $scratchpad_show' \
+            || $term --title scratchpad-terminal
+        $mod+u exec thunar
+    {%@@ if env['HOST'] == 'personal' -@@%}
+
+    $mod+o exec firefox https://calendar.google.com/calendar/r
+    $mod+i exec firefox https://keep.google.com/#home
+    $mod+t exec thunderbird
+
+    {%@@ endif -@@%}
+
+    # TUI applications
+    $mod+Shift+e exec $term --title $calc_title -e lua
+    ctrl+alt+v exec launcher -p clipman.conf
+    $mod+space exec launcher
+
+    # CLI commands
+    $mod+m exec --no-startup-id makoctl dismiss --all
+    $mod+n exec --no-startup-id makoctl dismiss
+    $mod+comma exec --no-startup-id makoctl restore
+    $mod+F5 exec --no-startup-id reboot
+    $mod+Escape exec --no-startup-id halt -p
+}
+
+#######################################
+# Windows
+#######################################
+
+# Variables
+set $floating_width 900
+set $floating_height 550
+
+# Assigning applications to workspaces
+assign {
+    [$android_studio_criterion] $ws1
+    [$vscode_criterion] $ws1
+    [$firefox_criterion] $ws2
+    [$thunderbird_criterion] $ws4
+}
+
+# Switch to assigned workspace by focusing newly created windows
+for_window [$android_studio_criterion] focus
+for_window [$firefox_criterion] $ws2
+for_window [$thunderbird_criterion] $ws4
+for_window [$vscode_criterion] focus
+
+# Android studio splash
+for_window [$android_studio_criterion title="win0" workspace=$ws1] \
+    floating enable
+
+# Calculator
+for_window [title="$calc_title"] floating enable
+for_window [floating title="$calc_title"] \
+    resize set $floating_width $floating_height, \
+    move position center
+
+# Launcher
+for_window [$launcher_criterion] floating enable, \
+    resize set $floating_width $floating_height, move position center
+
+# Scratchpad editor
+{{@@ init_scratchpad('$scratchpad_editor_criterion') @@}}
+for_window [$scratchpad_editor_criterion] \
+    resize set 1000 850, move position center
+
+# Scratchpad terminal
+{{@@ init_scratchpad('$scratchpad_term_criterion') @@}}
+for_window [$scratchpad_term_criterion] \
+    resize set $floating_width $floating_height, \
+    move position center
+
+# Spotify
+{{@@ init_scratchpad('$spotify_criterion') @@}}
+for_window [$spotify_criterion] \
+    resize set 1500 850, move position center
+
+# Teams
+{{@@ init_scratchpad('$teams_criterion window_type="normal"') @@}}
+for_window [$teams_criterion window_type="normal"] \
+    resize set 1200 950, move position center
+
+# Telegram
+{{@@ init_scratchpad('$telegram_criterion') @@}}
+for_window [$telegram_criterion] \
+    resize set 900 800, move position center
+
+#######################################
+# Application startup
+#######################################
+
+# Autostart
+exec --no-startup-id dex -ae sway
+
+# Startup terminal
+exec --no-startup-id swaymsg 'workspace $ws3; exec $term'

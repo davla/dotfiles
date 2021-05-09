@@ -1,0 +1,37 @@
+# {{@@ header() @@}}
+#
+# pam_environment file for user environment variables
+
+#######################################
+# Application variables
+#######################################
+
+# Telegram
+DESKTOP_APP_I_KNOW_ABOUT_GTK_INCOMPATIBILITY DEFAULT=true
+
+{%@@ if exists(docker_path) -@@%}
+
+# Docker
+DOCKER_CONFIG DEFAULT="{{@@ docker_path | home_abs2var
+    | replace('$HOME', '${HOME}') @@}}"
+
+{%@@ endif -@@%}
+
+#######################################
+# Graphics variables
+#######################################
+
+{%@@ if on_wayland @@%}
+MOZ_ENABLE_WAYLAND DEFAULT=1
+{%@@ else @@%}
+GTK2_RC_FILES DEFAULT="{{@@ gtk2_path | home_abs2var @@}}/gtkrc"
+{%@@ endif -@@%}
+
+QT_QPA_PLATFORMTHEME DEFAULT="qt5ct"
+
+#######################################
+# Sockets
+#######################################
+
+SSH_AGENT_PID DEFAULT=
+SSH_AUTH_SOCK DEFAULT="${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh"

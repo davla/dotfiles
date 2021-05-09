@@ -1,0 +1,89 @@
+{#@@
+    This file contains the shared configuration between i3 and sway. Mostly a
+    hub to include other files, either by jinja inclusion for i3, or via
+    include directives for sway
+@@#}
+
+{#@@-
+    Emit an include command for sway; copy the whole file content for i3
+@@#}
+{%@@ macro include(path) @@%}
+{%@@ if on_wayland @@%}
+include {{@@ path @@}}
+{%@@- else @@%}
+{%@@ set abs_path = '%s/%s' | format(dirname(_dotfile_abs_src), path) @@%}
+{%@@ set abs_path = abs_path if exists(abs_path)
+    else 'templating/i3-sway/' + path @@%}
+{%@@ include abs_path with context @@%}
+{%@@ endif @@%}
+{%@@ endmacro -@@%}
+
+#######################################
+# Variables
+#######################################
+
+# Keys
+set $mod Mod4
+set $mode_shifter_key Control
+set $wm_control_key Shift
+
+# Command aliases
+set $scratchpad_show scratchpad show, move position center
+
+# Applications
+set $term {{@@ term @@}}
+
+#######################################
+# Containers
+#######################################
+
+{{@@ include('containers') @@}}
+
+#######################################
+# Applications
+#######################################
+
+{{@@ include('applications') @@}}
+
+#######################################
+# Font
+#######################################
+
+{%@@ if on_wayland @@%}
+set $font {{@@ font @@}}
+{%@@ else @@%}
+set_from_resource $font Gtk.FontName {{@@ font @@}}
+{%@@ endif @@%}
+font pango:$font
+
+#######################################
+# Gaps
+#######################################
+
+# Disabling application window titles. Non-application containers can still
+# possibly have titles.
+for_window [title="^.*"] border pixel 0
+
+smart_gaps on
+smart_borders on
+
+gaps inner 10
+gaps outer 0
+
+#######################################
+# Bar
+#######################################
+
+{{@@ include('bar') @@}}
+
+#######################################
+# Modes
+#######################################
+
+{{@@ include('modes') @@}}
+
+#######################################
+# Window manager control
+#######################################
+
+{{@@ include('wm-control') @@}}

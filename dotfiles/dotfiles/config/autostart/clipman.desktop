@@ -2,10 +2,10 @@
 Encoding=UTF-8
 Version=0.9.4
 Type=Application
-Name=Window composer
-Comment=Implements window compositing
-Exec=picom -b
-OnlyShowIn=i3
+Name=Clipman
+Comment=Wayland clipboard manager
+Exec=wl-paste -t text --watch clipman store
+OnlyShowIn=sway
 StartupNotify=false
 Terminal=false
 Hidden=false

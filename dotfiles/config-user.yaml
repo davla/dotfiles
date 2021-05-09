@@ -67,6 +67,12 @@ dotfiles:
     - '*.README'
     upignore:
     - '*.README'
+  d_sway:
+    src: config/sway
+    dst: '{{@@ xdg_config("sway") @@}}'
+  d_sway-launcher-desktop:
+    src: config/sway-launcher-desktop
+    dst: '{{@@ xdg_config("sway-launcher-desktop") @@}}'
   d_thunar:
     src: config/Thunar
     dst: '{{@@ xdg_config("Thunar") @@}}'
@@ -84,6 +90,9 @@ dotfiles:
     - desktop
     - xfce4-screenshooter
     - xfwm4
+  f_alacritty.yml:
+    src: config/alacritty/alacritty.yml
+    dst: '{{@@ xdg_config("alacritty/alacritty.yml") @@}}'
   f_calibre_global.py:
     src: config/calibre/global.py
     dst: '{{@@ xdg_config("calibre/global.py") @@}}'
@@ -132,18 +141,36 @@ dotfiles:
   f_i3config:
     src: config/i3/config
     dst: '{{@@ xdg_config("i3/config") @@}}'
+  f_mako_config:
+    src: config/mako/config
+    dst: '{{@@ xdg_config("mako/config") @@}}'
   f_mimeapps.list:
     src: config/mimeapps.list
     dst: '{{@@ xdg_config("mimeapps.list") @@}}'
+  f_pam_environment:
+    src: pam_environment
+    dst: ~/.pam_environment
   f_qt5ct.conf:
     src: config/qt5ct/qt5ct.conf
     dst: '{{@@ xdg_config("qt5ct/qt5ct.conf") @@}}'
   f_ssh_config:
     src: ssh/config
     dst: ~/.ssh/config
+  f_sway_bar:
+    src: templating/i3-sway/bar
+    dst: '{{@@ xdg_config("sway/bar") @@}}'
+  f_sway_containers:
+    src: templating/i3-sway/containers
+    dst: '{{@@ xdg_config("sway/containers") @@}}'
+  f_sway_modes:
+    src: templating/i3-sway/modes
+    dst: '{{@@ xdg_config("sway/modes") @@}}'
   f_trolltech.conf:
     src: config/Trolltech.conf
     dst: '{{@@ xdg_config("Trolltech.conf") @@}}'
+  f_udiskie_config.yml:
+    src: config/udiskie/config.yml
+    dst: '{{@@ xdg_config("udiskie/config.yml") @@}}'
   f_vscode_extension-list.txt:
     src: config/Code/User/extension-list.txt
     # Temporary destination as the file is not read by VSCode at runtime, so it
@@ -225,6 +252,7 @@ profiles:
       is_headless: false
       on_wayland: false
       on_x11: true
+      term: xfce4-terminal
 
   # This profile includes the dotfiles for look & feel of a GUI environment,
   # both Gtk, Qt and bare X11.
@@ -247,9 +275,34 @@ profiles:
     dotfiles:
     - d_autostart
     - f_gpg-agent.conf
+    - f_pam_environment
     include:
     - startup-{{@@ display_server @@}}
     - startup-{{@@ output_scaling @@}}
+
+  # This profile contains the dotfiles for the whole sway session, that means a
+  # little bit more than just the sway configuration files.
+  sway:
+    dotfiles:
+    - d_i3blocks-email
+    - d_sway
+    - d_sway-launcher-desktop
+    - f_alacritty.yml
+    - f_i3blocks_config
+    - f_mako_config
+    - f_sway_bar
+    - f_sway_containers
+    - f_sway_modes
+    - f_udiskie_config.yml
+    include:
+    - look-and-feel
+    - startup
+    variables:
+      display_server: wayland
+      is_headless: false
+      on_wayland: true
+      on_x11: false
+      term: alacritty
 
   # This profile groups VSCode-related dotfiles, as well as creating the
   # necessary variables for dotfiles actions. It was chosen to address

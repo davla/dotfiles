@@ -1,0 +1,10 @@
+%YAML 1.2
+---
+# This dotfiles file lists i3blocks dotfiles for my Arch system. These dotfiles
+# are distro-specific since they are very intertwined with the system, and
+# generally require root privileges to be installed.
+
+dotfiles:
+- f_pacman_hooks.bin_i3blocks-contrib-setup
+- f_pacman_i3blocks-contrib-arch-update.hook
+- f_pacman_i3blocks-contrib.hook

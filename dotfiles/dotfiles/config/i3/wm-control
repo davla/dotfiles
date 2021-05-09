@@ -1,0 +1,18 @@
+{#@@
+    This i3 configuration file holds keyboard shortcuts to control i3 itself
+@@#}
+
+#######################################
+# Shortcuts
+#######################################
+
+# Reload the configuration file
+bindsym $mod+$wm_control_key+c reload
+
+# Restart
+bindsym $mod+$wm_control_key+x restart
+
+# Exit
+bindsym $mod+$wm_control_key+v exec "i3-nagbar -t warning \
+    -m 'You pressed the sway exit shortcut. Do you really want to exit sway?' \
+    -B 'Yes, exit i3' 'i3-msg exit'"

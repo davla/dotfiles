@@ -43,8 +43,8 @@ sudo -u "$USER" rm -rf "$YAY_DIR"
 case "$HOST" in
     'personal')
         sudo -u "$USER" yay -S asunder atril baobab bitwarden blueman brasero \
-            calibre code-git dropbox electron-ozone firefox-beta-bin geany \
-            gimp gnome-clocks gnome-keyring gparted gufw handbrake \
+            calibre code-git dropbox electron firefox-beta-bin geany gimp \
+            gnome-clocks gnome-keyring gparted gufw handbrake \
             libreoffice-still kid3 remmina seahorse simple-scan \
             soundconverter spotify telegram-desktop thunderbird \
             transmission-gtk vlc
@@ -72,12 +72,12 @@ case "$HOST" in
         ;;
 esac
 
-sudo -u "$USER" yay -S apng2gif asdf-vm autoconf automake cmake cowsay curl \
-    dkms dos2unix exa fasd fortune-mod gcc ghc gifsicle git-secret git-review \
-    gnupg jq lua macchina man mercurial moreutils multi-git-status myrepos \
-    nfs-utils nyancat otf-ipafont p7zip pkgfile python python-pip \
-    python-pipenv sudo thefuck ttf-baekmuk ttf-dejavu ttf-indic-otf ttf-khmer \
-    unzip vim wqy-microhei-lite zip
+sudo -u "$USER" yay -S antibody-bin apng2gif asdf-vm autoconf automake cmake \
+    cowsay curl dkms dos2unix exa fasd fortune-mod gcc ghc gifsicle \
+    git-secret git-review gnupg jq lua macchina man mercurial moreutils \
+    multi-git-status myrepos nfs-utils nyancat otf-ipafont p7zip pkgfile \
+    python python-pip python-pipenv sudo thefuck ttf-baekmuk ttf-dejavu \
+    ttf-indic-otf ttf-khmer unzip vim wqy-microhei-lite zip
     # luacheck shellcheck rar unrar
 
 # Dotfiles

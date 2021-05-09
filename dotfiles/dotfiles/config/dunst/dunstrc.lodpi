@@ -1,11 +1,11 @@
 {%@@ from 'config/dunst/dunstrc' import dunstrc with context @@%}
 {{@@ dunstrc(
-    border_width=dunst_border_width,
+    border_width=notification_border_width,
     dpi=lodpi_name,
-    horizontal_padding=dunst_horizontal_padding,
-    icon_size=dunst_icon_size,
+    horizontal_padding=notification_horizontal_padding,
+    icon_size=notification_icon_size,
     icon_theme=icon_theme,
-    margin=dunst_margin,
-    vertical_padding=dunst_vertical_padding,
-    width=dunst_width
+    margin=notification_margin,
+    vertical_padding=notification_vertical_padding,
+    width=notification_width
 ) @@}}

@@ -149,7 +149,8 @@ bindkey "${key[Down]}" history-substring-search-down
 
 setopt HIST_IGNORE_ALL_DUPS
 
-{%@@ if not is_headless | is_truthy -@@%}
+{%@@ if not is_headless | is_truthy
+    and not (on_wayland | is_truthy and user == 'root') -@@%}
 
 #######################################
 # zsh-notify
@@ -168,4 +169,5 @@ zstyle ':notify:*' notifier 'zsh-notify-sudo-user'
 {%@@ endif @@%}
 zstyle ':notify:*' success-icon "{{@@ icon_theme_path @@}}/emblem-ok.svg"
 zstyle ':notify:*' success-title 'OK - took #{time_elapsed}s'
+
 {%@@ endif -@@%}

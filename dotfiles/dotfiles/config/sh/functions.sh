@@ -3,6 +3,8 @@
 # This scripts defines some POSIX shell functions, used in bot interactive and
 # non-interactive shells
 
+{%@@ if user == 'user' -@@%}
+
 ########################################
 # Login functions
 ########################################
@@ -15,6 +17,8 @@ start_graphical_session() {
         systemd-cat --identifier=sway --stderr-priority=err sway
     }
 }
+
+{%@@ endif -@@%}
 
 ########################################
 # Utility functions

@@ -64,7 +64,7 @@ gi() {
 # Utility functions
 ########################################
 
-{%@@ if env['HOST'] != 'work' -@@%}
+{%@@ if user == 'user' and env['HOST'] != 'work' -@@%}
 
 # This is a utility function used to connect to/disconnect from NordVPN. Its
 # main convenience consists in activating/deactivating the killswitch upon

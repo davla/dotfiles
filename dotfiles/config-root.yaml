@@ -536,7 +536,7 @@ profiles:
       symbols_dst: /usr/share/X11/xkb/symbols/us
 
   # This profile holds the system-wide zsh dotfiles
-  zsh:
+  zsh-system:
     dotfiles:
     - f_etc_zshrc
     dynvariables:

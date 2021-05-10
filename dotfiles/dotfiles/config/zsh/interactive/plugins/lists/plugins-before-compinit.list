@@ -4,7 +4,8 @@ Vifon/deer kind:fpath
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-completions
 
-{%@@- if not is_headless | is_truthy  @@%}
+{%@@- if not is_headless | is_truthy
+    and not (on_wayland | is_truthy and user == 'root') @@%}
 
 marzocchi/zsh-notify
 

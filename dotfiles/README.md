@@ -7,6 +7,8 @@ My dotfiles repository. Really, just configuration files
 - gkr-pam: couldn't unlock the login keyring.
 - Failed to start pkgfile database update.
 - Fix root zsh
+- fstab as systemd
+- pacman
 - Better placement of logger_path variable
 - autorandr in autostart
 - github mails

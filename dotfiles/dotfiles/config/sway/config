@@ -2,12 +2,6 @@
 #
 # sway config file
 
-#######################################
-# Systemd environment
-#######################################
-
-exec systemctl --user import-environment I3SOCK SWAYSOCK WAYLAND_DISPLAY
-
 {%@@ include 'templating/i3-sway/shared' @@%}
 
 #######################################

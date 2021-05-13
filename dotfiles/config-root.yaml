@@ -162,6 +162,9 @@ dotfiles:
   d_xorg.conf.d:
     src: etc/X11/xorg.conf.d
     dst: /etc/X11/xorg.conf.d
+  f_10-systemd:
+    src: etc/sway/config.d/10-systemd
+    dst: /etc/sway/config.d/10-systemd
   f_60-root.conf:
     src: etc/polkit-1/localauthority.conf.d/60-root.conf
     dst: /etc/polkit-1/localauthority.conf.d/60-root.conf
@@ -281,6 +284,9 @@ dotfiles:
   f_sshd_config:
     src: etc/ssh/sshd_config
     dst: /etc/ssh/sshd_config
+  f_sway-session.target:
+    src: etc/systemd/user/sway-session.target
+    dst: /etc/systemd/user/sway-session.target
   f_sudo_asdf-env:
     src: etc/sudoers.d/asdf-env
     dst: /etc/sudoers.d/asdf-env
@@ -502,7 +508,10 @@ profiles:
   # installed
   sway:
     dotfiles:
+    - f_10-systemd
     - f_local_bin_launcher
+    - f_local_bin_systemd-graphical-session
+    - f_sway-session.target
     include:
     - i3blocks
 

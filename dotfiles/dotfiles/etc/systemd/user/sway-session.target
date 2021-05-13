@@ -1,0 +1,11 @@
+# sway-session systemd target file
+#
+# This target is started by sway as part of its bootstrap, within the
+# configuration file
+
+[Unit]
+Description=Sway compositor session
+Documentation=man:systemd.special(7)
+BindsTo=graphical-session.target
+Wants=graphical-session-pre.target
+After=graphical-session-pre.target

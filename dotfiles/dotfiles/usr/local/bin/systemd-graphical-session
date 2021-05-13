@@ -1,0 +1,51 @@
+#!/usr/bin/env sh
+
+# This script sets up/tears down systemd graphical sessions. This mostly
+# includes importing/unsetting environment variables and starting/stopping
+# systemd targets
+#
+# Arguments:
+# - $1: one of (case insensitive):
+#       'up' - sets up the session
+#       'down' - tears down the session
+
+########################################
+# Variables
+########################################
+
+export XDG_CURRENT_DESKTOP='sway'
+export XDG_SESSION_TYPE='wayland'
+ENV_LIST='DISPLAY I3SOCK WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP \
+    XDG_SESSION_TYPE'
+TARGET='sway-session.target'
+
+########################################
+# Input processing
+########################################
+
+ACTION="$(echo "$1" | tr '[:upper:]' '[:lower:]')"
+
+########################################
+# Performing action
+########################################
+
+case "$ACTION" in
+    'up')
+        # ENV_LIST is not quoted because we need word splitting
+        systemctl --user import-environment $ENV_LIST
+        hash dbus-update-activation-environment 2>/dev/null \
+            && dbus-update-activation-environment --systemd $ENV_LIST
+        systemctl --user start "$TARGET"
+        ;;
+
+    'down')
+        # ENV_LIST is not quoted because we need word splitting
+        systemctl --user stop "$TARGET"
+        systemctl --user unset-environment $ENV_LIST
+        ;;
+
+    *)
+        echo >&2 "Invalid argument: $1"
+        exit 127
+        ;;
+esac

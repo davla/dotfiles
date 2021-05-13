@@ -66,6 +66,9 @@ dotfiles:
   f_local_bin_spotify:
     src: usr/local/bin/spotify
     dst: /usr/local/bin/spotify
+  f_local_bin_systemd-graphical-session:
+    src: usr/local/bin/systemd-graphical-session
+    dst: /usr/local/bin/systemd-graphical-session
   f_local_bin_vscode:
     src: usr/local/bin/vscode
     dst: /usr/local/bin/vscode

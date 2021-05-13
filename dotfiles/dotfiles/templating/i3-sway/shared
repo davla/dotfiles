@@ -11,12 +11,20 @@
 {%@@ if on_wayland @@%}
 include {{@@ path @@}}
 {%@@- else @@%}
-{%@@ set abs_path = '%s/%s' | format(dirname(_dotfile_abs_src), path) @@%}
-{%@@ set abs_path = abs_path if exists(abs_path)
-    else 'templating/i3-sway/' + path @@%}
-{%@@ include abs_path with context @@%}
+{%@@ include [
+    path,
+    '%s/%s' | format(dirname(_dotfile_abs_src), path),
+    'templating/i3-sway/' + path
+] with context @@%}
 {%@@ endif @@%}
 {%@@ endmacro -@@%}
+
+#######################################
+# Systemd integration
+#######################################
+
+{{@@ include('/etc/%s/config.d/10-systemd'
+    | format('sway' if on_wayland else 'i3')) @@}}
 
 #######################################
 # Variables

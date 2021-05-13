@@ -1,0 +1,19 @@
+# This file integrates sway and systemd. This includes:
+# - importing some sway-related variables into the systemd user environment,
+#   including the dbus-activated systemd services
+# - starting a custom-made sway-session.target
+#
+# This file is meant for replacing the the systemd integration shipped with the
+# linux distribution's sway package, rather than for building on top of it, for
+# these reasons:
+# - The i3 package doesn't come with a systemd integration, so there's nothing
+#   to build on top of
+# - The sway package systemd integration doesn't allow to chain `systemctl
+#   import-environment` and `systemctl start sway-session.target` (as
+#   recommended by the sway wiki at https://github.com/swaywm/sway/wiki/Systemd-integration)
+#   without modifying the package files
+# - The sway package systemd integration doesn't import the I3SOCK variable
+# Hence, the most pragmatic solution is to replace the systemd integration
+# altogether.
+
+exec systemd-graphical-session up

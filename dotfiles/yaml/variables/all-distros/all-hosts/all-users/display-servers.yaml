@@ -1,0 +1,9 @@
+%YAML 1.2
+---
+# This variables file defines variables related to display servers
+
+variables:
+  display_server: '{{@@ env["DISPLAY_SERVER"] @@}}'
+  is_headless: '{{@@ display_server == "headless" @@}}'
+  on_wayland: '{{@@ display_server == "wayland" @@}}'
+  on_x11: '{{@@ display_server == "x11" @@}}'

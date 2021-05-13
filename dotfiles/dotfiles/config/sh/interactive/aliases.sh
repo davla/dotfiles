@@ -9,11 +9,16 @@
 # Core commands aliases
 #######################################
 
-{#@@ On wayland copy and paste are only available to unprivileged users @@#}
-{%@@ if not on_wayland or user == 'user' -@@%}
+{%@@ if on_x11 | is_truthy -@@%}
 
 alias c='xsel -i -b'
 alias p='xsel -o'
+
+{#@@ On wayland copy and paste are only available to unprivileged users @@#}
+{%@@ elif on_wayland | is_truthy and user == 'user' -@@%}
+
+alias c='wl-copy'
+alias p='wl-paste'
 
 {%@@ endif @@%}
 {%@@ if user == 'user' -@@%}

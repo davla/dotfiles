@@ -1,0 +1,16 @@
+# udiskie systemd service file
+
+[Unit]
+Description=Front-end and automounter for udisks
+After=graphical-session.target
+BindsTo=graphical-session.target
+
+[Service]
+ExecStart=udiskie
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=udiskie
+SyslogLevel=info
+SyslogLevelPrefix=true
+Type=exec

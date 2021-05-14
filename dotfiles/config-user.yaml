@@ -96,9 +96,9 @@ dotfiles:
   f_calibre_global.py:
     src: config/calibre/global.py
     dst: '{{@@ xdg_config("calibre/global.py") @@}}'
-  f_picom.conf:
-    src: config/picom.conf
-    dst: '{{@@ xdg_config("picom.conf") @@}}'
+  f_clipman.service:
+    src: config/systemd/user/clipman.service
+    dst: '{{@@ xdg_config("systemd/user/clipman.service") @@}}'
   f_docker_config.json:
     src: config/docker/config.json
     dst: '{{@@ docker_path @@}}/config.json'
@@ -153,6 +153,9 @@ dotfiles:
   f_qt5ct.conf:
     src: config/qt5ct/qt5ct.conf
     dst: '{{@@ xdg_config("qt5ct/qt5ct.conf") @@}}'
+  f_picom.conf:
+    src: config/picom.conf
+    dst: '{{@@ xdg_config("picom.conf") @@}}'
   f_ssh_config:
     src: ssh/config
     dst: ~/.ssh/config
@@ -165,9 +168,15 @@ dotfiles:
   f_sway_modes:
     src: templating/i3-sway/modes
     dst: '{{@@ xdg_config("sway/modes") @@}}'
+  f_swayfocus.service:
+    src: config/systemd/user/swayfocus.service
+    dst: '{{@@ xdg_config("systemd/user/swayfocus.service") @@}}'
   f_trolltech.conf:
     src: config/Trolltech.conf
     dst: '{{@@ xdg_config("Trolltech.conf") @@}}'
+  f_udiskie.service:
+    src: config/systemd/user/udiskie.service
+    dst: '{{@@ xdg_config("systemd/user/udiskie.service") @@}}'
   f_udiskie_config.yml:
     src: config/udiskie/config.yml
     dst: '{{@@ xdg_config("udiskie/config.yml") @@}}'
@@ -276,6 +285,8 @@ profiles:
     - d_autostart
     - f_gpg-agent.conf
     - f_pam_environment
+    import:
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml
     include:
     - startup-{{@@ display_server @@}}
     - startup-{{@@ output_scaling @@}}
@@ -288,12 +299,13 @@ profiles:
     - d_sway
     - d_sway-launcher-desktop
     - f_alacritty.yml
+    - f_clipman.service
     - f_i3blocks_config
     - f_mako_config
     - f_sway_bar
     - f_sway_containers
     - f_sway_modes
-    - f_udiskie_config.yml
+    - f_swayfocus.service
     include:
     - look-and-feel
     - startup

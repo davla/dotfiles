@@ -9,6 +9,7 @@ My dotfiles repository. Really, just configuration files
 - Fix root zsh
 - fstab as systemd
 - pacman
+- sway cursor
 - Better placement of logger_path variable
 - autorandr in autostart
 - github mails

@@ -36,5 +36,14 @@
 case "$-" in
     *i*)
         . "$SDOTDIR/interactive/init.sh"
+        {%@@ if user == 'user' @@%}
+
+        ########################################
+        # Console login
+        ########################################
+
+        start_graphical_session
+
+        {%@@ endif @@%}
         ;;
 esac

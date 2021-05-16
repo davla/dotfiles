@@ -25,15 +25,5 @@ INTERACTIVE_SDOTDIR="$SDOTDIR/interactive"
 
 . "$INTERACTIVE_SDOTDIR/functions.sh"
 
-{%@@ if user == 'user' -@@%}
-
-########################################
-# Console login
-########################################
-
-start_graphical_session
-
-{%@@ endif -@@%}
-
 
 unset INTERACTIVE_SDOTDIR

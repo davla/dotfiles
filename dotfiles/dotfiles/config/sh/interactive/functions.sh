@@ -40,7 +40,10 @@ start_graphical_session() {
 #   - $@: exa options to be added to the present ones, including the directory
 #         to be listed. Optional.
 l() {
-    exa -abhls type --color=always --color-scale "$@" | less -FXR
+    exa --all --binary --color=always --color-scale --header --long \
+            --sort=type "$@" \
+        | less --no-init --quit-if-one-screen \
+            --RAW-CONTROL-CHARS
 }
 
 # This is a convenience function for exa tree form. Other than calling exa with
@@ -54,13 +57,15 @@ l() {
 #          a number.
 t() {
     T_LEVEL='2'
-    echo "$1" | grep -E '^[0-9]+$' > /dev/null 2>&1 && {
+    echo "$1" | grep --extended-regexp '^[0-9]+$' > /dev/null 2>&1 && {
         T_LEVEL="$1"
         shift
     }
 
-    exa -abhlTs type --color=always --color-scale -L "$T_LEVEL" "$@" \
-        | less -FXR
+    exa --all --binary --color=always --color-scale --header \
+            --level="$T_LEVEL" --long --sort=type --tree "$@" \
+        | less --no-init --quit-if-one-screen \
+            --RAW-CONTROL-CHARS
 
     unset T_LEVEL
 }
@@ -140,24 +145,24 @@ week() {
 
     # All the arguments concatenate to a single string of digits, i.e. a number.
     # Printing Monday and Sunday of the week having such ISO week number.
-    echo "$@" | grep -E '^[0-9]+$' > /dev/null 2>&1 && {
+    echo "$@" | grep --extended-regexp '^[0-9]+$' > /dev/null 2>&1 && {
 
         # Week 1 is by definition the one containing the 4th of January. In
         # here we get the offset of the 4th of January from Monday of the same
         # week (the 4th of January's weekday as a number).
-        WEEK_FOURTH_JAN_OFFSET="$(date -d 'Jan 04' '+%u')"
+        WEEK_FOURTH_JAN_OFFSET="$(date --date='Jan 04' '+%u')"
 
         # Getting the Monday of the week having the given ISO number by:
         # - Landing in such week by offsetting by the given number of weeks
         #   from the 4th of January.
         # - Going back to the Monday of the same week by subtracting the offset
         #   the 4th of January had from the Monday of its own week.
-        WEEK_GIVEN_MONDAY="$(date -d "Jan 04 + $(( $1 - 1 )) weeks \
+        WEEK_GIVEN_MONDAY="$(date --date="Jan 04 + $(( $1 - 1 )) weeks \
             -  $(( WEEK_FOURTH_JAN_OFFSET - 1 )) days")"
 
         # `printf` to avoid printing the newline.
-        date -d "$WEEK_GIVEN_MONDAY" '+%d %b' | xargs printf '%s %s - '
-        date -d "$WEEK_GIVEN_MONDAY + 6 days" '+%d %b'
+        date --date="$WEEK_GIVEN_MONDAY" '+%d %b' | xargs printf '%s %s - '
+        date --date="$WEEK_GIVEN_MONDAY + 6 days" '+%d %b'
 
         unset WEEK_FOURTH_JAN_DAY WEEK_GIVEN_MONDAY
         return
@@ -165,6 +170,6 @@ week() {
 
     # The sed script just swaps the date format to a decent day-month to the
     # goddammit degenerate American month-day -_-".
-    echo "${@:-now}" | sed -E 's|([0-9]+)([- ])(.+)|\3\2\1|g' \
-        | xargs -I '{}' date -d '{}' '+%V'
+    echo "${@:-now}" | sed --regexp-extended 's|([0-9]+)([- ])(.+)|\3\2\1|g' \
+        | xargs -I '{}' date --date='{}' '+%V'
 }

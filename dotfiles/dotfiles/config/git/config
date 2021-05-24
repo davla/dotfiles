@@ -131,6 +131,29 @@
 [blame]
     date = format:{{@@ date_format @@}}
 
+[branch]
+    autoSetupMerge = true
+    autoSetupRebase = always
+    # sort
+
+# [browser]
+#    <tool>.cmd
+#    <tool>.path
+
+[checkout]
+    defaultRemote = origin
+    # guess
+
+[clone]
+    defaultRemoteName = origin
+
+# [column]
+#     ui
+#     branch
+#     clean
+#     status
+#     tag
+
 {%@@ if git_commit_gpg_sign | is_truthy -@@%}
 
 [commit]
@@ -150,8 +173,20 @@
 
 {%@@ endif -@@%}
 
+[diff]
+    # colorMoved
+    # colorMovedWS
+    indentHeuristic = true
+    mnemonicPrefix = true
+    # orderFile
+    renames = true
+    wsErrorHighlight = all
+
 [fetch]
+    parallel = 0
     prune = true
+    pruneTags = true
+    showForcedUpdates = true
 
 {%@@ if gitreview_username is defined -@@%}
 

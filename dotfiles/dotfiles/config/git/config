@@ -1,13 +1,8 @@
 {%@@ set date_format = '%d %b %Y' @@%}
-{%@@ set commit_display_format = "%C(yellow)[%h]%C(reset) %an - %ad "
-    "%C(green)(%ar)%C(red)%d%C(reset)%n%n    %s" @@%}
-{%@@ set graph_format = '%C(yellow)%h %C(green)[%ar] %Creset%s%C(red)%d%n' @@%}
-{%@@ set file_history = "log --patch --format='%s' -- "
-    | format(commit_display_format) @@%}
+{%@@ set file_history = 'log --patch --pretty=full-commit -- ' @@%}
 {%@@ set graph = "log --branches --remotes='origin' --remotes='upstream' "
-    "--graph --format='%s'" | format(graph_format) @@%}
-{%@@ set graph_all = "log --all --graph --format='%s'"
-    | format(graph_format) @@%}
+    "--graph --pretty=graph" @@%}
+{%@@ set graph_all = 'log --all --graph --pretty=graph' @@%}
 {%@@ set info = 'status -sb' @@%}
 {%@@ set new_branch = 'checkout -qb' @@%}
 {%@@ set restore = 'checkout -q HEAD --' @@%}
@@ -109,8 +104,7 @@
     rt = {{@@ restore @@}}
 
     # show
-    sw = {{@@ "show --patch --stat --compact-summary --format='%s%%n'"
-        | format(commit_display_format) @@}}
+    sw = show --patch --compact-summary --pretty=full-commit
 
     # squash
     sq = {{@@ squash @@}}
@@ -181,6 +175,11 @@
     autoStash = true
     missingCommitsCheck = warn
     rescheduleFailedExec = true
+
+[pretty]
+    full-commit = %C(yellow)[%h]%C(reset) %an - %ad \
+%C(green)(%ar)%C(red)%d%C(reset)%n%n%w(79,2,4)%s%n%n%w(79,2,2)%b
+    graph = %C(yellow)%h %C(green)[%ar] %Creset%s%C(red)%d%n
 
 [pull]
     rebase = true

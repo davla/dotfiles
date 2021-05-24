@@ -29,16 +29,6 @@
 
 . "$SDOTDIR/functions.sh"
 
-{%@@ if user == 'user' -@@%}
-
-########################################
-# Console login
-########################################
-
-start_graphical_session
-
-{%@@ endif -@@%}
-
 ########################################
 # Loading interactive setup
 ########################################
@@ -46,5 +36,14 @@ start_graphical_session
 case "$-" in
     *i*)
         . "$SDOTDIR/interactive/init.sh"
+        {%@@ if user == 'user' @@%}
+
+        ########################################
+        # Console login
+        ########################################
+
+        start_graphical_session
+
+        {%@@ endif @@%}
         ;;
 esac

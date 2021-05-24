@@ -4,8 +4,8 @@
     "--graph --pretty=graph" @@%}
 {%@@ set graph_all = 'log --all --graph --pretty=graph' @@%}
 {%@@ set info = 'status -sb' @@%}
-{%@@ set new_branch = 'checkout -qb' @@%}
-{%@@ set restore = 'checkout -q HEAD --' @@%}
+{%@@ set new_branch = 'checkout --quiet -b' @@%}
+{%@@ set restore = 'checkout --quiet HEAD --' @@%}
 {%@@ set squash = 'merge --squash' @@%}
 {%@@ set unadd = 'reset HEAD --' @@%}
 {%@@ set unstash = 'stash pop' @@%}
@@ -34,13 +34,13 @@
     # branch
     b = branch
     ba = branch --all
-    bd = branch -d
-    bD = branch -D
-    bm = branch -m
+    bd = branch --delete
+    bD = branch --delete --force
+    bm = branch --move
     bn = {{@@ new_branch @@}}
 
     # chekcout
-    ck = checkout -q
+    ck = checkout --quiet
 
     # cherry-pick
     cp = cherry-pick
@@ -49,7 +49,7 @@
     cpn = cherry-pick --no-commit
 
     # clean
-    cf = clean -fd
+    cf = clean -d --force
 
     # commit
     c = commit

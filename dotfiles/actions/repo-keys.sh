@@ -62,8 +62,9 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
             'etcher')
                 echo "Installing apt repository key for $REPO"
 
-                apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' \
-                    --recv-keys '379CE192D401AB61' > /dev/null
+                apt-key adv --fetch-keys \
+                    'https://dl.cloudsmith.io/public/balena/etcher/gpg.70528471AFF9A051.key' \
+                    > /dev/null
                 ;;
 
             'firefox-beta')

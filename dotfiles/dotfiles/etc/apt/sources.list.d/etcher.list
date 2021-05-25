@@ -1,3 +1,6 @@
-# Etcher repository
+# Source: Cloudsmith (support@cloudsmith.io)
+# Repository: balena / etcher
+# Description: Flash OS images to SD cards & USB drives, safely and easily.
 
-deb https://deb.etcher.io stable etcher
+deb https://dl.cloudsmith.io/public/balena/etcher/deb/debian bullseye main
+deb-src https://dl.cloudsmith.io/public/balena/etcher/deb/debian bullseye main

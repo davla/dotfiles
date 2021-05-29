@@ -43,11 +43,11 @@ sudo -u "$USER" rm -rf "$YAY_DIR"
 case "$HOST" in
     'personal')
         sudo -u "$USER" yay -S asunder atril baobab bitwarden blueman brasero \
-            calibre code-git dropbox electron firefox-beta-bin geany gimp \
-            gnome-clocks gnome-keyring gparted gufw handbrake \
-            libreoffice-still kid3 remmina seahorse simple-scan \
-            soundconverter spotify telegram-desktop thunderbird \
-            transmission-gtk vlc
+            calibre dropbox electron firefox-beta-bin geany gimp gnome-clocks \
+            gnome-keyring gparted gufw handbrake libreoffice-still kid3 \
+            remmina seahorse simple-scan soundconverter spotify \
+            telegram-desktop thunderbird transmission-gtk vlc \
+            visual-studio-code-bin
             # balena-etcher-electron
         ;;
 esac

@@ -32,7 +32,7 @@ set {
     $teams_criterion instance=".*microsoft teams.*"
     $telegram_criterion app_id="telegramdesktop" title="Telegram.*"
     $thunderbird_criterion app_id="thunderbird"
-    $vscode_criterion app_id="^code.*"
+    $vscode_criterion app_id="^[Cc]ode.*"
 
     # Application instance titles
     $calc_title calculator

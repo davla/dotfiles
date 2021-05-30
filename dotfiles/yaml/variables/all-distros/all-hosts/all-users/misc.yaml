@@ -8,10 +8,6 @@ dynvariables:
   # command
   dotfiles_home: git rev-parse --show-toplevel | xargs -i echo '{}/dotfiles'
 
-  # True if the dotdrop is invoked in a wayland session. Overridden in some
-  # profiles
-  on_wayland: '[ -z "$WAYLAND_DISPLAY" ] && echo true || echo false'
-
 variables:
   # The path where docker dotfiles are installed. It's defined here as it's
   # used in more than one config file

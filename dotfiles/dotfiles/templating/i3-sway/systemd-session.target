@@ -1,0 +1,13 @@
+# {{@@ wm_name @@}}-session systemd target file
+#
+# This target is started by {{@@ wm_name @@}} as part of its bootstrap, within
+# the configuration file
+
+[Unit]
+Description={{@@ 'i3 window manager'
+    if wm_name == 'i3'
+    else 'Sway compositor' @@}} session
+Documentation=man:systemd.special(7)
+BindsTo=graphical-session.target
+Wants=graphical-session-pre.target
+After=graphical-session-pre.target

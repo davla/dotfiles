@@ -1,4 +1,4 @@
-# This file integrates sway and systemd. This includes:
+# This file integrates {{@@ wm_name @@}} and systemd. This includes:
 # - importing some sway-related variables into the systemd user environment,
 #   including the dbus-activated systemd services
 # - starting a custom-made sway-session.target
@@ -15,5 +15,7 @@
 # - The sway package systemd integration doesn't import the I3SOCK variable
 # Hence, the most pragmatic solution is to replace the systemd integration
 # altogether.
+#
+# {{@@ header() @@}}
 
-exec systemd-graphical-session up
+exec systemd-{{@@ wm_name @@}}-session up

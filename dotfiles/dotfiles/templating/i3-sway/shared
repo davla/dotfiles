@@ -23,8 +23,7 @@ include {{@@ path @@}}
 # Systemd integration
 #######################################
 
-{{@@ include('/etc/%s/config.d/10-systemd'
-    | format('sway' if on_wayland else 'i3')) @@}}
+{{@@ include('/etc/%s/config.d/10-systemd' % wm_name) @@}}
 
 #######################################
 # Variables

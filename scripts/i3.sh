@@ -40,3 +40,11 @@ esac
 #######################################
 
 dotdrop install -p i3
+
+#######################################
+# Enabling startup systemd services
+#######################################
+
+dotdrop files -bG -p i3 2> /dev/null | grep service \
+    | cut -d ',' -f 1 | cut -d '_' -f 2 \
+    | xargs systemctl --user add-wants i3-session.target

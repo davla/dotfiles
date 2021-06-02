@@ -1,0 +1,16 @@
+# sct systemd service file
+
+[Unit]
+Description=Set X11 screen temperature
+After=graphical-session.target
+ConditionEnvironment=DISPLAY
+
+[Service]
+ExecStart=sct 4000K
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=sct
+SyslogLevel=info
+SyslogLevelPrefix=true
+Type=oneshot

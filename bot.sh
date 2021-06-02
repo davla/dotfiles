@@ -19,9 +19,9 @@
 # All the available bot steps. In a variable so that we can check for validity
 # when interactively prompting the user.
 STEPS="dotdrop, custom-commands, environment, packages, getty-login, \
-graphical-login, manual, i3, xfce, locales, keyboard-layout, startup, timers, \
-network, users, security, ssh, nfs, ddclient, udev, polkit, shells, themes, \
-android"
+graphical-login, manual, i3, sway, xfce, locales, keyboard-layout, startup, \
+timers, network, users, security, ssh, nfs, ddclient, udev, polkit, shells, \
+themes, android"
 
 #######################################
 # Input processing
@@ -414,6 +414,12 @@ case "$STEP" in
     'i3'|'all')
         # i3
         $STEP_RUNNER 'sh -e scripts/i3.sh' 'installing i3' 'install i3'
+        ;;
+esac
+case "$STEP" in
+    'sway'|'all')
+        # i3
+        $STEP_RUNNER 'sh -e scripts/sway.sh' 'installing sway' 'install sway'
         ;;
 esac
 case "$STEP" in

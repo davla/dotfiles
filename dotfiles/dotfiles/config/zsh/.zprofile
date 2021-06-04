@@ -2,7 +2,7 @@
 
 # This script initializes zsh login shells
 
-{%@@ if user == 'user' -@@%}
+{%@@ if user == 'user' and env['DISTRO'] == 'arch' -@@%}
 
 ########################################
 # Console login

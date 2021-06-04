@@ -36,7 +36,7 @@
 case "$-" in
     *i*)
         . "$SDOTDIR/interactive/init.sh"
-        {%@@ if user == 'user' @@%}
+        {%@@ if user == 'user' and env['DISTRO'] == 'arch' @@%}
 
         ########################################
         # Console login

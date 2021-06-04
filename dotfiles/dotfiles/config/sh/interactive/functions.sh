@@ -3,7 +3,7 @@
 # This scripts defines some POSIX shell functions that are useful in
 # interactive shells only
 
-{%@@ if user == 'user' -@@%}
+{%@@ if user == 'user' and env['DISTRO'] == 'arch' -@@%}
 
 ########################################
 # Login functions

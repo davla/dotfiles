@@ -69,12 +69,15 @@ dotfiles:
   f_local_bin_systemd-i3-session:
     src: templating/i3-sway/systemd-i3-session
     dst: /usr/local/bin/systemd-i3-session
+  f_local_bin_systemd-i3-session-watch:
+    src: templating/i3-sway/systemd-i3-session-watch
+    dst: /usr/local/bin/systemd-i3-session-watch
   f_local_bin_systemd-sway-session:
     src: usr/local/bin/systemd-sway-session
     dst: /usr/local/bin/systemd-sway-session
-  f_local_bin_systemd-graphical-session:
-    src: usr/local/bin/systemd-graphical-session
-    dst: /usr/local/bin/systemd-graphical-session
+  f_local_bin_systemd-sway-session-watch:
+    src: usr/local/bin/systemd-sway-session-watch
+    dst: /usr/local/bin/systemd-sway-session-watch
   f_local_bin_vscode:
     src: usr/local/bin/vscode
     dst: /usr/local/bin/vscode

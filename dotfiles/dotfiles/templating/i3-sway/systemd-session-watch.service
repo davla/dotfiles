@@ -1,0 +1,22 @@
+# {{@@ wm_name @@}} session watcher systemd service file
+
+[Unit]
+Description={{@@ wm_name @@}} systemd session watcher
+After={{@@ wm_name @@}}-session.target
+BindsTo={{@@ wm_name @@}}-session.target
+ConditionEnvironment={{@@ 'WAYLAND_DISPLAY'
+    if wm_name == 'sway'
+    else 'DISPLAY' @@}}
+
+[Install]
+WantedBy={{@@ wm_name @@}}-session.target
+
+[Service]
+ExecStart=systemd-{{@@ wm_name @@}}-session-watch
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=systemd-{{@@ wm_name @@}}-session-watch
+SyslogLevel=info
+SyslogLevelPrefix=true
+Type=exec

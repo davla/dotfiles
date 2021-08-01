@@ -234,6 +234,9 @@ dotfiles:
   f_i3_sway_systemd-session.target:
     src: templating/i3-sway/systemd-session.target
     dst: /etc/systemd/user/{{@@ wm_name @@}}-session.target
+  f_i3_sway_systemd-session-watch.service:
+    src: templating/i3-sway/systemd-session-watch.service
+    dst: /etc/systemd/user/{{@@ wm_name @@}}-session-watch.service
   f_keyboard:
     src: etc/default/keyboard
     dst: /etc/default/keyboard
@@ -433,7 +436,9 @@ profiles:
     dotfiles:
     - f_i3_sway_10-systemd
     - f_i3_sway_systemd-session.target
+    - f_i3_sway_systemd-session-watch.service
     - f_local_bin_systemd-i3-session
+    - f_local_bin_systemd-i3-session-watch
     include:
     - i3blocks
     - x11
@@ -516,8 +521,10 @@ profiles:
     dotfiles:
     - f_i3_sway_10-systemd
     - f_i3_sway_systemd-session.target
+    - f_i3_sway_systemd-session-watch.service
     - f_local_bin_launcher
     - f_local_bin_systemd-sway-session
+    - f_local_bin_systemd-sway-session-watch
     include:
     - i3blocks
     variables:

@@ -1,0 +1,10 @@
+# Raspberry filesystem systemd mount unit
+
+[Unit]
+Description=Raspberry filesystem mount
+
+[Mount]
+Where=/mnt/raspberry
+What=raspberry:/
+Type=nfs
+Options=dev,exec,noauto,rw,suid,users

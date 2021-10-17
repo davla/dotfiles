@@ -1,0 +1,10 @@
+# Windows shared filesystem systemd mount unit
+
+[Unit]
+Description=Windows shared filesystem mount
+
+[Mount]
+Where=/mnt/windows
+What=.host:/
+Type=fuse.vmhgfs-fuse
+Options=allow_other,gid=1000,noexec,rw,uid=1000,umask=022

@@ -216,13 +216,6 @@ dotfiles:
     - create_if_empty '{{@@ etc_zshrc_dst @@}}' '#!/usr/bin/env zsh\n'
     - strip '{{@@ etc_zshrc_append_marker @@}}' '{{@@ etc_zshrc_dst @@}}'
     - append '{{@@ etc_zshrc_dst @@}}' '{{@@ zsh_tmp_dst @@}}'
-  f_fstab:
-    src: etc/fstab
-    # Dynamic path since the dotfile content is appended to dst
-    dst: '{{@@ startup_tmp_dst @@}}'
-    actions:
-    - strip '{{@@ fstab_append_marker @@}}' '{{@@ fstab_dst @@}}'
-    - append '{{@@ fstab_dst @@}}' '{{@@ startup_tmp_dst @@}}'
   f_grub:
     src: etc/default/grub
     dst: /etc/default/grub
@@ -283,6 +276,14 @@ dotfiles:
     actions:
     - strip '{{@@ pam_login_append_marker @@}}' '{{@@ pam_login_dst @@}}'
     - append '{{@@ pam_login_dst @@}}' '{{@@ startup_tmp_dst @@}}'
+  f_raspberry.automount:
+    src: etc/systemd/system/mnt-raspberry.automount
+    dst: /etc/systemd/system/mnt-raspberry.automount
+    actions:
+    - systemd-enable '{{@@ _dotfile_abs_src @@}}'
+  f_raspberry.mount:
+    src: etc/systemd/system/mnt-raspberry.mount
+    dst: /etc/systemd/system/mnt-raspberry.mount
   f_sshd_config:
     src: etc/ssh/sshd_config
     dst: /etc/ssh/sshd_config
@@ -339,6 +340,14 @@ dotfiles:
     actions:
     - strip '{{@@ symbols_append_marker @@}}' '{{@@ symbols_dst @@}}'
     - append '{{@@ symbols_dst @@}}' '{{@@ xkb_tmp_dst @@}}'
+  f_windows.automount:
+    src: etc/systemd/system/mnt-windows.automount
+    dst: /etc/systemd/system/mnt-windows.automount
+    actions:
+    - systemd-enable '{{@@ _dotfile_abs_src @@}}'
+  f_windows.mount:
+    src: etc/systemd/system/mnt-windows.mount
+    dst: /etc/systemd/system/mnt-windows.mount
 
 dynvariables:
   # These variables define which profile should be included to have asdf
@@ -502,8 +511,6 @@ profiles:
     dynvariables:
       startup_tmp_dst: mktemp /tmp/startup-append.XXX
     variables:
-      fstab_append_marker: Custom mount points
-      fstab_dst: /etc/fstab
       pam_login_append_marker: >-
         GNOME Keyring startup and automatic login keyring unlocking
       pam_login_dst: /etc/pam.d/login

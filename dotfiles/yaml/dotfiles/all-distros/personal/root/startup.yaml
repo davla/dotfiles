@@ -4,4 +4,5 @@
 # only on my personal machine for root.
 
 dotfiles:
-- f_fstab
+- f_raspberry.automount
+- f_raspberry.mount

@@ -1,0 +1,10 @@
+# Raspberry filesystem systemd automount unit
+
+[Unit]
+Description=Raspberry filesystem automount
+
+[Install]
+WantedBy=multi-user.target
+
+[Automount]
+Where=/mnt/raspberry

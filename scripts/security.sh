@@ -30,34 +30,6 @@ SSH_HOME="$HOME/.ssh"
 DEFAULT_SSH_KEY='id_rsa'
 
 #######################################
-# Functions
-#######################################
-
-# This function copies the given public key over to a SSH host. Il logs in as
-# the provided user via password.
-#
-# Arguments:
-#   - $1: The user to log in the remote host as.
-#   - $2: The remote host to copy the SSH key over to.
-#   - $3: The SSH key to be copied over.
-copy_key() {
-	COPIED_USER="$1"
-	COPIED_HOST="$2"
-    COPIED_SSH_KEY="$3"
-
-    HOST_STRING="$COPIED_USER@$COPIED_HOST"
-
-    # This first makes sure shat ~/.ssh exists, and then adds the SSH key to
-    # the authorized ones on the remote host
-    printf "\e[32m[INFO]\e[0m Copying SSH key $COPIED_SSH_KEY as "
-    echo "$COPIED_USER@$COPIED_HOST"
-	ssh "$HOST_STRING" mkdir -p .ssh
-	cat "$COPIED_SSH_KEY" | ssh "$HOST_STRING" 'cat >> .ssh/authorized_keys'
-
-    unset COPIED_HOST COPIED_SSH_KEY COPIED_USER HOST_STRING
-}
-
-#######################################
 # Input processing
 #######################################
 
@@ -111,7 +83,7 @@ case "$(echo "$CREATE_SSH_KEYS" | tr '[:upper:]' '[:lower:]')" in
             # user
             echo "\e[32m[INFO]\e[0m Copying key $SSH_KEY_PATH.pub to hosts"
             for SSH_USER in "$@"; do
-                copy_key "$SSH_USER" "$HOST" "$SSH_KEY_PATH.pub"
+                ssh-copy-id -i "$SSH_KEY_PATH.pub" "$SSH_USER@$HOST"
             done
         }
         unset SSH_KEY_FILE_NAME SSH_KEY_PATH

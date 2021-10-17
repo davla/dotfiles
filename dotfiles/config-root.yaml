@@ -137,13 +137,13 @@ dotfiles:
     src: etc/exports.d
     dst: /etc/exports.d
   d_i3blocks_keyindicator2:
-    src: usr/lib/i3blocks/keyindicator2
-    dst: /usr/lib/i3blocks/keyindicator2
+    src: usr/local/lib/i3blocks/keyindicator2
+    dst: /usr/local/lib/i3blocks/keyindicator2
     actions:
     - i3blocks_keyindicator2
   d_i3blocks_network-status:
-    src: usr/lib/i3blocks/network-status
-    dst: /usr/lib/i3blocks/network-status
+    src: usr/local/lib/i3blocks/network-status
+    dst: /usr/local/lib/i3blocks/network-status
     actions:
     - i3blocks_network-status
   d_myrepos-lib:

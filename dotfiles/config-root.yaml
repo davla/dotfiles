@@ -32,10 +32,9 @@ actions:
     # This action compiles the keyindicator2 custom i3block
     i3blocks_keyindicator2: |
       apt-get install build-essential libx11-dev
-      cd '{{@@ _dotfile_abs_dst @@}}'
       env ACTIVE_COLOR='{{@@ main_theme_color @@}}' CAPS_LABEL='C'
           INACTIVE_COLOR='{{@@ i3bar_inactive_color @@}}' NO_NUM=1
-          make
+          make -C '{{@@ _dotfile_abs_dst @@}}'
 
     # This action compiles the network-status custom i3block
     i3blocks_network-status: |
@@ -48,8 +47,12 @@ actions:
               apt-get install build-essential
               ;;
       esac
-      cd '{{@@ _dotfile_abs_dst @@}}'
-      make
+      make -C '{{@@ _dotfile_abs_dst @@}}'
+      case "$DISTRO" in
+          'arch')
+            make -C '{{@@ _dotfile_abs_dst @@}}' install PREFIX=/usr/lib
+            ;;
+      esac
 
     # This action installs the packages providing the commands used in the root
     # mrconfig file

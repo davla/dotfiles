@@ -1,9 +1,3 @@
 # {{@@ fstab_append_marker @@}}
 #
 # {{@@ header() @@}}
-
-{%@@ if env['HOST'] == 'work' -@@%}
-
-.host:/ /home/dlaezza/mounts    fuse.vmhgfs-fuse    allow_other,gid=1000,noexec,rw,uid=1000,umask=022 0   0
-
-{%@@ endif -@@%}

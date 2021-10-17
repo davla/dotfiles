@@ -194,3 +194,4 @@ dotfiles/dotfiles/env/env.tar.work
 
 # Unignoring previously ignored files
 !env/
+!lib/

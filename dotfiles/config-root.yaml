@@ -32,10 +32,9 @@ actions:
     # This action compiles the keyindicator2 custom i3block
     i3blocks_keyindicator2: |
       apt-get install build-essential libx11-dev
-      cd '{{@@ _dotfile_abs_dst @@}}'
       env ACTIVE_COLOR='{{@@ main_theme_color @@}}' CAPS_LABEL='C'
           INACTIVE_COLOR='{{@@ i3bar_inactive_color @@}}' NO_NUM=1
-          make
+          make -C '{{@@ _dotfile_abs_dst @@}}'
 
     # This action compiles the network-status custom i3block
     i3blocks_network-status: |
@@ -48,8 +47,12 @@ actions:
               apt-get install build-essential
               ;;
       esac
-      cd '{{@@ _dotfile_abs_dst @@}}'
-      make
+      make -C '{{@@ _dotfile_abs_dst @@}}'
+      case "$DISTRO" in
+          'arch')
+            make -C '{{@@ _dotfile_abs_dst @@}}' install PREFIX=/usr/lib
+            ;;
+      esac
 
     # This action installs the packages providing the commands used in the root
     # mrconfig file
@@ -137,13 +140,13 @@ dotfiles:
     src: etc/exports.d
     dst: /etc/exports.d
   d_i3blocks_keyindicator2:
-    src: usr/lib/i3blocks/keyindicator2
-    dst: /usr/lib/i3blocks/keyindicator2
+    src: usr/local/lib/i3blocks/keyindicator2
+    dst: /usr/local/lib/i3blocks/keyindicator2
     actions:
     - i3blocks_keyindicator2
   d_i3blocks_network-status:
-    src: usr/lib/i3blocks/network-status
-    dst: /usr/lib/i3blocks/network-status
+    src: usr/local/lib/i3blocks/network-status
+    dst: /usr/local/lib/i3blocks/network-status
     actions:
     - i3blocks_network-status
   d_myrepos-lib:
@@ -273,13 +276,6 @@ dotfiles:
   f_pacman_i3blocks-contrib-arch-update.hook:
     src: etc/pacman.d/hooks/i3blocks-contrib-arch-update.hook
     dst: /etc/pacman.d/hooks/i3blocks-contrib-arch-update.hook
-  f_pacman_i3blocks-contrib.hook:
-    src: etc/pacman.d/hooks/i3blocks-contrib.hook
-    dst: /etc/pacman.d/hooks/i3blocks-contrib.hook
-  f_pacman_hooks.bin_i3blocks-contrib-setup:
-    src: usr/local/share/pacman/hooks.bin/i3blocks-contrib-setup
-    # Dynamic path as it's used somewhere else too
-    dst: '{{@@ i3blocks_contrib_setup_path @@}}'
   f_pam.d_login:
     src: etc/pam.d/login
     dst: '{{@@ startup_tmp_dst @@}}'
@@ -453,9 +449,6 @@ profiles:
     - d_i3blocks_network-status
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/i3blocks.yaml:optional
-    variables:
-      i3blocks_contrib_setup_path: >-
-        /usr/local/share/pacman/hooks.bin/i3blocks-contrib-setup
 
   # This profile contains dotfiles related to localization and timezones
   locales:

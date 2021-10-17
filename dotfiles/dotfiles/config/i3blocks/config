@@ -8,7 +8,7 @@
 @@#}
 {%@@ macro command(bin) @@%}
 {%@@ if env['DISTRO'] == 'arch' @@%}
-{{@@ '/usr/lib/i3blocks/%s/%s' | format(bin, bin) @@}}
+{{@@ '/usr/lib/i3blocks/%s' | format(bin) @@}}
 {%@@- elif env['DISTRO'] == 'debian' @@%}
 {{@@ 'i3blocks-%s' | format(bin) @@}}
 {%@@- endif @@%}

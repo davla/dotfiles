@@ -28,7 +28,8 @@ esac
 
 case "$DISTRO" in
     'arch')
-        yay -S bash gnome-keyring lm-sensors python-keyring i3blocks-contrib
+        yay -S bash i3blocks-contrib-git gnome-keyring lm-sensors \
+            python-keyring
         ;;
 
     'debian')

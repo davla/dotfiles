@@ -283,6 +283,14 @@ dotfiles:
     actions:
     - strip '{{@@ pam_login_append_marker @@}}' '{{@@ pam_login_dst @@}}'
     - append '{{@@ pam_login_dst @@}}' '{{@@ startup_tmp_dst @@}}'
+  f_raspberry.automount:
+    src: etc/systemd/system/mnt-raspberry.automount
+    dst: /etc/systemd/system/mnt-raspberry.automount
+    actions:
+    - systemd-enable '{{@@ _dotfile_abs_src @@}}'
+  f_raspberry.mount:
+    src: etc/systemd/system/mnt-raspberry.mount
+    dst: /etc/systemd/system/mnt-raspberry.mount
   f_sshd_config:
     src: etc/ssh/sshd_config
     dst: /etc/ssh/sshd_config

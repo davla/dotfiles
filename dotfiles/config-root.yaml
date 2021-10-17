@@ -273,13 +273,6 @@ dotfiles:
   f_pacman_i3blocks-contrib-arch-update.hook:
     src: etc/pacman.d/hooks/i3blocks-contrib-arch-update.hook
     dst: /etc/pacman.d/hooks/i3blocks-contrib-arch-update.hook
-  f_pacman_i3blocks-contrib.hook:
-    src: etc/pacman.d/hooks/i3blocks-contrib.hook
-    dst: /etc/pacman.d/hooks/i3blocks-contrib.hook
-  f_pacman_hooks.bin_i3blocks-contrib-setup:
-    src: usr/local/share/pacman/hooks.bin/i3blocks-contrib-setup
-    # Dynamic path as it's used somewhere else too
-    dst: '{{@@ i3blocks_contrib_setup_path @@}}'
   f_pam.d_login:
     src: etc/pam.d/login
     dst: '{{@@ startup_tmp_dst @@}}'
@@ -453,9 +446,6 @@ profiles:
     - d_i3blocks_network-status
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/i3blocks.yaml:optional
-    variables:
-      i3blocks_contrib_setup_path: >-
-        /usr/local/share/pacman/hooks.bin/i3blocks-contrib-setup
 
   # This profile contains dotfiles related to localization and timezones
   locales:

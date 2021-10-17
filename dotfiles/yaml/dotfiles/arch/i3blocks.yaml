@@ -5,6 +5,4 @@
 # generally require root privileges to be installed.
 
 dotfiles:
-- f_pacman_hooks.bin_i3blocks-contrib-setup
 - f_pacman_i3blocks-contrib-arch-update.hook
-- f_pacman_i3blocks-contrib.hook

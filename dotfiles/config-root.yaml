@@ -228,6 +228,15 @@ dotfiles:
   f_hostname:
     src: etc/hostname
     dst: /etc/hostname
+  f_i3_sway_10-systemd:
+    src: templating/i3-sway/10-systemd
+    dst: /etc/{{@@ wm_name @@}}/config.d/10-systemd
+  f_i3_sway_systemd-session.target:
+    src: templating/i3-sway/systemd-session.target
+    dst: /etc/systemd/user/{{@@ wm_name @@}}-session.target
+  f_i3_sway_systemd-session-watch.service:
+    src: templating/i3-sway/systemd-session-watch.service
+    dst: /etc/systemd/user/{{@@ wm_name @@}}-session-watch.service
   f_keyboard:
     src: etc/default/keyboard
     dst: /etc/default/keyboard
@@ -424,9 +433,17 @@ profiles:
   # This profile includes the i3 session dotfiles that require root privileges
   # to be installed
   i3:
+    dotfiles:
+    - f_i3_sway_10-systemd
+    - f_i3_sway_systemd-session.target
+    - f_i3_sway_systemd-session-watch.service
+    - f_local_bin_systemd-i3-session
+    - f_local_bin_systemd-i3-session-watch
     include:
     - i3blocks
     - x11
+    variables:
+      wm_name: i3
 
   # This profile groups i3blocks-related dotfiles, both for contrib and custom
   # blocklets
@@ -502,9 +519,16 @@ profiles:
   # installed
   sway:
     dotfiles:
+    - f_i3_sway_10-systemd
+    - f_i3_sway_systemd-session.target
+    - f_i3_sway_systemd-session-watch.service
     - f_local_bin_launcher
+    - f_local_bin_systemd-sway-session
+    - f_local_bin_systemd-sway-session-watch
     include:
     - i3blocks
+    variables:
+      wm_name: sway
 
   # This profile includes udev configuration
   udev:

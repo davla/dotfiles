@@ -18,4 +18,12 @@ sudo cargo install --root /usr/local swayfocus
 # Installing sway dotfiles
 #######################################
 
-dotdrop install -p sway
+dotdrop install -p sway -U both
+
+#######################################
+# Enabling startup systemd services
+#######################################
+
+dotdrop files -bG -p sway -U both 2> /dev/null | grep service \
+    | cut -d ',' -f 2 | cut -d ':' -f 2 | xargs -n 1 basename \
+    | xargs systemctl --user add-wants sway-session.target

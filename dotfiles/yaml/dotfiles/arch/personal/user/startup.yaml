@@ -1,0 +1,8 @@
+%YAML 1.2
+---
+# This dotfiles file lists the dotfiles to be used for the startup profile only
+# on Arch for my personal machine for unprivileged users.
+
+dotfiles:
+- f_udiskie.service
+- f_udiskie_config.yml

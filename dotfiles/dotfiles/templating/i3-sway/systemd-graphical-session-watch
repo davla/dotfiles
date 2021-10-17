@@ -1,0 +1,54 @@
+{#@@
+    This macro injects some graphical-session-specific content in its output.
+    This "compile-time" computation of values has been favored over run-time
+    computation for efficiency reasons, since this script would be run in the
+    background in each session.
+@@#}
+{%@@ macro systemd_graphical_session_watch(wm_ipc_command) -@@%}
+
+#!/usr/bin/env sh
+
+# This script stops the {{@@ wm_name @@}} systemd session when a shutdown event
+# is emitted via {{@@ wm_name @@}} IPC, or when the IPC socket is closed.
+#
+# {{@@ header() @@}}
+
+########################################
+# Variables
+########################################
+
+# A spurious shutdown event with {"change": "restart"} is sometimes received
+# during {{@@ wm_name @@}} startup. This variable is used to avoid stopping the
+# {{@@ wm_name @@}} systemd session in such case.
+FIRST_RESTART_RECEIVED='false'
+
+########################################
+# Execution
+########################################
+
+# If no spurious shutdown event with {"change": "restart"} is emitted within
+# 10s, we assume it's not going to be emitted this time, and pretend it is.
+{
+    sleep 10s
+    FIRST_RESTART_RECEIVED='true'
+} &
+
+# If {{@@ wm_ipc_command @@}} exits with an error, it's usually because the IPC
+# socket has been closed before the shutdown event has been emitted. This
+# happens when {{@@ wm_name @@}} is exiting, either with or without errors.
+# In all these cases, the {{@@ wm_name @@}} systemd session should be stopped.
+{
+    {{@@ wm_ipc_command @@}} -t subscribe '["shutdown"]' || stop_session
+} | while read EVENT; do
+        EVENT_CHANGE="$(echo "$EVENT" | jq -r '.change | ascii_downcase')"
+
+        [ "$EVENT_CHANGE" = 'restart' ] && FIRST_RESTART_RECEIVED='true'
+
+        # "$FIRST_RESTART_RECEIVED" = 'true' is enough as a condition, since
+        # in such case EVENT_CHANGE can only possibly be "restart".
+        [ "$EVENT_CHANGE" = 'exit' ] \
+            || [ "$FIRST_RESTART_RECEIVED" = 'true' ] \
+            && systemd-{{@@ wm_name @@}}-session down
+    done
+
+{%@@ endmacro @@%}

@@ -1,0 +1,4 @@
+{%@@ from 'templating/i3-sway/systemd-graphical-session-watch'
+    import systemd_graphical_session_watch with context @@%}
+
+{{@@- systemd_graphical_session_watch(wm_ipc_command='swaymsg') -@@}}

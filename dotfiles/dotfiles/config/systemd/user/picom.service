@@ -1,0 +1,17 @@
+# picom systemd service file
+
+[Unit]
+Description=X11 window compositor
+After=graphical-session.target
+BindsTo=graphical-session.target
+ConditionEnvironment=DISPLAY
+
+[Service]
+ExecStart=picom
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=picom
+SyslogLevel=info
+SyslogLevelPrefix=true
+Type=exec

@@ -1,0 +1,8 @@
+{%@@ from 'templating/i3-sway/systemd-graphical-session'
+    import systemd_graphical_session @@%}
+
+{{@@- systemd_graphical_session(
+    env_list='DISPLAY I3SOCK WAYLAND_DISPLAY SWAYSOCK',
+    xdg_current_desktop='sway',
+    xdg_session_type='wayland'
+) @@}}

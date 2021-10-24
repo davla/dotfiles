@@ -21,7 +21,7 @@
 STEPS="dotdrop, custom-commands, environment, packages, getty-login, \
 graphical-login, manual, i3, sway, xfce, locales, keyboard-layout, startup, \
 timers, network, users, security, ssh, nfs, ddclient, udev, polkit, shells, \
-themes, android"
+themes, repos, android"
 
 #######################################
 # Input processing
@@ -524,6 +524,14 @@ case "$STEP" in
         $STEP_RUNNER 'sudo sh -e scripts/aesthetics.sh' \
             'cursor, desktop and icon themes installation' \
             'install cursor, desktop and icon themes'
+        ;;
+esac
+case "$STEP" in
+    'repos'|'all')
+        # Repositories
+        $STEP_RUNNER 'sh -e scripts/repos.sh' \
+            'initializing your coding workspace' \
+            'initialize your coding workspace'
         ;;
 esac
 case "$STEP" in

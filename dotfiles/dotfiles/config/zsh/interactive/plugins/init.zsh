@@ -40,6 +40,8 @@ DEER_KEYS[up]=p
 DEER_KEYS[enter]="'"
 DEER_KEYS[leave]=l
 
+{%@@ if user == 'user' -@@%}
+
 #######################################
 # wd
 #######################################
@@ -48,6 +50,8 @@ WD_CONFIG="$ZDOTDIR/interactive/plugins/dotfiles/warprc"
 WD_SKIP_EXPORT=true
 
 wd() { . "$ANTIBODY_HOME/"*wd/wd.sh }
+
+{%@@ endif -@@%}
 
 #######################################
 # zsh-autopair

@@ -17,5 +17,7 @@
     as part of a directory dotfile and allows other hosts' files to be ignored
     when installing the zsh directory dotfile.
 @@#}
+{%@@ if user == 'user' @@%}
 {%@@ include 'config/zsh/interactive/plugins/dotfiles/warprc.%s'
     | format(env['HOST']) @@%}
+{%@@ endif @@%}

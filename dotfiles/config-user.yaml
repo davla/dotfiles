@@ -295,7 +295,7 @@ profiles:
     - f_gpg-agent.conf
     - f_pam_environment
     import:
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
     include:
     - startup-{{@@ display_server @@}}
     - startup-{{@@ output_scaling @@}}

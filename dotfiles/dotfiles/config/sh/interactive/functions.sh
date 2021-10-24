@@ -3,7 +3,8 @@
 # This scripts defines some POSIX shell functions that are useful in
 # interactive shells only
 
-{%@@ if user == 'user' and env['DISTRO'] == 'arch' -@@%}
+{%@@ if user == 'user' and env['DISTRO'] == 'arch'
+    and not is_headless | is_truthy -@@%}
 
 ########################################
 # Login functions

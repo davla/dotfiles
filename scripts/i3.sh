@@ -29,7 +29,9 @@ esac
 [ "$DISTRO" = 'debian' ] && {
     I3_GAPS_DIR='/opt/i3-gaps'
 
-    sudo git clone https://github.com/maestrogerardo/i3-gaps-deb.git "$I3_GAPS_DIR"
+    [ ! -d "$I3_GAPS_DIR" ] && sudo git clone \
+        'https://github.com/maestrogerardo/i3-gaps-deb.git' "$I3_GAPS_DIR"
+
     cd "$I3_GAPS_DIR" || exit
     sudo ./i3-gaps-deb
     cd - > /dev/null 2>&1 || exit

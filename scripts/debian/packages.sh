@@ -64,7 +64,6 @@ clean() {
     apt-get purge -y evince
     apt-get purge -y fairymax
     apt-get purge -y firefox-esr
-    apt-get purge -y geoclue-2.0
     apt-get purge -y gftp-common
     apt-get purge -y gnome-chess
     apt-get purge -y gnome-mplayer

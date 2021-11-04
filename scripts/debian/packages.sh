@@ -216,9 +216,11 @@ groupadd -f docker
 usermod -aG docker "$USER_NAME"
 
 # NordVPN
-groupadd -r nordvpn
-usermod -aG nordvpn "$USER_NAME"
-sudo -u "$USER_NAME" nordvpn-config
+[ "$HOST" = 'personal' ] && {
+    groupadd -r nordvpn
+    usermod -aG nordvpn "$USER_NAME"
+    sudo -u "$USER_NAME" nordvpn-config
+}
 
 # Symlinking executables in a $PATH directory accessible to unpirvileged users
 echo "$EXECS" | while read EXEC; do

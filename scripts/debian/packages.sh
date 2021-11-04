@@ -197,7 +197,10 @@ apt-get install apt-transport-https autoconf automake build-essential cmake \
     unrar vim wmctrl xdotool xserver-xorg-input-synaptics yad zip
 
 # Dotfiles
-sudo -u "$USER_NAME" dotdrop install -p cli -U both
+sudo -u "$USER_NAME" dotdrop install -p cli -U user
+if [ -n "$(dotdrop -bG files -p cli -U root 2> /dev/null)" ]; then
+    sudo -u "$USER_NAME" dotdrop install -p cli -U root
+fi
 
 #######################################
 # Clean & upgrade

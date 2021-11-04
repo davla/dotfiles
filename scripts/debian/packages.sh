@@ -160,8 +160,8 @@ case "$HOST" in
 esac
 
 apt-get install atril baobab blueman code firefox gdebi geany gnome-clocks \
-    gparted hardinfo parcellite pavucontrol recordmydesktop \
-    gtk-recordmydesktop seahorse spotify-client synaptic xfce4-screenshooter
+    gparted hardinfo parcellite pavucontrol peek seahorse spotify-client \
+    synaptic xfce4-screenshooter
 
 # Dotfiles
 sudo -u "$USER_NAME" dotdrop install -p gui

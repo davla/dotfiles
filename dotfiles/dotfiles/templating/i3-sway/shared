@@ -8,16 +8,29 @@
     Emit an include command for sway; copy the whole file content for i3
 @@#}
 {%@@ macro include(path) @@%}
-{%@@ if on_wayland @@%}
+
+{%@@- if on_wayland @@%}
+
 include {{@@ path @@}}
+
 {%@@- else @@%}
-{%@@ include [
-    path,
+
+{#@@-
+    While sway can use absolute paths in includes at runtime, in i3 the path is
+    never relevant, as only file names are used. In fact, includes in i3 are
+    resolved at templating time, where all the files are in the two well-known
+    location listed below.
+@@#}
+{%@@ set path = basename(path) @@%}
+
+{%@@- include [
     '%s/%s' | format(dirname(_dotfile_abs_src), path),
     'templating/i3-sway/' + path
 ] with context @@%}
-{%@@ endif @@%}
-{%@@ endmacro -@@%}
+
+{%@@- endif @@%}
+
+{%@@- endmacro -@@%}
 
 #######################################
 # Systemd integration

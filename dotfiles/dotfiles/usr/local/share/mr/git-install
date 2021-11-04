@@ -7,12 +7,39 @@ updateWithResult =
 upgrade =
     mr updateWithResult > /dev/null 2>&1 || mr -d "$MR_REPO" install
 lib =
+    download_github_asset() {
+        DOWNLOAD_REPO="$1"
+        DOWNLOAD_ASSET_ID="$2"
+        #
+        wget --header 'Accept: application/octet-stream' -qO - \
+            "https://api.github.com/repos/$DOWNLOAD_REPO/releases/assets/$DOWNLOAD_ASSET_ID"
+        #
+        unset DOWNLOAD_ASSET_ID DOWNLOAD_REPO
+    }
+    #
+    get_github_latest_release() {
+        LATEST_REPO="$1"
+        LATEST_NAME_FILTER="$2"
+        #
+        LATEST_ASSET_ID="$(wget -qO- \
+            "https://api.github.com/repos/$LATEST_REPO/releases/latest" \
+            | jq -r ".assets[] | select(.name | $LATEST_NAME_FILTER).id")"
+        download_github_asset "$LATEST_REPO" "$LATEST_ASSET_ID"
+        #
+        unset LATEST_ASSET_ID LATEST_NAME_FILTER LATEST_REPO
+    }
+    #
     get_github_release() {
-        REPO="$1"
-        NAME_FILTER="$2"
-        wget -qO- "https://api.github.com/repos/$REPO/releases/latest" \
-            | jq -r ".assets[] | select(.name | $NAME_FILTER)
-                .browser_download_url" \
-            | xargs wget -qO -
-        unset ASSET_SUBSTR REPO
+        RELEASE_REPO="$1"
+        RELEASE_VERSION_REGEX="$2"
+        RELEASE_NAME_FILTER="$3"
+        #
+        RELEASE_ASSET_ID="$(wget -qO -  \
+                "https://api.github.com/repos/$RELEASE_REPO/releases" \
+            | jq -r "map(select(.tag_name | test(\"$RELEASE_VERSION_REGEX\")))
+                | .[0].assets[] | select(.name | $RELEASE_NAME_FILTER).id")"
+        download_github_asset "$RELEASE_REPO" "$RELEASE_ASSET_ID"
+        #
+        unset RELEASE_ASSET_ID RELEASE_NAME_FILTER RELEASE_REPO
+        unset RELEASE_VERSION_REGEX
     }

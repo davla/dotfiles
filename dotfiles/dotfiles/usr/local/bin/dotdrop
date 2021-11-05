@@ -83,7 +83,7 @@ case "$WHO" in
             pipenv run bash dotdrop.sh "$CMD" -c 'config-root.yaml' \
                 "${ARGS[@]}"
         else
-            sudo -E pipenv run bash dotdrop.sh "$CMD" -c 'config-root.yaml' \
+            sudo -E -H pipenv run bash dotdrop.sh "$CMD" -c 'config-root.yaml' \
                 "${ARGS[@]}"
         fi
         ;;

@@ -21,7 +21,7 @@ DOCKER_CONFIG DEFAULT="{{@@ docker_path | home_abs2var
 # Graphics variables
 #######################################
 
-{%@@ if on_wayland @@%}
+{%@@ if on_wayland | is_truthy @@%}
 MOZ_ENABLE_WAYLAND DEFAULT=1
 {%@@ else @@%}
 GTK2_RC_FILES DEFAULT="{{@@ gtk2_path | home_abs2var @@}}/gtkrc"

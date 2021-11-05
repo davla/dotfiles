@@ -26,6 +26,9 @@ esac
 # Installing dotfiles
 #######################################
 
+echo '\e[32m[INFO]\e[0m Installing system zsh configuration'
+dotdrop -U root install -p zsh-system
+
 echo '\e[32m[INFO]\e[0m Installing POSIX shell configuration'
 dotdrop -U both install -p sh
 echo '\e[32m[INFO]\e[0m Installing bash configuration'

@@ -18,6 +18,7 @@ set $scratchpad_term_criterion title="scratchpad-terminal"
 set $spotify_criterion instance="spotify"
 set $teams_criterion instance=".*microsoft teams.*"
 set $telegram_criterion instance="telegram" title="Telegram.*"
+set $thunderbird_criterion class="thunderbird"
 set $vscode_criterion instance="code"
 
 # Application instance titles
@@ -72,7 +73,7 @@ set_from_resource $floating_height i3wm.FloatingHeight 550
 assign [$android_studio_criterion] $ws1
 assign [$vscode_criterion] $ws1
 assign [class="Firefox"] $ws2
-assign [class="thunderbird"] $ws4
+assign [$thunderbird_criterion] $ws4
 
 # Switch to assigned workspace by focusing newly created windows
 for_window [$android_studio_criterion] focus
@@ -117,6 +118,10 @@ set_from_resource $telegram_height i3wm.TelegramHeight 800
 for_window [$telegram_criterion] move scratchpad, scratchpad show, \
     resize set $telegram_width $telegram_height, \
     move position center
+
+# Thunderbird
+for_window [$thunderbird_criterion title=".* Reminder"] floating enable, \
+    move position 68 ppt 1 ppt
 
 #######################################
 # Application startup

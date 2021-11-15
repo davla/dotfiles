@@ -143,6 +143,10 @@ for_window [$teams_criterion window_type="normal"] \
 for_window [$telegram_criterion] \
     resize set 900 800, move position center
 
+# Thunderbird
+for_window [$thunderbird_criterion title=".* Reminder"] floating enable, \
+    move position 68 ppt 1 ppt
+
 #######################################
 # Application startup
 #######################################

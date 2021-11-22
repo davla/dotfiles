@@ -1,0 +1,26 @@
+{%@@ macro systemd_enable_hook(unit_name, targets=[unit_name],
+    unit_type='service', now=False) -@@%}
+
+{%@@- set unit_desc = '%s systemd %s' | format(unit_name, unit_type) -@@%}
+
+# Pacman hook that enables {{@@ unit_desc @@}}
+
+[Trigger]
+Operation = Install
+Operation = Upgrade
+
+{%@@- for target in targets @@%}
+
+Target = {{@@ target @@}}
+
+{%@@- endfor @@%}
+
+Type = Package
+
+[Action]
+Description = Enabling {{@@ unit_desc @@}}
+Depends = systemd
+When = PostTransaction
+Exec = /usr/bin/systemctl enable {%@@- if now @@%} --now {%@@- endif @@%} {{@@ unit_name @@}}.{{@@ unit_type @@}}
+
+{%@@- endmacro @@%}

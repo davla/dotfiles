@@ -1,13 +1,3 @@
-# Pacman hook that aliases i3-volume to volume
+{%@@ from 'etc/pacman.d/hooks/alias.hook' import alias_hook @@%}
 
-[Trigger]
-Operation = Install
-Operation = Upgrade
-Target = i3-volume
-Type = Package
-
-[Action]
-Description = Aliasing i3-volume to volume
-Depends = coreutils
-When = PostTransaction
-Exec = /usr/bin/sh -c 'which i3-volume | xargs -I "{}" ln -sf "{}" /usr/local/bin/volume'
+{{@@- alias_hook(cmd='i3-volume', alias='volume') -@@}}

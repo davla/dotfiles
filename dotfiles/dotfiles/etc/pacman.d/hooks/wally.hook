@@ -1,13 +1,7 @@
-# Pacman hook that aliases wally-cli to wally
+{%@@ from 'etc/pacman.d/hooks/alias.hook' import alias_hook @@%}
 
-[Trigger]
-Operation = Install
-Operation = Upgrade
-Target = zsa-wally-cli
-Type = Package
-
-[Action]
-Description = Aliasing wally-cli to wally
-Depends = coreutils
-When = PostTransaction
-Exec = /usr/bin/sh -c 'which wally-cli | xargs -I "{}" ln -sf "{}" /usr/local/bin/wally'
+{{@@- alias_hook(
+    cmd='wally-cli',
+    alias='wally',
+    targets=['zsa-wally-cli', 'zsa-wally-cli-*'],
+) -@@}}

@@ -159,6 +159,9 @@ dotfiles:
   f_picom.service:
     src: config/systemd/user/picom.service
     dst: '{{@@ xdg_config("systemd/user/picom.service") @@}}'
+  f_python_keyring:
+    src: config/python_keyring/keyringrc.cfg
+    dst: '{{@@ xdg_config("python_keyring/keyringrc.cfg") @@}}'
   f_sct.service:
     src: config/systemd/user/sct.service
     dst: '{{@@ xdg_config("systemd/user/sct.service") @@}}'
@@ -294,6 +297,7 @@ profiles:
     - d_autostart
     - f_gpg-agent.conf
     - f_pam_environment
+    - f_python_keyring
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
     include:

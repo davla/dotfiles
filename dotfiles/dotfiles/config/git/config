@@ -1,30 +1,20 @@
 {%@@ set date_format = '%d %b %Y' @@%}
-{%@@ set file_history = 'log --patch --pretty=full-commit -- ' @@%}
-{%@@ set graph = "log --branches --remotes='origin' --remotes='upstream' "
-    "--graph --pretty=graph" @@%}
-{%@@ set graph_all = 'log --all --graph --pretty=graph' @@%}
-{%@@ set info = 'status -sb' @@%}
-{%@@ set new_branch = 'checkout --quiet -b' @@%}
-{%@@ set restore = 'checkout --quiet HEAD --' @@%}
-{%@@ set squash = 'merge --squash' @@%}
-{%@@ set unadd = 'reset HEAD --' @@%}
-{%@@ set unstash = 'stash pop' @@%}
-{%@@ set update = 'rebase @{u}' @@%}
 # {{@@ header() @@}}
 
 [alias]
     # "new" commands
-    file-history = {{@@ file_history @@}}
-    graph = {{@@ graph @@}}
-    graph-all = {{@@ graph_all @@}}
-    info = {{@@ info @@}}
-    ls-aliases = config --get-regexp ^alias\\.
-    branch-new = {{@@ new_branch @@}}
-    restore = {{@@ restore @@}}
-    squash = {{@@ squash @@}}
-    unadd = {{@@ unadd @@}}
-    unstash = {{@@ unstash @@}}
-    update = {{@@ update @@}}
+    aliases = config --get-regexp ^alias\\.
+    file-history = log --patch --pretty=full-commit --
+    graph = log --branches --remotes=origin --remotes=upstream --graph \
+        --pretty=graph
+    graph-all = log --all --graph --pretty=graph
+    info = status -sb
+    branch-new = checkout --quiet -b
+    restore = checkout --quiet HEAD --
+    squash = merge --squash
+    unadd = reset HEAD --
+    unstash = stash pop
+    update = rebase @{upstream}
 
     # add
     a = add
@@ -37,7 +27,7 @@
     bd = branch --delete
     bD = branch --delete --force
     bm = branch --move
-    bn = {{@@ new_branch @@}}
+    bn = branch-new
 
     # chekcout
     ck = checkout --quiet
@@ -66,11 +56,11 @@
     f = fetch
 
     # file history
-    fh = {{@@ file_history @@}}
+    fh = file-history
 
     # graph
-    g = {{@@ graph @@}}
-    ga = {{@@ graph_all @@}}
+    g = graph
+    ga = graph-all
 
     # log
     l = log
@@ -101,28 +91,28 @@
     rsm = reset --mixed
 
     # restore
-    rt = {{@@ restore @@}}
+    rt = restore
 
     # show
     sw = show --patch --compact-summary --pretty=full-commit
 
     # squash
-    sq = {{@@ squash @@}}
+    sq = squash
 
     # status
-    i = {{@@ info @@}}
+    i = info
 
     # stash
     s = stash
 
     # unadd
-    ua = {{@@ unadd @@}}
+    ua = unadd
 
     # unstash
-    us = {{@@ unstash @@}}
+    us = unstash
 
     # update
-    up = {{@@ update @@}}
+    up = update
 
 [apply]
     ignoreWhitespace = false

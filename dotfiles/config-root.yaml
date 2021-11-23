@@ -479,7 +479,7 @@ profiles:
     include:
     - host-refresh
     import:
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/network.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/network.yaml:optional
 
   # This profile holds nfs configurations and exports
   nfs:

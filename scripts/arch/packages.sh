@@ -63,8 +63,8 @@ case "$HOST" in
     'personal')
         sudo -u "$USER" yay -S cups cups-pdf dex docker docker-compose \
             docker-credential-secretservice gdb intel-ucode libsecret \
-            hunspell hunspell-da hunspell-en_US hunspell-it nordvpn \
-            temp-throttle-git zsa-wally-cli
+            hunspell hunspell-da hunspell-en_US hunspell-it networkmanager \
+            nordvpn temp-throttle-git zsa-wally-cli
         ;;
 
     'raspberry')

@@ -34,13 +34,15 @@ install =
 checkout =
     git clone 'https://github.com/asdf-vm/asdf.git' \
         '{{@@ basename(asdf_home) @@}}'
-install = true
-upgrade = bash -lc 'asdf update 2>&1 | grep "release"'
+install =
+    true
+upgrade =
+    bash -lc 'asdf update 2>&1 | grep "release"'
 
 
 [/opt/docker-compose]
 checkout =
-	  git clone 'https://github.com/docker/compose.git' 'docker-compose'
+    git clone 'https://github.com/docker/compose.git' 'docker-compose'
 install =
     get_github_release 'docker/compose' '^1\\.\\d+\\.\\d+$' \
         'endswith("Linux-x86_64")' > /usr/local/bin/docker-compose
@@ -54,8 +56,8 @@ install =
 
 [/opt/docker-credential-helpers]
 checkout =
-	  git clone 'https://github.com/docker/docker-credential-helpers.git' \
-	      'docker-credential-helpers'
+    git clone 'https://github.com/docker/docker-credential-helpers.git' \
+        'docker-credential-helpers'
 install =
     get_github_latest_release 'docker/docker-credential-helpers' \
         'contains("secretservice")' | tar zx -C /usr/local/bin;

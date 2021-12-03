@@ -182,8 +182,9 @@ case "$HOST" in
             ;;
 
     'work')
-        apt-get install android-studio cppcheck dotnet-sdk-6.0 \
+        apt-get install android-studio azure-cli cppcheck dotnet-sdk-6.0 \
             ffmpeg libasound2-dev libssl-dev libudev-dev teams valgrind
+        pip install artifacts-keyring poetry
         ;;
 esac
 

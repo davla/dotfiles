@@ -182,8 +182,8 @@ case "$HOST" in
             ;;
 
     'work')
-        apt-get install android-studio cppcheck ffmpeg libasound2-dev \
-            libssl-dev libudev-dev teams valgrind
+        apt-get install android-studio cppcheck dotnet-sdk-6.0 \
+            ffmpeg libasound2-dev libssl-dev libudev-dev teams valgrind
         ;;
 esac
 

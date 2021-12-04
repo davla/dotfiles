@@ -64,7 +64,6 @@ clean() {
     apt-get purge -y evince
     apt-get purge -y fairymax
     apt-get purge -y firefox-esr
-    apt-get purge -y geoclue-2.0
     apt-get purge -y gftp-common
     apt-get purge -y gnome-chess
     apt-get purge -y gnome-mplayer
@@ -161,8 +160,8 @@ case "$HOST" in
 esac
 
 apt-get install atril baobab blueman code firefox gdebi geany gnome-clocks \
-    gparted hardinfo parcellite pavucontrol recordmydesktop \
-    gtk-recordmydesktop seahorse spotify-client synaptic xfce4-screenshooter
+    gparted hardinfo parcellite pavucontrol peek seahorse spotify-client \
+    synaptic xfce4-screenshooter
 
 # Dotfiles
 sudo -u "$USER_NAME" dotdrop install -p gui
@@ -192,13 +191,16 @@ apt-get install apt-transport-https autoconf automake build-essential cmake \
     command-not-found cowsay curl dbus-x11 dex dkms docker-ce dos2unix \
     fonts-freefont-otf fonts-nanum fortune g++ gdb git git-secret \
     gvfs-backends hunspell hunspell-en-us hunspell-it intel-microcode jq \
-    libsecret-1-dev lua5.1 lua-check make moreutils nfs-common nyancat p7zip \
-    pycodestyle python3 python3-pip rar sct shellcheck \
+    libnotify-bin libsecret-1-dev lua5.1 lua-check make moreutils nfs-common \
+    nyancat p7zip pycodestyle python3 python3-pip rar sct shellcheck \
     software-properties-common systemd-cron thunar-archive-plugin uni2ascii \
     unrar vim wmctrl xdotool xserver-xorg-input-synaptics yad zip
 
 # Dotfiles
-sudo -u "$USER_NAME" dotdrop install -p cli -U both
+sudo -u "$USER_NAME" dotdrop install -p cli -U user
+if [ -n "$(dotdrop -bG files -p cli -U root 2> /dev/null)" ]; then
+    sudo -u "$USER_NAME" dotdrop install -p cli -U root
+fi
 
 #######################################
 # Clean & upgrade
@@ -216,9 +218,11 @@ groupadd -f docker
 usermod -aG docker "$USER_NAME"
 
 # NordVPN
-groupadd -r nordvpn
-usermod -aG nordvpn "$USER_NAME"
-sudo -u "$USER_NAME" nordvpn-config
+[ "$HOST" = 'personal' ] && {
+    groupadd -r nordvpn
+    usermod -aG nordvpn "$USER_NAME"
+    sudo -u "$USER_NAME" nordvpn-config
+}
 
 # Symlinking executables in a $PATH directory accessible to unpirvileged users
 echo "$EXECS" | while read EXEC; do

@@ -11,7 +11,8 @@
 
 case "$DISTRO" in
     'debian')
-        apt-get install lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings
+        apt-get install lightdm lightdm-gtk-greeter \
+            lightdm-gtk-greeter-settings xserver-xorg-input-all
         ;;
 esac
 

@@ -39,7 +39,7 @@ esac
 # Installing i3 dotfiles
 #######################################
 
-dotdrop install -p i3
+dotdrop install -p i3 -U both
 
 #######################################
 # Enabling startup systemd services

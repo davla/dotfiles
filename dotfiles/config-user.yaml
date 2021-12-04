@@ -84,12 +84,22 @@ dotfiles:
     dst: '{{@@ xdg_config("xfce4") @@}}'
     cmpignore:
     - desktop
+    - terminal
+    - xfce4-screenshooter
+    - xfwm4
+    instignore:
+    - desktop
+    - terminal
     - xfce4-screenshooter
     - xfwm4
     upignore:
     - desktop
+    - terminal
     - xfce4-screenshooter
     - xfwm4
+  d_xfce4_terminal:
+    src: config/xfce4/terminal
+    dst: '{{@@ xdg_config("xfce4/terminal") @@}}'
   f_alacritty.yml:
     src: config/alacritty/alacritty.yml
     dst: '{{@@ xdg_config("alacritty/alacritty.yml") @@}}'
@@ -253,6 +263,8 @@ profiles:
   # little bit more than just the i3 configuration file.
   i3:
     dotfiles:
+    - d_thunar
+    - d_xfce4_terminal
     - f_dunstrc
     - f_i3blocks_config
     - f_i3config
@@ -352,6 +364,7 @@ profiles:
     - d_desktop-directories
     - d_thunar
     - d_xfce4
+    - d_xfce4_terminal
     - f_xfce-applications.menu
     include:
     - look-and-feel

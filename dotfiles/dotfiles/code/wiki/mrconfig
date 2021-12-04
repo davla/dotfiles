@@ -28,8 +28,7 @@ checkout =
     git clone 'git@github.com:pokemoncentral/wiki-lua-modules.git' \
         '{{@@ lua_modules_dir @@}}'
 init =
-    install_asdf_plugin lua
-    sudo asdf install
+    init_asdf_project lua
 
 
 [macros]
@@ -46,6 +45,7 @@ init =
     # Creating the virtual environment
     ln -sf "{{@@ wiki_util_path | tilde2home @@}}/bot"/.tool-versions \
         "$MR_REPO"
+    init_asdf_project python
     asdf which python | xargs -i virtualenv --python '{}' \
         "{{@@ pywikibot_venv_path | tilde2home @@}}"
     . "{{@@ pywikibot_venv_path | tilde2home @@}}/bin/activate"
@@ -73,8 +73,7 @@ update =
 [styles]
 checkout = git clone 'git@github.com:pokemoncentral/wiki-styles.git' 'styles'
 init =
-    install_asdf_plugin nodejs
-    sudo asdf install
+    init_asdf_project nodejs
     npm install
 
 
@@ -84,9 +83,8 @@ checkout = git clone 'git@github.com:pokemoncentral/wiki-util.git' \
     '{{@@ util_dir @@}}'
 init =
     # Installing atom-macros dependencies
-    install_asdf_plugin nodejs
     cd "$MR_REPO/js/atom-macros"
-    sudo asdf install
+    init_asdf_project nodejs
     npm install
     #
     # Creating local config files

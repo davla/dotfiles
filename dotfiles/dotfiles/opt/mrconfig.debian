@@ -23,38 +23,45 @@ include = cat '{{@@ mr_libs_path @@}}/git-install'
 checkout =
 	  git clone 'https://github.com/getantibody/antibody.git' 'antibody'
 install =
-	  get_github_release 'getantibody/antibody' 'contains("linux_amd64")' \
-	      > antibody.deb;
-	  dpkg -i antibody.deb;
-	  apt-get install -f;
-	  rm antibody.deb
+    get_github_latest_release 'getantibody/antibody' \
+       'contains("linux_amd64")' > antibody.deb;
+    dpkg -i antibody.deb;
+    apt-get install -f;
+    rm antibody.deb
 
 
 [{{@@ asdf_home @@}}]
 checkout =
     git clone 'https://github.com/asdf-vm/asdf.git' \
         '{{@@ basename(asdf_home) @@}}'
-install = true
-upgrade = bash -lc 'asdf update 2>&1 | grep "release"'
+install =
+    true
+upgrade =
+    bash -lc 'asdf update 2>&1 | grep "release"'
 
 
 [/opt/docker-compose]
 checkout =
-	  git clone 'https://github.com/docker/compose.git' 'docker-compose'
+    git clone 'https://github.com/docker/compose.git' 'docker-compose'
 install =
-	  get_github_release 'docker/compose' 'endswith("Linux-x86_64")' \
-	      > /usr/local/bin/docker-compose;
-	  chmod +x /usr/local/bin/docker-compose
+    get_github_release 'docker/compose' '^1\\.\\d+\\.\\d+$' \
+        'endswith("Linux-x86_64")' > /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
+    #
+    mkdir -p /usr/local/lib/docker/cli-plugins
+    get_github_latest_release 'docker/compose' 'endswith("linux-x86_64")' \
+        > /usr/local/lib/docker/cli-plugins/docker-compose
+    chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
 
 [/opt/docker-credential-helpers]
 checkout =
-	  git clone 'https://github.com/docker/docker-credential-helpers.git' \
-	      'docker-credential-helpers'
+    git clone 'https://github.com/docker/docker-credential-helpers.git' \
+        'docker-credential-helpers'
 install =
-	  get_github_release 'docker/docker-credential-helpers' \
-	      'contains("secretservice")' | tar zx -C /usr/local/bin;
-	  chmod +x /usr/local/bin/docker-credential-secretservice
+    get_github_latest_release 'docker/docker-credential-helpers' \
+        'contains("secretservice")' | tar zx -C /usr/local/bin;
+    chmod +x /usr/local/bin/docker-credential-secretservice
 
 
 {%@@ if not is_headless | is_truthy -@@%}

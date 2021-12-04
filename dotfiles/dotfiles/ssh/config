@@ -1,13 +1,16 @@
 # This SSH client configuration file is mainly meant to use two different keys
 # for gihub.com, based on two ficticious, custom-mage hostnames
 
+Host bitbucket.org
+    IdentityFile %d/.ssh/work_rsa
+
+Host ssh.dev.azure.com
+    IdentityFile %d/.ssh/work_rsa
+
 Host personal.github.com
     HostName github.com
     IdentityFile %d/.ssh/personal_rsa
 
 Host work.github.com
     HostName github.com
-    IdentityFile %d/.ssh/work_rsa
-
-Host bitbucket.org
     IdentityFile %d/.ssh/work_rsa

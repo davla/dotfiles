@@ -48,6 +48,9 @@ dotfiles:
   f_firefox-beta.list:
     src: etc/apt/sources.list.d/firefox-beta.list
     dst: /etc/apt/sources.list.d/firefox-beta.list
+  f_microsoft-prod.list:
+    src: etc/apt/sources.list.d/microsoft-prod.list
+    dst: /etc/apt/sources.list.d/microsoft-prod.list
   f_nordvpn.list:
     src: etc/apt/sources.list.d/nordvpn.list
     dst: /etc/apt/sources.list.d/nordvpn.list

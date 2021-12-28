@@ -65,6 +65,10 @@ case "$HOST" in
             docker-credential-secretservice gdb intel-ucode libsecret \
             hunspell hunspell-da hunspell-en_US hunspell-it networkmanager \
             nordvpn temp-throttle-git zsa-wally-cli
+        # dhcpcd doesn't work well with networkmanager (unless configured)
+        if sudo -u "$USER" yay -Qs dhcpcd; then
+            sudo -u "$USER" yay -R dhcpcd
+        fi
         ;;
 
     'raspberry')

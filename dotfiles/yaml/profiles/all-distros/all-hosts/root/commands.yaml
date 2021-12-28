@@ -81,6 +81,9 @@ dotfiles:
   f_local_bin_vscode:
     src: usr/local/bin/vscode
     dst: /usr/local/bin/vscode
+  f_local_bin_wifi:
+    src: usr/local/bin/wifi
+    dst: /usr/local/bin/wifi
   f_local_bin_zsh-notify-sudo-user:
     src: usr/local/bin/zsh-notify-sudo-user
     dst: /usr/local/bin/zsh-notify-sudo-user

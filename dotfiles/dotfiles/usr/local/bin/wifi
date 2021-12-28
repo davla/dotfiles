@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+# This script manages the Wi-Fi connection. It's basically a convenience
+# alias for `nmcli radio wifi`, with the little addition of sending a signal to
+# i3blocks to refresh the Internet connection blocklet.
+#
+# Arguments:
+#   - $@: Any argument `nmcli radio wifi` accepts.
+
+nmcli radio wifi "$@"
+pkill -RTMIN+{{@@ network_signal @@}} i3blocks

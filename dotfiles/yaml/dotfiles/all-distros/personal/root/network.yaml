@@ -5,3 +5,4 @@
 
 dotfiles:
 - f_99-no-wireless-on-wired
+- f_local_bin_wifi

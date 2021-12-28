@@ -10,21 +10,13 @@
 # Functions
 #######################################
 
-# This function sets the wireless interface status. In doing so, it logs to
-# a custom log facility and sends a signal to i3blocks.
+# This function sets the wireless interface status. and logs to systemd.
 #
 # Arguments:
-#   - $1: The new wireless interface status. One of:
-#       - on
-#       - off
+#   - $@: Any argument `wifi` accepts
 set_wireless() {
-    NEW_STATE="$1"
-
-    nmcli radio wifi "$NEW_STATE"
-    echo "Wireless set $NEW_STATE" | systemd-cat -t 'WIRELESS-CTRL' -p info
-    pkill -RTMIN+{{@@ network_signal @@}} i3blocks
-
-    unset NEW_STATE
+    wifi "$@"
+    echo "Wireless set $*" | systemd-cat -t 'WIRELESS-CTRL' -p info
 }
 
 #######################################

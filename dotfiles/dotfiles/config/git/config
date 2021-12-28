@@ -4,6 +4,9 @@
 [alias]
     # "new" commands
     aliases = config --get-regexp ^alias\\.
+    diff-line = diff --compact-summary --patch
+    diff-names = diff --compact-summary
+    diff-word = diff-line --word-diff=color
     file-history = log --patch --pretty=full-commit --
     graph = log --branches --remotes=origin --remotes=upstream --graph \
         --pretty=graph
@@ -49,8 +52,14 @@
     cx = commit --fixup
 
     # diff
-    d = diff
-    ds = diff --staged
+    d = diff-word
+    df = diff-names
+    dl = diff-line
+    dls = diff-line --staged
+    dn = diff-names
+    ds = diff-word --staged
+    dw = diff-word
+    dws = diff-word --staged
 
     # fetch
     f = fetch
@@ -170,6 +179,7 @@
     mnemonicPrefix = true
     # orderFile
     renames = true
+    wordRegex = "[^][{}()\\s,:;=<>]+"
     wsErrorHighlight = all
 
 [fetch]

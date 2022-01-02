@@ -4,7 +4,7 @@
 # startup jobs
 
 # This doesn't work if this script is sourced
-. "$(dirname "$0")/../.env"
+. "$(dirname "$0")/../.dotfiles-env"
 
 #######################################
 # Setting up system/user startup jobs

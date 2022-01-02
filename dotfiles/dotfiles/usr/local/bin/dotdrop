@@ -69,7 +69,7 @@ esac
 
 cd "{{@@ dotfiles_home | find_in_home | home_abs2var @@}}" || exit
 
-. ../.env
+. ../.dotfiles-env
 
 case "$WHO" in
     'user'|'both')

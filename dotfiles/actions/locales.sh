@@ -3,7 +3,7 @@
 # This script generating locales themselves and deals with spellcheckers
 
 # This doesn't work if this script is sourced
-. "$(dirname "$0")"/../../.env
+. "$(dirname "$0")"/../../.dotfiles-env
 
 #######################################
 # Variables

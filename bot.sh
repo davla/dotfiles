@@ -10,7 +10,7 @@
 #   - $1: The terminal width, used when wrapping the bot's messages. Defaults
 #         to $COLUMNS and then to 80.
 
-. ./.env
+. ./.dotfiles-env
 
 ########################################
 # Variables

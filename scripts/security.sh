@@ -13,7 +13,7 @@
 #          The same key is copied for all users. Only required if $1 is given.
 
 # This doesn't work if this script is sourced
-. "$(dirname "$0")/../.env"
+. "$(dirname "$0")/../.dotfiles-env"
 
 #######################################
 # Variables

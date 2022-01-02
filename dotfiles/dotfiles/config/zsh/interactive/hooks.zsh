@@ -7,12 +7,12 @@
 # Environmed loading hook
 ########################################
 
-# This function is meant to be used as a chpwd hook. It simply sources any .env
-# file found in the current working directory, if any
+# This function is meant to be used as a chpwd hook. It simply sources any
+# environment file found in the current working directory, if any
 load_environment() {
-    [ -f .env ] && {
-        echo 'Sourcing .env'
-        source .env
+    [ -f .*env(NY1) ] && {
+        echo 'Sourcing environment files'
+        source .*env
     }
 }
 

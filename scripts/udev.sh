@@ -5,7 +5,7 @@
 # - Adding the passed users to the groups used by the udev rules.
 
 # This doesn't work if this script is sourced
-. "$(dirname "$0")/../.env"
+. "$(dirname "$0")/../.dotfiles-env"
 
 #######################################
 # Installing udev rules

@@ -6,7 +6,7 @@
 #   - $1: The file defining the zsh configuration directory path.
 
 # This doesn't work if this script is sourced
-. "$(dirname "$0")"/../../.env
+. "$(dirname "$0")"/../../.dotfiles-env
 
 #######################################
 # Arguments processing

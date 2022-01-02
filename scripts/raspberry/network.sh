@@ -6,7 +6,7 @@
 #   - Frequently visited host IP caching in /etc/hosts setup
 
 # This doesn't work if this script is sourced
-. "$(dirname "$0")/../../.env"
+. "$(dirname "$0")/../../.dotfiles-env"
 
 #######################################
 # Installing dotfiles

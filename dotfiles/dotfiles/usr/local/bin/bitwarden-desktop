@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+# This script is meant as a wrapper for the package-distributed
+# "bitwarden-desktop" command that add options to make the command work under
+# Wayland
+#
+# Arguments:
+#   - $@: Anything the package-distributed "bitwarden-desktop" command accepts
+
+exec electron-wayland bitwarden-desktop "$@"

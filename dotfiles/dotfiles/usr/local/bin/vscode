@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-code-git --enable-features=UseOzonePlatform --ozone-platform=wayland "$@"

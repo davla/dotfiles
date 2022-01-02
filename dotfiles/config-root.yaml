@@ -527,6 +527,7 @@ profiles:
     - f_local_bin_systemd-sway-session-watch
     include:
     - i3blocks
+    - wayland-wrappers
     variables:
       wm_name: sway
 

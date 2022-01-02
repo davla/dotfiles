@@ -50,15 +50,27 @@ dotfiles:
   f_local_bin_active-playerctl:
     src: usr/local/bin/active-playerctl
     dst: /usr/local/bin/active-playerctl
+  f_local_bin_bitwarden-desktop:
+    src: usr/local/bin/bitwarden-desktop
+    dst: /usr/local/bin/bitwarden-desktop
+  f_local_bin_code:
+    src: usr/local/bin/code
+    dst: /usr/local/bin/code
   f_local_bin_dotdrop:
     src: usr/local/bin/dotdrop
     dst: /usr/local/bin/dotdrop
+  f_local_bin_electron-wayland:
+    src: usr/local/bin/electron-wayland
+    dst: /usr/local/bin/electron-wayland
   f_local_bin_launcher:
     src: usr/local/bin/launcher
     dst: /usr/local/bin/launcher
   f_local_bin_my-certbot:
     src: usr/local/bin/my-certbot
     dst: /usr/local/bin/my-certbot
+  f_local_bin_signal-desktop:
+    src: usr/local/bin/signal-desktop
+    dst: /usr/local/bin/signal-desktop
   f_local_bin_shell-cache:
     src: usr/local/bin/shell-cache
     # Dynamic path as it's used somewhere else too
@@ -78,9 +90,6 @@ dotfiles:
   f_local_bin_systemd-sway-session-watch:
     src: usr/local/bin/systemd-sway-session-watch
     dst: /usr/local/bin/systemd-sway-session-watch
-  f_local_bin_vscode:
-    src: usr/local/bin/vscode
-    dst: /usr/local/bin/vscode
   f_local_bin_wifi:
     src: usr/local/bin/wifi
     dst: /usr/local/bin/wifi
@@ -128,8 +137,11 @@ profiles:
   # some other commands
   wayland-wrappers:
     dotfiles:
+    - f_local_bin_bitwarden-desktop
+    - f_local_bin_code
+    - f_local_bin_electron-wayland
+    - f_local_bin_signal-desktop
     - f_local_bin_spotify
-    - f_local_bin_vscode
 
 variables:
   # These paths are kept as variables since they need to be used both as `dst`

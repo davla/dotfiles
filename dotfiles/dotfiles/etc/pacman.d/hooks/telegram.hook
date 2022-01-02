@@ -1,0 +1,7 @@
+{%@@ from 'etc/pacman.d/hooks/alias.hook' import alias_hook @@%}
+
+{{@@- alias_hook(
+    cmd='telegram-desktop',
+    alias='telegram',
+    targets=['telegram-desktop', 'telegram-desktop-*'],
+) -@@}}

@@ -9,7 +9,7 @@
 @@#}
 {%@@ macro include(path) @@%}
 
-{%@@- if on_wayland @@%}
+{%@@- if on_wayland -@@%}
 
 include {{@@ path @@}}
 

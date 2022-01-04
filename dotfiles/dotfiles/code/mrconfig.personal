@@ -16,7 +16,7 @@ include = cat '{{@@ mr_libs_path @@}}/asdf'
 #######################################
 
 
-[{{@@ wiki_path | replace(code_root + '/', '') @@}}]
+[{{@@ wiki_root | replace(code_root + '/', '') @@}}]
 chain = true
 
 

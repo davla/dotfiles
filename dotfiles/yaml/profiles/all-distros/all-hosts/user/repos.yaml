@@ -44,7 +44,7 @@ dotfiles:
     dst: '{{@@ code_root @@}}/.mrconfig'
   f_mrconfig_wiki:
     src: code/wiki/mrconfig
-    dst: '{{@@ wiki_path @@}}/.mrconfig'
+    dst: '{{@@ wiki_root @@}}/.mrconfig'
   f_secret_env:
     src: env/env.tar.{{@@ env['HOST'] @@}}
     dst:
@@ -68,8 +68,9 @@ variables:
   zygal_path: shell/zygal
 
   # Pokémon Central Wiki code workspace variables
-  wiki_path: ~/code/wiki
-  wiki_util_path: '{{@@ wiki_path @@}}/util'
-  pywikibot_path: '{{@@ wiki_path @@}}/pywikibot'
-  wiki_lua_modules_path: '{{@@ wiki_path @@}}/lua-modules'
-  pywikibot_venv_path: '{{@@ pywikibot_path @@}}/.venv'
+  wiki_root: '{{@@ code_root @@}}/wiki'
+  pywikibot_path: pywikibot
+  wiki_macros_path: macros
+  wiki_modules_path: modules
+  wiki_styles_path: styles
+  wiki_util_path: util

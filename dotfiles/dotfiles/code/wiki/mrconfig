@@ -3,11 +3,20 @@
 #
 # {{@@ header() @@}}
 
-{#@@
+{#@@- Prepend the parent of the dotfile installation destination to a path @@#}
+{%@@ macro prepend_inst_dst(path) @@%}
+{{@@ '%s/%s' | format(dirname(_dotfile_abs_dst), path) | home_abs2var @@}}
+{%@@- endmacro @@%}
+
+{%@@ set wiki_util_abs_path = prepend_inst_dst(wiki_util_path) @@%}
+{%@@ set pywikibot_venv_path = prepend_inst_dst(pywikibot_path + '/.venv') @@%}
+
+{#@@-
     This variable is used to allow pywikibot to be processed after util, as
     pywikibot setup uses some files in util.
 @@#}
 {%@@ set util_order = 10 @@%}
+
 
 #######################################
 # Importing helpers
@@ -22,33 +31,31 @@ include = cat '{{@@ mr_libs_path @@}}/asdf'
 #######################################
 
 
-{%@@ set lua_modules_dir = basename(wiki_lua_modules_path) @@%}
-[{{@@ lua_modules_dir @@}}]
+[{{@@ wiki_modules_path @@}}]
 checkout =
     git clone 'git@github.com:pokemoncentral/wiki-lua-modules.git' \
-        '{{@@ lua_modules_dir @@}}'
+        '{{@@ wiki_modules_path @@}}'
 init =
     init_asdf_project lua
 
 
-[macros]
-checkout = git clone 'git@github.com:pokemoncentral/wiki-macros.git' 'macros'
+[{{@@ wiki_macros_path @@}}]
+checkout = git clone 'git@github.com:pokemoncentral/wiki-macros.git' \
+    '{{@@ wiki_macros_path @@}}'
 
 
-{%@@ set pywikibot_dir = basename(pywikibot_path) @@%}
-[{{@@ pywikibot_dir @@}}]
+[{{@@ pywikibot_path @@}}]
 checkout =
     git clone 'git@github.com:wikimedia/pywikibot.git' \
-        '{{@@ pywikibot_dir @@}}'
+        '{{@@ pywikibot_path @@}}'
     git submodule update --init
 init =
     # Creating the virtual environment
-    ln -sf "{{@@ wiki_util_path | tilde2home @@}}/bot"/.tool-versions \
-        "$MR_REPO"
+    ln -sf "{{@@ wiki_util_abs_path @@}}/bot/.tool-versions" "$MR_REPO"
     init_asdf_project python
     asdf which python | xargs -i virtualenv --python '{}' \
-        "{{@@ pywikibot_venv_path | tilde2home @@}}"
-    . "{{@@ pywikibot_venv_path | tilde2home @@}}/bin/activate"
+        "{{@@ pywikibot_venv_path @@}}"
+    . "{{@@ pywikibot_venv_path @@}}/bin/activate"
     pip install -r requirements.txt
     #
     # Setting up Pokémon Central Wiki connection
@@ -59,7 +66,7 @@ init =
     deactivate
     #
     # Linking custom scripts
-    ln -sf "{{@@ wiki_util_path | tilde2home @@}}/bot"/*.py "$MR_REPO"
+    ln -sf "{{@@ wiki_util_abs_path @@}}/bot"/*.py "$MR_REPO"
 
 # Higher order, so that it's cloned after util
 order = {{@@ util_order + 10 @@}}
@@ -70,17 +77,17 @@ update =
     git submodule update --init
 
 
-[styles]
-checkout = git clone 'git@github.com:pokemoncentral/wiki-styles.git' 'styles'
+[{{@@ wiki_styles_path @@}}]
+checkout = git clone 'git@github.com:pokemoncentral/wiki-styles.git' \
+    '{{@@ wiki_styles_path @@}}'
 init =
     init_asdf_project nodejs
     npm install
 
 
-{%@@ set util_dir = basename(wiki_util_path) @@%}
-[{{@@ util_dir @@}}]
+[{{@@ wiki_util_path @@}}]
 checkout = git clone 'git@github.com:pokemoncentral/wiki-util.git' \
-    '{{@@ util_dir @@}}'
+    '{{@@ wiki_util_path @@}}'
 init =
     # Installing atom-macros dependencies
     cd "$MR_REPO/js/atom-macros"
@@ -88,12 +95,12 @@ init =
     npm install
     #
     # Creating local config files
-    sed -e 's|PYWIKIBOT_DIR=ADD_YOUR_PATH_HERE|PYWIKIBOT_DIR="{{@@ pywikibot_path | tilde2home @@}}"|g' \
-        -e 's|WIKILUAMODULES_DIR=ADD_YOUR_PATH_HERE|WIKILUAMODULES_DIR="{{@@ wiki_lua_modules_path | tilde2home @@}}"|g' \
-        -e 's|MACROS_DIR=ADD_YOUR_PATH_HERE|MACROS_DIR="{{@@ wiki_util_path | tilde2home @@}}/js/atom-macros"|g' \
-        -e 's|# PYWIKIBOT_VIRTUALENV_DIR=ADD_YOUR_PATH_HERE|PYWIKIBOT_VIRTUALENV_DIR="{{@@ pywikibot_venv_path | tilde2home @@}}"|g' \
+    sed -e 's|PYWIKIBOT_DIR=ADD_YOUR_PATH_HERE|PYWIKIBOT_DIR="{{@@ prepend_inst_dst(pywikibot_path) @@}}"|g' \
+        -e 's|WIKILUAMODULES_DIR=ADD_YOUR_PATH_HERE|WIKILUAMODULES_DIR="{{@@ prepend_inst_dst(wiki_modules_path) @@}}"|g' \
+        -e 's|MACROS_DIR=ADD_YOUR_PATH_HERE|MACROS_DIR="{{@@ wiki_util_path @@}}/js/atom-macros"|g' \
+        -e 's|# PYWIKIBOT_VIRTUALENV_DIR=ADD_YOUR_PATH_HERE|PYWIKIBOT_VIRTUALENV_DIR="{{@@ pywikibot_venv_path @@}}"|g' \
         -e "s|# source \$PYWIKIBOT_VIRTUALENV_DIR'/bin/activate'|. \"\$PYWIKIBOT_VIRTUALENV_DIR/bin/activate\"|g" \
         "$MR_REPO/config-templates/config.sh" > "$MR_REPO/bash/config.sh"
-    sed -e 's|modulesPath = ADD_YOUR_PATH_HERE|modulesPath = "{{@@ abs_path(wiki_lua_modules_path) @@}}"|g' \
+    sed -e 's|modulesPath = ADD_YOUR_PATH_HERE|modulesPath = "{{@@ prepend_inst_dst(wiki_modules_path) @@}}"|g' \
         "$MR_REPO/config-templates/config.lua" > "$MR_REPO/lua/config.lua"
 order = {{@@ util_order @@}}

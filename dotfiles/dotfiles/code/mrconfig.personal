@@ -1,0 +1,51 @@
+# This myrepos config file is used to bootstrap the coding workspace for
+# unprivileged users on my personal machine
+#
+# {{@@ header() @@}}
+
+#######################################
+# Import helpers
+#######################################
+
+
+include = cat '{{@@ mr_libs_path @@}}/asdf'
+
+
+#######################################
+# Import sub-workspaces
+#######################################
+
+
+[{{@@ wiki_path | replace(code_root + '/', '') @@}}]
+chain = true
+
+
+#######################################
+# Repositories
+#######################################
+
+
+[{{@@ aoc_2020_path @@}}]
+checkout =
+    git clone 'git@github.com:davla/advent-of-code-2020.git' \
+        '{{@@ basename(aoc_2020_path) @@}}'
+
+
+[{{@@ i3_live_tree_path @@}}]
+checkout =
+    git clone 'git@github.com:davla/i3-live-tree.git' \
+        '{{@@ basename(i3_live_tree_path) @@}}'
+init =
+    init_asdf_project python
+    which python | xargs poetry env use
+    poetry install
+
+[{{@@ zygal_path @@}}]
+checkout =
+    git clone 'git@github.com:davla/zygal.git' '{{@@ basename(zygal_path) @@}}'
+
+
+[wiki/spacing-server]
+checkout =
+    git clone 'git@github.com:pokemoncentral/wiki-spacing-server.git' \
+        'spacing-server'

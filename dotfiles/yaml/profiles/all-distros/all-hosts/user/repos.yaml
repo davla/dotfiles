@@ -3,6 +3,10 @@
 # This dotdrop config file is meant for managing and bootstraping code
 # repositories and workspace setup
 
+actions:
+  post:
+    mrconfig: ln -sf '{{@@ _dotfile_abs_dst @@}}' "$HOME/.mrconfig"
+
 config:
   backup: false
   banner: true
@@ -30,12 +34,17 @@ dynvariables:
   user: '[ "$USER" = "root" ] && echo "root" || echo "user"'
 
 dotfiles:
+  f_mrconfig:
+    src: config/mr/mrconfig
+    dst: '{{@@ xdg_config("mr/mrconfig") @@}}'
+    actions:
+    - mrconfig
   f_mrconfig_code:
     src: code/mrconfig.{{@@ env['HOST'] @@}}
-    dst: ~/code/.mrconfig
+    dst: '{{@@ code_root @@}}/.mrconfig'
   f_mrconfig_wiki:
     src: code/wiki/mrconfig
-    dst: ~/code/wiki/.mrconfig
+    dst: '{{@@ wiki_path @@}}/.mrconfig'
   f_secret_env:
     src: env/env.tar.{{@@ env['HOST'] @@}}
     dst:
@@ -44,7 +53,23 @@ profiles:
   # This profile groups myrepos config files to bootstrap a host's workspace
   repos:
     dotfiles:
+    - f_mrconfig
     - f_mrconfig_code
     - f_mrtrust
     import:
     - ../../../../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/repos.yaml:optional
+
+variables:
+  code_root: ~/code
+
+  aoc_2020_path: kotlin/advent-of-code-2020
+  cluedo_tracker_path: kotlin/cluedo-tracker
+  i3_live_tree_path: python/i3-live-tree
+  zygal_path: shell/zygal
+
+  # Pokémon Central Wiki code workspace variables
+  wiki_path: ~/code/wiki
+  wiki_util_path: '{{@@ wiki_path @@}}/util'
+  pywikibot_path: '{{@@ wiki_path @@}}/pywikibot'
+  wiki_lua_modules_path: '{{@@ wiki_path @@}}/lua-modules'
+  pywikibot_venv_path: '{{@@ pywikibot_path @@}}/.venv'

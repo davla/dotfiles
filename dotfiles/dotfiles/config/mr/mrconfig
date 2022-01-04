@@ -1,0 +1,14 @@
+# This myrepos config file is meant to be the one in the home directory (or at
+# least symlinked), so that `mr` has a starting point when invoked form outside
+# of a registered tree.
+# 
+# {{@@ header() @@}}
+
+
+########################################
+# Import coding workspace
+########################################
+
+
+[{{@@ code_root | tilde2home | replace('$HOME/', '') @@}}]
+chain = true

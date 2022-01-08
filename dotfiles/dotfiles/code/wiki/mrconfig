@@ -48,12 +48,13 @@ checkout = git clone 'git@github.com:pokemoncentral/wiki-macros.git' \
 checkout =
     git clone 'git@github.com:wikimedia/pywikibot.git' \
         '{{@@ pywikibot_path @@}}'
-    git submodule update --init
+    git -C '{{@@ pywikibot_path @@}}' submodule update --init
 init =
     # Creating the virtual environment
     ln -sf "{{@@ wiki_util_abs_path @@}}/bot/.tool-versions" "$MR_REPO"
     init_asdf_project python
-    asdf which python | xargs -i virtualenv --python '{}' \
+    SYSTEM_VIRTUALENV="$(which -a virtualenv | sed '2q;d')"
+    asdf which python | xargs -I '{}' "$SYSTEM_VIRTUALENV" --python '{}' \
         "{{@@ pywikibot_venv_path @@}}"
     . "{{@@ pywikibot_venv_path @@}}/bin/activate"
     pip install -r requirements.txt

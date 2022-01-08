@@ -492,6 +492,11 @@ profiles:
     - f_60-root.conf
     - f_org.xfce.xfce4-terminal.policy
 
+  # This profile contains dotfiles used to configure the code workspace
+  repos:
+    dotfiles:
+    - d_myrepos-lib
+
   # This profile includes SSH server configuration files
   ssh:
     dotfiles:

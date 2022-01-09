@@ -1,11 +1,9 @@
-cv:~/Files/Programming/python/cv/platform
-dotdrop:~/Files/Programming/python/dotdrop
-dotdrop-wiki:~/Files/Programming/github-wikis/dotdrop.wiki
-dotfiles:~/Files/Programming/sys/dotfiles
-i3blocks-contrib:~/Files/Programming/sys/i3blocks-contrib
-pywikibot:~/Files/pywikibot
-wiki-modules:~/Files/Programming/Wiki/modules
-wiki-styles:~/Files/Programming/Wiki/styles
-wiki-util:~/Files/Programming/Wiki/util
-zsh-command-not-found:~/Files/Programming/zsh/zsh-command-not-found
-zygal:~/Files/Programming/shell/zygal
+aoc-2020:{{@@ code_root @@}}/{{@@ aoc_2020_path @@}}
+cluedo-tracker:{{@@ code_root @@}}/{{@@ cluedo_tracker_path @@}}
+i3-live-tree:{{@@ code_root @@}}/{{@@ i3_live_tree_path @@}}
+pywikibot:{{@@ wiki_root @@}}/{{@@ pywikibot_path @@}}
+wiki-macros:{{@@ wiki_root @@}}/{{@@ wiki_macros_path @@}}
+wiki-modules:{{@@ wiki_root @@}}/{{@@ wiki_modules_path @@}}
+wiki-styles:{{@@ wiki_root @@}}/{{@@ wiki_styles_path @@}}
+wiki-util:{{@@ wiki_root @@}}/{{@@ wiki_util_path @@}}
+zygal:{{@@ code_root @@}}/{{@@ zygal_path @@}}

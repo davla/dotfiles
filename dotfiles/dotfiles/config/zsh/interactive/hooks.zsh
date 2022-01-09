@@ -10,9 +10,9 @@
 # This function is meant to be used as a chpwd hook. It simply sources any
 # environment file found in the current working directory, if any
 load_environment() {
-    [ -f .*env(NY1) ] && {
+    (setopt +o nomatch; [ -f .(*-|)env(Y1) ]) && {
         echo 'Sourcing environment files'
-        source .*env
+        source .(*-|)env(Y1)
     }
 }
 

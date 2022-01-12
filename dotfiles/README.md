@@ -15,7 +15,6 @@ My dotfiles repository. Really, just configuration files
 + Make sure that autorandr env vars are loaded in xsessionrc
 - LS_COLORS
 - Scala in asdf
-- Root terminal preferences
 - sct not working
 - dotdrop autocompletion
 - More uses for jinja default

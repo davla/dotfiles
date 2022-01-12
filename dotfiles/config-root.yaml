@@ -165,9 +165,6 @@ dotfiles:
   d_xorg.conf.d:
     src: etc/X11/xorg.conf.d
     dst: /etc/X11/xorg.conf.d
-  f_60-root.conf:
-    src: etc/polkit-1/localauthority.conf.d/60-root.conf
-    dst: /etc/polkit-1/localauthority.conf.d/60-root.conf
   f_80i3blocks:
     src: etc/apt/apt.conf.d/80i3blocks
     dst: /etc/apt/apt.conf.d/80i3blocks
@@ -263,9 +260,6 @@ dotfiles:
   f_networkd_20-wired.network:
     src: etc/systemd/network/20-wired.network
     dst: /etc/systemd/network/20-wired.network
-  f_org.xfce.xfce4-terminal.policy:
-    src: usr/share/polkit-1/actions/org.xfce.xfce4-terminal.policy
-    dst: /usr/share/polkit-1/actions/org.xfce.xfce4-terminal.policy
   f_pacman_i3blocks-contrib-arch-update.hook:
     src: etc/pacman.d/hooks/i3blocks-contrib-arch-update.hook
     dst: /etc/pacman.d/hooks/i3blocks-contrib-arch-update.hook
@@ -485,12 +479,6 @@ profiles:
   nfs:
     dotfiles:
     - d_exports.d
-
-  # This profile gathers PolicyKit dotfiles
-  polkit:
-    dotfiles:
-    - f_60-root.conf
-    - f_org.xfce.xfce4-terminal.policy
 
   # This profile contains dotfiles used to configure the code workspace
   repos:

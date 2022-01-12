@@ -20,8 +20,8 @@
 # when interactively prompting the user.
 STEPS="dotdrop, custom-commands, environment, packages, getty-login, \
 graphical-login, manual, i3, sway, xfce, locales, keyboard-layout, startup, \
-timers, network, users, security, ssh, nfs, ddclient, udev, polkit, shells, \
-themes, repos, android"
+timers, network, users, security, ssh, nfs, ddclient, udev, shells, themes, \
+repos, android"
 
 #######################################
 # Input processing
@@ -502,13 +502,6 @@ case "$STEP" in
         # Udev
         $STEP_RUNNER "sudo sh -e scripts/udev.sh '$USER'" 'setting up udev rules' \
             'set up udev rules'
-        ;;
-esac
-case "$STEP" in
-    'polkit'|'all')
-        # PolicyKit
-        $STEP_RUNNER 'sudo -E dotdrop install -p polkit' 'configuring PolicyKit' \
-            'configure PolicyKit'
         ;;
 esac
 case "$STEP" in

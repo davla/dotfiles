@@ -13,7 +13,6 @@ My dotfiles repository. Really, just configuration files
 - Logger colors with no tag
 + Make sure that autorandr env vars are loaded in xsessionrc
 - LS_COLORS
-- Scala in asdf
 - sct not working
 - dotdrop autocompletion
 - More uses for jinja default

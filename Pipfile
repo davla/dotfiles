@@ -4,10 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-Jinja2 = "*"
-docopt = "*"
-"ruamel.yaml" = "*"
 xdg = "*"
+dotdrop = "*"
 
 [dev-packages]
 

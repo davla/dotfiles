@@ -107,7 +107,6 @@ config:
   - yaml/actions/insert.yaml
   import_configs:
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
-  - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/commands.yaml:optional
   - yaml/profiles/all-distros/all-hosts/all-users/shared.yaml
   - yaml/profiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/packages.yaml:optional
   import_variables:

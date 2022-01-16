@@ -11,6 +11,9 @@ config:
   func_file:
   - ../../../../../python/functions.py
   ignoreempty: true
+  import_actions:
+  - ../../../../actions/append.yaml
+  - ../../../../actions/insert.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -22,6 +25,19 @@ dotfiles:
   d_pacman_hooks:
     src: etc/pacman.d/hooks
     dst: /etc/pacman.d/hooks
+    cmpignore:
+    - '*/i3blocks-contrib*.hook'
+    instignore:
+    - '*/i3blocks-contrib*.hook'
+    upignore:
+    - '*/i3blocks-contrib*.hook'
+  f_pacman_conf:
+    src: etc/pacman.conf
+    # Dynamic path since the dotfile content is appended to dst
+    dst: '{{@@ pacman_tmp_dst @@}}'
+    actions:
+    - strip '{{@@ pacman_conf_append_marker @@}}' '{{@@ pacman_conf_dst @@}}'
+    - append '{{@@ pacman_conf_dst @@}}' '{{@@ pacman_tmp_dst @@}}'
   f_pacman_hooks.bin_nordvpn-setup:
     src: usr/local/share/pacman/hooks.bin/nordvpn-setup
     # Dynamic path as it's used somewhere else too
@@ -32,6 +48,11 @@ profiles:
   packages:
     dotfiles:
     - d_pacman_hooks
+    - f_pacman_conf
     - f_pacman_hooks.bin_nordvpn-setup
+    dynvariables:
+      pacman_tmp_dst: mktemp /tmp/pacman-append.XXX
     variables:
       nordvpn_setup_path: /usr/local/share/pacman/hooks.bin/nordvpn-setup
+      pacman_conf_append_marker: Custom configuration
+      pacman_conf_dst: /etc/pacman.conf

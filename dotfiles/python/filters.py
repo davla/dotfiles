@@ -8,7 +8,7 @@ This module defines some custom filters to be used in dotdrop jinja2 templates.
 from pathlib import Path
 from typing import Union
 
-from jinja2.utils import soft_unicode
+from markupsafe import soft_unicode
 
 import python.lib as lib
 

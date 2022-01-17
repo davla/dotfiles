@@ -5,7 +5,8 @@
 #######################################
 
 # Variables
-set $laptop_display eDP-1
+set $laptop_display "Unknown 0x424A 0x00000000"
+set $external_4K "Unknown HP Z27k G3 CN41373F0L"
 
 # Background
 output * bg #131313 solid_color
@@ -18,6 +19,7 @@ bindswitch --reload {
 
 # Laptop display
 output $laptop_display scale 2
+output $external_4K scale 2
 
 #######################################
 # Input

@@ -151,17 +151,10 @@ execute() {
             tput cup 0 0
         }
 
-        # This is executed in the background: stdin is detatched, while stdout
-        # and stderr are shared with this script (likely connected to a tty).
-        tail -f "$OUTPUT_LOG" &
-
-        $SHELL -ec "$CMD" > "$OUTPUT_LOG" 2>&1
+        $CMD 2>&1 | tee "$OUTPUT_LOG"
         CMD_EXIT="$?"
         printf 'Press enter to continue'
         read ANSWER
-
-        # Killng tail, as the command is no longer writing to the file.
-        kill "$!"
 
         [ "$IN_ALTERNATE_BUFFER" = 'true' ] && {
             IN_ALTERNATE_BUFFER='false'

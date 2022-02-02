@@ -17,6 +17,8 @@ config:
   banner: true
   create: true
   dotpath: dotfiles
+  filter_file:
+  - python/filters.py
   func_file:
   - python/functions.py
   ignoreempty: true

@@ -179,7 +179,7 @@
     mnemonicPrefix = true
     # orderFile
     renames = true
-    wordRegex = "[^][{}()\\s,:;=<>]+"
+    wordRegex = "[[:alnum:]]+|[^[:space:]]"
     wsErrorHighlight = all
 
 [fetch]

@@ -73,18 +73,18 @@ cd "{{@@ dotfiles_home | find_in_home | home_abs2var @@}}" || exit
 
 case "$WHO" in
     'user'|'both')
-        pipenv run bash dotdrop.sh "$CMD" -c 'config-user.yaml' "${ARGS[@]}"
+        pipenv run dotdrop "$CMD" -c 'config-user.yaml' "${ARGS[@]}"
         ;;
 esac
 
 case "$WHO" in
     'root'|'both')
         if [ "$USER" = 'root' ]; then
-            pipenv run bash dotdrop.sh "$CMD" -c 'config-root.yaml' \
+            pipenv run dotdrop "$CMD" -c 'config-root.yaml' \
                 "${ARGS[@]}"
         else
-            sudo -E -H pipenv run bash dotdrop.sh "$CMD" -c 'config-root.yaml' \
-                "${ARGS[@]}"
+            sudo -E -H PYTHONPATH="$PYTHONPATH" pipenv run dotdrop "$CMD" \
+                -c 'config-root.yaml' "${ARGS[@]}"
         fi
         ;;
 esac

@@ -2,6 +2,9 @@
 
 # This scripts defines environment variables for the bot and its scripts
 
+# Some custom python code uses imports
+export PYTHONPATH="$PYTHONPATH:$PWD"
+
 # Pipenv should be shared by root and unprivileged users
 export PIPENV_VENV_IN_PROJECT='true'
 

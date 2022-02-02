@@ -10,9 +10,13 @@ config:
   dotpath: ../../../../../dotfiles
   import_actions:
   - ../../../../actions/append.yaml
+  filter_file:
+  - ../../../../../python/filters.py
   func_file:
   - ../../../../../python/functions.py
   ignoreempty: true
+  import_configs:
+  - ../all-users/shell.yaml
   import_variables:
   - ../../../../variables/all-distros/all-hosts/all-users/misc.yaml
   - ../../../../variables/all-distros/all-hosts/{{@@ user @@}}/misc.yaml

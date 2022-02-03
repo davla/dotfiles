@@ -4,9 +4,10 @@
 
 	// List of extensions which should be recommended for users of this workspace.
 	"recommendations": [
-        "mads-hartmann.bash-ide-vscode",
+        "dcasella.i3",
         "editorconfig.editorconfig",
+        "mads-hartmann.bash-ide-vscode",
+        "ms-python.python",
         "wholroyd.jinja",
-        "ms-python.python"
     ]
 }

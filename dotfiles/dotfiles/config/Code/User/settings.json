@@ -30,6 +30,7 @@
     "editor.matchBrackets": "never",
     "editor.minimap.enabled": false,
     "editor.occurrencesHighlight": false,
+    "editor.quickSuggestionsDelay": 1000,
     "editor.renderLineHighlightOnlyWhenFocus": true,
     "editor.rulers": [
         79
@@ -140,7 +141,6 @@
     "debug.javascript.autoExpandGetters": true,
     "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
     "javascript.format.semicolons": "insert",
-    "javascript.implicitProjectConfig.checkJs": true,
     "javascript.preferences.importModuleSpecifier": "non-relative",
     "javascript.preferences.importModuleSpecifierEnding": "minimal",
     "javascript.preferences.quoteStyle": "single",
@@ -174,6 +174,12 @@
     "typescript.preferences.quoteStyle": "single",
     "typescript.suggest.completeFunctionCalls": true,
     "typescript.updateImportsOnFileMove.enabled": "always",
+
+    ////////////////////////////////////////
+    // JS/TS
+    ////////////////////////////////////////
+
+    "js/ts.implicitProjectConfig.checkJs": true,
 
     ////////////////////////////////////////
     // Look and feel
@@ -298,6 +304,25 @@
     // Python extension
     ////////////////////////////////////////
 
+    "jupyter.addGotoCodeLenses": false,
+    "jupyter.allowImportFromNotebook": false,
+    "jupyter.allowInput": false,
+    "jupyter.allowLiveShare": false,
+    "jupyter.askForKernelRestart": false,
+    "jupyter.askForLargeDataFrames": false,
+    "jupyter.collapseCellInputCodeByDefault": false,
+    "jupyter.colorizeInputBox": false,
+    "jupyter.decorateCells": false,
+    "jupyter.enableAutoMoveToNextCell": false,
+    "jupyter.enableCellCodeLens": false,
+    "jupyter.enabled": false,
+    "jupyter.enablePlotViewer": false,
+    "jupyter.enableScrollingForCellOutputs": false,
+    "jupyter.searchForJupyter": false,
+    "jupyter.showCellInputCode": false,
+    "jupyter.stopOnFirstLineWhileDebugging": false,
+    "jupyter.useDefaultConfigForJupyter": false,
+    "jupyter.useNotebookEditor": false,
     "python.analysis.logLevel": "Warning",
     "python.dataScience.addGotoCodeLenses": false,
     "python.dataScience.allowImportFromNotebook": false,

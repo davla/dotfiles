@@ -104,6 +104,12 @@
         "command": "-editor.togglequotes"
     },
 
+    // Sort lines
+    {
+        "key": "alt+a",
+        "command": "editor.action.sortLinesAscending"
+    },
+
     ////////////////////////////////////////
     // Code navigation
     ////////////////////////////////////////
@@ -183,5 +189,49 @@
     {
         "key": "ctrl+pagedown",
         "command": "-workbench.action.nextEditor"
-    }
+    },
+
+    ////////////////////////////////////////
+    // Side pane
+    ////////////////////////////////////////
+
+    // Explorer tree
+    {
+        "key": "ctrl+j",
+        "command": "workbench.files.action.collapseExplorerFolders"
+    },
+    {
+        "key": "ctrl+j",
+        "command": "-workbench.action.togglePanel"
+    },
+
+    ////////////////////////////////////////
+    // Workbench
+    ////////////////////////////////////////
+
+    // Command palette
+    {
+        "key": "ctrl+p",
+        "command": "workbench.action.showCommands"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "-workbench.action.quickOpen"
+    },
+    {
+        "key": "ctrl+shift+p",
+        "command": "-workbench.action.showCommands"
+    },
+
+    // Language selection
+    {
+        "key": "alt+j",
+        "command": "workbench.action.editor.changeLanguageMode",
+        "when": "!notebookEditorFocused"
+    },
+    {
+        "key": "ctrl+k m",
+        "command": "-workbench.action.editor.changeLanguageMode",
+        "when": "!notebookEditorFocused"
+    },
 ]

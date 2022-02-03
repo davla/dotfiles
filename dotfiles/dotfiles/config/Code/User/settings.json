@@ -15,6 +15,7 @@
     ///////////////////////////////////
 
     "breadcrumbs.filePath": "last",
+    "editor.bracketPairColorization.enabled": true,
     "editor.codeLens": false,
     "editor.colorDecorators": false,
     "editor.copyWithSyntaxHighlighting": false,
@@ -25,6 +26,7 @@
     "editor.folding": false,
     "editor.foldingHighlight": false,
     "editor.fontSize": 15,
+    "editor.guides.bracketPairs": "active",
     "editor.matchBrackets": "never",
     "editor.minimap.enabled": false,
     "editor.occurrencesHighlight": false,
@@ -51,8 +53,6 @@
     ////////////////////////////////////////
 
     "extensions.closeExtensionDetailsOnViewChange": true,
-    "extensions.ignoreRecommendations": true,
-    "extensions.showRecommendationsOnlyOnDemand": true,
 
     ////////////////////////////////////////
     // External tools
@@ -258,24 +258,6 @@
     "workbench.preferredDarkColorTheme": "Ayu Dark Bordered",
 
     ////////////////////////////////////////
-    // Bracket pair colorizer 2 extension
-    ////////////////////////////////////////
-
-    "bracket-pair-colorizer-2.colors": [
-        "#00FFFF",
-        "#FF7700",
-        "#00FF22",
-        "#FF0015"
-    ],
-    "bracket-pair-colorizer-2.scopeLineCSS": [
-        "borderWidth : 1px",
-        "borderStyle : solid",
-        "borderWidth : 1px",
-        "borderColor : {color}",
-        "opacity: 1"
-    ],
-
-    ////////////////////////////////////////
     // C/C++ extension
     ////////////////////////////////////////
 
@@ -286,22 +268,11 @@
     "cmake.skipConfigureIfCachePresent": true,
 
     ////////////////////////////////////////
-    // GitLens extension
+    // Emojisense extension
     ////////////////////////////////////////
 
-    "gitlens.blame.avatars": false,
-    "gitlens.currentLine.enabled": false,
-    "gitlens.hovers.currentLine.over": "line",
-    "gitlens.hovers.enabled": false,
-    "gitlens.mode.statusBar.enabled": false,
-    "gitlens.statusBar.enabled": false,
-    "gitlens.views.compare.enabled": false,
-    "gitlens.views.compare.location": "scm",
-    "gitlens.views.fileHistory.location": "scm",
-    "gitlens.views.lineHistory.location": "scm",
-    "gitlens.views.repositories.location": "scm",
-    "gitlens.views.search.enabled": false,
-    "gitlens.views.search.location": "scm",
+    "emojisense.unicodeCompletionsEnabled": false,
+    "emojisense.emojiDecoratorsEnabled": false,
 
     ////////////////////////////////////////
     // Indent rainbow extension
@@ -355,6 +326,5 @@
     // Misc extensions
     ////////////////////////////////////////
 
-    "[azure-pipelines].configure": false,
     "auto-comment-blocks.singleLineBlockOnEnter": true,
 }

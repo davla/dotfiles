@@ -154,6 +154,9 @@ dotfiles:
   f_i3config:
     src: config/i3/config
     dst: '{{@@ xdg_config("i3/config") @@}}'
+  f_keyring.service:
+    src: config/systemd/user/keyring.service
+    dst: '{{@@ xdg_config("systemd/user/keyring.service") @@}}'
   f_mako_config:
     src: config/mako/config
     dst: '{{@@ xdg_config("mako/config") @@}}'
@@ -310,6 +313,7 @@ profiles:
   startup:
     dotfiles:
     - d_autostart
+    - f_keyring.service
     - f_gpg-agent.conf
     - f_pam_environment
     - f_python_keyring

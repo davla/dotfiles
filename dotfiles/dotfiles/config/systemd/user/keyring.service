@@ -1,0 +1,19 @@
+# System keyring systemd service file
+
+[Unit]
+Description=System keyring (GNOME)
+After=graphical-session.target
+BindsTo=graphical-session.target
+
+[Install]
+WantedBy=graphical-session.target
+
+[Service]
+ExecStart=gnome-keyring-daemon --components=pkcs11,secrets --foreground --start
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=keyring
+SyslogLevel=info
+SyslogLevelPrefix=true
+Type=exec

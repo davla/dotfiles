@@ -140,6 +140,7 @@ execute() {
     DESC="$2"
 
     OUTPUT_LOG=$(mktemp)
+    trap "rm $OUTPUT_LOG" EXIT
 
     RETRY='true'
     while [ "$RETRY" = 'true' ]; do
@@ -187,7 +188,6 @@ The log has been saved to $OUTPUT_LOG. $RETRY_PROMPT"
     done
 
     printf '\n'
-    rm $OUTPUT_LOG
 
     unset CMD CMD_EXIT DESC OUTPUT_LOG RETRY
 }

@@ -27,6 +27,7 @@ config:
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ output_scaling @@}}.yaml:optional
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/repos.yaml:optional
   - yaml/profiles/all-distros/all-hosts/all-users/shared.yaml
+  - yaml/profiles/all-distros/all-hosts/all-users/shell.yaml
   - yaml/profiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
   import_variables:
   - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional

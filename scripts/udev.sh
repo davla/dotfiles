@@ -20,5 +20,5 @@ dotdrop install -p udev
 
 for HID_USER in "$@"; do
     echo "\e[32m[INFO]\e[0m Adding user '$HID_USER' to groups"
-    usermod -a -G hid -G input "$HID_USER"
+    usermod -a -G hid,input "$HID_USER"
 done

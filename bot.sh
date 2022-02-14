@@ -493,7 +493,7 @@ esac
 case "$STEP" in
     'udev'|'all')
         # Udev
-        $STEP_RUNNER "sudo sh -e scripts/udev.sh '$USER'" 'setting up udev rules' \
+        $STEP_RUNNER "sudo sh -e scripts/udev.sh $USER" 'setting up udev rules' \
             'set up udev rules'
         ;;
 esac

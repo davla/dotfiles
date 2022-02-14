@@ -121,7 +121,10 @@ echo "$GIT_ORIGIN" | grep 'https' > /dev/null 2>&1 && {
         ' correct SSH key'
     case "$HOST" in
         *'work'*)
-            echo "$GIT_ORIGIN" | sed 's/@github.com/@personal.github.com/' \
+            # The remote might have just been changed, hence $GIT_ORIGIN is
+            # stale and the git origin url needs to be queried again
+            git remote get-url origin \
+                | sed 's/@github.com/@personal.github.com/' \
                 | xargs git remote set-url origin
             ;;
     esac

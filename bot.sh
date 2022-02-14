@@ -140,6 +140,7 @@ execute() {
     DESC="$2"
 
     OUTPUT_LOG=$(mktemp)
+    trap "rm $OUTPUT_LOG" EXIT
 
     RETRY='true'
     while [ "$RETRY" = 'true' ]; do
@@ -151,17 +152,10 @@ execute() {
             tput cup 0 0
         }
 
-        # This is executed in the background: stdin is detatched, while stdout
-        # and stderr are shared with this script (likely connected to a tty).
-        tail -f "$OUTPUT_LOG" &
-
-        $SHELL -ec "$CMD" > "$OUTPUT_LOG" 2>&1
+        $CMD 2>&1 | tee "$OUTPUT_LOG"
         CMD_EXIT="$?"
         printf 'Press enter to continue'
         read ANSWER
-
-        # Killng tail, as the command is no longer writing to the file.
-        kill "$!"
 
         [ "$IN_ALTERNATE_BUFFER" = 'true' ] && {
             IN_ALTERNATE_BUFFER='false'
@@ -194,7 +188,6 @@ The log has been saved to $OUTPUT_LOG. $RETRY_PROMPT"
     done
 
     printf '\n'
-    rm $OUTPUT_LOG
 
     unset CMD CMD_EXIT DESC OUTPUT_LOG RETRY
 }
@@ -366,7 +359,7 @@ esac
 case "$STEP" in
     'custom-commands'|'all')
         # Custom commands - they are used by other scripts.
-        $STEP_RUNNER "cd dotfiles && sudo pipenv run bash dotdrop.sh install \
+        $STEP_RUNNER "cd dotfiles && sudo -E -H pipenv run bash dotdrop.sh install \
 -c config-root.yaml -p commands" \
             'custom commands installation' \
             'install your custom commands'

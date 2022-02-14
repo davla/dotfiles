@@ -1,0 +1,5 @@
+# Even an empty file would override and successfully disable the system default
+# .desktop file shipped with packaging, but better be explicit
+
+[Desktop Entry]
+Hidden=true

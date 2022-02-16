@@ -127,8 +127,5 @@ for_window [$thunderbird_criterion title=".* Reminder"] floating enable, \
 # Application startup
 #######################################
 
-# Autostart
-exec --no-startup-id dex -ae i3
-
 # Startup terminal
 exec --no-startup-id i3-msg 'workspace $ws3; exec $term'

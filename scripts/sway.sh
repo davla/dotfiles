@@ -9,7 +9,7 @@
 # Installing sway
 #######################################
 
-yay -S alacritty checkupdates+aur clipman dex grimshot i3blocks-git \
+yay -S alacritty checkupdates+aur clipman grimshot i3blocks-git \
     i3blocks-contrib-git i3-volume mako-git rust sway sway-launcher-desktop \
     ttf-nerd-fonts-symbols udiskie wdisplays wev wl-clipboard
 sudo cargo install --root /usr/local swayfocus

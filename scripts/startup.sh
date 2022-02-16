@@ -7,7 +7,43 @@
 . "$(dirname "$0")/../.dotfiles-env"
 
 #######################################
-# Setting up system/user startup jobs
+# Functions
 #######################################
 
-dotdrop -U both install -p startup
+# This function returns the absolute paths where the files belonging to a
+# dotdrop profile are installed to.
+#
+# Arguments:
+#   - $1: The dotdrop profile whose files will be returned
+#   - $2: The user the dotdrop profile belongs to. Optional, defaults to "user"
+dotdrop_files() {
+    INSTALLED_PROFILE="$1"
+    INSTALLED_USER="${2:-user}"
+
+    dotdrop files -bGp "$INSTALLED_PROFILE" -U "$INSTALLED_USER" 2> /dev/null \
+        | cut -d ',' -f 2 | cut -d ':' -f 2
+
+    unset INSTALLED_PROFILE INSTALLED_USER
+}
+
+#######################################
+# System startup jobs
+#######################################
+
+echo -e '\e[32m[INFO]\e[0m Install root startup jobs'
+dotdrop install -p startup -U root
+
+echo -e '\e[32m[INFO]\e[0m Enable and start root systemd services'
+dotdrop_files 'startup' 'root' | grep -E '\.service$' \
+    | xargs --no-run-if-empty sudo systemctl enable --now
+
+#######################################
+# User startup jobs
+#######################################
+
+echo -e '\e[32m[INFO]\e[0m Install user startup jobs'
+dotdrop install -p startup -U user
+
+echo -e '\e[32m[INFO]\e[0m Enable and start user systemd services'
+dotdrop_files 'startup' 'user' | grep -E '\.service$' \
+    | xargs --no-run-if-empty systemctl --user enable --now

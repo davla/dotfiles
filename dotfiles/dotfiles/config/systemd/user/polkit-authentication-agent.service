@@ -1,0 +1,19 @@
+# Polkit authentication agent systemd service file
+
+[Unit]
+Description=Polkit authentication agent (GNOME)
+After=graphical-session.target
+BindsTo=graphical-session.target
+
+[Install]
+WantedBy=graphical-session.target
+
+[Service]
+ExecStart=/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=polkit-auth-agent
+SyslogLevel=info
+SyslogLevelPrefix=true
+Type=exec

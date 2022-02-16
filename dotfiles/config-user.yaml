@@ -46,9 +46,6 @@ config:
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
-  d_autostart:
-    src: config/autostart
-    dst: '{{@@ xdg_config("autostart") @@}}'
   d_autorandr:
     src: config/autorandr
     dst: '{{@@ xdg_config("autorandr") @@}}'
@@ -103,6 +100,9 @@ dotfiles:
   d_xfce4_terminal:
     src: config/xfce4/terminal
     dst: '{{@@ xdg_config("xfce4/terminal") @@}}'
+  f_at-spi-dbus-bus.desktop:
+    src: config/autostart/disable-system-default.desktop
+    dst: '{{@@ xdg_config("autostart/at-spi-dbus-bus.desktop") @@}}'
   f_alacritty.yml:
     src: config/alacritty/alacritty.yml
     dst: '{{@@ xdg_config("alacritty/alacritty.yml") @@}}'
@@ -130,9 +130,21 @@ dotfiles:
   f_geany_keybindings.conf:
     src: config/geany/keybindings.conf
     dst: '{{@@ xdg_config("geany/keybindings.conf") @@}}'
+  f_geoclue-demo-agent.desktop:
+    src: config/autostart/disable-system-default.desktop
+    dst: '{{@@ xdg_config("autostart/geoclue-demo-agent.desktop") @@}}'
   f_ghci:
     src: ghci
     dst: ~/.ghci
+  f_gnome-keyring-pkcs11.desktop:
+    src: config/autostart/disable-system-default.desktop
+    dst: '{{@@ xdg_config("autostart/gnome-keyring-pkcs11.desktop") @@}}'
+  f_gnome-keyring-secrets.desktop:
+    src: config/autostart/disable-system-default.desktop
+    dst: '{{@@ xdg_config("autostart/gnome-keyring-secrets.desktop") @@}}'
+  f_gnome-keyring-ssh.desktop:
+    src: config/autostart/disable-system-default.desktop
+    dst: '{{@@ xdg_config("autostart/gnome-keyring-ssh.desktop") @@}}'
   f_gpg-agent.conf:
     src: gnupg/gpg-agent.conf
     dst: ~/.gnupg/gpg-agent.conf
@@ -154,27 +166,54 @@ dotfiles:
   f_i3config:
     src: config/i3/config
     dst: '{{@@ xdg_config("i3/config") @@}}'
+  f_keyring.service:
+    src: config/systemd/user/keyring.service
+    dst: '{{@@ xdg_config("systemd/user/keyring.service") @@}}'
+  f_light-locker.desktop:
+    src: config/autostart/disable-system-default.desktop
+    dst: '{{@@ xdg_config("autostart/light-locker.desktop") @@}}'
   f_mako_config:
     src: config/mako/config
     dst: '{{@@ xdg_config("mako/config") @@}}'
   f_mimeapps.list:
     src: config/mimeapps.list
     dst: '{{@@ xdg_config("mimeapps.list") @@}}'
+  f_org.gnome.SettingsDaemon.DiskUtilityNotify.desktop:
+    src: config/autostart/disable-system-default.desktop
+    dst: >-
+      {{@@ xdg_config(
+        "autostart/org.gnome.SettingsDaemon.DiskUtilityNotify.desktop"
+      ) @@}}
   f_pam_environment:
     src: pam_environment
     dst: ~/.pam_environment
-  f_qt5ct.conf:
-    src: config/qt5ct/qt5ct.conf
-    dst: '{{@@ xdg_config("qt5ct/qt5ct.conf") @@}}'
+  f_polkit-authentication-agent.service:
+    src: config/systemd/user/polkit-authentication-agent.service
+    dst: '{{@@ xdg_config("systemd/user/polkit-authentication-agent.service") @@}}'
+  f_polkit-gnome-authentication-agent-1.desktop:
+    src: config/autostart/disable-system-default.desktop
+    dst: >-
+      {{@@
+        xdg_config("autostart/polkit-gnome-authentication-agent-1.desktop")
+      @@}}
+  f_print-applet.desktop:
+    src: config/autostart/disable-system-default.desktop
+    dst: '{{@@ xdg_config("autostart/print-applet.desktop") @@}}'
   f_picom.conf:
     src: config/picom.conf
     dst: '{{@@ xdg_config("picom.conf") @@}}'
   f_picom.service:
     src: config/systemd/user/picom.service
     dst: '{{@@ xdg_config("systemd/user/picom.service") @@}}'
+  f_pulseaudio.desktop:
+    src: config/autostart/disable-system-default.desktop
+    dst: '{{@@ xdg_config("autostart/pulseaudio.desktop") @@}}'
   f_python_keyring:
     src: config/python_keyring/keyringrc.cfg
     dst: '{{@@ xdg_config("python_keyring/keyringrc.cfg") @@}}'
+  f_qt5ct.conf:
+    src: config/qt5ct/qt5ct.conf
+    dst: '{{@@ xdg_config("qt5ct/qt5ct.conf") @@}}'
   f_sct.service:
     src: config/systemd/user/sct.service
     dst: '{{@@ xdg_config("systemd/user/sct.service") @@}}'
@@ -218,6 +257,9 @@ dotfiles:
   f_vscode_settings.json:
     src: config/Code/User/settings.json
     dst: '{{@@ xdg_config("Code/User/settings.json") @@}}'
+  f_xdg-user-dirs.desktop:
+    src: config/autostart/disable-system-default.desktop
+    dst: '{{@@ xdg_config("autostart/xdg-user-dirs.desktop") @@}}'
   f_xfce-applications.menu:
     src: config/menus/xfce-applications.menu
     dst: '{{@@ xdg_config("menus/xfce-applications.menu") @@}}'
@@ -309,10 +351,22 @@ profiles:
   # This profile contains dotfiles used when the user session starts.
   startup:
     dotfiles:
-    - d_autostart
+    - f_at-spi-dbus-bus.desktop
+    - f_geoclue-demo-agent.desktop
+    - f_gnome-keyring-pkcs11.desktop
+    - f_gnome-keyring-secrets.desktop
+    - f_gnome-keyring-ssh.desktop
     - f_gpg-agent.conf
+    - f_keyring.service
+    - f_light-locker.desktop
+    - f_org.gnome.SettingsDaemon.DiskUtilityNotify.desktop
     - f_pam_environment
+    - f_polkit-authentication-agent.service
+    - f_polkit-gnome-authentication-agent-1.desktop
+    - f_print-applet.desktop
+    - f_pulseaudio.desktop
     - f_python_keyring
+    - f_xdg-user-dirs.desktop
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
     include:

@@ -4,8 +4,10 @@
 
 	// List of extensions which should be recommended for users of this workspace.
 	"recommendations": [
+        "coolbear.systemd-unit-file",
         "dcasella.i3",
         "editorconfig.editorconfig",
+        "hangxingliu.vscode-systemd-support",
         "mads-hartmann.bash-ide-vscode",
         "ms-python.python",
         "wholroyd.jinja",

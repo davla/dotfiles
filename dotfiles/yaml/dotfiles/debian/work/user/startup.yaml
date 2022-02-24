@@ -1,0 +1,8 @@
+%YAML 1.2
+---
+# This dotfiles file lists the dotfiles to be included in the "startup" profile
+# for Debian only my work machine for unprivileged users.
+
+dotfiles:
+- f_vmware-user.desktop
+- f_vmware-user.service

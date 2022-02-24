@@ -54,6 +54,9 @@ dotfiles:
   f_microsoft-prod.list:
     src: etc/apt/sources.list.d/microsoft-prod.list
     dst: /etc/apt/sources.list.d/microsoft-prod.list
+  f_mono.list:
+    src: etc/apt/sources.list.d/mono.list
+    dst: /etc/apt/sources.list.d/mono.list
   f_nordvpn.list:
     src: etc/apt/sources.list.d/nordvpn.list
     dst: /etc/apt/sources.list.d/nordvpn.list

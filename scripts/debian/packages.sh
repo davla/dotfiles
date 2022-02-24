@@ -157,8 +157,8 @@ case "$HOST" in
 
     'work')
         apt-get install android-studio azure-cli cppcheck dotnet-sdk-6.0 \
-            ffmpeg libasound2-dev libssl-dev libudev-dev open-vm-tools \
-            open-vm-tools-desktop teams valgrind
+            ffmpeg libasound2-dev libssl-dev libudev-dev mono-complete \
+            open-vm-tools open-vm-tools-desktop teams valgrind
         pip install artifacts-keyring poetry
         ;;
 esac

@@ -24,6 +24,9 @@ config:
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
+  f_alacritty.list:
+    src: etc/apt/sources.list.d/alacritty.list
+    dst: /etc/apt/sources.list.d/alacritty.list
   f_android-studio.list:
     src: etc/apt/sources.list.d/android-studio.list
     dst: /etc/apt/sources.list.d/android-studio.list
@@ -83,6 +86,7 @@ profiles:
   # This profile collects apt repository files
   packages:
     dotfiles:
+    - f_alacritty.list
     - f_firefox-beta.list
     - f_docker.list
     - f_sid.list

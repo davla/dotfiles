@@ -1,0 +1,4 @@
+# Alacritty PPA
+
+deb https://ppa.launchpadcontent.net/aslatter/ppa/ubuntu hirsute main
+deb-src https://ppa.launchpadcontent.net/aslatter/ppa/ubuntu hirsute main

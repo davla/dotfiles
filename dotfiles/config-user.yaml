@@ -309,7 +309,7 @@ profiles:
   i3:
     dotfiles:
     - d_thunar
-    - d_xfce4_terminal
+    - f_alacritty.yml
     - f_dunstrc
     - f_i3blocks_config
     - f_i3config
@@ -329,7 +329,6 @@ profiles:
       is_headless: false
       on_wayland: false
       on_x11: true
-      term: xfce4-terminal
       wm_name: i3
 
   # This profile includes the dotfiles for look & feel of a GUI environment,
@@ -396,7 +395,6 @@ profiles:
       is_headless: false
       on_wayland: true
       on_x11: false
-      term: alacritty
       wm_name: sway
 
   # This profile groups VSCode-related dotfiles, as well as creating the

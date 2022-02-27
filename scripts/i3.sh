@@ -16,7 +16,6 @@ case "$DISTRO" in
 
     'debian')
         sudo apt-get install autorandr dunst i3 i3blocks picom thunar
-        sudo apt-get purge i3status
         ;;
 esac
 

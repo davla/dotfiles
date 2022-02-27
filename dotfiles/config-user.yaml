@@ -100,6 +100,9 @@ dotfiles:
   f_alacritty.yml:
     src: config/alacritty/alacritty.yml
     dst: '{{@@ xdg_config("alacritty/alacritty.yml") @@}}'
+  f_autorandr.desktop:
+    src: config/autostart/disable-system-default.desktop
+    dst: '{{@@ xdg_config("autostart/autorandr.desktop") @@}}'
   f_calibre_global.py:
     src: config/calibre/global.py
     dst: '{{@@ xdg_config("calibre/global.py") @@}}'
@@ -352,6 +355,7 @@ profiles:
   startup:
     dotfiles:
     - f_at-spi-dbus-bus.desktop
+    - f_autorandr.desktop
     - f_geoclue-demo-agent.desktop
     - f_gnome-keyring-pkcs11.desktop
     - f_gnome-keyring-secrets.desktop

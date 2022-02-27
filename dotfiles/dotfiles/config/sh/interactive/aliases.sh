@@ -9,34 +9,54 @@
 # Core commands aliases
 #######################################
 
+{#@@ Copy-paste @@#}
 {%@@ if on_x11 | is_truthy -@@%}
 
+# Copy-paste
 alias c='xsel -i -b'
 alias p='xsel -o'
 
 {#@@ On wayland copy and paste are only available to unprivileged users @@#}
 {%@@ elif on_wayland | is_truthy and user == 'user' -@@%}
 
+# Copy-paste
 alias c='wl-copy'
 alias p='wl-paste'
 
-{%@@ endif @@%}
+{%@@ endif -@@%}
+
+{#@@ Root shell  @@#}
 {%@@ if user == 'user' -@@%}
 
+# Root shell
 alias root='sudo -s'
 
-{#@@ yay can only be invoked by unprivileged users @@#}
-{%@@ if env['DISTRO'] == 'arch' -@@%}
+{%@@ endif -@@%}
 
+{#@@ Updates @@#}
+{%@@ if env['DISTRO'] == 'arch' and user == 'user' -@@%}
+
+# Updates
 alias update='yay -Suyy'
 
-{%@@ endif @@%}
-{%@@ elif user == 'root' @@%}
-{%@@ if env['DISTRO'] == 'debian' @@%}
+{%@@ elif env['DISTRO'] == 'debian' and user == 'root' -@@%}
 
+# Updates
 alias update='apt-get update && apt-get upgrade'
 
-{%@@ endif @@%}
+{%@@ endif -@@%}
+
+{#@@ Power control @@#}
+{#@@
+    Arch ships with executables that basically use systemd with some wrapping
+    https://man.archlinux.org/man/core/systemd-sysvcompat/halt.8.en
+@@#}
+{%@@ if env['DISTRO'] == 'debian' -@@%}
+
+# Power control
+alias halt='systemctl poweroff'
+alias reboot='systemctl reboot'
+
 {%@@ endif -@@%}
 
 #######################################

@@ -42,8 +42,8 @@
       <property name="&lt;Super&gt;e" type="string" value="geany"/>
       <property name="&lt;Super&gt;s" type="string" value="xfce4-taskmanager"/>
       <property name="&lt;Super&gt;f" type="string" value="exo-open --launch FileManager"/>
-      <property name="&lt;Super&gt;Escape" type="string" value="halt -p"/>
-      <property name="&lt;Super&gt;F5" type="string" value="reboot"/>
+      <property name="&lt;Super&gt;Escape" type="string" value="systemctl poweroff"/>
+      <property name="&lt;Super&gt;F5" type="string" value="systemctl reboot"/>
       <property name="&lt;Super&gt;a" type="string" value="exo-open --launch WebBrowser https://keep.google.com/">
         <property name="startup-notify" type="bool" value="true"/>
       </property>

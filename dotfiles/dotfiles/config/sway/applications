@@ -77,8 +77,8 @@ bindsym {
     $mod+m exec --no-startup-id makoctl dismiss --all
     $mod+n exec --no-startup-id makoctl dismiss
     $mod+comma exec --no-startup-id makoctl restore
-    $mod+F5 exec --no-startup-id reboot
-    $mod+Escape exec --no-startup-id halt -p
+    $mod+F5 exec --no-startup-id systemctl reboot
+    $mod+Escape exec --no-startup-id systemctl poweroff
 }
 
 #######################################

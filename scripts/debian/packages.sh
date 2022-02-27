@@ -11,32 +11,6 @@
 . "$(dirname "$0")/../../.dotfiles-env"
 
 #######################################
-# Variables
-#######################################
-
-# shellcheck disable=2039
-case "$HOST" in
-    'personal')
-        # Executable file names to be linked on $PATH
-        EXECS='arduino
-halt
-mysql
-php
-reboot
-Telegram'
-        ;;
-
-    'work')
-    # Executable file names to be linked on $PATH
-    EXECS='halt
-reboot'
-        ;;
-esac
-
-# Directory in $PATH where executables are linked
-PATH_DIR='/usr/local/bin'
-
-#######################################
 # Functions
 #######################################
 
@@ -224,26 +198,3 @@ usermod -aG docker "$USER_NAME"
     usermod -aG nordvpn "$USER_NAME"
     sudo -u "$USER_NAME" nordvpn-config
 }
-
-# Symlinking executables in a $PATH directory accessible to unpirvileged users
-echo "$EXECS" | while read EXEC; do
-    # Trying to find another executable with the same name in $PATH. If no
-    # executable is found on $PATH, scanning the whole filesystem
-    EXEC_PATH="$(
-        (which -a "$EXEC" | grep -v 'not found' | grep -v "$PATH_DIR" \
-            || find / -type f -executable -name "$EXEC" 2> /dev/null) \
-        | head -n 1)"
-    [ -z "$EXEC_PATH" ] && {
-        echo >&2 "$EXEC not found"
-        continue
-    }
-
-    # Only lowercase executables in $PATH
-    echo "$EXEC" | tr '[:upper:]' '[:lower:]' \
-        | xargs -i ln -sf "$EXEC_PATH" "$PATH_DIR/{}"
-
-    # Setting SUID for root-owned executables
-    [ "$(stat -c %U "$EXEC_PATH")" = 'root' ] && chmod u+s "$EXEC_PATH"
-
-    echo "$EXEC linked"
-done

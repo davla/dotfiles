@@ -39,11 +39,11 @@ bindsym $mod+Shift+y exec geany
 bindsym $mod+y exec --no-startup-id \
     i3-msg '[$scratchpad_editor_criterion] scratchpad show' \
     || geany --name scratchpad-editor
-bindsym $mod+Escape exec --no-startup-id halt -p
+bindsym $mod+Escape exec --no-startup-id systemctl poweroff
 bindsym $mod+e exec --no-startup-id \
     i3-msg '[${{@@ messaging_client @@}}_criterion] scratchpad show' \
     || {{@@ messaging_client @@}}
-bindsym $mod+F5 exec --no-startup-id reboot
+bindsym $mod+F5 exec --no-startup-id systemctl reboot
 bindsym $mod+Tab exec $term
 bindsym $mod+Shift+Tab exec --no-startup-id \
     i3-msg '[$scratchpad_term_criterion] scratchpad show' \

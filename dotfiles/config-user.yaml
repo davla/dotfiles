@@ -94,12 +94,12 @@ dotfiles:
     - desktop
     - xfce4-screenshooter
     - xfwm4
-  f_at-spi-dbus-bus.desktop:
-    src: config/autostart/disable-system-default.desktop
-    dst: '{{@@ xdg_config("autostart/at-spi-dbus-bus.desktop") @@}}'
   f_alacritty.yml:
     src: config/alacritty/alacritty.yml
     dst: '{{@@ xdg_config("alacritty/alacritty.yml") @@}}'
+  f_at-spi-dbus-bus.desktop:
+    src: config/autostart/disable-system-default.desktop
+    dst: '{{@@ xdg_config("autostart/at-spi-dbus-bus.desktop") @@}}'
   f_autorandr.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/autorandr.desktop") @@}}'
@@ -190,6 +190,12 @@ dotfiles:
   f_parcellite-startup.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/parcellite-startup.desktop") @@}}'
+  f_picom.conf:
+    src: config/picom.conf
+    dst: '{{@@ xdg_config("picom.conf") @@}}'
+  f_picom.service:
+    src: config/systemd/user/picom.service
+    dst: '{{@@ xdg_config("systemd/user/picom.service") @@}}'
   f_polkit-authentication-agent.service:
     src: config/systemd/user/polkit-authentication-agent.service
     dst: '{{@@ xdg_config("systemd/user/polkit-authentication-agent.service") @@}}'
@@ -202,12 +208,6 @@ dotfiles:
   f_print-applet.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/print-applet.desktop") @@}}'
-  f_picom.conf:
-    src: config/picom.conf
-    dst: '{{@@ xdg_config("picom.conf") @@}}'
-  f_picom.service:
-    src: config/systemd/user/picom.service
-    dst: '{{@@ xdg_config("systemd/user/picom.service") @@}}'
   f_pulseaudio.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/pulseaudio.desktop") @@}}'

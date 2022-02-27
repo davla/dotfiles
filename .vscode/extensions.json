@@ -6,6 +6,7 @@
 	"recommendations": [
         "coolbear.systemd-unit-file",
         "dcasella.i3",
+        "deitry.apt-source-list-syntax",
         "editorconfig.editorconfig",
         "hangxingliu.vscode-systemd-support",
         "mads-hartmann.bash-ide-vscode",

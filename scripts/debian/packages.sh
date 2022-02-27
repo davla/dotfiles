@@ -125,15 +125,15 @@ esac
 # shellcheck disable=2039
 case "$HOST" in
     'personal')
-        apt-get install asunder brasero calibre dropbox \
-            balena-etcher-electron gimp gufw handbrake-gtk libreoffice-calc \
+        apt-get install asunder balena-etcher-electron blueman brasero \
+            calibre dropbox gimp gufw handbrake-gtk libreoffice-calc \
             libreoffice-impress libreoffice-writer kid3 remmina simple-scan \
             soundconverter system-config-printer thunderbird transmission-gtk \
             vlc
             ;;
 esac
 
-apt-get install atril baobab blueman code firefox gdebi geany gnome-clocks \
+apt-get install atril baobab code firefox gdebi geany gnome-clocks \
     gparted hardinfo parcellite pavucontrol peek seahorse spotify-client \
     synaptic xfce4-screenshooter
 

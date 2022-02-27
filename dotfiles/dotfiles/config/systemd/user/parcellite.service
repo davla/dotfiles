@@ -1,0 +1,17 @@
+# parcellite systemd service file
+
+[Unit]
+Description=X11 clipboard manager
+After=graphical-session.target
+BindsTo=graphical-session.target
+ConditionEnvironment=DISPLAY
+
+[Service]
+ExecStart=parcellite
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=parcellite
+SyslogLevel=info
+SyslogLevelPrefix=true
+Type=exec

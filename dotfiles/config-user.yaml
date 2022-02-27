@@ -84,22 +84,16 @@ dotfiles:
     dst: '{{@@ xdg_config("xfce4") @@}}'
     cmpignore:
     - desktop
-    - terminal
     - xfce4-screenshooter
     - xfwm4
     instignore:
     - desktop
-    - terminal
     - xfce4-screenshooter
     - xfwm4
     upignore:
     - desktop
-    - terminal
     - xfce4-screenshooter
     - xfwm4
-  d_xfce4_terminal:
-    src: config/xfce4/terminal
-    dst: '{{@@ xdg_config("xfce4/terminal") @@}}'
   f_at-spi-dbus-bus.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/at-spi-dbus-bus.desktop") @@}}'
@@ -309,7 +303,7 @@ profiles:
   i3:
     dotfiles:
     - d_thunar
-    - d_xfce4_terminal
+    - f_alacritty.yml
     - f_dunstrc
     - f_i3blocks_config
     - f_i3config
@@ -329,7 +323,6 @@ profiles:
       is_headless: false
       on_wayland: false
       on_x11: true
-      term: xfce4-terminal
       wm_name: i3
 
   # This profile includes the dotfiles for look & feel of a GUI environment,
@@ -396,7 +389,6 @@ profiles:
       is_headless: false
       on_wayland: true
       on_x11: false
-      term: alacritty
       wm_name: sway
 
   # This profile groups VSCode-related dotfiles, as well as creating the
@@ -421,7 +413,6 @@ profiles:
     - d_desktop-directories
     - d_thunar
     - d_xfce4
-    - d_xfce4_terminal
     - f_xfce-applications.menu
     include:
     - look-and-feel

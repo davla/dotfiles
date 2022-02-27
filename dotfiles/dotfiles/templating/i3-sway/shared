@@ -51,7 +51,7 @@ set $wm_control_key Shift
 set $scratchpad_show scratchpad show, move position center
 
 # Applications
-set $term {{@@ term @@}}
+set $term alacritty
 
 #######################################
 # Containers

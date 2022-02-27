@@ -11,13 +11,11 @@
 
 case "$DISTRO" in
     'arch')
-        yay -S autorandr dunst i3blocks i3-gaps i3-volume picom thunar \
-            xfce4-terminal
+        yay -S autorandr dunst i3blocks i3-gaps i3-volume picom thunar
         ;;
 
     'debian')
-        sudo apt-get install autorandr dunst i3 i3blocks picom thunar \
-            xfce4-terminal
+        sudo apt-get install autorandr dunst i3 i3blocks picom thunar
         sudo apt-get purge i3status
         ;;
 esac

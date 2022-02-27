@@ -11,6 +11,14 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
     | xargs -0 -i basename '{}' '.list' | tr '[:upper:]' '[:lower:]' \
     | while read REPO; do
         case "$REPO" in
+            'alacritty')
+                echo "Installing apt repository key for $REPO"
+
+                apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' \
+                    --recv-keys '3A160895CC2CE253085D08A552B24DF7D43B5377' \
+                    > /dev/null
+                ;;
+
             'android-studio')
                 echo "Installing apt repository key for $REPO"
 

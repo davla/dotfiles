@@ -8,7 +8,6 @@
     "debug.showInlineBreakpointCandidates": false,
     "npm.enableRunFromFolder": true,
     "terminal.explorerKind": "external",
-    "terminal.external.linuxExec": "xfce4-terminal",
 
     ///////////////////////////////////
     // Editor

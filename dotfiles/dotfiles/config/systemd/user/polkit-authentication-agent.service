@@ -1,4 +1,6 @@
 # Polkit authentication agent systemd service file
+#
+# {{@@ header() @@}}
 
 [Unit]
 Description=Polkit authentication agent (GNOME)
@@ -9,7 +11,11 @@ BindsTo=graphical-session.target
 WantedBy=graphical-session.target
 
 [Service]
-ExecStart=/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+ExecStart={%@@ if env['DISTRO'] == 'arch' -@@%}
+    /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+{%@@- elif env['DISTRO'] == 'debian' -@@%}
+    /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+{%@@ endif @@%}
 StandardError=journal
 StandardOutput=journal
 SyslogFacility=local0

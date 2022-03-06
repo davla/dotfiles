@@ -11,11 +11,12 @@
 
 case "$DISTRO" in
     'arch')
-        yay -S autorandr dunst i3blocks i3-gaps i3-volume picom thunar
+        yay -S alacritty autorandr dunst i3blocks i3-gaps i3-volume picom \
+            thunar
         ;;
 
     'debian')
-        sudo apt-get install autorandr dunst i3 i3blocks picom thunar
+        sudo apt-get install alacritty autorandr dunst i3 i3blocks picom thunar
         ;;
 esac
 

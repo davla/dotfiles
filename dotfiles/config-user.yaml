@@ -181,6 +181,12 @@ dotfiles:
   f_pam_environment:
     src: pam_environment
     dst: ~/.pam_environment
+  f_parcellite.service:
+    src: config/systemd/user/parcellite.service
+    dst: '{{@@ xdg_config("systemd/user/parcellite.service") @@}}'
+  f_parcellite-startup.desktop:
+    src: config/autostart/disable-system-default.desktop
+    dst: '{{@@ xdg_config("autostart/parcellite-startup.desktop") @@}}'
   f_polkit-authentication-agent.service:
     src: config/systemd/user/polkit-authentication-agent.service
     dst: '{{@@ xdg_config("systemd/user/polkit-authentication-agent.service") @@}}'
@@ -307,6 +313,7 @@ profiles:
     - f_dunstrc
     - f_i3blocks_config
     - f_i3config
+    - f_parcellite.service
     - f_picom.conf
     - f_picom.service
     - f_sct.service
@@ -354,6 +361,7 @@ profiles:
     - f_light-locker.desktop
     - f_org.gnome.SettingsDaemon.DiskUtilityNotify.desktop
     - f_pam_environment
+    - f_parcellite-startup.desktop
     - f_polkit-authentication-agent.service
     - f_polkit-gnome-authentication-agent-1.desktop
     - f_print-applet.desktop

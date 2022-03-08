@@ -72,6 +72,9 @@ dotfiles:
   f_local_bin_my-certbot:
     src: usr/local/bin/my-certbot
     dst: /usr/local/bin/my-certbot
+  f_local_bin_second-on-path:
+    src: usr/local/bin/second-on-path
+    dst: /usr/local/bin/second-on-path
   f_local_bin_signal-desktop:
     src: usr/local/bin/signal-desktop
     dst: /usr/local/bin/signal-desktop
@@ -144,6 +147,7 @@ profiles:
     - f_local_bin_bitwarden-desktop
     - f_local_bin_code
     - f_local_bin_electron-wayland
+    - f_local_bin_second-on-path
     - f_local_bin_signal-desktop
     - f_local_bin_spotify
 

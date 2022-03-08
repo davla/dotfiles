@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+# This script runs the second match on PATH of a given command, instead of the
+# first like a conventional shell. This allows to shim an executable by just
+# placing it in a directory that appears at the beginning of PATH, like
+# /usr/local/bin.
+#
+# Arguments:
+#   - $1: the command to lookup on PATH
+#   - $2+: any argument the command in $1 accepts
+
+CMD="$1"
+shift
+exec $(which -a "$CMD" | sed '2q;d') "$@"

@@ -235,6 +235,9 @@ dotfiles:
   f_swayfocus.service:
     src: config/systemd/user/swayfocus.service
     dst: '{{@@ xdg_config("systemd/user/swayfocus.service") @@}}'
+  f_teams.desktop:
+    src: config/autostart/disable-system-default.desktop
+    dst: '{{@@ xdg_config("autostart/teams.desktop") @@}}'
   f_trolltech.conf:
     src: config/Trolltech.conf
     dst: '{{@@ xdg_config("Trolltech.conf") @@}}'

@@ -4,5 +4,6 @@
 # for Debian only my work machine for unprivileged users.
 
 dotfiles:
+- f_teams.desktop
 - f_vmware-user.desktop
 - f_vmware-user.service

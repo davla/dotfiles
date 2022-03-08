@@ -1,9 +1,0 @@
-#!/usr/bin/env sh
-
-# This script is meant as a wrapper for the package-distributed "code" command
-# that add options to make the command work under Wayland
-#
-# Arguments:
-#   - $@: Anything the package-distributed "code" command accepts
-
-exec electron-wayland code "$@"

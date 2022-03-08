@@ -1,31 +1,22 @@
 #!/usr/bin/env sh
 
-# This script adds to a command the CLI options to run Electron under Wayland.
-#
-# If searching the command in PATH resolves to more than one file, the second
-# entry is used as the command to invoke. This allows the caller of this script
-# to be named the same as the actual command, acting as a sort-of "Wayland
-# wrapper"
+{%@@ set executable = basename(_dotfile_abs_dst) -@@%}
+
+# This script is meant as a shim for the package-distributed
+# "{{@@ executable @@}}" command that adds options to make the it work in
+# Wayland
 #
 # Arguments:
-#    - $1: The command to execute
-#    - $2+: The arguments to the command to be executed
+#   - $@: Anything the package-distributed "{{@@ executable @@}}" command
+#         accepts
+#
+# {{@@ header() @@}}
 
 ########################################
-# Find actual command
+# Add Electron Ozone options
 ########################################
 
-# If there's more than one command on PATH, take the second, else the given one
-[ "$(which -a "$1" | wc -l)" -gt 1 ] \
-    && ACTUAL_CMD="$(which -a "$1" | tail -n +2 | head -n 1)" \
-    || ACTUAL_CMD="$1"
-shift
-
-########################################
-# Invoke with Ozone
-########################################
-
-exec "$ACTUAL_CMD" \
+exec second-on-path {{@@ executable @@}} \
     --enable-features=UseOzonePlatform \
     --ozone-platform=wayland \
     "$@"

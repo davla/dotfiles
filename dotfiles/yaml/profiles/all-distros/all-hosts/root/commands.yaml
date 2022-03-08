@@ -55,17 +55,14 @@ dotfiles:
     src: usr/local/bin/active-playerctl
     dst: /usr/local/bin/active-playerctl
   f_local_bin_bitwarden-desktop:
-    src: usr/local/bin/bitwarden-desktop
+    src: usr/local/bin/electron-wayland
     dst: /usr/local/bin/bitwarden-desktop
   f_local_bin_code:
-    src: usr/local/bin/code
+    src: usr/local/bin/electron-wayland
     dst: /usr/local/bin/code
   f_local_bin_dotdrop:
     src: usr/local/bin/dotdrop
     dst: /usr/local/bin/dotdrop
-  f_local_bin_electron-wayland:
-    src: usr/local/bin/electron-wayland
-    dst: /usr/local/bin/electron-wayland
   f_local_bin_launcher:
     src: usr/local/bin/launcher
     dst: /usr/local/bin/launcher
@@ -76,7 +73,7 @@ dotfiles:
     src: usr/local/bin/second-on-path
     dst: /usr/local/bin/second-on-path
   f_local_bin_signal-desktop:
-    src: usr/local/bin/signal-desktop
+    src: usr/local/bin/electron-wayland
     dst: /usr/local/bin/signal-desktop
   f_local_bin_shell-cache:
     src: usr/local/bin/shell-cache
@@ -146,7 +143,6 @@ profiles:
     dotfiles:
     - f_local_bin_bitwarden-desktop
     - f_local_bin_code
-    - f_local_bin_electron-wayland
     - f_local_bin_second-on-path
     - f_local_bin_signal-desktop
     - f_local_bin_spotify

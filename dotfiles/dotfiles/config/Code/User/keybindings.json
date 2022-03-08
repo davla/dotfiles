@@ -198,7 +198,8 @@
     // Explorer tree
     {
         "key": "ctrl+j",
-        "command": "workbench.files.action.collapseExplorerFolders"
+        "command": "workbench.action.tasks.runTask",
+        "args": "focus-and-collapse-tree"
     },
     {
         "key": "ctrl+j",

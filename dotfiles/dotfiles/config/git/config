@@ -123,6 +123,11 @@
     # update
     up = update
 
+[advice]
+    addIgnoredFile = false
+    detachedHead = false
+    skippedCherryPicks = false
+
 [apply]
     ignoreWhitespace = false
     whitespace = fix

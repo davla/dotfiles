@@ -1,0 +1,5 @@
+# This file sets the secure_path option to the upstream default (unset).
+# This is necessary on Debian for asdf to work, as its path is added to PATH
+# at runtime, hence the need to use the user's PATH for sudo.
+
+Defaults	!secure_path

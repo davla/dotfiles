@@ -277,6 +277,9 @@ dotfiles:
   f_sudo_insults:
     src: etc/sudoers.d/insults
     dst: /etc/sudoers.d/insults
+  f_sudo_secure_path:
+    src: etc/sudoers.d/secure_path
+    dst: /etc/sudoers.d/secure_path
   f_systemd_getty:
     src: etc/systemd/system/getty@tty1.service.d/override.conf
     dst: /etc/systemd/system/getty@tty1.service.d/override.conf
@@ -376,6 +379,8 @@ profiles:
     - f_asdf-env-bash
     - f_asdf-env-zsh
     - f_sudo_asdf-env
+    import:
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/asdf.yaml:optional
     dynvariables:
       asdf_env_tmp_dst: mktemp /tmp/asdf-env-tmp.XXX
     variables:

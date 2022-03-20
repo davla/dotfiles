@@ -1,0 +1,9 @@
+# {{@@ asdf_environment_append_marker @@}}
+#
+# This file contains the environment variables used to configure asdf
+#
+# {{@@ header() @@}}
+
+{%@@ for name, value in vars_with_prefix('asdf_env_var').items() -@@%}
+    {{@@ name | upper @@}}={{@@ value @@}}
+{%@@ endfor @@%}

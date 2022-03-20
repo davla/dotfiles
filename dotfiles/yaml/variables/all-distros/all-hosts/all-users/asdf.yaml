@@ -9,7 +9,7 @@ variables:
   # These variables encode the environment variables related to asdf
   asdf_env_var_asdf_home: '{{@@ asdf_home @@}}'
   asdf_env_var_asdf_config: '{{@@ asdf_config @@}}'
-  asdf_env_var_asdf_config_file: '"$ASDF_CONFIG/asdfrc"'
-  asdf_env_var_asdf_data_dir: '"$ASDF_HOME/data"'
+  asdf_env_var_asdf_config_file: '"${ASDF_CONFIG}/asdfrc"'
+  asdf_env_var_asdf_data_dir: '"${ASDF_HOME}/data"'
   asdf_env_var_asdf_default_tool_versions_filename: >-
-    "$ASDF_CONFIG/tool-versions"
+    "${ASDF_CONFIG}/tool-versions"

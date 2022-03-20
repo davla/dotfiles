@@ -161,34 +161,12 @@ dotfiles:
   f_99-no-wireless-on-wired:
     src: etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
     dst: /etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
-  f_asdf-env:
-    src: etc/profile.d/asdf-env.sh
-    # Dynamic path as it's used somewhere else too
-    dst: '{{@@ asdf_env_path @@}}'
-  f_asdf-env-bash:
-    src: env/source-asdf-env
-    # Dynamic path since the dotfile content is inserted into dst
-    dst: '{{@@ asdf_env_tmp_dst @@}}'
+  f_asdf-environment:
+    src: etc/asdf-environment
+    dst: '{{@@ asdf_environment_tmp_dst @@}}'
     actions:
-    - create_if_empty '{{@@ bash_env_dst @@}}' '#!/usr/bin/env bash\n'
-    - strip_file '{{@@ asdf_env_tmp_dst @@}}' '{{@@ bash_env_dst @@}}'
-    # Inserts after the first empty line or the first comment
-    - >-
-      insert_match '(^$|^[^#])' '{{@@ asdf_env_tmp_dst @@}}'
-        '{{@@ bash_env_dst @@}}'
-    - rm '{{@@ asdf_env_tmp_dst @@}}'
-  f_asdf-env-zsh:
-    src: env/source-asdf-env
-    # Dynamic path since the dotfile content is inserted into dst
-    dst: '{{@@ asdf_env_tmp_dst @@}}'
-    actions:
-    - create_if_empty '{{@@ zsh_env_dst @@}}' '#!/usr/bin/env zsh\n'
-    - strip_file '{{@@ asdf_env_tmp_dst @@}}' '{{@@ zsh_env_dst @@}}'
-    # Inserts after the first empty line or the first comment
-    - >-
-      insert_match '(^$|^[^#])' '{{@@ asdf_env_tmp_dst @@}}'
-        '{{@@ zsh_env_dst @@}}'
-    - rm '{{@@ asdf_env_tmp_dst @@}}'
+    - strip '{{@@ asdf_environment_append_marker @@}}' '{{@@ asdf_environment_dst @@}}'
+    - append '{{@@ asdf_environment_dst @@}}' '{{@@ asdf_environment_tmp_dst @@}}'
   f_ddclient.conf:
     src: etc/ddclient.conf
     # Dynamic path since it differs across distros
@@ -375,18 +353,16 @@ profiles:
   asdf:
     dotfiles:
     - d_asdf
-    - f_asdf-env
-    - f_asdf-env-bash
-    - f_asdf-env-zsh
+    - f_asdf-environment
     - f_sudo_asdf-env
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/asdf.yaml:optional
     dynvariables:
+      asdf_environment_tmp_dst: mktemp /tmp/asdf-env-tmp.XXX
       asdf_env_tmp_dst: mktemp /tmp/asdf-env-tmp.XXX
     variables:
-      asdf_env_path: /etc/profile.d/asdf-env.sh
-      bash_env_dst: /etc/bash.bashrc
-      zsh_env_dst: /etc/zsh/zshenv
+      asdf_environment_append_marker: Asdf version manager
+      asdf_environment_dst: /etc/environment
 
   # This profile groups configuration files for CLI-based applictions.
   cli:

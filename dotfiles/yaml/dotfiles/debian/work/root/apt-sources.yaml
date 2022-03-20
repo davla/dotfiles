@@ -6,6 +6,6 @@
 dotfiles:
 - f_android-studio.list
 - f_azure-cli.list
-- f_chromium-dev.list
 - f_microsoft-prod.list
+- f_mono.list
 - f_teams.list

@@ -33,9 +33,6 @@ dotfiles:
   f_azure-cli.list:
     src: etc/apt/sources.list.d/azure-cli.list
     dst: /etc/apt/sources.list.d/azure-cli.list
-  f_chromium-dev.list:
-    src: etc/apt/sources.list.d/chromium-dev.list
-    dst: /etc/apt/sources.list.d/chromium-dev.list
   f_deb-multimedia.list:
     src: etc/apt/sources.list.d/deb-multimedia.list
     dst: /etc/apt/sources.list.d/deb-multimedia.list
@@ -54,6 +51,9 @@ dotfiles:
   f_microsoft-prod.list:
     src: etc/apt/sources.list.d/microsoft-prod.list
     dst: /etc/apt/sources.list.d/microsoft-prod.list
+  f_mono.list:
+    src: etc/apt/sources.list.d/mono.list
+    dst: /etc/apt/sources.list.d/mono.list
   f_nordvpn.list:
     src: etc/apt/sources.list.d/nordvpn.list
     dst: /etc/apt/sources.list.d/nordvpn.list

@@ -235,6 +235,9 @@ dotfiles:
   f_swayfocus.service:
     src: config/systemd/user/swayfocus.service
     dst: '{{@@ xdg_config("systemd/user/swayfocus.service") @@}}'
+  f_teams.desktop:
+    src: config/autostart/disable-system-default.desktop
+    dst: '{{@@ xdg_config("autostart/teams.desktop") @@}}'
   f_trolltech.conf:
     src: config/Trolltech.conf
     dst: '{{@@ xdg_config("Trolltech.conf") @@}}'
@@ -244,6 +247,12 @@ dotfiles:
   f_udiskie_config.yml:
     src: config/udiskie/config.yml
     dst: '{{@@ xdg_config("udiskie/config.yml") @@}}'
+  f_vmware-user.desktop:
+    src: config/autostart/disable-system-default.desktop
+    dst: '{{@@ xdg_config("autostart/vmware-user.desktop") @@}}'
+  f_vmware-user.service:
+    src: config/systemd/user/vmware-user.service
+    dst: '{{@@ xdg_config("systemd/user/vmware-user.service") @@}}'
   f_vscode_extension-list.txt:
     src: config/Code/User/extension-list.txt
     # Temporary destination as the file is not read by VSCode at runtime, so it

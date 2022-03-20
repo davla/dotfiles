@@ -441,7 +441,7 @@ profiles:
     - d_i3blocks_keyindicator2
     - d_i3blocks_network-status
     import:
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/i3blocks.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/i3blocks.yaml:optional
 
   # This profile contains dotfiles related to localization and timezones
   locales:

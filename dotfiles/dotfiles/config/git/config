@@ -97,6 +97,7 @@
     # reset
     rs = reset
     rsk = reset --keep
+    rsku = reset --keep @{upstream}
     rsm = reset --mixed
 
     # restore
@@ -122,6 +123,11 @@
 
     # update
     up = update
+
+[advice]
+    addIgnoredFile = false
+    detachedHead = false
+    skippedCherryPicks = false
 
 [apply]
     ignoreWhitespace = false
@@ -209,6 +215,7 @@
     autoSquash = true
     autoStash = true
     missingCommitsCheck = warn
+    rebaseMerges = true
     rescheduleFailedExec = true
 
 [pretty]

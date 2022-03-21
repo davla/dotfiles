@@ -73,13 +73,6 @@ echo "$ROOT_TIMERS" | xargs sudo systemctl start
 # User timers
 #######################################
 
-# There might be no user timers altogether
-[ -z "$USER_TIMERS" ] && exit
-
-# Installation
-echo '\e[32m[INFO]\e[0m Installing user timers and dependencies'
-dotdrop install -p timers
-
 # Linking shared timers in user search path
 # No quotes around $SHARED_UNITS as the spaces should split arguments
 echo '\e[32m[INFO]\e[0m Linking shared timers in user search path'
@@ -90,6 +83,14 @@ echo '\e[32m[INFO]\e[0m Enabling shared timers for user'
 echo "$SHARED_TIMERS" | xargs systemctl --user enable
 echo '\e[32m[INFO]\e[0m Starting shared timers for user'
 echo "$SHARED_TIMERS" | xargs systemctl --user start
+
+# There might be no user timers altogether
+[ -z "$USER_TIMERS" ] && exit
+
+# Installation
+echo '\e[32m[INFO]\e[0m Installing user timers and dependencies'
+dotdrop install -p timers
+
 echo '\e[32m[INFO]\e[0m Enabling user timers'
 echo "$USER_TIMERS" | xargs systemctl --user enable
 echo '\e[32m[INFO]\e[0m Starting user timers'

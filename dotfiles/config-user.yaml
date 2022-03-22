@@ -5,6 +5,13 @@
 actions:
   post:
     autorandr: sh actions/autorandr.sh "{0}"
+
+    # This action applies the cursor theme and size via gsettings. The settings
+    # file are stored in binary format, so no dotfile management is possible.
+    gsettings-icon-theme: |-
+      gsettings set org.gnome.desktop.interface cursor-theme {0}
+      gsettings set org.gnome.desktop.interface cursor-size {1}
+
     i3: sh actions/i3.sh
 
     # This action installs VSCode extensions given in the first argument. This
@@ -163,6 +170,9 @@ dotfiles:
   f_i3config:
     src: config/i3/config
     dst: '{{@@ xdg_config("i3/config") @@}}'
+  f_icons_index.theme:
+    src: icons/default/index.theme
+    dst: ~/.icons/default/index.theme
   f_keyring.service:
     src: config/systemd/user/keyring.service
     dst: '{{@@ xdg_config("systemd/user/keyring.service") @@}}'
@@ -352,6 +362,7 @@ profiles:
     - f_gtk-2.0_gtkrc
     - f_gtk-3.0_gtk.css
     - f_gtk-3.0_settings.ini
+    - f_icons_index.theme
     - f_qt5ct.conf
     - f_trolltech.conf
     include:
@@ -359,6 +370,8 @@ profiles:
     - look-and-feel-{{@@ output_scaling @@}}
     variables:
       is_headless: false
+    actions:
+    - gsettings-icon-theme '{{@@ cursor_theme @@}}' '{{@@ cursor_size @@}}'
 
   # This profile contains dotfiles used when the user session starts.
   startup:

@@ -163,6 +163,9 @@ dotfiles:
   f_i3config:
     src: config/i3/config
     dst: '{{@@ xdg_config("i3/config") @@}}'
+  f_icons_index.theme:
+    src: icons/default/index.theme
+    dst: ~/.icons/default/index.theme
   f_keyring.service:
     src: config/systemd/user/keyring.service
     dst: '{{@@ xdg_config("systemd/user/keyring.service") @@}}'
@@ -352,6 +355,7 @@ profiles:
     - f_gtk-2.0_gtkrc
     - f_gtk-3.0_gtk.css
     - f_gtk-3.0_settings.ini
+    - f_icons_index.theme
     - f_qt5ct.conf
     - f_trolltech.conf
     include:

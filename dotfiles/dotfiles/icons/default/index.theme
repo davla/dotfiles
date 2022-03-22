@@ -1,0 +1,4 @@
+# User icon theme
+
+[Icon Theme]
+Inherits={{@@ cursor_theme @@}}

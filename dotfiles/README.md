@@ -4,7 +4,6 @@ My dotfiles repository. Really, just configuration files
 ## TODO
 - VSCode selected color
 - Failed to start pkgfile database update.
-- sway cursor
 - Better placement of logger_path variable
 - autorandr in autostart
 - github mails

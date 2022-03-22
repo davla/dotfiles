@@ -13,7 +13,7 @@ WantedBy=graphical-session.target
 [Service]
 ExecStart={%@@ if env['DISTRO'] == 'arch' -@@%}
     /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-{%@@- elif env['DISTRO'] == 'debian' -@@%}
+{%@@ elif env['DISTRO'] == 'debian' -@@%}
     /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 {%@@ endif @@%}
 StandardError=journal

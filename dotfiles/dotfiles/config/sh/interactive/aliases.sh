@@ -76,3 +76,10 @@ alias chuck="curl -s http://api.icndb.com/jokes/random/ | jq -r '.value.joke'"
 ########################################
 
 alias gl=' clear'
+
+########################################
+# Abbreviation aliases
+########################################
+
+alias ll='list-long'
+alias pg='paginate'

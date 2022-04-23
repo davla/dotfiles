@@ -40,7 +40,7 @@ start_graphical_session() {
 # Arguments:
 #   - $@: exa options to be added to the present ones, including the directory
 #         to be listed. Optional.
-l() {
+list-long-paginated() {
     list-long --color=always --color-scale "$@" | paginate --RAW-CONTROL-CHARS
 }
 
@@ -53,7 +53,7 @@ l() {
 #   - $2+: exa options to be added to the present ones, including the directory
 #          to be listed. Optional. It includes the first argument when it's not
 #          a number.
-t() {
+tree-long-paginated() {
     T_LEVEL='3'
     echo "$1" | grep --extended-regexp '^[0-9]+$' > /dev/null 2>&1 && {
         T_LEVEL="$1"
@@ -79,15 +79,15 @@ t() {
 # Arguments:
 #   - $1: The path to be inspected. Optional, defaults to the current directory
 #   - $2+: Anything the selected visualization commands accepts. Optional.
-e() {
+explore() {
     E_TARGET="${1:-.}"
     [ "$#" -gt '0' ] && shift
 
     if [ -d "$E_TARGET" ]; then
-        l "$E_TARGET" "$@"
+        list-long-paginated "$E_TARGET" "$@"
     else
         # There's no way to tell JSON files apart than trying to parse them
-        j "$E_TARGET" "$@" 2> /dev/null || less "$E_TARGET" "$@"
+        json-paginated "$E_TARGET" "$@" 2> /dev/null || less "$E_TARGET" "$@"
     fi
 
     unset E_TARGET
@@ -100,7 +100,7 @@ e() {
 # Arguments:
 # - $1: The file to be displayed.
 # - $2+: Anyting jq accepts. Optional.
-j() {
+json-paginated() {
     # This is purposefully not cleaned with a trap. We're in a funciton here,
     # we don't want to overwrite the caller's traps.
     JSON_PAGINATED_TMP="$(mktemp XXX.json-paginaged.XXX)"
@@ -217,3 +217,12 @@ week() {
     echo "${@:-now}" | sed --regexp-extended 's|([0-9]+)([- ])(.+)|\3\2\1|g' \
         | xargs -I '{}' date --date='{}' '+%V'
 }
+
+########################################
+# Abbreviation aliases
+########################################
+
+alias e='explore'
+alias j='json-paginated'
+alias l='list-long-paginated'
+alias t='tree-long-paginated'

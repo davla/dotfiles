@@ -35,7 +35,7 @@ start_graphical_session() {
 # a bunch of nice options, it paginates the output if it doesn't fit in one
 # screen, but without using a separate buffer.
 #
-# NOTE: It is not an alias since the parameter is not in last position.
+# NOTE: It is not an alias since the parameters are not in last position.
 #
 # Arguments:
 #   - $@: exa options to be added to the present ones, including the directory
@@ -64,6 +64,54 @@ t() {
         | paginate --RAW-CONTROL-CHARS
 
     unset T_LEVEL
+}
+
+########################################
+# Convenience functions
+########################################
+
+# This is a convenience function to explore the filesystem. It visualizes a
+# path differently based on its content. In particular:
+# - Directories: lists the content in long format with pagination
+# - JSON files: displays with jq and pagination
+# - Other files: displays with less.
+#
+# Arguments:
+#   - $1: The path to be inspected. Optional, defaults to the current directory
+#   - $2+: Anything the selected visualization commands accepts. Optional.
+e() {
+    E_TARGET="${1:-.}"
+    [ "$#" -gt '0' ] && shift
+
+    if [ -d "$E_TARGET" ]; then
+        l "$E_TARGET" "$@"
+    else
+        # There's no way to tell JSON files apart than trying to parse them
+        j "$E_TARGET" "$@" 2> /dev/null || less "$E_TARGET" "$@"
+    fi
+
+    unset E_TARGET
+}
+
+# This is a convenience function to pretty print a JSON file with pagination.
+#
+# NOTE: It is not an alias since the parameters are not in last position.
+#
+# Arguments:
+# - $1: The file to be displayed.
+# - $2+: Anyting jq accepts. Optional.
+j() {
+    # This is purposefully not cleaned with a trap. We're in a funciton here,
+    # we don't want to overwrite the caller's traps.
+    JSON_PAGINATED_TMP="$(mktemp XXX.json-paginaged.XXX)"
+
+    jq --color-output '.' "$@" > "$JSON_PAGINATED_TMP"
+    JSON_PAGINATED_EXIT="$?"
+    paginate --RAW-CONTROL-CHARS "$JSON_PAGINATED_TMP"
+
+    rm "$JSON_PAGINATED_TMP"
+    unset JSON_PAGINATED_TMP
+    return $JSON_PAGINATED_EXIT
 }
 
 ########################################

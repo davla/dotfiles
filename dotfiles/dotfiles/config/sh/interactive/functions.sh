@@ -41,10 +41,7 @@ start_graphical_session() {
 #   - $@: exa options to be added to the present ones, including the directory
 #         to be listed. Optional.
 l() {
-    exa --all --binary --color=always --color-scale --header --long \
-            --sort=type "$@" \
-        | less --no-init --quit-if-one-screen \
-            --RAW-CONTROL-CHARS
+    list-long --color=always --color-scale "$@" | paginate --RAW-CONTROL-CHARS
 }
 
 # This is a convenience function for exa tree form. Other than calling exa with
@@ -57,16 +54,14 @@ l() {
 #          to be listed. Optional. It includes the first argument when it's not
 #          a number.
 t() {
-    T_LEVEL='2'
+    T_LEVEL='3'
     echo "$1" | grep --extended-regexp '^[0-9]+$' > /dev/null 2>&1 && {
         T_LEVEL="$1"
         shift
     }
 
-    exa --all --binary --color=always --color-scale --header \
-            --level="$T_LEVEL" --long --sort=type --tree "$@" \
-        | less --no-init --quit-if-one-screen \
-            --RAW-CONTROL-CHARS
+    tree-long --color=always --color-scale --level="$T_LEVEL" "$@" \
+        | paginate --RAW-CONTROL-CHARS
 
     unset T_LEVEL
 }

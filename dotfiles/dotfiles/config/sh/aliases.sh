@@ -8,4 +8,11 @@
 #######################################
 
 alias ls='exa'
-alias tree='exa -T'
+alias tree='exa --tree'
+
+########################################
+# Shortening aliases
+########################################
+
+alias list-long='exa --all --binary --header --long --sort=type'
+alias tree-long='list-long --tree --level=3'

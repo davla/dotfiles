@@ -59,6 +59,12 @@ alias reboot='systemctl reboot'
 
 {%@@ endif -@@%}
 
+########################################
+# Shortening aliases
+########################################
+
+alias paginate='less --no-init --quit-if-one-screen'
+
 #######################################
 # New commands
 #######################################

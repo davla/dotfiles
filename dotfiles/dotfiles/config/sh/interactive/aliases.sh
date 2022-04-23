@@ -63,6 +63,7 @@ alias reboot='systemctl reboot'
 # Shortening aliases
 ########################################
 
+alias open='xdg-open'
 alias paginate='less --no-init --quit-if-one-screen'
 
 #######################################
@@ -82,4 +83,5 @@ alias gl=' clear'
 ########################################
 
 alias ll='list-long'
+alias o='open'
 alias pg='paginate'

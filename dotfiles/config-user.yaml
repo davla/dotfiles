@@ -279,6 +279,9 @@ dotfiles:
   f_vscode_settings.json:
     src: config/Code/User/settings.json
     dst: '{{@@ xdg_config("Code/User/settings.json") @@}}'
+  f_vscode_tasks.json:
+    src: config/Code/User/tasks.json
+    dst: '{{@@ xdg_config("Code/User/tasks.json") @@}}'
   f_xdg-user-dirs.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/xdg-user-dirs.desktop") @@}}'
@@ -436,6 +439,7 @@ profiles:
     - f_vscode_extension-list.txt
     - f_vscode_keybindings.json
     - f_vscode_settings.json
+    - f_vscode_tasks.json
     dynvariables:
       vscode_tmp_dst: mktemp /tmp/vscode-tmp.XXX
     variables:

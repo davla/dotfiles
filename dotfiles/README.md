@@ -1,8 +1,7 @@
 # dotfiles
-My dotfiles repository. Really, just configuration files
+My dotfiles repository.
 
 ## TODO
-- VSCode selected color
 - Failed to start pkgfile database update.
 - Better placement of logger_path variable
 - autorandr in autostart

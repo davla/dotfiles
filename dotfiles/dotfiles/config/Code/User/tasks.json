@@ -1,0 +1,31 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+
+    "version": "2.0.0",
+    "tasks": [
+
+        ////////////////////////////////////////
+        // Explorer tree
+        ////////////////////////////////////////
+        {
+            "label": "collapse-tree",
+            "command": "${command:workbench.files.action.collapseExplorerFolders}",
+            "problemMatcher": []
+        },
+        {
+            "label": "focus-tree",
+            "command": "${command:workbench.explorer.fileView.focus}",
+            "problemMatcher": []
+        },
+        {
+            "label": "focus-and-collapse-tree",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "focus-tree",
+                "collapse-tree"
+            ],
+            "problemMatcher": []
+        }
+    ]
+}

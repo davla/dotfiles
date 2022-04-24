@@ -22,6 +22,7 @@
     "editor.detectIndentation": false,
     "editor.dragAndDrop": false,
     "editor.emptySelectionClipboard": false,
+    "editor.find.autoFindInSelection": "multiline",
     "editor.folding": false,
     "editor.foldingHighlight": false,
     "editor.fontSize": 15,
@@ -195,6 +196,11 @@
             "checkbox.foreground": "#aaaaaa",
             "descriptionForeground": "#aaaaaa",
             "dropdown.foreground": "#aaaaaa",
+            "editorBracketHighlight.foreground1": "#00FFFF",
+            "editorBracketHighlight.foreground2": "#FF7700",
+            "editorBracketHighlight.foreground3": "#00FF22",
+            "editorBracketHighlight.foreground4": "#FFE600",
+            "editorBracketHighlight.unexpectedBracket.foreground": "#FF0015",
             // "editorHoverWidget.foreground": "#aaaaaa",
             // "editorSuggestWidget.foreground": "#aaaaaa",
             // "editorSuggestWidget.highlightForeground": "#cccccc",
@@ -228,19 +234,19 @@
             "tab.unfocusedInactiveForeground": "#666666",
 
             // Background colors
-            "editor.lineHighlightBackground": "#262e40AA",
+            "editor.lineHighlightBackground": "#3b4863AA",
             "editorSuggestWidget.selectedBackground": "#262e40AA",
             "list.activeSelectionBackground": "#262e40AA",
-            "list.focusBackground": "#262e40AA",
-            "list.hoverBackground": "#262e40AA",
+            "list.focusBackground": "#3b4863AA",
+            "list.hoverBackground": "#3b4863AA",
             "list.inactiveSelectionBackground": "#262e40AA",
             "peekViewEditor.background": "#111111",
             "peekViewResult.background": "#0d1016",
-            "peekViewResult.selectionBackground": "#262e40AA",  // grab default
+            "peekViewResult.selectionBackground": "#3b4863AA",
             "peekViewEditor.matchHighlightBackground": "#e6b45033",
             "peekViewTitle.background": "#0d1016",
             "statusBar.debuggingBackground": "#262e40",
-            "tab.hoverBackground": "#262e4077",
+            "tab.hoverBackground": "#3b486377",
 
             // Border colors
             "activityBar.border": "#262e40",
@@ -287,8 +293,9 @@
         "#00FFFF1A",
         "#FF77001A",
         "#00FF221A",
-        "#FF00151A"
+        "#FFE6001A"
     ],
+    "indentRainbow.errorColor": "#FF00155A",
 
     ////////////////////////////////////////
     // Lua extension

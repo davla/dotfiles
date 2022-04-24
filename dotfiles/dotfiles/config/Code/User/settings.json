@@ -196,6 +196,11 @@
             "checkbox.foreground": "#aaaaaa",
             "descriptionForeground": "#aaaaaa",
             "dropdown.foreground": "#aaaaaa",
+            "editorBracketHighlight.foreground1": "#00FFFF",
+            "editorBracketHighlight.foreground2": "#FF7700",
+            "editorBracketHighlight.foreground3": "#00FF22",
+            "editorBracketHighlight.foreground4": "#FFE600",
+            "editorBracketHighlight.unexpectedBracket.foreground": "#FF0015",
             // "editorHoverWidget.foreground": "#aaaaaa",
             // "editorSuggestWidget.foreground": "#aaaaaa",
             // "editorSuggestWidget.highlightForeground": "#cccccc",
@@ -288,8 +293,9 @@
         "#00FFFF1A",
         "#FF77001A",
         "#00FF221A",
-        "#FF00151A"
+        "#FFE6001A"
     ],
+    "indentRainbow.errorColor": "#FF00155A",
 
     ////////////////////////////////////////
     // Lua extension

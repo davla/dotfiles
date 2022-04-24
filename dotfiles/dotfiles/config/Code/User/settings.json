@@ -228,19 +228,19 @@
             "tab.unfocusedInactiveForeground": "#666666",
 
             // Background colors
-            "editor.lineHighlightBackground": "#262e40AA",
+            "editor.lineHighlightBackground": "#3b4863AA",
             "editorSuggestWidget.selectedBackground": "#262e40AA",
             "list.activeSelectionBackground": "#262e40AA",
-            "list.focusBackground": "#262e40AA",
-            "list.hoverBackground": "#262e40AA",
+            "list.focusBackground": "#3b4863AA",
+            "list.hoverBackground": "#3b4863AA",
             "list.inactiveSelectionBackground": "#262e40AA",
             "peekViewEditor.background": "#111111",
             "peekViewResult.background": "#0d1016",
-            "peekViewResult.selectionBackground": "#262e40AA",  // grab default
+            "peekViewResult.selectionBackground": "#3b4863AA",
             "peekViewEditor.matchHighlightBackground": "#e6b45033",
             "peekViewTitle.background": "#0d1016",
             "statusBar.debuggingBackground": "#262e40",
-            "tab.hoverBackground": "#262e4077",
+            "tab.hoverBackground": "#3b486377",
 
             // Border colors
             "activityBar.border": "#262e40",

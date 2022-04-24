@@ -22,6 +22,7 @@
     "editor.detectIndentation": false,
     "editor.dragAndDrop": false,
     "editor.emptySelectionClipboard": false,
+    "editor.find.autoFindInSelection": "multiline",
     "editor.folding": false,
     "editor.foldingHighlight": false,
     "editor.fontSize": 15,

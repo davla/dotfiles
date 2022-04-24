@@ -59,6 +59,13 @@ alias reboot='systemctl reboot'
 
 {%@@ endif -@@%}
 
+########################################
+# Shortening aliases
+########################################
+
+alias open='xdg-open'
+alias paginate='less --no-init --quit-if-one-screen'
+
 #######################################
 # New commands
 #######################################
@@ -70,3 +77,11 @@ alias chuck="curl -s http://api.icndb.com/jokes/random/ | jq -r '.value.joke'"
 ########################################
 
 alias gl=' clear'
+
+########################################
+# Abbreviation aliases
+########################################
+
+alias ll='list-long'
+alias o='open'
+alias pg='paginate'

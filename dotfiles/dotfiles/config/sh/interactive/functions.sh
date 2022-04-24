@@ -35,16 +35,13 @@ start_graphical_session() {
 # a bunch of nice options, it paginates the output if it doesn't fit in one
 # screen, but without using a separate buffer.
 #
-# NOTE: It is not an alias since the parameter is not in last position.
+# NOTE: It is not an alias since the parameters are not in last position.
 #
 # Arguments:
 #   - $@: exa options to be added to the present ones, including the directory
 #         to be listed. Optional.
-l() {
-    exa --all --binary --color=always --color-scale --header --long \
-            --sort=type "$@" \
-        | less --no-init --quit-if-one-screen \
-            --RAW-CONTROL-CHARS
+list-long-paginated() {
+    list-long --color=always --color-scale "$@" | paginate --RAW-CONTROL-CHARS
 }
 
 # This is a convenience function for exa tree form. Other than calling exa with
@@ -56,19 +53,65 @@ l() {
 #   - $2+: exa options to be added to the present ones, including the directory
 #          to be listed. Optional. It includes the first argument when it's not
 #          a number.
-t() {
-    T_LEVEL='2'
+tree-long-paginated() {
+    T_LEVEL='3'
     echo "$1" | grep --extended-regexp '^[0-9]+$' > /dev/null 2>&1 && {
         T_LEVEL="$1"
         shift
     }
 
-    exa --all --binary --color=always --color-scale --header \
-            --level="$T_LEVEL" --long --sort=type --tree "$@" \
-        | less --no-init --quit-if-one-screen \
-            --RAW-CONTROL-CHARS
+    tree-long --color=always --color-scale --level="$T_LEVEL" "$@" \
+        | paginate --RAW-CONTROL-CHARS
 
     unset T_LEVEL
+}
+
+########################################
+# Convenience functions
+########################################
+
+# This is a convenience function to explore the filesystem. It visualizes a
+# path differently based on its content. In particular:
+# - Directories: lists the content in long format with pagination
+# - JSON files: displays with jq and pagination
+# - Other files: displays with less.
+#
+# Arguments:
+#   - $1: The path to be inspected. Optional, defaults to the current directory
+#   - $2+: Anything the selected visualization commands accepts. Optional.
+explore() {
+    E_TARGET="${1:-.}"
+    [ "$#" -gt '0' ] && shift
+
+    if [ -d "$E_TARGET" ]; then
+        list-long-paginated "$E_TARGET" "$@"
+    else
+        # There's no way to tell JSON files apart than trying to parse them
+        json-paginated "$E_TARGET" "$@" 2> /dev/null || less "$E_TARGET" "$@"
+    fi
+
+    unset E_TARGET
+}
+
+# This is a convenience function to pretty print a JSON file with pagination.
+#
+# NOTE: It is not an alias since the parameters are not in last position.
+#
+# Arguments:
+# - $1: The file to be displayed.
+# - $2+: Anyting jq accepts. Optional.
+json-paginated() {
+    # This is purposefully not cleaned with a trap. We're in a funciton here,
+    # we don't want to overwrite the caller's traps.
+    JSON_PAGINATED_TMP="$(mktemp XXX.json-paginaged.XXX)"
+
+    jq --color-output '.' "$@" > "$JSON_PAGINATED_TMP"
+    JSON_PAGINATED_EXIT="$?"
+    paginate --RAW-CONTROL-CHARS "$JSON_PAGINATED_TMP"
+
+    rm "$JSON_PAGINATED_TMP"
+    unset JSON_PAGINATED_TMP
+    return $JSON_PAGINATED_EXIT
 }
 
 ########################################
@@ -174,3 +217,12 @@ week() {
     echo "${@:-now}" | sed --regexp-extended 's|([0-9]+)([- ])(.+)|\3\2\1|g' \
         | xargs -I '{}' date --date='{}' '+%V'
 }
+
+########################################
+# Abbreviation aliases
+########################################
+
+alias e='explore'
+alias j='json-paginated'
+alias l='list-long-paginated'
+alias t='tree-long-paginated'

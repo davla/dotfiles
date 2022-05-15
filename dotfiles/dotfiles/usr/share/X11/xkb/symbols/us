@@ -7,13 +7,14 @@ xkb_symbols "intl-custom" {
     include "us(intl)"
     name[Group1]= "English (US, intl., with dead keys, custom)";
 
-    key <TLDE> { [   dead_grave,  asciitilde,          grave,           dead_tilde ] };
-    key <AE06> { [            6, asciicircum,     onequarter,      dead_circumflex ] };
-    key <AD02> { [            w,           W, guillemotright, rightdoublequotemark ] };
-    key <AD11> { [  bracketleft,   braceleft,             ae,                   AE ] };
-    key <AD12> { [ bracketright,  braceright,          aring,                Aring ] };
-    key <AC09> { [            l,           L,        notsign,            brokenbar ] };
-    key <AC11> { [   apostrophe,    quotedbl,     dead_acute,       dead_diaeresis ] };
-    key <AB01> { [            z,           Z,  guillemotleft,  leftdoublequotemark ] };
-    key <BKSL> { [    backslash,         bar,         oslash,             Ooblique ] };
+    key <TLDE> { [ dead_grave,   asciitilde,         grave,      dead_tilde ] };
+    key <AE06> { [          6,  asciicircum,    onequarter, dead_circumflex ] };
+    key <AC11> { [ apostrophe,     quotedbl,    dead_acute,  dead_diaeresis ] };
+    key <AD02> { [          w,            W,        iacute,          Iacute ] };
+    key <AD07> { [          u,            U,            ae,              AE ] };
+    key <AD08> { [          i,            I,         aring,           Aring ] };
+    key <AD09> { [          o,            O,        oslash,        Ooblique ] };
+    key <AC04> { [          f,            F,        oacute,          Oacute ] };
+    key <AC09> { [          l,            L,       lstroke,         Lstroke ] };
+    key <AB01> { [          z,            Z,        uacute,          Uacute ] };
 };

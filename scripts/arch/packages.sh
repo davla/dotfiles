@@ -25,16 +25,18 @@ pacman -Syy
 # Installing AUR helper
 #######################################
 
-pacman -S binutils fakeroot gcc git make
+pacman -Qqs yay > /dev/null 2>&1 || {
+    pacman -S binutils fakeroot gcc git make
 
-YAY_DIR='yay'
-sudo -u "$USER" git clone 'https://aur.archlinux.org/yay.git' "$YAY_DIR"
+    YAY_DIR="$(mktemp -d 'XXX.yay.XXX')"
+    sudo -u "$USER" git clone 'https://aur.archlinux.org/yay.git' "$YAY_DIR"
 
-cd "$YAY_DIR" || exit
-sudo -u "$USER" makepkg -si
-cd - > /dev/null 2>&1 || exit
+    cd "$YAY_DIR" || exit
+    sudo -u "$USER" makepkg -si
+    cd - > /dev/null 2>&1 || exit
 
-sudo -u "$USER" rm -rf "$YAY_DIR"
+    sudo -u "$USER" rm -rf "$YAY_DIR"
+}
 
 #######################################
 # Installing GUI applications
@@ -42,12 +44,12 @@ sudo -u "$USER" rm -rf "$YAY_DIR"
 
 case "$HOST" in
     'personal')
-        sudo -u "$USER" yay -S asunder atril baobab bitwarden blueman brasero \
-            calibre dropbox electron firefox-beta-bin geany gimp gnome-clocks \
-            gnome-disk-utility gnome-keyring gufw handbrake libreoffice-still \
-            kid3 remmina seahorse simple-scan soundconverter spotify \
-            telegram-desktop thunderbird transmission-gtk vlc \
-            visual-studio-code-bin
+        sudo -u "$USER" yay -S --needed asunder atril baobab bitwarden \
+            blueman brasero calibre electron firefox-beta-bin geany gimp \
+            gnome-clocks gnome-disk-utility gnome-keyring gufw handbrake \
+            libreoffice-still kid3 remmina seahorse simple-scan \
+            soundconverter telegram-desktop thunderbird transmission-gtk \
+            vlc-git visual-studio-code-bin
         ;;
 esac
 
@@ -60,10 +62,10 @@ sudo -u "$USER" dotdrop install -p gui
 
 case "$HOST" in
     'personal')
-        sudo -u "$USER" yay -S cups cups-pdf dex docker docker-compose \
-            docker-credential-secretservice gdb intel-ucode libsecret \
-            hunspell hunspell-da hunspell-en_US hunspell-it networkmanager \
-            nordvpn polkit-gnome temp-throttle-git zsa-wally-cli
+        sudo -u "$USER" yay -S --needed cups cups-pdf dex docker \
+            docker-compose docker-credential-secretservice gdb intel-ucode \
+            libsecret hunspell hunspell-da hunspell-en_US hunspell-it \
+            networkmanager nordvpn polkit-gnome temp-throttle-git zsa-wally-cli
         # dhcpcd doesn't work well with networkmanager (unless configured)
         if sudo -u "$USER" yay -Qs dhcpcd; then
             sudo -u "$USER" yay -R dhcpcd
@@ -71,13 +73,13 @@ case "$HOST" in
         ;;
 
     'raspberry')
-        sudo -u "$USER" yay -S at certbot ddclient
+        sudo -u "$USER" yay -S --needed at certbot ddclient
         ;;
 esac
 
-sudo -u "$USER" yay -S antibody-bin apng2gif asdf-vm autoconf automake cmake \
-    cowsay curl dkms dos2unix exa fasd fortune-mod gcc ghc gifsicle \
-    git-secret git-review gnupg jq lua macchina man mercurial moreutils \
+sudo -u "$USER" yay -S --needed antibody-bin apng2gif asdf-vm autoconf \
+    automake cmake cowsay curl dkms dos2unix exa fasd fortune-mod gcc ghc \
+    gifsicle git-secret gnupg jq lua macchina man mercurial moreutils \
     multi-git-status myrepos nfs-utils nyancat otf-ipafont p7zip pkgfile \
     python python-pip python-pipenv sudo thefuck ttf-baekmuk ttf-dejavu \
     ttf-indic-otf ttf-khmer unzip vim wqy-microhei-lite zip

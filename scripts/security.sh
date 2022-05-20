@@ -107,20 +107,20 @@ unset CREATE_SSH_KEYS
 #######################################
 
 # If remote origin is https, it's not ssh
-echo "$GIT_ORIGIN" | grep 'https' > /dev/null 2>&1 && {
+echo "$GIT_ORIGIN" | grep -E 'https?' > /dev/null 2>&1 && {
     echo '\e[32m[INFO]\e[0m Changing this repository remote to use SSH'
 
     # Changing this repository URL to use SSH
     echo "$GIT_ORIGIN" | \
-        sed -E -e 's|https://(.+?)/(.+?)/(.+?)(.git)?|git@\1:\2/\3.git|' \
+        sed -E -e 's|https?://(.+?)/(.+?)/(.+?)(.git)?|git@\1:\2/\3.git|' \
             -e 's/(\.git)+$/.git/g' \
         | xargs git remote set-url origin
 
-    # Changing this repository URL hostname to use the correct SSH key
-    echo '\e[32m[INFO]\e[0m Changing this repository URL hostname to use the' \
-        ' correct SSH key'
     case "$HOST" in
         *'work'*)
+            # Changing this repository URL hostname to use the correct SSH key
+            echo '\e[32m[INFO]\e[0m Changing this repository URL hostname to '
+                'use the correct SSH key'
             # The remote might have just been changed, hence $GIT_ORIGIN is
             # stale and the git origin url needs to be queried again
             git remote get-url origin \

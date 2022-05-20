@@ -152,7 +152,7 @@ execute() {
             tput cup 0 0
         }
 
-        $CMD 2>&1 | tee "$OUTPUT_LOG"
+        sh -c "$CMD" 2>&1 | tee "$OUTPUT_LOG"
         CMD_EXIT="$?"
         printf 'Press enter to continue'
         read ANSWER
@@ -359,8 +359,8 @@ esac
 case "$STEP" in
     'custom-commands'|'all')
         # Custom commands - they are used by other scripts.
-        $STEP_RUNNER "cd dotfiles && sudo -E -H pipenv run bash dotdrop.sh install \
--c config-root.yaml -p commands" \
+        $STEP_RUNNER "sudo -H -E PYTHONPATH='./dotfiles:$PYTHONPATH' pipenv \
+            run dotdrop install -c dotfiles/config-root.yaml -p commands" \
             'custom commands installation' \
             'install your custom commands'
         ;;

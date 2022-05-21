@@ -1,0 +1,12 @@
+# This pacman configuration file contains packages that should not be upgraded
+#
+# {{@@ header() @@}}
+{#@@
+    Since the list of ignored packages changes wildly over time, it has not
+    been committed to the repository. Instead, it should be edited in the
+    installed dotfile.
+
+    The reason for this dotfiles's existence is to provide some scaffolding
+    for ignoring packages in pacman (e.g. having a place for the ignored
+    packages list and including it in the main pacman.conf file).
+@@#}

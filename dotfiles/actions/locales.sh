@@ -10,7 +10,8 @@
 #######################################
 
 # Locales to be generated
-LOCALES='en_DK.UTF-8 UTF-8
+LOCALES='C.UTF-8 UTF-8
+en_DK.UTF-8 UTF-8
 en_US.UTF-8 UTF-8'
 
 #######################################
@@ -19,7 +20,7 @@ en_US.UTF-8 UTF-8'
 
 # Uncommenting locales in /etc/locale.gen
 echo "$LOCALES" | while read LOCALE; do
-    sed -Ei "s/#\\s*(.*)$LOCALE/\\1$LOCALE/" /etc/locale.gen
+    sed -Ei "s/#\\s*$LOCALE/$LOCALE/" /etc/locale.gen
 done
 
 # Generating locales

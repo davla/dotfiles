@@ -25,6 +25,7 @@ dotfiles:
   d_pacman_hooks:
     src: etc/pacman.d/hooks
     dst: /etc/pacman.d/hooks
+    # These ignore fields are necessary because some hooks are host-specific
     cmpignore:
     - '*/i3blocks-contrib*.hook'
     instignore:
@@ -42,6 +43,10 @@ dotfiles:
     src: usr/local/share/pacman/hooks.bin/nordvpn-setup
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ nordvpn_setup_path @@}}'
+  f_pacman_options:
+    src: etc/pacman.d/options
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ pacman_options_path @@}}'
 
 profiles:
   # This profile contains pacman hooks
@@ -50,9 +55,11 @@ profiles:
     - d_pacman_hooks
     - f_pacman_conf
     - f_pacman_hooks.bin_nordvpn-setup
+    - f_pacman_options
     dynvariables:
       pacman_tmp_dst: mktemp /tmp/pacman-append.XXX
     variables:
       nordvpn_setup_path: /usr/local/share/pacman/hooks.bin/nordvpn-setup
       pacman_conf_append_marker: Custom configuration
       pacman_conf_dst: /etc/pacman.conf
+      pacman_options_path: /etc/pacman.d/options

@@ -1,0 +1,17 @@
+# {{@@ header() @@}}
+#
+# Pacman hook that cleans the package cache, both for pacman and yay
+
+[Trigger]
+# No `Operation = Install` because it messes with the way yay installs build
+# dependencies for AUR packages.
+Operation = Upgrade
+Operation = Remove
+Type = Package
+Target = *
+
+[Action]
+Description = Cleaning pacman and yay package cache...
+Depends = pacman-contrib
+When = PostTransaction
+Exec = {{@@ clean_package_cache_path @@}}

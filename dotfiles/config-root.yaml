@@ -258,6 +258,9 @@ dotfiles:
   f_sudo_secure_path:
     src: etc/sudoers.d/secure_path
     dst: /etc/sudoers.d/secure_path
+  f_sudo_sudo-group:
+    src: etc/sudoers.d/sudo-group
+    dst: /etc/sudoers.d/sudo-group
   f_systemd_getty:
     src: etc/systemd/system/getty@tty1.service.d/override.conf
     dst: /etc/systemd/system/getty@tty1.service.d/override.conf
@@ -381,6 +384,7 @@ profiles:
   environment:
     dotfiles:
     - f_sudo_insults
+    - f_sudo_sudo-group
     actions:
     - environment
 

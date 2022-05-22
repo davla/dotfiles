@@ -1,0 +1,3 @@
+# This file enables users in the sudo group to execute any command
+
+%sudo	ALL=(ALL:ALL) ALL

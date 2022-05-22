@@ -288,12 +288,16 @@ dotfiles:
   f_xfce-applications.menu:
     src: config/menus/xfce-applications.menu
     dst: '{{@@ xdg_config("menus/xfce-applications.menu") @@}}'
+  f_yay_config.json:
+    src: config/yay/config.json
+    dst: '{{@@ xdg_config("yay/config.json") @@}}'
 
 profiles:
   # This profile groups configuration files for CLI-based applictions.
   cli:
     import:
     - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
     include:
     - git
 

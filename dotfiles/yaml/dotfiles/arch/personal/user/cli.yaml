@@ -1,0 +1,7 @@
+%YAML 1.2
+---
+# This dotfiles file lists the dotfiles to be included in the "cli" profile
+# on Arch for my personal machine for unprivileged users.
+
+dotfiles:
+- f_yay_config.json

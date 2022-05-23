@@ -101,6 +101,10 @@ sudo -u "$USER" yay -Syyu
 # Docker
 usermod -aG docker "$USER"
 
-# NordVPN
-usermod -aG nordvpn "$USER"
-sudo -u "$USER" nordvpn-config
+case "$HOST" in
+    'personal')
+        # NordVPN
+        usermod -aG nordvpn "$USER"
+        sudo -u "$USER" nordvpn-config
+        ;;
+esac

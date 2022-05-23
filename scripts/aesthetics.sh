@@ -38,7 +38,7 @@ get_archive() {
     [ -z "$ARCHIVE" ] && {
         echo "$ARCHIVE_NAME" | tr '[:upper:]' '[:lower:]' \
             | xargs printf >&2 'Enter the %s theme archive path: '
-        read ARCHIVE
+        read -r ARCHIVE
     }
 
     [ ! -f "$ARCHIVE" ] && {
@@ -102,4 +102,4 @@ tar -xjf "$ICONS_ARCH" -C "$ICONS_PATH"
 # Creating icon cache for the newly installed icons
 echo 'Creating icon themes cache'
 tar -tjf "$ICONS_ARCH" --exclude='*/*' \
-    | xargs -n 1 -i gtk-update-icon-cache "$ICONS_PATH/{}"
+    | xargs -n 1 -I '{}' gtk-update-icon-cache "$ICONS_PATH/{}"

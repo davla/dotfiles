@@ -63,7 +63,7 @@ RETRY_PROMPT="Do you want to retry? $CHOICES"
 
 # Misc
 MSG_WIDTH="${MSG_WIDTH:-80}"
-MSG_WIDTH=$(( MSG_WIDTH - $(printf "$INDENT" | wc -m) ))
+MSG_WIDTH=$(( MSG_WIDTH - $(printf '%s' "$INDENT" | wc -m) ))
 IN_ALTERNATE_BUFFER='false'
 
 # Reset
@@ -89,7 +89,7 @@ ask() {
 
     say "$@"
 
-    read ANSWER
+    read -r ANSWER
 
     # Each case unsets ANSWER as it ternimates with a return. Saving the exit
     # code in a variable and returing it wouldn't help, as such variable
@@ -140,6 +140,7 @@ execute() {
     DESC="$2"
 
     OUTPUT_LOG=$(mktemp)
+    # shellcheck disable=2064
     trap "rm $OUTPUT_LOG" EXIT
 
     RETRY='true'
@@ -155,7 +156,7 @@ execute() {
         sh -c "$CMD" 2>&1 | tee "$OUTPUT_LOG"
         CMD_EXIT="$?"
         printf 'Press enter to continue'
-        read ANSWER
+        read -r ANSWER
 
         [ "$IN_ALTERNATE_BUFFER" = 'true' ] && {
             IN_ALTERNATE_BUFFER='false'
@@ -274,26 +275,29 @@ say() {
     FACE="$1"
     MSG="$2"
 
-    MSG="$(printf "$MSG" | fold -sw "$MSG_WIDTH")"
+    MSG="$(printf '%s' "$MSG" | fold -sw "$MSG_WIDTH")"
 
     # Lines from the second onwards need to be separated, as the first one
     # doesn't need indentation.
-    TAIL_LINES="$(printf "$MSG" | tail -n +2)"
+    TAIL_LINES="$(printf '%s' "$MSG" | tail -n +2)"
 
+    # shellcheck disable=2059
     printf "$LEADING_NEWLINES"
+    # shellcheck disable=2059
     printf "$FACE"
 
     # The first line is printed with a one space indentation.
-    printf "$MSG" | head -n 1 | xargs -0 printf ' %s'
+    printf '%s' "$MSG" | head -n 1 | xargs -0 printf ' %s'
 
     [ -n "$TAIL_LINES" ] && {
         # awk adds a newline, so it cannot be used on the last line, as we
         # don't want any trailing newline by default
-        printf "$TAIL_LINES" | head -n -1 | awk "{print \"$INDENT\" \$0}"
+        printf '%s' "$TAIL_LINES" | head -n -1 | awk "{print \"$INDENT\" \$0}"
 
         # Using xargs -0 and printf prevents a newline from being printed.
-        printf "$TAIL_LINES" | tail -n 1 | xargs -0 printf "$INDENT%s"
+        printf '%s' "$TAIL_LINES" | tail -n 1 | xargs -0 printf "$INDENT%s"
     }
+    # shellcheck disable=2059
     printf "$TRAILING_NEWLINES"
 
     unset FACE LEADING_NEWLINES MSG OPTION TAIL_LINES TRAILING_NEWLINES
@@ -321,7 +325,7 @@ Good luck, and let's hope it all goes well!"
     then
         say "$PROMPT_FACE" "These are the available steps:
 $STEPS: "
-            read STEP
+            read -r STEP
     else
         STEP='all'
         say -tt "$PROMPT_FACE" "I will guide you through all the steps then. \
@@ -338,7 +342,7 @@ do
     say -t "$PROMPT_FACE" "Sorry, I don't know the '$STEP' step."
     say "$PROMPT_FACE" "These are the available steps:
 $STEPS: "
-    read STEP
+    read -r STEP
     printf '\n'
 done
 

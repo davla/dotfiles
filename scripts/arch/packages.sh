@@ -34,11 +34,11 @@ pacman -Syy
 #######################################
 
 pacman -Qqs yay > /dev/null 2>&1 || {
-    print_info 'Install AUR helper'
-    pacman -S --needed binutils fakeroot gcc git make
+    pacman -S --needed git base-devel
 
     YAY_DIR="$(mktemp -d 'XXX.yay.XXX')"
-    sudo -u "$USER" git clone 'https://aur.archlinux.org/yay.git' "$YAY_DIR"
+    sudo -u "$USER" git clone 'https://aur.archlinux.org/yay-bin.git' \
+        "$YAY_DIR"
 
     cd "$YAY_DIR" || exit
     sudo -u "$USER" makepkg -si

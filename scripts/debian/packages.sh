@@ -122,23 +122,25 @@ esac
 #######################################
 
 # Installation
-# shellcheck disable=2039
-case "$HOST" in
-    'personal')
-        apt-get install asunder balena-etcher-electron blueman brasero \
-            calibre dropbox gimp gufw handbrake-gtk libreoffice-calc \
-            libreoffice-impress libreoffice-writer kid3 remmina simple-scan \
-            soundconverter system-config-printer thunderbird transmission-gtk \
-            vlc
-            ;;
-esac
+if [ "$DISPLAY_SERVER" != 'headless' ]; then
+    # shellcheck disable=2039
+    case "$HOST" in
+        'personal')
+            apt-get install asunder balena-etcher-electron blueman brasero \
+                calibre dropbox gimp gufw handbrake-gtk libreoffice-calc \
+                libreoffice-impress libreoffice-writer kid3 remmina \
+                simple-scan soundconverter system-config-printer thunderbird \
+                transmission-gtk vlc
+                ;;
+    esac
 
-apt-get install atril baobab code firefox gdebi geany gnome-clocks \
-    gparted hardinfo parcellite pavucontrol peek seahorse spotify-client \
-    synaptic xfce4-screenshooter
+    apt-get install atril baobab code firefox gdebi geany gnome-clocks \
+        gparted hardinfo parcellite pavucontrol peek seahorse spotify-client \
+        synaptic xfce4-screenshooter
 
-# Dotfiles
-sudo -u "$USER_NAME" dotdrop install -p gui
+    # Dotfiles
+    sudo -u "$USER_NAME" dotdrop install -p gui
+fi
 
 #######################################
 # Installing CLI applications

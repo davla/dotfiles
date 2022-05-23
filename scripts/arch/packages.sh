@@ -48,19 +48,21 @@ pacman -Qqs yay > /dev/null 2>&1 || {
 # Installing GUI applications
 #######################################
 
-case "$HOST" in
-    'personal')
-        sudo -u "$USER" yay -S --needed asunder atril baobab bitwarden \
-            blueman brasero calibre electron firefox-beta-bin geany gimp \
-            gnome-clocks gnome-disk-utility gnome-keyring gufw handbrake \
-            libreoffice-still kid3 remmina seahorse simple-scan \
-            soundconverter telegram-desktop thunderbird transmission-gtk \
-            vlc-git visual-studio-code-bin
-        ;;
-esac
+if [ "$DISPLAY_SERVER" != 'headless' ]; then
+    case "$HOST" in
+        'personal')
+            sudo -u "$USER" yay -S --needed asunder atril baobab bitwarden \
+                blueman brasero calibre electron firefox-beta-bin geany gimp \
+                gnome-clocks gnome-disk-utility gnome-keyring gufw handbrake \
+                libreoffice-still kid3 remmina seahorse simple-scan \
+                soundconverter telegram-desktop thunderbird transmission-gtk \
+                vlc-git visual-studio-code-bin
+            ;;
+    esac
 
-# Dotfiles
-sudo -u "$USER" dotdrop install -p gui
+    # Dotfiles
+    sudo -u "$USER" dotdrop install -p gui
+fi
 
 #######################################
 # Installing CLI applications

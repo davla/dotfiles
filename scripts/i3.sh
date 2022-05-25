@@ -11,8 +11,8 @@
 
 case "$DISTRO" in
     'arch')
-        yay -S alacritty autorandr dunst i3blocks i3-gaps i3-volume picom \
-            thunar
+        yay -S --needed alacritty autorandr dunst i3blocks i3-gaps i3-volume \
+            picom thunar
         ;;
 
     'debian')

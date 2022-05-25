@@ -49,7 +49,7 @@ mkdir -p "${ZDOTDIR:?}/cache"
 
 case "$DISTRO" in
     'arch')
-        sudo -u "${SUDO_USER:-$(id -un)}" yay -S antibody-bin
+        sudo -u "${SUDO_USER:-$(id -un)}" yay -S --needed antibody-bin
         ;;
 
     'debian')

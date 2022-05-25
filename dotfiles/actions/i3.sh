@@ -11,7 +11,7 @@
 
 case "$DISTRO" in
     'arch')
-        yay -S dex i3blocks i3-volume
+        yay -S --needed dex i3blocks i3-volume
         ;;
 
     'debian')
@@ -28,7 +28,7 @@ esac
 
 case "$DISTRO" in
     'arch')
-        yay -S bash i3blocks-contrib-git gnome-keyring lm-sensors \
+        yay -S --needed bash i3blocks-contrib-git gnome-keyring lm-sensors \
             python-keyring
         ;;
 

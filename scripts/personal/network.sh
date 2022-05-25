@@ -16,7 +16,7 @@
 echo '\e[32m[INFO]\e[0m Installing GNOME network manager'
 case "$DISTRO" in
     'arch')
-        pacman -S network-manager-gnome
+        pacman -S --needed network-manager-gnome
         ;;
 
     'debian')

@@ -8,7 +8,7 @@ This module defines some custom filters to be used in dotdrop jinja2 templates.
 from pathlib import Path
 from typing import Union
 
-from markupsafe import soft_unicode
+from markupsafe import soft_str
 
 import python.lib as lib
 
@@ -24,7 +24,7 @@ def format_by(arg: str, format: str) -> str:
     :param arg: The values for the placeholders in the format string.
     :return: The formatted string.
     """
-    return soft_unicode(format) % arg
+    return soft_str(format) % arg
 
 
 def find_in_home(path: str) -> str:

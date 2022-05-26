@@ -8,7 +8,7 @@ templates.
 
 from pathlib import Path
 
-from jinja2 import contextfunction
+from jinja2 import pass_context
 from jinja2.runtime import Context
 
 from python.lib import expand_xdg as xdg
@@ -19,7 +19,7 @@ def abs_path(path: str) -> str:
     return Path(path).expand_home().resolve()
 
 
-@contextfunction
+@pass_context
 def vars_with_prefix(context: Context, prefix: str) -> dict:
     """Return the variables starting with a prefix as a dict.
 

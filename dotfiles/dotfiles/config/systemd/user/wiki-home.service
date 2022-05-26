@@ -8,7 +8,7 @@ After=network-online.target
 Wants=network-online.target
 
 [Service]
-ExecStart=/usr/bin/bash "{{@@ wiki_util_path | tildeTo('%h') @@}}/bash/run.sh" \
+ExecStart=/usr/bin/bash "{{@@ wiki_root | tildeTo('%h') @@}}/{{@@ wiki_util_path @@}}/bash/run.sh" \
     null-edit.sh -page:Home
 StandardError=journal
 StandardOutput=journal

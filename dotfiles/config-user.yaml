@@ -382,22 +382,17 @@ profiles:
     - f_at-spi-dbus-bus.desktop
     - f_autorandr.desktop
     - f_geoclue-demo-agent.desktop
-    - f_gnome-keyring-pkcs11.desktop
-    - f_gnome-keyring-secrets.desktop
-    - f_gnome-keyring-ssh.desktop
     - f_gpg-agent.conf
-    - f_keyring.service
     - f_light-locker.desktop
     - f_org.gnome.SettingsDaemon.DiskUtilityNotify.desktop
     - f_pam_environment
     - f_parcellite-startup.desktop
-    - f_polkit-authentication-agent.service
-    - f_polkit-gnome-authentication-agent-1.desktop
     - f_print-applet.desktop
     - f_pulseaudio.desktop
     - f_python_keyring
     - f_xdg-user-dirs.desktop
     import:
+    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
     include:
     - startup-{{@@ display_server @@}}

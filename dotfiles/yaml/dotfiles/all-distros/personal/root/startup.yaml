@@ -4,5 +4,6 @@
 # only on my personal machine for root.
 
 dotfiles:
+- f_pam.d_login
 - f_raspberry.automount
 - f_raspberry.mount

@@ -84,7 +84,7 @@ chmod -R g+w "$ANDROID_HOME"
 # Making all the executable in the android sdk available on PATH and
 # executable by the group
 find "$ANDROID_HOME" -type f -executable -not -name '*.*' \
-    | while read FILE; do
+    | while read -r FILE; do
         chmod g+x "$FILE"
         ln -sf "$FILE" /usr/local/bin
     done

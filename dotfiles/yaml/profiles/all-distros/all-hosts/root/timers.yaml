@@ -8,7 +8,7 @@ actions:
     shell-plugins: |-
       case "$DISTRO" in
           'arch')
-              yay -Syy zsh antibody-bin
+              yay -S --needed zsh antibody-bin
               ;;
 
           'debian')

@@ -49,7 +49,7 @@ mkdir -p "$SSH_HOME"
 
 # Prompting the user for SSH key creation
 printf 'Do you want to create ssh keys? [y/n] '
-read CREATE_SSH_KEYS
+read -r CREATE_SSH_KEYS
 
 case "$(echo "$CREATE_SSH_KEYS" | tr '[:upper:]' '[:lower:]')" in
 
@@ -58,8 +58,8 @@ case "$(echo "$CREATE_SSH_KEYS" | tr '[:upper:]' '[:lower:]')" in
         echo '\e[32m[INFO]\e[0m Creating SSH key'
 
         # Prompting the user for SSH key filename, handling the default too
-        printf "Enter SSH key filename [default '$DEFAULT_SSH_KEY']: "
-        read SSH_KEY_FILE_NAME
+        printf "Enter SSH key filename [default '%s']: " "$DEFAULT_SSH_KEY"
+        read -r SSH_KEY_FILE_NAME
         [ -z "$SSH_KEY_FILE_NAME" ] && SSH_KEY_FILE_NAME="$DEFAULT_SSH_KEY"
 
         # Actually creating the SSH key (interactive)
@@ -67,7 +67,7 @@ case "$(echo "$CREATE_SSH_KEYS" | tr '[:upper:]' '[:lower:]')" in
         ssh-keygen -f "$SSH_KEY_PATH" -t rsa
 
         # Adding the newly created SSH key to gpg-agent (interactive)
-        printf "\e[32m[INFO]\e[0m Adding new SSH key at $SSH_KEY_PATH to "
+        printf '\e[32m[INFO]\e[0m Adding new SSH key at %s to ' "$SSH_KEY_PATH"
         echo 'gpg-agent'
         ssh-add "$SSH_KEY_PATH"
 
@@ -75,7 +75,7 @@ case "$(echo "$CREATE_SSH_KEYS" | tr '[:upper:]' '[:lower:]')" in
         echo "\e[32m[INFO]\e[0m Displaying new SSH key at $SSH_KEY_PATH.pub"
         cat "$SSH_KEY_PATH.pub"
         # shellcheck disable=2034
-        read ANSWER
+        read -r ANSWER
         unset ANSWER
 
         [ -n "$HOST" ] && {
@@ -138,7 +138,7 @@ echo '\e[32m[INFO]\e[0m Creating gpg keys'
 
 # Prompting the user for gpg key creation
 printf 'Do you want to create gpg keys? [y/n] '
-read CREATE_GPG_KEYS
+read -r CREATE_GPG_KEYS
 
 case "$(echo "$CREATE_GPG_KEYS" | tr '[:upper:]' '[:lower:]')" in
 
@@ -147,11 +147,11 @@ case "$(echo "$CREATE_GPG_KEYS" | tr '[:upper:]' '[:lower:]')" in
 
         # Prompting the user for the name associated to the gpg key
         printf 'Enter the gpg key name: '
-        read GPG_NAME
+        read -r GPG_NAME
 
         # Prompting the user for the email associated to the gpg key
         printf 'Enter the gpg email: '
-        read GPG_EMAIL
+        read -r GPG_EMAIL
 
         # Removing and displaying temporary parameter file for gpg batch mode
         echo '\e[32m[INFO]\e[0m Generating gpg keys with these parameters:'
@@ -176,7 +176,7 @@ EOF
         gpg --list-secret-keys --with-colons | grep 'sec' | cut -d ':' -f 5 \
             | xargs gpg --armor --export
         # shellcheck disable=2034
-        read ANSWER
+        read -r ANSWER
         unset ANSWER
 
         unset GPG_ARGS GPG_EMAIL GPG_NAME

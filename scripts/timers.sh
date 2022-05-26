@@ -61,6 +61,7 @@ dotdrop install -p timers -U root
 # Linking shared timers and services in root search path
 # No quotes around $SHARED_UNITS as the spaces should split arguments
 echo '\e[32m[INFO]\e[0m Linking shared timers in system search path'
+# shellcheck disable=2086
 sudo systemctl link $SHARED_UNITS
 
 # Enabling and starting timers
@@ -76,6 +77,7 @@ echo "$ROOT_TIMERS" | xargs sudo systemctl start
 # Linking shared timers in user search path
 # No quotes around $SHARED_UNITS as the spaces should split arguments
 echo '\e[32m[INFO]\e[0m Linking shared timers in user search path'
+# shellcheck disable=2086
 systemctl --user link $SHARED_UNITS
 
 # Enabling and starting timers

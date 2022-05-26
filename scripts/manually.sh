@@ -98,7 +98,7 @@ esac
 # Installing myrepos
 case "$DISTRO" in
     'arch')
-        yay -S myrepos
+        yay -S --needed myrepos
         ;;
 
     'debian')

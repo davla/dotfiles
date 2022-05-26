@@ -11,7 +11,7 @@ actions:
     environment: |-
       case "$DISTRO" in
           'arch')
-              pacman -S dash bash zsh
+              pacman -S --needed bash dash zsh
               ;;
 
           'debian')
@@ -40,7 +40,7 @@ actions:
     i3blocks_network-status: |
       case "$DISTRO" in
           'arch')
-              pacman -S dash base-devel
+              pacman -S --needed dash base-devel
               ;;
 
           'debian')
@@ -59,7 +59,7 @@ actions:
     mrconfig: |-
       case "$DISTRO" in
           'arch')
-              pacman -S jq
+              pacman -S --needed jq
               ;;
 
           'debian')

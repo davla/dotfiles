@@ -26,7 +26,7 @@ pacman -Syy
 #######################################
 
 pacman -Qqs yay > /dev/null 2>&1 || {
-    pacman -S binutils fakeroot gcc git make
+    pacman -S --needed binutils fakeroot gcc git make
 
     YAY_DIR="$(mktemp -d 'XXX.yay.XXX')"
     sudo -u "$USER" git clone 'https://aur.archlinux.org/yay.git' "$YAY_DIR"
@@ -92,7 +92,7 @@ sudo -u "$USER" dotdrop install -p cli -U both
 # Upgrade
 #######################################
 
-sudo -u "$USER" yay -Su
+sudo -u "$USER" yay -Syyu
 
 #######################################
 # Initial setup

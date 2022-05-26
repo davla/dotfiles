@@ -48,7 +48,7 @@ CURRENT_USER="${2:-$(sudo getent shadow | grep -vP '.*:[!\*]' \
 # Masking the exit code of the subshell is necessary, as ps exits with an error
 # if no processes matching the criteria are found.
 CURRENT_USER_PROCESSES="$(ps --no-header -U "$CURRENT_USER" -o pid)" || true
-[ -n "$CURRENT_USER_PROCESSES" ] && sudo kill $CURRENT_USER_PROCESSES
+[ -n "$CURRENT_USER_PROCESSES" ] && sudo kill "$CURRENT_USER_PROCESSES"
 
 #######################################
 # Changing login name and home

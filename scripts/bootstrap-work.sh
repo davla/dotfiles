@@ -18,7 +18,7 @@ sudo /usr/bin/vmhgfs-fuse .host:/ "$HOME/mounts" -o subtype=vmhgfs-fuse,allow_ot
 #######################################
 
 echo '\e[32m[INFO]\e[0m Importing shared GPG key'
-gpg --import $HOME/mounts/win-repos/gpg-pvt.asc
+gpg --import "$HOME/mounts/win-repos/gpg-pvt.asc"
 
 echo '\e[32m[INFO]\e[0m Revealing git secrets'
 git secret reveal

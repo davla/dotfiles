@@ -12,7 +12,8 @@
 echo '\e[32m[INFO]\e[0m Installing system dependencies'
 case "$DISTRO" in
     'arch')
-        yay -S antibody-bin bash bash-completion dash exa fasd thefuck zsh
+        yay -S --needed antibody-bin bash bash-completion dash exa fasd \
+            thefuck zsh
         ;;
 
     'debian')

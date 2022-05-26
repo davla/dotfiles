@@ -174,8 +174,9 @@ apt-get install apt-transport-https autoconf automake build-essential cmake \
 
 # Dotfiles
 sudo -u "$USER_NAME" dotdrop install -p cli -U user
-if [ -n "$(dotdrop -bG files -p cli -U root 2> /dev/null)" ]; then
-    sudo -u "$USER_NAME" dotdrop install -p cli -U root
+if dotdrop -bG files -p cli -U root 2> /dev/null \
+    | grep -Ev '(^[[:blank:]]*|":)$'; then
+    dotdrop install -p cli -U root
 fi
 
 #######################################

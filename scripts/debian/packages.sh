@@ -195,8 +195,10 @@ groupadd -f docker
 usermod -aG docker "$USER_NAME"
 
 # NordVPN
-[ "$HOST" = 'personal' ] && {
-    groupadd -r nordvpn
-    usermod -aG nordvpn "$USER_NAME"
-    sudo -u "$USER_NAME" nordvpn-config
-}
+case "$HOST" in
+    'personal')
+        groupadd -r nordvpn
+        usermod -aG nordvpn "$USER_NAME"
+        sudo -u "$USER_NAME" nordvpn-config
+        ;;
+esac

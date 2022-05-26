@@ -16,6 +16,12 @@
 USER="${1:-$USER}"
 
 #######################################
+# Packages dotfiles
+#######################################
+
+dotdrop install -p packages -U root
+
+#######################################
 # Updating package archive
 #######################################
 
@@ -101,6 +107,10 @@ sudo -u "$USER" yay -Syyu
 # Docker
 usermod -aG docker "$USER"
 
-# NordVPN
-usermod -aG nordvpn "$USER"
-sudo -u "$USER" nordvpn-config
+case "$HOST" in
+    'personal')
+        # NordVPN
+        usermod -aG nordvpn "$USER"
+        sudo -u "$USER" nordvpn-config
+        ;;
+esac

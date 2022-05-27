@@ -48,19 +48,21 @@ pacman -Qqs yay > /dev/null 2>&1 || {
 # Installing GUI applications
 #######################################
 
-case "$HOST" in
-    'personal')
-        sudo -u "$USER" yay -S --needed asunder atril baobab bitwarden \
-            blueman brasero calibre electron firefox-beta-bin geany gimp \
-            gnome-clocks gnome-disk-utility gnome-keyring gufw handbrake \
-            libreoffice-still kid3 remmina seahorse simple-scan \
-            soundconverter telegram-desktop thunderbird transmission-gtk \
-            vlc-git visual-studio-code-bin
-        ;;
-esac
+if [ "$DISPLAY_SERVER" != 'headless' ]; then
+    case "$HOST" in
+        'personal')
+            sudo -u "$USER" yay -S --needed asunder atril baobab bitwarden \
+                blueman brasero calibre electron firefox-beta-bin geany gimp \
+                gnome-clocks gnome-disk-utility gnome-keyring gufw handbrake \
+                libreoffice-still kid3 remmina seahorse simple-scan \
+                soundconverter telegram-desktop thunderbird transmission-gtk \
+                vlc-git visual-studio-code-bin
+            ;;
+    esac
 
-# Dotfiles
-sudo -u "$USER" dotdrop install -p gui
+    # Dotfiles
+    sudo -u "$USER" dotdrop install -p gui
+fi
 
 #######################################
 # Installing CLI applications
@@ -68,14 +70,7 @@ sudo -u "$USER" dotdrop install -p gui
 
 case "$HOST" in
     'personal')
-        sudo -u "$USER" yay -S --needed cups cups-pdf dex docker \
-            docker-compose docker-credential-secretservice gdb intel-ucode \
-            libsecret hunspell hunspell-da hunspell-en_US hunspell-it \
-            networkmanager nordvpn polkit-gnome temp-throttle-git zsa-wally-cli
-        # dhcpcd doesn't work well with networkmanager (unless configured)
-        if sudo -u "$USER" yay -Qs dhcpcd; then
-            sudo -u "$USER" yay -R dhcpcd
-        fi
+        sudo -u "$USER" yay -S --needed cups cups-pdf nordvpn zsa-wally-cli
         ;;
 
     'raspberry')
@@ -83,12 +78,23 @@ case "$HOST" in
         ;;
 esac
 
-sudo -u "$USER" yay -S --needed antibody-bin apng2gif asdf-vm autoconf \
-    automake cmake cowsay curl dkms dos2unix exa fasd fortune-mod gcc ghc \
-    gifsicle git-secret gnupg jq lua macchina man mercurial moreutils \
-    multi-git-status myrepos nfs-utils nyancat otf-ipafont p7zip pkgfile \
-    python python-pip python-pipenv sudo thefuck ttf-baekmuk ttf-dejavu \
-    ttf-indic-otf ttf-khmer unzip vim wqy-microhei-lite zip
+if [ "$HOST" != 'raspberry' ]; then
+    sudo -u "$USER" yay -S --needed apng2gif dex docker docker-compose \
+        docker-credential-secretservice gifsicle gdb ghc intel-ucode \
+        libsecret hunspell hunspell-da hunspell-en_US hunspell-it \
+        macchina-bin networkmanager polkit-gnome temp-throttle-git
+        # dhcpcd doesn't work well with networkmanager (unless configured)
+        if sudo -u "$USER" yay -Qs dhcpcd; then
+            sudo -u "$USER" yay -R dhcpcd
+        fi
+fi
+
+sudo -u "$USER" yay -S --needed antibody-bin asdf-vm autoconf automake cmake \
+    cowsay curl dkms dos2unix exa fasd fortune-mod gcc git-secret gnupg jq \
+    lua man mercurial moreutils multi-git-status myrepos nfs-utils nyancat \
+    otf-ipafont p7zip pkgfile python python-pip python-pipenv sudo thefuck \
+    ttf-baekmuk ttf-dejavu ttf-indic-otf ttf-khmer unzip vim \
+    wqy-microhei-lite zip
     # luacheck shellcheck rar unrar
 
 # Dotfiles
@@ -105,7 +111,9 @@ sudo -u "$USER" yay -Syyu
 #######################################
 
 # Docker
-usermod -aG docker "$USER"
+if [ "$HOST" != 'raspberry' ]; then
+    usermod -aG docker "$USER"
+fi
 
 case "$HOST" in
     'personal')

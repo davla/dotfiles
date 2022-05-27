@@ -30,12 +30,17 @@ dotdrop_files() {
 # System startup jobs
 #######################################
 
-printf '\e[32m[INFO]\e[0m Install root startup jobs\n'
-dotdrop install -p startup -U root
+if dotdrop -bG files -p startup -U root 2> /dev/null \
+    | grep -Ev '(^[[:blank:]]*|":)$'; then
+    printf '\e[32m[INFO]\e[0m Install root startup jobs\n'
+    dotdrop install -p startup -U root
 
-printf '\e[32m[INFO]\e[0m Enable and start root systemd services\n'
-dotdrop_files 'startup' 'root' | grep -E '\.service$' \
-    | xargs --no-run-if-empty sudo systemctl enable --now
+    printf '\e[32m[INFO]\e[0m Enable and start root systemd services\n'
+    dotdrop_files 'startup' 'root' | grep -E '\.service$' \
+        | xargs --no-run-if-empty sudo systemctl enable --now
+else
+    printf '\e[32m[INFO]\e[0m No root startup jobs found\n'
+fi
 
 #######################################
 # User startup jobs

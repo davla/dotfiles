@@ -1,0 +1,12 @@
+%YAML 1.2
+---
+# This dotfiles file lists the dotfiles to be used for the startup profile for
+# my work machine for unprivileged users.
+
+dotfiles:
+- f_gnome-keyring-pkcs11.desktop
+- f_gnome-keyring-secrets.desktop
+- f_gnome-keyring-ssh.desktop
+- f_keyring.service
+- f_polkit-authentication-agent.service
+- f_polkit-gnome-authentication-agent-1.desktop

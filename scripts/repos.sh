@@ -3,6 +3,20 @@
 # This script clones and initializes the coding workspace
 
 ########################################
+# Install myrepos
+########################################
+
+case "$DISTRO" in
+    'arch')
+        yay -S --needed myrepos
+        ;;
+
+    'debian')
+        apt-get install myrepos
+        ;;
+esac
+
+########################################
 # Install configuration files
 ########################################
 

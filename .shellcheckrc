@@ -1,0 +1,5 @@
+# This file configures shellcheck with the most common local development
+# options
+
+external-sources=true
+source-path=SCRIPTDIR

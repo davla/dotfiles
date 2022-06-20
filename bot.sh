@@ -21,7 +21,7 @@
 STEPS="dotdrop, custom-commands, environment, packages, getty-login, \
 graphical-login, manual, i3, sway, xfce, locales, keyboard-layout, startup, \
 timers, network, users, security, ssh, nfs, ddclient, udev, shells, themes, \
-repos, android"
+repos"
 
 #######################################
 # Input processing
@@ -522,14 +522,6 @@ case "$STEP" in
         $STEP_RUNNER 'sh -e scripts/repos.sh' \
             'initializing your coding workspace' \
             'initialize your coding workspace'
-        ;;
-esac
-case "$STEP" in
-    'android'|'all')
-        # Android
-        $STEP_RUNNER "sudo sh -e scripts/android.sh $USER" \
-            'Android SDK installation' \
-            'install Android SDK'
         ;;
 esac
 

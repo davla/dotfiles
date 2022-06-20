@@ -2,9 +2,6 @@
 
 # This script sets up shells, namely zsh and bash
 
-# This doesn't work if this script is sourced
-. "$(dirname "$0")/../.dotfiles-env"
-
 #######################################
 # Installing dependencies
 #######################################

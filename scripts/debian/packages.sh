@@ -7,9 +7,6 @@
 #   - $1: name of the user to be added to the docker group. Defaults to $USER
 #         variable.
 
-# This doesn't work if this script is sourced
-. "$(dirname "$0")/../../.dotfiles-env"
-
 #######################################
 # Functions
 #######################################

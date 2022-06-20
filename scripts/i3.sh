@@ -2,9 +2,6 @@
 
 # This script installs i3 window manager and its configuration
 
-# This doesn't work if this script is sourced
-. "$(dirname "$0")/../.dotfiles-env"
-
 #######################################
 # Installing i3
 #######################################

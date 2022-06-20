@@ -379,7 +379,7 @@ esac
 case "$STEP" in
     'packages'|'all')
         # Packages installation - they make commands available for other scripts.
-        $STEP_RUNNER "sudo sh -e scripts/$DISTRO/packages.sh $USER" \
+        $STEP_RUNNER "sudo -E sh -e scripts/$DISTRO/packages.sh $USER" \
             'install packages' \
             'packages installation'
         ;;
@@ -394,7 +394,7 @@ esac
 case "$STEP" in
     'graphical-login'|'all')
         # Graphical login manager
-        $STEP_RUNNER 'sudo sh -e scripts/graphical-login.sh' \
+        $STEP_RUNNER 'sudo -E sh -e scripts/graphical-login.sh' \
             'installing a graphical login manager' \
             'install a graphical login manager'
         ;;
@@ -402,7 +402,7 @@ esac
 case "$STEP" in
     'manual'|'all')
         # Manual applications install
-        $STEP_RUNNER "sudo sh -e -l scripts/manually.sh $USER" \
+        $STEP_RUNNER "sudo -E sh -e -l scripts/manually.sh $USER" \
             'install manually managed applications' \
             'manually managed applications installation'
         ;;
@@ -456,7 +456,7 @@ esac
 case "$STEP" in
     'network'|'all')
         # Network
-        $STEP_RUNNER "sudo sh -e scripts/$HOST/network.sh" \
+        $STEP_RUNNER "sudo -E sh -e scripts/$HOST/network.sh" \
             'setting up the network' 'set up the network'
         ;;
 esac
@@ -497,8 +497,8 @@ esac
 case "$STEP" in
     'udev'|'all')
         # Udev
-        $STEP_RUNNER "sudo sh -e scripts/udev.sh $USER" 'setting up udev rules' \
-            'set up udev rules'
+        $STEP_RUNNER "sudo -E sh -e scripts/udev.sh $USER" \
+            'setting up udev rules' 'set up udev rules'
         ;;
 esac
 case "$STEP" in
@@ -511,7 +511,7 @@ esac
 case "$STEP" in
     'themes'|'all')
         # Themes
-        $STEP_RUNNER 'sudo sh -e scripts/aesthetics.sh' \
+        $STEP_RUNNER 'sudo -E sh -e scripts/aesthetics.sh' \
             'cursor, desktop and icon themes installation' \
             'install cursor, desktop and icon themes'
         ;;

@@ -12,9 +12,6 @@
 #   - $2+: The users to log in as in the host when copying SSH public key over.
 #          The same key is copied for all users. Only required if $1 is given.
 
-# This doesn't work if this script is sourced
-. "$(dirname "$0")/../.dotfiles-env"
-
 #######################################
 # Variables
 #######################################

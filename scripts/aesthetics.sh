@@ -7,9 +7,6 @@
 #   - $2: Desktop themes archive.
 #   - $3: Icons themes archive.
 
-# This doesn't work if this script is sourced
-. "$(dirname "$0")/../.dotfiles-env"
-
 #######################################
 # Variables
 #######################################

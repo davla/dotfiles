@@ -83,20 +83,24 @@ __logging_print() {
     __LOG_MSG_LEVEL="$1"
     __LOG_MSG_TAG=${2:-''}
 
+    __LOG_MSG_FORMAT="$__LOG_MSG_TAG%s\n"
+
     [ "$__LOGGING_LEVEL_CURRENT" -ge "$__LOG_MSG_LEVEL" ] && {
         if [ -n "$3" ]; then
             __LOG_MSG="$3"
-            echo "$__LOG_MSG_TAG$__LOG_MSG"
+            # shellcheck disable=2059
+            printf "$__LOG_MSG_FORMAT" "$__LOG_MSG"
         else
-            while read __LOG_MSG; do
-                echo "$__LOG_MSG_TAG$__LOG_MSG"
+            while read -r __LOG_MSG; do
+                # shellcheck disable=2059
+                printf "$__LOG_MSG_FORMAT" "$__LOG_MSG"
             done
         fi
 
         unset __LOG_MSG
     }
 
-    unset __LOG_MSG_TAG __LOG_MSG_LEVEL
+    unset __LOG_MSG_FORMAT __LOG_MSG_LEVEL __LOG_MSG_TAG
 }
 
 #######################################

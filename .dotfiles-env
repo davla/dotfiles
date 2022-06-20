@@ -40,8 +40,10 @@ export DISTRO
 # Host-related variables
 case "$HOST" in
     'personal')
-        export OUTPUT_SCALING="$([ "$DISPLAY_SERVER" = 'x11' ] \
-            && echo 'static' || echo 'dynamic')"
+        [ "$DISPLAY_SERVER" = 'x11' ] \
+            && OUTPUT_SCALING='static' \
+            || OUTPUT_SCALING='dynamic'
+        export OUTPUT_SCALING
         ;;
 
     *)

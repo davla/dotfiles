@@ -85,13 +85,13 @@ USER="$(id -un)"
 #   - $@: Same arguments as say
 ask() {
     # The function is recursive, and not iterative, since read needs not to be
-    # in a loop, as this would execite it in a subshell, that is with no stdin.
+    # in a loop, as this would execute it in a subshell, that is with no stdin.
 
     say "$@"
 
     read -r ANSWER
 
-    # Each case unsets ANSWER as it ternimates with a return. Saving the exit
+    # Each case unsets ANSWER as it terminates with a return. Saving the exit
     # code in a variable and returing it wouldn't help, as such variable
     # cannot be unset after it's used.
     case "$(echo "$ANSWER" | tr '[:upper:]' '[:lower:]')" in
@@ -117,7 +117,7 @@ ask() {
             say -t "$PROMPT_FACE" "Sorry, I didn't get it."
             ask "$@"
             # Need to return explicitly in order not to lose ask exit code: in
-            # fact, the last command is the case statement, that overwrites
+            # fact, the last command is the case statement, which overwrites
             # the exit code
             return
             ;;
@@ -164,10 +164,12 @@ execute() {
         }
 
         if [ "$CMD_EXIT" -eq 0 ]; then
-            ask "$OK_FACE" "Looks like everything went fine with $DESC! Hooray!
+            ask "$OK_FACE" "Looks like everything went fine with the step to \
+$DESC! Hooray!
 The log has been saved to $OUTPUT_LOG. $RETRY_PROMPT"
         else
-            ask "$ERROR_FACE" "Looks like something went wrong with $DESC.
+            ask "$ERROR_FACE" "Looks like something went wrong with the step \
+to $DESC.
 The log has been saved to $OUTPUT_LOG. $RETRY_PROMPT"
         fi
 
@@ -216,23 +218,19 @@ goodbye() {
 # executed or skipped based on the user answer.
 #
 # Arguments:
-#   - $1: Text to prompt the user with. It is appended to the string
-#         "Do you want to", and it needs not to include the question mark and
-#         the answer choices.
-#   - $2: The command to be run.
-#   - $3: The command descrption, suitable for an affirmative sentence.
+#   - $1: The command to be run.
+#   - $2: The command description. It should preferrably be an imperative form.
 prompt() {
-    PROMPT="$3"
     CMD="$1"
     DESC="$2"
 
-    if ask "$PROMPT_FACE" "Do you want to $PROMPT? $CHOICES"; then
+    if ask "$PROMPT_FACE" "Do you want to $DESC? $CHOICES"; then
         execute "$CMD" "$DESC"
     else
-        say -tt "$PROMPT_FACE" "Skipping $DESC then."
+        say -tt "$PROMPT_FACE" "Skipping the step to $DESC then."
     fi
 
-    unset PROMPT CMD DESC
+    unset CMD DESC
 }
 
 # This function prints a message as "said" by the bot, that is a face with a
@@ -356,8 +354,7 @@ STEP="$(echo "${STEP}" | tr '[:upper:]' '[:lower:]')"
 case "$STEP" in
     'dotdrop'|'all')
         # Dotdrop setup - first as anything else depends on it.
-        $STEP_RUNNER 'sh -e scripts/dotdrop.sh ./dotfiles' 'dotdrop setup' \
-            'set dotdrop up'
+        $STEP_RUNNER 'sh -e scripts/dotdrop.sh ./dotfiles' 'set dotdrop up'
         ;;
 esac
 case "$STEP" in
@@ -365,7 +362,6 @@ case "$STEP" in
         # Custom commands - they are used by other scripts.
         $STEP_RUNNER "sudo -H -E PYTHONPATH='./dotfiles:$PYTHONPATH' pipenv \
             run dotdrop install -c dotfiles/config-root.yaml -p commands" \
-            'custom commands installation' \
             'install your custom commands'
         ;;
 esac
@@ -373,14 +369,14 @@ case "$STEP" in
     'environment'|'all')
         # Shell environment - environment variables are used in other scripts.
         $STEP_RUNNER 'dotdrop -U root install -p environment' \
-            'setting up the environment' 'set up the environment'
+            'set up the environment'
         ;;
 esac
 case "$STEP" in
     'packages'|'all')
-        # Packages installation - they make commands available for other scripts.
+        # Packages installation - they make commands available for other
+        # scripts.
         $STEP_RUNNER "sudo -E sh -e scripts/$DISTRO/packages.sh $USER" \
-            'install packages' \
             'packages installation'
         ;;
 esac
@@ -388,14 +384,13 @@ case "$STEP" in
     'getty-login'|'all')
         # Getty login manager
         $STEP_RUNNER 'dotdrop -U root install -p getty-login' \
-            'setting up getty login' 'set up getty login'
+            'set up getty login'
         ;;
 esac
 case "$STEP" in
     'graphical-login'|'all')
         # Graphical login manager
         $STEP_RUNNER 'sudo -E sh -e scripts/graphical-login.sh' \
-            'installing a graphical login manager' \
             'install a graphical login manager'
         ;;
 esac
@@ -403,116 +398,104 @@ case "$STEP" in
     'manual'|'all')
         # Manual applications install
         $STEP_RUNNER "sudo -E sh -e -l scripts/manually.sh $USER" \
-            'install manually managed applications' \
-            'manually managed applications installation'
+            'install manually managed applications'
         ;;
 esac
 case "$STEP" in
     'i3'|'all')
         # i3
-        $STEP_RUNNER 'sh -e scripts/i3.sh' 'installing i3' 'install i3'
+        $STEP_RUNNER 'sh -e scripts/i3.sh' 'install i3'
         ;;
 esac
 case "$STEP" in
     'sway'|'all')
         # i3
-        $STEP_RUNNER 'sh -e scripts/sway.sh' 'installing sway' 'install sway'
+        $STEP_RUNNER 'sh -e scripts/sway.sh' 'install sway'
         ;;
 esac
 case "$STEP" in
     'xfce'|'all')
         # Xfce
-        $STEP_RUNNER 'sh -e scripts/xfce.sh' 'installing Xfce' 'install Xfce'
+        $STEP_RUNNER 'sh -e scripts/xfce.sh' 'install Xfce'
         ;;
 esac
 case "$STEP" in
     'locales'|'all')
         # Locales
-        $STEP_RUNNER 'dotdrop -U root install -p locales' 'configuring locales' \
-            'configure locales'
+        $STEP_RUNNER 'dotdrop -U root install -p locales' 'configure locales'
         ;;
 esac
 case "$STEP" in
     'keyboard-layout'|'all')
         # Keyboard
-        $STEP_RUNNER 'dotdrop -U root install -p xkb' 'adding keyboard layouts' \
-            'add keyboard layouts'
+        $STEP_RUNNER 'dotdrop -U root install -p xkb' 'add keyboard layouts'
         ;;
 esac
 case "$STEP" in
     'startup'|'all')
         # Startup jobs
-        $STEP_RUNNER 'sh -e scripts/startup.sh' 'setting up startup jobs' \
-            'set up startup jobs'
+        $STEP_RUNNER 'sh -e scripts/startup.sh' 'set up startup jobs'
         ;;
 esac
 case "$STEP" in
     'timers'|'all')
         # Systemd timers
-        $STEP_RUNNER 'sh -e scripts/timers.sh' 'setting up systemd timers' \
-            'set up systemd timers'
+        $STEP_RUNNER 'sh -e scripts/timers.sh' 'set up systemd timers'
         ;;
 esac
 case "$STEP" in
     'network'|'all')
         # Network
         $STEP_RUNNER "sudo -E sh -e scripts/$HOST/network.sh" \
-            'setting up the network' 'set up the network'
+            'set up the network'
         ;;
 esac
 case "$STEP" in
     'users'|'all')
         # Users and passwords
-        $STEP_RUNNER 'sh -e scripts/users.sh' 'setting up users and passwords' \
+        $STEP_RUNNER 'sh -e scripts/users.sh' \
             'set up users and their passwords'
         ;;
 esac
 case "$STEP" in
     'security'|'all')
         # SSH and GPG keys
-        $STEP_RUNNER 'sh -e scripts/security.sh' 'SSH and GPG keys generation' \
-            'generate SSH and GPG keys'
+        $STEP_RUNNER 'sh -e scripts/security.sh' 'generate SSH and GPG keys'
         ;;
 esac
 case "$STEP" in
     'ssh'|'all')
         # SSH
-        $STEP_RUNNER 'dotdrop -U root install -p ssh' 'setting up the ssh server' \
-            'set up the ssh server'
+        $STEP_RUNNER 'dotdrop -U root install -p ssh' 'set up the ssh server'
         ;;
 esac
 case "$STEP" in
     'nfs'|'all')
         # NFS
-        $STEP_RUNNER 'dotdrop -U root install -p nfs' 'setting up the nfs sharing' \
-            'set up the nfs sharing'
+        $STEP_RUNNER 'dotdrop -U root install -p nfs' 'set up the nfs sharing'
 esac
 case "$STEP" in
     'ddclient'|'all')
         # Ddclient
-        $STEP_RUNNER 'dotdrop -U root install -p ddclient' 'setting up ddclient' \
-            'set up ddclient'
+        $STEP_RUNNER 'dotdrop -U root install -p ddclient' 'set up ddclient'
         ;;
 esac
 case "$STEP" in
     'udev'|'all')
         # Udev
-        $STEP_RUNNER "sudo -E sh -e scripts/udev.sh $USER" \
-            'setting up udev rules' 'set up udev rules'
+        $STEP_RUNNER "sudo -E sh -e scripts/udev.sh $USER" 'set up udev rules'
         ;;
 esac
 case "$STEP" in
     'shells'|'all')
         # Shells setup
-        $STEP_RUNNER 'sh -e scripts/shell.sh' 'shells initialization' \
-            'initialize the shells'
+        $STEP_RUNNER 'sh -e scripts/shell.sh' 'initialize the shells'
         ;;
 esac
 case "$STEP" in
     'themes'|'all')
         # Themes
         $STEP_RUNNER 'sudo -E sh -e scripts/aesthetics.sh' \
-            'cursor, desktop and icon themes installation' \
             'install cursor, desktop and icon themes'
         ;;
 esac
@@ -520,7 +503,6 @@ case "$STEP" in
     'repos'|'all')
         # Repositories
         $STEP_RUNNER 'sh -e scripts/repos.sh' \
-            'initializing your coding workspace' \
             'initialize your coding workspace'
         ;;
 esac

@@ -9,7 +9,8 @@
 #   - $1 - The directory where autorandr configurations are located.
 
 # This doesn't work if this script is sourced
-. "$(dirname "$0")"/../../.dotfiles-env
+. "$(dirname "$0")/../../.dotfiles-env"
+. "$(dirname "$0")/../../scripts/lib.sh"
 
 #######################################
 # Functions
@@ -67,11 +68,13 @@ AUTORANDR_HOME="$(readlink -f "$1")"
 AUTORANDR_SCRIPTS_PATH="$AUTORANDR_HOME/scripts.d/"
 
 #######################################
-# Creating symbolic links
+# Create symbolic links
 #######################################
 
 # Configuration with HiDPI monitors
+print_info 'Link autorandr HiDPI hook scripts'
 echo "$HIDPI_CONFIGS" | link_hooks 'hidpi' "$AUTORANDR_HOME"
 
 # Configuration with LoDPI monitors
+print_info 'Link autorandr LoDPI hook scripts'
 echo "$LODPI_CONFIGS" | link_hooks 'lodpi' "$AUTORANDR_HOME"

@@ -5,14 +5,17 @@
 # Arguments:
 #   - $1: The file defining the bash configuration directory path.
 
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/../../scripts/lib.sh"
+
 #######################################
-# Arguments processing
+# Input processing
 #######################################
 
 BDOTDIR_FILE="${1:?}"
 
 #######################################
-# Loading configuration paths
+# Load configuration paths
 #######################################
 
 # The shell configuration paths need to be loaded manually, rather than by the
@@ -22,25 +25,26 @@ BDOTDIR_FILE="${1:?}"
 . "$BDOTDIR_FILE"
 
 #######################################
-# Creating symbolic links
+# Create symbolic links
 #######################################
 
 # bash has some non-configurable startup file paths, like $HOME/.bashrc. Here,
 # symbolic links are created from those paths to the actual files in the bash
 # configuration directory.
-
+print_info 'Link bash startup files in home directory'
 ln -sf "${BDOTDIR:?}/bashrc" "$HOME/.bashrc"
 ln -sf "${BDOTDIR:?}/bash_profile" "$HOME/.bash_profile"
 
 #######################################
-# Initializing $BDOTDIR
+# Initialize $BDOTDIR
 #######################################
 
 mkdir -p "${BDOTDIR:?}/cache"
 
 #######################################
-# Initializing cache
+# Initialize cache
 #######################################
 
+print_info 'Initialize bash plugin cache'
 env TF_SHELL='bash' thefuck --alias > "${BDOTDIR:?}/cache/thefuck"
 fasd --init bash-hook bash-ccomp bash-ccomp-install > "${BDOTDIR:?}/cache/fasd"

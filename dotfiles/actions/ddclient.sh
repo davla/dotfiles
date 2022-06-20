@@ -6,6 +6,9 @@
 # Arguments:
 #   - $1: The ddclient configuration file path
 
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/../../scripts/lib.sh"
+
 #######################################
 # Input processing
 #######################################
@@ -13,7 +16,7 @@
 DDCLIENT_FILE="$1"
 
 #######################################
-# Prompting for password
+# Prompt for password
 #######################################
 
 printf 'Insert DNS service password: '
@@ -24,7 +27,8 @@ read DNS_PASSWD
 stty "$OLD_STTY"
 
 #######################################
-# Adding password to config file
+# Add password to config file
 #######################################
 
+print_info 'Update ddclient password'
 sed -i "7ipassword=$DNS_PASSWD" "$DDCLIENT_FILE"

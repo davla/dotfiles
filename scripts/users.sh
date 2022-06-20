@@ -12,6 +12,9 @@
 #   - $2: the old user name. If not specified, an non-root user with an active
 #         password is used, provided that there's only one.
 
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/lib.sh"
+
 #######################################
 # Input processing
 #######################################
@@ -30,7 +33,7 @@ CURRENT_USER="${2:-$(sudo getent shadow | grep -vP '.*:[!\*]' \
 }
 
 #######################################
-# Preparing for login name change
+# Prepare for login name change
 #######################################
 
 # UNIX doesn't allow to change the current logged-in user login name.
@@ -44,24 +47,25 @@ CURRENT_USER="${2:-$(sudo getent shadow | grep -vP '.*:[!\*]' \
 #
 # Masking the exit code of the subshell is necessary, as ps exits with an error
 # if no processes matching the criteria are found.
+print_info "Kill $CURRENT_USER processes"
 CURRENT_USER_PROCESSES="$(ps --no-header -U "$CURRENT_USER" -o pid)" || true
 [ -n "$CURRENT_USER_PROCESSES" ] && sudo kill "$CURRENT_USER_PROCESSES"
 
 #######################################
-# Changing login name and home
+# Change login name and home
 #######################################
 
-echo "Changing login name $CURRENT_USER -> $NEW_USER"
+print_info "Change login name $CURRENT_USER -> $NEW_USER"
 sudo usermod -l "$NEW_USER" "$CURRENT_USER"
 sudo usermod -d "/home/$NEW_USER" -m "$NEW_USER"
 sudo groupmod -n "$NEW_USER" "$CURRENT_USER"
 
 #######################################
-# Changing passwords
+# Change passwords
 #######################################
 
-echo "Changing $NEW_USER password"
+print_info "Change $NEW_USER password"
 sudo passwd "$NEW_USER"
 
-echo 'Changing root password'
+print_info 'Change root password'
 sudo passwd

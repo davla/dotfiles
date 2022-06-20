@@ -2,10 +2,14 @@
 
 # This script installs Xfce desktop environment and its configuration
 
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/lib.sh"
+
 #######################################
 # Installing Xfce
 #######################################
 
+print_info 'Install xfce'
 case "$DISTRO" in
     'arch')
         # sudo apt-get install xfce4 xfce4-battery-plugin xfce4-cpugraph-plugin \
@@ -27,6 +31,7 @@ esac
 # Installing Xfce dotfiles
 #######################################
 
+print_info 'Install xfce dotfiles'
 dotdrop install -p xfce
 
 #######################################
@@ -34,4 +39,5 @@ dotdrop install -p xfce
 #######################################
 
 # Sensor plugin
+print_info 'Fix hddtemp permissions for sensor plugin'
 sudo chmod u+s /usr/sbin/hddtemp

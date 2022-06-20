@@ -6,11 +6,14 @@
 #   - Local hosts to /etc/hosts
 #   - Frequently visited host IP caching in /etc/hosts setup
 
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/../lib.sh"
+
 #######################################
-# Installing the network manager
+# Install network manager
 #######################################
 
-echo '\e[32m[INFO]\e[0m Installing GNOME network manager'
+print_info 'Install GNOME network manager'
 case "$DISTRO" in
     'arch')
         pacman -S --needed networkmanager
@@ -22,15 +25,15 @@ case "$DISTRO" in
 esac
 
 #######################################
-# Installing dotfiles
+# Install dotfiles
 #######################################
 
-echo '\e[32m[INFO]\e[0m Installing network configuration'
+print_info 'Install network configuration'
 dotdrop install -p network
 
 #######################################
-# Adding frequently visisted hosts
+# Add frequently visisted hosts
 #######################################
 
-echo '\e[32m[INFO]\e[0m Adding frequently visited hosts'
+print_info 'Add frequently visited hosts'
 host-refresh --info --journald off --color on

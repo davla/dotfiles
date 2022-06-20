@@ -2,11 +2,14 @@
 
 # This script sets up shells, namely zsh and bash
 
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/lib.sh"
+
 #######################################
-# Installing dependencies
+# Install dependencies
 #######################################
 
-echo '\e[32m[INFO]\e[0m Installing system dependencies'
+print_info 'Install system dependencies'
 case "$DISTRO" in
     'arch')
         yay -S --needed antibody-bin bash bash-completion dash exa fasd \
@@ -21,25 +24,25 @@ case "$DISTRO" in
 esac
 
 #######################################
-# Installing dotfiles
+# Install dotfiles
 #######################################
 
-echo '\e[32m[INFO]\e[0m Installing system zsh configuration'
+print_info 'Install system zsh configuration'
 dotdrop -U root install -p zsh-system
 
-echo '\e[32m[INFO]\e[0m Installing POSIX shell configuration'
+print_info 'Install POSIX shell configuration'
 dotdrop -U both install -p sh
-echo '\e[32m[INFO]\e[0m Installing bash configuration'
+print_info 'Install bash configuration'
 dotdrop -U both install -p bash
-echo '\e[32m[INFO]\e[0m Installing zsh configuration'
+print_info 'Install zsh configuration'
 dotdrop -U both install -p zsh
 
 #######################################
-# Setting default shell
+# Set default shell
 #######################################
 
 ZSH_PATH="$(which zsh)"
-echo "\e[32m[INFO]\e[0m Setting default shell to zsh for $USER"
+print_info "Set default shell to zsh for $USER"
 chsh -s "$ZSH_PATH"
-echo '\e[32m[INFO]\e[0m Setting default shell to zsh for root'
+print_info 'Set default shell to zsh for root'
 sudo chsh -s "$ZSH_PATH"

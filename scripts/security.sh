@@ -12,12 +12,14 @@
 #   - $2+: The users to log in as in the host when copying SSH public key over.
 #          The same key is copied for all users. Only required if $1 is given.
 
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/lib.sh"
+
 #######################################
 # Variables
 #######################################
 
 # Git origin remote URL
-echo "\e[32m[INFO]\e[0m Getting git origin URL"
 GIT_ORIGIN="$(git remote get-url origin)"
 
 # SSH base directory
@@ -37,48 +39,45 @@ DEFAULT_SSH_KEY='id_rsa'
 }
 
 #######################################
-# Creating SSH keys
+# Create SSH keys
 #######################################
 
-# Ensuring that ~/.ssh exists
-echo "\e[32m[INFO]\e[0m Creating $SSH_HOME"
+print_info "Ensure $SSH_HOME exists"
 mkdir -p "$SSH_HOME"
 
-# Prompting the user for SSH key creation
+# Prompt the user for SSH key creation
 printf 'Do you want to create ssh keys? [y/n] '
 read -r CREATE_SSH_KEYS
 
 case "$(echo "$CREATE_SSH_KEYS" | tr '[:upper:]' '[:lower:]')" in
 
-    # Creating SSH key
+    # Create SSH key
     'y'|'yes')
-        echo '\e[32m[INFO]\e[0m Creating SSH key'
+        print_info 'Create SSH key'
 
-        # Prompting the user for SSH key filename, handling the default too
+        # Prompt the user for SSH key filename, handling the default too
         printf "Enter SSH key filename [default '%s']: " "$DEFAULT_SSH_KEY"
         read -r SSH_KEY_FILE_NAME
         [ -z "$SSH_KEY_FILE_NAME" ] && SSH_KEY_FILE_NAME="$DEFAULT_SSH_KEY"
 
-        # Actually creating the SSH key (interactive)
+        # Actually create the SSH key (interactive)
         SSH_KEY_PATH="$SSH_HOME/$SSH_KEY_FILE_NAME"
         ssh-keygen -f "$SSH_KEY_PATH" -t rsa
 
-        # Adding the newly created SSH key to gpg-agent (interactive)
-        printf '\e[32m[INFO]\e[0m Adding new SSH key at %s to ' "$SSH_KEY_PATH"
-        echo 'gpg-agent'
+        # Add the newly created SSH key to gpg-agent (interactive)
+        print_info "Add new SSH key at $SSH_KEY_PATH to gpg-agent"
         ssh-add "$SSH_KEY_PATH"
 
-        # Displaying newly created public SSH key
-        echo "\e[32m[INFO]\e[0m Displaying new SSH key at $SSH_KEY_PATH.pub"
+        # Display newly created public SSH key
+        print_info "Display new SSH key at $SSH_KEY_PATH.pub"
         cat "$SSH_KEY_PATH.pub"
         # shellcheck disable=2034
         read -r ANSWER
         unset ANSWER
 
         [ -n "$HOST" ] && {
-            # Adding key to the given host's authorized keys as each provided
-            # user
-            echo "\e[32m[INFO]\e[0m Copying key $SSH_KEY_PATH.pub to hosts"
+            # Add key to the given host's authorized keys as each provided user
+            print_info "Copy key $SSH_KEY_PATH.pub to hosts"
             for SSH_USER in "$@"; do
                 ssh-copy-id -i "$SSH_KEY_PATH.pub" "$SSH_USER@$HOST"
             done
@@ -86,12 +85,12 @@ case "$(echo "$CREATE_SSH_KEYS" | tr '[:upper:]' '[:lower:]')" in
         unset SSH_KEY_FILE_NAME SSH_KEY_PATH
         ;;
 
-    # Not generating SSH key
+    # Not generate SSH key
     'n'|'no')
         echo "OK. SSH keys won't be created"
         ;;
 
-    # Rejecting any other answer
+    # Reject any other answer
     *)
         echo >&2 "Invalid answer: $CREATE_SSH_KEYS"
         exit 1
@@ -100,14 +99,14 @@ esac
 unset CREATE_SSH_KEYS
 
 #######################################
-# Changing git origin of this repo
+# Change git origin of this repo
 #######################################
 
 # If remote origin is https, it's not ssh
 echo "$GIT_ORIGIN" | grep -E 'https?' > /dev/null 2>&1 && {
-    echo '\e[32m[INFO]\e[0m Changing this repository remote to use SSH'
+    print_info 'Change this repository remote to use SSH'
 
-    # Changing this repository URL to use SSH
+    # Change this repository URL to use SSH
     echo "$GIT_ORIGIN" | \
         sed -E -e 's|https?://(.+?)/(.+?)/(.+?)(.git)?|git@\1:\2/\3.git|' \
             -e 's/(\.git)+$/.git/g' \
@@ -115,9 +114,9 @@ echo "$GIT_ORIGIN" | grep -E 'https?' > /dev/null 2>&1 && {
 
     case "$HOST" in
         *'work'*)
-            # Changing this repository URL hostname to use the correct SSH key
-            echo '\e[32m[INFO]\e[0m Changing this repository URL hostname to '
-                'use the correct SSH key'
+            # Change this repository URL hostname to use the correct SSH key
+            print_info -n 'Change this repository URL hostname to use the '
+            echo 'correct SSH key'
             # The remote might have just been changed, hence $GIT_ORIGIN is
             # stale and the git origin url needs to be queried again
             git remote get-url origin \
@@ -128,30 +127,31 @@ echo "$GIT_ORIGIN" | grep -E 'https?' > /dev/null 2>&1 && {
 }
 
 #######################################
-# Creating gpg keys
+# Create gpg keys
 #######################################
 
-echo '\e[32m[INFO]\e[0m Creating gpg keys'
+print_info 'Create gpg keys'
 
-# Prompting the user for gpg key creation
+# Prompt the user for gpg key creation
 printf 'Do you want to create gpg keys? [y/n] '
 read -r CREATE_GPG_KEYS
 
 case "$(echo "$CREATE_GPG_KEYS" | tr '[:upper:]' '[:lower:]')" in
 
-    # Creating gpg keys
+    # Create gpg keys
     'y'|'yes')
+        print_info 'Create gpg key'
 
-        # Prompting the user for the name associated to the gpg key
+        # Prompt the user for the name associated to the gpg key
         printf 'Enter the gpg key name: '
         read -r GPG_NAME
 
-        # Prompting the user for the email associated to the gpg key
+        # Prompt the user for the email associated to the gpg key
         printf 'Enter the gpg email: '
         read -r GPG_EMAIL
 
-        # Removing and displaying temporary parameter file for gpg batch mode
-        echo '\e[32m[INFO]\e[0m Generating gpg keys with these parameters:'
+        # Display temporary parameter file for gpg batch mode
+        print_info 'Generate gpg keys with these parameters:'
         GPG_ARGS="$(mktemp)"
         tee "$GPG_ARGS" <<EOF
 Key-Type: 1
@@ -160,16 +160,14 @@ Expire-Date: 0
 Name-Real: $GPG_NAME
 Name-Email: $GPG_EMAIL
 EOF
-        # Generating gpg key
+        # Generate gpg key
         gpg --batch --generate-key "$GPG_ARGS"
 
-        # Removing temporary parameter file for gpg batch mode
-        echo '\e[32m[INFO]\e[0m Deleting temporary gpg parameter file'
+        # Remove temporary parameter file for gpg batch mode
         rm "$GPG_ARGS"
 
-        # Displaying the public gpg key
-        echo '\e[32m[INFO]\e[0m This is the newly created public gpg key'
-        # Actually getting the content to paste on GitHub
+        print_info 'Display new public gpg key'
+        # Actually get the content to paste on GitHub
         gpg --list-secret-keys --with-colons | grep 'sec' | cut -d ':' -f 5 \
             | xargs gpg --armor --export
         # shellcheck disable=2034
@@ -179,12 +177,12 @@ EOF
         unset GPG_ARGS GPG_EMAIL GPG_NAME
         ;;
 
-    # Not creating gpg keys
+    # Not create gpg keys
     'n'|'no')
         echo "OK. Gpg keys won't be created"
         ;;
 
-    # Rejecting any other anser
+    # Reject any other anser
     *)
         echo >&2 "Invalid answer: $CREATE_GPG_KEYS"
         exit 1

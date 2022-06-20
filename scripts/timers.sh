@@ -6,6 +6,9 @@
 #     respective search path
 #   - Activating and starting the timers
 
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/lib.sh"
+
 #######################################
 # Functions
 #######################################
@@ -31,23 +34,23 @@ dotdrop_files() {
 #######################################
 
 # Root timers and services
-printf '\e[32m[INFO]\e[0m Retrieve system units\n'
+print_info 'Retrieve system units'
 ROOT_UNITS="$(dotdrop_files 'timers' 'root' | grep -E '\.(service|timer)$')"
 
 # Shared timers and services (between root and unprivileged users)
-printf '\e[32m[INFO]\e[0m Retrieve shared units\n'
+print_info 'Retrieve shared units'
 SHARED_UNITS="$(echo "$ROOT_UNITS" | grep '^/etc/systemd/share/')"
 
 # Root timers
-printf '\e[32m[INFO]\e[0m Retrieve root timers\n'
+print_info 'Retrieve root timers'
 ROOT_TIMERS="$(echo "$ROOT_UNITS" | grep '\.timer$' | xargs -n 1 basename)"
 
 # Shared timers (between root and unprivileged users)
-printf '\e[32m[INFO]\e[0m Retrieve shared timers\n'
+print_info 'Retrieve shared timers'
 SHARED_TIMERS="$(echo "$SHARED_UNITS" | grep '\.timer$' | xargs -n 1 basename)"
 
 # User timers
-printf '\e[32m[INFO]\e[0m Retrieve user timers\n'
+print_info 'Retrieve user timers'
 USER_TIMERS="$(dotdrop_files 'timers' | grep '\.timer$' \
     | xargs -rn 1 basename)"
 
@@ -56,18 +59,17 @@ USER_TIMERS="$(dotdrop_files 'timers' | grep '\.timer$' \
 #######################################
 
 # Install root and shared timers
-printf '\e[32m[INFO]\e[0m Install system timers and dependencies\n'
+print_info 'Install system timers and dependencies'
 dotdrop install -p timers -U root
 
 # Link shared timers and services in root search path
 # No quotes around $SHARED_UNITS as the spaces should split arguments
-printf '\e[32m[INFO]\e[0m Link shared timers in system search path\n'
+print_info 'Link shared timers in system search path'
 # shellcheck disable=2086
 sudo systemctl link $SHARED_UNITS
 
 # Enable and start timers (both root and shared)
-printf '\e[32m[INFO]\e[0m Enable and start system and shared timers for '
-echo 'system'
+print_info 'Enable and start system and shared timers for system'
 echo "$ROOT_TIMERS" | xargs sudo systemctl enable --now
 
 #######################################
@@ -76,21 +78,24 @@ echo "$ROOT_TIMERS" | xargs sudo systemctl enable --now
 
 # Link shared timers in user search path
 # No quotes around $SHARED_UNITS as the spaces should split arguments
-printf '\e[32m[INFO]\e[0m Link shared timers in user search path\n'
+print_info 'Link shared timers in user search path'
 # shellcheck disable=2086
 systemctl --user link $SHARED_UNITS
 
 # Enable and start shared timers
-printf '\e[32m[INFO]\e[0m Enable and start shared timers for user\n'
+print_info 'Enable and start shared timers for user'
 echo "$SHARED_TIMERS" | xargs systemctl --user enable --now
 
 # There might be no user timers altogether
-[ -z "$USER_TIMERS" ] && exit
+[ -z "$USER_TIMERS" ] && {
+    print_info 'No user timers found'
+    exit
+}
 
 # Install user timers
-printf '\e[32m[INFO]\e[0m Install user timers and dependencies\n'
+print_info 'Install user timers and dependencies'
 dotdrop install -p timers
 
 # Enable and start user timers
-printf '\e[32m[INFO]\e[0m Enable and start user timers\n'
+print_info 'Enable and start user timers'
 echo "$USER_TIMERS" | xargs systemctl --user enable --now

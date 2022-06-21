@@ -20,3 +20,5 @@ My dotfiles repository.
   + BitWarden
 - i3
   + restart xfce4-terminal in autorandr
+- append action should not remove
+- use empty dst: instead of mktemp

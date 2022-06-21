@@ -1,10 +1,10 @@
 actions:
   post:
-    insert_match: |-
+    _insert_match: |-
       LINE="$(grep -nPm 1 '{0}' {2} | cut -d ':' -f 1)"
       [ -z "$LINE" ] && LINE="$(wc -l < {2})"
       sed -i "$LINE r {1}" {2}
-    insert_xml: |-
+    _insert_xml: |-
       python -i <<EOF
       import xml.etree.ElementTree as ET
 
@@ -24,8 +24,8 @@ actions:
       parent.insert(index + 1, node)
       dest_document.write('{2}', encoding='UTF-8', xml_declaration=True)
       EOF
-    rm: rm -f {0}
-    strip_file: |-
+    _rm: rm -f {0}
+    _strip_file: |-
       START="$(head -n 1 {0} | xargs -i grep -nFm 1 '{{}}' {1} \
          | cut -d ':' -f 1)"
       END="$(nl -b a -w 1 -s ' ' {1} | tac | grep -Fm 1 "$(tail -n 1 {0})" \
@@ -33,7 +33,7 @@ actions:
       if [ -n "$START" ] && [ -n "$END" ]; then
          sed -i "$START,$END d" {1}
       fi
-    strip_xml: |-
+    _strip_xml: |-
       python -i <<EOF
       import xml.etree.ElementTree as ET
 

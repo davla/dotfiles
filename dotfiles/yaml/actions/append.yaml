@@ -1,6 +1,6 @@
 actions:
   pre:
-    strip: "sed -i '/{0}/,$d' {1}"
+    _strip: "sed -i '/{0}/,$d' {1}"
   post:
-    append: 'cat {1} >> {0}; rm -f {1}'
-    rm: rm -f {0}
+    _append: 'cat {1} >> {0}; rm -f {1}'
+    _rm: rm -f {0}

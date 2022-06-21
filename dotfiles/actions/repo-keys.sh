@@ -11,8 +11,8 @@
 #######################################
 
 find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
-    | xargs -0 -i basename '{}' '.list' | tr '[:upper:]' '[:lower:]' \
-    | while read REPO; do
+    | xargs -0 -I '{}' basename '{}' '.list' | tr '[:upper:]' '[:lower:]' \
+    | while read -r REPO; do
         case "$REPO" in
             'alacritty')
                 print_info "Installing apt repository key for $REPO"

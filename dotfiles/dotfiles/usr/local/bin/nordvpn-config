@@ -22,10 +22,10 @@ nordvpn account | grep -i 'not logged in' > /dev/null 2>&1 && {
     # a tty. Therefore, username and passwords are manually read and then
     # passed as CLI arguments
     printf 'Enter your NordVPN username: '
-    read NORDVPN_USERNAME
+    read -r NORDVPN_USERNAME
     stty -echo
     printf 'Enter your NordVPN password: '
-    read NORDVPN_PASSWORD
+    read -r NORDVPN_PASSWORD
     stty echo
 
     nordvpn login --username "$NORDVPN_USERNAME" --password "$NORDVPN_PASSWORD"

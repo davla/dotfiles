@@ -22,8 +22,9 @@ local_asdf_in_path() {
     echo "Found these local plugins: $LOCAL_ASDF_FOUND" | paste -s -d ' '
 
     echo 'Exporting local plugins in PATH'
-    export PATH="$(echo "$LOCAL_ASDF_FOUND" | xargs -n 1 asdf which \
-        | xargs -n 1 dirname | paste -s -d ':'):$PATH"
+    LOCAL_ASDF_PATH="$(echo "$LOCAL_ASDF_FOUND" | xargs -n 1 asdf which \
+        | xargs -n 1 dirname | paste -s -d ':')"
+    export PATH="$LOCAL_ASDF_PATH:$PATH"
 
-    unset LOCAL_ASDF_EXCLUDE LOCAL_ASDF_FOUND
+    unset LOCAL_ASDF_EXCLUDE LOCAL_ASDF_FOUND LOCAL_ASDF_PATH
 }

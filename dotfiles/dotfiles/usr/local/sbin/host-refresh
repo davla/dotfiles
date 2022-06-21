@@ -101,11 +101,10 @@ sed -i "$MARKER_LINE,\$d" /etc/hosts
 
 # Appending an entry in /etc/hosts for every frequent hosts
 log_debug 'Starting to update /etc/host'
-while read HOST; do
+while read -r HOST; do
     log_debug "Looking up ip for $HOST"
-	IPS="$(host "$HOST")"
 
-    if [ $? -eq 0 ]; then
+    if IPS="$(host "$HOST")"; then
         log_debug "Updating IP for $HOST"
     else
         log_error >&2 "$HOST IP not found"

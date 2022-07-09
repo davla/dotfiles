@@ -216,6 +216,13 @@ dotfiles:
   f_locale.conf:
     src: etc/locale.conf
     dst: /etc/locale.conf
+  f_login.defs:
+    src: etc/login.defs
+    # Dynamic path since the dotfile content is appended to dst
+    dst: '{{@@ getty_login_tmp_dst @@}}'
+    actions:
+    - strip '{{@@ login_defs_append_marker @@}}' '{{@@ login_defs_dst @@}}'
+    - append '{{@@ login_defs_dst @@}}' '{{@@ getty_login_tmp_dst @@}}'
   f_mrconfig-gui:
     src: opt/mrconfig.gui
     dst: /opt/.mrconfig.gui
@@ -391,7 +398,15 @@ profiles:
   # This profile groups dotfiles used to configure login from a getty
   getty-login:
     dotfiles:
+    - f_login.defs
     - f_systemd_getty
+    actions:
+    - rm '{{@@ getty_login_tmp_dst @@}}'
+    dynvariables:
+      getty_login_tmp_dst: mktemp /tmp/getty-login-append.XXX
+    variables:
+      login_defs_append_marker: Local options
+      login_defs_dst: /etc/login.defs
 
   # This profile gathers the graphical login manager dotfiles
   graphical-login:

@@ -1,0 +1,7 @@
+# {{@@ login_defs_append_marker @@}}
+#
+# {{@@ header() @@}}
+
+# Don't re-prompt username on failed passwords. Used in combination with a
+# default username from getty
+LOGIN_KEEP_USERNAME yes

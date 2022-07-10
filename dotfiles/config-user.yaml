@@ -9,15 +9,15 @@ actions:
     # This action applies the cursor theme and size via gsettings. The settings
     # file are stored in binary format, so no dotfile management is possible.
     gsettings-icon-theme: |-
-      gsettings set org.gnome.desktop.interface cursor-theme {0}
-      gsettings set org.gnome.desktop.interface cursor-size {1}
+      gsettings set org.gnome.desktop.interface cursor-theme "{0}"
+      gsettings set org.gnome.desktop.interface cursor-size "{1}"
 
     i3: sh actions/i3.sh
 
     # This action installs VSCode extensions given in the first argument. This
     # needs to be a file with one package specification per line.
     vscode-install-extensions: >-
-      xargs -n 1 code --force --install-extension < {0}
+      xargs -n 1 code --force --install-extension < "{0}"
 
 config:
   backup: false

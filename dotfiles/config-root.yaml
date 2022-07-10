@@ -32,8 +32,8 @@ actions:
     # This action compiles the keyindicator2 custom i3block
     i3blocks_keyindicator2: |
       apt-get install build-essential libx11-dev
-      env ACTIVE_COLOR='{{@@ main_theme_color @@}}' CAPS_LABEL='C'
-          INACTIVE_COLOR='{{@@ i3bar_inactive_color @@}}' NO_NUM=1
+      env ACTIVE_COLOR='{{@@ main_theme_color @@}}' CAPS_LABEL='C' \
+          INACTIVE_COLOR='{{@@ i3bar_inactive_color @@}}' NO_NUM=1 \
           make -C '{{@@ _dotfile_abs_dst @@}}'
 
     # This action compiles the network-status custom i3block

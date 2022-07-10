@@ -46,15 +46,19 @@ ACTION="$(echo "$1" | tr '[:upper:]' '[:lower:]')"
 case "$ACTION" in
     'up')
         # ENV_LIST is not quoted because we need word splitting
-        systemctl --user import-environment $ENV_LIST
-        hash dbus-update-activation-environment 2>/dev/null \
-            && dbus-update-activation-environment --systemd $ENV_LIST
+        # shellcheck disable=2086
+        {
+            systemctl --user import-environment $ENV_LIST
+            hash dbus-update-activation-environment 2>/dev/null \
+                && dbus-update-activation-environment --systemd $ENV_LIST
+        }
         systemctl --user start "$TARGET"
         ;;
 
     'down')
-        # ENV_LIST is not quoted because we need word splitting
         systemctl --user stop "$TARGET"
+        # ENV_LIST is not quoted because we need word splitting
+        # shellcheck disable=2086
         systemctl --user unset-environment $ENV_LIST
         ;;
 

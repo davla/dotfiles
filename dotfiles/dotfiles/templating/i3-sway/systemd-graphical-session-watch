@@ -39,7 +39,7 @@ FIRST_RESTART_RECEIVED='false'
 # In all these cases, the {{@@ wm_name @@}} systemd session should be stopped.
 {
     {{@@ wm_ipc_command @@}} -t subscribe '["shutdown"]' || stop_session
-} | while read EVENT; do
+} | while read -r EVENT; do
         EVENT_CHANGE="$(echo "$EVENT" | jq -r '.change | ascii_downcase')"
 
         [ "$EVENT_CHANGE" = 'restart' ] && FIRST_RESTART_RECEIVED='true'

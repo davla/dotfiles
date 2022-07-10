@@ -23,7 +23,7 @@ printf 'Insert DNS service password: '
 
 OLD_STTY="$(stty -g)"
 stty -echo
-read DNS_PASSWD
+read -r DNS_PASSWD
 stty "$OLD_STTY"
 
 #######################################

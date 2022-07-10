@@ -20,7 +20,7 @@ en_US.UTF-8 UTF-8'
 #######################################
 
 print_info 'Uncomment locales in /etc/locale.gen'
-echo "$LOCALES" | while read LOCALE; do
+echo "$LOCALES" | while read -r LOCALE; do
     sed -Ei "s/#\\s*$LOCALE/$LOCALE/" /etc/locale.gen
 done
 

@@ -91,17 +91,19 @@ checkout = git clone 'git@github.com:pokemoncentral/wiki-util.git' \
     '{{@@ wiki_util_path @@}}'
 init =
     # Installing atom-macros dependencies
-    cd "$MR_REPO/js/atom-macros"
+    cd "$MR_REPO/js/atom-macros" || exit
     init_asdf_project nodejs
     npm install
     #
     # Creating local config files
+    # shellcheck disable=2016
     sed -e 's|PYWIKIBOT_DIR=ADD_YOUR_PATH_HERE|PYWIKIBOT_DIR="{{@@ prepend_inst_dst(pywikibot_path) @@}}"|g' \
         -e 's|WIKILUAMODULES_DIR=ADD_YOUR_PATH_HERE|WIKILUAMODULES_DIR="{{@@ prepend_inst_dst(wiki_modules_path) @@}}"|g' \
         -e 's|MACROS_DIR=ADD_YOUR_PATH_HERE|MACROS_DIR="{{@@ wiki_util_path @@}}/js/atom-macros"|g' \
         -e 's|# PYWIKIBOT_VIRTUALENV_DIR=ADD_YOUR_PATH_HERE|PYWIKIBOT_VIRTUALENV_DIR="{{@@ pywikibot_venv_path @@}}"|g' \
         -e "s|# source \$PYWIKIBOT_VIRTUALENV_DIR'/bin/activate'|. \"\$PYWIKIBOT_VIRTUALENV_DIR/bin/activate\"|g" \
         "$MR_REPO/config-templates/config.sh" > "$MR_REPO/bash/config.sh"
+    # shellcheck disable=2016
     sed -e 's|modulesPath = ADD_YOUR_PATH_HERE|modulesPath = "{{@@ prepend_inst_dst(wiki_modules_path) @@}}"|g' \
         "$MR_REPO/config-templates/config.lua" > "$MR_REPO/lua/config.lua"
 order = {{@@ util_order @@}}

@@ -28,7 +28,7 @@ link_hooks() {
     SCRIPT_NAME="$1"
     AUTORANDR_PATH="$2"
 
-    xargs -i ln -sf "$AUTORANDR_PATH/scripts.d/$SCRIPT_NAME" \
+    xargs -I '{}' ln -sf "$AUTORANDR_PATH/scripts.d/$SCRIPT_NAME" \
             "$AUTORANDR_PATH/{}/preswitch"
 
     unset AUTORANDR_PATH CONFIGS TARGET_NAME
@@ -60,12 +60,6 @@ esac
 #######################################
 
 AUTORANDR_HOME="$(readlink -f "$1")"
-
-#######################################
-# Variables
-#######################################
-
-AUTORANDR_SCRIPTS_PATH="$AUTORANDR_HOME/scripts.d/"
 
 #######################################
 # Create symbolic links

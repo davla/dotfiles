@@ -7,6 +7,9 @@
 #   - $2: Desktop themes archive.
 #   - $3: Icons themes archive.
 
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/lib.sh"
+
 #######################################
 # Variables
 #######################################
@@ -32,6 +35,7 @@ get_archive() {
     ARCHIVE="$1"
     ARCHIVE_NAME="$2"
 
+    print_info "Retrieve $ARCHIVE_NAME archive path" >&2
     [ -z "$ARCHIVE" ] && {
         echo "$ARCHIVE_NAME" | tr '[:upper:]' '[:lower:]' \
             | xargs printf >&2 'Enter the %s theme archive path: '
@@ -59,11 +63,11 @@ ICONS_ARCH="$(get_archive "$3" 'Icons')"
 # Cursor themes
 #######################################
 
-# Creating cursor themes path if not existing
+print_info 'Install cursor themes'
+
 mkdir -p "$CURSORS_PATH"
 
-# Installing custom cursors themes
-echo "Installing cursor themes from $CURSORS_ARCH -> $CURSORS_PATH"
+# Install custom cursors themes
 tar -xjf "$CURSORS_ARCH" -C "$CURSORS_PATH"
 
 # Old cursors
@@ -78,25 +82,25 @@ tar -xjf "$CURSORS_ARCH" -C "$CURSORS_PATH"
 # Desktop themes
 #######################################
 
-# Creating desktop themes path if not existing
+print_info 'Install desktop themes'
+
 mkdir -p "$DESKTOP_PATH"
 
 # Installing custom cursors themes
-echo "Installing desktop themes from $DESKTOP_ARCH -> $DESKTOP_PATH"
 tar -xjf "$DESKTOP_ARCH" -C "$DESKTOP_PATH"
 
 #######################################
 # Icon themes
 #######################################
 
-# Creating icons path if not existing
+print_info 'Install icon themes'
+
 mkdir -p "$ICONS_PATH"
 
-# Installing icons cursors themes
-echo "Installing icon themes from $ICONS_ARCH -> $ICONS_PATH"
+# Install icons cursors themes
 tar -xjf "$ICONS_ARCH" -C "$ICONS_PATH"
 
-# Creating icon cache for the newly installed icons
-echo 'Creating icon themes cache'
+# Create icon cache for the newly installed icons
+print_info 'Creating icon themes cache'
 tar -tjf "$ICONS_ARCH" --exclude='*/*' \
     | xargs -n 1 -I '{}' gtk-update-icon-cache "$ICONS_PATH/{}"

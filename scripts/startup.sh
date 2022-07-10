@@ -3,6 +3,9 @@
 # This script sets up the system startup, including both system and user
 # startup jobs
 
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/lib.sh"
+
 #######################################
 # Functions
 #######################################
@@ -28,24 +31,24 @@ dotdrop_files() {
 #######################################
 
 if dotdrop -bG files -p startup -U root 2> /dev/null \
-    | grep -Ev '(^[[:blank:]]*|":)$'; then
-    printf '\e[32m[INFO]\e[0m Install root startup jobs\n'
+    | grep -Eqv '(^[[:blank:]]*|":)$'; then
+    print_info 'Install root startup jobs'
     dotdrop install -p startup -U root
 
-    printf '\e[32m[INFO]\e[0m Enable and start root systemd services\n'
+    print_info 'Enable and start root systemd services'
     dotdrop_files 'startup' 'root' | grep -E '\.service$' \
         | xargs --no-run-if-empty sudo systemctl enable --now
 else
-    printf '\e[32m[INFO]\e[0m No root startup jobs found\n'
+    print_info 'No root startup jobs found'
 fi
 
 #######################################
 # User startup jobs
 #######################################
 
-printf '\e[32m[INFO]\e[0m Install user startup jobs\n'
+print_info 'Install user startup jobs'
 dotdrop install -p startup -U user
 
-printf '\e[32m[INFO]\e[0m Enable and start user systemd services\n'
+print_info 'Enable and start user systemd services'
 dotdrop_files 'startup' 'user' | grep -E '\.service$' \
     | xargs --no-run-if-empty systemctl --user enable --now

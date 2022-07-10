@@ -7,13 +7,16 @@
 #   - $1: name of the user to be added to the docker group. Defaults to $USER
 #         variable.
 
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/../lib.sh"
+
 #######################################
 # Functions
 #######################################
 
 # This function removes unwanted packages
 clean() {
-    # Unsetting -e so that non-existing packages won't make the script exit
+    # Unset -e so that non-existing packages won't make the script exit
     echo "$-" | grep 'e' > /dev/null 2>&1 \
         && HAS_E='true' \
         || HAS_E='false'
@@ -100,7 +103,9 @@ USER_NAME="${1:-$USER}"
 # Repositories dotfiles
 #######################################
 
+print_info 'Install package manager dotfiles'
 dotdrop install -p packages
+print_info 'Update package index'
 apt-get update
 
 #######################################
@@ -110,6 +115,7 @@ apt-get update
 # shellcheck disable=2039
 case "$HOST" in
     'personal')
+        print_info "Install drivers for host $HOST"
         apt-get install firmware-realtek firmware-iwlwifi
         ;;
 esac
@@ -118,11 +124,12 @@ esac
 # Installing GUI applications
 #######################################
 
-# Installation
 if [ "$DISPLAY_SERVER" != 'headless' ]; then
+    # Installation
     # shellcheck disable=2039
     case "$HOST" in
         'personal')
+            print_info "Install GUI packages for $HOST"
             apt-get install asunder balena-etcher-electron blueman brasero \
                 calibre dropbox gimp gufw handbrake-gtk libreoffice-calc \
                 libreoffice-impress libreoffice-writer kid3 remmina \
@@ -131,11 +138,13 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
                 ;;
     esac
 
+    print_info 'Install GUI packages shared across all hosts'
     apt-get install atril baobab code firefox gdebi geany gnome-clocks \
         gparted hardinfo parcellite pavucontrol peek seahorse spotify-client \
         synaptic xfce4-screenshooter
 
     # Dotfiles
+    print_info 'Install GUI packages dotfiles'
     sudo -u "$USER_NAME" dotdrop install -p gui
 fi
 
@@ -147,6 +156,7 @@ fi
 # shellcheck disable=2039
 case "$HOST" in
     'personal')
+        print_info "Install CLI packages for $HOST"
         apt-get install apng2gif autorandr cabal-install cups ghc gifsicle \
             git-review handbrake-cli hlint imagemagick lame libghc-hspec-dev \
             mercurial nordvpn python-requests-futures python3-gdbm \
@@ -155,6 +165,7 @@ case "$HOST" in
             ;;
 
     'work')
+        print_info "Install CLI packages for $HOST"
         apt-get install android-studio azure-cli cppcheck dotnet-sdk-6.0 \
             ffmpeg libasound2-dev libssl-dev libudev-dev mono-complete \
             open-vm-tools open-vm-tools-desktop teams valgrind
@@ -162,6 +173,7 @@ case "$HOST" in
         ;;
 esac
 
+print_info 'Install CLI packages shared across all hosts'
 apt-get install apt-transport-https autoconf automake build-essential cmake \
     command-not-found cowsay curl dbus-x11 dex dkms docker-ce dos2unix \
     fonts-freefont-otf fonts-nanum fortune g++ gdb git git-secret \
@@ -172,6 +184,7 @@ apt-get install apt-transport-https autoconf automake build-essential cmake \
     uni2ascii unrar vim wmctrl xdotool xserver-xorg-input-synaptics yad zip
 
 # Dotfiles
+print_info 'Install CLI packages dotfiles'
 sudo -u "$USER_NAME" dotdrop install -p cli -U user
 if dotdrop -bG files -p cli -U root 2> /dev/null \
     | grep -Ev '(^[[:blank:]]*|":)$'; then
@@ -182,7 +195,10 @@ fi
 # Clean & upgrade
 #######################################
 
+print_info 'Clean preinstalled software'
 clean
+
+print_info 'Upgrade system'
 apt-get upgrade
 
 #######################################
@@ -190,12 +206,14 @@ apt-get upgrade
 #######################################
 
 # Docker
+print_info "Enable docker for $USER_NAME"
 groupadd -f docker
 usermod -aG docker "$USER_NAME"
 
 # NordVPN
 case "$HOST" in
     'personal')
+        print_info 'Configure NordVPN'
         groupadd -r nordvpn
         usermod -aG nordvpn "$USER_NAME"
         sudo -u "$USER_NAME" nordvpn-config

@@ -3,7 +3,8 @@
 # This script generating locales themselves and deals with spellcheckers
 
 # This doesn't work if this script is sourced
-. "$(dirname "$0")"/../../.dotfiles-env
+. "$(dirname "$0")/../../.dotfiles-env"
+. "$(dirname "$0")/../../scripts/lib.sh"
 
 #######################################
 # Variables
@@ -15,15 +16,15 @@ en_DK.UTF-8 UTF-8
 en_US.UTF-8 UTF-8'
 
 #######################################
-# Generating locales
+# Generate locales
 #######################################
 
-# Uncommenting locales in /etc/locale.gen
+print_info 'Uncomment locales in /etc/locale.gen'
 echo "$LOCALES" | while read LOCALE; do
     sed -Ei "s/#\\s*$LOCALE/$LOCALE/" /etc/locale.gen
 done
 
-# Generating locales
+print_info 'Generate locales'
 case "$DISTRO" in
     'arch')
         locale-gen
@@ -35,10 +36,10 @@ case "$DISTRO" in
 esac
 
 #######################################
-# Dealing with spellcheckers
+# Deal with spellcheckers
 #######################################
 
-# Providing en_DK spellcheckers as aliases to en_US
+print_info 'Alias spellcheckers'
 if [ -d /usr/share/hunspell/ ]; then
     for EN_US_FILE_PATH in /usr/share/hunspell/en_US.*; do
         EN_US_FILE_NAME="$(basename "$EN_US_FILE_PATH")"

@@ -2,6 +2,9 @@
 
 # This script clones and initializes the coding workspace
 
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/lib.sh"
+
 ########################################
 # Install myrepos
 ########################################
@@ -20,15 +23,15 @@ esac
 # Install configuration files
 ########################################
 
-printf '\e[32m[INFO]\e[0m Install mrconfig and myrepo libs\n'
+print_info 'Install coding workspace dotfiles'
 dotdrop install -p repos -U both
 
 ########################################
 # Clone and initialize
 ########################################
 
-printf '\e[32m[INFO]\e[0m Clone coding workspace\n'
+print_info 'Clone coding workspace'
 mr -d "$HOME" checkout
 
-printf '\e[32m[INFO]\e[0m Initialize coding workspace\n'
+print_info 'Initialize coding workspace'
 mr -d "$HOME" init

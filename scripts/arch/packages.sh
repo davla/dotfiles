@@ -6,6 +6,9 @@
 # Arguments:
 #   - $1: user to run AUR helper with
 
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/../lib.sh"
+
 #######################################
 # Input processing
 #######################################
@@ -16,19 +19,22 @@ USER="${1:-$USER}"
 # Packages dotfiles
 #######################################
 
+print_info 'Install package manager dotfiles'
 dotdrop install -p packages -U root
 
 #######################################
-# Updating package archive
+# Update package archive
 #######################################
 
+print_info 'Update package repository'
 pacman -Syy
 
 #######################################
-# Installing AUR helper
+# Install AUR helper
 #######################################
 
 pacman -Qqs yay > /dev/null 2>&1 || {
+    print_info 'Install AUR helper'
     pacman -S --needed binutils fakeroot gcc git make
 
     YAY_DIR="$(mktemp -d 'XXX.yay.XXX')"
@@ -42,12 +48,13 @@ pacman -Qqs yay > /dev/null 2>&1 || {
 }
 
 #######################################
-# Installing GUI applications
+# Install GUI applications
 #######################################
 
 if [ "$DISPLAY_SERVER" != 'headless' ]; then
     case "$HOST" in
         'personal')
+            print_info "Install GUI packages for $HOST"
             sudo -u "$USER" yay -S --needed asunder atril baobab bitwarden \
                 blueman brasero calibre electron firefox-beta-bin geany gimp \
                 gnome-clocks gnome-disk-utility gnome-keyring gufw handbrake \
@@ -58,24 +65,28 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
     esac
 
     # Dotfiles
+    print_info 'Install GUI packages dotfiles'
     sudo -u "$USER" dotdrop install -p gui
 fi
 
 #######################################
-# Installing CLI applications
+# Install CLI applications
 #######################################
 
 case "$HOST" in
     'personal')
+        print_info "Install CLI packages for $HOST"
         sudo -u "$USER" yay -S --needed cups cups-pdf nordvpn zsa-wally-cli
         ;;
 
     'raspberry')
+        print_info "Install CLI packages for $HOST"
         sudo -u "$USER" yay -S --needed at certbot ddclient
         ;;
 esac
 
 if [ "$HOST" != 'raspberry' ]; then
+    print_info 'Install CLI packages for non-headless hosts'
     sudo -u "$USER" yay -S --needed apng2gif dex docker docker-compose \
         docker-credential-secretservice gifsicle gdb ghc intel-ucode \
         libsecret hunspell hunspell-da hunspell-en_US hunspell-it \
@@ -86,6 +97,7 @@ if [ "$HOST" != 'raspberry' ]; then
         fi
 fi
 
+print_info 'Install CLI packages shared across all hosts'
 sudo -u "$USER" yay -S --needed antibody-bin asdf-vm autoconf automake cmake \
     cowsay curl dkms dos2unix exa fasd fortune-mod gcc git-secret gnupg jq \
     lua man mercurial moreutils multi-git-status myrepos nfs-utils nyancat \
@@ -95,12 +107,14 @@ sudo -u "$USER" yay -S --needed antibody-bin asdf-vm autoconf automake cmake \
     # luacheck shellcheck rar unrar
 
 # Dotfiles
+print_info 'Install CLI packages dotfiles'
 sudo -u "$USER" dotdrop install -p cli -U both
 
 #######################################
 # Upgrade
 #######################################
 
+print_info 'Upgrade system'
 sudo -u "$USER" yay -Syyu
 
 #######################################
@@ -109,12 +123,14 @@ sudo -u "$USER" yay -Syyu
 
 # Docker
 if [ "$HOST" != 'raspberry' ]; then
+    print_info "Add $USER to docker group"
     usermod -aG docker "$USER"
 fi
 
 case "$HOST" in
     'personal')
         # NordVPN
+        print_info 'Configure NordVPN'
         usermod -aG nordvpn "$USER"
         sudo -u "$USER" nordvpn-config
         ;;

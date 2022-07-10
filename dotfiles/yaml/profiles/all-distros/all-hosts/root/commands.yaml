@@ -49,8 +49,8 @@ dotfiles:
     # Dynamic path since the dotfile content is appended to dst
     dst: '{{@@ hosts_tmp_dst @@}}'
     actions:
-    - strip '{{@@ hosts_append_marker @@}}' '{{@@ hosts_dst @@}}'
-    - append '{{@@ hosts_dst @@}}' '{{@@ hosts_tmp_dst @@}}'
+    - _strip '{{@@ hosts_append_marker @@}}' '{{@@ hosts_dst @@}}'
+    - _append '{{@@ hosts_dst @@}}' '{{@@ hosts_tmp_dst @@}}'
   f_local_bin_active-playerctl:
     src: usr/local/bin/active-playerctl
     dst: /usr/local/bin/active-playerctl
@@ -127,7 +127,7 @@ profiles:
     - f_frequent-hosts
     - f_local_sbin_host-refresh
     actions:
-    - rm '{{@@ hosts_tmp_dst @@}}'
+    - _rm '{{@@ hosts_tmp_dst @@}}'
     dynvariables:
       hosts_tmp_dst: mktemp /tmp/hosts-append.XXX
     variables:

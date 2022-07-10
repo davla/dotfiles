@@ -10,18 +10,20 @@
 # Arguments:
 #   - $1: The user added to the telegram group. Optional, defaults to $USER.
 
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/lib.sh"
+
 ########################################
-# Exit-early
+# Early-exit
 ########################################
 
 [ "$DISTRO" = 'arch' ] && {
-    printf '\e[32m[INFO]\e[0m Nothing to install manually via myrepos in Arch,'
-    echo ' we have AUR :D'
+    print_info -n 'Nothing to install manually via myrepos in Arch, we have '
+    echo 'AUR :D'
     exit 0
 }
 [ "$HOST" = 'raspberry' ] && {
-    printf '\e[32m[INFO]\e[0m Nothing to install manually via myrepos on the '
-    echo 'raspberry'
+    print_info 'Nothing to install manually via myrepos on raspberry'
     exit 0
 }
 
@@ -46,17 +48,14 @@ USER_NAME="${1:-$USER}"
 # BitWarden
 ########################################
 
-echo '\e[32m[INFO]\e[0m Installing BitWarden'
+print_info 'Install BitWarden'
 
-# Downloading *.deb file
 BITWARDEN_DEB="$(mktemp /tmp/bitwarden-deb.XXX)"
 wget -qO "$BITWARDEN_DEB" \
     'https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb'
 
-# Installing Debian package
 dpkg --install "$BITWARDEN_DEB"
 
-# Deleting *.deb file
 rm "$BITWARDEN_DEB"
 
 #######################################
@@ -65,23 +64,23 @@ rm "$BITWARDEN_DEB"
 
 case "$HOST" in
     'personal')
-        echo '\e[32m[INFO]\e[0m Installing Telegram'
+        print_info 'Install Telegram'
 
-        # Installing the executables
+        # Install the executables
         mkdir -p "$TELEGRAM_HOME"
         wget -qO - 'https://telegram.org/dl/desktop/linux' \
             | tar -xJC "$TELEGRAM_HOME" --strip-components=1
 
-        # Linking the main executable in $PATH
+        # Link the main executable in $PATH
         ln -sf "$TELEGRAM_HOME/Telegram" '/usr/local/bin/telegram'
 
-        # Making updater work also for unprivileged users in telegram group
+        # Make updater work also for unprivileged users in telegram group
         groupadd -f telegram
         getent passwd telegram > /dev/null 2>&1 || useradd -r -g telegram \
             telegram
         usermod -aG telegram "$USER_NAME"
-        # Setting telegram user login group to telegram, even if the user is
-        # not created above
+        # Set telegram user login group to telegram, even if the user is not
+        # created above
         usermod -g telegram telegram
         chmod g+w "$TELEGRAM_HOME"
         chown telegram:telegram -R "$TELEGRAM_HOME"
@@ -92,7 +91,7 @@ esac
 # Myrepos-based installation
 #######################################
 
-# Installing myrepos
+print_info 'Install myrepos'
 case "$DISTRO" in
     'arch')
         yay -S --needed myrepos
@@ -103,9 +102,9 @@ case "$DISTRO" in
         ;;
 esac
 
-# Installing manual package management dotfiles
+print_info 'Install myrepos package management dotfiles'
 dotdrop install -p manual -U root
 
-# Installing myrepos-managed packages
+print_info 'Install myrepos-managed packages'
 mr -d /opt -c /opt/.mrconfig checkout
 mr -d /opt -c /opt/.mrconfig install

@@ -3,6 +3,9 @@
 # This script installs apt repository keys for the *.list files found in
 # /etc/apt/sources.list.d
 
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/../../scripts/lib.sh"
+
 #######################################
 # Repositoy keys
 #######################################
@@ -12,7 +15,7 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
     | while read REPO; do
         case "$REPO" in
             'alacritty')
-                echo "Installing apt repository key for $REPO"
+                print_info "Installing apt repository key for $REPO"
 
                 apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' \
                     --recv-keys '3A160895CC2CE253085D08A552B24DF7D43B5377' \
@@ -20,7 +23,7 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                 ;;
 
             'android-studio')
-                echo "Installing apt repository key for $REPO"
+                print_info "Installing apt repository key for $REPO"
 
                 apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' \
                     --recv-keys 'ADC23DDFAE0436477B8CCDF54DEA8909DC6A13A3' \
@@ -28,7 +31,7 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                 ;;
 
             'deb-multimedia')
-                echo "Installing apt repository key for $REPO"
+                print_info "Installing apt repository key for $REPO"
 
                 apt-get update -oAcquire::AllowInsecureRepositories=true \
                     > /dev/null
@@ -37,14 +40,14 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                 ;;
 
             'docker')
-                echo "Installing apt repository key for $REPO"
+                print_info "Installing apt repository key for $REPO"
 
                 apt-key adv --fetch-keys \
                     'https://download.docker.com/linux/debian/gpg' > /dev/null
                 ;;
 
             'dropbox')
-                echo "Installing apt repository key for $REPO"
+                print_info "Installing apt repository key for $REPO"
 
                 apt-key adv --keyserver 'hkp://pgp.mit.edu:80' \
                     --recv-keys '1C61A2656FB57B7E4DE0F4C1FC918B335044912E' \
@@ -52,7 +55,7 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                 ;;
 
             'etcher')
-                echo "Installing apt repository key for $REPO"
+                print_info "Installing apt repository key for $REPO"
 
                 apt-key adv --fetch-keys \
                     'https://dl.cloudsmith.io/public/balena/etcher/gpg.70528471AFF9A051.key' \
@@ -60,7 +63,7 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                 ;;
 
             'firefox-beta')
-                echo "Installing apt repository key for $REPO"
+                print_info "Installing apt repository key for $REPO"
 
                 apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' \
                     --recv-keys '0AB215679C571D1C8325275B9BDB3D89CE49EC21' \
@@ -68,7 +71,7 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                 ;;
 
             'mono')
-                echo "Installing apt repository key for $REPO"
+                print_info "Installing apt repository key for $REPO"
 
                 apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' \
                     --recv-keys '3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF' \
@@ -76,7 +79,7 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                 ;;
 
             'nordvpn')
-                echo "Installing apt repository key for $REPO"
+                print_info "Installing apt repository key for $REPO"
 
                 apt-key adv --fetch-keys \
                     'https://repo.nordvpn.com/gpg/nordvpn_public.asc' \
@@ -84,7 +87,7 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                 ;;
 
             'spotify')
-                echo "Installing apt repository key for $REPO"
+                print_info "Installing apt repository key for $REPO"
 
                 apt-key adv --fetch-keys \
                     'https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg' \
@@ -92,7 +95,7 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                 ;;
 
             'azure-cli'|'microsoft-prod'|'teams'|'vscode')
-                echo "Installing apt repository key for $REPO"
+                print_info "Installing apt repository key for $REPO"
 
                 apt-key adv --fetch-keys \
                     'https://packages.microsoft.com/keys/microsoft.asc' \

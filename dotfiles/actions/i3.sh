@@ -1,14 +1,16 @@
 #!/usr/bin/env sh
 
-# This doesn't work if this script is sourced
-. "$(dirname "$0")"/../../.dotfiles-env
-
 # This script installs i3 customization dependencies
+
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/../../.dotfiles-env"
+. "$(dirname "$0")/../../scripts/lib.sh"
 
 #######################################
 # i3 config dependencies
 #######################################
 
+print_info 'Install dependencies used in the i3 config file'
 case "$DISTRO" in
     'arch')
         yay -S --needed dex i3blocks i3-volume
@@ -26,6 +28,7 @@ esac
 # i3 blocks dependencies
 #######################################
 
+print_info 'Install dependencies used in i3blocks scripts'
 case "$DISTRO" in
     'arch')
         yay -S --needed bash i3blocks-contrib-git gnome-keyring lm-sensors \

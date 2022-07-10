@@ -4,7 +4,7 @@
 
 actions:
   pre:
-    create_if_empty: "[ -s '{0}' ] || printf '{1}' > '{0}'"
+    _create_if_empty: "[ -s '{0}' ] || printf '{1}' > '{0}'"
 
     # This action installs the packages providing the files modified by the
     # environment profile
@@ -165,8 +165,8 @@ dotfiles:
     src: etc/asdf-environment
     dst: '{{@@ asdf_environment_tmp_dst @@}}'
     actions:
-    - strip '{{@@ asdf_environment_append_marker @@}}' '{{@@ asdf_environment_dst @@}}'
-    - append '{{@@ asdf_environment_dst @@}}' '{{@@ asdf_environment_tmp_dst @@}}'
+    - _strip '{{@@ asdf_environment_append_marker @@}}' '{{@@ asdf_environment_dst @@}}'
+    - _append '{{@@ asdf_environment_dst @@}}' '{{@@ asdf_environment_tmp_dst @@}}'
   f_ddclient.conf:
     src: etc/ddclient.conf
     # Dynamic path since it differs across distros
@@ -178,9 +178,9 @@ dotfiles:
     # Dynamic path since the dotfile content is appended to dst
     dst: '{{@@ zsh_tmp_dst @@}}'
     actions:
-    - create_if_empty '{{@@ etc_zshrc_dst @@}}' '#!/usr/bin/env zsh\n'
-    - strip '{{@@ etc_zshrc_append_marker @@}}' '{{@@ etc_zshrc_dst @@}}'
-    - append '{{@@ etc_zshrc_dst @@}}' '{{@@ zsh_tmp_dst @@}}'
+    - _create_if_empty '{{@@ etc_zshrc_dst @@}}' '#!/usr/bin/env zsh\n'
+    - _strip '{{@@ etc_zshrc_append_marker @@}}' '{{@@ etc_zshrc_dst @@}}'
+    - _append '{{@@ etc_zshrc_dst @@}}' '{{@@ zsh_tmp_dst @@}}'
   f_grub:
     src: etc/default/grub
     dst: /etc/default/grub
@@ -243,8 +243,8 @@ dotfiles:
     # Dynamic path since the dotfile content is appended to dst
     dst: '{{@@ startup_tmp_dst @@}}'
     actions:
-    - strip '{{@@ pam_login_append_marker @@}}' '{{@@ pam_login_dst @@}}'
-    - append '{{@@ pam_login_dst @@}}' '{{@@ startup_tmp_dst @@}}'
+    - _strip '{{@@ pam_login_append_marker @@}}' '{{@@ pam_login_dst @@}}'
+    - _append '{{@@ pam_login_dst @@}}' '{{@@ startup_tmp_dst @@}}'
   f_raspberry.automount:
     src: etc/systemd/system/mnt-raspberry.automount
     dst: /etc/systemd/system/mnt-raspberry.automount
@@ -295,26 +295,26 @@ dotfiles:
     dst: '{{@@ xkb_tmp_dst @@}}'
     actions:
     - >-
-      strip_file '{{@@ _dotfile_abs_src @@}}' '{{@@ base_lst_dst @@}}'
+      _strip_file '{{@@ _dotfile_abs_src @@}}' '{{@@ base_lst_dst @@}}'
     - >-
-      insert_match '^\s*\sintl\s\s*us' '{{@@ xkb_tmp_dst @@}}'
+      _insert_match '^\s*\sintl\s\s*us' '{{@@ xkb_tmp_dst @@}}'
         '{{@@ base_lst_dst @@}}'
   f_xkb_base.xml:
     src: usr/share/X11/xkb/rules/base.xml
     # Dynamic path since the dotfile content is inserted into dst
     dst: '{{@@ xkb_tmp_dst @@}}'
     actions:
-    - strip_xml ".//*[name='intl-custom'].." '{{@@ base_xml_dst @@}}'
+    - _strip_xml ".//*[name='intl-custom'].." '{{@@ base_xml_dst @@}}'
     - >-
-      insert_xml ".//*[description='English (US, intl., with dead keys)'].."
+      _insert_xml ".//*[description='English (US, intl., with dead keys)'].."
         '{{@@ xkb_tmp_dst @@}}' '{{@@ base_xml_dst @@}}'
   f_xkb_us:
     src: usr/share/X11/xkb/symbols/us
     dst: '{{@@ xkb_tmp_dst @@}}'
     # Dynamic path since the dotfile content is appended to dst
     actions:
-    - strip '{{@@ symbols_append_marker @@}}' '{{@@ symbols_dst @@}}'
-    - append '{{@@ symbols_dst @@}}' '{{@@ xkb_tmp_dst @@}}'
+    - _strip '{{@@ symbols_append_marker @@}}' '{{@@ symbols_dst @@}}'
+    - _append '{{@@ symbols_dst @@}}' '{{@@ xkb_tmp_dst @@}}'
   f_windows.automount:
     src: etc/systemd/system/mnt-windows.automount
     dst: /etc/systemd/system/mnt-windows.automount
@@ -483,7 +483,7 @@ profiles:
     include:
     - startup-{{@@ display_server @@}}
     actions:
-    - rm '{{@@ startup_tmp_dst @@}}'
+    - _rm '{{@@ startup_tmp_dst @@}}'
     dynvariables:
       startup_tmp_dst: mktemp /tmp/startup-append.XXX
     variables:
@@ -525,7 +525,7 @@ profiles:
     - f_xkb_us
     actions:
     - xkb
-    - rm '{{@@ xkb_tmp_dst @@}}'
+    - _rm '{{@@ xkb_tmp_dst @@}}'
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/xkb.yaml:optional
     dynvariables:
@@ -546,7 +546,7 @@ profiles:
       etc_zshrc_append_marker: '# Custom'
       etc_zshrc_dst: /etc/zsh/zshrc
     actions:
-    - rm '{{@@ zsh_tmp_dst @@}}'
+    - _rm '{{@@ zsh_tmp_dst @@}}'
 
 variables:
   # This variable is used to differentiate between user and root configuration

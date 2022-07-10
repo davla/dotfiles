@@ -5,20 +5,23 @@
 #   - $1: Mounts the shared directories
 #   - $2: Unencrypts git secrets with the shared GPG key
 
+# This doesn't work if this script is sourced
+. "$(dirname "$0")/lib.sh"
+
 #######################################
-# Mounting shared directories
+# Mount shared directories
 #######################################
 
-echo '\e[32m[INFO]\e[0m Mounting shared directory'
+print_info 'Mount shared directory'
 mkdir -p "$HOME/mounts"
 sudo /usr/bin/vmhgfs-fuse .host:/ "$HOME/mounts" -o subtype=vmhgfs-fuse,allow_other
 
 #######################################
-# Unencrypting git secrets
+# Unencrypt git secrets
 #######################################
 
-echo '\e[32m[INFO]\e[0m Importing shared GPG key'
+print_info 'Import shared GPG key'
 gpg --import "$HOME/mounts/win-repos/gpg-pvt.asc"
 
-echo '\e[32m[INFO]\e[0m Revealing git secrets'
+print_info 'Reveal git secrets'
 git secret reveal

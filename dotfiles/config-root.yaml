@@ -221,8 +221,8 @@ dotfiles:
     # Dynamic path since the dotfile content is appended to dst
     dst: '{{@@ getty_login_tmp_dst @@}}'
     actions:
-    - strip '{{@@ login_defs_append_marker @@}}' '{{@@ login_defs_dst @@}}'
-    - append '{{@@ login_defs_dst @@}}' '{{@@ getty_login_tmp_dst @@}}'
+    - _strip '{{@@ login_defs_append_marker @@}}' '{{@@ login_defs_dst @@}}'
+    - _append '{{@@ login_defs_dst @@}}' '{{@@ getty_login_tmp_dst @@}}'
   f_mrconfig-gui:
     src: opt/mrconfig.gui
     dst: /opt/.mrconfig.gui
@@ -401,7 +401,7 @@ profiles:
     - f_login.defs
     - f_systemd_getty
     actions:
-    - rm '{{@@ getty_login_tmp_dst @@}}'
+    - _rm '{{@@ getty_login_tmp_dst @@}}'
     dynvariables:
       getty_login_tmp_dst: mktemp /tmp/getty-login-append.XXX
     variables:

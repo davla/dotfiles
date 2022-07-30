@@ -1,0 +1,6 @@
+# This pacman configuration files contains additional mirrorlists
+#
+# {{@@ header() @@}}
+
+[chaotic-aur]
+Include = /etc/pacman.d/chaotic-mirrorlist

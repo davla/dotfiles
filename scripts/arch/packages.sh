@@ -23,17 +23,13 @@ print_info 'Install package manager dotfiles'
 dotdrop install -p packages -U root
 
 #######################################
-# Update package archive
-#######################################
-
-print_info 'Update package repository'
-pacman -Syy
-
-#######################################
 # Install AUR helper
 #######################################
 
-pacman -Qqs yay > /dev/null 2>&1 || {
+if pacman -Qqs yay > /dev/null 2>&1; then
+    print_info 'AUR helper already installed'
+else
+    print_info 'Install AUR helper'
     pacman -S --needed git base-devel
 
     YAY_DIR="$(mktemp -d 'XXX.yay.XXX')"
@@ -45,7 +41,26 @@ pacman -Qqs yay > /dev/null 2>&1 || {
     cd - > /dev/null 2>&1 || exit
 
     sudo -u "$USER" rm -rf "$YAY_DIR"
-}
+fi
+
+########################################
+# Add additional repositories
+########################################
+
+# Chaotic AUR
+print_info 'Add Chaotic AUR repository'
+pacman-key --recv-key FBA220DFC880C036 --keyserver 'keyserver.ubuntu.com'
+pacman-key --lsign-key FBA220DFC880C036
+pacman -U \
+    'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' \
+    'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+
+#######################################
+# Update package archive
+#######################################
+
+print_info 'Update package repository'
+pacman -Syy
 
 #######################################
 # Install GUI applications

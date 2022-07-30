@@ -47,6 +47,10 @@ dotfiles:
     src: usr/local/share/pacman/hooks.bin/nordvpn-setup
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ nordvpn_setup_path @@}}'
+  f_pacman_mirrorlists:
+    src: etc/pacman.d/mirrorlists
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ pacman_mirrorlists_path @@}}'
   f_pacman_options:
     src: etc/pacman.d/options
     # Dynamic path as it's used somewhere else too
@@ -60,6 +64,7 @@ profiles:
     - f_pacman_conf
     - f_pacman_ignore
     - f_pacman_hooks.bin_nordvpn-setup
+    - f_pacman_mirrorlists
     - f_pacman_options
     dynvariables:
       pacman_tmp_dst: mktemp /tmp/pacman-append.XXX
@@ -68,4 +73,5 @@ profiles:
       pacman_conf_append_marker: Custom configuration
       pacman_conf_dst: /etc/pacman.conf
       pacman_ignore_path: /etc/pacman.d/ignore
+      pacman_mirrorlists_path: /etc/pacman.d/mirrorlists
       pacman_options_path: /etc/pacman.d/options

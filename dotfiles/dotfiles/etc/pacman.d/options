@@ -5,3 +5,4 @@ CheckSpace
 Color
 ParallelDownloads = 3
 VerbosePkgLists
+NoExtract = etc/pacman.d/mirrorlist

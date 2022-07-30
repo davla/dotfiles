@@ -55,12 +55,16 @@ dotfiles:
     src: etc/pacman.d/options
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ pacman_options_path @@}}'
+  f_reflector.conf:
+    src: etc/xdg/reflector/reflector.conf
+    dst: /etc/xdg/reflector/reflector.conf
 
 profiles:
   # This profile contains pacman hooks
   packages:
     dotfiles:
     - d_pacman_hooks
+    - f_reflector.conf
     - f_pacman_conf
     - f_pacman_ignore
     - f_pacman_hooks.bin_nordvpn-setup

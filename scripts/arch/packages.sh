@@ -116,8 +116,8 @@ print_info 'Install CLI packages shared across all hosts'
 sudo -u "$USER" yay -S --needed antibody-bin asdf-vm autoconf automake cmake \
     cowsay curl dkms dos2unix exa fasd fortune-mod gcc git-secret gnupg jq \
     lua man mercurial moreutils multi-git-status myrepos nfs-utils nyancat \
-    otf-ipafont p7zip pkgfile python python-pip python-pipenv sudo thefuck \
-    ttf-baekmuk ttf-dejavu ttf-indic-otf ttf-khmer unzip vim \
+    otf-ipafont p7zip pkgfile python python-pip python-pipenv reflector sudo \
+    thefuck ttf-baekmuk ttf-dejavu ttf-indic-otf ttf-khmer unzip vim \
     wqy-microhei-lite zip
     # luacheck shellcheck rar unrar
 

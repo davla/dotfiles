@@ -1,0 +1,8 @@
+{%@@ from 'etc/pacman.d/hooks/systemd-enable.hook'
+    import systemd_enable_hook @@%}
+
+{{@@- systemd_enable_hook(
+    unit_name='reflector',
+    unit_type='timer',
+    targets=['reflector'],
+) -@@}}

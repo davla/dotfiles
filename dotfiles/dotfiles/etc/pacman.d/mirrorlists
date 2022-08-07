@@ -2,5 +2,8 @@
 #
 # {{@@ header() @@}}
 
+{#@@ Chaotic AUR is x86_64-only @@#}
+{%@@ if env['HOST'] != 'raspberry' @@%}
 [chaotic-aur]
 Include = /etc/pacman.d/chaotic-mirrorlist
+{%@@ endif @@%}

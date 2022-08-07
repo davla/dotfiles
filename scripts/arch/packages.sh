@@ -22,6 +22,21 @@ USER="${1:-$USER}"
 print_info 'Install package manager dotfiles'
 dotdrop install -p packages -U root
 
+########################################
+# Add additional repositories
+########################################
+
+# Chaotic AUR is x86_64-only
+if [ "$HOST" != 'raspberry' ]; then
+    # Chaotic AUR
+    print_info 'Add Chaotic AUR repository'
+    pacman-key --recv-key FBA220DFC880C036 --keyserver 'keyserver.ubuntu.com'
+    pacman-key --lsign-key FBA220DFC880C036
+    pacman -U \
+        'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' \
+        'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+fi
+
 #######################################
 # Install AUR helper
 #######################################
@@ -42,18 +57,6 @@ else
 
     sudo -u "$USER" rm -rf "$YAY_DIR"
 fi
-
-########################################
-# Add additional repositories
-########################################
-
-# Chaotic AUR
-print_info 'Add Chaotic AUR repository'
-pacman-key --recv-key FBA220DFC880C036 --keyserver 'keyserver.ubuntu.com'
-pacman-key --lsign-key FBA220DFC880C036
-pacman -U \
-    'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' \
-    'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 
 #######################################
 # Update package archive

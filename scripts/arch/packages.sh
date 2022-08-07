@@ -108,7 +108,7 @@ if [ "$HOST" != 'raspberry' ]; then
     sudo -u "$USER" yay -S --needed apng2gif dex docker docker-compose \
         docker-credential-secretservice gifsicle gdb ghc intel-ucode \
         libsecret hunspell hunspell-da hunspell-en_US hunspell-it \
-        macchina-bin networkmanager polkit-gnome temp-throttle-git
+        macchina-bin networkmanager polkit-gnome reflector temp-throttle-git
         # dhcpcd doesn't work well with networkmanager (unless configured)
         if sudo -u "$USER" yay -Qs dhcpcd; then
             sudo -u "$USER" yay -R dhcpcd
@@ -120,8 +120,8 @@ sudo -u "$USER" yay -S --needed antibody-bin asdf-vm autoconf automake cmake \
     cowsay curl dkms dos2unix exa fasd fortune-mod gcc git-secret gnupg jq \
     lua man mercurial moreutils multi-git-status myrepos nfs-utils nyancat \
     otf-ipafont pacman-contrib p7zip pkgfile python python-pip python-pipenv \
-    reflector sudo thefuck ttf-baekmuk ttf-dejavu ttf-indic-otf ttf-khmer \
-    unzip vim wqy-microhei-lite zip
+    sudo thefuck ttf-baekmuk ttf-dejavu ttf-indic-otf ttf-khmer unzip vim \
+    wqy-microhei-lite zip
     # luacheck shellcheck rar unrar
 
 # Dotfiles

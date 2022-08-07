@@ -68,13 +68,14 @@ profiles:
   packages:
     dotfiles:
     - d_pacman_hooks
-    - f_reflector.conf
     - f_pacman_conf
     - f_pacman_ignore
     - f_pacman_hooks.bin_clean-package-cache
     - f_pacman_hooks.bin_nordvpn-setup
     - f_pacman_mirrorlists
     - f_pacman_options
+    import:
+    - ../dotfiles/arch/{{@@ env['HOST'] @@}}/root/packages.yaml:optional
     dynvariables:
       pacman_tmp_dst: mktemp /tmp/pacman-append.XXX
     variables:

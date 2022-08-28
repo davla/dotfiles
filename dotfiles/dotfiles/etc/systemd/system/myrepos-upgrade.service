@@ -13,4 +13,4 @@ SyslogFacility=local0
 SyslogIdentifier=myrepos-upgrade
 SyslogLevel=info
 SyslogLevelPrefix=true
-Type=oneshot
+Type=exec

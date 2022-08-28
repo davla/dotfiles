@@ -15,4 +15,4 @@ SyslogFacility=local0
 SyslogIdentifier=update-package-index
 SyslogLevel=info
 SyslogLevelPrefix=true
-Type=oneshot
+Type=exec

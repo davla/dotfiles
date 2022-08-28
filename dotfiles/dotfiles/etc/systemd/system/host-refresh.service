@@ -15,4 +15,4 @@ SyslogFacility=local0
 SyslogIdentifier=host-refresh
 SyslogLevel=info
 SyslogLevelPrefix=true
-Type=oneshot
+Type=exec

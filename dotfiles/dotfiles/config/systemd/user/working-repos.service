@@ -17,4 +17,4 @@ SyslogFacility=local0
 SyslogIdentifier=working-repos
 SyslogLevel=info
 SyslogLevelPrefix=true
-Type=oneshot
+Type=exec

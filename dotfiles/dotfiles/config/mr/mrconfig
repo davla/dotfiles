@@ -1,7 +1,7 @@
 # This myrepos config file is meant to be the one in the home directory (or at
 # least symlinked), so that `mr` has a starting point when invoked form outside
 # of a registered tree.
-# 
+#
 # {{@@ header() @@}}
 
 
@@ -12,3 +12,6 @@
 
 [{{@@ code_root | tilde2home | replace('$HOME/', '') @@}}]
 chain = true
+# This directory is not a repository, but rather a repository workspace. Hence,
+# it should be skipped for any mr actions.
+skip = true

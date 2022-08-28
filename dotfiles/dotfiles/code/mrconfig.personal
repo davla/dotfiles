@@ -18,7 +18,9 @@ include = cat '{{@@ mr_libs_path @@}}/asdf'
 
 [{{@@ wiki_root | replace(code_root + '/', '') @@}}]
 chain = true
-
+# This directory is not a repository, but rather a repository workspace. Hence,
+# it should be skipped for any mr actions.
+skip = true
 
 #######################################
 # Repositories

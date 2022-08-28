@@ -1,0 +1,20 @@
+# This myrepos config file is used to bootstrap the coding workspace for
+# unprivileged users on my raspberry
+#
+# {{@@ header() @@}}
+
+#######################################
+# Import helpers
+#######################################
+
+
+include = cat '{{@@ mr_libs_path @@}}/asdf'
+
+
+#######################################
+# Import sub-workspaces
+#######################################
+
+
+[{{@@ wiki_root | replace(code_root + '/', '') @@}}]
+chain = true

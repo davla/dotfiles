@@ -1,0 +1,132 @@
+#!/usr/bin/env sh
+#
+# {{@@ header() @@}}
+
+# This script cleans up pacman and yay cache
+#
+# Parts of this file are an edited version of original from Alberto Redondo:
+# https://herbort.me/posts/automatically-cleaning-pacman-and-yay-cache-in-arch-linux/
+
+########################################
+# Functions
+########################################
+
+# This function removes unnecessary cache files from bin AUR package
+# directories in the yay cache.
+#
+# Arguments:
+#   - $1: The yay cache directory.
+clean_bin_packages() {
+    YAY_CACHE_DIR="$1"
+
+    find "$YAY_CACHE_DIR" -maxdepth 1 -mindepth 1 -type d -name '*-bin' \
+        | while read -r PACKAGE_DIR; do
+            get_old_upstream_sources_and_build "$PACKAGE_DIR" \
+                | xargs --no-run-if-empty rm -rf
+        done
+}
+
+# This function removes old versions of pacman package tarballs from the yay
+# cache.
+#
+# Arguments:
+#   - $1: The yay cache directory.
+clean_pacman_tarballs() {
+    YAY_CACHE_DIR="$1"
+
+    find "$YAY_CACHE_DIR" -maxdepth 1 -mindepth 1 -type d \
+        -exec paccache --quiet --cachedir "{}" --remove --keep 3 \;
+}
+
+# This function removes unnecessary cache files from the directories of AUR
+# packages built from sources in the yay cache.
+#
+# Arguments:
+#   - $1: The yay cache directory.
+clean_source_packages() {
+    YAY_CACHE_DIR="$1"
+
+    find "$YAY_CACHE_DIR" -maxdepth 1 -mindepth 1 -type d -not -name '*-bin' \
+        -not -name '*-git' | while read -r PACKAGE_DIR; do
+            # Remove upstream source tarballs. Actual source files and build
+            # output are kept, as they belong to the latest version
+            get_old_upstream_sources_and_build "$PACKAGE_DIR" \
+                | xargs --no-run-if-empty file \
+                | grep --perl-regex --word-regexp '(compressed|archive)' \
+                | cut --delimiter ':' --fields 1 \
+                | xargs --no-run-if-empty rm -rf
+        done
+}
+
+# This function removes the whole directory of uninstalled AUR packages from
+# the yay cache.
+#
+# Arguments:
+#   - $1: The yay cache directory.
+clean_uninstalled_aur_packages() {
+    YAY_CACHE_DIR="$1"
+
+    YAY_CACHED_PACKAGES="$(mktemp --tmpdir 'yay-cached-packages.XXXX')"
+    PACMAN_FOREIGN_PACKAGES="$(mktemp --tmpdir 'pacman-foreign-packages.XXXX')"
+
+    find "$YAY_CACHE_DIR" -maxdepth 1 -type d -printf '%f\n' | sort \
+        > "$YAY_CACHED_PACKAGES"
+    pacman --quiet --query --foreign | sort > "$PACMAN_FOREIGN_PACKAGES"
+
+    UNINSTALLED_YAY_PACKAGES="$(comm -23 "$YAY_CACHED_PACKAGES" \
+        "$PACMAN_FOREIGN_PACKAGES")"
+
+    echo "$UNINSTALLED_YAY_PACKAGES" \
+        | xargs --no-run-if-empty -I '{}' rm -rf "${YAY_CACHE_DIR:?}/{}"
+}
+
+# This function returns the upstream sources of old versions of an AUR package
+# together with the build output from the last installation. Old versions of
+# the package are considered to be the ones that have no pacman tarball in the
+# AUR package directory in the yay cache.
+#
+# Arguments:
+#   - $1: The yay cache directory.
+get_old_upstream_sources_and_build() {
+    PACKAGE_DIR="$1"
+
+    # The git repository we operate on is the AUR package itself, not the
+    # upstream sources. Hence untracked files are from upstream.
+    UPSTREAM_SOURCES="$(git -C "$PACKAGE_DIR" ls-files --others --directory \
+        --exclude '*.pkg.tar*' \
+        | xargs --no-run-if-empty -I '{}' echo "${PACKAGE_DIR:?}/{}")"
+
+    # This relies on the fact that old versions have been removed by paccache
+    KEPT_VERSIONS="$(find "$PACKAGE_DIR" -type f -name '*.pkg.tar*' \
+        -exec pacman --query --file '{}' \+ \
+        | cut --delimiter ' ' --fields 2 | cut --delimiter '-' --fields 1 \
+        | xargs | tr ' ' '|' | xargs --no-run-if-empty -I '{}' echo '({})')"
+
+    echo "$UPSTREAM_SOURCES" \
+        | grep --invert-match --extended-regex "${KEPT_VERSIONS:-'()'}"
+}
+
+########################################
+# Clean up pacman cache
+########################################
+
+# Remove uninstalled packages
+paccache --quiet --remove --uninstalled --keep 0
+
+# Remove old versions of installed packages, skipping ignored packages
+grep --invert-match --extended-regex '^(#.*|\s*)$' \
+    {{@@ pacman_ignore_path @@}} \
+    | cut --delimiter '=' --fields 2 | xargs \
+    | paccache --quiet --remove --ignore - --keep 1
+
+########################################
+# Clean up yay cache
+########################################
+
+find /home -maxdepth 3 -type d -path '*/.cache/yay' \
+    | while read -r YAY_CACHE_DIR; do
+        clean_uninstalled_aur_packages "$YAY_CACHE_DIR"
+        clean_pacman_tarballs "$YAY_CACHE_DIR"
+        clean_bin_packages "$YAY_CACHE_DIR"
+        clean_source_packages "$YAY_CACHE_DIR"
+    done

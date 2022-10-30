@@ -5,4 +5,10 @@ CheckSpace
 Color
 ParallelDownloads = 3
 VerbosePkgLists
+{#@@
+    Arch Linux ARM doesn't support (and doesn't really need) reflector. For
+    more info, check here: https://archlinuxarm.org/forum/viewtopic.php?f=8&t=14662
+@@#}
+{%@@ if env['HOST'] != 'raspberry' @@%}
 NoExtract = etc/pacman.d/mirrorlist
+{%@@ endif @@%}

@@ -1,0 +1,7 @@
+%YAML 1.2
+---
+# This dotfiles file lists the packages-related dotfiles to be included on Arch
+# only for my personal machine for root.
+
+dotfiles:
+- f_reflector.conf

@@ -22,6 +22,21 @@ USER="${1:-$USER}"
 print_info 'Install package manager dotfiles'
 dotdrop install -p packages -U root
 
+########################################
+# Add additional repositories
+########################################
+
+# Chaotic AUR is x86_64-only
+if [ "$HOST" != 'raspberry' ]; then
+    # Chaotic AUR
+    print_info 'Add Chaotic AUR repository'
+    pacman-key --recv-key FBA220DFC880C036 --keyserver 'keyserver.ubuntu.com'
+    pacman-key --lsign-key FBA220DFC880C036
+    pacman -U \
+        'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' \
+        'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+fi
+
 #######################################
 # Install AUR helper
 #######################################
@@ -42,18 +57,6 @@ else
 
     sudo -u "$USER" rm -rf "$YAY_DIR"
 fi
-
-########################################
-# Add additional repositories
-########################################
-
-# Chaotic AUR
-print_info 'Add Chaotic AUR repository'
-pacman-key --recv-key FBA220DFC880C036 --keyserver 'keyserver.ubuntu.com'
-pacman-key --lsign-key FBA220DFC880C036
-pacman -U \
-    'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' \
-    'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 
 #######################################
 # Update package archive
@@ -105,7 +108,7 @@ if [ "$HOST" != 'raspberry' ]; then
     sudo -u "$USER" yay -S --needed apng2gif dex docker docker-compose \
         docker-credential-secretservice gifsicle gdb ghc intel-ucode \
         libsecret hunspell hunspell-da hunspell-en_US hunspell-it \
-        macchina-bin networkmanager polkit-gnome temp-throttle-git
+        macchina-bin networkmanager polkit-gnome reflector temp-throttle-git
         # dhcpcd doesn't work well with networkmanager (unless configured)
         if sudo -u "$USER" yay -Qs dhcpcd; then
             sudo -u "$USER" yay -R dhcpcd
@@ -117,8 +120,8 @@ sudo -u "$USER" yay -S --needed antibody-bin asdf-vm autoconf automake cmake \
     cowsay curl dkms dos2unix exa fasd fortune-mod gcc git-secret gnupg jq \
     lua man mercurial moreutils multi-git-status myrepos nfs-utils nyancat \
     otf-ipafont pacman-contrib p7zip pkgfile python python-pip python-pipenv \
-    reflector sudo thefuck ttf-baekmuk ttf-dejavu ttf-indic-otf ttf-khmer \
-    unzip vim wqy-microhei-lite zip
+    sudo thefuck ttf-baekmuk ttf-dejavu ttf-indic-otf ttf-khmer unzip vim \
+    wqy-microhei-lite zip
     # luacheck shellcheck rar unrar
 
 # Dotfiles

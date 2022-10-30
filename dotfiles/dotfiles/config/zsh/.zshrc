@@ -40,6 +40,7 @@ export SAVEHIST=1000
 #autoload -Uz promptinit
 #promptinit
 
+unsetopt nomatch
 setopt nomultios
 
 # Use emacs keybindings even if our EDITOR is set to vi

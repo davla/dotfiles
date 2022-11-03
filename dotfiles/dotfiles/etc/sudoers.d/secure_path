@@ -1,5 +1,5 @@
-# This file sets the secure_path option to the upstream default (unset).
-# This is necessary on Debian for asdf to work, as its path is added to PATH
-# at runtime, hence the need to use the user's PATH for sudo.
+# This file adds asdf paths to the Debian default secure_path option
+#
+# {{@@ header() @@}}
 
-Defaults	!secure_path
+Defaults	secure_path="{{@@ asdf_data @@}}/shims:{{@@ asdf_home @@}}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"

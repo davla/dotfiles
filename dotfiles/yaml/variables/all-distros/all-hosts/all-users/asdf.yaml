@@ -5,11 +5,12 @@
 variables:
   asdf_home: /opt/asdf-vm
   asdf_config: '/usr/local/etc/asdf'
+  asdf_data: '{{@@ asdf_home @@}}/data'
 
   # These variables encode the environment variables related to asdf
   asdf_env_var_asdf_home: '{{@@ asdf_home @@}}'
   asdf_env_var_asdf_config: '{{@@ asdf_config @@}}'
-  asdf_env_var_asdf_config_file: '"{{@@ asdf_config @@}}/asdfrc"'
-  asdf_env_var_asdf_data_dir: '"{{@@ asdf_home @@}}/data"'
+  asdf_env_var_asdf_config_file: '{{@@ asdf_config @@}}/asdfrc'
+  asdf_env_var_asdf_data_dir: '{{@@ asdf_data @@}}'
   asdf_env_var_asdf_default_tool_versions_filename: >-
-    "{{@@ asdf_config @@}}/tool-versions"
+    {{@@ asdf_config @@}}/tool-versions

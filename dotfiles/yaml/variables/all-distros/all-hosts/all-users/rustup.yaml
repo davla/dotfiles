@@ -1,0 +1,8 @@
+%YAML 1.2
+---
+# This variables file defines variables related to rustup
+
+variables:
+  # These variables encode the environment variables related to rustup
+  rustup_home: /opt/rustup
+  rustup_shims: '{{@@ rustup_home @@}}/shims'

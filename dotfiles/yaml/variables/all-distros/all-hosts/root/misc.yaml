@@ -8,3 +8,8 @@ variables:
   # declared top-level because it needs to be available in a few places across
   # different profiles and config files
   frequent_hosts_marker: Frequent hosts
+
+  # This variable defines the destination path of the sudo environment
+  # variables file. It's declared here because it's used in more than one
+  # profiles.
+  sudo_env_file_dst: /etc/sudo-env-file

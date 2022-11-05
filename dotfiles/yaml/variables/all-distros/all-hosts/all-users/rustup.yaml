@@ -3,6 +3,12 @@
 # This variables file defines variables related to rustup
 
 variables:
-  # These variables encode the environment variables related to rustup
   rustup_home: /opt/rustup
   rustup_shims: '{{@@ rustup_home @@}}/shims'
+  # This is not a profile variable as it's used in the sudo-env file, which
+  # is not specific to rustup
+  rustup_environment_append_marker: Rustup
+
+  # These variables encode the environment variables related to rustup
+  rustup_env_var_rustup_home: '{{@@ rustup_home @@}}'
+  rustup_env_var_rustup_shims: '{{@@ rustup_shims @@}}'

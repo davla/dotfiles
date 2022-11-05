@@ -1,5 +1,9 @@
-# This file adds asdf paths to the Debian default secure_path option
+# This file adds asdf and rustup paths to the Debian default secure_path option
 #
 # {{@@ header() @@}}
 
-Defaults	secure_path="{{@@ asdf_data @@}}/shims:{{@@ asdf_home @@}}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Defaults	secure_path="/usr/local/sbin:/usr/local/bin:\
+    {{@@ rustup_shims @@}}/bin:\
+    {{@@ asdf_data @@}}/shims:{{@@ asdf_home @@}}/bin:\
+    /usr/sbin:/usr/bin:\
+    /sbin:/bin"

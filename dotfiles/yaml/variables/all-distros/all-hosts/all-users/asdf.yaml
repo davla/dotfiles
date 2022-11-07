@@ -12,5 +12,3 @@ variables:
   asdf_env_var_asdf_config: '{{@@ asdf_config @@}}'
   asdf_env_var_asdf_config_file: '{{@@ asdf_config @@}}/asdfrc'
   asdf_env_var_asdf_data_dir: '{{@@ asdf_data @@}}'
-  asdf_env_var_asdf_default_tool_versions_filename: >-
-    {{@@ asdf_config @@}}/tool-versions

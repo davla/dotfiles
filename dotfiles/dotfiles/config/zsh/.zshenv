@@ -34,9 +34,3 @@ source "$ZDOTDIR/aliases.zsh"
 #######################################
 
 source "$ZDOTDIR/functions.zsh"
-
-#######################################
-# Loading theme
-#######################################
-
-source "$ZDOTDIR/theme/init.zsh"

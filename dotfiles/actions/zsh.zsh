@@ -16,14 +16,15 @@
 ZDOTDIR_FILE="${1:?}"
 
 #######################################
-# Load configuration paths
+# Load environment variables
 #######################################
 
-# The shell configuration paths need to be loaded manually, rather than by the
-# shell itself. This is because the dotfiles are indeed not set up yet, as this
-# very script is meant to do so.
+# This script needs zsh's environment variables to function correctly. However,
+# they need to be loaded explicitly, because the dotfiles are indeed not fully
+# set up yet, as this very script is meant to do so.
 
 . "$ZDOTDIR_FILE"
+. "${ZDOTDIR:?}/.zshenv"
 
 #######################################
 # Create symbolic links
@@ -88,4 +89,4 @@ fasd --init zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install \
 
 touch "${ZDOTDIR:?}/cache/zygal"
 source "$ZDOTDIR/theme/dotfiles/zygal-conf.zsh"
-zsh -c zygal-static > "${ZDOTDIR:?}/cache/zygal"
+zsh -ic zygal-static > "${ZDOTDIR:?}/cache/zygal"

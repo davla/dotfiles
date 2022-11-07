@@ -15,14 +15,15 @@
 BDOTDIR_FILE="${1:?}"
 
 #######################################
-# Load configuration paths
+# Load environment variables
 #######################################
 
-# The shell configuration paths need to be loaded manually, rather than by the
-# shell itself. This is because the dotfiles are indeed not set up yet, as this
-# very script is meant to do so.
+# This script needs bash's environment variables to function correctly.
+# However, they need to be loaded explicitly, because the dotfiles are indeed
+# not fully set up yet, as this very script is meant to do so.
 
 . "$BDOTDIR_FILE"
+. "${BDOTDIR:?}/bashenv"
 
 #######################################
 # Create symbolic links

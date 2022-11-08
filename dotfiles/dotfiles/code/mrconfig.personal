@@ -42,6 +42,16 @@ init =
     which python | xargs poetry env use
     poetry install
 
+
+[{{@@ python_generator_path @@}}]
+checkout =
+    git clone 'git@github.com:davla/yeoman-python-poetry-vscode.git' \
+        '{{@@ basename(python_generator_path) @@}}'
+init =
+    init_asdf_project nodejs
+    npm install
+
+
 [{{@@ zygal_path @@}}]
 checkout =
     git clone 'git@github.com:davla/zygal.git' '{{@@ basename(zygal_path) @@}}'

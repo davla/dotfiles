@@ -65,6 +65,7 @@ variables:
   aoc_2020_path: kotlin/advent-of-code-2020
   cluedo_tracker_path: kotlin/cluedo-tracker
   i3_live_tree_path: python/i3-live-tree
+  python_generator_path: js/yeoman-python-poetry-vscode
   zygal_path: shell/zygal
 
   # Pokémon Central Wiki code workspace variables

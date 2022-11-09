@@ -31,13 +31,12 @@ lib =
     #
     get_github_release() {
         RELEASE_REPO="$1"
-        RELEASE_VERSION_REGEX="$2"
+        RELEASE_VERSION="$2"
         RELEASE_NAME_FILTER="$3"
         #
         RELEASE_ASSET_ID="$(wget -qO -  \
-                "https://api.github.com/repos/$RELEASE_REPO/releases" \
-            | jq -r "map(select(.tag_name | test(\"$RELEASE_VERSION_REGEX\")))
-                | .[0].assets[] | select(.name | $RELEASE_NAME_FILTER).id")"
+                "https://api.github.com/repos/$RELEASE_REPO/releases/tags/$RELEASE_VERSION" \
+            | jq -r ".assets[] | select(.name | $RELEASE_NAME_FILTER).id")"
         download_github_asset "$RELEASE_REPO" "$RELEASE_ASSET_ID"
         #
         unset RELEASE_ASSET_ID RELEASE_NAME_FILTER RELEASE_REPO

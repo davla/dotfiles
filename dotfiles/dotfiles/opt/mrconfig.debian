@@ -44,8 +44,11 @@ upgrade =
 checkout =
     git clone 'https://github.com/docker/compose.git' 'docker-compose'
 install =
-    get_github_release 'docker/compose' '^1\\.\\d+\\.\\d+$' \
-        'endswith("Linux-x86_64")' > /usr/local/bin/docker-compose
+    # The latest docker-compose v1 release is hardcoded because querying it via
+    # the GitHub REST API requires dealing with pagination, which is an
+    # overkill for data that has not changed in almost two years.
+    get_github_release 'docker/compose' '1.29.2' 'endswith("Linux-x86_64")' \
+        > /usr/local/bin/docker-compose
     chmod +x /usr/local/bin/docker-compose
     #
     mkdir -p /usr/local/lib/docker/cli-plugins

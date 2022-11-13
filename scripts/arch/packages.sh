@@ -94,7 +94,8 @@ fi
 case "$HOST" in
     'personal')
         print_info "Install CLI packages for $HOST"
-        sudo -u "$USER" yay -S --needed cups cups-pdf nordvpn zsa-wally-cli
+        sudo -u "$USER" yay -S --needed cups cups-pdf nordvpn rustup \
+            zsa-wally-cli
         ;;
 
     'raspberry')

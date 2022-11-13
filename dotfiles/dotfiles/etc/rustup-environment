@@ -1,0 +1,9 @@
+# {{@@ rustup_environment_append_marker @@}}
+#
+# This file contains the environment variables used to configure rustup
+#
+# {{@@ header() @@}}
+
+{%@@ for name, value in vars_with_prefix('rustup_env_var').items() -@@%}
+    export {{@@ name | upper @@}}={{@@ value @@}}
+{%@@ endfor @@%}

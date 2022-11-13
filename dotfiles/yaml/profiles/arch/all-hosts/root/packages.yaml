@@ -43,14 +43,18 @@ dotfiles:
     src: etc/pacman.d/ignore
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ pacman_ignore_path @@}}'
-  f_pacman_hooks.bin_nordvpn-setup:
-    src: usr/local/share/pacman/hooks.bin/nordvpn-setup
-    # Dynamic path as it's used somewhere else too
-    dst: '{{@@ nordvpn_setup_path @@}}'
   f_pacman_hooks.bin_clean-package-cache:
     src: usr/local/share/pacman/hooks.bin/clean-package-cache
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ clean_package_cache_path @@}}'
+  f_pacman_hooks.bin_install-rust-toolchain:
+    src: usr/local/share/pacman/hooks.bin/install-rust-toolchain
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ install_rust_toolchain_path @@}}'
+  f_pacman_hooks.bin_nordvpn-setup:
+    src: usr/local/share/pacman/hooks.bin/nordvpn-setup
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ nordvpn_setup_path @@}}'
   f_pacman_mirrorlists:
     src: etc/pacman.d/mirrorlists
     # Dynamic path as it's used somewhere else too
@@ -75,12 +79,13 @@ profiles:
     - f_pacman_mirrorlists
     - f_pacman_options
     import:
-    - ../dotfiles/arch/{{@@ env['HOST'] @@}}/root/packages.yaml:optional
+    - ../../../../dotfiles/arch/{{@@ env['HOST'] @@}}/root/packages.yaml:optional
     dynvariables:
       pacman_tmp_dst: mktemp /tmp/pacman-append.XXX
     variables:
       pacman_hook_bin_path: /usr/local/share/pacman/hooks.bin
       clean_package_cache_path: '{{@@ pacman_hook_bin_path @@}}/clean-package-cache'
+      install_rust_toolchain_path: '{{@@ pacman_hook_bin_path @@}}/install-rust-toolchain'
       nordvpn_setup_path: '{{@@ pacman_hook_bin_path @@}}/nordvpn-setup'
       pacman_conf_append_marker: Custom configuration
       pacman_conf_dst: /etc/pacman.conf

@@ -76,3 +76,17 @@ install =
     cp "$MR_REPO/volume" /usr/local/bin/volume
 
 {%@@ endif @@%}
+
+
+[{{@@ rustup_home @@}}]
+checkout =
+    mkdir -p "{{@@ rustup_home @@}}" "{{@@ rustup_shims @@}}"
+install =
+    export RUSTUP_HOME="{{@@ rustup_home @@}}" \
+        CARGO_HOME="{{@@ rustup_shims @@}}"
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+        | sh -s -- --no-modify-path -y -c rust-src
+upgrade =
+    export RUSTUP_HOME="{{@@ rustup_home @@}}" \
+        CARGO_HOME="{{@@ rustup_shims @@}}"
+    rustup self update

@@ -4,4 +4,5 @@
 # only for my personal machine for root.
 
 dotfiles:
+- f_pacman_hooks.bin_install-rust-toolchain
 - f_reflector.conf

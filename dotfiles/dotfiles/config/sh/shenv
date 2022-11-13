@@ -46,30 +46,29 @@ export HIST_IGNORED_GIT='git ap|git c|git g|git i'
 # This variable lists my common typos that shouldn't enter the shell history
 export HIST_IGNORED_TYPOS='gi t*|gl'
 
+{#@@ Arch's package places rustup and its shims already on PATH :D @@#}
+{%@@ if env['DISTRO'] != 'arch' -@@%}
+
+#######################################
+# rustup
+#######################################
+
+. "$RUSTUP_SHIMS/env"
+
+{%@@ endif -@@%}
+
 #######################################
 # Path
 #######################################
 
-LOCAL_PATH='/usr/local/bin'
-case "$PATH" in
-    *$LOCAL_PATH*)
-        ;;
-    *)
-        export PATH="$LOCAL_PATH:$PATH"
-        ;;
-esac
+# Local paths are moved to the beginning of PATH because local binaries are
+# often shims. Hence they need to be first on PATH.
 
-{%@@ if user == 'root' -@@%}
+{%@@ set local_path = ('/usr/local/sbin:' if user == 'root' else '')
+    + '/usr/local/bin' -@@%}
 
-LOCAL_PATH='/usr/local/sbin'
-case "$PATH" in
-    *$LOCAL_PATH*)
-        ;;
-    *)
-        export PATH="$LOCAL_PATH:$PATH"
-        ;;
-esac
+LOCAL_PATH="{{@@ local_path @@}}"
+PATH_WITHOUT_LOCAL="$(echo $PATH | sed -e "s|$LOCAL_PATH||g; s|^:||g; s|:\+|:|g")"
+export PATH="${LOCAL_PATH:?}:${PATH_WITHOUT_LOCAL:?}"
 
-{%@@ endif -@@%}
-
-unset LOCAL_PATH
+unset LOCAL_PATH PATH_WITHOUT_LOCAL

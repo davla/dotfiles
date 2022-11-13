@@ -1,0 +1,11 @@
+# This file defines default values for sudo environment variables
+#
+# {{@@ header() @@}}
+
+{#@@
+    asdf and rustup variables can be reused from the environment snippets
+-@@#}
+
+{%@@ include 'etc/asdf-environment' @@%}
+
+{%@@ include 'etc/rustup-environment' @@%}

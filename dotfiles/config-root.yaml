@@ -173,6 +173,9 @@ dotfiles:
     dst: '{{@@ ddclient_dst_path @@}}'
     actions:
     - ddclient '{{@@ _dotfile_abs_dst @@}}'
+  f_etc_sudo-env-file:
+    src: etc/sudo-env-file
+    dst: '{{@@ sudo_env_file_dst @@}}'
   f_etc_zshrc:
     src: etc/zsh/zshrc
     # Dynamic path since the dotfile content is appended to dst
@@ -253,15 +256,27 @@ dotfiles:
   f_raspberry.mount:
     src: etc/systemd/system/mnt-raspberry.mount
     dst: /etc/systemd/system/mnt-raspberry.mount
+  f_rustup-environment:
+    src: etc/rustup-environment
+    dst: '{{@@ rustup_environment_tmp_dst @@}}'
+    actions:
+    - _strip '{{@@ rustup_environment_append_marker @@}}' '{{@@ rustup_environment_dst @@}}'
+    - _append '{{@@ rustup_environment_dst @@}}' '{{@@ rustup_environment_tmp_dst @@}}'
   f_sshd_config:
     src: etc/ssh/sshd_config
     dst: /etc/ssh/sshd_config
-  f_sudo_asdf-env:
-    src: etc/sudoers.d/asdf-env
-    dst: /etc/sudoers.d/asdf-env
+  f_sudo_asdf-env-keep:
+    src: etc/sudoers.d/asdf-env-keep
+    dst: /etc/sudoers.d/asdf-env-keep
+  f_sudo_env-file:
+    src: etc/sudoers.d/env-file
+    dst: /etc/sudoers.d/env-file
   f_sudo_insults:
     src: etc/sudoers.d/insults
     dst: /etc/sudoers.d/insults
+  f_sudo_rustup-env-keep:
+    src: etc/sudoers.d/rustup-env-keep
+    dst: /etc/sudoers.d/rustup-env-keep
   f_sudo_secure_path:
     src: etc/sudoers.d/secure_path
     dst: /etc/sudoers.d/secure_path
@@ -325,9 +340,9 @@ dotfiles:
     dst: /etc/systemd/system/mnt-windows.mount
 
 dynvariables:
-  # These variables define which profile should be included to have asdf
-  # dotfiles in "cli" and "manual" profile respectively. "emtpy" is just a
-  # placeholder profile.
+  # These variables define which profile should be included to have asdf and
+  # rustup dotfiles in "cli" and "manual" profile respectively. "emtpy" is just
+  # a placeholder profile.
   #
   # In particular, on Arch asdf is installd via AUR, meaning that its dotfiles
   # are the same as other cli applications installed via the package manager.
@@ -347,7 +362,17 @@ dynvariables:
             echo 'empty'
             ;;
     esac
-  manual_include: |-
+  cli_rustup_include: |-
+    case "$DISTRO" in
+        'arch')
+            echo 'rustup'
+            ;;
+
+        'debian')
+            echo 'empty'
+            ;;
+    esac
+  manual_asdf_include: |-
     case "$DISTRO" in
         'arch')
             echo 'empty'
@@ -357,21 +382,32 @@ dynvariables:
             echo 'asdf'
             ;;
     esac
+  manual_rustup_include: |-
+    case "$DISTRO" in
+        'arch')
+            echo 'empty'
+            ;;
+
+        'debian')
+            echo 'rustup'
+            ;;
+    esac
 
 profiles:
   # This profile includes asdf version manager configuration files
   asdf:
     dotfiles:
+    - f_etc_sudo-env-file
     - d_asdf
     - f_asdf-environment
-    - f_sudo_asdf-env
+    - f_sudo_asdf-env-keep
+    - f_sudo_env-file
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/asdf.yaml:optional
     dynvariables:
       asdf_environment_tmp_dst: mktemp /tmp/asdf-env-tmp.XXX
       asdf_env_tmp_dst: mktemp /tmp/asdf-env-tmp.XXX
     variables:
-      asdf_environment_append_marker: Asdf version manager
       asdf_environment_dst: /etc/environment
 
   # This profile groups configuration files for CLI-based applictions.
@@ -381,6 +417,7 @@ profiles:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
     include:
     - '{{@@ cli_asdf_include @@}}'
+    - '{{@@ cli_rustup_include @@}}'
 
   # This profile includes configuration files for ddclient
   ddclient:
@@ -451,7 +488,8 @@ profiles:
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/manual.yaml:optional
     include:
-    - '{{@@ manual_include @@}}'
+    - '{{@@ manual_asdf_include @@}}'
+    - '{{@@ manual_rustup_include @@}}'
 
   # This profile contains network-related configuration files
   network:
@@ -469,6 +507,22 @@ profiles:
   repos:
     dotfiles:
     - d_myrepos-lib
+
+  # This profile includes rustup configuration files
+  rustup:
+    dotfiles:
+    - f_etc_sudo-env-file
+    - f_local_bin_rustup
+    - f_rustup-environment
+    - f_sudo_env-file
+    - f_sudo_rustup-env-keep
+    import:
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/rustup.yaml:optional
+    dynvariables:
+      rustup_environment_tmp_dst: mktemp /tmp/rustup-env-tmp.XXX
+      rustup_env_tmp_dst: mktemp /tmp/rustup-env-tmp.XXX
+    variables:
+      rustup_environment_dst: /etc/environment
 
   # This profile includes SSH server configuration files
   ssh:

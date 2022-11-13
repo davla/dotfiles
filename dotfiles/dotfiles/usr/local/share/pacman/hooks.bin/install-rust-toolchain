@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+
+# This script installs rust toolchains via rustup
+
+########################################
+# Set rustup environment variables
+########################################
+
+{%@@ include 'etc/rustup-environment' @@%}
+
+########################################
+# Ensure rustup paths exist
+########################################
+
+mkdir -p "$RUSTUP_HOME"
+
+########################################
+# Install rust toolchain
+########################################
+
+# rust-src is used by static analyzers
+rustup toolchain install stable --component rust-src

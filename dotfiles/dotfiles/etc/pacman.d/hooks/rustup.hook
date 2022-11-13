@@ -1,0 +1,15 @@
+# Pacman hook that installs rust toolchains via rustup
+#
+# {{@@ header() @@}}
+
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Target = rustup
+Target = rustup-*
+Type = Package
+
+[Action]
+Description = Installing rust toolchain
+When = PostTransaction
+Exec = {{@@ install_rust_toolchain_path @@}}

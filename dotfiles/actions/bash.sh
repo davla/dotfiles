@@ -12,7 +12,7 @@
 # Input processing
 #######################################
 
-BDOTDIR_FILE="${1:?}"
+DOTDIRS_FILE="${1:?}"
 
 #######################################
 # Load environment variables
@@ -22,7 +22,7 @@ BDOTDIR_FILE="${1:?}"
 # However, they need to be loaded explicitly, because the dotfiles are indeed
 # not fully set up yet, as this very script is meant to do so.
 
-. "$BDOTDIR_FILE"
+. "$DOTDIRS_FILE"
 . "${BDOTDIR:?}/bashenv"
 
 #######################################
@@ -41,11 +41,11 @@ ln -sf "${BDOTDIR:?}/bash_profile" "$HOME/.bash_profile"
 #######################################
 
 mkdir -p "${BDOTDIR:?}/cache"
+mkdir -p "${BDOTDIR:?}/interactive/plugins/data"
+mkdir -p "${BDOTDIR:?}/interactive/plugins/dotfiles"
 
 #######################################
 # Initialize cache
 #######################################
 
-print_info 'Initialize bash plugin cache'
-env TF_SHELL='bash' thefuck --alias > "${BDOTDIR:?}/cache/thefuck"
-fasd --init bash-hook bash-ccomp bash-ccomp-install > "${BDOTDIR:?}/cache/fasd"
+bash "$BDOTDIR/interactive/write-cache.sh" --info --journald off

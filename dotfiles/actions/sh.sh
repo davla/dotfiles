@@ -12,7 +12,7 @@
 # Input processing
 #######################################
 
-SDOTDIR_FILE="${1:?}"
+DOTDIRS_FILE="${1:?}"
 
 #######################################
 # Load environment variables
@@ -22,7 +22,7 @@ SDOTDIR_FILE="${1:?}"
 # correctly. However, they need to be loaded explicitly, because the dotfiles
 # are indeed not fully set up yet, as this very script is meant to do so.
 
-. "$SDOTDIR_FILE"
+. "$DOTDIRS_FILE"
 . "${SDOTDIR:?}/shenv"
 
 #######################################
@@ -47,6 +47,4 @@ mkdir -p "${SDOTDIR:?}/interactive/plugins/dotfiles"
 # Initialize cache
 #######################################
 
-print_info 'Initialize POSIX shell plugin cache'
-( thefuck --alias & ) > "${SDOTDIR:?}/cache/thefuck"
-fasd --init posix-alias > "${SDOTDIR:?}/cache/fasd"
+sh "$SDOTDIR/interactive/write-cache.sh" --info --journald off

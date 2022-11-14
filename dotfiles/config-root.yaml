@@ -458,6 +458,7 @@ profiles:
     - f_i3_sway_10-systemd
     - f_i3_sway_systemd-session.target
     - f_i3_sway_systemd-session-watch.service
+    - f_local_bin_messaging
     - f_local_bin_systemd-i3-session
     - f_local_bin_systemd-i3-session-watch
     include:
@@ -553,6 +554,7 @@ profiles:
     - f_i3_sway_systemd-session.target
     - f_i3_sway_systemd-session-watch.service
     - f_local_bin_launcher
+    - f_local_bin_messaging
     - f_local_bin_systemd-sway-session
     - f_local_bin_systemd-sway-session-watch
     include:

@@ -28,6 +28,7 @@ set {
     $launcher_criterion app_id="launcher"
     $scratchpad_editor_criterion app_id="scratchpad-editor"
     $scratchpad_term_criterion title="scratchpad-terminal"
+    $signal_criterion app_id="signal"
     $spotify_criterion con_mark="spotify"
     $teams_criterion instance=".*microsoft teams.*"
     $telegram_criterion app_id="telegramdesktop" title="Telegram.*"
@@ -59,14 +60,17 @@ bindsym {
     $mod+Shift+Tab exec --no-startup-id \
         swaymsg '[$scratchpad_term_criterion] $scratchpad_show' \
             || $term --title scratchpad-terminal
-        $mod+u exec thunar
-    {%@@ if env['HOST'] == 'personal' -@@%}
 
+    {%@@- if env['HOST'] == 'personal' @@%}
+
+    $mod+i exec --no-startup-id \
+        swaymsg '[$signal_criterion] $scratchpad_show' \
+            || signal
     $mod+o exec firefox https://calendar.google.com/calendar/r
-    $mod+i exec firefox https://keep.google.com/#home
+    $mod+u exec firefox https://keep.google.com/#home
     $mod+t exec thunderbird
 
-    {%@@ endif -@@%}
+    {%@@- endif @@%}
 
     # TUI applications
     $mod+Shift+e exec $term --title $calc_title -e lua
@@ -127,6 +131,11 @@ for_window [$scratchpad_editor_criterion] \
 for_window [$scratchpad_term_criterion] \
     resize set $floating_width $floating_height, \
     move position center
+
+# Signal
+{{@@ init_scratchpad('$signal_criterion') @@}}
+for_window [$signal_criterion] \
+    resize set 900 800, move position center
 
 # Spotify
 {{@@ init_scratchpad('$spotify_criterion') @@}}

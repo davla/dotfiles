@@ -12,7 +12,7 @@
 # This script is meant to be used as a shell command. Therefore it can't be
 # assumed that startup files, such as ~/.profile, are sourced
 
-. "{{@@ dotdirs_file | home_abs2var @@}}"
+. "{{@@ shell_dirs_file | home_abs2var @@}}"
 
 ########################################
 # POSIX shell

@@ -13,6 +13,9 @@
 #
 # {{@@ header() @@}}
 
+# This prevents piping stdout to log_error when stdout is redirected to a file
+setopt nomultios
+
 #######################################
 # Libraries includes
 #######################################
@@ -41,16 +44,16 @@ while [ "$#" -gt 0 ]; do
 done
 
 ########################################
-# Environment validation
+# Ensure zsh cache directory
 ########################################
 
-[ -z "$ZDOTDIR" ] && {
-    log_error >&2 '$ZDOTDIR not defined'
+[ -z "$ZCACHEDIR" ] && {
+    log_error >&2 '$ZCACHEDIR not defined'
     exit 64
 }
 
-# This prevents piping stdout to log_error when stdout is redirected to a file
-setopt nomultios
+log_debug 'Create zsh cache directory'
+mkdir -p "$ZCACHEDIR"
 
 #######################################
 # fasd
@@ -58,14 +61,14 @@ setopt nomultios
 
 log_info 'Write fasd zsh cache'
 fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp \
-    zsh-wcomp-install 2>&1 > "$ZDOTDIR/cache/fasd" | log_error >&2
+    zsh-wcomp-install 2>&1 > "$ZCACHEDIR/fasd" | log_error >&2
 
 #######################################
 # thefuck
 #######################################
 
 log_info 'Write thefuck zsh shell cache'
-env TF_SHELL='zsh' thefuck --alias 2>&1 > "$ZDOTDIR/cache/thefuck" \
+env TF_SHELL='zsh' thefuck --alias 2>&1 > "$ZCACHEDIR/thefuck" \
     | log_error >&2
 
 ########################################
@@ -78,4 +81,4 @@ antibody bundle < "$ZDOTDIR/interactive/theme/dotfiles/themes.list"
 
 log_info 'Write static zygal code'
 source "$ZDOTDIR/interactive/theme/dotfiles/zygal-conf.zsh"
-zygal-static 2>&1 > "$ZDOTDIR/cache/zygal" | cut -f 1 -d ' '
+zygal-static 2>&1 > "$ZCACHEDIR/zygal" | cut -f 1 -d ' '

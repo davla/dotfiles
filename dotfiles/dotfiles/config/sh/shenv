@@ -9,7 +9,7 @@
 #######################################
 
 # shellcheck disable=2027,2140
-. "{{@@ dotdirs_file | home_abs2var @@}}"
+. "{{@@ shell_dirs_file | home_abs2var @@}}"
 
 ########################################
 # Bash

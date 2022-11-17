@@ -125,13 +125,13 @@ source "$ZDOTDIR/interactive/plugins/plugins-after-compinit.zsh"
 export _FASD_DATA="$ZDOTDIR/interactive/plugins/data/.fasd"
 export _FASD_SHELL='zsh'
 
-source "$ZDOTDIR/cache/fasd"
+source "$ZCACHEDIR/fasd"
 
 #######################################
 # thefuck
 #######################################
 
-source "$ZDOTDIR/cache/thefuck"
+source "$ZCACHEDIR/thefuck"
 
 #######################################
 # zsh-autopair

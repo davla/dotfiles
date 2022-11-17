@@ -9,7 +9,7 @@
 #######################################
 
 # shellcheck disable=2027,2140
-source "{{@@ dotdirs_file | home_abs2var @@}}"
+source "{{@@ shell_dirs_file | home_abs2var @@}}"
 
 #######################################
 # Inheriting from POSIX shell

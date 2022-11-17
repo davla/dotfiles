@@ -41,14 +41,17 @@ while [ "$#" -gt 0 ]; do
 done
 
 ########################################
-# Environment validation
+# Ensure bash cache directory
 ########################################
 
-[ -z "$BDOTDIR" ] && {
+[ -z "$BCACHEDIR" ] && {
     # shellcheck disable=2016
-    log_error >&2 '$BDOTDIR not defined'
+    log_error >&2 '$BCACHEDIR not defined'
     exit 64
 }
+
+log_debug 'Create bash cache directory'
+mkdir -p "$BCACHEDIR"
 
 #######################################
 # fasd
@@ -56,12 +59,12 @@ done
 
 log_info 'Write fasd bash cache'
 fasd --init bash-hook bash-ccomp bash-ccomp-install posix-alias 2>&1 \
-    > "$BDOTDIR/cache/fasd" | log_error >&2
+    > "$BCACHEDIR/fasd" | log_error >&2
 
 #######################################
 # thefuck
 #######################################
 
 log_info 'Write thefuck bash shell cache'
-env TF_SHELL='bash' thefuck --alias 2>&1 > "$BDOTDIR/cache/thefuck" \
+env TF_SHELL='bash' thefuck --alias 2>&1 > "$BCACHEDIR/thefuck" \
     | log_error >&2

@@ -27,10 +27,10 @@ source /usr/share/doc/pkgfile/command-not-found.bash
 export _FASD_DATA="$BDOTDIR/interactive/plugins/data/.fasd"
 export _FASD_SHELL='bash'
 
-source "$BDOTDIR/cache/fasd"
+source "$BCACHEDIR/fasd"
 
 #######################################
 # thefuck
 #######################################
 
-source "$BDOTDIR/cache/thefuck"
+source "$BCACHEDIR/thefuck"

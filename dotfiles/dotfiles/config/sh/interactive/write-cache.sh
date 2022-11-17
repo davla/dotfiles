@@ -41,25 +41,28 @@ while [ "$#" -gt 0 ]; do
 done
 
 ########################################
-# Environment validation
+# Ensure POSIX shell cache directory
 ########################################
 
-[ -z "$SDOTDIR" ] && {
+[ -z "$SCACHEDIR" ] && {
     # shellcheck disable=2016
-    log_error >&2 '$SDOTDIR not defined'
+    log_error >&2 '$SCACHEDIR not defined'
     exit 64
 }
+
+log_debug 'Create POSIX shell cache directory'
+mkdir -p "$SCACHEDIR"
 
 #######################################
 # fasd
 #######################################
 
 log_info 'Write fasd POSIX shell cache'
-fasd --init posix-alias 2>&1 > "$SDOTDIR/cache/fasd" | log_error >&2
+fasd --init posix-alias 2>&1 > "$SCACHEDIR/fasd" | log_error >&2
 
 #######################################
 # thefuck
 #######################################
 
 log_info 'Write thefuck POSIX shell cache'
-( thefuck --alias & ) 2>&1 > "$SDOTDIR/cache/thefuck" | log_error >&2
+( thefuck --alias & ) 2>&1 > "$SCACHEDIR/thefuck" | log_error >&2

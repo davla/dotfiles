@@ -15,7 +15,6 @@ source "$INTERACTIVE_ZDOTDIR/plugins/init.zsh"
 # Loading theme
 #######################################
 
-source "$ZDOTDIR/theme/init.zsh"
 source "$INTERACTIVE_ZDOTDIR/theme/init.zsh"
 
 #######################################

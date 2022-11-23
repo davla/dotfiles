@@ -1,9 +1,9 @@
 #!/usr/bin/env zsh
 
-# This scripts loads and configures the zsh theme
+# This scripts loads the zsh theme
 
 #######################################
 # Sourcing zygal static script
 #######################################
 
-source "$ZDOTDIR/cache/zygal"
+source "$ZCACHEDIR/zygal"

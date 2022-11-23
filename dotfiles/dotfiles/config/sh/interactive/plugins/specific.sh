@@ -11,10 +11,10 @@
 export _FASD_DATA="$SDOTDIR/interactive/plugins/data/.fasd"
 export _FASD_SHELL='sh'
 
-. "$SDOTDIR/cache/fasd"
+. "$SCACHEDIR/fasd"
 
 #######################################
 # thefuck
 #######################################
 
-. "$SDOTDIR/cache/thefuck"
+. "$SCACHEDIR/thefuck"

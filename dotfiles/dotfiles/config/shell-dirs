@@ -1,0 +1,34 @@
+#!/usr/bin/env sh
+
+# {{@@ header() @@}}
+
+# This script defines directories utilized by the shells. The idea has been
+# inspired by zsh's ZDOTDIR, and then expanded to include other shells and
+# the cache directory too.
+
+########################################
+# Ensure XDG_CACHE_HOME is set
+########################################
+
+XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+
+########################################
+# POSIX shell
+########################################
+
+export SDOTDIR="{{@@ sdotdir | home_abs2var @@}}"
+export SCACHEDIR="$XDG_CACHE_HOME/sh"
+
+########################################
+# Bash
+########################################
+
+export BDOTDIR="{{@@ bdotdir | home_abs2var @@}}"
+export BCACHEDIR="$XDG_CACHE_HOME/bash"
+
+########################################
+# Zsh
+########################################
+
+export ZDOTDIR="{{@@ zdotdir | home_abs2var @@}}"
+export ZCACHEDIR="$XDG_CACHE_HOME/zsh"

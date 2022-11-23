@@ -5,9 +5,9 @@
 
 actions:
   post:
-    bash: bash --norc --noprofile ./actions/bash.sh "{{@@ dotdirs_file @@}}"
-    sh: sh ./actions/sh.sh "{{@@ dotdirs_file @@}}"
-    zsh: zsh -f ./actions/zsh.zsh "{{@@ dotdirs_file @@}}"
+    bash: bash --norc --noprofile ./actions/bash.sh "{{@@ shell_dirs_file @@}}"
+    sh: sh ./actions/sh.sh "{{@@ shell_dirs_file @@}}"
+    zsh: zsh -f ./actions/zsh.zsh "{{@@ shell_dirs_file @@}}"
 
 config:
   backup: false
@@ -61,10 +61,10 @@ dotfiles:
     - .antibody
     - cache
     - 'plugins/plugins-*.zsh'
-  f_dotdirs:
-    src: config/dotdirs
+  f_shell-dirs:
+    src: config/shell-dirs
     # Dynamic path as it's used somewhere else too
-    dst: '{{@@ dotdirs_file @@}}'
+    dst: '{{@@ shell_dirs_file @@}}'
 
 profiles:
   # This profile contains bash dotfiles
@@ -81,7 +81,7 @@ profiles:
     dotfiles:
     - d_sh
     - d_thefuck
-    - f_dotdirs
+    - f_shell-dirs
     actions:
     - sh
 
@@ -100,4 +100,4 @@ variables:
   bdotdir: '{{@@ xdg_config("bash") @@}}'
   sdotdir: '{{@@ xdg_config("sh") @@}}'
   zdotdir: '{{@@ xdg_config("zsh") @@}}'
-  dotdirs_file: '{{@@ xdg_config("dotdirs") @@}}'
+  shell_dirs_file: '{{@@ xdg_config("shell-dirs") @@}}'

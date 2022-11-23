@@ -13,7 +13,7 @@
 # Input processing
 #######################################
 
-ZDOTDIR_FILE="${1:?}"
+DOTDIRS_FILE="${1:?}"
 
 #######################################
 # Load environment variables
@@ -23,8 +23,15 @@ ZDOTDIR_FILE="${1:?}"
 # they need to be loaded explicitly, because the dotfiles are indeed not fully
 # set up yet, as this very script is meant to do so.
 
-. "$ZDOTDIR_FILE"
+. "$DOTDIRS_FILE"
 . "${ZDOTDIR:?}/.zshenv"
+
+########################################
+# Variables
+########################################
+
+ZSH_CACHE_DIR="${ZDOTDIR:?}/cache"
+ZSH_PLUGINS_DIR="${ZDOTDIR:?}/interactive/plugins"
 
 #######################################
 # Create symbolic links
@@ -45,6 +52,8 @@ ln -sf "${ZDOTDIR:?}/.zshenv" "$HOME/.zshenv"
 #######################################
 
 mkdir -p "${ZDOTDIR:?}/cache"
+mkdir -p "${ZDOTDIR:?}/interactive/plugins/data"
+mkdir -p "${ZDOTDIR:?}/interactive/plugins/dotfiles"
 
 #######################################
 # Install antibody
@@ -67,26 +76,16 @@ esac
 #######################################
 
 print_info 'Install zsh plugins'
-cd "$ZDOTDIR/interactive/plugins" || exit
-antibody bundle < lists/plugins-before-compinit.list \
-    > plugins-before-compinit.zsh
-antibody bundle < lists/plugins-after-compinit.list \
-    > plugins-after-compinit.zsh
-cd - &> /dev/null || exit
 
-cd "$ZDOTDIR/theme" || exit
-antibody bundle < themes.list > themes.zsh
-cd - &> /dev/null || exit
+antibody bundle \
+    < "$ZSH_PLUGINS_DIR/lists/plugins-before-compinit.list" \
+    > "$ZSH_PLUGINS_DIR/plugins-before-compinit.zsh"
+antibody bundle \
+    < "$ZSH_PLUGINS_DIR/lists/plugins-after-compinit.list" \
+    > "$ZSH_PLUGINS_DIR/plugins-after-compinit.zsh"
 
 #######################################
-# Initializing cache
+# Initialize cache
 #######################################
 
-print_info 'Initialize zsh plugin cache'
-env TF_SHELL='zsh' thefuck --alias > "${ZDOTDIR:?}/cache/thefuck"
-fasd --init zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install \
-    > "${ZDOTDIR:?}/cache/fasd"
-
-touch "${ZDOTDIR:?}/cache/zygal"
-source "$ZDOTDIR/theme/dotfiles/zygal-conf.zsh"
-zsh -ic zygal-static > "${ZDOTDIR:?}/cache/zygal"
+zsh "$ZDOTDIR/interactive/write-cache.zsh" --info --journald off

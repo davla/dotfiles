@@ -17,21 +17,18 @@ for_window [{{@@ criterion @@}}] move scratchpad; \
 # Variables
 #######################################
 
-{%@@ set messaging_client = 'teams'
-    if env['HOST'] == 'work'
-    else 'telegram' -@@%}
-
 set {
     # Command criteria
     $android_studio_criterion app_id="jetbrains-studio"
     $firefox_criterion app_id=".*Firefox.*"
     $launcher_criterion app_id="launcher"
+    $messaging_criterion con_mark="{{@@ messaging_mark @@}}"
     $scratchpad_editor_criterion app_id="scratchpad-editor"
     $scratchpad_term_criterion title="scratchpad-terminal"
     $signal_criterion app_id="signal"
     $spotify_criterion con_mark="spotify"
     $teams_criterion instance=".*microsoft teams.*"
-    $telegram_criterion app_id="telegramdesktop" title="Telegram.*"
+    $telegram_criterion app_id=".*telegram.*" title=".*Telegram.*"
     $thunderbird_criterion app_id="thunderbird"
     $vscode_criterion app_id="^[Cc]ode.*"
 
@@ -47,7 +44,7 @@ bindsym {
     # GUI applications
     $mod+e exec --no-startup-id \
         swaymsg '[${{@@ messaging_client @@}}_criterion] $scratchpad_show' \
-            || {{@@ messaging_client @@}}
+        || {{@@ messaging_client_cmd @@}}
     $mod+p exec --no-startup-id \
         swaymsg '[$spotify_criterion] $scratchpad_show' \
             || spotify
@@ -63,9 +60,6 @@ bindsym {
 
     {%@@- if env['HOST'] == 'personal' @@%}
 
-    $mod+i exec --no-startup-id \
-        swaymsg '[$signal_criterion] $scratchpad_show' \
-            || signal
     $mod+o exec firefox https://calendar.google.com/calendar/r
     $mod+u exec firefox https://keep.google.com/#home
     $mod+t exec thunderbird
@@ -121,6 +115,17 @@ for_window [floating title="$calc_title"] \
 for_window [$launcher_criterion] floating enable, \
     resize set $floating_width $floating_height, move position center
 
+{%@@ if messaging_apps -@@%}
+
+# Messaging
+{%@@ for app in messaging_apps @@%}
+for_window [${{@@ app @@}}_criterion] \
+    layout tabbed, \
+    resize set 900 800, move position center
+{%@@ endfor @@%}
+
+{%@@- endif @@%}
+
 # Scratchpad editor
 {{@@ init_scratchpad('$scratchpad_editor_criterion') @@}}
 for_window [$scratchpad_editor_criterion] \
@@ -132,11 +137,6 @@ for_window [$scratchpad_term_criterion] \
     resize set $floating_width $floating_height, \
     move position center
 
-# Signal
-{{@@ init_scratchpad('$signal_criterion') @@}}
-for_window [$signal_criterion] \
-    resize set 900 800, move position center
-
 # Spotify
 {{@@ init_scratchpad('$spotify_criterion') @@}}
 for_window [$spotify_criterion] \
@@ -146,11 +146,6 @@ for_window [$spotify_criterion] \
 {{@@ init_scratchpad('$teams_criterion window_type="normal"') @@}}
 for_window [$teams_criterion window_type="normal"] \
     resize set 1200 950, move position center
-
-# Telegram
-{{@@ init_scratchpad('$telegram_criterion') @@}}
-for_window [$telegram_criterion] \
-    resize set 900 800, move position center
 
 # Thunderbird
 for_window [$thunderbird_criterion title=".* Reminder"] floating enable, \

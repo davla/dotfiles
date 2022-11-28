@@ -13,11 +13,12 @@ print_info 'Install i3'
 case "$DISTRO" in
     'arch')
         yay -S --needed alacritty autorandr dunst i3blocks i3-gaps i3-volume \
-            picom thunar
+            picom python-aiostream python-docopt python-i3ipc thunar
         ;;
 
     'debian')
-        sudo apt-get install alacritty autorandr dunst i3 i3blocks picom thunar
+        sudo apt-get install alacritty autorandr dunst i3 i3blocks picom \
+            python3-aiostream python3-docopt python3-i3ipc thunar
         ;;
 esac
 

@@ -14,6 +14,7 @@
     ///////////////////////////////////
 
     "breadcrumbs.filePath": "last",
+    "editor.acceptSuggestionOnEnter": "smart",
     "editor.bracketPairColorization.enabled": true,
     "editor.codeLens": false,
     "editor.colorDecorators": false,
@@ -30,7 +31,11 @@
     "editor.matchBrackets": "never",
     "editor.minimap.enabled": false,
     "editor.occurrencesHighlight": false,
-    "editor.quickSuggestionsDelay": 1000,
+    "editor.quickSuggestions": {
+        "comments": "inline",
+        "strings": "inline",
+        "other": "inline"
+    },
     "editor.renderLineHighlightOnlyWhenFocus": true,
     "editor.rulers": [
         79
@@ -40,6 +45,7 @@
     "editor.suggest.insertMode": "replace",
     "editor.suggest.localityBonus": true,
     "editor.suggest.shareSuggestSelections": true,
+    "editor.suggestSelection": "recentlyUsedByPrefix",
     "editor.tabCompletion": "onlySnippets",
     "files.associations": {
         "**/.i3/config": "i3",
@@ -117,6 +123,7 @@
     ////////////////////////////////////////
 
     "git.enableCommitSigning": true,
+    "git.mergeEditor": false,
     "problems.autoReveal": false,
     "scm.autoReveal": false,
 
@@ -131,14 +138,12 @@
     // HTML
     ////////////////////////////////////////
 
-    "html.format.endWithNewline": true,
     "html.format.indentInnerHtml": true,
 
     ////////////////////////////////////////
     // JavaScript
     ////////////////////////////////////////
 
-    "debug.javascript.autoExpandGetters": true,
     "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
     "javascript.format.semicolons": "insert",
     "javascript.preferences.importModuleSpecifier": "non-relative",
@@ -272,7 +277,7 @@
     // C/C++ extension
     ////////////////////////////////////////
 
-    "C_Cpp.formatting": "Disabled",
+    "C_Cpp.formatting": "disabled",
     "C_Cpp.workspaceParsingPriority": "high",
     "cmake.configureOnEdit": false,
     "cmake.configureOnOpen": false,
@@ -310,47 +315,7 @@
     // Python extension
     ////////////////////////////////////////
 
-    "jupyter.addGotoCodeLenses": false,
-    "jupyter.allowImportFromNotebook": false,
-    "jupyter.allowInput": false,
-    "jupyter.allowLiveShare": false,
-    "jupyter.askForKernelRestart": false,
-    "jupyter.askForLargeDataFrames": false,
-    "jupyter.collapseCellInputCodeByDefault": false,
-    "jupyter.colorizeInputBox": false,
-    "jupyter.decorateCells": false,
-    "jupyter.enableAutoMoveToNextCell": false,
-    "jupyter.enableCellCodeLens": false,
-    "jupyter.enabled": false,
-    "jupyter.enablePlotViewer": false,
-    "jupyter.enableScrollingForCellOutputs": false,
-    "jupyter.searchForJupyter": false,
-    "jupyter.showCellInputCode": false,
-    "jupyter.stopOnFirstLineWhileDebugging": false,
-    "jupyter.useDefaultConfigForJupyter": false,
-    "jupyter.useNotebookEditor": false,
-    "python.analysis.logLevel": "Warning",
-    "python.dataScience.addGotoCodeLenses": false,
-    "python.dataScience.allowImportFromNotebook": false,
-    "python.dataScience.allowInput": false,
-    "python.dataScience.allowLiveShare": false,
-    "python.dataScience.askForKernelRestart": false,
-    "python.dataScience.askForLargeDataFrames": false,
-    "python.dataScience.collapseCellInputCodeByDefault": false,
-    "python.dataScience.colorizeInputBox": false,
-    "python.dataScience.decorateCells": false,
-    "python.dataScience.enableAutoMoveToNextCell": false,
-    "python.dataScience.enableCellCodeLens": false,
-    "python.dataScience.enabled": false,
-    "python.dataScience.enablePlotViewer": false,
-    "python.dataScience.enableScrollingForCellOutputs": false,
-    "python.dataScience.searchForJupyter": false,
-    "python.dataScience.showCellInputCode": false,
-    "python.dataScience.stopOnFirstLineWhileDebugging": false,
-    "python.dataScience.useDefaultConfigForJupyter": false,
-    "python.dataScience.useNotebookEditor": false,
     "python.diagnostics.sourceMapsEnabled": true,
-    "python.disableInstallationCheck": true,
     "python.terminal.executeInFileDir": true,
 
     ////////////////////////////////////////
@@ -358,4 +323,5 @@
     ////////////////////////////////////////
 
     "auto-comment-blocks.singleLineBlockOnEnter": true,
+    "shellcheck.run": "onSave"
 }

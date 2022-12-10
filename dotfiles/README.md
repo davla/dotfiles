@@ -2,6 +2,7 @@
 My dotfiles repository.
 
 ## TODO
+- pam_environment is deprecated. Use /etc/security/pam_env.conf or similar
 - Failed to start pkgfile database update.
 - Better placement of logger_path variable
 - autorandr in autostart

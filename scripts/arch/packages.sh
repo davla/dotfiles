@@ -74,11 +74,11 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
         'personal')
             print_info "Install GUI packages for $HOST"
             sudo -u "$USER" yay -S --needed asunder atril baobab bitwarden \
-                blueman brasero calibre electron firefox-beta-bin geany gimp \
-                gnome-clocks gnome-disk-utility gnome-keyring gufw handbrake \
-                libreoffice-still kid3 remmina seahorse simple-scan \
+                blueman brasero calibre caprine electron firefox-beta-bin \
+                geany gimp gnome-clocks gnome-disk-utility gnome-keyring gufw \
+                handbrake libreoffice-still kid3 remmina seahorse simple-scan \
                 soundconverter telegram-desktop thunderbird transmission-gtk \
-                vlc-git visual-studio-code-bin
+                vlc-git visual-studio-code-bin whatsapp-nativefier
             ;;
     esac
 

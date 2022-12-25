@@ -131,10 +131,10 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
         'personal')
             print_info "Install GUI packages for $HOST"
             apt-get install asunder balena-etcher-electron blueman brasero \
-                calibre dropbox gimp gufw handbrake-gtk libreoffice-calc \
-                libreoffice-impress libreoffice-writer kid3 remmina \
-                simple-scan soundconverter system-config-printer thunderbird \
-                transmission-gtk vlc
+                calibre caprine dropbox gimp gufw handbrake-gtk \
+                libreoffice-calc libreoffice-impress libreoffice-writer kid3 \
+                remmina simple-scan soundconverter system-config-printer \
+                thunderbird transmission-gtk vlc
                 ;;
     esac
 

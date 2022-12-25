@@ -20,6 +20,7 @@ for_window [{{@@ criterion @@}}] move scratchpad; \
 set {
     # Command criteria
     $android_studio_criterion app_id="jetbrains-studio"
+    $facebook_messenger_criterion app_id="caprine"
     $firefox_criterion app_id=".*Firefox.*"
     $launcher_criterion app_id="launcher"
     $messaging_criterion con_mark="{{@@ messaging_mark @@}}"
@@ -119,7 +120,7 @@ for_window [$launcher_criterion] floating enable, \
 
 # Messaging
 {%@@ for app in messaging_apps @@%}
-for_window [${{@@ app @@}}_criterion] \
+for_window [${{@@ app | replace('-', '_') @@}}_criterion] \
     layout tabbed, \
     resize set 900 800, move position center
 {%@@ endfor @@%}

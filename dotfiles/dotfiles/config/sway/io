@@ -5,8 +5,8 @@
 #######################################
 
 # Variables
-set $laptop_display "Unknown 0x424A 0x00000000"
-set $external_4K "Unknown HP Z27k G3 CN41373F0L"
+set $laptop_display eDP-1
+set $external_4K "HP Inc. HP Z27k G3 CN41373F0L"
 
 # Background
 output * bg #131313 solid_color

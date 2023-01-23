@@ -1,0 +1,150 @@
+#!/usr/bin/env python3
+
+"""Spawn applications in a tabbed container in the scratchpad and mark currently
+focused window.
+
+The applications are initially moved to a throwaway workspace.
+
+Usage:
+    messaging --mark <mark> --workspace <workspace> <app>...
+    messaging --help
+
+Options:
+    --mark <mark>, -M MARK                  The mark to be used for the last
+                                            used window.
+    --workspace <workspace>, -W WORKSPACE   The throaway workspace the windows
+                                            are placed into.
+    --help, -H                              Show this help text.
+"""
+
+import asyncio
+import shutil
+from dataclasses import dataclass
+from subprocess import DEVNULL
+
+from aiostream import stream
+from docopt import docopt
+from i3ipc.aio import Connection
+
+
+@dataclass
+class SubprocessTermination:
+    """Subprocess termination event."""
+
+    change = "termination"
+    pid: int
+
+
+async def ConnectionEvents(self, *event_names):
+    """Yield selected events from this i3 connection."""
+    queue = asyncio.Queue()
+    for event_name in event_names:
+        self.on(event_name, lambda _, event: queue.put_nowait(event))
+    while True:
+        yield await queue.get()
+
+
+Connection.events = ConnectionEvents
+
+
+async def SubprocessWaitAsEvent(self):
+    """Return a subprocess termination event after asynchronously waiting."""
+    await self.wait()
+    return SubprocessTermination(self.pid)
+
+
+asyncio.subprocess.Process.wait_as_event = SubprocessWaitAsEvent
+
+
+def add_mark(i3, pid, mark):
+    """Add a mark to an i3 container identified by pid."""
+    return i3.command(f'[pid="{pid}"] mark --add {mark}')
+
+
+def get_pids(subprocesses):
+    """Return subprocesses pids."""
+    return (subprocess.pid for subprocess in subprocesses)
+
+
+async def make_messaging_container(i3, workspace, mark, subprocesses):
+    """Create i3 container for messaging applications."""
+    pids = list(get_pids(subprocesses))
+    await move_apps_to_tmp_workspace(i3, workspace, pids)
+    await wait_for_app_titles(i3, pids)
+    await make_scratchpad(i3, pids)
+    await add_mark(i3, pids[0], mark)
+
+
+async def make_scratchpad(i3, pids):
+    """Send the messaging contaner to the i3 scratchpad."""
+    criterion = f'[pid="{pids[0]}"]'
+    current_workspace = (await i3.get_tree()).find_focused().workspace()
+    await i3.command(
+        f"""{criterion} focus parent; move scratchpad
+            workspace {current_workspace.name}
+            {criterion} scratchpad show, move position center"""
+    )
+
+
+async def mark_on_focus(i3, mark, subprocesses):
+    """Add a mark to the last focused messaging window."""
+    remaining_pids = set(get_pids(subprocesses))
+    focus_events = (
+        event
+        async for event in i3.events("window::focus")
+        if event.container.pid in remaining_pids
+    )
+    termination_events = (
+        await subprocess.wait_as_event() for subprocess in subprocesses
+    )
+
+    async with stream.merge(focus_events, termination_events).stream() as events:
+        async for event in events:
+            if event.change == "termination":
+                remaining_pids.discard(event.pid)
+            elif event.change == "focus":
+                await add_mark(i3, event.container.pid, mark)
+            if not remaining_pids:
+                return
+
+
+def move_apps_to_tmp_workspace(i3, workspace, pids):
+    """Send the subprocesses window to a throwaway workspace."""
+    return i3.command("\n".join(f'assign [pid={pid}] "{workspace}"' for pid in pids))
+
+
+def parse_cli_args():
+    """Parse command-line arguments."""
+    args = docopt(__doc__)
+    return args["<app>"], args["--mark"], args["--workspace"]
+
+
+def spawn_apps(apps):
+    """Start subprocesses for messaging applications."""
+    for app in apps:
+        executable = shutil.which(app)
+        if executable is None:
+            raise ValueError(f"Can't find executable for {app}")
+        yield asyncio.create_subprocess_exec(
+            executable, stdin=DEVNULL, stdout=DEVNULL, stderr=DEVNULL
+        )
+
+
+async def wait_for_app_titles(i3, pids):
+    """Wait for subprocesses to generate a "window" i3 event with change == "title"."""
+    events = i3.events("window::title")
+    remaining_pids = set(pids)
+    while remaining_pids:
+        event = await anext(events)
+        remaining_pids.discard(event.container.pid)
+
+
+async def main():
+    apps, mark, workspace = parse_cli_args()
+    subprocesses = await asyncio.gather(*spawn_apps(apps))
+    i3 = await Connection().connect()
+    await make_messaging_container(i3, mark, workspace, subprocesses)
+    await mark_on_focus(i3, mark, subprocesses)
+
+
+asyncio.run(main())

@@ -4,6 +4,7 @@
 # "packages" profile on Debian only on my personal machine
 
 dotfiles:
+- f_caprine.list
 - f_deb-multimedia.list
 - f_dropbox.list
 - f_etcher.list

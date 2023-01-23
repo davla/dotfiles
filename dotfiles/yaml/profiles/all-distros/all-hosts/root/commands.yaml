@@ -57,6 +57,9 @@ dotfiles:
   f_local_bin_bitwarden-desktop:
     src: usr/local/bin/electron-wayland
     dst: /usr/local/bin/bitwarden-desktop
+  f_local_bin_caprine:
+    src: usr/local/bin/electron-wayland
+    dst: /usr/local/bin/caprine
   f_local_bin_code:
     src: usr/local/bin/electron-wayland
     dst: /usr/local/bin/code
@@ -66,6 +69,9 @@ dotfiles:
   f_local_bin_launcher:
     src: usr/local/bin/launcher
     dst: /usr/local/bin/launcher
+  f_local_bin_messaging:
+    src: usr/local/bin/messaging
+    dst: /usr/local/bin/messaging
   f_local_bin_my-certbot:
     src: usr/local/bin/my-certbot
     dst: /usr/local/bin/my-certbot
@@ -100,6 +106,9 @@ dotfiles:
   f_local_bin_teams:
     src: usr/local/bin/teams
     dst: /usr/local/bin/teams
+  f_local_bin_whatsapp-nativefier:
+    src: usr/local/bin/electron-wayland
+    dst: /usr/local/bin/whatsapp-nativefier
   f_local_bin_wifi:
     src: usr/local/bin/wifi
     dst: /usr/local/bin/wifi
@@ -148,10 +157,12 @@ profiles:
   wayland-wrappers:
     dotfiles:
     - f_local_bin_bitwarden-desktop
+    - f_local_bin_caprine
     - f_local_bin_code
     - f_local_bin_second-on-path
     - f_local_bin_signal-desktop
     - f_local_bin_spotify
+    - f_local_bin_whatsapp-nativefier
 
 variables:
   # These paths are kept as variables since they need to be used both as `dst`

@@ -7,10 +7,6 @@
 # Variables
 #######################################
 
-{%@@ set messaging_client = 'teams'
-    if env['HOST'] == 'work'
-    else 'telegram' @@%}
-
 # Command criteria
 set $android_studio_criterion class="jetbrains-studio"
 set $scratchpad_editor_criterion instance="scratchpad-editor"

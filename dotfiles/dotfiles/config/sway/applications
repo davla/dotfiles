@@ -44,7 +44,7 @@ set {
 bindsym {
     # GUI applications
     $mod+e exec --no-startup-id \
-        swaymsg '[${{@@ messaging_client @@}}_criterion] $scratchpad_show' \
+        swaymsg '[${{@@ messaging_client @@}}_criterion] scratchpad show' \
         || {{@@ messaging_client_cmd @@}}
     $mod+p exec --no-startup-id \
         swaymsg '[$spotify_criterion] $scratchpad_show' \

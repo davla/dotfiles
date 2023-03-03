@@ -42,7 +42,7 @@ alias update='yay -Suyy'
 {%@@ elif env['DISTRO'] == 'debian' and user == 'root' -@@%}
 
 # Updates
-alias update='apt-get update && apt-get upgrade'
+alias update='apt update && apt dist-upgrade && apt autoremove'
 
 {%@@ endif -@@%}
 

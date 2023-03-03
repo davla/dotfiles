@@ -27,8 +27,7 @@ export BASH_ENV="$BDOTDIR/bashenv"
 ########################################
 
 # This variable needs to be set in order for GnuPG agent's headless pinentry to
-# work. It can't be set in .pam_environment because it is initialized by a
-# shell command
+# work. It can't be set via PAM because it is initialized by a shell command.
 export GPG_TTY="$(tty)"
 
 {%@@ endif -@@%}

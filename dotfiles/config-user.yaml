@@ -191,9 +191,6 @@ dotfiles:
       {{@@ xdg_config(
         "autostart/org.gnome.SettingsDaemon.DiskUtilityNotify.desktop"
       ) @@}}
-  f_pam_environment:
-    src: pam_environment
-    dst: ~/.pam_environment
   f_parcellite.service:
     src: config/systemd/user/parcellite.service
     dst: '{{@@ xdg_config("systemd/user/parcellite.service") @@}}'
@@ -390,7 +387,6 @@ profiles:
     - f_gpg-agent.conf
     - f_light-locker.desktop
     - f_org.gnome.SettingsDaemon.DiskUtilityNotify.desktop
-    - f_pam_environment
     - f_parcellite-startup.desktop
     - f_print-applet.desktop
     - f_pulseaudio.desktop

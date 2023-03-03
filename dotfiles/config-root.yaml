@@ -248,6 +248,13 @@ dotfiles:
     actions:
     - _strip '{{@@ pam_login_append_marker @@}}' '{{@@ pam_login_dst @@}}'
     - _append '{{@@ pam_login_dst @@}}' '{{@@ startup_tmp_dst @@}}'
+  f_pam_env.conf:
+    src: etc/security/pam_env.conf
+    # Dynamic path since the dotfile content is appended to dst
+    dst: '{{@@ environment_tmp_dst @@}}'
+    actions:
+    - _strip '{{@@ pam_env_conf_append_marker @@}}' '{{@@ pam_env_conf_dst @@}}'
+    - _append '{{@@ pam_env_conf_dst @@}}' '{{@@ environment_tmp_dst @@}}'
   f_raspberry.automount:
     src: etc/systemd/system/mnt-raspberry.automount
     dst: /etc/systemd/system/mnt-raspberry.automount
@@ -427,10 +434,18 @@ profiles:
   # This profile contains dotfiles used to setup the global shell environment
   environment:
     dotfiles:
+    - f_pam_env.conf
     - f_sudo_insults
     - f_sudo_sudo-group
     actions:
     - environment
+    - _rm '{{@@ environment_tmp_dst @@}}'
+    dynvariables:
+      environment_tmp_dst: mktemp /tmp/environment-append.XXX
+    variables:
+      pam_env_conf_append_marker: >-
+        PAM environment file for user environment variables
+      pam_env_conf_dst: /etc/security/pam_env.conf
 
   # This profile groups dotfiles used to configure login from a getty
   getty-login:

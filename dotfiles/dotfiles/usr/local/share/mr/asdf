@@ -15,7 +15,8 @@ lib =
         asdf plugin list | grep "$INIT_ASDF_PLUGIN" > /dev/null 2>&1 \
             || sudo bash -lc "asdf plugin add $INIT_ASDF_PLUGIN"
         #
-        sudo bash -lc "asdf install && asdf reshim $INIT_ASDF_PLUGIN"
+        sudo bash -lc "asdf install $INIT_ASDF_PLUGIN \
+            && asdf reshim $INIT_ASDF_PLUGIN"
         #
         unset INIT_ASDF_PLUGIN
     }

@@ -1,12 +1,19 @@
-duckduckgo.com
+{%@@ include 'usr/local/etc/frequent-hosts.gui' -@@%}
+
+calendar.google.com
+codewars.com
 facebook.com
+forbrugsforeningen.dk
 forum.pokemoncentral.it
-github.com
 glosbe.com
-google.com
+keep.google.com
+lsb.dk
 nonsolomamma.com
 messenger.com
+moodle.studieskolen.dk
 pokemonshowdown.com
-stackexchange.com
-stackoverflow.com
+track.toggl.com
+translate.google.com
+toggl.com
 wiki.pokemoncentral.it
+youtube.com

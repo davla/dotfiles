@@ -4,10 +4,8 @@
 
 {%@@ if env['HOST'] == 'personal' -@@%}
 
-192.168.1.254     router0
-192.168.1.2     router1
-192.168.1.3     router2
-192.168.1.4   raspberry
+192.168.0.1     router
+192.168.0.2     raspberry
 
 {%@@ endif -@@%}
 

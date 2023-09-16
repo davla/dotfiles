@@ -260,6 +260,9 @@ dotfiles:
   f_vmware-user.service:
     src: config/systemd/user/vmware-user.service
     dst: '{{@@ xdg_config("systemd/user/vmware-user.service") @@}}'
+  f_vscode_argv.json:
+    src: vscode/argv.json
+    dst: ~/.vscode/argv.json
   f_vscode_extension-list.txt:
     src: config/Code/User/extension-list.txt
     # Temporary destination as the file is not read by VSCode at runtime, so it
@@ -432,6 +435,7 @@ profiles:
   vscode:
     dotfiles:
     - d_vscode_snippets
+    - f_vscode_argv.json
     - f_vscode_extension-list.txt
     - f_vscode_keybindings.json
     - f_vscode_settings.json

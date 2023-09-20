@@ -48,6 +48,7 @@ dotfiles:
     src: etc/hosts
     # Dynamic path since the dotfile content is appended to dst
     dst: '{{@@ hosts_tmp_dst @@}}'
+    chmod: 600
     actions:
     - _strip '{{@@ hosts_append_marker @@}}' '{{@@ hosts_dst @@}}'
     - _append '{{@@ hosts_dst @@}}' '{{@@ hosts_tmp_dst @@}}'

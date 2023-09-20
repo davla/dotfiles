@@ -268,6 +268,7 @@ dotfiles:
     # Temporary destination as the file is not read by VSCode at runtime, so it
     # can be deleted
     dst: '{{@@ vscode_tmp_dst @@}}'
+    chmod: 600
     actions:
     # This action installs VSCode extensions listed in the dotfile on-the-fly
     - vscode-install-extensions '{{@@ vscode_tmp_dst @@}}'

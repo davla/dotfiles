@@ -7,9 +7,9 @@
     installation location is different.
 @@#}
 {%@@ macro command(bin) @@%}
-{%@@ if env['DISTRO'] == 'arch' @@%}
+{%@@ if distro_id == 'arch' @@%}
 {{@@ '/usr/lib/i3blocks/%s' | format(bin) @@}}
-{%@@- elif env['DISTRO'] == 'debian' @@%}
+{%@@- elif distro_id == 'debian' @@%}
 {{@@ 'i3blocks-%s' | format(bin) @@}}
 {%@@- endif @@%}
 {%@@ endmacro -@@%}
@@ -36,14 +36,14 @@ interval={{@@ 60 * 10 @@}}
 {%@@ endif -@@%}
 
 # This block shows whether system updates are available
-{%@@ if env['DISTRO'] == 'debian' -@@%}
+{%@@ if distro_id == 'debian' -@@%}
 
 [apt-upgrades]
 command={{@@ command('apt-upgrades') @@}} -s '' -c '{{@@ main_theme_color @@}}' -n '{{@@ i3bar_inactive_color @@}}'
 interval=once
 signal={{@@ updates_signal @@}}
 
-{%@@ elif env['DISTRO'] == 'arch' -@@%}
+{%@@ elif distro_id == 'arch' -@@%}
 
 [arch-upgrades]
 command={{@@ command('arch-update') @@}} | sed -E 's/ updates? available//; s/system up to date/0/'

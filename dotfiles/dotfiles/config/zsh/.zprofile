@@ -2,7 +2,7 @@
 
 # This script initializes zsh login shells
 
-{%@@ if user == 'user' and env['DISTRO'] == 'arch'
+{%@@ if user == 'user' and distro_id == 'arch'
     and not is_headless | is_truthy -@@%}
 
 ########################################

@@ -43,7 +43,7 @@ key[Ctrl-Right]="${terminfo[kRIT5]}"
 [ -n "${key[Ctrl-Right]}" ] && bindkey "${key[Ctrl-Right]}" forward-word
 
 {#@@ Debian has its own version of this patched in the apt package @@#}
-{%@@ if env['DISTRO'] != 'debian' -@@%}
+{%@@ if distro_id != 'debian' -@@%}
 
 # Finally, make sure the terminal is in application mode, when zle is
 # active. Only then are the values from $terminfo valid.

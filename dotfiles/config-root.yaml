@@ -161,6 +161,7 @@ dotfiles:
   f_99-no-wireless-on-wired:
     src: etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
     dst: /etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
+    chmod: 755
   f_asdf-environment:
     src: etc/asdf-environment
     dst: '{{@@ asdf_environment_tmp_dst @@}}'

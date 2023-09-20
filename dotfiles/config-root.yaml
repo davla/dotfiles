@@ -423,7 +423,6 @@ profiles:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/asdf.yaml:optional
     dynvariables:
       asdf_environment_tmp_dst: mktemp /tmp/asdf-env-tmp.XXX
-      asdf_env_tmp_dst: mktemp /tmp/asdf-env-tmp.XXX
     variables:
       asdf_environment_dst: /etc/environment
 
@@ -546,7 +545,6 @@ profiles:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/rustup.yaml:optional
     dynvariables:
       rustup_environment_tmp_dst: mktemp /tmp/rustup-env-tmp.XXX
-      rustup_env_tmp_dst: mktemp /tmp/rustup-env-tmp.XXX
     variables:
       rustup_environment_dst: /etc/environment
 

@@ -2,5 +2,4 @@
 #
 # {{@@ header() @@}}
 
-Defaults    env_keep += "{{@@ vars_with_prefix('rustup_env_var').keys()
-    | map('upper') | join(' ') @@}}"
+Defaults    env_keep += "{{@@ rustup_env_var.keys() | map('upper') | join(' ') @@}}"

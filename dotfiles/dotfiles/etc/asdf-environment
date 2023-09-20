@@ -4,6 +4,6 @@
 #
 # {{@@ header() @@}}
 
-{%@@ for name, value in vars_with_prefix('asdf_env_var').items() -@@%}
+{%@@ for name, value in asdf_env_var.items() -@@%}
     {{@@ name | upper @@}}={{@@ value @@}}
 {%@@ endfor @@%}

@@ -2,5 +2,4 @@
 #
 # {{@@ header() @@}}
 
-Defaults    env_keep += "{{@@ vars_with_prefix('asdf_env_var').keys()
-    | map('upper') | join(' ') @@}}"
+Defaults    env_keep += "{{@@ asdf_env_var.keys() | map('upper') | join(' ') @@}}"

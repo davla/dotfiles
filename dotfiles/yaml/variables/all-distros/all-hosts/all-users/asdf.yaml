@@ -11,7 +11,8 @@ variables:
   asdf_environment_append_marker: Asdf version manager
 
   # These variables encode the environment variables related to asdf
-  asdf_env_var_asdf_home: '{{@@ asdf_home @@}}'
-  asdf_env_var_asdf_config: '{{@@ asdf_config @@}}'
-  asdf_env_var_asdf_config_file: '{{@@ asdf_config @@}}/asdfrc'
-  asdf_env_var_asdf_data_dir: '{{@@ asdf_data @@}}'
+  asdf_env_var:
+    asdf_home: '{{@@ asdf_home @@}}'
+    asdf_config: '{{@@ asdf_config @@}}'
+    asdf_config_file: '{{@@ asdf_config @@}}/asdfrc'
+    asdf_data_dir: '{{@@ asdf_data @@}}'

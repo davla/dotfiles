@@ -1,18 +1,22 @@
 {
-    "isort.args":["--profile", "black"],
-    "isort.importStrategy": "fromEnvironment",
-    "python.formatting.provider": "black",
-    "python.linting.ignorePatterns": [
-        ".vscode/*.py",
-        "**/site-packages/**/*.py",
-        "dotdrop/**/*.py"
-    ],
-    "[python]": {
-        "editor.defaultFormatter": "ms-python.python",
-        "editor.formatOnSave": true,
-        "editor.rulers": [ 88 ],
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": true
-        }
-    }
+  "black-formatter.importStrategy": "fromEnvironment",
+  "isort.args": [
+    "--profile",
+    "black"
+  ],
+  "isort.importStrategy": "fromEnvironment",
+  "python.formatting.provider": "none",
+  "python.linting.ignorePatterns": [
+    "**/site-packages/**/*.py"
+  ],
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    },
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.rulers": [
+      88
+    ]
+  }
 }

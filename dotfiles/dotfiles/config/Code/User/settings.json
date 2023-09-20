@@ -312,6 +312,13 @@
     "Lua.hover.viewString": false,
 
     ////////////////////////////////////////
+    // PowerShell extension
+    ////////////////////////////////////////
+
+    "powershell.codeFormatting.pipelineIndentationStyle": "IncreaseIndentationForFirstPipeline",
+    "powershell.integratedConsole.showOnStartup": false,
+
+    ////////////////////////////////////////
     // Python extension
     ////////////////////////////////////////
 
@@ -319,9 +326,19 @@
     "python.terminal.executeInFileDir": true,
 
     ////////////////////////////////////////
+    // Rust-analyzer extensions
+    ////////////////////////////////////////
+
+    "rust-analyzer.inlayHints.chainingHints.enable": false,
+    "rust-analyzer.inlayHints.parameterHints.enable": false,
+    "rust-analyzer.inlayHints.typeHints.enable": false,
+
+    ////////////////////////////////////////
     // Misc extensions
     ////////////////////////////////////////
 
     "auto-comment-blocks.singleLineBlockOnEnter": true,
-    "shellcheck.run": "onSave"
+    "dotnet.implementType.propertyGenerationBehavior": "preferAutoProperties",
+    "liveshare.presence": true,
+    "shellcheck.run": "onSave",
 }

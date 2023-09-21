@@ -376,7 +376,7 @@ dynvariables:
             ;;
 
         'debian')
-            echo 'empty'
+            echo 'asdf-empty'
             ;;
     esac
   cli_rustup_include: |-
@@ -386,13 +386,13 @@ dynvariables:
             ;;
 
         'debian')
-            echo 'empty'
+            echo 'rustup-empty'
             ;;
     esac
   manual_asdf_include: |-
     case "$DISTRO" in
         'arch')
-            echo 'empty'
+            echo 'asdf-empty'
             ;;
 
         'debian')
@@ -402,7 +402,7 @@ dynvariables:
   manual_rustup_include: |-
     case "$DISTRO" in
         'arch')
-            echo 'empty'
+            echo 'rustup-empty'
             ;;
 
         'debian')

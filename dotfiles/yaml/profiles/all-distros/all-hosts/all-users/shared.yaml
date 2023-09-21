@@ -41,5 +41,3 @@ dynvariables:
   user: '[ "$USER" = "root" ] && echo "root" || echo "user"'
 
 profiles:
-  # This profile serves as placeholder for profile includes
-  empty: {}

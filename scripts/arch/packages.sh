@@ -41,7 +41,7 @@ fi
 # Install AUR helper
 #######################################
 
-if pacman -Qqs yay > /dev/null 2>&1; then
+if pacman -Q --quiet --search yay > /dev/null 2>&1; then
     print_info 'AUR helper already installed'
 else
     print_info 'Install AUR helper'

@@ -94,7 +94,7 @@ esac
 print_info 'Install myrepos'
 case "$DISTRO" in
     'arch')
-        yay -S --needed myrepos
+        pacman -S --needed myrepos
         ;;
 
     'debian')

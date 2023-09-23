@@ -94,8 +94,7 @@ fi
 case "$HOST" in
     'personal')
         print_info "Install CLI packages for $HOST"
-        sudo -u "$USER" yay -S --needed cups cups-pdf nordvpn rustup \
-            zsa-wally-cli
+        sudo -u "$USER" yay -S --needed cups cups-pdf rustup zsa-wally-cli
         ;;
 
     'raspberry')
@@ -144,12 +143,3 @@ if [ "$HOST" != 'raspberry' ]; then
     print_info "Add $USER to docker group"
     usermod -aG docker "$USER"
 fi
-
-case "$HOST" in
-    'personal')
-        # NordVPN
-        print_info 'Configure NordVPN'
-        usermod -aG nordvpn "$USER"
-        sudo -u "$USER" nordvpn-config
-        ;;
-esac

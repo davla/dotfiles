@@ -158,8 +158,8 @@ case "$HOST" in
         print_info "Install CLI packages for $HOST"
         apt-get install apng2gif autorandr cabal-install cups ghc gifsicle \
             git-review handbrake-cli hlint imagemagick lame libghc-hspec-dev \
-            mercurial nordvpn python-requests-futures python3-gdbm \
-            python3-gpg python3-lxml python3-pygments python3-requests \
+            mercurial python-requests-futures python3-gdbm python3-gpg \
+            python3-lxml python3-pygments python3-requests \
             python3-requests-oauthlib thunar-dropbox-plugin
             ;;
 
@@ -208,13 +208,3 @@ apt-get upgrade
 print_info "Enable docker for $USER_NAME"
 groupadd -f docker
 usermod -aG docker "$USER_NAME"
-
-# NordVPN
-case "$HOST" in
-    'personal')
-        print_info 'Configure NordVPN'
-        groupadd -r nordvpn
-        usermod -aG nordvpn "$USER_NAME"
-        sudo -u "$USER_NAME" nordvpn-config
-        ;;
-esac

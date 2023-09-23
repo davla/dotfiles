@@ -51,9 +51,6 @@ dotfiles:
   f_mono.list:
     src: etc/apt/sources.list.d/mono.list
     dst: /etc/apt/sources.list.d/mono.list
-  f_nordvpn.list:
-    src: etc/apt/sources.list.d/nordvpn.list
-    dst: /etc/apt/sources.list.d/nordvpn.list
   f_sid.list:
     src: etc/apt/sources.list.d/sid.list
     dst: /etc/apt/sources.list.d/sid.list

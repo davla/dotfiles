@@ -19,6 +19,6 @@ My dotfiles repository.
   + Telegram
   + BitWarden
 - i3
-  + restart xfce4-terminal in autorandr
+  + verify if alacritty needs restarting
 - append action should not remove
 - use empty dst: instead of mktemp

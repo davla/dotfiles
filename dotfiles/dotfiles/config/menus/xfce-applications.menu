@@ -272,7 +272,7 @@
             <Filename>synaptic.desktop</Filename>
             <Filename>hardinfo.desktop</Filename>
             <Filename>xfce4-taskmanager.desktop</Filename>
-            <Filename>xfce4-terminal.desktop</Filename>
+            <Filename>alacritty.desktop</Filename>
             <Filename>xfce4-about.desktop</Filename>
         </Layout>
     </Menu>

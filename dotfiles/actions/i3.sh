@@ -13,11 +13,11 @@
 print_info 'Install dependencies used in the i3 config file'
 case "$DISTRO" in
     'arch')
-        yay -S --needed dex i3blocks i3-volume
+        yay -S --needed i3blocks i3-volume
         ;;
 
     'debian')
-        sudo apt-get install dex i3blocks
+        sudo apt-get install i3blocks
         sudo apt-get purge i3status
         sudo mr -d /opt/i3-volume -c /opt/.mrconfig checkout
         sudo mr -d /opt/i3-volume -c /opt/.mrconfig install

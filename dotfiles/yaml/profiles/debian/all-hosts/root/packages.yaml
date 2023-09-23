@@ -27,9 +27,6 @@ dotfiles:
   f_alacritty.list:
     src: etc/apt/sources.list.d/alacritty.list
     dst: /etc/apt/sources.list.d/alacritty.list
-  f_android-studio.list:
-    src: etc/apt/sources.list.d/android-studio.list
-    dst: /etc/apt/sources.list.d/android-studio.list
   f_azure-cli.list:
     src: etc/apt/sources.list.d/azure-cli.list
     dst: /etc/apt/sources.list.d/azure-cli.list
@@ -45,9 +42,6 @@ dotfiles:
   f_dropbox.list:
     src: etc/apt/sources.list.d/dropbox.list
     dst: /etc/apt/sources.list.d/dropbox.list
-  f_etcher.list:
-    src: etc/apt/sources.list.d/etcher.list
-    dst: /etc/apt/sources.list.d/etcher.list
   f_firefox-beta.list:
     src: etc/apt/sources.list.d/firefox-beta.list
     dst: /etc/apt/sources.list.d/firefox-beta.list

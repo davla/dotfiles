@@ -22,14 +22,6 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                     > /dev/null
                 ;;
 
-            'android-studio')
-                print_info "Installing apt repository key for $REPO"
-
-                apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' \
-                    --recv-keys 'ADC23DDFAE0436477B8CCDF54DEA8909DC6A13A3' \
-                    > /dev/null
-                ;;
-
             'deb-multimedia')
                 print_info "Installing apt repository key for $REPO"
 
@@ -51,14 +43,6 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
 
                 apt-key adv --keyserver 'hkp://pgp.mit.edu:80' \
                     --recv-keys '1C61A2656FB57B7E4DE0F4C1FC918B335044912E' \
-                    > /dev/null
-                ;;
-
-            'etcher')
-                print_info "Installing apt repository key for $REPO"
-
-                apt-key adv --fetch-keys \
-                    'https://dl.cloudsmith.io/public/balena/etcher/gpg.70528471AFF9A051.key' \
                     > /dev/null
                 ;;
 

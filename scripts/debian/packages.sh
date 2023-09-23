@@ -130,18 +130,17 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
     case "$HOST" in
         'personal')
             print_info "Install GUI packages for $HOST"
-            apt-get install asunder balena-etcher-electron blueman brasero \
-                calibre caprine dropbox gimp gufw handbrake-gtk \
-                libreoffice-calc libreoffice-impress libreoffice-writer kid3 \
-                remmina simple-scan soundconverter system-config-printer \
-                thunderbird transmission-gtk vlc
+            apt-get install asunder blueman brasero calibre caprine dropbox \
+                gimp gufw handbrake-gtk libreoffice-calc libreoffice-impress \
+                libreoffice-writer kid3 remmina simple-scan soundconverter \
+                system-config-printer thunderbird transmission-gtk vlc
                 ;;
     esac
 
     print_info 'Install GUI packages shared across all hosts'
     apt-get install atril baobab code firefox gdebi geany gnome-clocks \
-        gparted hardinfo parcellite pavucontrol peek seahorse spotify-client \
-        synaptic xfce4-screenshooter
+        gnome-disk-utility gparted hardinfo parcellite pavucontrol peek \
+        seahorse spotify-client synaptic xfce4-screenshooter
 
     # Dotfiles
     print_info 'Install GUI packages dotfiles'
@@ -166,16 +165,16 @@ case "$HOST" in
 
     'work')
         print_info "Install CLI packages for $HOST"
-        apt-get install android-studio azure-cli cppcheck dotnet-sdk-6.0 \
-            ffmpeg libasound2-dev libssl-dev libudev-dev mono-complete \
-            open-vm-tools open-vm-tools-desktop teams valgrind
+        apt-get install azure-cli cppcheck dotnet-sdk-6.0 ffmpeg \
+            libasound2-dev libssl-dev libudev-dev mono-complete open-vm-tools \
+            open-vm-tools-desktop teams valgrind
         pip install artifacts-keyring poetry
         ;;
 esac
 
 print_info 'Install CLI packages shared across all hosts'
 apt-get install apt-transport-https autoconf automake build-essential cmake \
-    command-not-found cowsay curl dbus-x11 dex dkms docker-ce dos2unix \
+    command-not-found cowsay curl dbus-x11 dkms docker-ce dos2unix \
     fonts-freefont-otf fonts-nanum fortune g++ gdb git git-secret \
     gvfs-backends hunspell hunspell-en-us hunspell-it intel-microcode jq \
     libnotify-bin libsecret-1-dev lua5.1 lua-check make moreutils nfs-common \

@@ -74,9 +74,9 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
         'personal')
             print_info "Install GUI packages for $HOST"
             sudo -u "$USER" yay -S --needed asunder atril baobab bitwarden \
-                blueman brasero calibre caprine electron firefox-beta-bin \
-                geany gimp gnome-clocks gnome-disk-utility gnome-keyring gufw \
-                handbrake libreoffice-still kid3 remmina seahorse simple-scan \
+                blueman brasero calibre caprine firefox-beta-bin geany \
+                gnome-disk-utility gnome-keyring gufw handbrake \
+                libreoffice-still kid3 remmina seahorse simple-scan \
                 soundconverter telegram-desktop thunderbird transmission-gtk \
                 vlc-git visual-studio-code-bin whatsapp-nativefier
             ;;
@@ -106,8 +106,8 @@ esac
 
 if [ "$HOST" != 'raspberry' ]; then
     print_info 'Install CLI packages for non-headless hosts'
-    sudo -u "$USER" yay -S --needed apng2gif dex docker docker-compose \
-        docker-credential-secretservice gifsicle gdb ghc intel-ucode \
+    sudo -u "$USER" yay -S --needed apng2gif docker docker-compose \
+        docker-credential-secretservice-bin gifsicle gdb ghc intel-ucode \
         libsecret hunspell hunspell-da hunspell-en_US hunspell-it \
         macchina-bin networkmanager polkit-gnome reflector temp-throttle-git
         # dhcpcd doesn't work well with networkmanager (unless configured)
@@ -118,7 +118,7 @@ fi
 
 print_info 'Install CLI packages shared across all hosts'
 sudo -u "$USER" yay -S --needed antibody-bin asdf-vm autoconf automake cmake \
-    cowsay curl dkms dos2unix exa fasd fortune-mod gcc git-secret gnupg htop \
+    cowsay curl dkms dos2unix eza fasd fortune-mod gcc git-secret gnupg htop \
     jq lua luacheck man mercurial moreutils multi-git-status myrepos \
     nfs-utils nyancat otf-ipafont pacman-contrib p7zip pkgfile python \
     python-pip python-pipenv rar shellcheck sudo thefuck ttf-baekmuk \

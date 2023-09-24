@@ -36,6 +36,7 @@ dotfiles:
     src: etc/pacman.conf
     # Dynamic path since the dotfile content is appended to dst
     dst: '{{@@ pacman_tmp_dst @@}}'
+    chmod: 600
     actions:
     - _strip '{{@@ pacman_conf_append_marker @@}}' '{{@@ pacman_conf_dst @@}}'
     - _append '{{@@ pacman_conf_dst @@}}' '{{@@ pacman_tmp_dst @@}}'
@@ -47,14 +48,17 @@ dotfiles:
     src: usr/local/share/pacman/hooks.bin/clean-package-cache
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ clean_package_cache_path @@}}'
+    chmod: 755
   f_pacman_hooks.bin_install-rust-toolchain:
     src: usr/local/share/pacman/hooks.bin/install-rust-toolchain
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ install_rust_toolchain_path @@}}'
+    chmod: 755
   f_pacman_hooks.bin_nordvpn-setup:
     src: usr/local/share/pacman/hooks.bin/nordvpn-setup
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ nordvpn_setup_path @@}}'
+    chmod: 755
   f_pacman_mirrorlists:
     src: etc/pacman.d/mirrorlists
     # Dynamic path as it's used somewhere else too

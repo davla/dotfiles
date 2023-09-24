@@ -10,5 +10,6 @@ variables:
   rustup_environment_append_marker: Rustup
 
   # These variables encode the environment variables related to rustup
-  rustup_env_var_rustup_home: '{{@@ rustup_home @@}}'
-  rustup_env_var_rustup_shims: '{{@@ rustup_shims @@}}'
+  rustup_env_var:
+    rustup_home: '{{@@ rustup_home @@}}'
+    rustup_shims: '{{@@ rustup_shims @@}}'

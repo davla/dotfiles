@@ -161,9 +161,11 @@ dotfiles:
   f_99-no-wireless-on-wired:
     src: etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
     dst: /etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
+    chmod: 755
   f_asdf-environment:
     src: etc/asdf-environment
     dst: '{{@@ asdf_environment_tmp_dst @@}}'
+    chmod: 600
     actions:
     - _strip '{{@@ asdf_environment_append_marker @@}}' '{{@@ asdf_environment_dst @@}}'
     - _append '{{@@ asdf_environment_dst @@}}' '{{@@ asdf_environment_tmp_dst @@}}'
@@ -180,6 +182,7 @@ dotfiles:
     src: etc/zsh/zshrc
     # Dynamic path since the dotfile content is appended to dst
     dst: '{{@@ zsh_tmp_dst @@}}'
+    chmod: 600
     actions:
     - _create_if_empty '{{@@ etc_zshrc_dst @@}}' '#!/usr/bin/env zsh\n'
     - _strip '{{@@ etc_zshrc_append_marker @@}}' '{{@@ etc_zshrc_dst @@}}'
@@ -223,6 +226,7 @@ dotfiles:
     src: etc/login.defs
     # Dynamic path since the dotfile content is appended to dst
     dst: '{{@@ getty_login_tmp_dst @@}}'
+    chmod: 600
     actions:
     - _strip '{{@@ login_defs_append_marker @@}}' '{{@@ login_defs_dst @@}}'
     - _append '{{@@ login_defs_dst @@}}' '{{@@ getty_login_tmp_dst @@}}'
@@ -245,6 +249,7 @@ dotfiles:
     src: etc/pam.d/login
     # Dynamic path since the dotfile content is appended to dst
     dst: '{{@@ startup_tmp_dst @@}}'
+    chmod: 600
     actions:
     - _strip '{{@@ pam_login_append_marker @@}}' '{{@@ pam_login_dst @@}}'
     - _append '{{@@ pam_login_dst @@}}' '{{@@ startup_tmp_dst @@}}'
@@ -252,6 +257,7 @@ dotfiles:
     src: etc/security/pam_env.conf
     # Dynamic path since the dotfile content is appended to dst
     dst: '{{@@ environment_tmp_dst @@}}'
+    chmod: 600
     actions:
     - _strip '{{@@ pam_env_conf_append_marker @@}}' '{{@@ pam_env_conf_dst @@}}'
     - _append '{{@@ pam_env_conf_dst @@}}' '{{@@ environment_tmp_dst @@}}'
@@ -266,6 +272,7 @@ dotfiles:
   f_rustup-environment:
     src: etc/rustup-environment
     dst: '{{@@ rustup_environment_tmp_dst @@}}'
+    chmod: 600
     actions:
     - _strip '{{@@ rustup_environment_append_marker @@}}' '{{@@ rustup_environment_dst @@}}'
     - _append '{{@@ rustup_environment_dst @@}}' '{{@@ rustup_environment_tmp_dst @@}}'
@@ -315,6 +322,7 @@ dotfiles:
     src: usr/share/X11/xkb/rules/base.lst
     # Dynamic path since the dotfile content is inserted into dst
     dst: '{{@@ xkb_tmp_dst @@}}'
+    chmod: 600
     actions:
     - >-
       _strip_file '{{@@ _dotfile_abs_src @@}}' '{{@@ base_lst_dst @@}}'
@@ -325,6 +333,7 @@ dotfiles:
     src: usr/share/X11/xkb/rules/base.xml
     # Dynamic path since the dotfile content is inserted into dst
     dst: '{{@@ xkb_tmp_dst @@}}'
+    chmod: 600
     actions:
     - _strip_xml ".//*[name='intl-custom'].." '{{@@ base_xml_dst @@}}'
     - >-
@@ -333,6 +342,7 @@ dotfiles:
   f_xkb_us:
     src: usr/share/X11/xkb/symbols/us
     dst: '{{@@ xkb_tmp_dst @@}}'
+    chmod: 600
     # Dynamic path since the dotfile content is appended to dst
     actions:
     - _strip '{{@@ symbols_append_marker @@}}' '{{@@ symbols_dst @@}}'
@@ -366,7 +376,7 @@ dynvariables:
             ;;
 
         'debian')
-            echo 'empty'
+            echo 'asdf-empty'
             ;;
     esac
   cli_rustup_include: |-
@@ -376,13 +386,13 @@ dynvariables:
             ;;
 
         'debian')
-            echo 'empty'
+            echo 'rustup-empty'
             ;;
     esac
   manual_asdf_include: |-
     case "$DISTRO" in
         'arch')
-            echo 'empty'
+            echo 'asdf-empty'
             ;;
 
         'debian')
@@ -392,7 +402,7 @@ dynvariables:
   manual_rustup_include: |-
     case "$DISTRO" in
         'arch')
-            echo 'empty'
+            echo 'rustup-empty'
             ;;
 
         'debian')
@@ -413,7 +423,6 @@ profiles:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/asdf.yaml:optional
     dynvariables:
       asdf_environment_tmp_dst: mktemp /tmp/asdf-env-tmp.XXX
-      asdf_env_tmp_dst: mktemp /tmp/asdf-env-tmp.XXX
     variables:
       asdf_environment_dst: /etc/environment
 
@@ -536,7 +545,6 @@ profiles:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/rustup.yaml:optional
     dynvariables:
       rustup_environment_tmp_dst: mktemp /tmp/rustup-env-tmp.XXX
-      rustup_env_tmp_dst: mktemp /tmp/rustup-env-tmp.XXX
     variables:
       rustup_environment_dst: /etc/environment
 

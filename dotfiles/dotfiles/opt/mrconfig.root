@@ -15,7 +15,7 @@ include = cat '{{@@ dirname(_dotfile_abs_dst) @@}}/.mrconfig.gui'
 {%@@- endif @@%}
 
 include = cat '{{@@ '%s/.mrconfig.%s'
-    | format(dirname(_dotfile_abs_dst), env['DISTRO']) @@}}'
+    | format(dirname(_dotfile_abs_dst), distro_id) @@}}'
 
 
 #######################################

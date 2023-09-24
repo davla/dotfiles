@@ -48,77 +48,100 @@ dotfiles:
     src: etc/hosts
     # Dynamic path since the dotfile content is appended to dst
     dst: '{{@@ hosts_tmp_dst @@}}'
+    chmod: 600
     actions:
     - _strip '{{@@ hosts_append_marker @@}}' '{{@@ hosts_dst @@}}'
     - _append '{{@@ hosts_dst @@}}' '{{@@ hosts_tmp_dst @@}}'
   f_local_bin_active-playerctl:
     src: usr/local/bin/active-playerctl
     dst: /usr/local/bin/active-playerctl
+    chmod: 755
   f_local_bin_bitwarden-desktop:
     src: usr/local/bin/electron-wayland
     dst: /usr/local/bin/bitwarden-desktop
+    chmod: 755
   f_local_bin_caprine:
     src: usr/local/bin/electron-wayland
     dst: /usr/local/bin/caprine
+    chmod: 755
   f_local_bin_code:
     src: usr/local/bin/electron-wayland
     dst: /usr/local/bin/code
+    chmod: 755
   f_local_bin_dotdrop:
     src: usr/local/bin/dotdrop
     dst: /usr/local/bin/dotdrop
+    chmod: 755
   f_local_bin_launcher:
     src: usr/local/bin/launcher
     dst: /usr/local/bin/launcher
+    chmod: 755
   f_local_bin_messaging:
     src: usr/local/bin/messaging
     dst: /usr/local/bin/messaging
+    chmod: 755
   f_local_bin_my-certbot:
     src: usr/local/bin/my-certbot
     dst: /usr/local/bin/my-certbot
+    chmod: 755
   f_local_bin_rustup:
     src: usr/local/bin/rustup
     dst: /usr/local/bin/rustup
+    chmod: 755
   f_local_bin_second-on-path:
     src: usr/local/bin/second-on-path
     dst: /usr/local/bin/second-on-path
+    chmod: 755
   f_local_bin_signal-desktop:
     src: usr/local/bin/electron-wayland
     dst: /usr/local/bin/signal-desktop
+    chmod: 755
   f_local_bin_shell-cache:
     src: usr/local/bin/shell-cache
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ shell_cache_path @@}}'
+    chmod: 755
   f_local_bin_spotify:
     src: usr/local/bin/spotify
     dst: /usr/local/bin/spotify
+    chmod: 755
   f_local_bin_systemd-i3-session:
     src: usr/local/bin/systemd-i3-session
     dst: /usr/local/bin/systemd-i3-session
+    chmod: 755
   f_local_bin_systemd-i3-session-watch:
     src: usr/local/bin//systemd-i3-session-watch
     dst: /usr/local/bin/systemd-i3-session-watch
+    chmod: 755
   f_local_bin_systemd-sway-session:
     src: usr/local/bin/systemd-sway-session
     dst: /usr/local/bin/systemd-sway-session
+    chmod: 755
   f_local_bin_systemd-sway-session-watch:
     src: usr/local/bin/systemd-sway-session-watch
     dst: /usr/local/bin/systemd-sway-session-watch
+    chmod: 755
   f_local_bin_teams:
     src: usr/local/bin/teams
     dst: /usr/local/bin/teams
+    chmod: 755
   f_local_bin_whatsapp-nativefier:
     src: usr/local/bin/electron-wayland
     dst: /usr/local/bin/whatsapp-nativefier
+    chmod: 755
   f_local_bin_wifi:
     src: usr/local/bin/wifi
     dst: /usr/local/bin/wifi
+    chmod: 755
   f_local_bin_zsh-notify-sudo-user:
     src: usr/local/bin/zsh-notify-sudo-user
     dst: /usr/local/bin/zsh-notify-sudo-user
+    chmod: 755
   f_local_sbin_host-refresh:
     src: usr/local/sbin/host-refresh
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ host_refresh_path @@}}'
+    chmod: 755
 
 profiles:
   # This profile gathers my custom shell commands and their dependencies

@@ -34,12 +34,12 @@ alias root='sudo -s'
 {%@@ endif -@@%}
 
 {#@@ Updates @@#}
-{%@@ if env['DISTRO'] == 'arch' and user == 'user' -@@%}
+{%@@ if distro_id == 'arch' and user == 'user' -@@%}
 
 # Updates
 alias update='yay -Suyy'
 
-{%@@ elif env['DISTRO'] == 'debian' and user == 'root' -@@%}
+{%@@ elif distro_id == 'debian' and user == 'root' -@@%}
 
 # Updates
 alias update='apt update && apt dist-upgrade && apt autoremove'
@@ -51,7 +51,7 @@ alias update='apt update && apt dist-upgrade && apt autoremove'
     Arch ships with executables that basically use systemd with some wrapping
     https://man.archlinux.org/man/core/systemd-sysvcompat/halt.8.en
 @@#}
-{%@@ if env['DISTRO'] == 'debian' -@@%}
+{%@@ if distro_id == 'debian' -@@%}
 
 # Power control
 alias halt='systemctl poweroff'

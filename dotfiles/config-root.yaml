@@ -482,9 +482,10 @@ profiles:
     - f_i3_sway_10-systemd
     - f_i3_sway_systemd-session.target
     - f_i3_sway_systemd-session-watch.service
-    - f_local_bin_messaging # TODO: as host-dependend stuff
     - f_local_bin_systemd-i3-session
     - f_local_bin_systemd-i3-session-watch
+    import:
+    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/i3-sway.yaml:optional
     include:
     - i3blocks
     - x11
@@ -577,9 +578,10 @@ profiles:
     - f_i3_sway_systemd-session.target
     - f_i3_sway_systemd-session-watch.service
     - f_local_bin_launcher
-    - f_local_bin_messaging # TODO: as host-dependend stuff
     - f_local_bin_systemd-sway-session
     - f_local_bin_systemd-sway-session-watch
+    import:
+    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/i3-sway.yaml:optional
     include:
     - i3blocks
     - wayland-wrappers

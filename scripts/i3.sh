@@ -12,8 +12,8 @@
 print_info 'Install i3'
 case "$DISTRO" in
     'arch')
-        yay -S --needed alacritty autorandr dunst i3blocks i3-gaps i3-volume \
-            picom python-aiostream python-docopt python-i3ipc thunar
+        yay -S --needed alacritty autorandr dunst i3blocks i3 i3-volume picom \
+            python-aiostream python-docopt python-i3ipc thunar
         ;;
 
     'debian')
@@ -21,22 +21,6 @@ case "$DISTRO" in
             python3-aiostream python3-docopt python3-i3ipc thunar
         ;;
 esac
-
-#######################################
-# Install i3-gaps
-#######################################
-
-[ "$DISTRO" = 'debian' ] && {
-    print_info 'Install i3 gaps'
-    I3_GAPS_DIR='/opt/i3-gaps'
-
-    [ ! -d "$I3_GAPS_DIR" ] && sudo git clone \
-        'https://github.com/maestrogerardo/i3-gaps-deb.git' "$I3_GAPS_DIR"
-
-    cd "$I3_GAPS_DIR" || exit
-    sudo ./i3-gaps-deb
-    cd - > /dev/null 2>&1 || exit
-}
 
 #######################################
 # Install i3 dotfiles

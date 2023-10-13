@@ -99,6 +99,7 @@ config:
   banner: true
   create: true
   dotpath: dotfiles
+  force_chmod: true
   func_file:
   - python/functions.py
   ignoreempty: true

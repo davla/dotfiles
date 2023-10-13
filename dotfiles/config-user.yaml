@@ -26,6 +26,7 @@ config:
   dotpath: dotfiles
   filter_file:
   - python/filters.py
+  force_chmod: true
   func_file:
   - python/functions.py
   ignoreempty: true

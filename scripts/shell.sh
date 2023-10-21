@@ -12,7 +12,7 @@
 print_info 'Install system dependencies'
 case "$DISTRO" in
     'arch')
-        yay -S --needed antibody-bin bash bash-completion dash exa fasd \
+        yay -S --needed antibody-bin bash bash-completion dash eza fasd \
             thefuck zsh
         ;;
 

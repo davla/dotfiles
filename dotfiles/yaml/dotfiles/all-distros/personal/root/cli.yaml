@@ -1,7 +1,0 @@
-%YAML 1.2
----
-# This dotfiles file lists the dotfiles to be included in the "cli" profile
-# on my personal machine for root.
-
-dotfiles:
-- f_local_bin_nordvpn-config

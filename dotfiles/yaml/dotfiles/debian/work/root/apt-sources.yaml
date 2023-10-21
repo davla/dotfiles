@@ -4,7 +4,6 @@
 # "packages" profile on Debian only on my work machine
 
 dotfiles:
-- f_android-studio.list
 - f_azure-cli.list
 - f_microsoft-prod.list
 - f_mono.list

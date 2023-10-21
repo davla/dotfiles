@@ -22,14 +22,6 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                     > /dev/null
                 ;;
 
-            'android-studio')
-                print_info "Installing apt repository key for $REPO"
-
-                apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' \
-                    --recv-keys 'ADC23DDFAE0436477B8CCDF54DEA8909DC6A13A3' \
-                    > /dev/null
-                ;;
-
             'deb-multimedia')
                 print_info "Installing apt repository key for $REPO"
 
@@ -54,14 +46,6 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
                     > /dev/null
                 ;;
 
-            'etcher')
-                print_info "Installing apt repository key for $REPO"
-
-                apt-key adv --fetch-keys \
-                    'https://dl.cloudsmith.io/public/balena/etcher/gpg.70528471AFF9A051.key' \
-                    > /dev/null
-                ;;
-
             'firefox-beta')
                 print_info "Installing apt repository key for $REPO"
 
@@ -75,14 +59,6 @@ find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
 
                 apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' \
                     --recv-keys '3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF' \
-                    > /dev/null
-                ;;
-
-            'nordvpn')
-                print_info "Installing apt repository key for $REPO"
-
-                apt-key adv --fetch-keys \
-                    'https://repo.nordvpn.com/gpg/nordvpn_public.asc' \
                     > /dev/null
                 ;;
 

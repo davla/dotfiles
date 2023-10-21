@@ -18,7 +18,7 @@ DOTDROP_DIR="$1"
 print_info 'Install pipenv'
 case "$DISTRO" in
     'arch')
-        yay -S --needed python python-pipenv
+        sudo pacman -S --needed python python-pipenv
         ;;
 
     'debian')

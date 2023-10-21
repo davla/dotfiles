@@ -130,18 +130,17 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
     case "$HOST" in
         'personal')
             print_info "Install GUI packages for $HOST"
-            apt-get install asunder balena-etcher-electron blueman brasero \
-                calibre caprine dropbox gimp gufw handbrake-gtk \
-                libreoffice-calc libreoffice-impress libreoffice-writer kid3 \
-                remmina simple-scan soundconverter system-config-printer \
-                thunderbird transmission-gtk vlc
+            apt-get install asunder blueman brasero calibre caprine dropbox \
+                gimp gufw handbrake-gtk libreoffice-calc libreoffice-impress \
+                libreoffice-writer kid3 remmina simple-scan soundconverter \
+                system-config-printer thunderbird transmission-gtk vlc
                 ;;
     esac
 
     print_info 'Install GUI packages shared across all hosts'
     apt-get install atril baobab code firefox gdebi geany gnome-clocks \
-        gparted hardinfo parcellite pavucontrol peek seahorse spotify-client \
-        synaptic xfce4-screenshooter
+        gnome-disk-utility gparted hardinfo parcellite pavucontrol peek \
+        seahorse spotify-client synaptic xfce4-screenshooter
 
     # Dotfiles
     print_info 'Install GUI packages dotfiles'
@@ -159,29 +158,30 @@ case "$HOST" in
         print_info "Install CLI packages for $HOST"
         apt-get install apng2gif autorandr cabal-install cups ghc gifsicle \
             git-review handbrake-cli hlint imagemagick lame libghc-hspec-dev \
-            mercurial nordvpn python-requests-futures python3-gdbm \
-            python3-gpg python3-lxml python3-pygments python3-requests \
+            mercurial python-requests-futures python3-gdbm python3-gpg \
+            python3-lxml python3-pygments python3-requests \
             python3-requests-oauthlib thunar-dropbox-plugin
             ;;
 
     'work')
         print_info "Install CLI packages for $HOST"
-        apt-get install android-studio azure-cli cppcheck dotnet-sdk-6.0 \
-            ffmpeg libasound2-dev libssl-dev libudev-dev mono-complete \
-            open-vm-tools open-vm-tools-desktop teams valgrind
+        apt-get install azure-cli cppcheck dotnet-sdk-6.0 ffmpeg \
+            libasound2-dev libssl-dev libudev-dev mono-complete open-vm-tools \
+            open-vm-tools-desktop teams valgrind
         pip install artifacts-keyring poetry
         ;;
 esac
 
 print_info 'Install CLI packages shared across all hosts'
-apt-get install apt-transport-https autoconf automake build-essential cmake \
-    command-not-found cowsay curl dbus-x11 dex dkms docker-ce dos2unix \
-    fonts-freefont-otf fonts-nanum fortune g++ gdb git git-secret \
-    gvfs-backends hunspell hunspell-en-us hunspell-it intel-microcode jq \
-    libnotify-bin libsecret-1-dev lua5.1 lua-check make moreutils nfs-common \
-    nyancat p7zip policykit-1-gnome pycodestyle python3 python3-pip rar sct \
-    shellcheck software-properties-common systemd-cron thunar-archive-plugin \
-    uni2ascii unrar vim wmctrl xdotool xserver-xorg-input-synaptics yad zip
+apt-get install alacritty apt-transport-https autoconf automake \
+    build-essential cmake command-not-found cowsay curl dbus-x11 dkms \
+    docker-ce dos2unix fonts-freefont-otf fonts-nanum fortune g++ gdb git \
+    git-secret gvfs-backends hunspell hunspell-en-us hunspell-it \
+    intel-microcode jq libnotify-bin libsecret-1-dev lua5.1 lua-check make \
+    moreutils nfs-common nyancat p7zip policykit-1-gnome pycodestyle python3 \
+    python3-pip rar sct shellcheck software-properties-common systemd-cron \
+    thunar-archive-plugin uni2ascii unrar vim wmctrl xdotool \
+    xserver-xorg-input-synaptics yad zip
 
 # Dotfiles
 print_info 'Install CLI packages dotfiles'
@@ -209,13 +209,3 @@ apt-get upgrade
 print_info "Enable docker for $USER_NAME"
 groupadd -f docker
 usermod -aG docker "$USER_NAME"
-
-# NordVPN
-case "$HOST" in
-    'personal')
-        print_info 'Configure NordVPN'
-        groupadd -r nordvpn
-        usermod -aG nordvpn "$USER_NAME"
-        sudo -u "$USER_NAME" nordvpn-config
-        ;;
-esac

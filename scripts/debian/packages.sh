@@ -165,9 +165,9 @@ case "$HOST" in
 
     'work')
         print_info "Install CLI packages for $HOST"
-        apt-get install azure-cli cppcheck dotnet-sdk-6.0 ffmpeg \
-            libasound2-dev libssl-dev libudev-dev mono-complete open-vm-tools \
-            open-vm-tools-desktop teams valgrind
+        apt-get install azure-cli cppcheck dotnet-sdk-6.0 dotnet-sdk-7.0 \
+            ffmpeg libasound2-dev libssl-dev libudev-dev mono-complete \
+            open-vm-tools open-vm-tools-desktop teams valgrind
         pip install artifacts-keyring poetry
         ;;
 esac

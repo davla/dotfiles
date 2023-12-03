@@ -95,7 +95,8 @@ fi
 case "$HOST" in
     'personal')
         print_info "Install CLI packages for $HOST"
-        sudo -u "$USER" yay -S --needed cups cups-pdf rustup zsa-wally-cli
+        sudo -u "$USER" yay -S --needed cups cups-pdf dropbox rustup \
+            zsa-wally-cli
         ;;
 
     'raspberry')
@@ -144,4 +145,26 @@ sudo -u "$USER" yay -Syyu
 if [ "$HOST" != 'raspberry' ]; then
     print_info "Add $USER to docker group"
     usermod -aG docker "$USER"
+fi
+
+# Dropbox
+if [ "$HOST" = 'personal' ]; then
+    # Prevent Dropbox auto-update by making its directory in $HOME read-only.
+    # Adapted from
+    # https://wiki.archlinux.org/title/dropbox#Prevent_automatic_updates.
+    sudo -u "$USER" sh -c '\
+        rm --recursive --force "$HOME/.dropbox-dist"; \
+        install --directory --mode 000 "$HOME/.dropbox-dist"
+    '
+
+    print_info 'Enable and start dropbox and display device link URL'
+    systemctl enable --now "dropbox@$USER"
+    journalctl --boot --unit "dropbox@$USER" --output cat \
+        --grep 'Please visit' | head -n 1
+
+    printf 'Press enter when authenticated...'
+    # read requires a variable in POSIX shell
+    # shellcheck disable=SC2034
+    read -r ANSWER
+    unset ANSWER
 fi

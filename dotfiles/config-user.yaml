@@ -75,6 +75,9 @@ dotfiles:
     - '*.README'
     upignore:
     - '*.README'
+  d_qt5ct:
+    src: config/qt5ct
+    dst: '{{@@ xdg_config("qt5ct") @@}}'
   d_sway:
     src: config/sway
     dst: '{{@@ xdg_config("sway") @@}}'
@@ -222,9 +225,6 @@ dotfiles:
   f_python_keyring:
     src: config/python_keyring/keyringrc.cfg
     dst: '{{@@ xdg_config("python_keyring/keyringrc.cfg") @@}}'
-  f_qt5ct.conf:
-    src: config/qt5ct/qt5ct.conf
-    dst: '{{@@ xdg_config("qt5ct/qt5ct.conf") @@}}'
   f_sct.service:
     src: config/systemd/user/sct.service
     dst: '{{@@ xdg_config("systemd/user/sct.service") @@}}'
@@ -368,12 +368,12 @@ profiles:
   # both Gtk, Qt and bare X11.
   look-and-feel:
     dotfiles:
+    - d_qt5ct
     - f_fonts.conf
     - f_gtk-2.0_gtkrc
     - f_gtk-3.0_gtk.css
     - f_gtk-3.0_settings.ini
     - f_icons_index.theme
-    - f_qt5ct.conf
     - f_trolltech.conf
     include:
     - look-and-feel-{{@@ display_server @@}}

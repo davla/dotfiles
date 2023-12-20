@@ -11,7 +11,7 @@
 
 print_info 'Install sway'
 yay -S --needed clipman grimshot i3blocks-git i3blocks-contrib-git i3-volume \
-    mako-git python-aiostream python-docopt python-i3ipc sway \
+    mako-git python-aiostream python-docopt python-i3ipc qt5ct sway \
     sway-launcher-desktop ttf-font-icons udiskie wdisplays wev wl-clipboard
 sudo cargo install --root /usr/local swayfocus
 

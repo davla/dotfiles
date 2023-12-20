@@ -12,14 +12,15 @@
 print_info 'Install i3'
 case "$DISTRO" in
     'arch')
-        yay -S --needed autorandr dunst i3blocks i3 i3-volume picom thunar
+        yay -S --needed autorandr dunst i3blocks i3 i3-volume qt5ct picom \
+            thunar
         if [ "$HOST" = 'personal' ]; then
             yay -S --needed python-aiostream python-docopt python-i3ipc
         fi
         ;;
 
     'debian')
-        sudo apt-get install autorandr dunst i3 i3blocks picom thunar
+        sudo apt-get install autorandr dunst i3 i3blocks qt5ct picom thunar
         if [ "$HOST" = 'personal' ]; then
             sudo apt-get install python3-aiostream python3-docopt python3-i3ipc
         fi

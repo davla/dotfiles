@@ -4,15 +4,16 @@
 
 	// List of extensions which should be recommended for users of this workspace.
 	"recommendations": [
-        "bungcip.better-toml",
         "coolbear.systemd-unit-file",
         "dcasella.i3",
         "deitry.apt-source-list-syntax",
         "editorconfig.editorconfig",
         "hangxingliu.vscode-systemd-support",
         "mads-hartmann.bash-ide-vscode",
-        "ms-python.python",
+        "ms-python.black-formatter",
+        "ms-python.isort",
         "nico-castell.linux-desktop-file",
+        "tamasfe.even-better-toml",
         "timonwong.shellcheck",
         "wholroyd.jinja",
     ]

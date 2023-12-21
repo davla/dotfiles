@@ -232,13 +232,13 @@ dotfiles:
     src: ssh/config
     dst: ~/.ssh/config
   f_sway_bar:
-    src: templating/i3-sway/bar
+    src: shared/i3-sway/bar
     dst: '{{@@ xdg_config("sway/bar") @@}}'
   f_sway_containers:
-    src: templating/i3-sway/containers
+    src: shared/i3-sway/containers
     dst: '{{@@ xdg_config("sway/containers") @@}}'
   f_sway_modes:
-    src: templating/i3-sway/modes
+    src: shared/i3-sway/modes
     dst: '{{@@ xdg_config("sway/modes") @@}}'
   f_swayfocus.service:
     src: config/systemd/user/swayfocus.service

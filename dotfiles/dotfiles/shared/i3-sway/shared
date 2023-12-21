@@ -25,7 +25,7 @@ include {{@@ path @@}}
 
 {%@@- include [
     '%s/%s' | format(dirname(_dotfile_abs_src), path),
-    'templating/i3-sway/' + path
+    'shared/i3-sway/' + path
 ] with context @@%}
 
 {%@@- endif @@%}

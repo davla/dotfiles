@@ -2,4 +2,4 @@
 #
 # i3 config file (v4)
 
-{%@@ include 'templating/i3-sway/shared' @@%}
+{%@@ include 'shared/i3-sway/shared' @@%}

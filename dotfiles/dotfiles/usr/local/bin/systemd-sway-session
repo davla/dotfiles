@@ -1,4 +1,4 @@
-{%@@ from 'templating/i3-sway/systemd-graphical-session'
+{%@@ from 'shared/i3-sway/systemd-graphical-session'
     import systemd_graphical_session @@%}
 
 {{@@- systemd_graphical_session(

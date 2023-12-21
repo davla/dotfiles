@@ -61,3 +61,4 @@ variables:
   dunstrc_dst: '{{@@ xdg_config("dunst/dunstrc.lodpi") @@}}'
   gtk2_gtkrc_dst: gtkrc.lodpi
   gtk3_settings_dst: '{{@@ xdg_config("gtk-3.0/settings.ini.lodpi") @@}}'
+  gtk4_settings_dst: '{{@@ xdg_config("gtk-4.0/settings.ini.lodpi") @@}}'

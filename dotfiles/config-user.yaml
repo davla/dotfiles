@@ -160,11 +160,17 @@ dotfiles:
     src: config/gtk-2.0/gtkrc.lodpi
     dst: '{{@@ "%s/%s" | format(gtk2_path, gtk2_gtkrc_dst | default("gtkrc")) @@}}'
   f_gtk-3.0_gtk.css:
-    src: config/gtk-3.0/gtk.css
+    src: shared/gtk/gtk.css
     dst: '{{@@ xdg_config("gtk-3.0/gtk.css") @@}}'
   f_gtk-3.0_settings.ini:
     src: config/gtk-3.0/settings.ini.lodpi
     dst: '{{@@ gtk3_settings_dst | default(xdg_config("gtk-3.0/settings.ini")) @@}}'
+  f_gtk-4.0_gtk.css:
+    src: shared/gtk/gtk.css
+    dst: '{{@@ xdg_config("gtk-4.0/gtk.css") @@}}'
+  f_gtk-4.0_settings.ini:
+    src: config/gtk-4.0/settings.ini.lodpi
+    dst: '{{@@ gtk4_settings_dst | default(xdg_config("gtk-4.0/settings.ini")) @@}}'
   f_hgrc:
     src: config/hg/hgrc
     dst: '{{@@ xdg_config("hg/hgrc") @@}}'
@@ -373,6 +379,8 @@ profiles:
     - f_gtk-2.0_gtkrc
     - f_gtk-3.0_gtk.css
     - f_gtk-3.0_settings.ini
+    - f_gtk-4.0_gtk.css
+    - f_gtk-4.0_settings.ini
     - f_icons_index.theme
     - f_trolltech.conf
     include:

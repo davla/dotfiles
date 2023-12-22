@@ -6,11 +6,14 @@ actions:
   post:
     autorandr: sh actions/autorandr.sh "{0}"
 
-    # This action applies the cursor theme and size via gsettings. The settings
-    # file are stored in binary format, so no dotfile management is possible.
-    gsettings-icon-theme: |-
-      gsettings set org.gnome.desktop.interface cursor-theme "{0}"
-      gsettings set org.gnome.desktop.interface cursor-size "{1}"
+    # This action applies gtk settings via gsettings. The settings are stored
+    # in binary format, so no dotfile management is possible. The input file is
+    # a custom-made JSON file in this repository, which is only processed by
+    # this action and not actually saved anywhere.
+    gsettings: |
+      jq "to_entries[] | .key as \$schema | .value | to_entries[] \
+              | [\$schema, .key, .value][]" '{0}' \
+          | xargs -n 3 gsettings set
 
     i3: sh actions/i3.sh
 
@@ -30,6 +33,8 @@ config:
   func_file:
   - python/functions.py
   ignoreempty: true
+  import_actions:
+  - yaml/actions/shared.yaml
   import_configs:
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ output_scaling @@}}.yaml:optional
@@ -156,6 +161,13 @@ dotfiles:
   f_gpg-agent.conf:
     src: gnupg/gpg-agent.conf
     dst: ~/.gnupg/gpg-agent.conf
+  # Dynamic dst because the file is not actually installed but rather processed
+  # by the action and it's deleted afterwards.
+  f_gsettings.json:
+    src: shared/gtk/gsettings.json
+    dst: '{{@@ look_and_feel_tmp_dst @@}}'
+    actions:
+    - gsettings '{{@@ _dotfile_abs_dst @@}}'
   f_gtk-2.0_gtkrc:
     src: config/gtk-2.0/gtkrc.lodpi
     dst: '{{@@ "%s/%s" | format(gtk2_path, gtk2_gtkrc_dst | default("gtkrc")) @@}}'
@@ -376,6 +388,7 @@ profiles:
     dotfiles:
     - d_qt5ct
     - f_fonts.conf
+    - f_gsettings.json
     - f_gtk-2.0_gtkrc
     - f_gtk-3.0_gtk.css
     - f_gtk-3.0_settings.ini
@@ -388,8 +401,10 @@ profiles:
     - look-and-feel-{{@@ output_scaling @@}}
     variables:
       is_headless: false
+    dynvariables:
+      look_and_feel_tmp_dst: mktemp /tmp/look-and-feel-tmp.XXX
     actions:
-    - gsettings-icon-theme '{{@@ cursor_theme @@}}' '{{@@ cursor_size @@}}'
+    - _rm '{{@@ look_and_feel_tmp_dst @@}}'
 
   # This profile contains dotfiles used when the user session starts.
   startup:

@@ -1,0 +1,21 @@
+{#@@
+    This is a custom-made file. It is not actually saved anywhere on the file
+    system, but rather processed by a program to set some configuration via
+    gsettings. In fact, gsettings stores its settings in binary format, so
+    there's no configuration file to just copy somewhere on the file system.
+
+    The top-level key are gsettings schemas, while the nested values are
+    key-value pairs of settings values in such schema.
+@@#}
+{
+    "org.gnome.desktop.interface": {
+        "color-scheme": "prefer-dark",
+        "cursor-blink": false,
+        "cursor-size": "{{@@ cursor_size @@}}",
+        "cursor-theme": "{{@@ cursor_theme @@}}",
+        "font-name": "{{@@ font @@}}",
+        "gtk-theme": "{{@@ theme @@}}",
+        "icon-theme": "{{@@ icon_theme @@}}",
+        "monospace-font-name": "DejaVuSansMono"
+    }
+}

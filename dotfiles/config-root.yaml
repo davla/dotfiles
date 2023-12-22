@@ -104,8 +104,7 @@ config:
   - python/functions.py
   ignoreempty: true
   import_actions:
-  - yaml/actions/append.yaml
-  - yaml/actions/insert.yaml
+  - yaml/actions/*.yaml
   import_configs:
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
   - yaml/profiles/all-distros/all-hosts/all-users/shared.yaml

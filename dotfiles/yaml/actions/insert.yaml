@@ -24,7 +24,6 @@ actions:
       parent.insert(index + 1, node)
       dest_document.write('{2}', encoding='UTF-8', xml_declaration=True)
       EOF
-    _rm: rm -f {0}
     _strip_file: |-
       START="$(head -n 1 {0} | xargs -i grep -nFm 1 '{{}}' {1} \
          | cut -d ':' -f 1)"

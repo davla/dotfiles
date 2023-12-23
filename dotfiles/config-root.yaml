@@ -163,6 +163,9 @@ dotfiles:
     src: etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
     dst: /etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
     chmod: 755
+  f_99-philips-tv-hdmi.lua:
+    src: etc/wireplumber/main.lua.d/99-philips-tv-hdmi.lua
+    dst: /etc/wireplumber/main.lua.d/99-philips-tv-hdmi.lua
   f_asdf-environment:
     src: etc/asdf-environment
     dst: '{{@@ asdf_environment_tmp_dst @@}}'
@@ -441,6 +444,7 @@ profiles:
   # This profile contains dotfiles used to setup the global shell environment
   environment:
     dotfiles:
+    - f_99-philips-tv-hdmi.lua
     - f_pam_env.conf
     - f_sudo_insults
     - f_sudo_sudo-group

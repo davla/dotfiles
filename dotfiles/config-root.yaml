@@ -152,9 +152,6 @@ dotfiles:
     src: usr/local/share/mr
     # Dynamic path since it's used somewhere else too
     dst: '{{@@ mr_libs_path @@}}'
-  d_xorg.conf.d:
-    src: etc/X11/xorg.conf.d
-    dst: /etc/X11/xorg.conf.d
   f_80i3blocks:
     src: etc/apt/apt.conf.d/80i3blocks
     dst: /etc/apt/apt.conf.d/80i3blocks
@@ -444,8 +441,6 @@ profiles:
   environment:
     dotfiles:
     - f_pam_env.conf
-    - f_sudo_insults
-    - f_sudo_sudo-group
     actions:
     - environment
     - _rm '{{@@ environment_tmp_dst @@}}'
@@ -506,13 +501,6 @@ profiles:
     - d_i3blocks_network-status
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/i3blocks.yaml:optional
-
-  # This profile contains dotfiles related to localization and timezones
-  locales:
-    import:
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/locales.yaml
-    actions:
-    - locales
 
   # This profile holds dotfiles used to install software manually, that is
   # without the aid of a package manager
@@ -577,6 +565,19 @@ profiles:
         GNOME Keyring startup and automatic login keyring unlocking
       pam_login_dst: /etc/pam.d/login
 
+  # This profile contains generic system-wide configuration, such as sudo and
+  # locales
+  system-tweaks:
+    dotfiles:
+    - f_sudo_insults
+    - f_sudo_sudo-group
+    include:
+    - system-tweaks-{{@@ display_server @@}}
+    import:
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/locales.yaml
+    actions:
+    - locales
+
   # This profile includes sway dotfiles that require root privileges to be
   # installed
   sway:
@@ -594,11 +595,6 @@ profiles:
     - wayland-wrappers
     variables:
       wm_name: sway
-
-  # This profile contains X11 configuration files
-  x11:
-    dotfiles:
-    - d_xorg.conf.d
 
   # This profile groups keyboard layout dotfiles
   xkb:

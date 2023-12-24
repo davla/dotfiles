@@ -19,9 +19,9 @@
 # All the available bot steps. In a variable so that we can check for validity
 # when interactively prompting the user.
 STEPS="custom-commands, ddclient, dotdrop, environment, getty-login, \
-graphical-login, hardware, i3, keyboard-layout, locales, manual, network, \
-nfs, packages, repos, security, shells, ssh, startup, sway, themes, timers, \
-users, xfce"
+graphical-login, hardware, i3, keyboard-layout, manual, network, nfs, \
+packages, repos, security, shells, ssh, startup, sway, system-tweaks, themes, \
+timers, users, xfce"
 
 # Colors
 RESET_COLOR='\033[0;0m'
@@ -377,6 +377,20 @@ case "$STEP" in
         ;;
 esac
 case "$STEP" in
+    'manual'|'all')
+        # Manual applications install
+        $STEP_RUNNER "sudo -E sh -e -l scripts/manually.sh $USER" \
+            'install manually managed applications'
+        ;;
+esac
+case "$STEP" in
+    'system-tweaks'|'all')
+        # System-wide configuration, sucha as sudo and locales
+        $STEP_RUNNER 'dotdrop -U root install -p system-tweaks' \
+            'install system-wide configuration'
+        ;;
+esac
+case "$STEP" in
     'getty-login'|'all')
         # Getty login manager
         $STEP_RUNNER 'dotdrop -U root install -p getty-login' \
@@ -388,13 +402,6 @@ case "$STEP" in
         # Graphical login manager
         $STEP_RUNNER 'sudo -E sh -e scripts/graphical-login.sh' \
             'install a graphical login manager'
-        ;;
-esac
-case "$STEP" in
-    'manual'|'all')
-        # Manual applications install
-        $STEP_RUNNER "sudo -E sh -e -l scripts/manually.sh $USER" \
-            'install manually managed applications'
         ;;
 esac
 case "$STEP" in
@@ -413,12 +420,6 @@ case "$STEP" in
     'xfce'|'all')
         # Xfce
         $STEP_RUNNER 'sh -e scripts/xfce.sh' 'install Xfce'
-        ;;
-esac
-case "$STEP" in
-    'locales'|'all')
-        # Locales
-        $STEP_RUNNER 'dotdrop -U root install -p locales' 'configure locales'
         ;;
 esac
 case "$STEP" in

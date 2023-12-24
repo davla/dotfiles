@@ -18,10 +18,10 @@
 
 # All the available bot steps. In a variable so that we can check for validity
 # when interactively prompting the user.
-STEPS="dotdrop, custom-commands, environment, packages, getty-login, \
-graphical-login, manual, i3, sway, xfce, locales, keyboard-layout, startup, \
-timers, network, users, security, ssh, nfs, ddclient, udev, shells, themes, \
-repos"
+STEPS="custom-commands, ddclient, dotdrop, environment, getty-login, \
+graphical-login, hardware, i3, keyboard-layout, locales, manual, network, \
+nfs, packages, repos, security, shells, ssh, startup, sway, themes, timers, \
+users, xfce"
 
 # Colors
 RESET_COLOR='\033[0;0m'
@@ -447,6 +447,13 @@ case "$STEP" in
         ;;
 esac
 case "$STEP" in
+    'hardware'|'all')
+        # Hardware
+        $STEP_RUNNER "sudo -E sh -e scripts/hardware.sh $USER" \
+            'apply hardware tweaks'
+        ;;
+esac
+case "$STEP" in
     'users'|'all')
         # Users and passwords
         $STEP_RUNNER 'sh -e scripts/users.sh' \
@@ -474,12 +481,6 @@ case "$STEP" in
     'ddclient'|'all')
         # Ddclient
         $STEP_RUNNER 'dotdrop -U root install -p ddclient' 'set up ddclient'
-        ;;
-esac
-case "$STEP" in
-    'udev'|'all')
-        # Udev
-        $STEP_RUNNER "sudo -E sh -e scripts/udev.sh $USER" 'set up udev rules'
         ;;
 esac
 case "$STEP" in

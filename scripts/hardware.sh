@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-# This script sets up udev. This entails:
-# - Installing the rules
+# This script sets up hardware tweaks. This entails:
+# - Installing hardware-related configuration files.
 # - Adding the passed users to the groups used by the udev rules.
 
 # This doesn't work if this script is sourced
@@ -11,8 +11,8 @@
 # Install udev rules
 #######################################
 
-print_info 'Install udev rules'
-dotdrop install -p udev
+print_info 'Install hardware dotfiles'
+dotdrop install -p hardware
 
 #######################################
 # Add user to groups
@@ -20,5 +20,5 @@ dotdrop install -p udev
 
 for HID_USER in "$@"; do
     print_info "Add user '$HID_USER' to groups"
-    usermod -a -G hid,input "$HID_USER"
+    usermod --append --groups hid,input "$HID_USER"
 done

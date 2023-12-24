@@ -443,7 +443,6 @@ profiles:
   # This profile contains dotfiles used to setup the global shell environment
   environment:
     dotfiles:
-    - f_99-philips-tv-hdmi.lua
     - f_pam_env.conf
     - f_sudo_insults
     - f_sudo_sudo-group
@@ -475,6 +474,12 @@ profiles:
     dotfiles:
     - f_lightdm.conf.d_02_custom.conf
     - f_lightdm-gtk-greeter.conf.d_02_custom.conf
+
+  # This profile contains dotfiles related to hardware-related configuration
+  hardware:
+    dotfiles:
+    - f_99-philips-tv-hdmi.lua
+    - f_udev_999-hid.rules
 
   # This profile includes the i3 session dotfiles that require root privileges
   # to be installed
@@ -589,11 +594,6 @@ profiles:
     - wayland-wrappers
     variables:
       wm_name: sway
-
-  # This profile includes udev configuration
-  udev:
-    dotfiles:
-    - f_udev_999-hid.rules
 
   # This profile contains X11 configuration files
   x11:

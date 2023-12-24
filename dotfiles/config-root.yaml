@@ -135,9 +135,6 @@ dotfiles:
     dst: '{{@@ asdf_config @@}}'
     actions:
     - asdf
-  d_exports.d:
-    src: etc/exports.d
-    dst: /etc/exports.d
   d_i3blocks_keyindicator2:
     src: usr/local/lib/i3blocks/keyindicator2
     dst: /usr/local/lib/i3blocks/keyindicator2
@@ -315,6 +312,9 @@ dotfiles:
     dst: /etc/systemd/system/underclock.service
     actions:
     - systemd-enable '{{@@ _dotfile_abs_src @@}}'
+  f_whole-fs.exports:
+    src: etc/exports.d/whole-fs.exports
+    dst: /etc/exports.d/whole-fs.exports
   f_xkb_base.lst:
     src: usr/share/X11/xkb/rules/base.lst
     # Dynamic path since the dotfile content is inserted into dst
@@ -432,11 +432,6 @@ profiles:
     - '{{@@ cli_asdf_include @@}}'
     - '{{@@ cli_rustup_include @@}}'
 
-  # This profile includes configuration files for ddclient
-  ddclient:
-    dotfiles:
-    - f_ddclient.conf
-
   # This profile contains dotfiles used to setup the global shell environment
   environment:
     dotfiles:
@@ -519,10 +514,11 @@ profiles:
     - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/network.yaml:optional
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/network.yaml:optional
 
-  # This profile holds nfs configurations and exports
-  nfs:
+  # This profile collects useful configuration for accessing a host remotely
+  remote-access:
     dotfiles:
-    - d_exports.d
+    - f_sshd_config.d_990-raspberry.conf
+    - f_whole-fs.exports
 
   # This profile contains dotfiles used to configure the code workspace
   repos:
@@ -543,11 +539,6 @@ profiles:
       rustup_environment_tmp_dst: mktemp /tmp/rustup-env-tmp.XXX
     variables:
       rustup_environment_dst: /etc/environment
-
-  # This profile includes SSH server configuration files
-  ssh:
-    dotfiles:
-    - f_sshd_config.d_990-raspberry.conf
 
   # This profile collects system startup jobs and configuration dotfiles
   startup:

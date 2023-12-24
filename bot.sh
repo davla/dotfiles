@@ -18,10 +18,9 @@
 
 # All the available bot steps. In a variable so that we can check for validity
 # when interactively prompting the user.
-STEPS="custom-commands, ddclient, dotdrop, environment, getty-login, \
-graphical-login, hardware, i3, keyboard-layout, manual, network, nfs, \
-packages, repos, security, shells, ssh, startup, sway, system-tweaks, themes, \
-timers, users, xfce"
+STEPS="custom-commands, dotdrop, environment, getty-login, graphical-login, \
+hardware, i3, keyboard-layout, manual, network, packages, remote-access, \
+repos, security, shells, startup, sway, system-tweaks, themes, timers, xfce"
 
 # Colors
 RESET_COLOR='\033[0;0m'
@@ -455,34 +454,16 @@ case "$STEP" in
         ;;
 esac
 case "$STEP" in
-    'users'|'all')
-        # Users and passwords
-        $STEP_RUNNER 'sh -e scripts/users.sh' \
-            'set up users and their passwords'
-        ;;
-esac
-case "$STEP" in
     'security'|'all')
         # SSH and GPG keys
         $STEP_RUNNER "sh -e scripts/security.sh $*" 'generate SSH and GPG keys'
         ;;
 esac
 case "$STEP" in
-    'ssh'|'all')
-        # SSH
-        $STEP_RUNNER 'dotdrop -U root install -p ssh' 'set up the ssh server'
-        ;;
-esac
-case "$STEP" in
-    'nfs'|'all')
-        # NFS
-        $STEP_RUNNER 'dotdrop -U root install -p nfs' 'set up the nfs sharing'
-esac
-case "$STEP" in
-    'ddclient'|'all')
-        # Ddclient
-        $STEP_RUNNER 'dotdrop -U root install -p ddclient' 'set up ddclient'
-        ;;
+    'remote-access'|'all')
+        # Remote access configuration, such as ssh and nfs
+        $STEP_RUNNER 'sudo -E sh -e scripts/remote-access.sh' \
+            'set up remote access'
 esac
 case "$STEP" in
     'shells'|'all')

@@ -14,4 +14,4 @@
 # the environment snippet because non-root users shouldn't have it overwritten.
 export CARGO_HOME="{{@@ rustup_shims @@}}"
 
-exec second-on-path rustup "$@"
+exec {{@@ second_on_path('rustup') @@}} "$@"

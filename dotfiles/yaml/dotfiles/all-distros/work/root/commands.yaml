@@ -5,6 +5,5 @@
 
 dotfiles:
 - f_local_bin_active-playerctl
-- f_local_bin_second-on-path
 - f_local_bin_teams
 - f_local_bin_zsh-notify-sudo-user

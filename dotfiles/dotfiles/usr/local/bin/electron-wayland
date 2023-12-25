@@ -16,7 +16,7 @@
 # Add Electron Ozone options
 ########################################
 
-exec second-on-path {{@@ executable @@}} \
+exec {{@@ second_on_path(executable) @@}} \
     --enable-features=UseOzonePlatform \
     --ozone-platform=wayland \
     --ozone-platform-hint=auto \

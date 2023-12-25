@@ -77,8 +77,9 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
                 blueman brasero calibre caprine firefox-beta-bin geany \
                 gnome-disk-utility gnome-keyring gufw handbrake \
                 libreoffice-still kid3 remmina seahorse simple-scan \
-                soundconverter telegram-desktop thunderbird transmission-gtk \
-                vlc-git visual-studio-code-bin whatsapp-nativefier
+                soundconverter spotify telegram-desktop thunderbird \
+                transmission-gtk vlc-git visual-studio-code-bin \
+                whatsapp-nativefier
             ;;
     esac
 

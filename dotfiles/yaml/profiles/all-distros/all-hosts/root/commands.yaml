@@ -103,7 +103,7 @@ dotfiles:
     dst: '{{@@ shell_cache_path @@}}'
     chmod: 755
   f_local_bin_spotify:
-    src: usr/local/bin/spotify
+    src: usr/local/bin/electron-wayland
     dst: /usr/local/bin/spotify
     chmod: 755
   f_local_bin_systemd-i3-session:

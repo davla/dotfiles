@@ -27,7 +27,7 @@ set {
     $scratchpad_editor_criterion app_id="scratchpad-editor"
     $scratchpad_term_criterion title="scratchpad-terminal"
     $signal_criterion app_id="signal"
-    $spotify_criterion con_mark="spotify"
+    $spotify_criterion title="Spotify" app_id="^$"
     $teams_criterion instance=".*microsoft teams.*"
     $telegram_criterion app_id=".*telegram.*" title=".*Telegram.*"
     $thunderbird_criterion app_id="thunderbird"

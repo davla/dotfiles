@@ -78,7 +78,7 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
                 gnome-disk-utility gnome-keyring gufw handbrake \
                 libreoffice-still kid3 remmina seahorse simple-scan \
                 soundconverter spotify telegram-desktop thunderbird \
-                transmission-gtk vlc-git visual-studio-code-bin \
+                transmission-gtk vlc-git visual-studio-code-insiders-bin \
                 whatsapp-nativefier
             ;;
     esac

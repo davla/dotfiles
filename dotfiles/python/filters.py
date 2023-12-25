@@ -8,9 +8,8 @@ This module defines some custom filters to be used in dotdrop jinja2 templates.
 from pathlib import Path
 from typing import Union
 
-from markupsafe import soft_str
-
 import python.lib as lib
+from markupsafe import soft_str
 
 
 def format_by(arg: str, format: str) -> str:
@@ -45,7 +44,7 @@ def find_in_home(path: str) -> str:
     if path.expand_home().exists():
         return str(path)
 
-    found_paths = Path('/home').glob('**/{!s}'.format(path.strip_home()))
+    found_paths = Path("/home").glob("**/{!s}".format(path.strip_home()))
     try:
         return str(next(found_paths))
     except StopIteration:
@@ -69,13 +68,13 @@ def is_truthy(value: Union[bool, str]) -> bool:
     :return: whether value is to be considered as a bool True.
     """
     if type(value) == str:
-        value = value.lower() == 'true'
+        value = value.lower() == "true"
     return value
 
 
 def home_abs2var(path: str) -> str:
     """Replace the user's home directory absolute path with '$HOME'."""
-    return lib.abs_home_first.sub('$HOME', path)
+    return lib.abs_home_first.sub("$HOME", path)
 
 
 def tildeTo(path: str, replacement: str) -> str:
@@ -85,4 +84,4 @@ def tildeTo(path: str, replacement: str) -> str:
 
 def tilde2home(path: str) -> str:
     """Replace leading tilde with '$HOME'."""
-    return tildeTo(path, replacement='$HOME')
+    return tildeTo(path, replacement="$HOME")

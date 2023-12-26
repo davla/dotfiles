@@ -8,6 +8,8 @@ actions:
   post:
     repo-keys: sh ./actions/repo-keys.sh '{{@@ apt_keys_dir @@}}'
 
+    recursive-exec-permissions: chmod +x -R '{0}'
+
 config:
   backup: false
   banner: true
@@ -25,9 +27,17 @@ config:
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
+  d_dpkg_hooks:
+    src: usr/local/share/dpkg
+    dst: /usr/local/share/dpkg
+    actions:
+    - recursive-exec-permissions '{{@@ _dotfile_abs_dst @@}}'
   f_alacritty.sources:
     src: etc/apt/sources.list.d/alacritty.sources
     dst: /etc/apt/sources.list.d/alacritty.sources
+  f_apt.conf.d_dpkg-hooks:
+    src: etc/apt/apt.conf.d/70dpkg-hooks
+    dst: /etc/apt/apt.conf.d/70dpkg-hooks
   f_azure-cli.sources:
     src: etc/apt/sources.list.d/azure-cli.sources
     dst: /etc/apt/sources.list.d/azure-cli.sources
@@ -86,7 +96,9 @@ profiles:
   # This profile collects apt repository files
   packages:
     dotfiles:
+    - d_dpkg_hooks
     - f_alacritty.sources
+    - f_apt.conf.d_dpkg-hooks
     - f_firefox.sources
     - f_debian-unstable.sources
     - f_docker.sources

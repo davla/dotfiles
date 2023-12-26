@@ -1,0 +1,45 @@
+#!/usr/bin/env sh
+
+# This script is meant to execute actions before specific packages are
+# uninstalled via APT. For the time being, it just removes some entries from
+# the Debian alternatives system.
+
+# This doesn't work if the script is sourced
+. "$(dirname "$0")/lib"
+
+# This function removes an alternative from the Debian alternative system.
+#
+# Arguments:
+#   - $1: The name of the binary to add to the alternatives system
+#   - $2: The alternatives group name
+rm_alternative() {
+    RM_ALT_BIN_NAME="$1"
+    RM_ALT_GROUP_NAME="$2"
+
+    # If the executable is not found on PATH, there's nothing to setup yet.
+    # This script is executed multiple times by dpkg, not all of them have the
+    # package fully unpacked on the system.
+    RM_ALT_BIN_PATH="$(which "$RM_ALT_BIN_NAME")" || return 0
+
+    printf '\033[0;32m[INFO]\033[0m Remove "%s" from "%s" alternatives.\n' \
+        "$RM_ALT_BIN_NAME" "$RM_ALT_GROUP_NAME"
+    update-alternatives --remove "$RM_ALT_GROUP_NAME" "$RM_ALT_BIN_PATH"
+
+    unset RM_ALT_GROUP_NAME RM_ALT_BIN_NAME RM_ALT_BIN_PATH
+}
+
+case "$(apt_operation)" in
+    'autopurge'|'autoremove'|'purge'|'remove')
+        for PACKAGE in $(apt_packages); do
+            case "$PACKAGE" in
+                *code-insiders*)
+                    rm_alternative 'code-insiders' 'code'
+                    ;;
+
+                *firefox-beta*)
+                    rm_alternative 'firefox-beta' 'firefox'
+                    ;;
+            esac
+        done
+        ;;
+esac

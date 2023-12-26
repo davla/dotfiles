@@ -1,0 +1,57 @@
+#!/usr/bin/env sh
+
+# This script contains utility functions for dpkg hooks
+
+# This variable is used to cache the result of find_apt_ancestor_pid
+APT_ANCESTOR_PID=''
+
+# This function recursively computes the PID of the closest APT ancestor
+# of a given process.
+#
+# Arguments:
+#   - $1: The PID of the process whose closes APT ancestor PID is returned.
+find_apt_ancestor_pid() {
+    APT_ANCESTOR_THIS_PID="$1"
+
+    if [ -n "$APT_ANCESTOR_PID" ]; then
+        echo "$APT_ANCESTOR_PID"
+        return 0
+    elif [ -z "$APT_ANCESTOR_THIS_PID" ]; then
+        echo >&2 "find_apt_ancestor_pid: empty PID."
+        return 64
+    elif [ "$APT_ANCESTOR_THIS_PID" -eq 1 ]; then
+        echo >&2 "find_apt_ancestor_pid: no APT ancestor found."
+        return 63
+    fi
+
+    case "$(cat "/proc/$APT_ANCESTOR_THIS_PID/comm")" in
+        'apt'|'apt-get')
+            APT_ANCESTOR_PID="$APT_ANCESTOR_THIS_PID"
+            echo "$APT_ANCESTOR_PID"
+            ;;
+
+        *)
+            APT_ANCESTOR_PPID="$(ps -p "$APT_ANCESTOR_THIS_PID" -o 'ppid:1=')"
+            find_apt_ancestor_pid "$APT_ANCESTOR_PPID"
+            unset APT_ANCESTOR_PPID
+            ;;
+    esac
+
+    unset APT_ANCESTOR_THIS_PID
+}
+
+# This function returns the operation command line arguments of the first apt
+# parent process
+apt_operation() {
+    APT_PID="$(find_apt_ancestor_pid "$PPID")"
+    tr '\0' ' ' < "/proc/$APT_PID/cmdline" | cut -d ' ' -f 2
+    unset APT_PID
+}
+
+# This function returns the command line arguments of the first apt parent
+# process that possibly contain package names.
+apt_packages() {
+    APT_PID="$(find_apt_ancestor_pid "$PPID")"
+    tr '\0' ' ' < "/proc/$APT_PID/cmdline" | cut -d ' ' -f 3-
+    unset APT_PID
+}

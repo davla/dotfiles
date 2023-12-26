@@ -12,8 +12,9 @@
 print_info 'Install i3'
 case "$DISTRO" in
     'arch')
-        yay -S --needed autorandr dunst i3blocks i3 i3-volume qt5ct picom \
-            thunar xdg-desktop-portal xdg-desktop-portal-gtk
+        yay -S --needed autorandr dunst gnome-themes-extra i3blocks i3 \
+            i3-volume qt5ct picom thunar xdg-desktop-portal \
+            xdg-desktop-portal-gtk
         if [ "$HOST" = 'personal' ]; then
             yay -S --needed python-aiostream python-docopt python-i3ipc
         fi

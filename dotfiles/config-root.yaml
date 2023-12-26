@@ -104,8 +104,7 @@ config:
   - python/functions.py
   ignoreempty: true
   import_actions:
-  - yaml/actions/append.yaml
-  - yaml/actions/insert.yaml
+  - yaml/actions/*.yaml
   import_configs:
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
   - yaml/profiles/all-distros/all-hosts/all-users/shared.yaml
@@ -200,13 +199,13 @@ dotfiles:
     src: etc/hostname
     dst: /etc/hostname
   f_i3_sway_10-systemd:
-    src: templating/i3-sway/10-systemd
+    src: shared/i3-sway/10-systemd
     dst: /etc/{{@@ wm_name @@}}/config.d/10-systemd
   f_i3_sway_systemd-session.target:
-    src: templating/i3-sway/systemd-session.target
+    src: shared/i3-sway/systemd-session.target
     dst: /etc/systemd/user/{{@@ wm_name @@}}-session.target
   f_i3_sway_systemd-session-watch.service:
-    src: templating/i3-sway/systemd-session-watch.service
+    src: shared/i3-sway/systemd-session-watch.service
     dst: /etc/systemd/user/{{@@ wm_name @@}}-session-watch.service
   f_keyboard:
     src: etc/default/keyboard

@@ -1,0 +1,3 @@
+actions:
+  post:
+    _rm: rm -f {0}

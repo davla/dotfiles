@@ -2,8 +2,8 @@
 #
 # {{@@ header() @@}}
 
-Types: deb deb-src
-Uris: http://ppa.launchpad.net/mozillateam/firefox-next/ubuntu
-Suites: jammy
+Types: deb
+Uris: https://packages.mozilla.org/apt
+Suites: mozilla
 Components: main
 {%@@ include 'etc/apt/sources.list.d/signed-by' @@%}

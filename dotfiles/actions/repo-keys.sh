@@ -93,8 +93,9 @@ find /etc/apt/sources.list.d/ -type f -name '*.sources' -print0 \
                     'hkp://pgp.mit.edu:80'
                 ;;
 
-            'firefox-beta')
-                download_key_from_keyserver "$REPO" 'CE49EC21'
+            'firefox')
+                download_key_from_url "$REPO" \
+                    'https://packages.mozilla.org/apt/repo-signing-key.gpg'
                 ;;
 
             'mono')

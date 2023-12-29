@@ -46,9 +46,9 @@ dotfiles:
   f_dropbox.sources:
     src: etc/apt/sources.list.d/dropbox.sources
     dst: /etc/apt/sources.list.d/dropbox.sources
-  f_firefox-beta.sources:
-    src: etc/apt/sources.list.d/firefox-beta.sources
-    dst: /etc/apt/sources.list.d/firefox-beta.sources
+  f_firefox.sources:
+    src: etc/apt/sources.list.d/firefox.sources
+    dst: /etc/apt/sources.list.d/firefox.sources
   f_microsoft-prod.sources:
     src: etc/apt/sources.list.d/microsoft-prod.sources
     dst: /etc/apt/sources.list.d/microsoft-prod.sources
@@ -87,7 +87,7 @@ profiles:
   packages:
     dotfiles:
     - f_alacritty.sources
-    - f_firefox-beta.sources
+    - f_firefox.sources
     - f_debian-unstable.sources
     - f_docker.sources
     - f_sources.list

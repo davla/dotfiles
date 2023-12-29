@@ -1,0 +1,10 @@
+# Visual Studio Code text editor
+#
+# {{@@ header() @@}}
+
+Types: deb
+Uris: https://packages.microsoft.com/repos/vscode
+Suites: stable
+Components: main
+{%@@ include 'etc/apt/sources.list.d/signed-by' @@%}
+Architectures: amd64

@@ -1,0 +1,9 @@
+# Firefox Beta PPA
+#
+# {{@@ header() @@}}
+
+Types: deb deb-src
+Uris: http://ppa.launchpad.net/mozillateam/firefox-next/ubuntu
+Suites: jammy
+Components: main
+{%@@ include 'etc/apt/sources.list.d/signed-by' @@%}

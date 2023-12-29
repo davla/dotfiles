@@ -6,7 +6,7 @@
 
 actions:
   post:
-    repo-keys: sh ./actions/repo-keys.sh
+    repo-keys: sh ./actions/repo-keys.sh '{{@@ apt_keys_dir @@}}'
 
 config:
   backup: false
@@ -25,69 +25,74 @@ config:
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
-  f_alacritty.list:
-    src: etc/apt/sources.list.d/alacritty.list
-    dst: /etc/apt/sources.list.d/alacritty.list
-  f_azure-cli.list:
-    src: etc/apt/sources.list.d/azure-cli.list
-    dst: /etc/apt/sources.list.d/azure-cli.list
-  f_caprine.list:
-    src: etc/apt/sources.list.d/caprine.list
-    dst: /etc/apt/sources.list.d/caprine.list
-  f_deb-multimedia.list:
-    src: etc/apt/sources.list.d/deb-multimedia.list
-    dst: /etc/apt/sources.list.d/deb-multimedia.list
-  f_docker.list:
-    src: etc/apt/sources.list.d/docker.list
-    dst: /etc/apt/sources.list.d/docker.list
-  f_dropbox.list:
-    src: etc/apt/sources.list.d/dropbox.list
-    dst: /etc/apt/sources.list.d/dropbox.list
-  f_firefox-beta.list:
-    src: etc/apt/sources.list.d/firefox-beta.list
-    dst: /etc/apt/sources.list.d/firefox-beta.list
-  f_microsoft-prod.list:
-    src: etc/apt/sources.list.d/microsoft-prod.list
-    dst: /etc/apt/sources.list.d/microsoft-prod.list
-  f_mono.list:
-    src: etc/apt/sources.list.d/mono.list
-    dst: /etc/apt/sources.list.d/mono.list
-  f_sid.list:
-    src: etc/apt/sources.list.d/sid.list
-    dst: /etc/apt/sources.list.d/sid.list
+  f_alacritty.sources:
+    src: etc/apt/sources.list.d/alacritty.sources
+    dst: /etc/apt/sources.list.d/alacritty.sources
+  f_azure-cli.sources:
+    src: etc/apt/sources.list.d/azure-cli.sources
+    dst: /etc/apt/sources.list.d/azure-cli.sources
+  f_caprine.sources:
+    src: etc/apt/sources.list.d/caprine.sources
+    dst: /etc/apt/sources.list.d/caprine.sources
+  f_deb-multimedia.sources:
+    src: etc/apt/sources.list.d/deb-multimedia.sources
+    dst: /etc/apt/sources.list.d/deb-multimedia.sources
+  f_debian-unstable.sources:
+    src: etc/apt/sources.list.d/debian-unstable.sources
+    dst: /etc/apt/sources.list.d/debian-unstable.sources
+  f_docker.sources:
+    src: etc/apt/sources.list.d/docker.sources
+    dst: /etc/apt/sources.list.d/docker.sources
+  f_dropbox.sources:
+    src: etc/apt/sources.list.d/dropbox.sources
+    dst: /etc/apt/sources.list.d/dropbox.sources
+  f_firefox-beta.sources:
+    src: etc/apt/sources.list.d/firefox-beta.sources
+    dst: /etc/apt/sources.list.d/firefox-beta.sources
+  f_microsoft-prod.sources:
+    src: etc/apt/sources.list.d/microsoft-prod.sources
+    dst: /etc/apt/sources.list.d/microsoft-prod.sources
+  f_mono.sources:
+    src: etc/apt/sources.list.d/mono.sources
+    dst: /etc/apt/sources.list.d/mono.sources
   f_sources.list:
     src: etc/apt/sources.list
     dst: /etc/apt/sources.list
-  f_spotify.list:
-    src: etc/apt/sources.list.d/spotify.list
-    dst: /etc/apt/sources.list.d/spotify.list
-  f_teams.list:
-    src: etc/apt/sources.list.d/teams.list
-    dst: /etc/apt/sources.list.d/teams.list
-  f_vscode.list:
-    src: etc/apt/sources.list.d/vscode.list
-    dst: /etc/apt/sources.list.d/vscode.list
+  f_spotify.sources:
+    src: etc/apt/sources.list.d/spotify.sources
+    dst: /etc/apt/sources.list.d/spotify.sources
+  f_teams.sources:
+    src: etc/apt/sources.list.d/teams.sources
+    dst: /etc/apt/sources.list.d/teams.sources
+  f_vscode.sources:
+    src: etc/apt/sources.list.d/vscode.sources
+    dst: /etc/apt/sources.list.d/vscode.sources
 
 dynvariables:
   # This variable is used to differentiate between user and root configuration
   # in some dotfiles.
   #
-  # It needs to be defined here, rahter than in a shared variables files,
+  # It needs to be defined here, rather than in a shared variables files,
   # because variables from external variables are not yet available when
   # importing dotfiles.
   user: '[ "$USER" = "root" ] && echo "root" || echo "user"'
+
+variables:
+  # The directory where repository signature keys are installed. It's used in
+  # Signed-By configuration in .sources files
+  apt_keys_dir: /usr/local/etc/apt/repo-keys
 
 profiles:
   # This profile collects apt repository files
   packages:
     dotfiles:
-    - f_alacritty.list
-    - f_firefox-beta.list
-    - f_docker.list
-    - f_sid.list
+    - f_alacritty.sources
+    - f_firefox-beta.sources
+    - f_debian-unstable.sources
+    - f_docker.sources
     - f_sources.list
-    - f_spotify.list
-    - f_vscode.list
+    - f_spotify.sources
+    - f_vscode.sources
     import:
     - ../../../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/apt-sources.yaml:optional
     actions:

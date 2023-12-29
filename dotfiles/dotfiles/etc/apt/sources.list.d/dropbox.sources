@@ -1,0 +1,10 @@
+# Dropbox
+#
+# {{@@ header() @@}}
+
+Types: deb
+Uris: https://linux.dropbox.com/debian
+Suites: bullseye
+Components: main
+{%@@ include 'etc/apt/sources.list.d/signed-by' @@%}
+Architectures: i386 amd64

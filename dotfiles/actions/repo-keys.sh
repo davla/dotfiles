@@ -1,16 +1,19 @@
 #!/usr/bin/env sh
 
-# This script installs apt repository keys for the *.list files found in
+# This script installs apt repository keys for the *.sources files found in
 # /etc/apt/sources.list.d
+#
+# Arguments:
+#   - $1: The directory where APT repository signature files should be saved
 
 # This doesn't work if this script is sourced
 . "$(dirname "$0")/../../scripts/lib.sh"
 
 ########################################
-# Variables
+# Input processing
 ########################################
 
-APT_KEY_DIR='/etc/apt/trusted.gpg.d/'
+APT_KEY_DIR="$1"
 
 ########################################
 # Functions
@@ -56,12 +59,15 @@ download_key_from_url() {
 # Repositoy keys
 #######################################
 
+# Ensure the APT repository signatures directory exists
+mkdir -p "$APT_KEY_DIR"
+
 # Set temporary gpg keyring to import apt keys from keyservers
 OLD_GNUPGHOME="$GNUPGHOME"
 GNUPGHOME="$(mktemp -d)"
 
-find /etc/apt/sources.list.d/ -type f -name '*.list' -print0 \
-    | xargs -0 -I '{}' basename '{}' '.list' | tr '[:upper:]' '[:lower:]' \
+find /etc/apt/sources.list.d/ -type f -name '*.sources' -print0 \
+    | xargs -0 -I '{}' basename '{}' '.sources' | tr '[:upper:]' '[:lower:]' \
     | while read -r REPO; do
         case "$REPO" in
             'alacritty')

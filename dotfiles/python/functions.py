@@ -10,13 +10,17 @@ from pathlib import Path
 
 from jinja2 import pass_context
 from jinja2.runtime import Context
-
 from python.lib import expand_xdg as xdg
 
 
 def abs_path(path: str) -> str:
     """Return the absolute pathname for a path."""
     return Path(path).expand_home().resolve()
+
+
+def filename(path: str) -> str:
+    """Return the last path component without extension."""
+    return Path(path).stem
 
 
 def xdg_config(path: str) -> str:

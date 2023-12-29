@@ -1,3 +1,0 @@
-# Microsoft products repository (dotnet CLI, etc.)
-
-deb [arch=amd64,arm64,armhf] https://packages.microsoft.com/debian/11/prod bullseye main

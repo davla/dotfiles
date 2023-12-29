@@ -1,0 +1,10 @@
+# Microsoft products repository (dotnet CLI, etc.)
+#
+# {{@@ header() @@}}
+
+Types: deb
+Uris: https://packages.microsoft.com/debian/11/prod
+Suites: bullseye
+Components: main
+{%@@ include 'etc/apt/sources.list.d/signed-by' @@%}
+Architectures: armhf arm64 amd64

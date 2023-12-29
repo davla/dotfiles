@@ -1,0 +1,9 @@
+# Debian multimedia
+#
+# {{@@ header() @@}}
+
+Types: deb
+Uris: https://www.deb-multimedia.org
+Suites: testing
+Components: non-free main
+{%@@ include 'etc/apt/sources.list.d/signed-by' @@%}

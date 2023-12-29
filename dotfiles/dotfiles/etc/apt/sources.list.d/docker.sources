@@ -1,0 +1,10 @@
+# Docker Debian CE
+#
+# {{@@ header() @@}}
+
+Types: deb
+Uris: https://download.docker.com/linux/debian
+Suites: bullseye
+Components: stable
+{%@@ include 'etc/apt/sources.list.d/signed-by' @@%}
+Architectures: amd64

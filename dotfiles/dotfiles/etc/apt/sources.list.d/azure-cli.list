@@ -1,3 +1,0 @@
-# Azure CLI
-
-deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ focal main

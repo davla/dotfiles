@@ -1,4 +1,0 @@
-# Firefox Beta PPA
-
-deb http://ppa.launchpad.net/mozillateam/firefox-next/ubuntu focal main
-deb-src http://ppa.launchpad.net/mozillateam/firefox-next/ubuntu focal main

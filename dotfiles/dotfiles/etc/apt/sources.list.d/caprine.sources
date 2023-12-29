@@ -1,0 +1,10 @@
+# Caprine
+#
+# {{@@ header() @@}}
+
+Types: deb
+Uris: https://apt.fury.io/lefterisgar/
+Suites: *
+Components: *
+{%@@ include 'etc/apt/sources.list.d/signed-by' @@%}
+Trusted: yes

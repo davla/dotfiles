@@ -1,0 +1,19 @@
+{%@@ set suite_name = filename(_dotfile_abs_dst) | replace('debian-', '') -@@%}
+
+# Debian {{@@ suite_name @@}}
+#
+# {{@@ header() @@}}
+
+Enabled: no
+Types: deb deb-src
+Uris: https://deb.debian.org/debian/
+Suites: {{@@ suite_name @@}}
+Components: main contrib non-free non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+Enabled: no
+Types: deb deb-src
+Uris: https://deb.debian.org/debian-security/
+Suites: {{@@ suite_name @@}}-security
+Components: main contrib non-free non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg

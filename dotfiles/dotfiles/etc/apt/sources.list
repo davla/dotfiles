@@ -1,15 +1,19 @@
-# Debian testing
-deb http://ftp.debian.org/debian/ testing main contrib non-free
-deb-src http://ftp.debian.org/debian/ testing main contrib non-free
-
 # Debian stable
-deb http://ftp.debian.org/debian/ stable main contrib non-free
-deb-src http://ftp.debian.org/debian/ stable main contrib non-free
+deb https://deb.debian.org/debian/ stable main contrib non-free non-free-firmware
+deb-src https://deb.debian.org/debian/ stable main contrib non-free non-free-firmware
 
-# Debian updates
-deb http://ftp.debian.org/debian/ testing-updates main contrib non-free
-deb-src http://ftp.debian.org/debian/ testing-updates main contrib non-free
+# Debian stable-proposed-updates
+deb https://deb.debian.org/debian/ bookworm-proposed-updates main contrib non-free non-free-firmware
+deb-src https://deb.debian.org/debian/ bookworm-proposed-updates main contrib non-free non-free-firmware
 
-# Debian Security
-deb http://security.debian.org testing-security main contrib non-free
-deb-src http://security.debian.org testing-security main contrib non-free
+# Debian stable-updates
+deb https://deb.debian.org/debian/ stable-updates main contrib non-free non-free-firmware
+deb-src https://deb.debian.org/debian/ stable-updates main contrib non-free non-free-firmware
+
+# Debian stable-security
+deb https://deb.debian.org/debian-security/ stable-security main contrib non-free non-free-firmware
+deb-src https://deb.debian.org/debian-security/ stable-security main contrib non-free non-free-firmware
+
+# Debian stable-backports
+deb https://deb.debian.org/debian/ stable-backports main contrib non-free non-free-firmware
+deb-src https://deb.debian.org/debian/ stable-backports main contrib non-free non-free-firmware

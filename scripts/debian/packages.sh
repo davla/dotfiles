@@ -138,9 +138,9 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
     esac
 
     print_info 'Install GUI packages shared across all hosts'
-    apt-get install atril baobab code firefox-beta gdebi geany gnome-clocks \
-        gnome-disk-utility gparted hardinfo parcellite pavucontrol peek \
-        seahorse spotify-client synaptic xfce4-screenshooter
+    apt-get install atril baobab code-insiders firefox-beta gdebi geany \
+        gnome-clocks gnome-disk-utility gparted hardinfo parcellite \
+        pavucontrol peek seahorse spotify-client synaptic xfce4-screenshooter
 
     # Dotfiles
     print_info 'Install GUI packages dotfiles'

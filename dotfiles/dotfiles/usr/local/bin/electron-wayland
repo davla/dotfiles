@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-{%@@ set executable = basename(_dotfile_abs_dst) -@@%}
+{%@@ set executable = executable | default(basename(_dotfile_abs_dst)) -@@%}
 
 # This script is meant as a shim for the package-distributed
 # "{{@@ executable @@}}" command that adds options to make the it work in
@@ -16,7 +16,8 @@
 # Add Electron Ozone options
 ########################################
 
-exec second-on-path {{@@ executable @@}} \
+exec {{@@ second_on_path(executable) @@}} \
     --enable-features=UseOzonePlatform \
     --ozone-platform=wayland \
+    --ozone-platform-hint=auto \
     "$@"

@@ -66,7 +66,7 @@ dotfiles:
     dst: /usr/local/bin/caprine
     chmod: 755
   f_local_bin_code:
-    src: usr/local/bin/electron-wayland
+    src: usr/local/bin/code
     dst: /usr/local/bin/code
     chmod: 755
   f_local_bin_dotdrop:
@@ -88,10 +88,6 @@ dotfiles:
   f_local_bin_rustup:
     src: usr/local/bin/rustup
     dst: /usr/local/bin/rustup
-    chmod: 755
-  f_local_bin_second-on-path:
-    src: usr/local/bin/second-on-path
-    dst: /usr/local/bin/second-on-path
     chmod: 755
   f_local_bin_signal-desktop:
     src: usr/local/bin/electron-wayland
@@ -183,7 +179,6 @@ profiles:
     - f_local_bin_bitwarden-desktop
     - f_local_bin_caprine
     - f_local_bin_code
-    - f_local_bin_second-on-path
     - f_local_bin_signal-desktop
     - f_local_bin_spotify
     - f_local_bin_whatsapp-nativefier

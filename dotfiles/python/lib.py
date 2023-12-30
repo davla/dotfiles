@@ -4,15 +4,13 @@
 """This file defines utility functions for python scripts"""
 
 import re
-
-from pathlib import PurePath, Path
+from pathlib import Path, PurePath
 
 import xdg
 
-
-abs_home_first = re.compile('^' + str(Path.home()))
-tilde_first = re.compile('^~')
-home_first = re.compile(r'^\$HOME')
+abs_home_first = re.compile("^" + str(Path.home()))
+tilde_first = re.compile("^~")
+home_first = re.compile(r"^\$HOME")
 
 
 def expand_home(self: PurePath) -> PurePath:
@@ -33,7 +31,7 @@ def expand_xdg(xdg_var: str, path: str) -> PurePath:
     given path. The XDG variable name can be passed both uppercase or
     lowercase, and either with or without the 'XDG_' prefix.
     """
-    xdg_var = xdg_var if xdg_var.startswith('XDG_') else 'XDG_' + xdg_var
+    xdg_var = xdg_var if xdg_var.startswith("XDG_") else "XDG_" + xdg_var
     return getattr(xdg, xdg_var.upper()) / path
 
 
@@ -43,7 +41,7 @@ def strip_home(self: PurePath) -> PurePath:
     This function strips the current user's home directory. The home directory
     can be '~', '$HOME' or its absolute path.
     """
-    new_path = abs_home_first.sub('', str(self.expand_home()))
+    new_path = abs_home_first.sub("", str(self.expand_home()))
     return self.__class__(new_path)
 
 

@@ -1,0 +1,2 @@
+DPkg::Pre-Invoke { "/usr/local/share/dpkg/pre-hook"; };
+DPkg::Post-Invoke { "/usr/local/share/dpkg/post-hook"; };

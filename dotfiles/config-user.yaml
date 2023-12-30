@@ -3,6 +3,14 @@
 # This dotdrop config file is meant for user dotfiles
 
 actions:
+  pre:
+    # This action links the VSCode insiders configuration directories to the
+    # VSCode stable ones, so that there are not two parallel set of dotfiles
+    # and installed extensions.
+    link-vscode-insiders-config: |-
+      ln -sf --relative "$HOME/.config/Code" "$HOME/.config/Code - Insiders"
+      ln -sf --relative "$HOME/.vscode" "$HOME/.vscode-insiders"
+
   post:
     autorandr: sh actions/autorandr.sh "{0}"
 
@@ -473,6 +481,8 @@ profiles:
     - f_vscode_keybindings.json
     - f_vscode_settings.json
     - f_vscode_tasks.json
+    actions:
+    - link-vscode-insiders-config
     dynvariables:
       vscode_tmp_dst: mktemp /tmp/vscode-tmp.XXX
     variables:

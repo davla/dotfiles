@@ -1,0 +1,51 @@
+#!/usr/bin/env sh
+
+# This script is meant to execute actions after specific packages are installed
+# via APT. For the time being, it just sets some entries in the Debian
+# alternatives system.
+
+# This doesn't work if the script is sourced
+. "$(dirname "$0")/lib"
+
+# This function sets an alternative from the Debian alternative system. If the
+# alternatives group doesn't exist, it is created.
+#
+# Arguments:
+#   - $1: The name of the binary to add to the alternatives system
+#   - $2: The alternatives group name
+set_alternative() {
+    SET_ALT_BIN_NAME="$1"
+    SET_ALT_GROUP_NAME="$2"
+
+    # If the executable is not found on PATH, there's nothing to setup yet.
+    # This script is executed multiple times by dpkg, not all of them have the
+    # package fully unpacked on the system.
+    SET_ALT_BIN_PATH="$(which "$SET_ALT_BIN_NAME")" || return 0
+
+    printf '\033[0;32m[INFO]\033[0m Add "%s" to "%s" alternatives.\n' \
+        "$SET_ALT_BIN_NAME" "$SET_ALT_GROUP_NAME"
+    update-alternatives --install \
+        "/usr/local/bin/$SET_ALT_GROUP_NAME" \
+        "$SET_ALT_GROUP_NAME" \
+        "$SET_ALT_BIN_PATH" \
+        50
+    update-alternatives --set "$SET_ALT_GROUP_NAME" "$SET_ALT_BIN_PATH"
+
+    unset SET_ALT_GROUP_NAME SET_ALT_BIN_NAME SET_ALT_BIN_PATH
+}
+
+case "$(apt_operation)" in
+    'dist-upgrade'|'install'|'reinstall'|'upgrade')
+        for PACKAGE in $(apt_packages); do
+            case "$PACKAGE" in
+                *code-insiders*)
+                    set_alternative 'code-insiders' 'code'
+                    ;;
+
+                *firefox-beta*)
+                    set_alternative 'firefox-beta' 'firefox'
+                    ;;
+            esac
+        done
+        ;;
+esac

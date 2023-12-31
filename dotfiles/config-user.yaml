@@ -118,9 +118,9 @@ dotfiles:
     - desktop
     - xfce4-screenshooter
     - xfwm4
-  f_alacritty.yml:
-    src: config/alacritty/alacritty.yml
-    dst: '{{@@ xdg_config("alacritty/alacritty.yml") @@}}'
+  f_alacritty.toml:
+    src: config/alacritty/alacritty.toml
+    dst: '{{@@ xdg_config("alacritty/alacritty.toml") @@}}'
   f_at-spi-dbus-bus.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/at-spi-dbus-bus.desktop") @@}}'
@@ -373,7 +373,7 @@ profiles:
   i3:
     dotfiles:
     - d_thunar
-    - f_alacritty.yml
+    - f_alacritty.toml
     - f_dunstrc
     - f_i3blocks_config
     - f_i3config
@@ -449,7 +449,7 @@ profiles:
     - d_i3blocks-email
     - d_sway
     - d_sway-launcher-desktop
-    - f_alacritty.yml
+    - f_alacritty.toml
     - f_clipman.service
     - f_i3blocks_config
     - f_mako_config

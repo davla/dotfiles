@@ -1,0 +1,62 @@
+[colors]
+draw_bold_text_with_bright_colors = true
+transparent_background_colors = true
+
+[colors.bright]
+black = "#686868"
+blue = "#59C2FF"
+cyan = "#95E6CB"
+green = "#00FF00"
+magenta = "#FFEE99"
+red = "#FF0000"
+white = "#FFFFFF"
+yellow = "#FFB454"
+
+[colors.cursor]
+cursor = "#FF5500"
+
+[colors.normal]
+black = "#01060E"
+blue = "#53BDFA"
+cyan = "#90E1C6"
+green = "#00CD00"
+magenta = "#FAE994"
+red = "#CD0000"
+white = "#C7C7C7"
+yellow = "#FF8F40"
+
+[colors.primary]
+background = "#000000"
+foreground = "#A7A7A7"
+
+[cursor]
+blink_interval = 500
+blink_timeout = 0
+thickness = 0.1
+unfocused_hollow = false
+
+[cursor.style]
+blinking = "On"
+shape = "Underline"
+
+[font]
+size = 12.0
+
+[mouse]
+hide_when_typing = true
+
+[[mouse.bindings]]
+action = "ExpandSelection"
+mouse = "Right"
+
+[scrolling]
+history = 100000
+multiplier = 3
+
+[window]
+decorations = "none"
+decorations_theme_variant = "None"
+opacity = 0.82
+
+[window.class]
+general = "alacritty"

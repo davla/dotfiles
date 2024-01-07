@@ -3,11 +3,17 @@
 # This variables file defines some miscellaneous variables for the root user.
 
 variables:
-
   # This variable is related to static host-ip mapping in /etc/hosts. It's
   # declared top-level because it needs to be available in a few places across
   # different profiles and config files
   frequent_hosts_marker: Frequent hosts
+
+  # These variables define IP address on my home network. They're defined here
+  # because they're used both in the raspberry's own configuration and in the
+  # hosts mapping of my personal machine
+  local_ip_addresses:
+    raspberry: '192.168.0.3'
+    router: '192.168.0.1'
 
   # This variable defines the destination path of the sudo environment
   # variables file. It's declared here because it's used in more than one

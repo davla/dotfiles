@@ -1,11 +1,13 @@
 # This systemd-networkd .network file defines the static IP connection
 # parameters for my raspberry pi
+#
+# {{@@ header() @@}}
 
 [Match]
 Name=en*
 
 [Network]
-Address=192.168.1.4/24
-Gateway=192.168.1.254
-DNS=208.67.222.222
-DNS=208.67.220.220
+Address={{@@ local_ip_addresses.raspberry @@}}/24
+Gateway={{@@ local_ip_addresses.router @@}}
+DNS=212.97.129.34
+DNS=86.58.174.90

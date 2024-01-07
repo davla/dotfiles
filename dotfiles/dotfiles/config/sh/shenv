@@ -46,7 +46,7 @@ export HIST_IGNORED_GIT='git ap|git c|git g|git i'
 export HIST_IGNORED_TYPOS='gi t*|gl'
 
 {#@@ Arch's package places rustup and its shims already on PATH :D @@#}
-{%@@ if distro_id != 'arch' -@@%}
+{%@@ if 'arch' not in distro_id -@@%}
 
 #######################################
 # rustup

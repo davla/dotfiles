@@ -16,7 +16,7 @@ source "$SDOTDIR/interactive/plugins/shared.sh"
 #
 ###############################################################################
 
-{%@@ if distro_id == 'arch' -@@%}
+{%@@ if 'arch' in distro_id -@@%}
 
 #######################################
 # command-not-found

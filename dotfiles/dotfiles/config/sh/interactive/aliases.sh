@@ -34,7 +34,7 @@ alias root='sudo -s'
 {%@@ endif -@@%}
 
 {#@@ Updates @@#}
-{%@@ if distro_id == 'arch' and user == 'user' -@@%}
+{%@@ if 'arch' in distro_id and user == 'user' -@@%}
 
 # Updates
 alias update='yay -Suyy'

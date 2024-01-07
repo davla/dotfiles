@@ -354,7 +354,7 @@ STEP="$(echo "${STEP}" | tr '[:upper:]' '[:lower:]')"
 case "$STEP" in
     'dotdrop'|'all')
         # Dotdrop setup - first as anything else depends on it.
-        $STEP_RUNNER 'sh -e scripts/dotdrop.sh ./dotfiles' 'set dotdrop up'
+        $STEP_RUNNER "sh -e scripts/dotdrop.sh $PWD" 'set dotdrop up'
         ;;
 esac
 case "$STEP" in

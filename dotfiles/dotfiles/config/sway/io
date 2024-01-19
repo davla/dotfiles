@@ -6,7 +6,6 @@
 
 # Variables
 set $laptop_display eDP-1
-set $external_4K "HP Inc. HP Z27k G3 CN41373F0L"
 
 # Background
 output * bg #131313 solid_color
@@ -19,7 +18,6 @@ bindswitch --reload {
 
 # Laptop display
 output $laptop_display scale 2
-output $external_4K scale 2
 
 #######################################
 # Input

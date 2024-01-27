@@ -272,6 +272,12 @@ dotfiles:
   f_swayfocus.service:
     src: config/systemd/user/swayfocus.service
     dst: '{{@@ xdg_config("systemd/user/swayfocus.service") @@}}'
+  f_swayidle_config:
+    src: config/swayidle/config
+    dst: '{{@@ xdg_config("swayidle/config") @@}}'
+  f_swayidle.service:
+    src: config/systemd/user/swayidle.service
+    dst: '{{@@ xdg_config("systemd/user/swayidle.service") @@}}'
   f_sway-portals.conf:
     src: config/xdg-desktop-portal/sway-portals.conf
     dst: '{{@@ xdg_config("xdg-desktop-portal/sway-portals.conf") @@}}'
@@ -457,6 +463,8 @@ profiles:
     - f_sway_containers
     - f_sway_modes
     - f_swayfocus.service
+    - f_swayidle_config
+    - f_swayidle.service
     - f_sway-portals.conf
     include:
     - look-and-feel

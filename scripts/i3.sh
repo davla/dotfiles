@@ -12,21 +12,15 @@
 print_info 'Install i3'
 case "$DISTRO" in
     'arch')
-        yay -S --needed autorandr dunst gnome-themes-extra i3blocks i3 \
-            i3-volume qt5ct picom thunar xdg-desktop-portal \
-            xdg-desktop-portal-gtk
-        if [ "$HOST" = 'personal' ]; then
-            yay -S --needed python-aiostream python-docopt python-i3ipc
-        fi
+        yay -S --needed autorandr dunst gnome-themes-extra python-docopt \
+            python-i3ipc i3blocks i3 i3-volume qt5ct picom thunar \
+            xdg-desktop-portal xdg-desktop-portal-gtk
         ;;
 
     'debian')
         sudo apt-get install autorandr dunst i3 i3blocks python3-docopt \
             python3-i3ipc qt5ct picom thunar xdg-desktop-portal \
             xdg-desktop-portal-gtk
-        if [ "$HOST" = 'personal' ]; then
-            sudo apt-get install python3-aiostream
-        fi
         ;;
 esac
 

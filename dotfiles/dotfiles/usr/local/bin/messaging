@@ -20,63 +20,13 @@ Options:
 """
 
 import asyncio
+import os
 import shutil
-from dataclasses import dataclass
 from subprocess import DEVNULL
 
 from docopt import docopt
 from i3ipc import Event
 from i3ipc.aio import Connection
-
-
-@dataclass
-class MessagingApp:
-    name: str
-
-    def __hash__(self):
-        return hash(self.name)
-
-    @property
-    def app_id_criterion(self):
-        """Return a sway criterion fuzzily matching on app_id."""
-        return f'app_id=".*{self.name}.*"'
-
-    async def spawn(self):
-        """Start subprocesses."""
-        executable = shutil.which(self.name)
-        if executable is None:
-            raise ValueError(f"Can't find executable for {self.name}")
-
-        self.subprocess = await asyncio.create_subprocess_exec(
-            executable, stdin=DEVNULL, stdout=DEVNULL, stderr=DEVNULL
-        )
-
-
-class AppSet:
-    """A remove-only set of messaging applications."""
-
-    def __init__(self, apps):
-        self.apps = set(apps)
-
-    def __bool__(self):
-        """Return whether there are any messaging applications left."""
-        return bool(self.apps)
-
-    def discard_by_app_id(self, app_id):
-        for app in self.apps:
-            if self.app_id_matches(app, app_id):
-                self.apps.discard(app)
-                return
-
-    def find_by_app_id(self, app_id):
-        return next(app for app in self.apps if self.app_id_matches(app, app_id))
-
-    def has_app_id(self, app_id):
-        return any(self.app_id_matches(app, app_id) for app in self.apps)
-
-    @staticmethod
-    def app_id_matches(app, app_id):
-        return app.name in app_id
 
 
 async def ConnectionEvents(self, *event_names):
@@ -91,6 +41,65 @@ async def ConnectionEvents(self, *event_names):
 Connection.events = ConnectionEvents
 
 
+class MessagingApp:
+    """
+    A messaging application.
+
+    Attributes:
+        window_criterion (str): The criterion that identifies the windows belonging to
+                                the messaging application.
+    """
+
+    window_match_prop = "app_id" if "WAYLAND_DISPLAY" in os.environ else "instance"
+
+    def __init__(self, bin_name):
+        self.name = bin_name
+        self.window_criterion = f'{self.window_match_prop}=".*{self.name}.*"'
+
+    def __hash__(self):
+        return hash(self.name)
+
+    def is_app_window(self, window):
+        """Return whether a window belongs to this messaging application."""
+        return self.name in getattr(window, self.window_match_prop)
+
+    def spawn(self):
+        """Start the messaging application as a subprocesses."""
+        executable = shutil.which(self.name)
+        if executable is None:
+            raise ValueError(f"Can't find executable for {self.name}")
+
+        return asyncio.create_subprocess_exec(
+            executable, stdin=DEVNULL, stdout=DEVNULL, stderr=DEVNULL
+        )
+
+
+class AppSet:
+    """A remove-only set of messaging applications."""
+
+    def __init__(self, apps):
+        self.apps = set(apps)
+
+    def __bool__(self):
+        """Return whether there are any messaging applications left."""
+        return bool(self.apps)
+
+    def discard_by_window(self, window):
+        """Remove the application matching the given window, if any."""
+        for app in self.apps:
+            if app.is_app_window(window):
+                self.apps.discard(app)
+                return
+
+    def find_by_window(self, window):
+        """Return the application matching the given window."""
+        return next(app for app in self.apps if app.is_app_window(window))
+
+    def has_app_by_window(self, window):
+        """Whether there is any application matching the given window."""
+        return any(app.is_app_window(window) for app in self.apps)
+
+
 def add_mark(i3, criterion, mark):
     """Add a mark to an i3 container identified by a criterion."""
     return i3.command(f"[{criterion}] mark --add {mark}")
@@ -98,7 +107,7 @@ def add_mark(i3, criterion, mark):
 
 async def make_messaging_container(i3, workspace, mark, apps):
     """Create i3 container for messaging applications."""
-    first_app_criterion = apps[0].app_id_criterion
+    first_app_criterion = apps[0].window_criterion
     await move_apps_to_tmp_workspace(i3, workspace, apps)
     await wait_for_app_titles(i3, apps)
     await make_scratchpad(i3, first_app_criterion)
@@ -121,16 +130,15 @@ async def mark_on_focus(i3, mark, apps):
     window_events = (
         event
         async for event in i3.events(Event.WINDOW_FOCUS, Event.WINDOW_CLOSE)
-        if remaining_apps.has_app_id(event.container.app_id)
+        if remaining_apps.has_app_by_window(event.container)
     )
 
     async for event in window_events:
-        app_id = event.container.app_id
         if event.change == "close":
-            remaining_apps.discard_by_app_id(app_id)
+            remaining_apps.discard_by_window(event.container)
         elif event.change == "focus":
-            app = remaining_apps.find_by_app_id(app_id)
-            await add_mark(i3, app.app_id_criterion, mark)
+            app = remaining_apps.find_by_window(event.container)
+            await add_mark(i3, app.window_criterion, mark)
 
         if not remaining_apps:
             return
@@ -139,7 +147,7 @@ async def mark_on_focus(i3, mark, apps):
 def move_apps_to_tmp_workspace(i3, workspace, apps):
     """Send the application windows to a throwaway workspace."""
     return i3.command(
-        "\n".join(f'assign [{app.app_id_criterion}] "{workspace}"' for app in apps)
+        "\n".join(f'assign [{app.window_criterion}] "{workspace}"' for app in apps)
     )
 
 
@@ -155,7 +163,7 @@ async def wait_for_app_titles(i3, apps):
     remaining_apps = AppSet(apps)
     while remaining_apps:
         event = await anext(events)
-        remaining_apps.discard_by_app_id(event.container.app_id)
+        remaining_apps.discard_by_window(event.container)
 
 
 async def main():

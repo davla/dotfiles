@@ -7,7 +7,7 @@ variables:
   # These are the interfaces CLI options for the network-status i3blocks block
   i3blocks_network_interfaces: -i cable -i wireless
 
-  messaging_apps: [ telegram, facebook-messenger ]
+  messaging_apps: [ telegram, signal, caprine ]
   messaging_client: messaging
   messaging_mark: messaging
   messaging_client_cmd: >-

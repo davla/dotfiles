@@ -1,6 +1,0 @@
-{%@@ from 'etc/pacman.d/hooks/alias.hook' import alias_hook @@%}
-
-{{@@- alias_hook(
-    cmd='caprine',
-    alias='facebook-messenger'
-) -@@}}

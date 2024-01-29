@@ -4,4 +4,5 @@
 # profiles on my personal machine for root.
 
 dotfiles:
+- f_local_bin_default-ws-layout
 - f_local_bin_messaging

@@ -1,0 +1,20 @@
+# default-ws-layout systemd service file
+
+[Unit]
+Description=Daemon applying default workspace layouts
+After={{@@ wm_name @@}}-session.target
+BindsTo={{@@ wm_name @@}}-session.target
+ConditionEnvironment=I3SOCK
+
+[Install]
+WantedBy={{@@ wm_name @@}}-session.target
+
+[Service]
+ExecStart=default-ws-layout 1 tabbed
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=default-ws-layout
+SyslogLevel=info
+SyslogLevelPrefix=true
+Type=exec

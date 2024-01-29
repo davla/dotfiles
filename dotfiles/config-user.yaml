@@ -134,6 +134,9 @@ dotfiles:
   f_clipman.service:
     src: config/systemd/user/clipman.service
     dst: '{{@@ xdg_config("systemd/user/clipman.service") @@}}'
+  f_default-ws-layout.service:
+    src: config/systemd/user/default-ws-layout.service
+    dst: '{{@@ xdg_config("systemd/user/default-ws-layout.service") @@}}'
   f_docker_config.json:
     src: config/docker/config.json
     dst: '{{@@ docker_path @@}}/config.json'
@@ -381,6 +384,7 @@ profiles:
     dotfiles:
     - d_thunar
     - f_alacritty.toml
+    - f_default-ws-layout.service
     - f_dunstrc
     - f_i3blocks_config
     - f_i3config
@@ -458,6 +462,7 @@ profiles:
     - d_sway-launcher-desktop
     - f_alacritty.toml
     - f_clipman.service
+    - f_default-ws-layout.service
     - f_i3blocks_config
     - f_mako_config
     - f_sway_bar

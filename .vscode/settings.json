@@ -5,18 +5,19 @@
     "black"
   ],
   "isort.importStrategy": "fromEnvironment",
-  "python.formatting.provider": "none",
-  "python.linting.ignorePatterns": [
-    "**/site-packages/**/*.py"
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.extraPaths": [
+    "./dotfiles/dotfiles/usr/local/lib/i3ipc-extras/src"
   ],
+  "python.envFile": "${workspaceFolder}/.dotfiles-env",
   "[python]": {
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true
+      "source.organizeImports": "explicit"
     },
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true,
     "editor.rulers": [
       88
     ]
-  }
+  },
 }

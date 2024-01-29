@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "i3ipc-extras"
+version = "0.0.0a0"
+description = "Additional utilities for i3ipc"
+requires-python = ">=3.8"
+keywords = ["i3", "sway"]
+authors = [
+  { name = "Davide Laezza", email = "truzzialrogo@gmx.com" },
+]
+classifiers = ["License :: OSI Approved :: MIT License"]
+
+# This should stay empty. This package is just a way to share some python code
+# between some system-wide scripts, dependencies should be installed at system
+# level
+dependencies = []

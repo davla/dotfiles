@@ -4,5 +4,6 @@
 # profiles on my personal machine for root.
 
 dotfiles:
+- d_local_lib_i3ipc-extras
 - f_local_bin_default-ws-layout
 - f_local_bin_messaging

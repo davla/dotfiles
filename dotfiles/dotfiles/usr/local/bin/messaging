@@ -27,18 +27,7 @@ from subprocess import DEVNULL
 from docopt import docopt
 from i3ipc import Event
 from i3ipc.aio import Connection
-
-
-async def ConnectionEvents(self, *event_names):
-    """Yield selected events from this i3 connection."""
-    queue = asyncio.Queue()
-    for event_name in event_names:
-        self.on(event_name, lambda _, event: queue.put_nowait(event))
-    while True:
-        yield await queue.get()
-
-
-Connection.events = ConnectionEvents
+from i3ipc_extras import ConnectionExtras
 
 
 class MessagingApp:
@@ -187,7 +176,7 @@ async def main():
     apps = list(map(MessagingApp, app_names))
     await asyncio.gather(*map(MessagingApp.spawn, apps))
 
-    i3 = await Connection().connect()
+    i3 = await ConnectionExtras().connect()
     await make_messaging_container(i3, mark, workspace, apps)
     await mark_on_focus(i3, mark, apps)
 

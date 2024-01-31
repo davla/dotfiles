@@ -26,9 +26,13 @@ export BASH_ENV="$BDOTDIR/bashenv"
 # GnuPG agent
 ########################################
 
-# This variable needs to be set in order for GnuPG agent's headless pinentry to
-# work. It can't be set via PAM because it is initialized by a shell command.
-export GPG_TTY="$(tty)"
+# This variable is needed by GnuPG agent's headless pinentry.
+if [ -z "$GPG_TTY" ]; then
+    export GPG_TTY="$(tty)"
+
+    # Inform gpg-agent that GPG_TTY has changed
+    gpg-connect-agent updatestartuptty /bye > /dev/null
+fi
 
 {%@@ endif -@@%}
 

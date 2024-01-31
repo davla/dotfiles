@@ -276,9 +276,9 @@ dotfiles:
     actions:
     - _strip '{{@@ rustup_environment_append_marker @@}}' '{{@@ rustup_environment_dst @@}}'
     - _append '{{@@ rustup_environment_dst @@}}' '{{@@ rustup_environment_tmp_dst @@}}'
-  f_sshd_config:
-    src: etc/ssh/sshd_config
-    dst: /etc/ssh/sshd_config
+  f_sshd_config.d_990-raspberry.conf:
+    src: etc/ssh/sshd_config.d/990-raspberry.conf
+    dst: /etc/ssh/sshd_config.d/990-raspberry.conf
   f_sudo_asdf-env-keep:
     src: etc/sudoers.d/asdf-env-keep
     dst: /etc/sudoers.d/asdf-env-keep
@@ -554,7 +554,7 @@ profiles:
   # This profile includes SSH server configuration files
   ssh:
     dotfiles:
-    - f_sshd_config
+    - f_sshd_config.d_990-raspberry.conf
 
   # This profile collects system startup jobs and configuration dotfiles
   startup:

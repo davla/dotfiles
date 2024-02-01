@@ -4,6 +4,6 @@
 
 Types: deb
 Uris: https://www.deb-multimedia.org
-Suites: testing
-Components: non-free main
-{%@@ include 'etc/apt/sources.list.d/signed-by' @@%}
+Suites: stable
+Components: main non-free
+Signed-By: /etc/apt/trusted.gpg.d/deb-multimedia-keyring.gpg

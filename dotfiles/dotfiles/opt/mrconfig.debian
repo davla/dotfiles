@@ -71,7 +71,7 @@ install =
 
 [/opt/i3-volume]
 checkout =
-    git clone 'https://github.com/FFY00/i3-volume.git' 'i3-volume'
+    git clone 'https://github.com/hastinbe/i3-volume.git' 'i3-volume'
 install =
     cp "$MR_REPO/volume" /usr/local/bin/volume
 

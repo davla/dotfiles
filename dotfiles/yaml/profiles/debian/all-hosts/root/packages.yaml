@@ -90,6 +90,7 @@ profiles:
     - d_dpkg_hooks
     - f_apt.conf.d_dpkg-hooks
     - f_firefox.sources
+    - f_deb-multimedia.sources
     - f_debian-unstable.sources
     - f_docker.sources
     - f_sources.list

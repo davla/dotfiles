@@ -74,9 +74,9 @@ find /etc/apt/sources.list.d/ -type f -name '*.sources' -print0 \
                 print_info "Installing apt repository key for $REPO"
 
                 apt-get update -oAcquire::AllowInsecureRepositories=true \
-                    > /dev/null
+                    --yes > /dev/null
                 apt-get install -oAcquire::AllowInsecureRepositories=true \
-                    deb-multimedia-keyring > /dev/null
+                    --yes deb-multimedia-keyring > /dev/null
                 ;;
 
             'docker')

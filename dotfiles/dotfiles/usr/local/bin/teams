@@ -1,5 +1,0 @@
-#!/usr/bin/env sh
-
-# Invoke Teams as a progressive web app by executing the right .desktop file.
-
-dex {{@@ desktop_with_name('Teams') @@}}

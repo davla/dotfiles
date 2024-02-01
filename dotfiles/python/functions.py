@@ -23,8 +23,8 @@ def abs_path(path: str) -> str:
 
 
 def desktop_with_name(name: str, root_dir_glob="/home/*/.local/share/") -> str:
-    """Return .desktop file matching the given name."""
-    name_regex = re.compile(f"Name=.*{name}.*")
+    """Return .desktop file matching the given name case-insensitively."""
+    name_regex = re.compile(f"Name=.*{name}.*", re.IGNORECASE)
     desktop_files = glob.iglob(f"{root_dir_glob}/**/*.desktop")
     for desktop_file_name in desktop_files:
         with open(desktop_file_name, "r") as desktop_file:

@@ -8,6 +8,7 @@
 #######################################
 
 # Command criteria
+set $outlook_criterion title=".*Outlook.*Mail.*"
 set $scratchpad_editor_criterion instance="scratchpad-editor"
 set $scratchpad_term_criterion title="scratchpad-terminal"
 set $spotify_criterion instance="spotify"
@@ -47,12 +48,12 @@ bindsym $mod+u exec thunar
 bindsym $mod+p exec --no-startup-id \
     i3-msg '[$spotify_criterion] scratchpad show' \
     || spotify --force-device-scale-factor=$spotify_scale
+bindsym $mod+t exec {{@@ mail_client @@}}
 
 {%@@ if env['HOST'] == 'personal' -@@%}
 
 bindsym $mod+o exec firefox https://calendar.google.com/calendar/r
 bindsym $mod+i exec firefox https://keep.google.com/#home
-bindsym $mod+t exec thunderbird
 
 {%@@ endif -@@%}
 
@@ -67,7 +68,7 @@ set_from_resource $floating_height i3wm.FloatingHeight 550
 # Assigning applications to workspaces
 assign [$vscode_criterion] $ws1
 assign [class="Firefox"] $ws2
-assign [$thunderbird_criterion] $ws4
+assign [${{@@ mail_client @@}}_criterion] $ws4
 
 # Switch to assigned workspace by focusing newly created windows
 for_window [$vscode_criterion] focus
@@ -108,9 +109,11 @@ for_window [$telegram_criterion] move scratchpad, scratchpad show, \
     resize set $telegram_width $telegram_height, \
     move position center
 
+{%@@ if mail_client == 'thunderbird' @@%}
 # Thunderbird
 for_window [$thunderbird_criterion title=".* Reminder"] floating enable, \
     move position 68 ppt 1 ppt
+{%@@ endif -@@%}
 
 #######################################
 # Application startup

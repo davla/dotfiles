@@ -100,6 +100,10 @@ dotfiles:
     src: usr/local/bin/my-certbot
     dst: /usr/local/bin/my-certbot
     chmod: 755
+  f_local_bin_outlook:
+    src: usr/local/bin/progressive-web-app
+    dst: /usr/local/bin/outlook
+    chmod: 755
   f_local_bin_rustup:
     src: usr/local/bin/rustup
     dst: /usr/local/bin/rustup
@@ -134,7 +138,7 @@ dotfiles:
     dst: /usr/local/bin/systemd-sway-session-watch
     chmod: 755
   f_local_bin_teams:
-    src: usr/local/bin/teams
+    src: usr/local/bin/progressive-web-app
     dst: /usr/local/bin/teams
     chmod: 755
   f_local_bin_whatsapp-nativefier:

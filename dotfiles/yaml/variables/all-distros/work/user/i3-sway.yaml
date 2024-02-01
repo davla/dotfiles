@@ -7,6 +7,8 @@ variables:
   # These are the interfaces CLI options for the network-status i3blocks block
   i3blocks_network_interfaces: -i cable -i wireless
 
+  mail_client: outlook
+
   messaging_apps: []
   messaging_client: teams
   messaging_client_cmd: teams

@@ -100,7 +100,7 @@ case "$HOST" in
 
     'raspberry')
         print_info "Install CLI packages for $HOST"
-        sudo -u "$USER" yay -S --needed at certbot ddclient
+        sudo -u "$USER" yay -S --needed at certbot ddclient libjpeg
         ;;
 esac
 

@@ -259,9 +259,6 @@ dotfiles:
   f_python_keyring:
     src: config/python_keyring/keyringrc.cfg
     dst: '{{@@ xdg_config("python_keyring/keyringrc.cfg") @@}}'
-  f_sct.service:
-    src: config/systemd/user/sct.service
-    dst: '{{@@ xdg_config("systemd/user/sct.service") @@}}'
   f_ssh_config:
     src: ssh/config
     dst: ~/.ssh/config
@@ -387,7 +384,6 @@ profiles:
     - f_parcellite.service
     - f_picom.conf
     - f_picom.service
-    - f_sct.service
     import:
     - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/i3.yaml:optional
     actions:

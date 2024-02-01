@@ -96,7 +96,7 @@ find /etc/apt/sources.list.d/ -type f -name '*.sources' -print0 \
 
             'spotify')
                 download_key_from_url "$REPO" \
-                    'https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg'
+                    'https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg'
                 ;;
 
             'microsoft-prod'|'vscode'|'teams')

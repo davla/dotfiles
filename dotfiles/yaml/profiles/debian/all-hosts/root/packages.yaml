@@ -32,15 +32,9 @@ dotfiles:
     dst: /usr/local/share/dpkg
     actions:
     - recursive-exec-permissions '{{@@ _dotfile_abs_dst @@}}'
-  f_alacritty.sources:
-    src: etc/apt/sources.list.d/alacritty.sources
-    dst: /etc/apt/sources.list.d/alacritty.sources
   f_apt.conf.d_dpkg-hooks:
     src: etc/apt/apt.conf.d/70dpkg-hooks
     dst: /etc/apt/apt.conf.d/70dpkg-hooks
-  f_azure-cli.sources:
-    src: etc/apt/sources.list.d/azure-cli.sources
-    dst: /etc/apt/sources.list.d/azure-cli.sources
   f_caprine.sources:
     src: etc/apt/sources.list.d/caprine.sources
     dst: /etc/apt/sources.list.d/caprine.sources
@@ -62,9 +56,6 @@ dotfiles:
   f_microsoft-prod.sources:
     src: etc/apt/sources.list.d/microsoft-prod.sources
     dst: /etc/apt/sources.list.d/microsoft-prod.sources
-  f_mono.sources:
-    src: etc/apt/sources.list.d/mono.sources
-    dst: /etc/apt/sources.list.d/mono.sources
   f_sources.list:
     src: etc/apt/sources.list
     dst: /etc/apt/sources.list
@@ -97,7 +88,6 @@ profiles:
   packages:
     dotfiles:
     - d_dpkg_hooks
-    - f_alacritty.sources
     - f_apt.conf.d_dpkg-hooks
     - f_firefox.sources
     - f_debian-unstable.sources

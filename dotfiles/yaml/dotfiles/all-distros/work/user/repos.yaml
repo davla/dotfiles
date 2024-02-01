@@ -1,7 +1,0 @@
-%YAML 1.2
----
-# This dotfiles file lists the dotfiles for myrepos repositories management on
-# my work machine for unprivileged users.
-
-dotfiles:
-- f_secret_env

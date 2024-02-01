@@ -1,9 +1,0 @@
-# Alacritty PPA
-#
-# {{@@ header() @@}}
-
-Types: deb deb-src
-Uris: https://ppa.launchpadcontent.net/aslatter/ppa/ubuntu
-Suites: jammy
-Components: main
-{%@@ include 'etc/apt/sources.list.d/signed-by' @@%}

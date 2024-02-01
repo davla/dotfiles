@@ -5,5 +5,3 @@
 
 dotfiles:
 - f_pam.d_login
-- f_windows.automount
-- f_windows.mount

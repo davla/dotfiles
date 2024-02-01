@@ -344,14 +344,6 @@ dotfiles:
     actions:
     - _strip '{{@@ symbols_append_marker @@}}' '{{@@ symbols_dst @@}}'
     - _append '{{@@ symbols_dst @@}}' '{{@@ xkb_tmp_dst @@}}'
-  f_windows.automount:
-    src: etc/systemd/system/mnt-windows.automount
-    dst: /etc/systemd/system/mnt-windows.automount
-    actions:
-    - systemd-enable '{{@@ _dotfile_abs_src @@}}'
-  f_windows.mount:
-    src: etc/systemd/system/mnt-windows.mount
-    dst: /etc/systemd/system/mnt-windows.mount
 
 dynvariables:
   # These variables define which profile should be included to have asdf and

@@ -298,12 +298,6 @@ dotfiles:
   f_udiskie_config.yml:
     src: config/udiskie/config.yml
     dst: '{{@@ xdg_config("udiskie/config.yml") @@}}'
-  f_vmware-user.desktop:
-    src: config/autostart/disable-system-default.desktop
-    dst: '{{@@ xdg_config("autostart/vmware-user.desktop") @@}}'
-  f_vmware-user.service:
-    src: config/systemd/user/vmware-user.service
-    dst: '{{@@ xdg_config("systemd/user/vmware-user.service") @@}}'
   f_vscode_argv.json:
     src: vscode/argv.json
     dst: ~/.vscode/argv.json

@@ -1,8 +1,0 @@
-%YAML 1.2
----
-# This variables file defines git-related variables for my work machine on
-# Windows Linux Subsystem
-
-variables:
-  git_credentials_helper: manager
-  git_commit_gpg_sign: false

@@ -62,9 +62,6 @@ dotfiles:
   f_spotify.sources:
     src: etc/apt/sources.list.d/spotify.sources
     dst: /etc/apt/sources.list.d/spotify.sources
-  f_teams.sources:
-    src: etc/apt/sources.list.d/teams.sources
-    dst: /etc/apt/sources.list.d/teams.sources
   f_vscode.sources:
     src: etc/apt/sources.list.d/vscode.sources
     dst: /etc/apt/sources.list.d/vscode.sources

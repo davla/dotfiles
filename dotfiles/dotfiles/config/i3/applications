@@ -11,7 +11,7 @@
 set $scratchpad_editor_criterion instance="scratchpad-editor"
 set $scratchpad_term_criterion title="scratchpad-terminal"
 set $spotify_criterion instance="spotify"
-set $teams_criterion instance=".*microsoft teams.*"
+set $teams_criterion title=".*Microsoft Teams.*"
 set $telegram_criterion instance="telegram" title="Telegram.*"
 set $thunderbird_criterion class="thunderbird"
 set $vscode_criterion instance="code"

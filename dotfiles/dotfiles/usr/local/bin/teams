@@ -1,3 +1,5 @@
 #!/usr/bin/env sh
 
-exec {{@@ second_on_path('teams') @@}} --disable-seccomp-filter-sandbox "$@"
+# Invoke Teams as a progressive web app by executing the right .desktop file.
+
+dex {{@@ desktop_with_name('Teams') @@}}

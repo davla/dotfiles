@@ -4,6 +4,8 @@
 # system only, for unprivileged users.
 
 variables:
+  browser: microsoft-edge
+
   # These are the interfaces CLI options for the network-status i3blocks block
   i3blocks_network_interfaces: -i cable -i wireless
 

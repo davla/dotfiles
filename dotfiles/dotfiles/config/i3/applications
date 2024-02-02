@@ -30,7 +30,7 @@ set_from_resource $spotify_scale i3wm.SpotifyScale 1
 bindsym $mod+Shift+e exec $term --title $calc_title -e lua
 bindsym $mod+space exec i3-dmenu-desktop
 bindsym $mod+Shift+space exec dmenu_run
-bindsym $mod+w exec firefox
+bindsym $mod+w exec {{@@ browser @@}}
 bindsym $mod+Shift+y exec geany
 bindsym $mod+y exec --no-startup-id \
     i3-msg '[$scratchpad_editor_criterion] scratchpad show' \
@@ -52,8 +52,8 @@ bindsym $mod+t exec {{@@ mail_client @@}}
 
 {%@@ if env['HOST'] == 'personal' -@@%}
 
-bindsym $mod+o exec firefox https://calendar.google.com/calendar/r
-bindsym $mod+i exec firefox https://keep.google.com/#home
+bindsym $mod+o exec {{@@ browser @@}} https://calendar.google.com/calendar/r
+bindsym $mod+i exec {{@@ browser @@}} https://keep.google.com/#home
 
 {%@@ endif -@@%}
 

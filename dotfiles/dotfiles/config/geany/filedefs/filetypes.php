@@ -48,4 +48,4 @@ compiler=php -l "%f"
 run_cmd=php "%f"
 
 # use can also use something like this, to view your PHP or HTML files through a browser and webserver
-#run_cmd=firefox http://localhost/test_site/%f
+#run_cmd={{@@ browser @@}} http://localhost/test_site/%f

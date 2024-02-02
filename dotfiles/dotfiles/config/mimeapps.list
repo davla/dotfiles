@@ -1,12 +1,14 @@
 # Default applications settings
+#
+# {{@@ header() @@}}
 
 [Default Applications]
-x-scheme-handler/about=firefox.desktop
+x-scheme-handler/about={{@@ browser @@}}.desktop
 x-scheme-handler/ftp=thunar.desktop
 x-scheme-handler/sftp=thunar.desktop
-x-scheme-handler/http=firefox.desktop
-x-scheme-handler/https=firefox.desktop
-x-scheme-handler/unknown=firefox.desktop
+x-scheme-handler/http={{@@ browser @@}}.desktop
+x-scheme-handler/https={{@@ browser @@}}.desktop
+x-scheme-handler/unknown={{@@ browser @@}}.desktop
 
 {%@@- if env['HOST'] == 'personal' -@@%}
 

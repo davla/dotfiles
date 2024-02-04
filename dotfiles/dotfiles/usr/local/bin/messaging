@@ -42,26 +42,25 @@ Connection.events = ConnectionEvents
 
 
 class MessagingApp:
-    """
-    A messaging application.
-
-    Attributes:
-        window_criterion (str): The criterion that identifies the windows belonging to
-                                the messaging application.
-    """
+    """A messaging application."""
 
     window_match_prop = "app_id" if "WAYLAND_DISPLAY" in os.environ else "instance"
 
     def __init__(self, bin_name):
         self.name = bin_name
         self.window_criterion = f'{self.window_match_prop}=".*{self.name}.*"'
+        self.container_id = None
 
     def __hash__(self):
         return hash(self.name)
 
     def is_app_window(self, window):
         """Return whether a window belongs to this messaging application."""
-        return self.name in getattr(window, self.window_match_prop)
+        return (
+            self.container_id == window.id
+            if self.container_id is not None
+            else self.name in getattr(window, self.window_match_prop, "")
+        )
 
     def spawn(self):
         """Start the messaging application as a subprocesses."""
@@ -84,6 +83,10 @@ class AppSet:
         """Return whether there are any messaging applications left."""
         return bool(self.apps)
 
+    def discard(self, app):
+        """Remove a messaging application from the set."""
+        self.apps.discard(app)
+
     def discard_by_window(self, window):
         """Remove the application matching the given window, if any."""
         for app in self.apps:
@@ -93,7 +96,10 @@ class AppSet:
 
     def find_by_window(self, window):
         """Return the application matching the given window."""
-        return next(app for app in self.apps if app.is_app_window(window))
+        try:
+            return next(app for app in self.apps if app.is_app_window(window))
+        except StopIteration:
+            return None
 
     def has_app_by_window(self, window):
         """Whether there is any application matching the given window."""
@@ -105,11 +111,16 @@ def add_mark(i3, criterion, mark):
     return i3.command(f"[{criterion}] mark --add {mark}")
 
 
+def con_id_criterion(id):
+    """Return the con_id criterion for a given id."""
+    return f"con_id={id}"
+
+
 async def make_messaging_container(i3, workspace, mark, apps):
     """Create i3 container for messaging applications."""
-    first_app_criterion = apps[0].window_criterion
     await move_apps_to_tmp_workspace(i3, workspace, apps)
     await wait_for_app_titles(i3, apps)
+    first_app_criterion = con_id_criterion(apps[0].container_id)
     await make_scratchpad(i3, first_app_criterion)
     await add_mark(i3, first_app_criterion, mark)
 
@@ -134,11 +145,11 @@ async def mark_on_focus(i3, mark, apps):
     )
 
     async for event in window_events:
-        if event.change == "close":
-            remaining_apps.discard_by_window(event.container)
-        elif event.change == "focus":
-            app = remaining_apps.find_by_window(event.container)
-            await add_mark(i3, app.window_criterion, mark)
+        container = event.container
+        if event.change == "focus":
+            await add_mark(i3, con_id_criterion(container.id), mark)
+        elif event.change == "close":
+            remaining_apps.discard_by_window(container)
 
         if not remaining_apps:
             return
@@ -162,8 +173,12 @@ async def wait_for_app_titles(i3, apps):
     events = i3.events(Event.WINDOW_TITLE)
     remaining_apps = AppSet(apps)
     while remaining_apps:
-        event = await anext(events)
-        remaining_apps.discard_by_window(event.container)
+        container = (await anext(events)).container
+        app = remaining_apps.find_by_window(container)
+        if app is None:
+            continue
+        app.container_id = container.id
+        remaining_apps.discard(app)
 
 
 async def main():

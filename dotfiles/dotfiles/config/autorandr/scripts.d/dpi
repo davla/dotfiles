@@ -62,7 +62,8 @@ done
 # high- or low-dpi counterpart.
 echo "{{@@ gtk2_path | home_abs2var @@}}/gtkrc
 $HOME/.config/gtk-3.0/settings.ini
-$HOME/.config/dunst/dunstrc" | xargs -n 1 -I '{}' ln -sf "{}.$DPI_SUFFIX" '{}'
+$HOME/.config/dunst/dunstrc" | xargs -n 1 -I '{}' ln --force --symbolic \
+    --relative "{}.$DPI_SUFFIX" '{}'
 
 #######################################
 # DE-specific command

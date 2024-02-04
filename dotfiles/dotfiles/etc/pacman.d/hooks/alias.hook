@@ -20,6 +20,7 @@ Type = Package
 Description = Aliasing {{@@ alias_desc @@}}
 Depends = coreutils
 When = PostTransaction
-Exec = /usr/bin/sh -c 'which {{@@ cmd @@}} | xargs -I "{}" ln -sf "{}" /usr/local/bin/{{@@ alias @@}}'
+Exec = /usr/bin/sh -c 'which {{@@ cmd @@}} | xargs -I "{}" ln --force \
+    --symbolic "{}" /usr/local/bin/{{@@ alias @@}}'
 
 {%@@- endmacro @@%}

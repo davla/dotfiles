@@ -28,8 +28,8 @@ link_hooks() {
     SCRIPT_NAME="$1"
     AUTORANDR_PATH="$2"
 
-    xargs -I '{}' ln -sf "$AUTORANDR_PATH/scripts.d/$SCRIPT_NAME" \
-            "$AUTORANDR_PATH/{}/preswitch"
+    xargs -I '{}' ln --force --symbolic --relative \
+        "$AUTORANDR_PATH/scripts.d/$SCRIPT_NAME" "$AUTORANDR_PATH/{}/preswitch"
 
     unset AUTORANDR_PATH CONFIGS TARGET_NAME
 }

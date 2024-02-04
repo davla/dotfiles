@@ -45,15 +45,14 @@ ZSH_PLUGINS_DIR="${ZDOTDIR:?}/interactive/plugins"
 # configuration directory.
 
 print_info 'Link zsh environment file in home directory'
-ln -sf "${ZDOTDIR:?}/.zshenv" "$HOME/.zshenv"
+ln --force --relative --symbolic "${ZDOTDIR:?}/.zshenv" "$HOME/.zshenv"
 
 #######################################
 # Initialize $ZDOTDIR
 #######################################
 
-mkdir -p "${ZDOTDIR:?}/cache"
-mkdir -p "${ZDOTDIR:?}/interactive/plugins/data"
-mkdir -p "${ZDOTDIR:?}/interactive/plugins/dotfiles"
+mkdir --parents "${ZDOTDIR:?}/cache" "${ZDOTDIR:?}/interactive/plugins/data" \
+    "${ZDOTDIR:?}/interactive/plugins/dotfiles"
 
 #######################################
 # Install antibody
@@ -66,8 +65,8 @@ case "$DISTRO" in
         ;;
 
     'debian')
-        sudo mr -d /opt/antibody -c /opt/.mrconfig install
-        sudo mr -d /opt/asdf-vm -c /opt/.mrconfig install
+        sudo mr --directory /opt/antibody --config /opt/.mrconfig install
+        sudo mr --directory /opt/asdf-vm --config /opt/.mrconfig install
         ;;
 esac
 

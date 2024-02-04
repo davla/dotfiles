@@ -42,9 +42,8 @@ esac
 print_info 'Alias spellcheckers'
 if [ -d /usr/share/hunspell/ ]; then
     for EN_US_FILE_PATH in /usr/share/hunspell/en_US.*; do
-        EN_US_FILE_NAME="$(basename "$EN_US_FILE_PATH")"
-        EN_US_EXT="$(echo "$EN_US_FILE_NAME" | cut -d '.' -f 2-)"
-
-        ln -sf "./$EN_US_FILE_NAME" "/usr/share/hunspell/en_DK.$EN_US_EXT"
+        EN_US_EXT="$(basename "$EN_US_FILE_PATH" | cut -d '.' -f 2-)"
+        ln --force --symbolic --relative "$EN_US_FILE_PATH" \
+            "/usr/share/hunspell/en_DK.$EN_US_EXT"
     done
 fi

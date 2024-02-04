@@ -33,15 +33,14 @@ DOTDIRS_FILE="${1:?}"
 # $HOME/.profile. Here, symbolic links are created from those paths to the
 # actual files in the bash configuration directory.
 print_info 'Link POSIX shell startup files in home directory'
-ln -sf "${SDOTDIR:?}/profile" "$HOME/.profile"
+ln --force --symbolic --relative "${SDOTDIR:?}/profile" "$HOME/.profile"
 
 #######################################
 # Initialize $SDOTDIR
 #######################################
 
-mkdir -p "${SDOTDIR:?}/cache"
-mkdir -p "${SDOTDIR:?}/interactive/plugins/data"
-mkdir -p "${SDOTDIR:?}/interactive/plugins/dotfiles"
+mkdir --parents "${SDOTDIR:?}/cache" "${SDOTDIR:?}/interactive/plugins/data" \
+    "${SDOTDIR:?}/interactive/plugins/dotfiles"
 
 #######################################
 # Initialize cache

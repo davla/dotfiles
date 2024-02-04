@@ -33,16 +33,16 @@ DOTDIRS_FILE="${1:?}"
 # symbolic links are created from those paths to the actual files in the bash
 # configuration directory.
 print_info 'Link bash startup files in home directory'
-ln -sf "${BDOTDIR:?}/bashrc" "$HOME/.bashrc"
-ln -sf "${BDOTDIR:?}/bash_profile" "$HOME/.bash_profile"
+ln --force --symbolic --relative "${BDOTDIR:?}/bashrc" "$HOME/.bashrc"
+ln --force --symbolic --relative "${BDOTDIR:?}/bash_profile" \
+    "$HOME/.bash_profile"
 
 #######################################
 # Initialize $BDOTDIR
 #######################################
 
-mkdir -p "${BDOTDIR:?}/cache"
-mkdir -p "${BDOTDIR:?}/interactive/plugins/data"
-mkdir -p "${BDOTDIR:?}/interactive/plugins/dotfiles"
+mkdir --parents "${BDOTDIR:?}/cache" "${BDOTDIR:?}/interactive/plugins/data" \
+    "${BDOTDIR:?}/interactive/plugins/dotfiles"
 
 #######################################
 # Initialize cache

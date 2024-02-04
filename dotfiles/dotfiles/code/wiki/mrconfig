@@ -51,7 +51,8 @@ checkout =
     git -C '{{@@ pywikibot_path @@}}' submodule update --init
 init =
     # Creating the virtual environment
-    ln -sf "{{@@ wiki_util_abs_path @@}}/bot/.tool-versions" "$MR_REPO"
+    ln --force --symbolic "{{@@ wiki_util_abs_path @@}}/bot/.tool-versions" \
+        "$MR_REPO"
     init_asdf_project python
     SYSTEM_VIRTUALENV="$(which virtualenv)"
     asdf which python | xargs -I '{}' "$SYSTEM_VIRTUALENV" --python '{}' \
@@ -67,7 +68,7 @@ init =
     deactivate
     #
     # Linking custom scripts
-    ln -sf "{{@@ wiki_util_abs_path @@}}/bot"/*.py "$MR_REPO"
+    ln --force --symbolic "{{@@ wiki_util_abs_path @@}}/bot"/*.py "$MR_REPO"
 
 # Higher order, so that it's cloned after util
 order = {{@@ util_order + 10 @@}}

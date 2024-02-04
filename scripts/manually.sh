@@ -72,7 +72,8 @@ case "$HOST" in
             | tar -xJC "$TELEGRAM_HOME" --strip-components=1
 
         # Link the main executable in $PATH
-        ln -sf "$TELEGRAM_HOME/Telegram" '/usr/local/bin/telegram'
+        ln --force --symbolic "$TELEGRAM_HOME/Telegram" \
+            '/usr/local/bin/telegram'
 
         # Make updater work also for unprivileged users in telegram group
         groupadd -f telegram

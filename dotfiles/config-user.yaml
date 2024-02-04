@@ -8,8 +8,9 @@ actions:
     # VSCode stable ones, so that there are not two parallel set of dotfiles
     # and installed extensions.
     link-vscode-insiders-config: |-
-      ln -sf --relative "$HOME/.config/Code" "$HOME/.config/Code - Insiders"
-      ln -sf --relative "$HOME/.vscode" "$HOME/.vscode-insiders"
+      ln --force --symbolic --relative "$HOME/.config/Code" \
+          "$HOME/.config/Code - Insiders"
+      ln --force --symbolic --relative "$HOME/.vscode" "$HOME/.vscode-insiders"
 
   post:
     autorandr: sh actions/autorandr.sh "{0}"

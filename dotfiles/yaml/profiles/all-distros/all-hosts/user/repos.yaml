@@ -5,7 +5,9 @@
 
 actions:
   post:
-    mrconfig: ln -sf '{{@@ _dotfile_abs_dst @@}}' "$HOME/.mrconfig"
+    mrconfig: >-
+      ln --force --symbolic --relative '{{@@ _dotfile_abs_dst @@}}' \
+          "$HOME/.mrconfig"
 
 config:
   backup: false

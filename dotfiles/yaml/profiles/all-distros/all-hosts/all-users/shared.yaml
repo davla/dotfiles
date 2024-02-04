@@ -5,7 +5,7 @@
 
 actions:
   # This action links an mrtrust file to where myrepos expect it to be
-  mrtrust: ln -sf '{0}' "$HOME/.mrtrust"
+  mrtrust: ln --force --symbolic --relative '{0}' "$HOME/.mrtrust"
 
 config:
   backup: false

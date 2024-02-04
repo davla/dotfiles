@@ -11,7 +11,7 @@
 
 case "$DISTRO" in
     'arch')
-        pacman -S --needed myrepos
+        sudo pacman -S --needed myrepos
         ;;
 
     'debian')

@@ -7,8 +7,8 @@
 # well as a log file. Steps can be skipped and repeated.
 #
 # Arguments:
-#   - $1: The terminal width, used when wrapping the bot's messages. Defaults
-#         to $COLUMNS and then to 80.
+#   - $1: The step to be executed. If not given, one will be prompted.
+#   - $2+: Arguments for the "security" script.
 
 . ./.dotfiles-env
 
@@ -22,20 +22,6 @@ STEPS="dotdrop, custom-commands, environment, packages, getty-login, \
 graphical-login, manual, i3, sway, xfce, locales, keyboard-layout, startup, \
 timers, network, users, security, ssh, nfs, ddclient, udev, shells, themes, \
 repos"
-
-#######################################
-# Input processing
-#######################################
-
-# Bot step to be executed
-STEP="$1"
-
-# Line length after wich bot messages should be wrapped
-MSG_WIDTH="${2:-$COLUMNS}"
-
-#######################################
-# Variables
-#######################################
 
 # Colors
 RESET_COLOR='\033[0;0m'
@@ -62,13 +48,23 @@ INDENT='      '
 RETRY_PROMPT="Do you want to retry? $CHOICES"
 
 # Misc
-MSG_WIDTH="${MSG_WIDTH:-80}"
+MSG_WIDTH="${COLUMNS:-80}"
 MSG_WIDTH=$(( MSG_WIDTH - $(printf '%s' "$INDENT" | wc -m) ))
 IN_ALTERNATE_BUFFER='false'
 
 # Reset
 SHELL="$(ps --no-headers -p "$$" -o 'comm')"
 USER="$(id -un)"
+
+#######################################
+# Input processing
+#######################################
+
+# Bot step to be executed
+STEP="$1"
+if [ -n "$STEP" ]; then
+    shift
+fi
 
 #######################################
 # Functions
@@ -354,7 +350,7 @@ STEP="$(echo "${STEP}" | tr '[:upper:]' '[:lower:]')"
 case "$STEP" in
     'dotdrop'|'all')
         # Dotdrop setup - first as anything else depends on it.
-        $STEP_RUNNER 'sh -e scripts/dotdrop.sh ./dotfiles' 'set dotdrop up'
+        $STEP_RUNNER "sh -e scripts/dotdrop.sh $PWD" 'set dotdrop up'
         ;;
 esac
 case "$STEP" in
@@ -460,7 +456,7 @@ esac
 case "$STEP" in
     'security'|'all')
         # SSH and GPG keys
-        $STEP_RUNNER 'sh -e scripts/security.sh' 'generate SSH and GPG keys'
+        $STEP_RUNNER "sh -e scripts/security.sh $*" 'generate SSH and GPG keys'
         ;;
 esac
 case "$STEP" in

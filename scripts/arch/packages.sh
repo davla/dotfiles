@@ -47,7 +47,7 @@ else
     print_info 'Install AUR helper'
     pacman -S --needed git base-devel
 
-    YAY_DIR="$(mktemp -d 'XXX.yay.XXX')"
+    YAY_DIR="$(sudo -u "$USER" mktemp --directory 'XXX.yay.XXX')"
     sudo -u "$USER" git clone 'https://aur.archlinux.org/yay-bin.git' \
         "$YAY_DIR"
 
@@ -73,9 +73,9 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
     case "$HOST" in
         'personal')
             print_info "Install GUI packages for $HOST"
-            sudo -u "$USER" yay -S --needed asunder atril baobab bitwarden \
-                blueman brasero calibre caprine firefox-beta-bin geany \
-                gnome-disk-utility gnome-keyring gufw handbrake \
+            sudo -u "$USER" yay -S --needed alacritty asunder atril baobab \
+                bitwarden blueman brasero calibre caprine firefox-beta-bin \
+                geany gnome-disk-utility gnome-keyring gufw handbrake \
                 libreoffice-still kid3 remmina seahorse simple-scan \
                 soundconverter spotify telegram-desktop thunderbird \
                 transmission-gtk vlc-git visual-studio-code-insiders-bin \
@@ -100,16 +100,17 @@ case "$HOST" in
 
     'raspberry')
         print_info "Install CLI packages for $HOST"
-        sudo -u "$USER" yay -S --needed at certbot ddclient
+        sudo -u "$USER" yay -S --needed at certbot ddclient libjpeg
         ;;
 esac
 
 if [ "$HOST" != 'raspberry' ]; then
-    print_info 'Install CLI packages for non-headless hosts'
+    print_info 'Install CLI packages for non-arm hosts'
     sudo -u "$USER" yay -S --needed apng2gif docker docker-compose \
         docker-credential-secretservice-bin gifsicle gdb ghc intel-ucode \
         libsecret hunspell hunspell-da hunspell-en_US hunspell-it \
-        macchina-bin networkmanager polkit-gnome reflector temp-throttle-git
+        macchina-bin networkmanager polkit-gnome rar reflector shellcheck \
+        temp-throttle-git
         # dhcpcd doesn't work well with networkmanager (unless configured)
         if sudo -u "$USER" yay -Qs dhcpcd; then
             sudo -u "$USER" yay -R dhcpcd
@@ -117,13 +118,12 @@ if [ "$HOST" != 'raspberry' ]; then
 fi
 
 print_info 'Install CLI packages shared across all hosts'
-sudo -u "$USER" yay -S --needed alacritty antibody-bin asdf-vm autoconf \
-    automake cmake cowsay curl dkms dos2unix eza fasd fortune-mod gcc \
-    git-secret gnupg htop jq lua luacheck man mercurial moreutils \
-    multi-git-status myrepos nfs-utils nyancat otf-ipafont pacman-contrib \
-    p7zip pkgfile python python-pip python-pipenv rar shellcheck sudo thefuck \
-    ttf-baekmuk ttf-dejavu ttf-indic-otf ttf-khmer unzip vim \
-    wqy-microhei-lite zip
+sudo -u "$USER" yay -S --needed antibody-bin asdf-vm autoconf automake cmake \
+    cowsay curl dkms dos2unix eza fasd fortune-mod gcc git-secret gnupg htop \
+    jq lua luacheck man mercurial moreutils multi-git-status myrepos \
+    nfs-utils nyancat otf-ipafont pacman-contrib p7zip pkgfile python \
+    python-pip python-pipenv sudo thefuck ttf-baekmuk ttf-dejavu \
+    ttf-indic-otf ttf-khmer unzip vim wqy-microhei-lite zip
 
 # Dotfiles
 print_info 'Install CLI packages dotfiles'

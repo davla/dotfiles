@@ -23,6 +23,7 @@ config:
   import_variables:
   - ../../../../variables/all-distros/all-hosts/all-users/display-servers.yaml
   - ../../../../variables/all-distros/all-hosts/all-users/misc.yaml
+  - ../../../../variables/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/misc.yaml:optional
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -94,6 +95,15 @@ profiles:
     - sh
     actions:
     - zsh
+
+dynvariables:
+  # This variable is used to differentiate between user and root configuration
+  # in some dotfiles.
+  #
+  # It needs to be defined here, rahter than in a shared variables files,
+  # because variables from external variables are not yet available when
+  # importing dotfiles.
+  user: '[ "$USER" = "root" ] && echo "root" || echo "user"'
 
 variables:
   # These paths are variables because they are used in multiple places,

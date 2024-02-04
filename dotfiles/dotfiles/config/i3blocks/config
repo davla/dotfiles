@@ -7,7 +7,7 @@
     installation location is different.
 @@#}
 {%@@ macro command(bin) @@%}
-{%@@ if distro_id == 'arch' @@%}
+{%@@ if 'arch' in distro_id @@%}
 {{@@ '/usr/lib/i3blocks/%s' | format(bin) @@}}
 {%@@- elif distro_id == 'debian' @@%}
 {{@@ 'i3blocks-%s' | format(bin) @@}}
@@ -43,7 +43,7 @@ command={{@@ command('apt-upgrades') @@}} -s '' -c '{{@@ main_theme_color @@}}' 
 interval=once
 signal={{@@ updates_signal @@}}
 
-{%@@ elif distro_id == 'arch' -@@%}
+{%@@ elif 'arch' in distro_id -@@%}
 
 [arch-upgrades]
 command={{@@ command('arch-update') @@}} | sed -E 's/ updates? available//; s/system up to date/0/'

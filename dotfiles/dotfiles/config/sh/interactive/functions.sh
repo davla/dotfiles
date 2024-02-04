@@ -3,7 +3,7 @@
 # This scripts defines some POSIX shell functions that are useful in
 # interactive shells only
 
-{%@@ if user == 'user' and distro_id == 'arch'
+{%@@ if user == 'user' and 'arch' in distro_id
     and not is_headless | is_truthy -@@%}
 
 ########################################

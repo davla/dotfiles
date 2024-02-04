@@ -18,16 +18,25 @@ DOTDROP_DIR="$1"
 print_info 'Install pipenv'
 case "$DISTRO" in
     'arch')
-        sudo pacman -S --needed python python-pipenv
+        sudo pacman -S --needed gcc python python-pipenv
         ;;
 
     'debian')
         sudo apt-get update
-        sudo apt-get install python3 pipenv
+        sudo apt-get install gcc python3 pipenv
         ;;
 esac
 
 cd "$DOTDROP_DIR" || exit
+
+print_info 'Clear existing virtual environment'
+sudo rm -rf .venv
+
 print_info 'Install project dependencies'
-pipenv install
+if which asdf > /dev/null; then
+    asdf which python | xargs pipenv install --python
+else
+    pipenv install
+fi
+
 cd - > /dev/null 2>&1 || exit

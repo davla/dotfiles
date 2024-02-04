@@ -2,11 +2,14 @@
 #
 # {{@@ header() @@}}
 
-{%@@ if env['HOST'] == 'personal' -@@%}
+{%@@- if env['HOST'] == 'personal' @@%}
 
-192.168.0.1     router
-192.168.0.2     raspberry
+{%@@ for name, addr in local_ip_addresses.items() @@%}
 
-{%@@ endif -@@%}
+{{@@ addr @@}}  {{@@ name @@}}
+
+{%@@- endfor @@%}
+
+{%@@ endif @@%}
 
 # {{@@ frequent_hosts_marker @@}}

@@ -63,6 +63,7 @@ config:
   link_dotfile_default: nolink
   link_on_import: nolink
   longkey: false
+  minversion: '1.14.0'
   showdiff: true
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
@@ -312,7 +313,7 @@ dotfiles:
     # This action installs VSCode extensions listed in the dotfile on-the-fly
     - vscode-install-extensions '{{@@ vscode_tmp_dst @@}}'
     # This transformation actually creates the dotfile.
-    trans_write: vscode-list-extensions
+    trans_update: vscode-list-extensions
   f_vscode_keybindings.json:
     src: config/Code/User/keybindings.json
     dst: '{{@@ xdg_config("Code/User/keybindings.json") @@}}'
@@ -512,8 +513,7 @@ profiles:
       on_wayland: false
       on_x11: true
 
-trans_write:
-
+trans_update:
   # This transformation basically creates the dotfile. Indeed, it doesn't use
   # the {0} argument, and simply dumps the output of the command to {1}
   vscode-list-extensions: code --list-extensions > {1}

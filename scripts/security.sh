@@ -28,12 +28,33 @@ SSH_HOME="$HOME/.ssh"
 # Default value for SSH key file name
 DEFAULT_SSH_KEY='id_rsa'
 
+########################################
+# Functions
+########################################
+
+# This function prompts the user to enter the name of an SSH key. It uses a
+# default value if the user enters nothing. Returns the full path of the key
+# in $SSH_HOME
+#
+# Arguments:
+#   - $1: The file descriptor the prompts are output to.
+prompt_ssh_key_name() {
+    PROMPT_SSH_OUTPUT="$1"
+
+    printf "Enter SSH key filename [default '%s']: " "$DEFAULT_SSH_KEY" \
+        >&"$PROMPT_SSH_OUTPUT"
+    read -r PROMPT_SSH_FILE_NAME
+    echo "$SSH_HOME/${PROMPT_SSH_FILE_NAME:-$DEFAULT_SSH_KEY}"
+
+    unset PROMPT_SSH_FILE_NAME PROMPT_SSH_OUTPUT
+}
+
 #######################################
 # Input processing
 #######################################
 
 [ $# -gt 0 ] && {
-    HOST="$1"
+    SSH_SERVER="$1"
     # This discards the only CLI argument that is not an user name
     shift
 }
@@ -55,13 +76,10 @@ case "$(echo "$CREATE_SSH_KEYS" | tr '[:upper:]' '[:lower:]')" in
     'y'|'yes')
         print_info 'Create SSH key'
 
-        # Prompt the user for SSH key filename, handling the default too
-        printf "Enter SSH key filename [default '%s']: " "$DEFAULT_SSH_KEY"
-        read -r SSH_KEY_FILE_NAME
-        [ -z "$SSH_KEY_FILE_NAME" ] && SSH_KEY_FILE_NAME="$DEFAULT_SSH_KEY"
-
-        # Actually create the SSH key (interactive)
-        SSH_KEY_PATH="$SSH_HOME/$SSH_KEY_FILE_NAME"
+        # Create the SSH key (interactive)
+        exec 3>&1
+        SSH_KEY_PATH="$(prompt_ssh_key_name '3')"
+        exec 3>&-
         ssh-keygen -f "$SSH_KEY_PATH" -t rsa
 
         # Add the newly created SSH key to gpg-agent (interactive)
@@ -71,18 +89,10 @@ case "$(echo "$CREATE_SSH_KEYS" | tr '[:upper:]' '[:lower:]')" in
         # Display newly created public SSH key
         print_info "Display new SSH key at $SSH_KEY_PATH.pub"
         cat "$SSH_KEY_PATH.pub"
-        # shellcheck disable=2034
-        read -r ANSWER
-        unset ANSWER
+        read -r
 
-        [ -n "$HOST" ] && {
-            # Add key to the given host's authorized keys as each provided user
-            print_info "Copy key $SSH_KEY_PATH.pub to hosts"
-            for SSH_USER in "$@"; do
-                ssh-copy-id -i "$SSH_KEY_PATH.pub" "$SSH_USER@$HOST"
-            done
-        }
-        unset SSH_KEY_FILE_NAME SSH_KEY_PATH
+        # Leaving SSH_KEY_PATH around for later use.
+        unset SSH_KEY_FILE_NAME
         ;;
 
     # Not generate SSH key
@@ -97,6 +107,26 @@ case "$(echo "$CREATE_SSH_KEYS" | tr '[:upper:]' '[:lower:]')" in
         ;;
 esac
 unset CREATE_SSH_KEYS
+
+########################################
+# Copy SSH keys to servers
+########################################
+
+[ -n "$SSH_SERVER" ] && {
+    # Prompt for SSH key name if not done yet
+    exec 3>&1
+    SSH_KEY_PATH="${SSH_KEY_PATH:-"$(prompt_ssh_key_name '3')"}"
+    exec 3>&-
+
+    # Add key to the given host's authorized keys as each provided user
+    print_info "Copy key $SSH_KEY_PATH.pub to servers"
+
+    for SSH_USER in "$@"; do
+        ssh-copy-id -i "$SSH_KEY_PATH.pub" "$SSH_USER@$SSH_SERVER"
+    done
+}
+
+unset SSH_KEY_PATH
 
 #######################################
 # Change git origin of this repo
@@ -170,9 +200,7 @@ EOF
         # Actually get the content to paste on GitHub
         gpg --list-secret-keys --with-colons | grep 'sec' | cut -d ':' -f 5 \
             | xargs gpg --armor --export
-        # shellcheck disable=2034
-        read -r ANSWER
-        unset ANSWER
+        read -r
 
         unset GPG_ARGS GPG_EMAIL GPG_NAME
         ;;

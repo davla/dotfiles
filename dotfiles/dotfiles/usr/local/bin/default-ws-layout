@@ -1,0 +1,92 @@
+#!/usr/bin/env python3
+
+"""Set a given layout to workspaces with more than one window.
+
+Workspaces and layouts are given as positional argument pairs. For example, the
+following sets the workspace "1" to be tabbed and the "browser" workspace to be stacked:
+    default-sw-layout 1 tabbed browser stacked
+
+Usage:
+    default-ws-layout (<workspace> <layout>)...
+    default-ws-layout --help
+
+Options:
+    --help, -H                              Show this help text.
+"""
+
+import asyncio
+
+from docopt import docopt
+from i3ipc import Event, WindowEvent, WorkspaceEvent
+from i3ipc.aio import Connection
+
+
+async def ConnectionEvents(self, *event_names):
+    """Yield selected events from this i3 connection."""
+    queue = asyncio.Queue()
+    for event_name in event_names:
+        self.on(event_name, lambda _, event: queue.put_nowait(event))
+    while True:
+        yield await queue.get()
+
+
+Connection.events = ConnectionEvents
+
+
+async def apply_default_layout(i3, ws, default_layout):
+    """Change workspace layout based on the children arrangement."""
+    children_count = len([d for d in ws.descendants() if d.parent == ws])
+    descendants_count = len(ws.descendants())
+
+    has_many_direct_children = children_count > 1
+    has_one_child_with_many_children = children_count == 1 and descendants_count > 2
+    has_one_child_with_one_child = children_count == 1 and descendants_count == 2
+
+    if has_many_direct_children or has_one_child_with_many_children:
+        await i3.command(f"layout {default_layout}")
+    elif has_one_child_with_one_child:
+        # Move the only descendant directly under the namespace. Sometimes it needs to
+        # be moved up, sometimes right, I still haven't figured it out. But doing both
+        # works anytime.
+        await i3.command(f"move up, move right")
+
+
+async def apply_default_layouts_on_changes(i3, default_layouts):
+    """Apply default workspace layout upon events."""
+    events = i3.events(Event.WORKSPACE_FOCUS, Event.WINDOW_NEW, Event.WINDOW_CLOSE)
+    async for event in events:
+        workspace = await get_event_ws(i3, event)
+        try:
+            layout = default_layouts[workspace.name]
+            await apply_default_layout(i3, workspace, layout)
+        except KeyError:
+            pass
+
+
+async def get_event_ws(i3, event):
+    """Return the workspace for a given event happened.
+
+    If the container of a "window" event no longer exists, the current workspace is
+    assumed.
+    """
+    if isinstance(event, WorkspaceEvent):
+        return event.current
+    if isinstance(event, WindowEvent):
+        root = await i3.get_tree()
+        return (root.find_by_id(event.container.id) or root.find_focused()).workspace()
+
+
+def parse_cli_args():
+    """Parse command-line arguments."""
+    args = docopt(__doc__)
+    return dict(zip(args["<workspace>"], args["<layout>"]))
+
+
+async def main():
+    default_layouts = parse_cli_args()
+    i3 = await Connection().connect()
+    await apply_default_layouts_on_changes(i3, default_layouts)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

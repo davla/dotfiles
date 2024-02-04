@@ -54,7 +54,7 @@ bindsym $mod+Shift+$ws9key move container to workspace $ws9; workspace $ws9
 bindsym $mod+Shift+$ws10key move container to workspace $ws10; workspace $ws10
 
 # Orientation
-default_orientation horizontal
+default_orientation vertical
 
 #######################################
 # Scratchpad
@@ -104,9 +104,9 @@ mode "containers" {
     bindsym v split v
 
     # Layout
-    bindsym a layout stacking
+    bindsym s layout stacking
     bindsym t layout tabbed
-    bindsym s layout toggle split
+    bindsym g layout toggle split
 
     # Fullscreen
     bindsym l fullscreen toggle

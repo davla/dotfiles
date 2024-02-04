@@ -69,6 +69,10 @@ dotfiles:
     src: usr/local/bin/code
     dst: /usr/local/bin/code
     chmod: 755
+  f_local_bin_default-ws-layout:
+    src: usr/local/bin/default-ws-layout
+    dst: /usr/local/bin/default-ws-layout
+    chmod: 755
   f_local_bin_dotdrop:
     src: usr/local/bin/dotdrop
     dst: /usr/local/bin/dotdrop

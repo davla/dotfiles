@@ -21,10 +21,11 @@ case "$DISTRO" in
         ;;
 
     'debian')
-        sudo apt-get install autorandr dunst i3 i3blocks qt5ct picom thunar \
-            xdg-desktop-portal xdg-desktop-portal-gtk
+        sudo apt-get install autorandr dunst i3 i3blocks python3-docopt \
+            python3-i3ipc qt5ct picom thunar xdg-desktop-portal \
+            xdg-desktop-portal-gtk
         if [ "$HOST" = 'personal' ]; then
-            sudo apt-get install python3-aiostream python3-docopt python3-i3ipc
+            sudo apt-get install python3-aiostream
         fi
         ;;
 esac

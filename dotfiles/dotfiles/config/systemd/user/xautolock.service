@@ -1,0 +1,17 @@
+# xautolock systemd service file
+
+[Unit]
+Description=X11 inactivity screen locker
+After=graphical-session.target
+BindsTo=graphical-session.target
+ConditionEnvironment=DISPLAY
+
+[Service]
+ExecStart=xautolock -time 5 -locker lock-screen -nowlocker lock-screen -detectsleep
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=xautolock
+SyslogLevel=info
+SyslogLevelPrefix=true
+Type=exec

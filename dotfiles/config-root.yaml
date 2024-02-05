@@ -204,6 +204,9 @@ dotfiles:
   f_keyboard:
     src: etc/default/keyboard
     dst: /etc/default/keyboard
+  f_logind.conf.d_lid-switch.conf:
+    src: etc/systemd/logind.conf.d/lid-switch.conf
+    dst: /etc/systemd/logind.conf.d/lid-switch.conf
   f_lightdm-gtk-greeter.conf.d_02_custom.conf:
     src: usr/share/lightdm/lightdm-gtk-greeter.conf.d/02_custom.conf
     dst: /usr/share/lightdm/lightdm-gtk-greeter.conf.d/02_custom.conf
@@ -552,6 +555,7 @@ profiles:
   # locales
   system-tweaks:
     dotfiles:
+    - f_logind.conf.d_lid-switch.conf
     - f_sudo_insults
     - f_sudo_sudo-group
     include:

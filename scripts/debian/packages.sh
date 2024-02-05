@@ -165,7 +165,7 @@ case "$HOST" in
     'work')
         print_info "Install CLI packages for $HOST"
         apt-get install amd64-microcode awscli dotnet-sdk-6.0 dotnet-sdk-7.0 \
-            dotnet-sdk-8.0
+            dotnet-sdk-8.0 i3lock xautolock
         ;;
 esac
 

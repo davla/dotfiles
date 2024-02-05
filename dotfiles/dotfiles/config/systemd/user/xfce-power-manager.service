@@ -1,0 +1,20 @@
+# Xfce Power Manager systemd service file
+
+[Unit]
+Description=Xfce Power Manager
+Documentation=man:xfce4-power-manager(1) man:xfce4-power-manager-settings(1)
+
+[Service]
+Type=dbus
+BusName=org.xfce.PowerManager
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=xfce-power-manager
+SyslogLevel=info
+SyslogLevelPrefix=true
+ExecStart=xfce4-power-manager --no-daemon
+ExecStop=xfce4-power-manager --quit
+
+[Install]
+WantedBy=i3-session.target

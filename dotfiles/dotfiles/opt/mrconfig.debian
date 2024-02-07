@@ -63,7 +63,8 @@ checkout =
         'docker-credential-helpers'
 install =
     get_github_latest_release 'docker/docker-credential-helpers' \
-        'contains("secretservice")' | tar zx -C /usr/local/bin;
+        'contains("secretservice") and contains("amd64")' \
+        > /usr/local/bin/docker-credential-secretservice
     chmod +x /usr/local/bin/docker-credential-secretservice
 
 

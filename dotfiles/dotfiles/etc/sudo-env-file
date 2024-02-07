@@ -8,4 +8,6 @@
 
 {%@@ include 'etc/asdf-environment' @@%}
 
-{%@@ include 'etc/rustup-environment' @@%}
+{%@@ if env['HOST'] != 'work' -@@%}
+    {%@@ include 'etc/rustup-environment' @@%}
+{%@@ endif @@%}

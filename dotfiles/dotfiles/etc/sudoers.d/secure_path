@@ -3,7 +3,7 @@
 # {{@@ header() @@}}
 
 Defaults	secure_path="/usr/local/sbin:/usr/local/bin:\
-    {{@@ rustup_shims @@}}/bin:\
+    {%@@ if env['HOST'] != 'work' -@@%} {{@@ rustup_shims @@}}/bin:\ {%@@ endif @@%}
     {{@@ asdf_data @@}}/shims:{{@@ asdf_home @@}}/bin:\
     /usr/sbin:/usr/bin:\
     /sbin:/bin"

@@ -372,15 +372,19 @@ dynvariables:
             ;;
     esac
   cli_rustup_include: |-
-    case "$DISTRO" in
-        'arch')
-            echo 'rustup'
-            ;;
+    if [ "$HOST" = 'work' ]; then
+        echo 'rustup-empty'
+    else
+        case "$DISTRO" in
+            'arch')
+                echo 'rustup'
+                ;;
 
-        'debian')
-            echo 'rustup-empty'
-            ;;
-    esac
+            'debian')
+                echo 'rustup-empty'
+                ;;
+        esac
+    fi
   manual_asdf_include: |-
     case "$DISTRO" in
         'arch')
@@ -392,15 +396,19 @@ dynvariables:
             ;;
     esac
   manual_rustup_include: |-
-    case "$DISTRO" in
-        'arch')
-            echo 'rustup-empty'
-            ;;
+    if [ "$HOST" = 'work' ]; then
+        echo 'rustup-empty'
+    else
+        case "$DISTRO" in
+            'arch')
+                echo 'rustup-empty'
+                ;;
 
-        'debian')
-            echo 'rustup'
-            ;;
-    esac
+            'debian')
+                echo 'rustup'
+                ;;
+        esac
+    fi
 
 profiles:
   # This profile includes asdf version manager configuration files

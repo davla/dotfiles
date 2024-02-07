@@ -61,6 +61,7 @@ install =
 
 {%@@ endif @@%}
 
+{%@@ if env['HOST'] != 'work' -@@%}
 
 [{{@@ rustup_home @@}}]
 checkout =
@@ -74,3 +75,5 @@ upgrade =
     export RUSTUP_HOME="{{@@ rustup_home @@}}" \
         CARGO_HOME="{{@@ rustup_shims @@}}"
     rustup self update
+
+{%@@ endif @@%}

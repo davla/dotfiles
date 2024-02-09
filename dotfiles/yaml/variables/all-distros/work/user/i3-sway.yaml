@@ -9,6 +9,8 @@ variables:
   # These are the interfaces CLI options for the network-status i3blocks block
   i3blocks_network_interfaces: -i cable -i wireless
 
+  i3blocks_temperature_chip: thinkpad-isa-0000
+
   mail_client: outlook
 
   messaging_apps: []

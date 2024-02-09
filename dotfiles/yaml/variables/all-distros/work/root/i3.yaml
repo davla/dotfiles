@@ -7,6 +7,7 @@ variables:
   # These are the i3blocks blocks that are installed system-wide
   i3blocks_list: >-
     apt-upgrades
+    batterybar
     cpu_usage2
     keyindicator2
     network-status

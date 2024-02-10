@@ -20,6 +20,9 @@ config:
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
+  d_xorg.conf.d:
+    src: etc/X11/xorg.conf.d
+    dst: /etc/X11/xorg.conf.d
   f_xsession.options:
     src: etc/X11/Xsession.options
     dst: /etc/X11/Xsession.options
@@ -29,3 +32,8 @@ profiles:
   startup-x11:
     dotfiles:
     - f_xsession.options
+
+  # This profile holds dotfiles used for system-wide configuration only on X11
+  system-tweaks-x11:
+    dotfiles:
+    - d_xorg.conf.d

@@ -135,9 +135,6 @@ dotfiles:
     dst: '{{@@ asdf_config @@}}'
     actions:
     - asdf
-  d_exports.d:
-    src: etc/exports.d
-    dst: /etc/exports.d
   d_i3blocks_keyindicator2:
     src: usr/local/lib/i3blocks/keyindicator2
     dst: /usr/local/lib/i3blocks/keyindicator2
@@ -152,9 +149,6 @@ dotfiles:
     src: usr/local/share/mr
     # Dynamic path since it's used somewhere else too
     dst: '{{@@ mr_libs_path @@}}'
-  d_xorg.conf.d:
-    src: etc/X11/xorg.conf.d
-    dst: /etc/X11/xorg.conf.d
   f_80i3blocks:
     src: etc/apt/apt.conf.d/80i3blocks
     dst: /etc/apt/apt.conf.d/80i3blocks
@@ -318,6 +312,9 @@ dotfiles:
     dst: /etc/systemd/system/underclock.service
     actions:
     - systemd-enable '{{@@ _dotfile_abs_src @@}}'
+  f_whole-fs.exports:
+    src: etc/exports.d/whole-fs.exports
+    dst: /etc/exports.d/whole-fs.exports
   f_xkb_base.lst:
     src: usr/share/X11/xkb/rules/base.lst
     # Dynamic path since the dotfile content is inserted into dst
@@ -435,18 +432,10 @@ profiles:
     - '{{@@ cli_asdf_include @@}}'
     - '{{@@ cli_rustup_include @@}}'
 
-  # This profile includes configuration files for ddclient
-  ddclient:
-    dotfiles:
-    - f_ddclient.conf
-
   # This profile contains dotfiles used to setup the global shell environment
   environment:
     dotfiles:
-    - f_99-philips-tv-hdmi.lua
     - f_pam_env.conf
-    - f_sudo_insults
-    - f_sudo_sudo-group
     actions:
     - environment
     - _rm '{{@@ environment_tmp_dst @@}}'
@@ -476,6 +465,12 @@ profiles:
     - f_lightdm.conf.d_02_custom.conf
     - f_lightdm-gtk-greeter.conf.d_02_custom.conf
 
+  # This profile contains dotfiles related to hardware-related configuration
+  hardware:
+    dotfiles:
+    - f_99-philips-tv-hdmi.lua
+    - f_udev_999-hid.rules
+
   # This profile includes the i3 session dotfiles that require root privileges
   # to be installed
   i3:
@@ -502,13 +497,6 @@ profiles:
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/i3blocks.yaml:optional
 
-  # This profile contains dotfiles related to localization and timezones
-  locales:
-    import:
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/locales.yaml
-    actions:
-    - locales
-
   # This profile holds dotfiles used to install software manually, that is
   # without the aid of a package manager
   manual:
@@ -526,10 +514,11 @@ profiles:
     - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/network.yaml:optional
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/network.yaml:optional
 
-  # This profile holds nfs configurations and exports
-  nfs:
+  # This profile collects useful configuration for accessing a host remotely
+  remote-access:
     dotfiles:
-    - d_exports.d
+    - f_sshd_config.d_990-raspberry.conf
+    - f_whole-fs.exports
 
   # This profile contains dotfiles used to configure the code workspace
   repos:
@@ -551,11 +540,6 @@ profiles:
     variables:
       rustup_environment_dst: /etc/environment
 
-  # This profile includes SSH server configuration files
-  ssh:
-    dotfiles:
-    - f_sshd_config.d_990-raspberry.conf
-
   # This profile collects system startup jobs and configuration dotfiles
   startup:
     import:
@@ -571,6 +555,19 @@ profiles:
       pam_login_append_marker: >-
         GNOME Keyring startup and automatic login keyring unlocking
       pam_login_dst: /etc/pam.d/login
+
+  # This profile contains generic system-wide configuration, such as sudo and
+  # locales
+  system-tweaks:
+    dotfiles:
+    - f_sudo_insults
+    - f_sudo_sudo-group
+    include:
+    - system-tweaks-{{@@ display_server @@}}
+    import:
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/locales.yaml
+    actions:
+    - locales
 
   # This profile includes sway dotfiles that require root privileges to be
   # installed
@@ -589,16 +586,6 @@ profiles:
     - wayland-wrappers
     variables:
       wm_name: sway
-
-  # This profile includes udev configuration
-  udev:
-    dotfiles:
-    - f_udev_999-hid.rules
-
-  # This profile contains X11 configuration files
-  x11:
-    dotfiles:
-    - d_xorg.conf.d
 
   # This profile groups keyboard layout dotfiles
   xkb:

@@ -1,28 +1,30 @@
 #!/usr/bin/env sh
 
-# This script sets up network utilities, namely:
+# This script sets up the network configuration, namely:
 #   - A GNOME-network-manager script that disables Wi-Fi when cabled connection
-#     is available
+#     is available, for hosts that have both network interfaces
 #   - Local hosts to /etc/hosts
 #   - Frequently visited host IP caching in /etc/hosts setup
 
 # This doesn't work if this script is sourced
-. "$(dirname "$0")/../lib.sh"
+. "$(dirname "$0")/lib.sh"
 
 #######################################
 # Install network manager
 #######################################
 
-print_info 'Install GNOME network manager'
-case "$DISTRO" in
-    'arch')
-        pacman -S --needed networkmanager
-        ;;
+if [ "$HOST" != 'raspberry' ]; then
+    print_info 'Install GNOME network manager'
+    case "$DISTRO" in
+        'arch')
+            pacman -S --needed networkmanager
+            ;;
 
-    'debian')
-        apt-get install network-manager-gnome
-        ;;
-esac
+        'debian')
+            apt-get install network-manager-gnome
+            ;;
+    esac
+fi
 
 #######################################
 # Install dotfiles
@@ -37,3 +39,12 @@ dotdrop install -p network
 
 print_info 'Add frequently visited hosts'
 host-refresh --info --journald off --color on
+
+#######################################
+# Apply changes
+#######################################
+
+if [ "$HOST" = 'raspberry' ]; then
+    print_info 'Restart network daemon. This might impact the SSH connection.'
+    systemctl restart systemd-networkd
+fi

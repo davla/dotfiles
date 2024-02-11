@@ -34,9 +34,9 @@ sudo rm -rf .venv
 
 print_info 'Install project dependencies'
 if which asdf > /dev/null; then
-    asdf which python | xargs pipenv install --python
+    asdf which python | xargs pipenv install --dev --python
 else
-    pipenv install
+    pipenv install --dev
 fi
 
 cd - > /dev/null 2>&1 || exit

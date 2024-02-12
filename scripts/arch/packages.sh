@@ -75,10 +75,10 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
             print_info "Install GUI packages for $HOST"
             sudo -u "$USER" yay -S --needed alacritty asunder atril baobab \
                 bitwarden blueman brasero calibre caprine firefox-beta-bin \
-                geany gnome-disk-utility gnome-keyring gufw handbrake \
-                libreoffice-still kid3 remmina seahorse simple-scan \
+                geany gnome-disk-utility gnome-keyring gufw handbrake kid3 \
+                libreoffice-still mpv remmina seahorse simple-scan \
                 soundconverter spotify telegram-desktop thunderbird \
-                transmission-gtk vlc-git visual-studio-code-insiders-bin \
+                transmission-gtk visual-studio-code-insiders-bin \
                 whatsapp-nativefier
             ;;
     esac

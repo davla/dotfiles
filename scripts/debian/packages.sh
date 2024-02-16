@@ -174,12 +174,12 @@ esac
 
 print_info 'Install CLI packages shared across all hosts'
 apt-get install alacritty apt-transport-https autoconf automake \
-    build-essential cmake command-not-found cowsay curl dbus-x11 dkms \
+    build-essential cmake cmatrix command-not-found cowsay curl dbus-x11 dkms \
     docker-ce dos2unix fonts-freefont-otf fonts-nanum fortune g++ gdb git \
     git-secret gvfs-backends hunspell hunspell-en-us hunspell-it \
     intel-microcode jq libnotify-bin libsecret-1-dev lua5.1 lua-check make \
     moreutils nfs-common nyancat p7zip policykit-1-gnome pycodestyle python3 \
-    python3-pip rar sct shellcheck software-properties-common systemd-cron \
+    python3-pip rar sct shellcheck sl software-properties-common systemd-cron \
     thunar-archive-plugin uni2ascii unrar vim wmctrl xdotool \
     xserver-xorg-input-synaptics yad zip
 

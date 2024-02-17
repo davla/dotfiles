@@ -1,0 +1,6 @@
+%YAML 1.2
+---
+# This dotfiles file lists the i3blocks root dotfiles used only by i3
+
+dotfiles:
+- d_i3blocks_keyindicator2

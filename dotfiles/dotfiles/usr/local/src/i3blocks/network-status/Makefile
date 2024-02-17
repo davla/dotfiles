@@ -1,6 +1,7 @@
 BUILD_DIR = build
 INCLUDE_DIR = include
 SRC_DIR = src
+PREFIX ?= /usr/local/lib/i3blocks
 
 OBJECTS = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,\
 	$(wildcard $(SRC_DIR)/*.c))
@@ -34,4 +35,5 @@ clear : clean
 	$(RM) -r $(BUILD_DIR) $(EXEC)
 
 install : $(EXEC)
-	install -m755 $< $(PREFIX)/i3blocks/$<
+	install --directory $(PREFIX)
+	install --mode 755 $< $(PREFIX)/$<

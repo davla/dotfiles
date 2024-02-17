@@ -47,12 +47,7 @@ actions:
               apt-get install build-essential
               ;;
       esac
-      make -C '{{@@ _dotfile_abs_dst @@}}'
-      case "$DISTRO" in
-          'arch')
-            make -C '{{@@ _dotfile_abs_dst @@}}' install PREFIX=/usr/lib
-            ;;
-      esac
+      make -C '{{@@ _dotfile_abs_dst @@}}' install
 
     # This action installs the packages providing the commands used in the root
     # mrconfig file
@@ -136,15 +131,33 @@ dotfiles:
     actions:
     - asdf
   d_i3blocks_keyindicator2:
-    src: usr/local/lib/i3blocks/keyindicator2
-    dst: /usr/local/lib/i3blocks/keyindicator2
+    src: usr/local/src/i3blocks/keyindicator2
+    dst: /usr/local/src/i3blocks/keyindicator2
     actions:
     - i3blocks_keyindicator2
+    cmpignore:
+    - '*.o'
+    - keyindicator2
+    instignore:
+    - '*.o'
+    - keyindicator2
+    upignore:
+    - '*.o'
+    - keyindicator2
   d_i3blocks_network-status:
-    src: usr/local/lib/i3blocks/network-status
-    dst: /usr/local/lib/i3blocks/network-status
+    src: usr/local/src/i3blocks/network-status
+    dst: /usr/local/src/i3blocks/network-status
     actions:
     - i3blocks_network-status
+    cmpignore:
+    - '*.o'
+    - network-status
+    instignore:
+    - '*.o'
+    - network-status
+    upignore:
+    - '*.o'
+    - network-status
   d_myrepos-lib:
     src: usr/local/share/mr
     # Dynamic path since it's used somewhere else too
@@ -495,10 +508,10 @@ profiles:
   # blocklets
   i3blocks:
     dotfiles:
-    - d_i3blocks_keyindicator2
     - d_i3blocks_network-status
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/i3blocks.yaml:optional
+    - yaml/dotfiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ wm_name @@}}-i3blocks.yaml:optional
 
   # This profile holds dotfiles used to install software manually, that is
   # without the aid of a package manager

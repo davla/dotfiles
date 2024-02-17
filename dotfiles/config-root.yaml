@@ -34,7 +34,8 @@ actions:
       apt-get install build-essential libx11-dev
       env ACTIVE_COLOR='{{@@ main_theme_color @@}}' CAPS_LABEL='C' \
           INACTIVE_COLOR='{{@@ i3bar_inactive_color @@}}' NO_NUM=1 \
-          make -C '{{@@ _dotfile_abs_dst @@}}'
+          make -C '{{@@ _dotfile_abs_dst @@}}' install \
+          PREFIX='{{@@ i3blocklets_install_path @@}}'
 
     # This action compiles the network-status custom i3block
     i3blocks_network-status: |
@@ -47,7 +48,8 @@ actions:
               apt-get install build-essential
               ;;
       esac
-      make -C '{{@@ _dotfile_abs_dst @@}}' install
+      make -C '{{@@ _dotfile_abs_dst @@}}' install \
+          PREFIX='{{@@ i3blocklets_install_path @@}}'
 
     # This action installs the packages providing the commands used in the root
     # mrconfig file
@@ -511,7 +513,7 @@ profiles:
     - d_i3blocks_network-status
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/i3blocks.yaml:optional
-    - yaml/dotfiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ wm_name @@}}-i3blocks.yaml:optional
+    - yaml/dotfiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ wm_name | default('') @@}}-i3blocks.yaml:optional
 
   # This profile holds dotfiles used to install software manually, that is
   # without the aid of a package manager

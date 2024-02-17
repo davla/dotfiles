@@ -36,4 +36,4 @@ bar {
 }
 
 # This is necessary to make the i3block Caps lock indicator work
-bindsym --release Caps_Lock exec --no-startup-id pkill -SIGRTMIN+{{@@ caps_signal @@}} i3blocks
+bindsym --release Caps_Lock exec --no-startup-id pkill -SIGRTMIN+{{@@ i3blocks_signals.caps @@}} i3blocks

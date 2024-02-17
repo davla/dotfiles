@@ -1,7 +1,6 @@
 BUILD_DIR = build
 INCLUDE_DIR = include
 SRC_DIR = src
-PREFIX ?= /usr/local/lib/i3blocks
 
 OBJECTS = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,\
 	$(wildcard $(SRC_DIR)/*.c))

@@ -1,4 +1,4 @@
 # {{@@ header() @@}}
 
-APT::Update::Post-Invoke { "pkill -RTMIN+{{@@ updates_signal @@}} i3blocks || true"; };
-DPkg::Post-Invoke { "pkill -RTMIN+{{@@ updates_signal @@}} i3blocks || true"; };
+APT::Update::Post-Invoke { "pkill -RTMIN+{{@@ i3blocks_signals.updates @@}} i3blocks || true"; };
+DPkg::Post-Invoke { "pkill -RTMIN+{{@@ i3blocks_signals.updates @@}} i3blocks || true"; };

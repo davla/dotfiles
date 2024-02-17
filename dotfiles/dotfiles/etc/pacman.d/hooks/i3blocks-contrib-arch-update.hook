@@ -14,4 +14,4 @@ Type = Package
 Description = Sending signal to arch-update i3blocks-contrib blocklet
 Depends = procps-ng
 When = PostTransaction
-Exec = /usr/bin/pkill -RTMIN+{{@@ updates_signal @@}} i3blocks
+Exec = /usr/bin/pkill -RTMIN+{{@@ i3blocks_signals.updates @@}} i3blocks

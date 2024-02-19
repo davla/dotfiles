@@ -47,6 +47,7 @@ config:
   import_configs:
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ output_scaling @@}}.yaml:optional
+  - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/autorandr.yaml:optional
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/repos.yaml:optional
   - yaml/profiles/all-distros/all-hosts/all-users/shared.yaml
   - yaml/profiles/all-distros/all-hosts/all-users/shell.yaml
@@ -69,11 +70,6 @@ config:
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
-  d_autorandr:
-    src: config/autorandr
-    dst: '{{@@ xdg_config("autorandr") @@}}'
-    actions:
-    - autorandr '{{@@ _dotfile_abs_dst @@}}'
   d_desktop-directories:
     src: local/share/desktop-directories
     dst: '{{@@ xdg_data("desktop-directories") @@}}'
@@ -400,6 +396,7 @@ profiles:
     actions:
     - i3
     include:
+    - autorandr
     - i3-{{@@ output_scaling @@}}
     - look-and-feel
     - startup

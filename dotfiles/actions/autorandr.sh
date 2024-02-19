@@ -3,7 +3,6 @@
 # This script sets up the autorandr configuration. In particular:
 #   - it creates some symbolic links to generic hook scripts for specific
 #     configurations.
-#   - it sets execution permission on hook scripts.
 #
 # Arguments:
 #   - $1 - The directory where autorandr configurations are located.
@@ -42,7 +41,7 @@ link_hooks() {
 # Split by host.
 case "$HOST" in
     'personal')
-        HIDPI_CONFIGS='laptop-only'
+        HIDPI_CONFIGS='laptop-only-personal'
         LODPI_CONFIGS='dual-dk
 dual-it
 hdmi-only-dk

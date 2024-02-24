@@ -8,7 +8,6 @@
       | map('format_by',
         '/usr/share/icons/{}/scalable/real_icons/%s'.format(icon_theme))
       | join(':') @@%}
-{%@@ set line_spacing = font_size // 2 @@%}
 {%@@ set text_color = main_theme_color @@%}
 
 {#@@
@@ -28,14 +27,12 @@ font={{@@ font @@}}
 background-color={{@@ opacify(background_color) @@}}
 text-color={{@@ opacify(text_color) @@}}
 width={{@@ notification_width @@}}
-height={{@@ (notification_line_count * font_size
-    + line_spacing * (notification_line_count - 1)
-    + notification_vertical_padding * 2) @@}}
+height={{@@ notification_height @@}}
 margin={{@@ notification_margin @@}}
 padding={{@@ notification_vertical_padding @@}},{{@@ notification_horizontal_padding @@}}
 border-size={{@@ notification_border_width @@}}
 border-color={{@@ opacify(border_color) @@}}
-border-radius=10
+border-radius={{@@ notification_border_radius @@}}
 progress-color={{@@ opacify(text_color, 45) @@}}
 max-icon-size={{@@ notification_icon_size @@}}
 icon-path={{@@ icon_path @@}}

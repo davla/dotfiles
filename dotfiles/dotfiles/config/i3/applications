@@ -49,6 +49,10 @@ bindsym $mod+p exec --no-startup-id \
     i3-msg '[$spotify_criterion] scratchpad show' \
     || spotify --force-device-scale-factor=$spotify_scale
 bindsym $mod+t exec {{@@ mail_client @@}}
+bindsym $mod+n exec --no-startup-id dunstctl close-all
+bindsym $mod+Shift+n exec --no-startup-id dunstctl history-pop
+bindsym $mod+m exec --no-startup-id dunstctl close
+bindsym $mod+comma exec --no-startup-id dunstctl action
 
 {%@@ if env['HOST'] == 'personal' -@@%}
 

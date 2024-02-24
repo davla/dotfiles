@@ -1,13 +1,8 @@
 {%@@ macro dunstrc(border_width, dpi, horizontal_padding, icon_size,
-    icon_theme, margin, vertical_padding, width) @@%}
+    icon_theme, margin, vertical_padding, width, height, border_radius,
+    progress_bar_height) @@%}
 {%@@ set background_color = '#000000' @@%}
 {%@@ set border_color = main_theme_color @@%}
-{%@@ set icon_path = ['actions', 'apps', 'categories', 'devices', 'emblems',
-        'mimetypes', 'places', 'status', 'stock']
-      | map('format_by',
-        '/usr/share/icons/{}/scalable/real_icons/%s'.format(icon_theme))
-      | join(':') @@%}
-{%@@ set notify_modifiers = 'mod4' @@%}
 {%@@ set text_color = main_theme_color @@%}
 # {{@@ header() @@}}
 #
@@ -23,25 +18,109 @@
     #   mouse: follow mouse pointer
     #   keyboard: follow window with keyboard focus
     #   none: don't follow anything
-    follow = keyboard
+    #
+    # "keyboard" needs a window manager that exports the
+    # _NET_ACTIVE_WINDOW property.
+    # This should be the case for almost all modern window managers.
+    #
+    # If this option is set to mouse or keyboard, the monitor option
+    # will be ignored.
+    follow = none
 
-    # The geometry of the window:
-    #   [{width}]x{height}[+/-{x}+/-{y}]
-    geometry = "{{@@ width @@}}x{{@@ notification_line_count @@}}-{{@@ margin @@}}+{{@@ margin @@}}"
+    # Maximum number of notification (0 means no limit)
+    notification_limit = 5
 
-    # Show how many messages are currently hidden (because of geometry).
-    indicate_hidden = yes
+    enable_posix_regex = true
+    fullscreen = pushback
 
-    # Shrink window if it's smaller than the width.
-    shrink = no
+    # Sort messages by urgency.
+    sort = yes
 
-    # The transparency of the window.  Range: [0; 100].
-    transparency = 15
+    # Don't remove messages, if the user is idle (no mouse or keyboard input)
+    # for longer than idle_threshold seconds.
+    # Set to 0 to disable.
+    # A client can set the 'transient' hint to bypass this. See the rules
+    # section for how to disable this if necessary
+    idle_threshold = {{@@ 5 * 60 @@}}
 
-    # The minimum height of the entire notification.
-    notification_height = 0
+    # Show age of message if message is older than show_age_threshold
+    # seconds.
+    # Set to -1 to disable.
+    show_age_threshold = {{@@ 2 * 60 @@}}
 
-    # Draw a line of "separator_height" pixel height between two notifications.
+    # Stack together notifications with the same content
+    stack_duplicates = true
+
+    # Hide the count of stacked notifications with the same content
+    hide_duplicate_count = false
+
+    # Display indicators for URLs (U) and actions (A).
+    show_indicators = yes
+
+    # Ignore the dbus closeNotification message.
+    # Useful to enforce the timeout set by dunst configuration. Without this
+    # parameter, an application may close the notification sent before the
+    # user defined timeout.
+    ignore_dbusclose = true
+
+    ### Geometry ###
+
+    # dynamic width from 0 to 300
+    # width = (0, 300)
+    # constant width of 300
+    width = {{@@ width @@}}
+
+    # The maximum height of a single notification, excluding the frame.
+    height = {{@@ height @@}}
+
+    # Position the notification in the top right corner
+    origin = top-right
+
+    # Offset from the origin
+    offset = {{@@ margin @@}}x{{@@ margin @@}}
+
+    # Scale factor. It is auto-detected if value is 0.
+    scale = 0
+
+    # Define the corner radius of the notification window
+    # in pixel size. If the radius is 0, you have no rounded
+    # corners.
+    # The radius will be automatically lowered if it exceeds half of the
+    # notification height to avoid clipping text and/or icons.
+    corner_radius = {{@@ border_radius @@}}
+
+    ### Progress bar ###
+
+    # Turn on the progess bar. It appears when a progress hint is passed with
+    # for example dunstify -h int:value:12
+    progress_bar = true
+
+    # This sets the progress bar color according to:
+    # https://github.com/dunst-project/dunst/issues/835
+    highlight = "{{@@ border_color @@}}"
+
+    # Set the progress bar height. This includes the frame, so make sure
+    # it's at least twice as big as the frame width.
+    progress_bar_height = {{@@ progress_bar_height @@}}
+
+    # Set the frame width of the progress bar
+    progress_bar_frame_width = {{@@ border_width @@}}
+
+    # Set the minimum width for the progress bar
+    progress_bar_min_width = {{@@ width @@}}
+
+    # Set the maximum width for the progress bar
+    progress_bar_max_width = {{@@ width @@}}
+
+    # Corner radius for the progress bar. 0 disables rounded corners.
+    progress_bar_corner_radius = {{@@ progress_bar_height // 2 @@}}
+
+    ### Spacing ###
+
+    # Draw a line of "separator_height" pixel height between two
+    # notifications.
+    # Set to 0 to disable.
+    # If gap_size is greater than 0, this setting will be ignored.
     separator_height = {{@@ border_width @@}}
 
     # Padding between text and separator.
@@ -50,6 +129,9 @@
     # Horizontal padding.
     horizontal_padding = {{@@ horizontal_padding @@}}
 
+    # Padding between text and icon.
+    text_icon_padding = 0
+
     # Defines width in pixels of frame around the notification window.
     # Set to 0 to disable.
     frame_width = {{@@ border_width @@}}
@@ -57,34 +139,50 @@
     # Defines color of the frame around the notification window.
     frame_color = "{{@@ border_color @@}}"
 
-    # Define a color for the separator. Possible values are:
+    # Size of gap to display between notifications - requires a compositor.
+    # If value is greater than 0, separator_height will be ignored and a border
+    # of size frame_width will be drawn around each notification instead.
+    # Click events on gaps do not currently propagate to applications below.
+    gap_size = 0
+
+    # Define a color for the separator.
+    # possible values are:
     #  * auto: dunst tries to find a color fitting to the background;
     #  * foreground: use the same color as the foreground;
     #  * frame: use the same color as the frame;
     #  * anything else will be interpreted as a X color.
     separator_color = frame
 
-    # Sort messages by urgency.
-    sort = yes
-
-    # Don't remove messages, if the user is idle (no mouse or keyboard input)
-    # for longer than this time.
-    idle_threshold = 5m
-
     ### Text ###
 
     font = {{@@ font @@}}
 
-    # The spacing between lines. If the height is smaller than the font height,
-    # it will get raised to the font height.
+    # The spacing between lines.  If the height is smaller than the
+    # font height, it will get raised to the font height.
     line_height = 0
 
     # Possible values are:
     # full: Allow a small subset of html markup in notifications:
+    #        <b>bold</b>
+    #        <i>italic</i>
+    #        <s>strikethrough</s>
+    #        <u>underline</u>
+    #
     #        For a complete reference see
-    #        <http://developer.gnome.org/pango/stable/PangoMarkupFormat.html>.
-    # strip: Dunst will try to strip the markup.
-    # no:    Disable markup parsing.
+    #        <https://docs.gtk.org/Pango/pango_markup.html>.
+    #
+    # strip: This setting is provided for compatibility with some broken
+    #        clients that send markup even though it's not enabled on the
+    #        server. Dunst will try to strip the markup but the parsing is
+    #        simplistic so using this option outside of matching rules for
+    #        specific applications *IS GREATLY DISCOURAGED*.
+    #
+    # no:    Disable markup parsing, incoming notifications will be treated as
+    #        plain text. Dunst will not advertise that it has the body-markup
+    #        capability if this is set as a global setting.
+    #
+    # It's important to note that markup inside the format option will be parsed
+    # regardless of what this is set to.
     markup = full
 
     # The format of the message.  Possible variables are:
@@ -103,43 +201,46 @@
     # Possible values are "left", "center" and "right".
     alignment = left
 
-    # Show age of message if message is older than this time.
-    show_age_threshold = 2m
+    # Vertical alignment of message text and icon.
+    # Possible values are "top", "center" and "bottom".
+    vertical_alignment = center
 
-    # Split notifications into multiple lines if they don't fit into geometry.
-    word_wrap = yes
-
-    # When word_wrap is set to no, specify where to make an ellipsis in long
-    # lines. Possible values are "start", "middle" and "end".
+    # Specify where to make an ellipsis in long lines.
+    # Possible values are "start", "middle" and "end".
     ellipsize = middle
 
     # Ignore newlines '\n' in notifications.
     ignore_newline = no
 
-    # Stack together notifications with the same content
-    stack_duplicates = yes
-
-    # Hide the count of stacked notifications with the same content
-    hide_duplicate_count = no
-
-    # Display indicators for URLs (U) and actions (A).
-    show_indicators = yes
-
     ### Icons ###
 
-    # Align icons left/right/off
+    # Recursive icon lookup. You can set a single theme, instead of having to
+    # define all lookup paths.
+    enable_recursive_icon_lookup = true
+
+    # Set icon theme (only used for recursive icon lookup)
+    icon_theme = {{@@ icon_theme @@}}
+    # You can also set multiple icon themes, with the leftmost one being used first.
+    # icon_theme = "Adwaita, breeze"
+
+    # Align icons left/right/top/off
     icon_position = left
+
+    # Scale small icons up to this size, set to 0 to disable. Helpful
+    # for e.g. small files or high-dpi screens. In case of conflict,
+    # max_icon_size takes precedence over this.
+    min_icon_size = {{@@ icon_size @@}}
 
     # Scale larger icons down to this size, set to 0 to disable
     max_icon_size = {{@@ icon_size @@}}
 
-    # Paths to default icons.
-    icon_path = {{@@ icon_path @@}}
+    # Corner radius for the icon image.
+    icon_corner_radius = {{@@ border_radius @@}}
 
     ### History ###
 
-    # Should a notification popped up from history be sticky or timeout as if
-    # it would normally do.
+    # Should a notification popped up from history be sticky or timeout
+    # as if it would normally do.
     sticky_history = yes
 
     # Maximum amount of notifications kept in history
@@ -151,10 +252,10 @@
     dmenu = /usr/bin/dmenu -p dunst:
 
     # Browser for opening urls in context menu.
-    browser = /usr/bin/sensible-browser
+    browser = /usr/bin/xdg-open
 
     # Always run rule-defined scripts, even if the notification is suppressed
-    always_run_script = yes
+    always_run_script = true
 
     # Define the title of the windows spawned by dunst
     title = Dunst
@@ -162,78 +263,70 @@
     # Define the class of the windows spawned by dunst
     class = Dunst
 
-    # Print a notification on startup.
-    startup_notification = no
-
-    # Manage dunst's desire for talking. Can be one of the following values:
-    #  crit: Critical features. Dunst aborts
-    #  warn: Only non-fatal warnings
-    #  mesg: Important Messages
-    #  info: all unimportant stuff
-    # debug: all less than unimportant stuff
-    verbosity = mesg
-
-    # Define the corner radius of the notification window in pixel size.
-    corner_radius = 10
-
     ### Legacy
 
     # Use the Xinerama extension instead of RandR for multi-monitor support.
-    force_xinerama = no
+    # This setting is provided for compatibility with older nVidia drivers that
+    # do not support RandR and using it on systems that support RandR is highly
+    # discouraged.
+    #
+    # By enabling this setting dunst will not be able to detect when a monitor
+    # is connected or disconnected which might break follow mode if the screen
+    # layout changes.
+    force_xinerama = false
 
-    ### mouse
+    ### Mouse ###
 
-    # Defines action of mouse event
+    # Defines list of actions for each mouse event
     # Possible values are:
     # * none: Don't do anything.
-    # * do_action: If the notification has exactly one action, or one is marked
-    #              as default, invoke it. If there are multiple and no default,
-    #              open the context menu.
+    # * do_action: Invoke the action determined by the action_name rule. If there is no
+    #              such action, open the context menu.
+    # * open_url: If the notification has exactly one url, open it. If there are multiple
+    #             ones, open the context menu.
     # * close_current: Close current notification.
     # * close_all: Close all notifications.
+    # * context: Open context menu for the notification.
+    # * context_all: Open context menu for all notifications.
+    # These values can be strung together for each mouse event, and
+    # will be executed in sequence.
     mouse_left_click = close_current
-    mouse_middle_click = do_action
+    mouse_middle_click = do_action, close_current
     mouse_right_click = close_all
-
-# Experimental features that may or may not work correctly. Do not expect them
-# to have a consistent behaviour across releases.
-[experimental]
-    # Calculate the dpi to use on a per-monitor basis.
-    per_monitor_dpi = no
-
-[shortcuts]
-    # Xev might be helpful to find names for keys.
-
-    # Close notification.
-    close = {{@@ notify_modifiers @@}}+n
-
-    # Close all notifications.
-    close_all = {{@@ notify_modifiers @@}}+m
-
-    # Redisplay last message(s).
-    history = {{@@ notify_modifiers @@}}+comma
-
-    # Context menu.
-    context = {{@@ notify_modifiers @@}}+slash
 
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
     background = "{{@@ background_color @@}}"
     foreground = "{{@@ text_color @@}}"
-    timeout = 1s
-    #icon = /path/to/icon
+    timeout = 5s
 
 [urgency_normal]
     background = "{{@@ background_color @@}}"
     foreground = "{{@@ text_color @@}}"
-    timeout = 3s
-    #icon = /path/to/icon
+    timeout = 10s
 
 [urgency_critical]
     background = "{{@@ background_color @@}}"
     foreground = "{{@@ text_color @@}}"
+    urgency = critical
+
+{%@@ if env['HOST'] == 'work' -@@%}
+
+[outlook]
+    body = .*outlook.office.com.*
+    urgency = critical
+
+[teams]
+    body = .*teams.microsoft.com.*
+    urgency = critical
+
+{%@@- endif @@%}
+
+[no_timeout]
+    msg_urgency = critical
+    override_dbus_timeout = 0
+    set_transient = false
     timeout = 0
-    #frame_color = "#ff0000"
-    #icon = /path/to/icon
-{%@@ endmacro @@%}
+
+{%@@- endmacro @@%}

@@ -79,6 +79,12 @@ dotfiles:
   d_i3:
     src: config/i3
     dst: '{{@@ xdg_config("i3") @@}}'
+    cmpignore:
+    - work.secret
+    instignore:
+    - work.secret
+    upignore:
+    - work.secret
   d_i3-sway_shared_config:
     src: shared/i3-sway/config
     dst: '{{@@ xdg_config(wm_name) @@}}'

@@ -79,7 +79,16 @@ include modes
 
 include wm-control
 
-{%@@ if wm_name == 'sway' @@%}
+{%@@ if wm_name == 'i3' and env['HOST'] == 'work' -@@%}
+
+#######################################
+# Work
+#######################################
+
+include work
+
+{%@@ elif wm_name == 'sway' -@@%}
+
 #######################################
 # Input/Output
 #######################################
@@ -97,4 +106,5 @@ seat seat0 xcursor_theme {{@@ cursor_theme @@}} {{@@ cursor_size @@}}
 #######################################
 
 xwayland disable
+
 {%@@ endif @@%}

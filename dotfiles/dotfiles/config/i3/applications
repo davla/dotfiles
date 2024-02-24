@@ -6,7 +6,7 @@
 #######################################
 
 # Command criteria
-set $outlook_criterion title=".*Outlook.*Mail.*"
+set $outlook_criterion title=".*Outlook.*PWA.*"
 set $scratchpad_editor_criterion instance="scratchpad-editor"
 set $scratchpad_term_criterion title="scratchpad-terminal"
 set $spotify_criterion instance="spotify"
@@ -96,13 +96,6 @@ set_from_resource $spotify_width i3wm.SpotifyWidth 1500
 set_from_resource $spotify_height i3wm.SpotifyHeight 850
 for_window [$spotify_criterion] move scratchpad, scratchpad show, \
     resize set $spotify_width $spotify_height, move position center
-
-# Teams
-set_from_resource $teams_width i3wm.TeamsWidth 1200
-set_from_resource $teams_height i3wm.TeamsHeight 950
-for_window [$teams_criterion window_type="normal"] move scratchpad, \
-    scratchpad show, resize set $teams_width $teams_height, \
-    move position center
 
 # Telegram
 set_from_resource $telegram_width i3wm.TelegramWidth 900

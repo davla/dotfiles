@@ -94,7 +94,7 @@ dotfiles:
     dst: /usr/local/bin/rustup
     chmod: 755
   f_local_bin_signal-desktop:
-    src: usr/local/bin/electron-wayland
+    src: usr/local/bin/signal-desktop
     dst: /usr/local/bin/signal-desktop
     chmod: 755
   f_local_bin_shell-cache:
@@ -193,3 +193,8 @@ variables:
   frequent_hosts_path: /usr/local/etc/frequent-hosts
   host_refresh_path: /usr/local/sbin/host-refresh
   shell_cache_path: /usr/local/bin/shell-cache
+
+  electron_wayland_options: >-
+    --enable-features=UseOzonePlatform
+    --ozone-platform=wayland
+    --ozone-platform-hint=auto

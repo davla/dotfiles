@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+
+# For some reasons, the Signal desktop application doesn't display any window
+# in my current sway setup when executed alone. It takes another Signal desktop
+# process, which exits immediately, to display the windows for the first. This
+# is very likely due to Signal "single instance application" feature.
+#
+# Hence, we simply spawn Signal desktop in the background first, waiting until
+# a specific log line is output that signals (hehe) that this instance is
+# ready, and then we execute the second process.
+
+{%@@ set executable = second_on_path('signal-desktop') -@@%}
+
+########################################
+#               Variables
+########################################
+
+# This variable contains the Signal desktop log line indicating that the
+# instance is ready
+READY_LOG_LINE='^config/get: Successfully read ephemeral config file$'
+
+########################################
+#           Spawn Signal
+########################################
+
+# Spawn first instance in the background
+{ {{@@ executable @@}} {{@@ electron_wayland_options @@}} "$@" & disown; } \
+    | grep --quiet --max-count=1 "$READY_LOG_LINE"
+
+# Spawn second instance
+exec {{@@ executable @@}} > /dev/null

@@ -16,8 +16,4 @@
 # Add Electron Ozone options
 ########################################
 
-exec {{@@ second_on_path(executable) @@}} \
-    --enable-features=UseOzonePlatform \
-    --ozone-platform=wayland \
-    --ozone-platform-hint=auto \
-    "$@"
+exec {{@@ second_on_path(executable) @@}} {{@@ electron_wayland_options @@}} "$@"

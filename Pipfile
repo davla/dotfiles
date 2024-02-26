@@ -12,7 +12,6 @@ black = "*"
 isort = "*"
 i3ipc = "*"
 docopt = "*"
-aiostream = "*"
 
 [requires]
 python_version = "3"

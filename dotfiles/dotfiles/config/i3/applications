@@ -80,8 +80,8 @@ for_window [$android_studio_criterion title="win0" workspace=$ws1] \
     floating enable
 
 # Calculator
-for_window [title="$calc_title"] floating enable
-for_window [floating title="$calc_title"] \
+for_window [title="^$calc_title$"] floating enable
+for_window [floating title="^$calc_title$"] \
     resize set $floating_width $floating_height, \
     move position center
 

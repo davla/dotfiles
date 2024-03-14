@@ -97,6 +97,7 @@
     # reset
     rs = reset
     rsk = reset --keep
+    rsku = reset --keep @{upstream}
     rsm = reset --mixed
 
     # restore

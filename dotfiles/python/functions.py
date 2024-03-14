@@ -6,7 +6,9 @@ This module defines some custom functions to be used in dotdrop jinja2
 templates.
 """
 
+import glob
 import os
+import re
 import shutil
 from pathlib import Path
 
@@ -18,6 +20,17 @@ VENV_DIR = ".venv"
 def abs_path(path: str) -> str:
     """Return the absolute pathname for a path."""
     return Path(path).expand_home().resolve()
+
+
+def desktop_with_name(name: str, root_dir_glob="/home/*/.local/share/") -> str:
+    """Return .desktop file matching the given name case-insensitively."""
+    name_regex = re.compile(f"Name=.*{name}.*", re.IGNORECASE)
+    desktop_files = glob.iglob(f"{root_dir_glob}/**/*.desktop")
+    for desktop_file_name in desktop_files:
+        with open(desktop_file_name, "r") as desktop_file:
+            if any(map(name_regex.match, desktop_file)):
+                return desktop_file_name
+    return None
 
 
 def filename(path: str) -> str:

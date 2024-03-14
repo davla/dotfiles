@@ -47,6 +47,7 @@ config:
   import_configs:
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ output_scaling @@}}.yaml:optional
+  - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/autorandr.yaml:optional
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/repos.yaml:optional
   - yaml/profiles/all-distros/all-hosts/all-users/shared.yaml
   - yaml/profiles/all-distros/all-hosts/all-users/shell.yaml
@@ -69,11 +70,6 @@ config:
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
-  d_autorandr:
-    src: config/autorandr
-    dst: '{{@@ xdg_config("autorandr") @@}}'
-    actions:
-    - autorandr '{{@@ _dotfile_abs_dst @@}}'
   d_desktop-directories:
     src: local/share/desktop-directories
     dst: '{{@@ xdg_data("desktop-directories") @@}}'
@@ -259,9 +255,6 @@ dotfiles:
   f_python_keyring:
     src: config/python_keyring/keyringrc.cfg
     dst: '{{@@ xdg_config("python_keyring/keyringrc.cfg") @@}}'
-  f_sct.service:
-    src: config/systemd/user/sct.service
-    dst: '{{@@ xdg_config("systemd/user/sct.service") @@}}'
   f_ssh_config:
     src: ssh/config
     dst: ~/.ssh/config
@@ -298,12 +291,6 @@ dotfiles:
   f_udiskie_config.yml:
     src: config/udiskie/config.yml
     dst: '{{@@ xdg_config("udiskie/config.yml") @@}}'
-  f_vmware-user.desktop:
-    src: config/autostart/disable-system-default.desktop
-    dst: '{{@@ xdg_config("autostart/vmware-user.desktop") @@}}'
-  f_vmware-user.service:
-    src: config/systemd/user/vmware-user.service
-    dst: '{{@@ xdg_config("systemd/user/vmware-user.service") @@}}'
   f_vscode_argv.json:
     src: vscode/argv.json
     dst: ~/.vscode/argv.json
@@ -327,12 +314,21 @@ dotfiles:
   f_vscode_tasks.json:
     src: config/Code/User/tasks.json
     dst: '{{@@ xdg_config("Code/User/tasks.json") @@}}'
+  f_xautolock.service:
+    src: config/systemd/user/xautolock.service
+    dst: '{{@@ xdg_config("systemd/user/xautolock.service") @@}}'
   f_xdg-user-dirs.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/xdg-user-dirs.desktop") @@}}'
   f_xfce-applications.menu:
     src: config/menus/xfce-applications.menu
     dst: '{{@@ xdg_config("menus/xfce-applications.menu") @@}}'
+  f_xfce-power-manager.service:
+    src: config/systemd/user/xfce-power-manager.service
+    dst: '{{@@ xdg_config("systemd/user/xfce-power-manager.service") @@}}'
+  f_xfce4-power-manager.xml:
+    src: config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
+    dst: '{{@@ xdg_config("xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml") @@}}'
   f_yay_config.json:
     src: config/yay/config.json
     dst: '{{@@ xdg_config("yay/config.json") @@}}'
@@ -393,12 +389,14 @@ profiles:
     - f_parcellite.service
     - f_picom.conf
     - f_picom.service
-    - f_sct.service
+    - f_xfce-power-manager.service
+    - f_xfce4-power-manager.xml
     import:
     - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/i3.yaml:optional
     actions:
     - i3
     include:
+    - autorandr
     - i3-{{@@ output_scaling @@}}
     - look-and-feel
     - startup

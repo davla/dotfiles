@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+# This script just invokes i3lock with some parameters
+
+########################################
+# Variables
+########################################
+
+# The bright orange I know and love.
+BACKGROUND_COLOR='FF5500'
+
+########################################
+# Execute
+########################################
+
+exec i3lock --ignore-empty-password --color "$BACKGROUND_COLOR"

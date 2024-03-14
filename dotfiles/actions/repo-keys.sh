@@ -70,17 +70,13 @@ find /etc/apt/sources.list.d/ -type f -name '*.sources' -print0 \
     | xargs -0 -I '{}' basename '{}' '.sources' | tr '[:upper:]' '[:lower:]' \
     | while read -r REPO; do
         case "$REPO" in
-            'alacritty')
-                download_key_from_keyserver "$REPO" 'D43B5377'
-                ;;
-
             'deb-multimedia')
                 print_info "Installing apt repository key for $REPO"
 
                 apt-get update -oAcquire::AllowInsecureRepositories=true \
-                    > /dev/null
+                    --yes > /dev/null
                 apt-get install -oAcquire::AllowInsecureRepositories=true \
-                    deb-multimedia-keyring > /dev/null
+                    --yes deb-multimedia-keyring > /dev/null
                 ;;
 
             'docker')
@@ -98,16 +94,12 @@ find /etc/apt/sources.list.d/ -type f -name '*.sources' -print0 \
                     'https://packages.mozilla.org/apt/repo-signing-key.gpg'
                 ;;
 
-            'mono')
-                download_key_from_keyserver "$REPO" 'D3D831EF'
-                ;;
-
             'spotify')
                 download_key_from_url "$REPO" \
-                    'https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg'
+                    'https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg'
                 ;;
 
-            'azure-cli'|'microsoft-prod'|'teams'|'vscode')
+            'microsoft-prod'|'vscode')
                 download_key_from_url "$REPO" \
                     'https://packages.microsoft.com/keys/microsoft.asc'
                 ;;

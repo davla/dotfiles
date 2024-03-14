@@ -1,0 +1,11 @@
+%YAML 1.2
+---
+# This dotfiles file lists the dotfiles to be used for the autorandr profile
+# for my personal machine.
+
+dotfiles:
+- d_dual-dk
+- d_dual-it
+- d_hdmi-only-dk
+- d_hdmi-only-it
+- d_laptop-only-personal

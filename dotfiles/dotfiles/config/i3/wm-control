@@ -6,6 +6,14 @@
 # Shortcuts
 #######################################
 
+{%@@ if env['HOST'] == 'work' -@@%}
+
+# Lock
+bindsym $mod+v exec lock-screen
+bindsym $mod+Mod1+v exec xautolock -toggle
+
+{%@@ endif -@@%}
+
 # Reload the configuration file
 bindsym $mod+$wm_control_key+c reload
 
@@ -14,5 +22,5 @@ bindsym $mod+$wm_control_key+x restart
 
 # Exit
 bindsym $mod+$wm_control_key+v exec "i3-nagbar -t warning \
-    -m 'You pressed the sway exit shortcut. Do you really want to exit sway?' \
+    -m 'You pressed the i3 exit shortcut. Do you really want to exit i3?' \
     -B 'Yes, exit i3' 'i3-msg exit'"

@@ -7,7 +7,6 @@
 actions:
   post:
     repo-keys: sh ./actions/repo-keys.sh '{{@@ apt_keys_dir @@}}'
-
     recursive-exec-permissions: chmod +x -R '{0}'
 
 config:
@@ -32,23 +31,20 @@ dotfiles:
     dst: /usr/local/share/dpkg
     actions:
     - recursive-exec-permissions '{{@@ _dotfile_abs_dst @@}}'
-  f_alacritty.sources:
-    src: etc/apt/sources.list.d/alacritty.sources
-    dst: /etc/apt/sources.list.d/alacritty.sources
   f_apt.conf.d_dpkg-hooks:
     src: etc/apt/apt.conf.d/70dpkg-hooks
     dst: /etc/apt/apt.conf.d/70dpkg-hooks
-  f_azure-cli.sources:
-    src: etc/apt/sources.list.d/azure-cli.sources
-    dst: /etc/apt/sources.list.d/azure-cli.sources
   f_caprine.sources:
     src: etc/apt/sources.list.d/caprine.sources
     dst: /etc/apt/sources.list.d/caprine.sources
   f_deb-multimedia.sources:
     src: etc/apt/sources.list.d/deb-multimedia.sources
     dst: /etc/apt/sources.list.d/deb-multimedia.sources
+  f_debian-testing.sources:
+    src: etc/apt/sources.list.d/debian-official-extra.sources
+    dst: /etc/apt/sources.list.d/debian-testing.sources
   f_debian-unstable.sources:
-    src: etc/apt/sources.list.d/debian-unstable.sources
+    src: etc/apt/sources.list.d/debian-official-extra.sources
     dst: /etc/apt/sources.list.d/debian-unstable.sources
   f_docker.sources:
     src: etc/apt/sources.list.d/docker.sources
@@ -62,18 +58,12 @@ dotfiles:
   f_microsoft-prod.sources:
     src: etc/apt/sources.list.d/microsoft-prod.sources
     dst: /etc/apt/sources.list.d/microsoft-prod.sources
-  f_mono.sources:
-    src: etc/apt/sources.list.d/mono.sources
-    dst: /etc/apt/sources.list.d/mono.sources
   f_sources.list:
     src: etc/apt/sources.list
     dst: /etc/apt/sources.list
   f_spotify.sources:
     src: etc/apt/sources.list.d/spotify.sources
     dst: /etc/apt/sources.list.d/spotify.sources
-  f_teams.sources:
-    src: etc/apt/sources.list.d/teams.sources
-    dst: /etc/apt/sources.list.d/teams.sources
   f_vscode.sources:
     src: etc/apt/sources.list.d/vscode.sources
     dst: /etc/apt/sources.list.d/vscode.sources
@@ -97,9 +87,10 @@ profiles:
   packages:
     dotfiles:
     - d_dpkg_hooks
-    - f_alacritty.sources
     - f_apt.conf.d_dpkg-hooks
     - f_firefox.sources
+    - f_deb-multimedia.sources
+    - f_debian-testing.sources
     - f_debian-unstable.sources
     - f_docker.sources
     - f_sources.list

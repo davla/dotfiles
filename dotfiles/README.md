@@ -9,7 +9,6 @@ My dotfiles repository.
 - Logger colors with no tag
 + Make sure that autorandr env vars are loaded in xsessionrc
 - LS_COLORS
-- sct not working
 - dotdrop autocompletion
 - More uses for jinja default
 - More preferences

@@ -48,9 +48,6 @@ dotfiles:
   f_mrconfig_wiki:
     src: code/wiki/mrconfig
     dst: '{{@@ wiki_root @@}}/.mrconfig'
-  f_secret_env:
-    src: env/env.tar.{{@@ env['HOST'] @@}}
-    dst:
 
 profiles:
   # This profile groups myrepos config files to bootstrap a host's workspace

@@ -1,0 +1,11 @@
+%YAML 1.2
+---
+# This dotfiles file lists the dotfiles to be used for the autorandr profile
+# for my work machine.
+
+dotfiles:
+- d_desk-2
+- d_desk-3
+- d_hdmi-cloned
+- d_hdmi-closed-lid
+- d_laptop-only-work

@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+{%@@ set desktop_name = basename(_dotfile_abs_dst) -@@%}
+
+# Invoke {{@@ desktop_name @@}} as a progressive web app by executing the right
+# .desktop file.
+
+dex {{@@ desktop_with_name(desktop_name) @@}}

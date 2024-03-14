@@ -20,7 +20,7 @@ case "$DISTRO" in
     'debian')
         sudo apt-get install autorandr dunst i3 i3blocks python3-docopt \
             python3-i3ipc qt5ct picom thunar xdg-desktop-portal \
-            xdg-desktop-portal-gtk
+            xdg-desktop-portal-gtk xfce4-power-manager
         ;;
 esac
 

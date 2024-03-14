@@ -18,7 +18,6 @@ case "$DISTRO" in
 
     'debian')
         sudo apt-get install i3blocks
-        sudo apt-get purge i3status
         sudo mr -d /opt/i3-volume -c /opt/.mrconfig checkout
         sudo mr -d /opt/i3-volume -c /opt/.mrconfig install
         ;;

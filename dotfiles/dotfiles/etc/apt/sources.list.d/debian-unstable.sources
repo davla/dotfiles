@@ -1,9 +1,0 @@
-# Debian unstable (sid)
-#
-# {{@@ header() @@}}
-
-Enabled: no
-Types: deb deb-src
-Uris: https://ftp.debian.org/debian/
-Suites: unstable
-Components: main contrib non-free non-free-firmware

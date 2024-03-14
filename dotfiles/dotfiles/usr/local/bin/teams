@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-exec {{@@ second_on_path('teams') @@}} --disable-seccomp-filter-sandbox "$@"

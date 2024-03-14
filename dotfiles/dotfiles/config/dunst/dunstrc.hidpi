@@ -7,5 +7,8 @@
     icon_theme=icon_theme,
     margin=hidpi_notification_margin,
     vertical_padding=hidpi_notification_vertical_padding,
-    width=hidpi_notification_width
+    width=hidpi_notification_width,
+    height=hidpi_notification_height,
+    border_radius=hidpi_notification_border_radius,
+    progress_bar_height=hidpi_notification_progress_bar_height
 ) @@}}

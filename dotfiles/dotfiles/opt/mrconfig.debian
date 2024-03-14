@@ -40,30 +40,14 @@ upgrade =
     bash -lc 'asdf update 2>&1 | grep "release"'
 
 
-[/opt/docker-compose]
-checkout =
-    git clone 'https://github.com/docker/compose.git' 'docker-compose'
-install =
-    # The latest docker-compose v1 release is hardcoded because querying it via
-    # the GitHub REST API requires dealing with pagination, which is an
-    # overkill for data that has not changed in almost two years.
-    get_github_release 'docker/compose' '1.29.2' 'endswith("Linux-x86_64")' \
-        > /usr/local/bin/docker-compose
-    chmod +x /usr/local/bin/docker-compose
-    #
-    mkdir -p /usr/local/lib/docker/cli-plugins
-    get_github_latest_release 'docker/compose' 'endswith("linux-x86_64")' \
-        > /usr/local/lib/docker/cli-plugins/docker-compose
-    chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
-
-
 [/opt/docker-credential-helpers]
 checkout =
     git clone 'https://github.com/docker/docker-credential-helpers.git' \
         'docker-credential-helpers'
 install =
     get_github_latest_release 'docker/docker-credential-helpers' \
-        'contains("secretservice")' | tar zx -C /usr/local/bin;
+        'contains("secretservice") and contains("amd64")' \
+        > /usr/local/bin/docker-credential-secretservice
     chmod +x /usr/local/bin/docker-credential-secretservice
 
 
@@ -71,12 +55,13 @@ install =
 
 [/opt/i3-volume]
 checkout =
-    git clone 'https://github.com/FFY00/i3-volume.git' 'i3-volume'
+    git clone 'https://github.com/hastinbe/i3-volume.git' 'i3-volume'
 install =
     cp "$MR_REPO/volume" /usr/local/bin/volume
 
 {%@@ endif @@%}
 
+{%@@ if env['HOST'] != 'work' -@@%}
 
 [{{@@ rustup_home @@}}]
 checkout =
@@ -90,3 +75,5 @@ upgrade =
     export RUSTUP_HOME="{{@@ rustup_home @@}}" \
         CARGO_HOME="{{@@ rustup_shims @@}}"
     rustup self update
+
+{%@@ endif @@%}

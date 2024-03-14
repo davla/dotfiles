@@ -18,7 +18,8 @@
     when installing the zsh directory dotfile.
 @@#}
 {%@@ if user == 'user' @@%}
-dotfiles:{{@@ dirname(dotfiles_home) @@}}
+dotfiles:{{@@ dirname(dotfiles_home) | home_abs2var
+    | replace('$HOME', '~') @@}}
 {%@@ include 'config/zsh/interactive/plugins/dotfiles/warprc.%s'
     | format(env['HOST']) @@%}
 {%@@ endif @@%}

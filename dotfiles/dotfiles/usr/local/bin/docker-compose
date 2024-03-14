@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+# Some systems still rely on docker-compose v1.*. This is just a wrapper script
+# that forwards the call to docker compose v2.* hoping it's compatible.
+
+exec docker compose "$@"

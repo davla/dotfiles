@@ -52,7 +52,6 @@ clean() {
     apt-get purge -y hexchat-plugins
     apt-get purge -y hexchat-python
     apt-get purge -y hoichess
-    apt-get purge -y htop
     apt-get purge -y hv3
     apt-get purge -y iagno
     apt-get purge -y icedove
@@ -138,7 +137,7 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
     esac
 
     print_info 'Install GUI packages shared across all hosts'
-    apt-get install atril baobab code-insiders firefox-beta gdebi geany \
+    apt-get install alacritty atril baobab code-insiders firefox-beta gdebi geany \
         gnome-clocks gnome-disk-utility gparted hardinfo parcellite \
         pavucontrol peek seahorse spotify-client synaptic xfce4-screenshooter
 
@@ -157,30 +156,29 @@ case "$HOST" in
     'personal')
         print_info "Install CLI packages for $HOST"
         apt-get install apng2gif autorandr cabal-install cups ghc gifsicle \
-            git-review handbrake-cli hlint imagemagick lame libghc-hspec-dev \
-            mercurial python-requests-futures python3-gdbm python3-gpg \
-            python3-lxml python3-pygments python3-requests \
+            git-review handbrake-cli hlint imagemagick intel-microcode lame \
+            libghc-hspec-dev mercurial python-requests-futures python3-gdbm \
+            python3-gpg python3-lxml python3-pygments python3-requests \
             python3-requests-oauthlib thunar-dropbox-plugin
             ;;
 
     'work')
         print_info "Install CLI packages for $HOST"
-        apt-get install azure-cli cppcheck dotnet-sdk-6.0 dotnet-sdk-7.0 \
-            ffmpeg libasound2-dev libssl-dev libudev-dev mono-complete \
-            open-vm-tools open-vm-tools-desktop teams valgrind
-        pip install artifacts-keyring poetry
+        apt-get install amd64-microcode awscli dotnet-sdk-6.0 dotnet-sdk-7.0 \
+            dotnet-sdk-8.0 i3lock xautolock
         ;;
 esac
 
 print_info 'Install CLI packages shared across all hosts'
-apt-get install alacritty apt-transport-https autoconf automake \
-    build-essential cmake cmatrix command-not-found cowsay curl dbus-x11 dkms \
-    docker-ce dos2unix fonts-freefont-otf fonts-nanum fortune g++ gdb git \
-    git-secret gvfs-backends hunspell hunspell-en-us hunspell-it \
-    intel-microcode jq libnotify-bin libsecret-1-dev lua5.1 lua-check make \
-    moreutils nfs-common nyancat p7zip policykit-1-gnome pycodestyle python3 \
-    python3-pip rar sct shellcheck sl software-properties-common systemd-cron \
-    thunar-archive-plugin uni2ascii unrar vim wmctrl xdotool \
+apt-get install apt-transport-https autoconf automake build-essential cmake \
+    cmatrix command-not-found cowsay curl dbus-x11 dkms docker-ce dos2unix \
+    fonts-freefont-otf fonts-nanum fortune g++ gdb git git-secret \
+    gvfs-backends htop hunspell hunspell-en-us hunspell-it jq libbz2-dev \
+    liblzma-dev libncurses-dev libnotify-bin libreadline-dev libsecret-1-dev \
+    libsqlite3-dev libssl-dev lua5.4 make moreutils nfs-common nyancat p7zip \
+    pipewire-jack policykit-1-gnome pycodestyle python3 python3-pip rar \
+    shellcheck sl software-properties-common systemd-cron \
+    thunar-archive-plugin tk-dev uni2ascii unrar vim wmctrl xdotool \
     xserver-xorg-input-synaptics yad zip
 
 # Dotfiles

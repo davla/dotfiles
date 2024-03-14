@@ -78,6 +78,13 @@ interval=1
 markup=pango
 signal={{@@ network_signal @@}}
 
+[batterybar]
+command={{@@ command('batterybar') @@}} -1 '{{@@ light_theme_color @@}}' -2 '{{@@ light_theme_color @@}}' -3 '{{@@ main_theme_color @@}}' -4 '{{@@ main_theme_color @@}}' -5 '{{@@ main_theme_color @@}}' -6 '{{@@ dark_theme_color @@}}' -7 '{{@@ dark_theme_color @@}}' -8 '{{@@ dark_theme_color @@}}' -f '{{@@ dark_theme_color @@}}' -c '{{@@ dark_theme_color @@}}' -f '{{@@ dark_theme_color @@}}'
+label=
+interval=5
+markup=pango
+min_width=bat: xxxxx
+
 # This block shows the CPU usage in percentage
 [cpu_usage2]
 color={{@@ dark_theme_color @@}}
@@ -89,5 +96,5 @@ min_width= 100%
 # This block displays CPU temperature
 [temperature]
 color={{@@ dark_theme_color @@}}
-command={{@@ command('temperature') @@}} -w 60 -c 80 --chip coretemp-isa-0000 | sed 's/#FF0000/{{@@ light_theme_color @@}}/; s/#FFFC00/{{@@ main_theme_color @@}}/'
+command={{@@ command('temperature') @@}} -w 60 -c 80 --chip {{@@ i3blocks_temperature_chip @@}} | sed 's/#FF0000/{{@@ light_theme_color @@}}/; s/#FFFC00/{{@@ main_theme_color @@}}/'
 interval=2

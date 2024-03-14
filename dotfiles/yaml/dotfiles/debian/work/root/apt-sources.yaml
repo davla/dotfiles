@@ -4,7 +4,4 @@
 # "packages" profile on Debian only on my work machine
 
 dotfiles:
-- f_azure-cli.sources
 - f_microsoft-prod.sources
-- f_mono.sources
-- f_teams.sources

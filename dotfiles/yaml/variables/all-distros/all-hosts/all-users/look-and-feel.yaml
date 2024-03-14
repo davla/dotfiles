@@ -30,11 +30,13 @@ variables:
   i3_telegram_width: 900
   i3_telegram_height: 800
   lodpi_name: regular
-  notification_border_width: 2
+  notification_border_radius: 10
+  notification_border_width: 1
+  notification_height: 95
   notification_horizontal_padding: 8
   notification_icon_size: 40
-  notification_line_count: 5
   notification_margin: 8
+  notification_progress_bar_height: 20
   notification_vertical_padding: 10
   notification_width: 430
 
@@ -53,11 +55,15 @@ variables:
   hidpi_i3_telegram_width: '{{@@ i3_telegram_width * 2 @@}}'
   hidpi_i3_telegram_height: '{{@@ i3_telegram_height * 2 @@}}'
   hidpi_name: high
+  hidpi_notification_border_radius: '{{@@ notification_border_radius * 2 @@}}'
   hidpi_notification_border_width: '{{@@ notification_border_width * 2 @@}}'
   hidpi_notification_horizontal_padding: >-
     {{@@ notification_horizontal_padding * 2 @@}}
   hidpi_notification_icon_size: '{{@@ notification_icon_size * 2 @@}}'
   hidpi_notification_margin: '{{@@ notification_margin * 2 @@}}'
+  hidpi_notification_progress_bar_height: >-
+    '{{@@ notification_progress_bar_height * 2 @@}}'
   hidpi_notification_vertical_padding: >-
     {{@@ notification_vertical_padding * 2 @@}}
   hidpi_notification_width: '{{@@ notification_width * 2 @@}}'
+  hidpi_notification_height: '{{@@ notification_height * 2 @@}}'

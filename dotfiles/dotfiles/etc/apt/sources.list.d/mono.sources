@@ -1,9 +1,0 @@
-# Mono
-#
-# {{@@ header() @@}}
-
-Types: deb
-Uris: https://download.mono-project.com/repo/debian
-Suites: stable-buster
-Components: main
-{%@@ include 'etc/apt/sources.list.d/signed-by' @@%}

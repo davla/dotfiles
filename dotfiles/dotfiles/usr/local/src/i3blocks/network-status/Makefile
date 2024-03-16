@@ -34,4 +34,5 @@ clear : clean
 	$(RM) -r $(BUILD_DIR) $(EXEC)
 
 install : $(EXEC)
-	install -m755 $< $(PREFIX)/i3blocks/$<
+	install --directory $(PREFIX)
+	install --mode 755 $< $(PREFIX)/$<

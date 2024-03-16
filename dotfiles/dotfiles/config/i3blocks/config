@@ -2,18 +2,6 @@
 #
 # This is the i3blocks config file
 
-{#@@
-    Emits a different command for different distros, since the i3blocks-contrib
-    installation location is different.
-@@#}
-{%@@ macro command(bin) @@%}
-{%@@ if 'arch' in distro_id @@%}
-{{@@ '/usr/lib/i3blocks/%s' | format(bin) @@}}
-{%@@- elif distro_id == 'debian' @@%}
-{{@@ 'i3blocks-%s' | format(bin) @@}}
-{%@@- endif @@%}
-{%@@ endmacro -@@%}
-
 # This block shows the time and the date, including the weekday
 [time]
 command=date '+%H:%M:%S        %d-%m-%Y (%a){%@@ if env['HOST'] == 'work' @@%} - %V{%@@ endif @@%}'
@@ -23,13 +11,13 @@ interval=1
 
 # This block displays the main mail watcher
 [email]
-command={{@@ command('email') @@}} | sed '1 s/^/main: /; s/#ededed/{{@@ i3bar_inactive_color @@}}/; s/#00ff00/{{@@ main_theme_color @@}}/'
+command={{@@ i3blocklets_install_path @@}}/email | sed '1 s/^/main: /; s/#ededed/{{@@ i3bar_inactive_color @@}}/; s/#00ff00/{{@@ main_theme_color @@}}/'
 instance=main
 interval={{@@ 60 * 10 @@}}
 
 # This block displays the spam mail watcher
 [email]
-command={{@@ command('email') @@}} | sed '1 s/^/spam: /; s/#ededed/{{@@ i3bar_inactive_color @@}}/; s/#00ff00/{{@@ main_theme_color @@}}/'
+command={{@@ i3blocklets_install_path @@}}/email | sed '1 s/^/spam: /; s/#ededed/{{@@ i3bar_inactive_color @@}}/; s/#00ff00/{{@@ main_theme_color @@}}/'
 instance=spam
 interval={{@@ 60 * 10 @@}}
 
@@ -39,17 +27,17 @@ interval={{@@ 60 * 10 @@}}
 {%@@ if distro_id == 'debian' -@@%}
 
 [apt-upgrades]
-command={{@@ command('apt-upgrades') @@}} -s '' -c '{{@@ main_theme_color @@}}' -n '{{@@ i3bar_inactive_color @@}}'
+command={{@@ i3blocklets_install_path @@}}/apt-upgrades -s '' -c '{{@@ main_theme_color @@}}' -n '{{@@ i3bar_inactive_color @@}}'
 interval=once
-signal={{@@ updates_signal @@}}
+signal={{@@ i3blocks_signals.updates @@}}
 
 {%@@ elif 'arch' in distro_id -@@%}
 
 [arch-upgrades]
-command={{@@ command('arch-update') @@}} | sed -E 's/ updates? available//; s/system up to date/0/'
+command={{@@ i3blocklets_install_path @@}}/arch-update | sed -E 's/ updates? available//; s/system up to date/0/'
 markup=pango
 interval=once
-signal={{@@ updates_signal @@}}
+signal={{@@ i3blocks_signals.updates @@}}
 AUR=true
 BASE_COLOR={{@@ i3bar_inactive_color @@}}
 UPDATE_COLOR={{@@ main_theme_color @@}}
@@ -64,25 +52,25 @@ UPDATE_COLOR={{@@ main_theme_color @@}}
 
 # This block displays toggle and dead keys status
 [key-indicator]
-command={{@@ command('keyindicator2') @@}}
+command={{@@ i3blocklets_install_path @@}}/keyindicator2
 interval=once
 markup=pango
-signal={{@@ caps_signal @@}}
+signal={{@@ i3blocks_signals.caps @@}}
 
 {%@@ endif -@@%}
 
 # This block displays the network status
 [network]
-command={{@@ command('network-status') @@}} {{@@ i3blocks_network_interfaces @@}} -G '{{@@ dark_theme_color @@}}' -M '{{@@ main_theme_color @@}}' -B '{{@@ light_theme_color @@}}' -D '{{@@ i3bar_inactive_color @@}}'
+command={{@@ i3blocklets_install_path @@}}/network-status {{@@ i3blocks_network_interfaces @@}} -G '{{@@ dark_theme_color @@}}' -M '{{@@ main_theme_color @@}}' -B '{{@@ light_theme_color @@}}' -D '{{@@ i3bar_inactive_color @@}}'
 interval=1
 markup=pango
-signal={{@@ network_signal @@}}
+signal={{@@ i3blocks_signals.network @@}}
 
 {#@@ My personal laptop's battery died years ago @@#}
 {%@@ if env['HOST'] == 'work' -@@%}
 
 [batterybar]
-command={{@@ command('batterybar') @@}} -1 '{{@@ light_theme_color @@}}' -2 '{{@@ light_theme_color @@}}' -3 '{{@@ main_theme_color @@}}' -4 '{{@@ main_theme_color @@}}' -5 '{{@@ main_theme_color @@}}' -6 '{{@@ dark_theme_color @@}}' -7 '{{@@ dark_theme_color @@}}' -8 '{{@@ dark_theme_color @@}}' -f '{{@@ dark_theme_color @@}}' -c '{{@@ dark_theme_color @@}}' -f '{{@@ dark_theme_color @@}}'
+command={{@@ i3blocklets_install_path @@}}/batterybar -1 '{{@@ light_theme_color @@}}' -2 '{{@@ light_theme_color @@}}' -3 '{{@@ main_theme_color @@}}' -4 '{{@@ main_theme_color @@}}' -5 '{{@@ main_theme_color @@}}' -6 '{{@@ dark_theme_color @@}}' -7 '{{@@ dark_theme_color @@}}' -8 '{{@@ dark_theme_color @@}}' -f '{{@@ dark_theme_color @@}}' -c '{{@@ dark_theme_color @@}}' -f '{{@@ dark_theme_color @@}}'
 label=
 interval=5
 markup=pango
@@ -93,7 +81,7 @@ min_width=bat: xxxxx
 # This block shows the CPU usage in percentage
 [cpu_usage2]
 color={{@@ dark_theme_color @@}}
-command={{@@ command('cpu_usage2') @@}} -t 2 -l '' -d 0 | sed -u 's/#FF7373/{{@@ light_theme_color @@}}/g; s/#ffa500/{{@@ main_theme_color @@}}/g'
+command={{@@ i3blocklets_install_path @@}}/cpu_usage2 -t 2 -l '' -d 0 | sed -u 's/#FF7373/{{@@ light_theme_color @@}}/g; s/#ffa500/{{@@ main_theme_color @@}}/g'
 interval=persist
 markup=pango
 min_width= 100%
@@ -101,5 +89,5 @@ min_width= 100%
 # This block displays CPU temperature
 [temperature]
 color={{@@ dark_theme_color @@}}
-command={{@@ command('temperature') @@}} -w 60 -c 80 --chip {{@@ i3blocks_temperature_chip @@}} | sed 's/#FF0000/{{@@ light_theme_color @@}}/; s/#FFFC00/{{@@ main_theme_color @@}}/'
+command={{@@ i3blocklets_install_path @@}}/temperature -w 60 -c 80 --chip {{@@ i3blocks_temperature_chip @@}} | sed 's/#FF0000/{{@@ light_theme_color @@}}/; s/#FFFC00/{{@@ main_theme_color @@}}/'
 interval=2

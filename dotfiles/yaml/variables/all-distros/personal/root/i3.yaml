@@ -4,11 +4,9 @@
 # only, for root
 
 variables:
-  # These are the i3blocks blocks that are installed system-wide
-  i3blocks_list: >-
+  # These are the i3blocks contrib blocklets that are installed system-wide
+  i3blocks_contrib_list: >-
     apt-upgrades
     cpu_usage2
     email
-    keyindicator2
-    network-status
     temperature

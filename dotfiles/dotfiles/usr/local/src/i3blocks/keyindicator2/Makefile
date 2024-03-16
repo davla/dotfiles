@@ -27,3 +27,7 @@ $(INDICATOR): $(OBJECTS)
 
 clean:
 	$(RM) $(INDICATOR) $(OBJECTS)
+
+install : $(INDICATOR)
+	install --directory $(PREFIX)
+	install --mode 755 $< $(PREFIX)/$<

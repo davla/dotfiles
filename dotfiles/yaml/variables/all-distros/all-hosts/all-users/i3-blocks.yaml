@@ -7,9 +7,16 @@ variables:
   # These variables define i3blocks signals. They are here since the signals
   # are consumed by i3blocks in its config file, but are produced somewhere
   # else, generally in other dotfiles.
-  caps_signal: 20
-  network_signal: 30
-  updates_signal: 10
+  i3blocks_signals:
+    caps: 20
+    network: 30
+    updates: 10
 
-  # These variables define i3bar-specific colors
+  # This variable defines the i3blocks blocklets installation location, both
+  # contrib and custom.
+  # It is set to where the AUR package i3blocks-contrib-git places the
+  # executable to simplify the setup.
+  i3blocklets_install_path: /usr/lib/i3blocks
+
+  # This variable define i3bar-specific colors
   i3bar_inactive_color: '#666666'

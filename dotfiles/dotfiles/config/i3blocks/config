@@ -56,11 +56,11 @@ UPDATE_COLOR={{@@ main_theme_color @@}}
 
 {%@@ endif -@@%}
 
-{%@@ if not on_wayland -@@%}
+{%@@ if not on_wayland @@%}
 {#@@
     Temporarily disabling this on wayland, I haven't coded wayland support for
     this block yet.
-@@#}
+-@@#}
 
 # This block displays toggle and dead keys status
 [key-indicator]
@@ -78,12 +78,17 @@ interval=1
 markup=pango
 signal={{@@ network_signal @@}}
 
+{#@@ My personal laptop's battery died years ago @@#}
+{%@@ if env['HOST'] == 'work' -@@%}
+
 [batterybar]
 command={{@@ command('batterybar') @@}} -1 '{{@@ light_theme_color @@}}' -2 '{{@@ light_theme_color @@}}' -3 '{{@@ main_theme_color @@}}' -4 '{{@@ main_theme_color @@}}' -5 '{{@@ main_theme_color @@}}' -6 '{{@@ dark_theme_color @@}}' -7 '{{@@ dark_theme_color @@}}' -8 '{{@@ dark_theme_color @@}}' -f '{{@@ dark_theme_color @@}}' -c '{{@@ dark_theme_color @@}}' -f '{{@@ dark_theme_color @@}}'
 label=
 interval=5
 markup=pango
 min_width=bat: xxxxx
+
+{%@@ endif -@@%}
 
 # This block shows the CPU usage in percentage
 [cpu_usage2]

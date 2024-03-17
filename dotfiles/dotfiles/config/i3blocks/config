@@ -61,7 +61,7 @@ signal={{@@ i3blocks_signals.caps @@}}
 
 # This block displays the network status
 [network]
-command={{@@ i3blocklets_install_path @@}}/network-status {{@@ i3blocks_network_interfaces @@}} -G '{{@@ dark_theme_color @@}}' -M '{{@@ main_theme_color @@}}' -B '{{@@ light_theme_color @@}}' -D '{{@@ i3bar_inactive_color @@}}'
+command={{@@ i3blocklets_install_path @@}}/network-status
 interval=1
 markup=pango
 signal={{@@ i3blocks_signals.network @@}}

@@ -48,8 +48,15 @@ actions:
               apt-get install build-essential
               ;;
       esac
-      make -C '{{@@ _dotfile_abs_dst @@}}' install \
-          PREFIX='{{@@ i3blocklets_install_path @@}}'
+      make -C '{{@@ _dotfile_abs_dst @@}}' \
+          PREFIX='{{@@ i3blocklets_install_path @@}}' \
+          GOOD_CONNECTION_QUALITY_COLOR='{{@@ dark_theme_color @@}}' \
+          MEDIUM_CONNECTION_QUALITY_COLOR='{{@@ main_theme_color @@}}' \
+          BAD_CONNECTION_QUALITY_COLOR='{{@@ light_theme_color @@}}' \
+          INACTIVE_CONNECTION_COLOR='{{@@ i3bar_inactive_color @@}}' \
+          CABLE_LABEL='C' \
+          WIRELESS_LABEL='W' \
+          clean install
 
     # This action installs the packages providing the commands used in the root
     # mrconfig file

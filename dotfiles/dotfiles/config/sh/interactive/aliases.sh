@@ -33,15 +33,21 @@ alias root='sudo -s'
 
 {%@@ endif -@@%}
 
-{#@@ Updates @@#}
-{%@@ if 'arch' in distro_id and user == 'user' -@@%}
-
 # Updates
+{%@@ if user == 'user' -@@%}
+
+{%@@ if 'arch' in distro_id -@@%}
+
 alias update='yay -Suyy'
 
-{%@@ elif distro_id == 'debian' and user == 'root' -@@%}
+{%@@ elif distro_id == 'debian' -@@%}
 
-# Updates
+alias update='sudo apt update && sudo apt dist-upgrade && sudo apt autoremove'
+
+{%@@ endif -@@%}
+
+{%@@ elif user == 'root' and distro_id == 'debian' -@@%}
+
 alias update='apt update && apt dist-upgrade && apt autoremove'
 
 {%@@ endif -@@%}

@@ -54,8 +54,10 @@ actions:
           MEDIUM_CONNECTION_QUALITY_COLOR='{{@@ main_theme_color @@}}' \
           BAD_CONNECTION_QUALITY_COLOR='{{@@ light_theme_color @@}}' \
           INACTIVE_CONNECTION_COLOR='{{@@ i3bar_inactive_color @@}}' \
-          CABLE_LABEL='C' \
-          WIRELESS_LABEL='W' \
+          CABLE_LABEL='󱎔' \
+          WIRELESS_LABEL='󰤨' \
+          LABEL_SEPARATOR='<span size=\"1.8pt\"> </span>' \
+          PANGO_PROPS='size=\"140%\" font_weight=\"bold\"' \
           clean install
 
     # This action installs the packages providing the commands used in the root

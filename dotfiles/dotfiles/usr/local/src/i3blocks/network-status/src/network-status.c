@@ -11,6 +11,15 @@ void connections_print_indicator(struct network_connection* connections) {
     const char* color;
     double status;
 
+    #ifdef SWAYBAR
+    /*
+     * There is a bug in swaybar that prevents font size from being applied
+     * if no other text has been output. Therefore, we print an almost
+     * invisible space.
+     */
+    printf("<span size='0.001pt'> </span>");
+    #endif
+
     for (curr = connections; curr; curr = curr->next) {
         status = network_connection_status(curr);
 
@@ -27,14 +36,20 @@ void connections_print_indicator(struct network_connection* connections) {
             color = BAD_CONNECTION_QUALITY_COLOR;
         }
 
-        printf("<span color='%s'>%s</span>", color, curr->label);
+        printf(
+            "<span %s foreground='%s'>%s</span>%s",
+            PANGO_PROPS,
+            color,
+            curr->label,
+            curr->next ? LABEL_SEPARATOR : ""
+        );
     }
+    printf("\n");
 }
 
 int main() {
     struct network_connection* connections = make_network_connections();
     connections_print_indicator(connections);
-    printf("\n");
     network_connection_free(connections);
     return 0;
 }

@@ -9,7 +9,6 @@ templates.
 import glob
 import os
 import re
-import shutil
 from pathlib import Path
 
 from python.lib import expand_xdg as xdg
@@ -47,11 +46,17 @@ def second_on_path(executable: str) -> str:
     :param executable: The executable to find on PATH.
     :return: The second PATH match of `executable`.
     """
-    path_entries = (
-        entry for entry in os.environ["PATH"].split(os.pathsep) if VENV_DIR not in entry
+    path_execs = (
+        path_exec
+        for path_dir in os.environ["PATH"].split(os.pathsep)
+        if VENV_DIR not in path_dir
+        and os.access(path_exec := os.path.join(path_dir, executable), os.X_OK)
     )
-    next(path_entries)
-    return shutil.which(executable, path=os.pathsep.join(path_entries))
+    try:
+        next(path_execs)
+        return next(path_execs)
+    except StopIteration:
+        return None
 
 
 def xdg_config(path: str) -> str:

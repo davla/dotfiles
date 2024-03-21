@@ -14,14 +14,17 @@
 struct network_interface* network_interface_new(const char* sys_name) {
     struct network_interface* new;
 
-    if (!(new = (struct network_interface*) malloc(sizeof(struct network_interface)))) {
-        perror("network_interface_new - error while calling malloc for new");
+    if (
+        !(new = (struct network_interface*)
+            malloc(sizeof(struct network_interface)))
+    ) {
+        perror("network_interface_new - error when calling malloc for new");
         exit(EXIT_FAILURE);
     }
 
     size_t sys_name_byte_len = (strlen(sys_name) + 1) * sizeof(char);
     if (!(new->name = (char*) malloc(sys_name_byte_len))) {
-        perror("network_interface_new - error while calling malloc for name");
+        perror("network_interface_new - error when calling malloc for name");
         exit(EXIT_FAILURE);
     }
 
@@ -68,7 +71,8 @@ double wireless_quality(const char* if_name) {
                 return WIRELESS_STATUS_UNSET;
             }
 
-            perror("Couldn't read line from " WIRELESS_QUALITY_FILE);
+            perror("wireless_quality - Couldn't read line from "
+                WIRELESS_QUALITY_FILE);
 
             fclose(quality_file);
             free(line);
@@ -94,7 +98,7 @@ double network_interface_status(
 
     strcpy(if_req.ifr_name, this->name);
     if (ioctl(socket, SIOCGIFFLAGS, &if_req) == -1) {
-        perror("network_interface_status - error while calling ioctl");
+        perror("network_interface_status - error when calling ioctl");
         close(socket);
         exit(EXIT_FAILURE);
     }

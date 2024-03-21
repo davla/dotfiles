@@ -14,14 +14,17 @@ struct network_connection* network_connection_new(
     struct network_connection* new;
     size_t label_byte_len;
 
-    if (!(new = (struct network_connection*) malloc(sizeof(struct network_connection)))) {
-        perror("interface_new - error while calling malloc for new");
+    if (
+        !(new = (struct network_connection*)
+            malloc(sizeof(struct network_connection)))
+    ) {
+        perror("network_connection_new - error when calling malloc for new");
         exit(EXIT_FAILURE);
     }
 
     label_byte_len = (strlen(label) + 1) * sizeof(char);
     if (!(new->label = (char*) malloc(label_byte_len))) {
-        perror("interface_new - error while calling malloc for label");
+        perror("network_connection_new - error when calling malloc for label");
         free(new);
         exit(EXIT_FAILURE);
     }
@@ -51,12 +54,20 @@ double network_connection_status(struct network_connection* this) {
     int socket_id;
 
     if ((socket_id = socket(AF_INET, SOCK_DGRAM, IPPROTO_IP)) < 0) {
-        perror("interface_check_status - error while calling socket");
+        perror("network_connection_status - error when opening socket");
         exit(EXIT_FAILURE);
     }
 
-    for (curr_interface = this->interfaces; curr_interface; curr_interface = curr_interface->next) {
-        status = network_interface_status(curr_interface, this->type, socket_id);
+    for (
+        curr_interface = this->interfaces;
+        curr_interface;
+        curr_interface = curr_interface->next
+    ) {
+        status = network_interface_status(
+            curr_interface,
+            this->type,
+            socket_id
+        );
         if (status != INTERFACE_STATUS_INACTIVE) {
             break;
         }
@@ -79,7 +90,10 @@ int is_wireless_name(const char* name) {
     return !(strncmp("wl", name, 2) && strncmp("wlan", name, 4));
 }
 
-void network_connection_add_interface(struct network_connection* this, const char* sys_name) {
+void network_connection_add_interface(
+    struct network_connection* this,
+    const char* sys_name
+) {
     struct network_interface** new;
     for (new = &this->interfaces; *new; new = &(*new)->next);
     *new = network_interface_new(sys_name);
@@ -98,11 +112,15 @@ struct network_connection* make_network_connections() {
         __attribute__((unused)) * wireless = NULL;
 
     if (!(if_name_beg = if_nameindex())) {
-        perror("interfaces_filter - error while calling if_nameindex");
+        perror("make_network_connections - error when calling if_nameindex");
         exit(EXIT_FAILURE);
     }
 
-    for (if_name_curr = if_name_beg; !is_ifnameindex_end(if_name_curr); if_name_curr += 1) {
+    for (
+        if_name_curr = if_name_beg;
+        !is_ifnameindex_end(if_name_curr);
+        if_name_curr += 1
+    ) {
 
         #ifdef CABLE_LABEL
         if (is_cable_name(if_name_curr->if_name)) {

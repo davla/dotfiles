@@ -526,7 +526,7 @@ profiles:
     - d_i3blocks_network-status
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/i3blocks.yaml:optional
-    - yaml/dotfiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ wm_name | default('') @@}}-i3blocks.yaml:optional
+    - yaml/dotfiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ env['DISPLAY_SERVER'] @@}}-i3blocks.yaml:optional
 
   # This profile holds dotfiles used to install software manually, that is
   # without the aid of a package manager

@@ -1,3 +1,19 @@
+{%@@ macro label(char, size='120%', spacing=2, color=None) -@@%}
+
+{%@@- set color_markup = ' color="{!s}"'.format(color) if color is not none else '' -@@%}
+
+{#@@
+    There is a bug in swaybar that prevents font size from being applied if no
+    other text has been output. Therefore, we print an almost invisible space.
+@@#}
+{%@@- if on_wayland | is_truthy -@@%}
+<span size="0.001pt"> </span>
+{%@@- endif -@@%}
+
+<span size="{{@@ size @@}}" font_weight="bold"{{@@ color_markup @@}}>{{@@ char @@}}{{@@ ' ' * spacing @@}}</span>
+
+{%@@- endmacro -@@%}
+
 # {{@@ header() @@}}
 #
 # This is the i3blocks config file
@@ -11,13 +27,15 @@ interval=1
 
 # This block displays the main mail watcher
 [email]
-command={{@@ i3blocklets_install_path @@}}/email | sed '1 s/^/main: /; s/#ededed/{{@@ i3bar_inactive_color @@}}/; s/#00ff00/{{@@ main_theme_color @@}}/'
+command={{@@ i3blocklets_install_path @@}}/email | sed '1s|^|{{@@ label('', size='130%', color=main_theme_color) @@}}main: |; s/#ededed/{{@@ i3bar_inactive_color @@}}/; s/#00ff00/{{@@ main_theme_color @@}}/'
+markup=pango
 instance=main
 interval={{@@ 60 * 10 @@}}
 
 # This block displays the spam mail watcher
 [email]
-command={{@@ i3blocklets_install_path @@}}/email | sed '1 s/^/spam: /; s/#ededed/{{@@ i3bar_inactive_color @@}}/; s/#00ff00/{{@@ main_theme_color @@}}/'
+command={{@@ i3blocklets_install_path @@}}/email | sed '1s|^|{{@@ label('', size='130%', color=main_theme_color) @@}}spam: |; s/#ededed/{{@@ i3bar_inactive_color @@}}/; s/#00ff00/{{@@ main_theme_color @@}}/'
+markup=pango
 instance=spam
 interval={{@@ 60 * 10 @@}}
 
@@ -27,14 +45,15 @@ interval={{@@ 60 * 10 @@}}
 {%@@ if distro_id == 'debian' -@@%}
 
 [apt-upgrades]
-command={{@@ i3blocklets_install_path @@}}/apt-upgrades -s '' -c '{{@@ main_theme_color @@}}' -n '{{@@ i3bar_inactive_color @@}}'
+command={{@@ i3blocklets_install_path @@}}/apt-upgrades -s '{{@@ label('󰓦') @@}}' -c '{{@@ main_theme_color @@}}' -n '{{@@ i3bar_inactive_color @@}}'
+markup=pango
 interval=once
 signal={{@@ i3blocks_signals.updates @@}}
 
 {%@@ elif 'arch' in distro_id -@@%}
 
 [arch-upgrades]
-command={{@@ i3blocklets_install_path @@}}/arch-update | sed -E 's/ updates? available//; s/system up to date/0/'
+command={{@@ i3blocklets_install_path @@}}/arch-update | sed -E '1s|^|{{@@ label('󰓦') @@}}|; s/ updates? available//; s/system up to date/0/'
 markup=pango
 interval=once
 signal={{@@ i3blocks_signals.updates @@}}
@@ -61,7 +80,7 @@ signal={{@@ i3blocks_signals.caps @@}}
 
 # This block displays the network status
 [network]
-command={{@@ i3blocklets_install_path @@}}/network-status {{@@ i3blocks_network_interfaces @@}} -G '{{@@ dark_theme_color @@}}' -M '{{@@ main_theme_color @@}}' -B '{{@@ light_theme_color @@}}' -D '{{@@ i3bar_inactive_color @@}}'
+command={{@@ i3blocklets_install_path @@}}/network-status
 interval=1
 markup=pango
 signal={{@@ i3blocks_signals.network @@}}
@@ -70,24 +89,23 @@ signal={{@@ i3blocks_signals.network @@}}
 {%@@ if env['HOST'] == 'work' -@@%}
 
 [batterybar]
-command={{@@ i3blocklets_install_path @@}}/batterybar -1 '{{@@ light_theme_color @@}}' -2 '{{@@ light_theme_color @@}}' -3 '{{@@ main_theme_color @@}}' -4 '{{@@ main_theme_color @@}}' -5 '{{@@ main_theme_color @@}}' -6 '{{@@ dark_theme_color @@}}' -7 '{{@@ dark_theme_color @@}}' -8 '{{@@ dark_theme_color @@}}' -f '{{@@ dark_theme_color @@}}' -c '{{@@ dark_theme_color @@}}' -f '{{@@ dark_theme_color @@}}'
-label=
+command={{@@ i3blocklets_install_path @@}}/batterybar -1 '{{@@ light_theme_color @@}}' -2 '{{@@ light_theme_color @@}}' -3 '{{@@ main_theme_color @@}}' -4 '{{@@ main_theme_color @@}}' -5 '{{@@ main_theme_color @@}}' -6 '{{@@ dark_theme_color @@}}' -7 '{{@@ dark_theme_color @@}}' -8 '{{@@ dark_theme_color @@}}' -f '{{@@ dark_theme_color @@}}' -c '{{@@ dark_theme_color @@}}' -f '{{@@ dark_theme_color @@}}' | sed '1s|^|{{@@ label('', spacing=3, size="110%") @@}}|'
 interval=5
 markup=pango
-min_width=bat: xxxxx
 
 {%@@ endif -@@%}
 
 # This block shows the CPU usage in percentage
 [cpu_usage2]
 color={{@@ dark_theme_color @@}}
-command={{@@ i3blocklets_install_path @@}}/cpu_usage2 -t 2 -l '' -d 0 | sed -u 's/#FF7373/{{@@ light_theme_color @@}}/g; s/#ffa500/{{@@ main_theme_color @@}}/g'
+command={{@@ i3blocklets_install_path @@}}/cpu_usage2 -t 2 -l '{{@@ label('', color=main_theme_color, spacing=0) @@}}' -d 0 | sed -u 's/#FF7373/{{@@ light_theme_color @@}}/I; s/#FFA500/{{@@ main_theme_color @@}}/I'
 interval=persist
 markup=pango
-min_width= 100%
+min_width=   99%
 
 # This block displays CPU temperature
 [temperature]
 color={{@@ dark_theme_color @@}}
-command={{@@ i3blocklets_install_path @@}}/temperature -w 60 -c 80 --chip {{@@ i3blocks_temperature_chip @@}} | sed 's/#FF0000/{{@@ light_theme_color @@}}/; s/#FFFC00/{{@@ main_theme_color @@}}/'
+command={{@@ i3blocklets_install_path @@}}/temperature -w 60 -c 80 --chip {{@@ i3blocks_temperature_chip @@}} | sed '1s|^|{{@@ label('󱃃', size='140%', spacing=3, color=main_theme_color) @@}}|; s/#FF0000/{{@@ light_theme_color @@}}/I; s/#FFFC00/{{@@ main_theme_color @@}}/I'
+markup=pango
 interval=2

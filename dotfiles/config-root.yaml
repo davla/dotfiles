@@ -32,10 +32,14 @@ actions:
     # This action compiles the keyindicator2 custom i3block
     i3blocks_keyindicator2: |
       apt-get install build-essential libx11-dev
-      env ACTIVE_COLOR='{{@@ main_theme_color @@}}' CAPS_LABEL='C' \
-          INACTIVE_COLOR='{{@@ i3bar_inactive_color @@}}' NO_NUM=1 \
-          make -C '{{@@ _dotfile_abs_dst @@}}' install \
-          PREFIX='{{@@ i3blocklets_install_path @@}}'
+      make -C '{{@@ _dotfile_abs_dst @@}}' \
+          PREFIX='{{@@ i3blocklets_install_path @@}}' \
+          ACTIVE_KEY_COLOR='{{@@ light_theme_color @@}}' \
+          INACTIVE_KEY_COLOR='{{@@ i3bar_inactive_color @@}}' \
+          CAPS_LABEL='󰌎' \
+          LABEL_SEPARATOR='<span size=\"1.8pt\"> </span>' \
+          PANGO_PROPS='size=\"110%\" font_weight=\"bold\"' \
+          clean install
 
     # This action compiles the network-status custom i3block
     i3blocks_network-status: |
@@ -48,8 +52,17 @@ actions:
               apt-get install build-essential
               ;;
       esac
-      make -C '{{@@ _dotfile_abs_dst @@}}' install \
-          PREFIX='{{@@ i3blocklets_install_path @@}}'
+      make -C '{{@@ _dotfile_abs_dst @@}}' \
+          PREFIX='{{@@ i3blocklets_install_path @@}}' \
+          GOOD_CONNECTION_QUALITY_COLOR='{{@@ dark_theme_color @@}}' \
+          MEDIUM_CONNECTION_QUALITY_COLOR='{{@@ main_theme_color @@}}' \
+          BAD_CONNECTION_QUALITY_COLOR='{{@@ light_theme_color @@}}' \
+          INACTIVE_CONNECTION_COLOR='{{@@ i3bar_inactive_color @@}}' \
+          CABLE_LABEL='󱎔' \
+          WIRELESS_LABEL='󰤨' \
+          LABEL_SEPARATOR='<span size=\"1.8pt\"> </span>' \
+          PANGO_PROPS='size=\"140%\" font_weight=\"bold\"' \
+          clean install
 
     # This action installs the packages providing the commands used in the root
     # mrconfig file
@@ -513,7 +526,7 @@ profiles:
     - d_i3blocks_network-status
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/i3blocks.yaml:optional
-    - yaml/dotfiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ wm_name | default('') @@}}-i3blocks.yaml:optional
+    - yaml/dotfiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ env['DISPLAY_SERVER'] @@}}-i3blocks.yaml:optional
 
   # This profile holds dotfiles used to install software manually, that is
   # without the aid of a package manager

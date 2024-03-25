@@ -124,7 +124,8 @@ sudo -u "$USER" yay -S --needed antibody-bin asdf-vm autoconf automake bind \
     gcc git-secret gnupg htop jq lua luacheck man mercurial moreutils \
     multi-git-status myrepos nfs-utils nyancat otf-ipafont pacman-contrib \
     p7zip pkgfile python python-pip python-pipenv sl sudo thefuck ttf-baekmuk \
-    ttf-dejavu ttf-indic-otf ttf-khmer unzip vim wqy-microhei-lite zip
+    ttf-dejavu ttf-indic-otf ttf-khmer ttf-nerd-fonts-symbols \
+    ttf-nerd-fonts-symbols-mono unzip vim wqy-microhei-lite zip
 
 # Dotfiles
 print_info 'Install CLI packages dotfiles'

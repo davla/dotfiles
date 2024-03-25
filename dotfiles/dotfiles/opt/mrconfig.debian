@@ -59,7 +59,25 @@ checkout =
 install =
     cp "$MR_REPO/volume" /usr/local/bin/volume
 
-{%@@ endif @@%}
+{%@@- endif @@%}
+
+
+
+[/opt/nerd-fonts]
+checkout =
+    git clone --bare --depth 1 'https://github.com/ryanoasis/nerd-fonts.git' \
+        'nerd-fonts'
+install =
+    SYMBOLS_NERD_FONT_DIR=/usr/local/share/fonts/symbols-nerd-font/
+    mkdir -p "$SYMBOLS_NERD_FONT_DIR"
+    #
+    get_github_latest_release 'ryanoasis/nerd-fonts' \
+        'contains("NerdFontsSymbolsOnly.tar.xz")' \
+        | tar -xJ -C "$SYMBOLS_NERD_FONT_DIR" --no-anchored --wildcards '*.ttf'
+    fc-cache -frs
+    #
+    unset SYMBOLS_NERD_FONT_DIR
+
 
 {%@@ if env['HOST'] != 'work' -@@%}
 

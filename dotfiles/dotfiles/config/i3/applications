@@ -1,7 +1,5 @@
-{#@@
-    This i3 configuration file contains application configuration, mainly
-    keyboard shortcuts and window management (e.g. workspace assignment)
-@@#}
+# This i3 configuration file contains application configuration, mainly
+# keyboard shortcuts and window management (e.g. workspace assignment)
 
 #######################################
 # Variables

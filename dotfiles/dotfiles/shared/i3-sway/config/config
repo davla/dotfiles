@@ -1,42 +1,13 @@
-{#@@
-    This file contains the shared configuration between i3 and sway. Mostly a
-    hub to include other files, either by jinja inclusion for i3, or via
-    include directives for sway
-@@#}
-
-{#@@-
-    Emit an include command for sway; copy the whole file content for i3
-@@#}
-{%@@ macro include(path) @@%}
-
-{%@@- if on_wayland -@@%}
-
-include {{@@ path @@}}
-
-{%@@- else @@%}
-
-{#@@-
-    While sway can use absolute paths in includes at runtime, in i3 the path is
-    never relevant, as only file names are used. In fact, includes in i3 are
-    resolved at templating time, where all the files are in the two well-known
-    location listed below.
-@@#}
-{%@@ set path = basename(path) @@%}
-
-{%@@- include [
-    '%s/%s' | format(dirname(_dotfile_abs_src), path),
-    'shared/i3-sway/' + path
-] with context @@%}
-
-{%@@- endif @@%}
-
-{%@@- endmacro -@@%}
+# This file contains the {{@@ wm_name @@}} configuration. It mostly includes
+# other files.
+#
+# {{@@ header() @@}}
 
 #######################################
 # Systemd integration
 #######################################
 
-{{@@ include('/etc/%s/config.d/10-systemd' % wm_name) @@}}
+include /etc/{{@@ wm_name @@}}/config.d/10-systemd
 
 #######################################
 # Variables
@@ -57,13 +28,13 @@ set $term alacritty
 # Containers
 #######################################
 
-{{@@ include('containers') @@}}
+include containers
 
 #######################################
 # Applications
 #######################################
 
-{{@@ include('applications') @@}}
+include applications
 
 #######################################
 # Font
@@ -94,16 +65,36 @@ gaps outer 0
 # Bar
 #######################################
 
-{{@@ include('bar') @@}}
+include bar
 
 #######################################
 # Modes
 #######################################
 
-{{@@ include('modes') @@}}
+include modes
 
 #######################################
 # Window manager control
 #######################################
 
-{{@@ include('wm-control') @@}}
+include wm-control
+
+{%@@ if wm_name == 'sway' @@%}
+#######################################
+# Input/Output
+#######################################
+
+include io
+
+########################################
+# Cursor
+########################################
+
+seat seat0 xcursor_theme {{@@ cursor_theme @@}} {{@@ cursor_size @@}}
+
+#######################################
+# Misc
+#######################################
+
+xwayland disable
+{%@@ endif @@%}

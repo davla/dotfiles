@@ -1,6 +1,4 @@
-{#@@
-    This i3 configuration file holds keyboard shortcuts to control i3 itself
-@@#}
+# This i3 configuration file holds keyboard shortcuts to control i3 itself
 
 #######################################
 # Shortcuts

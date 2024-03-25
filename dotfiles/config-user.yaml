@@ -76,6 +76,12 @@ dotfiles:
   d_git:
     src: config/git
     dst: '{{@@ xdg_config("git") @@}}'
+  d_i3:
+    src: config/i3
+    dst: '{{@@ xdg_config("i3") @@}}'
+  d_i3-sway_shared_config:
+    src: shared/i3-sway/config
+    dst: '{{@@ xdg_config(wm_name) @@}}'
   d_i3blocks-email:
     src: config/i3blocks-email
     dst: '{{@@ xdg_config("i3blocks-email") @@}}'
@@ -198,9 +204,6 @@ dotfiles:
   f_i3blocks_config:
     src: config/i3blocks/config
     dst: '{{@@ xdg_config("i3blocks/config") @@}}'
-  f_i3config:
-    src: config/i3/config
-    dst: '{{@@ xdg_config("i3/config") @@}}'
   f_i3-portals.conf:
     src: config/xdg-desktop-portal/i3-portals.conf
     dst: '{{@@ xdg_config("xdg-desktop-portal/i3-portals.conf") @@}}'
@@ -258,15 +261,6 @@ dotfiles:
   f_ssh_config:
     src: ssh/config
     dst: ~/.ssh/config
-  f_sway_bar:
-    src: shared/i3-sway/bar
-    dst: '{{@@ xdg_config("sway/bar") @@}}'
-  f_sway_containers:
-    src: shared/i3-sway/containers
-    dst: '{{@@ xdg_config("sway/containers") @@}}'
-  f_sway_modes:
-    src: shared/i3-sway/modes
-    dst: '{{@@ xdg_config("sway/modes") @@}}'
   f_swayfocus.service:
     src: config/systemd/user/swayfocus.service
     dst: '{{@@ xdg_config("systemd/user/swayfocus.service") @@}}'
@@ -379,12 +373,13 @@ profiles:
   # little bit more than just the i3 configuration file.
   i3:
     dotfiles:
+    - d_i3
+    - d_i3-sway_shared_config
     - d_thunar
     - f_alacritty.toml
     - f_default-ws-layout.service
     - f_dunstrc
     - f_i3blocks_config
-    - f_i3config
     - f_i3-portals.conf
     - f_parcellite.service
     - f_picom.conf
@@ -456,6 +451,7 @@ profiles:
   # little bit more than just the sway configuration files.
   sway:
     dotfiles:
+    - d_i3-sway_shared_config
     - d_i3blocks-email
     - d_sway
     - d_sway-launcher-desktop
@@ -464,9 +460,6 @@ profiles:
     - f_default-ws-layout.service
     - f_i3blocks_config
     - f_mako_config
-    - f_sway_bar
-    - f_sway_containers
-    - f_sway_modes
     - f_swayfocus.service
     - f_swayidle_config
     - f_swayidle.service

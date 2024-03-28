@@ -1,18 +1,8 @@
-{#@@
-    This i3 configuration file holds keyboard shortcuts to control i3 itself
-@@#}
+# This i3 configuration file holds keyboard shortcuts to control i3 itself
 
 #######################################
 # Shortcuts
 #######################################
-
-{%@@ if env['HOST'] == 'work' -@@%}
-
-# Lock
-bindsym $mod+v exec lock-screen
-bindsym $mod+Mod1+v exec xautolock -toggle
-
-{%@@ endif -@@%}
 
 # Reload the configuration file
 bindsym $mod+$wm_control_key+c reload

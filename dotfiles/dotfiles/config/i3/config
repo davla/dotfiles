@@ -1,5 +1,0 @@
-# {{@@ header() @@}}
-#
-# i3 config file (v4)
-
-{%@@ include 'shared/i3-sway/shared' @@%}

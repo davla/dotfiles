@@ -1,0 +1,72 @@
+# This file contains the {{@@ wm_name @@}} configuration. It mostly includes
+# other files.
+#
+# {{@@ header() @@}}
+
+#######################################
+# Systemd integration
+#######################################
+
+include /etc/{{@@ wm_name @@}}/config.d/10-systemd
+
+#######################################
+# Variables
+#######################################
+
+# Keys
+set $mod Mod4
+set $mode_shifter_key Control
+set $wm_control_key Shift
+
+# Command aliases
+set $scratchpad_show scratchpad show, move position center
+
+# Applications
+set $term alacritty
+
+#######################################
+# Font
+#######################################
+
+{%@@ if on_wayland @@%}
+set $font {{@@ font @@}}
+{%@@ else @@%}
+set_from_resource $font Gtk.FontName {{@@ font @@}}
+{%@@ endif @@%}
+font pango:$font
+
+#######################################
+# Gaps
+#######################################
+
+# Disabling application window titles. Non-application containers can still
+# possibly have titles.
+for_window [title="^.*"] border pixel 0
+
+smart_gaps on
+smart_borders on
+
+gaps inner 10
+gaps outer 0
+
+{%@@ if wm_name == 'sway' -@@%}
+
+########################################
+# Cursor
+########################################
+
+seat seat0 xcursor_theme {{@@ cursor_theme @@}} {{@@ cursor_size @@}}
+
+#######################################
+# Misc
+#######################################
+
+xwayland disable
+
+{%@@ endif @@%}
+
+#######################################
+# External files
+#######################################
+
+include *

@@ -15,9 +15,13 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 
 # 2-spaces indent
-[*.{json,md,toml,yaml}]
+[*.{json,md,menu,toml,xml,yaml,yml}]
 indent_size = 2
 
 # Trailing whitespaces
 [*.md]
 trim_trailing_whitespace = false
+
+# This is actually an XML file by specification
+[fonts.conf]
+indent_size = 2

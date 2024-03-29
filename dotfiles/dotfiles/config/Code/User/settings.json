@@ -1,3 +1,5 @@
+// {{@@ header() @@}}
+
 {
     ///////////////////////////////////
     // Debug
@@ -26,6 +28,7 @@
     "editor.find.autoFindInSelection": "multiline",
     "editor.folding": false,
     "editor.foldingHighlight": false,
+    "editor.fontFamily": "{{@@ font_monospace @@}}, 'monospace', monospace",
     "editor.fontSize": 15,
     "editor.guides.bracketPairs": "active",
     "editor.matchBrackets": "never",

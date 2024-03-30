@@ -45,7 +45,7 @@ interval={{@@ 60 * 10 @@}}
 {%@@ if distro_id == 'debian' -@@%}
 
 [apt-upgrades]
-command={{@@ i3blocklets_install_path @@}}/apt-upgrades -s '{{@@ label('󰓦') @@}}' -c '{{@@ main_theme_color @@}}' -n '{{@@ i3bar_inactive_color @@}}'
+command={{@@ i3blocklets_install_path @@}}/apt-upgrades -s '{{@@ label('󰓦', color=main_theme_color) @@}}' -c '{{@@ main_theme_color @@}}' -n '{{@@ i3bar_inactive_color @@}}'
 markup=pango
 interval=once
 signal={{@@ i3blocks_signals.updates @@}}

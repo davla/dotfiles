@@ -1,14 +1,26 @@
 #!/usr/bin/env sh
 
 # This script installs and updates software from GitHub releases
+#
+# {{@@ header() @@}}
 
 set -e
+
+#######################################
+# Libraries includes
+#######################################
+
+. "{{@@ logger_path @@}}"
 
 ########################################
 # Variables
 ########################################
 
 RELEASES_DIR='/opt/github-releases'
+
+logging_set_level 'info'
+logging_set_tag 'on'
+logging_set_journald 'off'
 
 ########################################
 # Functions
@@ -56,7 +68,7 @@ FORCE_INSTALL='false'
 case "$1" in
     'install'|'update')
         [ "$(id -u)" -ne 0 ] && {
-            echo >&2 "The '$1' command needs to be run as root"
+            log_error "The '$1' command needs to be run as root"
             exit 64
         }
         CMD='update'
@@ -71,27 +83,43 @@ case "$1" in
         ;;
 
     *)
-        [ -z "$1" ] \
-            && echo >&2 'No command given' \
-            || echo >&2 "Unknown command: '$1'"
+        if [ -z "$1" ]; then
+            log_error 'No command given'
+        else
+            log_error "Unknown command: '$1'"
+        fi
         exit 65
         ;;
 esac
 shift
 
 while [ $# -gt 0 ]; do
-    case "$1" in
-        '--force'|'-F')
-            FORCE_INSTALL='true'
+    set +e
+    logging_parse_arg "$1" "$2"
+    set -e
+    case "$?" in
+        0)
+            case "$1" in
+                '--force'|'-F')
+                    FORCE_INSTALL='true'
+                    ;;
+            esac
+            shift
+            ;;
+
+        255)
+            exit 255
+            ;;
+
+        *)
+            shift "$?"
             ;;
     esac
-
-    shift
 done
 
 [ "$CMD" != 'update' ] && [ "$FORCE_INSTALL" = 'true' ] && {
-    printf >&2 'The --force flag can only be used with the update command: '
-    echo >&2 "$CMD" given
+    log_error "The --force flag can only be used with the update command: \
+'$CMD' given"
     exit 66
 }
 
@@ -101,25 +129,39 @@ done
 
 find "$RELEASES_DIR" -maxdepth 2 -mindepth 2 -type d -printf '%P\n' \
     | while read -r GITHUB_REPO; do
+        log_info "Process $GITHUB_REPO..."
+
+        log_debug 'Set SHOULD_EXECUTE to true'
         SHOULD_EXECUTE='true'
         REPO_PATH="$RELEASES_DIR/$GITHUB_REPO"
         INSTALLED_VERSION_FILE="$REPO_PATH/installed-version"
 
-        [ -f "$INSTALLED_VERSION_FILE" ] \
-            && INSTALLED_VERSION="$(cat "$INSTALLED_VERSION_FILE")" \
-            || INSTALLED_VERSION='-'
+        if [ -f "$INSTALLED_VERSION_FILE" ]; then
+            log_debug "Read installed version from $INSTALLED_VERSION_FILE"
+            INSTALLED_VERSION="$(cat "$INSTALLED_VERSION_FILE")"
+        else
+            log_debug 'Set installed version to default value'
+            INSTALLED_VERSION='-'
+        fi
 
         [ "$FORCE_INSTALL" = 'false' ] && {
+            log_debug "Retrieve latest $GITHUB_REPO release metadata..."
             LATEST_RELEASE_METADATA="$(github_latest_release "$GITHUB_REPO")"
             LATEST_VERSION="$(printf '%s' "$LATEST_RELEASE_METADATA" \
                 | jq --raw-output '.name')"
 
-            [ "$CMD" != 'status' ] && [ -f "$INSTALLED_VERSION_FILE" ] \
-                && ! is_version_later "$LATEST_VERSION" "$INSTALLED_VERSION" \
-                && SHOULD_EXECUTE='false'
+            [ "$CMD" != 'status' ] && [ -f "$INSTALLED_VERSION_FILE" ] && \
+                ! is_version_later "$LATEST_VERSION" "$INSTALLED_VERSION" && \
+            {
+                log_debug 'Set SHOULD_EXECUTE to false'
+                SHOULD_EXECUTE='false'
+            }
         }
 
-        [ "$SHOULD_EXECUTE" = 'false' ] && continue
+        [ "$SHOULD_EXECUTE" = 'false' ] && {
+            log_debug "Not executing for $GITHUB_REPO"
+            continue
+        }
 
         case "$CMD" in
             'status')
@@ -132,6 +174,7 @@ find "$RELEASES_DIR" -maxdepth 2 -mindepth 2 -type d -printf '%P\n' \
                 ;;
 
             'update')
+                log_info "Install $GITHUB_REPO version $LATEST_VERSION"
                 printf '%s' "$LATEST_RELEASE_METADATA" | jq '.assets' \
                     | "$REPO_PATH/install"
                 echo "$LATEST_VERSION" > "$INSTALLED_VERSION_FILE"

@@ -154,7 +154,7 @@ logging_parse_arg() {
             ;;
 
         *)
-            logging_set_level "$1" || return 255
+            logging_set_level "$1" 'false' || return 0
             return 1
             ;;
     esac
@@ -253,6 +253,7 @@ logging_set_journald() {
 #
 # Arguments:
 #   - $1: The value to set the log level to. Must be one of those listed above.
+#   - $2: Whether to output error messages. Optional, defaults to true.
 logging_set_level() {
     case "$(echo "$1" | tr '[:upper:]' '[:lower:]')" in
         '--debug'|'debug')
@@ -271,7 +272,7 @@ logging_set_level() {
             __LOGGING_LEVEL_CURRENT="$__LOGGING_LEVEL_SILENT"
             ;;
         *)
-            echo >&2 "Unsupported log level: $1"
+            [ "${2:-true}" = 'true' ] && echo >&2 "Unsupported log level: $1"
             return 1
             ;;
     esac

@@ -19,17 +19,6 @@ include = cat '{{@@ mr_libs_path @@}}/git-install'
 #######################################
 
 
-[/opt/antibody]
-checkout =
-	  git clone 'https://github.com/getantibody/antibody.git' 'antibody'
-install =
-    get_github_latest_release 'getantibody/antibody' \
-       'contains("linux_amd64")' > antibody.deb;
-    dpkg -i antibody.deb;
-    apt-get install -f;
-    rm antibody.deb
-
-
 [{{@@ asdf_home @@}}]
 checkout =
     git clone 'https://github.com/asdf-vm/asdf.git' \

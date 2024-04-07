@@ -131,8 +131,6 @@ find "$RELEASES_DIR" -maxdepth 2 -mindepth 2 -type d -printf '%P\n' \
     | while read -r GITHUB_REPO; do
         log_info "Process $GITHUB_REPO..."
 
-        log_debug 'Set SHOULD_EXECUTE to true'
-        SHOULD_EXECUTE='true'
         REPO_PATH="$RELEASES_DIR/$GITHUB_REPO"
         INSTALLED_VERSION_FILE="$REPO_PATH/installed-version"
 
@@ -144,19 +142,21 @@ find "$RELEASES_DIR" -maxdepth 2 -mindepth 2 -type d -printf '%P\n' \
             INSTALLED_VERSION='-'
         fi
 
-        [ "$FORCE_INSTALL" = 'false' ] && {
-            log_debug "Retrieve latest $GITHUB_REPO release metadata..."
-            LATEST_RELEASE_METADATA="$(github_latest_release "$GITHUB_REPO")"
-            LATEST_VERSION="$(printf '%s' "$LATEST_RELEASE_METADATA" \
-                | jq --raw-output '.name')"
+        log_debug 'Retrieve latest release metadata...'
+        LATEST_RELEASE_METADATA="$(github_latest_release "$GITHUB_REPO")"
+        LATEST_VERSION="$(printf '%s' "$LATEST_RELEASE_METADATA" \
+            | jq --raw-output '.name')"
 
-            [ "$CMD" != 'status' ] && [ -f "$INSTALLED_VERSION_FILE" ] && \
-                ! is_version_later "$LATEST_VERSION" "$INSTALLED_VERSION" && \
-            {
-                log_debug 'Set SHOULD_EXECUTE to false'
-                SHOULD_EXECUTE='false'
-            }
-        }
+        log_debug 'Determine whether to execute...'
+        if [ "$FORCE_INSTALL" = 'true' ] || [ "$CMD" = 'status' ] \
+            || [ ! -f "$INSTALLED_VERSION_FILE" ] \
+            || is_version_later "$LATEST_VERSION" "$INSTALLED_VERSION"
+        then
+            SHOULD_EXECUTE='true'
+        else
+            SHOULD_EXECUTE='false'
+        fi
+        log_debug "Executing? $SHOULD_EXECUTE"
 
         [ "$SHOULD_EXECUTE" = 'false' ] && {
             log_debug "Not executing for $GITHUB_REPO"

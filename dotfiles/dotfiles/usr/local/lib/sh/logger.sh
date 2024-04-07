@@ -395,8 +395,8 @@ log_warning() {
     unset __LOG_TAG_WARNING
 }
 
-# This function logs a message of "error" level. The message can either be
-# passed as an argument, or be read by stdin.
+# This function logs a message of "error" level on stderr. The message can
+# either be passed as an argument, or be read by stdin.
 #
 # Arguments:
 #   - $1: The message to be logged. Optional.
@@ -413,7 +413,7 @@ log_error() {
         __LOG_TAG_ERROR="<3>$__LOG_TAG_ERROR"
     }
 
-    __logging_print "$__LOGGING_LEVEL_ERROR" "$__LOG_TAG_ERROR" "$1"
+    __logging_print "$__LOGGING_LEVEL_ERROR" "$__LOG_TAG_ERROR" "$1" >&2
 
     unset __LOG_TAG_ERROR
 }

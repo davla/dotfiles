@@ -531,6 +531,8 @@ profiles:
   # This profile holds dotfiles used to install software manually, that is
   # without the aid of a package manager
   manual:
+    dotfiles:
+    - f_local_bin_gh-releases
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/manual.yaml:optional
     include:

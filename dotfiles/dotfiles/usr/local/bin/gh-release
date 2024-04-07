@@ -1,0 +1,145 @@
+#!/usr/bin/env sh
+
+# This script installs and updates software from GitHub releases
+
+set -e
+
+########################################
+# Variables
+########################################
+
+RELEASES_DIR='/opt/github-releases'
+
+########################################
+# Functions
+########################################
+
+# This function outputs the metadata of a GitHub repository latest release in
+# JSON format.
+#
+# Arguments:
+#   - $1: The GitHub repository name
+github_latest_release() {
+    wget --no-verbose --output-document - \
+        "https://api.github.com/repos/$1/releases/latest"
+}
+
+# This function exits with 0 if the first argument is a later version number
+# than the second argument, or with 1 otherwise
+#
+# Arguments:
+#   - $1: the first version number
+#   - $2: the second version number
+is_version_later() {
+    [ "$1" != "$2" ] \
+        && [ "$(printf '%s\n%s\n' "$1" "$2" | sort --reverse --version-sort \
+                | head --lines 1)" = "$1" ]
+}
+
+# This function outputs the text for an upgradable GitHub release
+#
+# Arguments:
+#   - $1: The GitHub repository name
+#   - $2: The installed version
+#   - $3: The latest version
+print_upgradeable() {
+    printf '%s\t%s -> %s\n' "$@"
+}
+
+########################################
+# Input processing
+########################################
+
+CMD=''
+FORCE_INSTALL='false'
+
+case "$1" in
+    'install'|'update')
+        [ "$(id -u)" -ne 0 ] && {
+            echo >&2 "The '$1' command needs to be run as root"
+            exit 64
+        }
+        CMD='update'
+        ;;
+
+    'list-upgradable'|'list-upgradeable'|'upgradeable'|'upgradable')
+        CMD='upgradeable'
+        ;;
+
+    'status'|'list')
+        CMD='status'
+        ;;
+
+    *)
+        [ -z "$1" ] \
+            && echo >&2 'No command given' \
+            || echo >&2 "Unknown command: '$1'"
+        exit 65
+        ;;
+esac
+shift
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        '--force'|'-F')
+            FORCE_INSTALL='true'
+            ;;
+    esac
+
+    shift
+done
+
+[ "$CMD" != 'update' ] && [ "$FORCE_INSTALL" = 'true' ] && {
+    printf >&2 'The --force flag can only be used with the update command: '
+    echo >&2 "$CMD" given
+    exit 66
+}
+
+########################################
+# Main
+########################################
+
+find "$RELEASES_DIR" -maxdepth 2 -mindepth 2 -type d -printf '%P\n' \
+    | while read -r GITHUB_REPO; do
+        SHOULD_EXECUTE='true'
+        REPO_PATH="$RELEASES_DIR/$GITHUB_REPO"
+        INSTALLED_VERSION_FILE="$REPO_PATH/installed-version"
+
+        [ -f "$INSTALLED_VERSION_FILE" ] \
+            && INSTALLED_VERSION="$(cat "$INSTALLED_VERSION_FILE")" \
+            || INSTALLED_VERSION='-'
+
+        [ "$FORCE_INSTALL" = 'false' ] && {
+            LATEST_RELEASE_METADATA="$(github_latest_release "$GITHUB_REPO")"
+            LATEST_VERSION="$(printf '%s' "$LATEST_RELEASE_METADATA" \
+                | jq --raw-output '.name')"
+
+            [ "$CMD" != 'status' ] && [ -f "$INSTALLED_VERSION_FILE" ] \
+                && ! is_version_later "$LATEST_VERSION" "$INSTALLED_VERSION" \
+                && SHOULD_EXECUTE='false'
+        }
+
+        [ "$SHOULD_EXECUTE" = 'false' ] && continue
+
+        case "$CMD" in
+            'status')
+                if [ "$INSTALLED_VERSION" = "$LATEST_VERSION" ]; then
+                    printf '%s\tup to date\n' "$GITHUB_REPO"
+                else
+                    print_upgradeable "$GITHUB_REPO" "$INSTALLED_VERSION" \
+                        "$LATEST_VERSION"
+                fi
+                ;;
+
+            'update')
+                printf '%s' "$LATEST_RELEASE_METADATA" | jq '.assets' \
+                    | "$REPO_PATH/install"
+                echo "$LATEST_VERSION" > "$INSTALLED_VERSION_FILE"
+                ;;
+
+            'upgradeable')
+                print_upgradeable "$GITHUB_REPO" "$INSTALLED_VERSION" \
+                    "$LATEST_VERSION"
+                ;;
+        esac
+    done

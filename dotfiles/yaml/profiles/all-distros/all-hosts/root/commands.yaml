@@ -92,6 +92,10 @@ dotfiles:
     src: usr/local/bin/dotdrop
     dst: /usr/local/bin/dotdrop
     chmod: 755
+  f_local_bin_gh-releases:
+    src: usr/local/bin/gh-release
+    dst: /usr/local/bin/gh-release
+    chmod: 755
   f_local_bin_launcher:
     src: usr/local/bin/launcher
     dst: /usr/local/bin/launcher

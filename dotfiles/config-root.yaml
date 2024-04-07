@@ -145,6 +145,9 @@ dotfiles:
     dst: '{{@@ asdf_config @@}}'
     actions:
     - asdf
+  d_github-releases:
+    src: opt/github-releases
+    dst: /opt/github-releases
   d_i3blocks_keyindicator2:
     src: usr/local/src/i3blocks/keyindicator2
     dst: /usr/local/src/i3blocks/keyindicator2
@@ -532,6 +535,7 @@ profiles:
   # without the aid of a package manager
   manual:
     dotfiles:
+    - d_github-releases
     - f_local_bin_gh-releases
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/manual.yaml:optional

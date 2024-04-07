@@ -3,15 +3,35 @@
 # This script installs Nerd Fonts Symbols to a system location. It is meant to
 # be used via the gh-release command, as it reads GitHub release assets
 # metadata in JSON format from stdin.
+#
+# {{@@ header() @@}}
 
 set -e
 
+#######################################
+# Libraries includes
+#######################################
+
+. "{{@@ logger_path @@}}"
+
+########################################
+# Variables
+########################################
+
 SYMBOLS_NERD_FONT_DIR=/usr/local/share/fonts/symbols-nerd-font/
+
+########################################
+# Main
+########################################
+
+log_debug "Ensure $SYMBOLS_NERD_FONT_DIR exists"
 mkdir --parents "$SYMBOLS_NERD_FONT_DIR"
 
+log_debug 'Download and install Nerd Fonts Symbols...'
 jq --raw-output '.[] | select(.name == "NerdFontsSymbolsOnly.tar.xz").browser_download_url' \
     | xargs wget --quiet --output-document - \
     | tar --extract --xz --no-anchored --directory "$SYMBOLS_NERD_FONT_DIR" \
         --wildcards '*.ttf'
 
-fc-cache --force --really-force --system-only
+log_debug 'Refresh fonts cache...'
+fc-cache --force --really-force --system-only --verbose | log_debug

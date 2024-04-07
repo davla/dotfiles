@@ -175,6 +175,7 @@ find "$RELEASES_DIR" -maxdepth 2 -mindepth 2 -type d -printf '%P\n' \
 
             'update')
                 log_info "Install $GITHUB_REPO version $LATEST_VERSION"
+                logging_export_config
                 printf '%s' "$LATEST_RELEASE_METADATA" | jq '.assets' \
                     | "$REPO_PATH/install"
                 echo "$LATEST_VERSION" > "$INSTALLED_VERSION_FILE"

@@ -1,10 +1,57 @@
 #!/usr/bin/env sh
 
-# This script installs and updates software from GitHub releases
+# This script installs, updates and queries the status of software via GitHub
+# releases. Read the help text below for more information.
 #
 # {{@@ header() @@}}
 
 set -e
+
+########################################
+# Help
+########################################
+
+HELP_TEXT="
+Install, update and query status of software installed via GitHub releases.
+
+Usage:
+    gh-release update [--force|-F]
+    gh-release status
+    gh-release upgradable
+
+Options:
+    --force, -F         Force installation even if the newest version is
+                        already installed.
+    --help, -H          Show this help text.
+
+Other options are used for logging. For detailed info, check the source code at
+{{@@ logger_path @@}}.
+Here a quick summary:
+    --<log-level>, --log-level <log-level>      Sets the session log level.
+    --color <on|off|auto>       Sets whether the output is colored.
+    --journald <on|off>         Whether to print journald prefixes.
+    --tag <on|off>              Whether to print the log level tag.
+
+Below, more information about the individual commands:
+
+update
+    Installs the newest available version of all the packages via GitHub
+    releases.
+
+    Aliases: install
+
+status
+    Display the status of all the packages installed via GitHub releases,
+    including the newest version if not currently installed.
+
+    Aliases: list
+
+upgradeable
+    Display the status of packages installed via GitHub releases *that have a
+    newer version available on GitHub*.
+
+    Aliases: list-upgradable, list-upgradeable, upgradable
+"
 
 #######################################
 # Libraries includes
@@ -66,6 +113,11 @@ CMD=''
 FORCE_INSTALL='false'
 
 case "$1" in
+    '--help'|'-H')
+        echo "$HELP_TEXT"
+        exit 0
+        ;;
+
     'install'|'update')
         [ "$(id -u)" -ne 0 ] && {
             log_error "The '$1' command needs to be run as root"
@@ -74,7 +126,7 @@ case "$1" in
         CMD='update'
         ;;
 
-    'list-upgradable'|'list-upgradeable'|'upgradeable'|'upgradable')
+    'list-upgradable'|'list-upgradeable'|'upgradable'|'upgradeable')
         CMD='upgradeable'
         ;;
 

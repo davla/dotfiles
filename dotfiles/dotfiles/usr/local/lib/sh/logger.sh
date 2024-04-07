@@ -44,29 +44,33 @@ __LOGGING_LEVEL_ERROR=10
 __LOGGING_LEVEL_SILENT=0
 
 #######################################
-# Internal state variables
+# Internal configuration variables
 #######################################
+
+# All these variables are exported by logging_export_config. As a result, they
+# can be already defined in the environment, thus the assignments to
+# themselves.
 
 # Current logging level as a number. Log messages with a greater level than
 # this will not be emitted
-__LOGGING_LEVEL_CURRENT="$__LOGGING_LEVEL_SILENT"
+__LOGGING_LEVEL_CURRENT="${__LOGGING_LEVEL_CURRENT:-$__LOGGING_LEVEL_SILENT}"
 
 # Journald prefixes settings. They control whether the logging output will be
 # prefixed by the syslog levels prefix codes defined by systemd and available
 # here: https://www.freedesktop.org/software/systemd/man/sd-daemon.html#.
 # Meant to work in tandem with SyslogLevelPrefix=true in systemd units.
-__LOGGING_JOURNALD_PREFIXES='true'
+__LOGGING_JOURNALD_PREFIXES="${__LOGGING_JOURNALD_PREFIXES:-true}"
 
 # Tag settings. They control whether the emitted log messages are prefixed by a
 # tag indicating their level.
-__LOGGING_TAG='true'
+__LOGGING_TAG="${__LOGGING_TAG:-'true'}"
 
 # Colored output settings. They control whether the logging output will be
 # colored or not, via shell escape codes.
 #
 # The default is set later on by detecting whether the stdout and stderr are
 # piped to a tty
-__LOGGING_COLOR=''
+__LOGGING_COLOR="${__LOGGING_COLOR:-''}"
 
 #######################################
 # Internal functions
@@ -106,6 +110,17 @@ __logging_print() {
 #######################################
 # Configuration functions
 #######################################
+
+# This function exports the logging configuration parameters to the
+# environment, so that they can be inherited by subprocesses.
+#
+# NOTE: The subprocesses still need to import the logging file to have access
+#       to the logging functionalitites. It's only the configuration that is
+#       inherited from the parent.
+logging_export_config() {
+    export __LOGGING_COLOR __LOGGING_JOURNALD_PREFIXES \
+        __LOGGING_LEVEL_CURRENT __LOGGING_TAG
+}
 
 # This function is meant as a helper for handling logging-related
 # CLI-arguments. This involves parsing and executing the corresponding action.

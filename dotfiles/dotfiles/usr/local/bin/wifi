@@ -8,4 +8,4 @@
 #   - $@: Any argument `nmcli radio wifi` accepts.
 
 nmcli radio wifi "$@"
-pkill -RTMIN+{{@@ network_signal @@}} i3blocks
+pkill -RTMIN+{{@@ i3blocks_signals.network @@}} i3blocks

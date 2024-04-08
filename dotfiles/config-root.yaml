@@ -536,6 +536,7 @@ profiles:
   manual:
     dotfiles:
     - d_github-releases
+    - d_local_lib_sh
     - f_local_bin_gh-releases
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/manual.yaml:optional

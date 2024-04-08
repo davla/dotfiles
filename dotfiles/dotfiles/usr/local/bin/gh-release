@@ -57,7 +57,7 @@ upgradeable
 # Libraries includes
 #######################################
 
-. "{{@@ logger_path @@}}"
+. "{{@@ gh_release_path @@}}"
 
 ########################################
 # Variables
@@ -65,6 +65,7 @@ upgradeable
 
 RELEASES_DIR='/opt/github-releases'
 
+# Logging defaults
 logging_set_level 'info'
 logging_set_tag 'on'
 logging_set_journald 'off'
@@ -79,8 +80,10 @@ logging_set_journald 'off'
 # Arguments:
 #   - $1: The GitHub repository name
 github_latest_release() {
-    wget --no-verbose --output-document - \
-        "https://api.github.com/repos/$1/releases/latest"
+    wget --quiet --output-document - \
+        "https://api.github.com/repos/$1/releases/latest" \
+        || wget_error "Failed to retrieve latest release metadata for $1 via" \
+            'the GitHub WEB API'
 }
 
 # This function exits with 0 if the first argument is a later version number
@@ -228,8 +231,8 @@ find "$RELEASES_DIR" -maxdepth 2 -mindepth 2 -type d -printf '%P\n' \
             'update')
                 log_info "Install $GITHUB_REPO version $LATEST_VERSION"
                 logging_export_config
-                printf '%s' "$LATEST_RELEASE_METADATA" | jq '.assets' \
-                    | "$REPO_PATH/install"
+                printf '%s' "$LATEST_RELEASE_METADATA" \
+                    | "$REPO_PATH/install" "$GITHUB_REPO"
                 echo "$LATEST_VERSION" > "$INSTALLED_VERSION_FILE"
                 ;;
 

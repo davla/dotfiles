@@ -1,8 +1,11 @@
 #!/usr/bin/env sh
 
 # This script installs antibody to a system location. It is meant to be used
-# via the gh-release command, as it reads GitHub release assets metadata in
-# JSON format from stdin.
+# via the gh-release command.
+#
+# Arguments:
+#   - $1: The GitHub repository name the software is installed from
+#   - STDIN: The GitHub release JSON metadata
 #
 # {{@@ header() @@}}
 
@@ -12,7 +15,7 @@ set -e
 # Libraries includes
 #######################################
 
-. "{{@@ logger_path @@}}"
+. "{{@@ gh_release_path @@}}"
 
 ########################################
 # Functions
@@ -27,6 +30,12 @@ cleanup() {
 }
 
 ########################################
+# Input processing
+########################################
+
+GITHUB_REPO="$1"
+
+########################################
 # Main
 ########################################
 
@@ -35,8 +44,8 @@ trap cleanup EXIT INT HUP
 TMP_DEB_FILE="$(mktemp 'XXX-antibody.deb')"
 
 log_debug 'Download antibody...'
-jq --raw-output '.[] | select(.name | contains("linux_amd64.deb")).browser_download_url' \
-    | xargs wget --quiet --output-document "$TMP_DEB_FILE"
+download_github_release_asset '.name | endswith("linux_amd64.deb")' \
+    "$GITHUB_REPO" "$TMP_DEB_FILE"
 
 log_debug 'Install antibody...'
 dpkg --install "$TMP_DEB_FILE" | log_debug

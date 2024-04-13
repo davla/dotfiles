@@ -16,8 +16,14 @@ bindswitch --reload {
     lid:off output $laptop_display enable
 }
 
-# Laptop display
+# Laptop display scale
 output $laptop_display scale 2
+
+# Laptop power
+# SIGUSR1 makes swayidle enter idle state, turning the outputs off as a result.
+# However the key release event would make it resume immediately, hence the
+# `sleep`: https://github.com/swaywm/swayidle/issues/35
+bindsym $mod+v exec --no-startup-id sleep 0.1s && pkill -SIGUSR1 swayidle
 
 #######################################
 # Input

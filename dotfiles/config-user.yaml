@@ -128,6 +128,9 @@ dotfiles:
     - desktop
     - xfce4-screenshooter
     - xfwm4
+  d_yay:
+    src: config/yay
+    dst: '{{@@ xdg_config("yay") @@}}'
   f_alacritty.toml:
     src: config/alacritty/alacritty.toml
     dst: '{{@@ xdg_config("alacritty/alacritty.toml") @@}}'
@@ -329,9 +332,6 @@ dotfiles:
   f_xfce4-power-manager.xml:
     src: config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
     dst: '{{@@ xdg_config("xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml") @@}}'
-  f_yay_config.json:
-    src: config/yay/config.json
-    dst: '{{@@ xdg_config("yay/config.json") @@}}'
 
 profiles:
   # This profile groups configuration files for CLI-based applictions.

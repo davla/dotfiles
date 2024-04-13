@@ -8,6 +8,7 @@
     "diffmenu": false,
     "doubleconfirm": false,
     "editmenu": false,
+    "makepkgconf": "{{@@ _dotfile_abs_dst @@}}/makepkg.conf",
     "maxconcurrentdownloads": 4,
     "rebuild": "no",
     "redownload": "no",

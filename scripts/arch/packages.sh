@@ -78,8 +78,12 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
                 geany gnome-disk-utility gnome-keyring gufw handbrake kid3 \
                 libreoffice-still mpv remmina seahorse simple-scan \
                 soundconverter spotify telegram-desktop thunderbird \
-                transmission-gtk visual-studio-code-insiders-bin \
-                whatsapp-nativefier
+                transmission-gtk whatsapp-nativefier
+
+            # Yay fails with a mysterious "-fork/exec" error when installing
+            # visual-studio-code-insiders-bin from AUR *together* with other
+            # packages.
+            sudo -u "$USER" yay -S --needed aur/visual-studio-code-insiders-bin
             ;;
     esac
 

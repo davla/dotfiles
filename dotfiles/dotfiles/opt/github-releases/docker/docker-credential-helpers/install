@@ -1,0 +1,41 @@
+#!/usr/bin/env sh
+
+# This script installs Docker credentials SecretService to a system location.
+# It is meant to be used via the gh-release command.
+#
+# Arguments:
+#   - $1: The GitHub repository name the software is installed from
+#   - STDIN: The the GitHub release JSON metadata
+#
+# {{@@ header() @@}}
+
+set -e
+
+#######################################
+# Libraries includes
+#######################################
+
+. "{{@@ gh_release_path @@}}"
+
+########################################
+# Variables
+########################################
+
+EXEC_PATH='/usr/local/bin/docker-credential-secretservice'
+
+########################################
+# Input processing
+########################################
+
+GITHUB_REPO="$1"
+
+########################################
+# Main
+########################################
+
+log_debug 'Download and install Docker credentials SecretService...'
+download_github_release_asset '.name | contains("secretservice") and contains("amd64")' \
+    "$GITHUB_REPO" "$EXEC_PATH"
+
+log_debug "Set executable permissions to $EXEC_PATH..."
+chmod +x "$EXEC_PATH"

@@ -175,9 +175,9 @@ apt-get install apt-transport-https autoconf automake build-essential cmake \
     fonts-freefont-otf fonts-nanum fortune g++ gdb git git-secret \
     gvfs-backends htop hunspell hunspell-en-us hunspell-it jq libbz2-dev \
     liblzma-dev libncurses-dev libnotify-bin libreadline-dev libsecret-1-dev \
-    libsqlite3-dev libssl-dev lua5.4 make moreutils nfs-common nyancat p7zip \
-    pipewire-jack policykit-1-gnome pycodestyle python3 python3-pip rar \
-    shellcheck sl software-properties-common systemd-cron \
+    libsqlite3-dev libssl-dev lua5.4 make mgitstatus moreutils nfs-common \
+    nyancat p7zip pipewire-jack policykit-1-gnome pycodestyle python3 \
+    python3-pip rar shellcheck sl software-properties-common systemd-cron \
     thunar-archive-plugin tk-dev uni2ascii unrar vim wmctrl xdotool \
     xserver-xorg-input-synaptics yad zip
 

@@ -1,0 +1,41 @@
+#!/usr/bin/env sh
+
+# This script installs asdf version manager to a system location. It is meant
+# to be used via the gh-release command.
+#
+# Arguments:
+#   - $1: The GitHub repository name the software is installed from
+#   - STDIN: The GitHub release JSON metadata
+#
+# {{@@ header() @@}}
+
+set -e
+
+#######################################
+# Libraries includes
+#######################################
+
+. "{{@@ gh_release_path @@}}"
+
+########################################
+# Variables
+########################################
+
+INSTALL_PATH='{{@@ asdf_home @@}}'
+
+########################################
+# Input processing
+########################################
+
+GITHUB_REPO="$1"
+
+########################################
+# Main
+########################################
+
+log_debug 'Clean existing asdf installation...'
+rm --force --recursive "$INSTALL_PATH"
+mkdir --parents "$INSTALL_PATH"
+
+log_debug 'Download and install asdf version manager...'
+download_from_source_tarball '*' "$GITHUB_REPO" "$INSTALL_PATH"

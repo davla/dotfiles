@@ -19,16 +19,6 @@ include = cat '{{@@ mr_libs_path @@}}/git-install'
 #######################################
 
 
-[{{@@ asdf_home @@}}]
-checkout =
-    git clone 'https://github.com/asdf-vm/asdf.git' \
-        '{{@@ basename(asdf_home) @@}}'
-install =
-    true
-upgrade =
-    bash -lc 'asdf update 2>&1 | grep "release"'
-
-
 {%@@ if not is_headless | is_truthy -@@%}
 
 [/opt/i3-volume]

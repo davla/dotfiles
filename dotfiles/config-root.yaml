@@ -146,8 +146,8 @@ dotfiles:
     actions:
     - asdf
   d_github-releases:
-    src: opt/github-releases
-    dst: /opt/github-releases
+    src: usr/local/share/github-releases
+    dst: /usr/local/share/github-releases
   d_i3blocks_keyindicator2:
     src: usr/local/src/i3blocks/keyindicator2
     dst: /usr/local/src/i3blocks/keyindicator2

@@ -118,7 +118,7 @@ config:
   import_configs:
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
   - yaml/profiles/all-distros/all-hosts/all-users/shared.yaml
-  - yaml/profiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/packages.yaml:optional
+  - yaml/profiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/*.yaml:optional
   import_variables:
   - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/all-users/*.yaml:optional
@@ -145,9 +145,6 @@ dotfiles:
     dst: '{{@@ asdf_config @@}}'
     actions:
     - asdf
-  d_github-releases:
-    src: usr/local/share/github-releases
-    dst: /usr/local/share/github-releases
   d_i3blocks_keyindicator2:
     src: usr/local/src/i3blocks/keyindicator2
     dst: /usr/local/src/i3blocks/keyindicator2
@@ -534,13 +531,10 @@ profiles:
   # This profile holds dotfiles used to install software manually, that is
   # without the aid of a package manager
   manual:
-    dotfiles:
-    - d_github-releases
-    - d_local_lib_sh
-    - f_local_bin_gh-releases
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/manual.yaml:optional
     include:
+    - github-releases
     - '{{@@ manual_asdf_include @@}}'
     - '{{@@ manual_rustup_include @@}}'
 

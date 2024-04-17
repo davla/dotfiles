@@ -63,7 +63,7 @@ upgradeable
 # Variables
 ########################################
 
-RELEASES_DIR='/opt/github-releases'
+RELEASES_DIR='{{@@ github_releases_dir @@}}'
 
 # Logging defaults
 logging_set_level 'info'

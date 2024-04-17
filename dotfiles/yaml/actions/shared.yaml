@@ -1,3 +1,4 @@
 actions:
   post:
     _rm: rm -f {0}
+    recursive-exec-permissions: chmod +x -R '{0}'

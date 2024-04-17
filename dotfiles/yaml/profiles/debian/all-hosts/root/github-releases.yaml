@@ -1,0 +1,59 @@
+%YAML 1.2
+---
+# This dotdrop config file defines the gh-releases profile for Debian (Arch
+# doesn't need it thanks to AUR <3). It lists the repositories individually
+# in order to allow fine-grained control over their inclusion in the profile.
+
+config:
+  backup: false
+  banner: true
+  create: true
+  dotpath: ../../../../../dotfiles
+  force_chmod: true
+  func_file:
+  - ../../../../../python/functions.py
+  ignoreempty: true
+  import_actions:
+  - ../../../../actions/shared.yaml
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+  showdiff: true
+  workdir: '{{@@ xdg_config("dotdrop") @@}}'
+
+dotfiles:
+  d_antibody:
+    src: usr/local/share/github-releases/getantibody/antibody
+    dst: '{{@@ github_releases_dir @@}}/getantibody/antibody'
+  d_asdf:
+    src: usr/local/share/github-releases/asdf-vm/asdf
+    dst: '{{@@ github_releases_dir @@}}/asdf-vm/asdf'
+  d_docker-credential-helpers:
+    src: usr/local/share/github-releases/docker/docker-credential-helpers
+    dst: '{{@@ github_releases_dir @@}}/docker/docker-credential-helpers'
+  d_nerd-fonts:
+    src: usr/local/share/github-releases/ryanoasis/nerd-fonts
+    dst: '{{@@ github_releases_dir @@}}/ryanoasis/nerd-fonts'
+  f_local_bin_gh-releases:
+    src: usr/local/bin/gh-release
+    dst: /usr/local/bin/gh-release
+    chmod: 755
+
+variables:
+  # The base directory where the github-releases configuration for all the
+  # repositories is found
+  github_releases_dir: /usr/local/share/github-releases
+
+profiles:
+  # This profile holds the repository configuration for github-releases
+  github-releases:
+    dotfiles:
+    - d_antibody
+    - d_asdf
+    - d_docker-credential-helpers
+    - d_local_lib_sh
+    - d_nerd-fonts
+    - f_local_bin_gh-releases
+    actions:
+    - recursive-exec-permissions '/{{@@ github_releases_dir @@}}'

@@ -26,6 +26,9 @@ config:
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
+  d_local_lib_sh:
+    src: usr/local/lib/sh
+    dst: '{{@@ libs_path @@}}/sh'
   f_mrtrust:
     src: config/mr/mrtrust
     dst: '{{@@ xdg_config("mr/mrtrust") @@}}'

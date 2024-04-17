@@ -32,6 +32,9 @@ dotfiles:
   d_docker-credential-helpers:
     src: usr/local/share/github-releases/docker/docker-credential-helpers
     dst: '{{@@ github_releases_dir @@}}/docker/docker-credential-helpers'
+  d_i3-volume:
+    src: usr/local/share/github-releases/hastinbe/i3-volume
+    dst: '{{@@ github_releases_dir @@}}/hastinbe/i3-volume'
   d_nerd-fonts:
     src: usr/local/share/github-releases/ryanoasis/nerd-fonts
     dst: '{{@@ github_releases_dir @@}}/ryanoasis/nerd-fonts'
@@ -40,10 +43,14 @@ dotfiles:
     dst: /usr/local/bin/gh-release
     chmod: 755
 
-variables:
-  # The base directory where the github-releases configuration for all the
-  # repositories is found
-  github_releases_dir: /usr/local/share/github-releases
+dynvariables:
+  # This variable is used to differentiate between user and root configuration
+  # in some dotfiles.
+  #
+  # It needs to be defined here, rahter than in a shared variables files,
+  # because variables from external variables are not yet available when
+  # importing dotfiles.
+  user: '[ "$USER" = "root" ] && echo "root" || echo "user"'
 
 profiles:
   # This profile holds the repository configuration for github-releases
@@ -55,5 +62,12 @@ profiles:
     - d_local_lib_sh
     - d_nerd-fonts
     - f_local_bin_gh-releases
+    import:
+    - ../../../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/github-releases.yaml:optional
     actions:
     - recursive-exec-permissions '/{{@@ github_releases_dir @@}}'
+
+variables:
+  # The base directory where the github-releases configuration for all the
+  # repositories is found
+  github_releases_dir: /usr/local/share/github-releases

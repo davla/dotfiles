@@ -1,0 +1,57 @@
+#!/usr/bin/env sh
+
+# This script is meant as an i3blocks blocklet. It displays the number of
+# upgradable packages via github-releases with pango markup.
+#
+# Options:
+#   -0|--no-updates-color COLOR     The color of the number of upgrades when
+#                                   it's 0, in any format pango accepts
+#   -C|--updates-color COLOR        The color of the number of upgrades when
+#                                   it's more than 0, in any format pango
+#                                   accepts.
+#   -L|--label LABEL        The label to display before the number of upgrades
+
+########################################
+# Input processing
+########################################
+
+LABEL=''
+NO_UPDATES_COLOR=''
+UPDATES_COLOR=''
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        '-0'|'--no-updates-color')
+            NO_UPDATES_COLOR="$2"
+            ;;
+
+        '-C'|'--updates-color')
+            UPDATES_COLOR="$2"
+            ;;
+
+        '-L'|'--label')
+            LABEL="$2"
+            ;;
+
+        *)
+            echo >&2 "Unknown option: $1"
+            exit 63
+            ;;
+    esac
+
+    shift 2
+done
+
+########################################
+# Main
+########################################
+
+UPDATES_COUNT="$(gh-release upgradable --silent | wc -l)"
+[ "$UPDATES_COUNT" -eq 0 ] \
+    && UPDATES_COUNT_COLOR="$NO_UPDATES_COLOR" \
+    || UPDATES_COUNT_COLOR="$UPDATES_COLOR"
+
+[ -n "$UPDATES_COUNT_COLOR" ] \
+    && printf '%s<span color="%s">%d</span>\n' "$LABEL" \
+        "$UPDATES_COUNT_COLOR" "$UPDATES_COUNT" \
+    || echo "$LABEL$UPDATES_COUNT"

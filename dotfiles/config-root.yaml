@@ -229,6 +229,10 @@ dotfiles:
   f_i3_sway_systemd-session-watch.service:
     src: shared/i3-sway/systemd/systemd-session-watch.service
     dst: /etc/systemd/user/{{@@ wm_name @@}}-session-watch.service
+  f_i3blocks_github-releases-updates:
+    src: usr/lib/i3blocks/github-releases-updates
+    dst: /usr/lib/i3blocks/github-releases-updates
+    chmod: 755
   f_keyboard:
     src: etc/default/keyboard
     dst: /etc/default/keyboard

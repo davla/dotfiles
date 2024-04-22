@@ -15,14 +15,16 @@ HELP_TEXT="
 Install, update and query status of software installed via GitHub releases.
 
 Usage:
-    gh-release update [--force|-F]
+    gh-release update [--force|-F] [--i3blocks-signal|-S SIGNAL]
     gh-release status
     gh-release upgradable
 
 Options:
-    --force, -F         Force installation even if the newest version is
-                        already installed.
-    --help, -H          Show this help text.
+    --force, -F                     Force installation even if the newest
+                                    version is already installed.
+    --i3blocks-signal, -S SIGNAL    The signal to send to i3blocks, usually to
+                                    refresh a blocklet.
+    --help, -H                      Show this help text.
 
 Other options are used for logging. For detailed info, check the source code at
 {{@@ logger_path @@}}.
@@ -63,7 +65,8 @@ upgradeable
 # Variables
 ########################################
 
-RELEASES_DIR='{{@@ github_releases_dir @@}}'
+# Configuration variables
+. "{{@@ github_releases_conf @@}}"
 
 # Logging defaults
 logging_set_level 'info'
@@ -158,6 +161,11 @@ while [ $# -gt 0 ]; do
                 '--force'|'-F')
                     FORCE_INSTALL='true'
                     ;;
+
+                '--i3blocks-signal'|'-S')
+                    I3BLOCKS_SIGNAL="$1"
+                    shift 1
+                    ;;
             esac
             shift
             ;;
@@ -242,3 +250,8 @@ find "$RELEASES_DIR" -maxdepth 2 -mindepth 2 -type d -printf '%P\n' \
                 ;;
         esac
     done
+
+if [ "$CMD" = 'update' ] && [ -n "$I3BLOCKS_SIGNAL" ]; then
+    log_debug "Send signal to i3blocks: $I3BLOCKS_SIGNAL"
+    pkill --signal "RTMIN+$I3BLOCKS_SIGNAL" i3blocks
+fi

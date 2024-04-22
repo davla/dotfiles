@@ -38,6 +38,10 @@ dotfiles:
   d_nerd-fonts:
     src: usr/local/share/github-releases/ryanoasis/nerd-fonts
     dst: '{{@@ github_releases_dir @@}}/ryanoasis/nerd-fonts'
+  f_github-releases.conf:
+    src: usr/local/etc/github-releases.conf
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ github_releases_conf @@}}'
   f_local_bin_gh-releases:
     src: usr/local/bin/gh-release
     dst: /usr/local/bin/gh-release
@@ -61,6 +65,7 @@ profiles:
     - d_docker-credential-helpers
     - d_local_lib_sh
     - d_nerd-fonts
+    - f_github-releases.conf
     - f_local_bin_gh-releases
     import:
     - ../../../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/github-releases.yaml:optional
@@ -71,3 +76,7 @@ variables:
   # The base directory where the github-releases configuration for all the
   # repositories is found
   github_releases_dir: /usr/local/share/github-releases
+
+  # This is the path to the configuration file for gh-release. It's a variable
+  # because it's used in both the dotfile dst and the gh-release file itself.
+  github_releases_conf: /usr/local/etc/github-releases.conf

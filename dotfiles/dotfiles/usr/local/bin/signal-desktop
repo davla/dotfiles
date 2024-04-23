@@ -24,8 +24,9 @@ READY_LOG_LINE='^config/get: Successfully read ephemeral config file$'
 ########################################
 
 # Spawn first instance in the background
+# `cat` avoids a broken pipe error from Signal overreacting to grep exiting
 { {{@@ executable @@}} {{@@ electron_wayland_options @@}} "$@" & disown; } \
-    | grep --quiet --max-count=1 "$READY_LOG_LINE"
+    | cat | grep --quiet --max-count=1 "$READY_LOG_LINE"
 
 # Spawn second instance
 exec {{@@ executable @@}} > /dev/null

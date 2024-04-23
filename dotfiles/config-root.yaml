@@ -118,7 +118,7 @@ config:
   import_configs:
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
   - yaml/profiles/all-distros/all-hosts/all-users/shared.yaml
-  - yaml/profiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/packages.yaml:optional
+  - yaml/profiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/*.yaml:optional
   import_variables:
   - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
   - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/all-users/*.yaml:optional
@@ -229,6 +229,10 @@ dotfiles:
   f_i3_sway_systemd-session-watch.service:
     src: shared/i3-sway/systemd/systemd-session-watch.service
     dst: /etc/systemd/user/{{@@ wm_name @@}}-session-watch.service
+  f_i3blocks_github-releases-updates:
+    src: usr/lib/i3blocks/github-releases-updates
+    dst: /usr/lib/i3blocks/github-releases-updates
+    chmod: 755
   f_keyboard:
     src: etc/default/keyboard
     dst: /etc/default/keyboard
@@ -534,6 +538,7 @@ profiles:
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/manual.yaml:optional
     include:
+    - github-releases
     - '{{@@ manual_asdf_include @@}}'
     - '{{@@ manual_rustup_include @@}}'
 

@@ -49,9 +49,6 @@ dotfiles:
     dst: '{{@@ libs_path @@}}/i3ipc-extras'
     actions:
     - pip_install_editable '{{@@ _dotfile_abs_dst @@}}'
-  d_local_lib_sh:
-    src: usr/local/lib/sh
-    dst: '{{@@ libs_path @@}}/sh'
   f_frequent-hosts:
     src: usr/local/etc/frequent-hosts.{{@@ env['HOST'] @@}}
     # Dynamic path as it's used somewhere else too

@@ -44,29 +44,33 @@ __LOGGING_LEVEL_ERROR=10
 __LOGGING_LEVEL_SILENT=0
 
 #######################################
-# Internal state variables
+# Internal configuration variables
 #######################################
+
+# All these variables are exported by logging_export_config. As a result, they
+# can be already defined in the environment, thus the assignments to
+# themselves.
 
 # Current logging level as a number. Log messages with a greater level than
 # this will not be emitted
-__LOGGING_LEVEL_CURRENT="$__LOGGING_LEVEL_SILENT"
+__LOGGING_LEVEL_CURRENT="${__LOGGING_LEVEL_CURRENT:-$__LOGGING_LEVEL_SILENT}"
 
 # Journald prefixes settings. They control whether the logging output will be
 # prefixed by the syslog levels prefix codes defined by systemd and available
 # here: https://www.freedesktop.org/software/systemd/man/sd-daemon.html#.
 # Meant to work in tandem with SyslogLevelPrefix=true in systemd units.
-__LOGGING_JOURNALD_PREFIXES='true'
+__LOGGING_JOURNALD_PREFIXES="${__LOGGING_JOURNALD_PREFIXES:-true}"
 
 # Tag settings. They control whether the emitted log messages are prefixed by a
 # tag indicating their level.
-__LOGGING_TAG='true'
+__LOGGING_TAG="${__LOGGING_TAG:-'true'}"
 
 # Colored output settings. They control whether the logging output will be
 # colored or not, via shell escape codes.
 #
 # The default is set later on by detecting whether the stdout and stderr are
 # piped to a tty
-__LOGGING_COLOR=''
+__LOGGING_COLOR="${__LOGGING_COLOR:-''}"
 
 #######################################
 # Internal functions
@@ -106,6 +110,17 @@ __logging_print() {
 #######################################
 # Configuration functions
 #######################################
+
+# This function exports the logging configuration parameters to the
+# environment, so that they can be inherited by subprocesses.
+#
+# NOTE: The subprocesses still need to import the logging file to have access
+#       to the logging functionalitites. It's only the configuration that is
+#       inherited from the parent.
+logging_export_config() {
+    export __LOGGING_COLOR __LOGGING_JOURNALD_PREFIXES \
+        __LOGGING_LEVEL_CURRENT __LOGGING_TAG
+}
 
 # This function is meant as a helper for handling logging-related
 # CLI-arguments. This involves parsing and executing the corresponding action.
@@ -154,7 +169,7 @@ logging_parse_arg() {
             ;;
 
         *)
-            logging_set_level "$1" || return 255
+            logging_set_level "$1" 'false' || return 0
             return 1
             ;;
     esac
@@ -253,6 +268,7 @@ logging_set_journald() {
 #
 # Arguments:
 #   - $1: The value to set the log level to. Must be one of those listed above.
+#   - $2: Whether to output error messages. Optional, defaults to true.
 logging_set_level() {
     case "$(echo "$1" | tr '[:upper:]' '[:lower:]')" in
         '--debug'|'debug')
@@ -271,7 +287,7 @@ logging_set_level() {
             __LOGGING_LEVEL_CURRENT="$__LOGGING_LEVEL_SILENT"
             ;;
         *)
-            echo >&2 "Unsupported log level: $1"
+            [ "${2:-true}" = 'true' ] && echo >&2 "Unsupported log level: $1"
             return 1
             ;;
     esac
@@ -379,8 +395,8 @@ log_warning() {
     unset __LOG_TAG_WARNING
 }
 
-# This function logs a message of "error" level. The message can either be
-# passed as an argument, or be read by stdin.
+# This function logs a message of "error" level on stderr. The message can
+# either be passed as an argument, or be read by stdin.
 #
 # Arguments:
 #   - $1: The message to be logged. Optional.
@@ -397,7 +413,7 @@ log_error() {
         __LOG_TAG_ERROR="<3>$__LOG_TAG_ERROR"
     }
 
-    __logging_print "$__LOGGING_LEVEL_ERROR" "$__LOG_TAG_ERROR" "$1"
+    __logging_print "$__LOGGING_LEVEL_ERROR" "$__LOG_TAG_ERROR" "$1" >&2
 
     unset __LOG_TAG_ERROR
 }

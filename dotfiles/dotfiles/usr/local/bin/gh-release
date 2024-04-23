@@ -1,0 +1,257 @@
+#!/usr/bin/env sh
+
+# This script installs, updates and queries the status of software via GitHub
+# releases. Read the help text below for more information.
+#
+# {{@@ header() @@}}
+
+set -e
+
+########################################
+# Help
+########################################
+
+HELP_TEXT="
+Install, update and query status of software installed via GitHub releases.
+
+Usage:
+    gh-release update [--force|-F] [--i3blocks-signal|-S SIGNAL]
+    gh-release status
+    gh-release upgradable
+
+Options:
+    --force, -F                     Force installation even if the newest
+                                    version is already installed.
+    --i3blocks-signal, -S SIGNAL    The signal to send to i3blocks, usually to
+                                    refresh a blocklet.
+    --help, -H                      Show this help text.
+
+Other options are used for logging. For detailed info, check the source code at
+{{@@ logger_path @@}}.
+Here a quick summary:
+    --<log-level>, --log-level <log-level>      Sets the session log level.
+    --color <on|off|auto>       Sets whether the output is colored.
+    --journald <on|off>         Whether to print journald prefixes.
+    --tag <on|off>              Whether to print the log level tag.
+
+Below, more information about the individual commands:
+
+update
+    Installs the newest available version of all the packages via GitHub
+    releases.
+
+    Aliases: install
+
+status
+    Display the status of all the packages installed via GitHub releases,
+    including the newest version if not currently installed.
+
+    Aliases: list
+
+upgradeable
+    Display the status of packages installed via GitHub releases *that have a
+    newer version available on GitHub*.
+
+    Aliases: list-upgradable, list-upgradeable, upgradable
+"
+
+#######################################
+# Libraries includes
+#######################################
+
+. "{{@@ gh_release_path @@}}"
+
+########################################
+# Variables
+########################################
+
+# Configuration variables
+. "{{@@ github_releases_conf @@}}"
+
+# Logging defaults
+logging_set_level 'info'
+logging_set_tag 'on'
+logging_set_journald 'off'
+
+########################################
+# Functions
+########################################
+
+# This function outputs the metadata of a GitHub repository latest release in
+# JSON format.
+#
+# Arguments:
+#   - $1: The GitHub repository name
+github_latest_release() {
+    wget --quiet --output-document - \
+        "https://api.github.com/repos/$1/releases/latest" \
+        || wget_error "Failed to retrieve latest release metadata for $1 via" \
+            'the GitHub WEB API'
+}
+
+# This function exits with 0 if the first argument is a later version number
+# than the second argument, or with 1 otherwise
+#
+# Arguments:
+#   - $1: the first version number
+#   - $2: the second version number
+is_version_later() {
+    [ "$1" != "$2" ] \
+        && [ "$(printf '%s\n%s\n' "$1" "$2" | sort --reverse --version-sort \
+                | head --lines 1)" = "$1" ]
+}
+
+# This function outputs the text for an upgradable GitHub release
+#
+# Arguments:
+#   - $1: The GitHub repository name
+#   - $2: The installed version
+#   - $3: The latest version
+print_upgradeable() {
+    printf '%s\t%s -> %s\n' "$@"
+}
+
+########################################
+# Input processing
+########################################
+
+CMD=''
+FORCE_INSTALL='false'
+
+case "$1" in
+    '--help'|'-H')
+        echo "$HELP_TEXT"
+        exit 0
+        ;;
+
+    'install'|'update')
+        [ "$(id -u)" -ne 0 ] && {
+            log_error "The '$1' command needs to be run as root"
+            exit 64
+        }
+        CMD='update'
+        ;;
+
+    'list-upgradable'|'list-upgradeable'|'upgradable'|'upgradeable')
+        CMD='upgradeable'
+        ;;
+
+    'status'|'list')
+        CMD='status'
+        ;;
+
+    *)
+        if [ -z "$1" ]; then
+            log_error 'No command given'
+        else
+            log_error "Unknown command: '$1'"
+        fi
+        exit 65
+        ;;
+esac
+shift
+
+while [ $# -gt 0 ]; do
+    set +e
+    logging_parse_arg "$1" "$2"
+    set -e
+    case "$?" in
+        0)
+            case "$1" in
+                '--force'|'-F')
+                    FORCE_INSTALL='true'
+                    ;;
+
+                '--i3blocks-signal'|'-S')
+                    I3BLOCKS_SIGNAL="$1"
+                    shift 1
+                    ;;
+            esac
+            shift
+            ;;
+
+        255)
+            exit 255
+            ;;
+
+        *)
+            shift "$?"
+            ;;
+    esac
+done
+
+[ "$CMD" != 'update' ] && [ "$FORCE_INSTALL" = 'true' ] && {
+    log_error "The --force flag can only be used with the update command: \
+'$CMD' given"
+    exit 66
+}
+
+########################################
+# Main
+########################################
+
+find "$RELEASES_DIR" -maxdepth 2 -mindepth 2 -type d -printf '%P\n' \
+    | while read -r GITHUB_REPO; do
+        log_info "Process $GITHUB_REPO..."
+
+        REPO_PATH="$RELEASES_DIR/$GITHUB_REPO"
+        INSTALLED_VERSION_FILE="$REPO_PATH/installed-version"
+
+        if [ -f "$INSTALLED_VERSION_FILE" ]; then
+            log_debug "Read installed version from $INSTALLED_VERSION_FILE"
+            INSTALLED_VERSION="$(cat "$INSTALLED_VERSION_FILE")"
+        else
+            log_debug 'Set installed version to default value'
+            INSTALLED_VERSION='-'
+        fi
+
+        log_debug 'Retrieve latest release metadata...'
+        LATEST_RELEASE_METADATA="$(github_latest_release "$GITHUB_REPO")"
+        LATEST_VERSION="$(printf '%s' "$LATEST_RELEASE_METADATA" \
+            | jq --raw-output '.name')"
+
+        log_debug 'Determine whether to execute...'
+        if [ "$FORCE_INSTALL" = 'true' ] || [ "$CMD" = 'status' ] \
+            || [ ! -f "$INSTALLED_VERSION_FILE" ] \
+            || is_version_later "$LATEST_VERSION" "$INSTALLED_VERSION"
+        then
+            SHOULD_EXECUTE='true'
+        else
+            SHOULD_EXECUTE='false'
+        fi
+        log_debug "Executing? $SHOULD_EXECUTE"
+
+        [ "$SHOULD_EXECUTE" = 'false' ] && {
+            log_debug "Not executing for $GITHUB_REPO"
+            continue
+        }
+
+        case "$CMD" in
+            'status')
+                if [ "$INSTALLED_VERSION" = "$LATEST_VERSION" ]; then
+                    printf '%s\tup to date\n' "$GITHUB_REPO"
+                else
+                    print_upgradeable "$GITHUB_REPO" "$INSTALLED_VERSION" \
+                        "$LATEST_VERSION"
+                fi
+                ;;
+
+            'update')
+                log_info "Install $GITHUB_REPO version $LATEST_VERSION"
+                logging_export_config
+                printf '%s' "$LATEST_RELEASE_METADATA" \
+                    | "$REPO_PATH/install" "$GITHUB_REPO"
+                echo "$LATEST_VERSION" > "$INSTALLED_VERSION_FILE"
+                ;;
+
+            'upgradeable')
+                print_upgradeable "$GITHUB_REPO" "$INSTALLED_VERSION" \
+                    "$LATEST_VERSION"
+                ;;
+        esac
+    done
+
+if [ "$CMD" = 'update' ] && [ -n "$I3BLOCKS_SIGNAL" ]; then
+    log_debug "Send signal to i3blocks: $I3BLOCKS_SIGNAL"
+    pkill --signal "RTMIN+$I3BLOCKS_SIGNAL" i3blocks
+fi

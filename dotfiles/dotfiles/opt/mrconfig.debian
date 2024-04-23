@@ -18,67 +18,6 @@ include = cat '{{@@ mr_libs_path @@}}/git-install'
 # Repositories
 #######################################
 
-
-[/opt/antibody]
-checkout =
-	  git clone 'https://github.com/getantibody/antibody.git' 'antibody'
-install =
-    get_github_latest_release 'getantibody/antibody' \
-       'contains("linux_amd64")' > antibody.deb;
-    dpkg -i antibody.deb;
-    apt-get install -f;
-    rm antibody.deb
-
-
-[{{@@ asdf_home @@}}]
-checkout =
-    git clone 'https://github.com/asdf-vm/asdf.git' \
-        '{{@@ basename(asdf_home) @@}}'
-install =
-    true
-upgrade =
-    bash -lc 'asdf update 2>&1 | grep "release"'
-
-
-[/opt/docker-credential-helpers]
-checkout =
-    git clone 'https://github.com/docker/docker-credential-helpers.git' \
-        'docker-credential-helpers'
-install =
-    get_github_latest_release 'docker/docker-credential-helpers' \
-        'contains("secretservice") and contains("amd64")' \
-        > /usr/local/bin/docker-credential-secretservice
-    chmod +x /usr/local/bin/docker-credential-secretservice
-
-
-{%@@ if not is_headless | is_truthy -@@%}
-
-[/opt/i3-volume]
-checkout =
-    git clone 'https://github.com/hastinbe/i3-volume.git' 'i3-volume'
-install =
-    cp "$MR_REPO/volume" /usr/local/bin/volume
-
-{%@@- endif @@%}
-
-
-
-[/opt/nerd-fonts]
-checkout =
-    git clone --bare --depth 1 'https://github.com/ryanoasis/nerd-fonts.git' \
-        'nerd-fonts'
-install =
-    SYMBOLS_NERD_FONT_DIR=/usr/local/share/fonts/symbols-nerd-font/
-    mkdir -p "$SYMBOLS_NERD_FONT_DIR"
-    #
-    get_github_latest_release 'ryanoasis/nerd-fonts' \
-        'contains("NerdFontsSymbolsOnly.tar.xz")' \
-        | tar -xJ -C "$SYMBOLS_NERD_FONT_DIR" --no-anchored --wildcards '*.ttf'
-    fc-cache -frs
-    #
-    unset SYMBOLS_NERD_FONT_DIR
-
-
 {%@@ if env['HOST'] != 'work' -@@%}
 
 [{{@@ rustup_home @@}}]

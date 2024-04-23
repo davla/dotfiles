@@ -18,3 +18,4 @@ variables:
   # Command-related paths
   libs_path: /usr/local/lib
   logger_path: '{{@@ libs_path @@}}/sh/logger.sh'
+  gh_release_path: '{{@@ libs_path @@}}/sh/gh-release.sh'

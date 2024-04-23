@@ -5,7 +5,7 @@
 variables:
   asdf_home: /opt/asdf-vm
   asdf_config: '/usr/local/etc/asdf'
-  asdf_data: '{{@@ asdf_home @@}}/data'
+  asdf_data: '/usr/local/share/asdf-vm-data'
   # This is not a profile variable as it's used in the sudo-env file, which
   # is not specific to asdf
   asdf_environment_append_marker: Asdf version manager

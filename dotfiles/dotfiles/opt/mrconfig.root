@@ -23,14 +23,6 @@ include = cat '{{@@ '%s/.mrconfig.%s'
 #######################################
 
 
-[/opt/multi-git-status]
-checkout =
-    git clone 'https://github.com/fboender/multi-git-status.git' \
-        'multi-git-status'
-install =
-    make install
-
-
 [/opt/underclock]
 checkout =
     git clone 'https://github.com/Sepero/temp-throttle.git' 'underclock'

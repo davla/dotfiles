@@ -9,6 +9,7 @@ templates.
 import glob
 import os
 import re
+from itertools import islice
 from pathlib import Path
 
 from python.lib import expand_xdg as xdg
@@ -38,25 +39,26 @@ def filename(path: str) -> str:
 
 
 def second_on_path(executable: str) -> str:
-    f"""Return the second PATH match.
+    f"""Return the second PATH match of executable, or the first if there is one match
 
     Python virtual environments are ignored if they are in a {VENV_DIR} directory.
     The PATH entries are computed each time to account for changes in PATH.
 
     :param executable: The executable to find on PATH.
-    :return: The second PATH match of `executable`.
+    :return: The second PATH match of `executable`, or the first if there is one match.
     """
-    path_execs = (
+    path_matches = (
         path_exec
         for path_dir in os.environ["PATH"].split(os.pathsep)
         if VENV_DIR not in path_dir
         and os.access(path_exec := os.path.join(path_dir, executable), os.X_OK)
     )
     try:
-        next(path_execs)
-        return next(path_execs)
-    except StopIteration:
-        return None
+        # The last match is the second, unless the there is only one match. In fact,
+        # islice returns the whole generator if it's too short
+        return list(islice(path_matches, 2))[-1]
+    except IndexError:
+        raise ValueError(executable + " was not found on PATH.")
 
 
 def xdg_config(path: str) -> str:

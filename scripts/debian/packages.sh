@@ -31,6 +31,7 @@ clean() {
     apt-get purge -y cron
     apt-get purge -y xfce4-clipman
     apt-get purge -y xfce4-clipman-plugin
+    apt-get purge -y deja-vu
     apt-get purge -y disk-manager
     apt-get purge -y epiphany-browser-data
     apt-get purge -y exaile
@@ -176,10 +177,10 @@ apt-get install apt-transport-https autoconf automake build-essential cmake \
     gvfs-backends htop hunspell hunspell-en-us hunspell-it jq libbz2-dev \
     liblzma-dev libncurses-dev libnotify-bin libreadline-dev libsecret-1-dev \
     libsqlite3-dev libssl-dev lua5.4 make mmv mgitstatus moreutils nfs-common \
-    nyancat p7zip pipewire-jack policykit-1-gnome pycodestyle python3 \
-    python3-pip rar shellcheck sl software-properties-common systemd-cron \
-    thunar-archive-plugin tk-dev uni2ascii unrar vim wmctrl xdotool \
-    xserver-xorg-input-synaptics yad zip
+    nyancat p7zip pipewire-jack playerctl policykit-1-gnome pycodestyle \
+    python3 python3-pip rar shellcheck sl software-properties-common \
+    systemd-cron thunar-archive-plugin tk-dev uni2ascii unrar vim wmctrl \
+    xdotool xserver-xorg-input-synaptics yad zip
 
 # Dotfiles
 print_info 'Install CLI packages dotfiles'

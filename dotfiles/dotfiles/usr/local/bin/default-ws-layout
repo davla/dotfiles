@@ -44,6 +44,12 @@ async def apply_default_layouts_on_changes(i3, default_layouts):
     events = i3.events(Event.WORKSPACE_FOCUS, Event.WINDOW_NEW, Event.WINDOW_CLOSE)
     async for event in events:
         workspace = await get_event_ws(i3, event)
+
+        # Updating the bar status in i3 triggers an event for the bar itself, which
+        # of course has no workspace
+        if workspace is None:
+            continue
+
         try:
             layout = default_layouts[workspace.name]
             await apply_default_layout(i3, workspace, layout)

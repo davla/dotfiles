@@ -17,7 +17,5 @@ My dotfiles repository.
   + Dropbox
   + Telegram
   + BitWarden
-- i3
-  + verify if alacritty needs restarting
 - append action should not remove
 - use empty dst: instead of mktemp

@@ -33,7 +33,7 @@ print_info 'Clear existing virtual environment'
 sudo rm -rf .venv
 
 print_info 'Install project dependencies'
-if which asdf > /dev/null; then
+if { which asdf && asdf which python; } > /dev/null 2>&1; then
     asdf which python | xargs pipenv install --dev --python
 else
     pipenv install --dev

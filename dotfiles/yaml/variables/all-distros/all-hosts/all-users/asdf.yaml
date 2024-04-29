@@ -12,7 +12,8 @@ variables:
 
   # These variables encode the environment variables related to asdf
   asdf_env_var:
-    asdf_home: '{{@@ asdf_home @@}}'
-    asdf_config: '{{@@ asdf_config @@}}'
     asdf_config_file: '{{@@ asdf_config @@}}/asdfrc'
+    asdf_config: '{{@@ asdf_config @@}}'
     asdf_data_dir: '{{@@ asdf_data @@}}'
+    asdf_home: '{{@@ asdf_home @@}}'
+    asdf_nodejs_legacy_file_dynamic_strategy: latest_installed

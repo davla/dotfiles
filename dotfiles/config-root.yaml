@@ -510,9 +510,11 @@ profiles:
   # to be installed
   i3:
     dotfiles:
+    - d_local_lib_i3ipc-extras
     - f_i3_sway_10-systemd
     - f_i3_sway_systemd-session.target
     - f_i3_sway_systemd-session-watch.service
+    - f_local_bin_default-ws-layout
     - f_local_bin_systemd-i3-session
     - f_local_bin_systemd-i3-session-watch
     import:
@@ -610,9 +612,11 @@ profiles:
   # installed
   sway:
     dotfiles:
+    - d_local_lib_i3ipc-extras
     - f_i3_sway_10-systemd
     - f_i3_sway_systemd-session.target
     - f_i3_sway_systemd-session-watch.service
+    - f_local_bin_default-ws-layout
     - f_local_bin_launcher
     - f_local_bin_systemd-sway-session
     - f_local_bin_systemd-sway-session-watch

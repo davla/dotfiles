@@ -26,7 +26,6 @@ from subprocess import DEVNULL
 
 from docopt import docopt
 from i3ipc import Event
-from i3ipc.aio import Connection
 from i3ipc_extras import ConnectionExtras
 
 
@@ -37,8 +36,9 @@ class MessagingApp:
 
     def __init__(self, bin_name):
         self.name = bin_name
-        self.window_criterion = f'{self.window_match_prop}=".*{self.name}.*"'
+        self.window_criterion = f'{self.window_match_prop}=".*(?i){self.name}.*"'
         self.container_id = None
+        self.case_insensitive_name = self.name.casefold()
 
     def __hash__(self):
         return hash(self.name)
@@ -48,7 +48,8 @@ class MessagingApp:
         return (
             self.container_id == window.id
             if self.container_id is not None
-            else self.name in getattr(window, self.window_match_prop, "")
+            else self.case_insensitive_name
+            in getattr(window, self.window_match_prop, "").casefold()
         )
 
     def spawn(self):

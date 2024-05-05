@@ -1,0 +1,63 @@
+/* Base Rofi theme */
+
+configuration {
+    font: "monospace 12";
+}
+
+* {
+    background-color: transparent;
+    border: none;
+    font: "monospace 12";
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+    text-color: @primarycolor;
+
+    gap-s: 0.5em;
+    gap-m: 0.8em;
+    gap-l: 1.15em;
+    prompt-width: 0 0 0 1.6em;
+}
+
+window {
+    background-color: #000000D1;
+    location: center;
+}
+
+mainbox {
+    padding: @gap-l;
+    spacing: @gap-m;
+}
+
+inputbar {
+    children: [ textbox-prompt, entry ];
+}
+
+entry {
+    placeholder: "";
+    vertical-align: 0.6;
+}
+
+textbox-prompt {
+    content: "> ";
+    expand: false;
+    font: "monospace bold 18";
+}
+
+message {
+    margin: @prompt-width;
+    border-radius: @gap-l;
+    border-color: @bg2;
+    background-color: @bg2;
+}
+
+textbox {
+    padding: 8px 24px;
+}
+
+listview {
+    margin: @prompt-width;
+    dynamic: false;
+    fixed-height: true;
+    scrollbar: false;
+}

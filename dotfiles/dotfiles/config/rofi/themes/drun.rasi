@@ -1,0 +1,37 @@
+/* This rofi theme is mean specifically for the drun modi */
+
+@theme "orange.rasi"
+@import "config.rasi"
+
+configuration {
+    drun-display-format: "{name}";
+    matching: "normal";
+    modi: [ drun ];
+}
+
+listview {
+    columns: 4;
+    layout: vertical;
+    lines: 6;
+    spacing: @gap-m;
+}
+
+element {
+    border-color: @primarycolor;
+    border-radius: @gap-s;
+    orientation: vertical;
+    padding: @gap-s;
+    spacing: @gap-s;
+}
+
+element selected normal, element selected active {
+    border: 1px;
+}
+
+element-icon {
+    size: 3em;
+}
+
+element-text {
+    horizontal-align: 0.5;
+}

@@ -101,6 +101,9 @@ dotfiles:
   d_qt5ct:
     src: config/qt5ct
     dst: '{{@@ xdg_config("qt5ct") @@}}'
+  d_rofi:
+    src: config/rofi
+    dst: '{{@@ xdg_config("rofi") @@}}'
   d_sway:
     src: config/sway
     dst: '{{@@ xdg_config("sway") @@}}'
@@ -381,6 +384,7 @@ profiles:
     dotfiles:
     - d_i3
     - d_i3-sway_shared_config
+    - d_rofi
     - d_thunar
     - f_alacritty.toml
     - f_default-ws-layout.service

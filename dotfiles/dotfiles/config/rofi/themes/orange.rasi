@@ -1,0 +1,7 @@
+/* Orange colorscheme flavor of the base theme */
+
+* {
+    primarycolor: #FF5500;
+}
+
+@import "base.rasi"

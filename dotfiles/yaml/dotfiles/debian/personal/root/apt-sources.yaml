@@ -6,3 +6,4 @@
 dotfiles:
 - f_caprine.sources
 - f_dropbox.sources
+- f_nordvpn.sources

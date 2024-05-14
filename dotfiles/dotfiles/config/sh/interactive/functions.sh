@@ -136,6 +136,38 @@ gi() {
 # Utility functions
 ########################################
 
+{%@@ if user == 'user' and env['HOST'] != 'work' -@@%}
+
+# This is a utility function used to connect to/disconnect from NordVPN. Its
+# main convenience consists in activating/deactivating the killswitch upon
+# connection/disconnection, but it also uses some defaults of my choice when
+# connecting.
+#
+# This function is therefore not meant to completely wrap the NordVPN CLI tool,
+# because the CLI interface is well-designed enough to carry out less frequent
+# operations.
+#
+# Arguments:
+# - $1: Whether to connect/disconnect to NordVPN. One of:
+#     - on/up: connects to NordVPN with some default parameters and activates
+#              the killswitch
+#     - off/down: disconnects from NordVPN and deactivates the killswitch
+vpn() {
+    case "$(echo "$1" | tr '[:upper:]' '[:lower:]')" in
+        'on'|'up')
+            nordvpn connect --group P2P Switzerland
+            nordvpn set killswitch enabled
+            ;;
+
+        'off'|'down')
+            nordvpn set killswitch disabled
+            nordvpn disconnect
+            ;;
+    esac
+}
+
+{%@@ endif -@@%}
+
 # This is a utility function that operates with week numbers. It can perform a
 # few seemingly unrelated tasks, based on the arguments it's called with:
 #

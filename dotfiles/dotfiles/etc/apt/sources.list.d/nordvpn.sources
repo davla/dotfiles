@@ -1,0 +1,9 @@
+# NordVPN
+#
+# {{@@ header() @@}}
+
+Types: deb
+Uris: https://repo.nordvpn.com/deb/nordvpn/debian
+Suites: stable
+Components: main
+{%@@ include 'etc/apt/sources.list.d/signed-by' @@%}

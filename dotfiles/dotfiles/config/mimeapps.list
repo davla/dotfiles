@@ -15,6 +15,7 @@ x-scheme-handler/unknown={{@@ browser @@}}.desktop
 x-scheme-handler/mailto=thunderbird.desktop
 x-scheme-handler/spotify=spotify.desktop
 x-scheme-handler/tg=telegramdesktop.desktop
+x-scheme-handler/nordvpn=nordvpn.desktop
 
 {%@@- endif -@@%}
 

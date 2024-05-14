@@ -94,6 +94,11 @@ find /etc/apt/sources.list.d/ -type f -name '*.sources' -print0 \
                     'https://packages.mozilla.org/apt/repo-signing-key.gpg'
                 ;;
 
+            'nordvpn')
+                download_key_from_url "$REPO" \
+                    'https://repo.nordvpn.com/gpg/nordvpn_public.asc'
+                ;;
+
             'spotify')
                 download_key_from_url "$REPO" \
                     'https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg'

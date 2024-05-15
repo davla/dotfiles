@@ -17,27 +17,22 @@
 
 # Some settings below can only be applied after logging into NordVPN
 nordvpn account | grep -i 'not logged in' > /dev/null 2>&1 && {
+    echo 'A browser window will open to log into NordVPN'
+    nordvpn login | sed 's/.*http/http/g' | xargs xdg-open & disown
 
-    # The nordvpn CLI tool can't reliably detect when its stdin is connected to
-    # a tty. Therefore, username and passwords are manually read and then
-    # passed as CLI arguments
-    printf 'Enter your NordVPN username: '
-    read -r NORDVPN_USERNAME
-    stty -echo
-    printf 'Enter your NordVPN password: '
-    read -r NORDVPN_PASSWORD
-    stty echo
-
-    nordvpn login --username "$NORDVPN_USERNAME" --password "$NORDVPN_PASSWORD"
+    printf 'Paste the "Continue" button link... '
+    read -r NORDVPN_LOGIN_CALLBACK
+    nordvpn login --callback "$NORDVPN_LOGIN_CALLBACK"
 }
 
 ########################################
 # Configuring NordVPN
 ########################################
 
-nordvpn set technology NordLynx
+nordvpn set autoconnect disabled
+nordvpn set cybersec enabled
 nordvpn set firewall enabled
 nordvpn set killswitch disabled
-nordvpn set cybersec enabled
 nordvpn set notify enabled
-nordvpn set autoconnect disabled
+nordvpn set technology NordLynx
+nordvpn set threatprotectionlite on

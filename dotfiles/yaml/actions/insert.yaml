@@ -25,7 +25,7 @@ actions:
       dest_document.write('{2}', encoding='UTF-8', xml_declaration=True)
       EOF
     _strip_file: |-
-      START="$(head -n 1 {0} | xargs -i grep -nFm 1 '{{}}' {1} \
+      START="$(head -n 1 {0} | xargs -I '{}' grep -nFm 1 '{{}}' {1} \
          | cut -d ':' -f 1)"
       END="$(nl -b a -w 1 -s ' ' {1} | tac | grep -Fm 1 "$(tail -n 1 {0})" \
          | cut -d ' ' -f 1)"

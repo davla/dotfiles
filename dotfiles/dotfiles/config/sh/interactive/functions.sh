@@ -114,6 +114,18 @@ json-paginated() {
     return $JSON_PAGINATED_EXIT
 }
 
+#######################################
+# New commands
+#######################################
+
+# This function displays a milk carton telling a random dad joke
+dad-joke() {
+    {
+        curl --silent --header 'Accept: text/plain' https://icanhazdadjoke.com/
+        echo
+    } | cowsay -W 60 -f milk
+}
+
 ########################################
 # Typo functions
 ########################################

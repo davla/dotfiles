@@ -2,51 +2,69 @@
 #
 # {{@@ header() @@}}
 
+{%@@ set browser_desktop = basename(desktop_with_name(browser)
+    or browser + '.desktop') -@@%}
+
 [Default Applications]
-x-scheme-handler/about={{@@ browser @@}}.desktop
-x-scheme-handler/ftp=thunar.desktop
-x-scheme-handler/sftp=thunar.desktop
-x-scheme-handler/http={{@@ browser @@}}.desktop
-x-scheme-handler/https={{@@ browser @@}}.desktop
-x-scheme-handler/unknown={{@@ browser @@}}.desktop
-
-{%@@- if env['HOST'] == 'personal' -@@%}
-
-x-scheme-handler/mailto=thunderbird.desktop
-x-scheme-handler/spotify=spotify.desktop
-x-scheme-handler/tg=telegramdesktop.desktop
-x-scheme-handler/nordvpn=nordvpn.desktop
-
-{%@@- endif -@@%}
-
-
-[Added Associations]
-application/json=geany.desktop;
-application/octet-stream=viewnior.desktop;
-application/pdf=atril.desktop;org.gnome.Evince.desktop;
-application/vnd.oasis.opendocument.text=libreoffice-writer.desktop;
-application/zip=xarchiver.desktop;
-image/png=viewnior.desktop;
+application/json=geany.desktop
+application/octet-stream={{@@ browser_desktop @@}}
+application/pdf=atril.desktop
+application/vnd.oasis.opendocument.text=libreoffice-writer.desktop
+application/x-extension-htm=geany.desktop
+application/x-extension-html=geany.desktop
+application/x-extension-shtml=geany.desktop
+application/x-extension-xht=geany.desktop
+application/x-extension-xhtml=geany.desktop
+application/xhtml+xml=geany.desktop
+image/*={{@@ browser_desktop @@}}
+image/gif={{@@ browser_desktop @@}}
+image/jpeg={{@@ browser_desktop @@}}
+image/png={{@@ browser_desktop @@}}
+image/svg+xml-compressed={{@@ browser_desktop @@}}
+image/svg+xml={{@@ browser_desktop @@}}
+image/tiff={{@@ browser_desktop @@}}
+image/vnd.djvu+multipage={{@@ browser_desktop @@}}
+image/vnd.djvu={{@@ browser_desktop @@}}
+image/webp={{@@ browser_desktop @@}}
 text/html=geany.desktop
-text/markdown=geany.desktop;
-text/plain=geany.desktop;
-{%@@ if env['HOST'] == 'personal' @@%}
-application/ogg=vlc.desktop;
-audio/x-aac=vlc.desktop;
-audio/x-flac=vlc.desktop;
-audio/x-ogg=vlc.desktop;
-audio/x-aiff=vlc.desktop;
-audio/x-it=vlc.desktop;
-audio/x-mod=vlc.desktop;
-audio/x-ms-asx=vlc.desktop;
-audio/x-ms-wma=vlc.desktop;
-audio/x-musepack=vlc.desktop;
-audio/x-opus+ogg=vlc.desktop;
-audio/x-s3m=vlc.desktop;
-audio/x-speex+ogg=vlc.desktop;
-audio/x-tta=vlc.desktop;
-audio/x-wavpack=vlc.desktop;
-audio/x-xm=vlc.desktop;
-video/mp4=vlc.desktop;
-video/x-matroska=vlc.desktop;
-{%@@ endif @@%}
+text/markdown=geany.desktop
+text/plain=geany.desktop
+x-scheme-handler/about={{@@ browser_desktop @@}}
+x-scheme-handler/chrome={{@@ browser_desktop @@}}
+x-scheme-handler/ftp={{@@ browser_desktop @@}}
+x-scheme-handler/http={{@@ browser_desktop @@}}
+x-scheme-handler/https={{@@ browser_desktop @@}}
+x-scheme-handler/sftp={{@@ browser_desktop @@}}
+x-scheme-handler/spotify=spotify.desktop
+x-scheme-handler/unknown={{@@ browser_desktop @@}}
+
+{%@@- if env['HOST'] == 'personal' @@%}
+
+application/ogg=mpv.desktop
+audio/x-aac=mpv.desktop
+audio/x-aiff=mpv.desktop
+audio/x-flac=mpv.desktop
+audio/x-it=mpv.desktop
+audio/x-mod=mpv.desktop
+audio/x-ms-asx=mpv.desktop
+audio/x-ms-wma=mpv.desktop
+audio/x-musepack=mpv.desktop
+audio/x-ogg=mpv.desktop
+audio/x-opus+ogg=mpv.desktop
+audio/x-s3m=mpv.desktop
+audio/x-speex+ogg=mpv.desktop
+audio/x-tta=mpv.desktop
+audio/x-wavpack=mpv.desktop
+audio/x-xm=mpv.desktop
+video/mp4=mpv.desktop
+video/x-matroska=mpv.desktop;
+x-scheme-handler/mailto={{@@ basename(desktop_with_name('Thunderbird')) @@}}
+x-scheme-handler/nordvpn=nordvpn.desktop
+x-scheme-handler/tg=org.telegram.desktop.desktop
+
+{%@@ elif env['HOST'] == 'work' @@%}
+
+application/zip=xarchiver.desktop
+x-scheme-handler/postman=Postman.desktop
+
+{%@@ endif -@@%}

@@ -60,6 +60,9 @@ dotfiles:
   f_microsoft-prod.sources:
     src: etc/apt/sources.list.d/microsoft-prod.sources
     dst: /etc/apt/sources.list.d/microsoft-prod.sources
+  f_nordvpn.sources:
+    src: etc/apt/sources.list.d/nordvpn.sources
+    dst: /etc/apt/sources.list.d/nordvpn.sources
   f_sources.list:
     src: etc/apt/sources.list
     dst: /etc/apt/sources.list

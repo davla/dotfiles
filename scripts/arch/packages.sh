@@ -99,7 +99,7 @@ fi
 case "$HOST" in
     'personal')
         print_info "Install CLI packages for $HOST"
-        sudo -u "$USER" yay -S --needed cups cups-pdf dropbox rustup \
+        sudo -u "$USER" yay -S --needed cups cups-pdf dropbox nordvpn rustup \
             zsa-wally-cli
         ;;
 
@@ -172,4 +172,9 @@ if [ "$HOST" = 'personal' ]; then
     # shellcheck disable=SC2034
     read -r ANSWER
     unset ANSWER
+
+    # NordVPN
+    print_info 'Configure NordVPN'
+    usermod -aG nordvpn "$USER"
+    sudo -u "$USER" nordvpn-config
 fi

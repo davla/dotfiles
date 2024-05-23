@@ -1,0 +1,18 @@
+# {{@@ header() @@}}
+#
+# Pacman hook that enables the NordVPN systemd service and makes it accessible
+# to non-root users
+
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Target = nordvpn
+Target = nordvpn-*
+Type = Package
+
+[Action]
+Description = Setting up NordVPN
+Depends = shadow
+Depends = systemd
+When = PostTransaction
+Exec = {{@@ nordvpn_setup_path @@}}

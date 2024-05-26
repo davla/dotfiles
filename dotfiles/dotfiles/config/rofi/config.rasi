@@ -1,0 +1,31 @@
+/* Rofi configuration file, for any non-theme option */
+
+configuration {
+    auto-select: false;
+    case-sensitive: false;
+    cycle: true;
+    disable-history: false;
+    drun-categories: [];
+    drun-match-fields: [ name, generic ];
+    drun-show-actions: false;
+    drun-use-desktop-cache: false;
+    fixed-num-lines: true;
+    hover-select: false;
+    matching: "fuzzy";
+    modi: [ combi, drun, filebrowser, keys, run ];
+    show-icons: true;
+    sort: false;
+    steal-focus: true;
+    threads: 0;
+    tokenize: true;
+
+    timeout {
+        action: "kb-cancel";
+        delay:  0;
+    }
+
+    filebrowser {
+        directories-first: true;
+        sorting-method: "name";
+    }
+}

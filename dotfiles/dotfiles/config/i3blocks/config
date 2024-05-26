@@ -47,13 +47,13 @@ interval={{@@ 60 * 10 @@}}
 [apt-upgrades]
 command={{@@ i3blocklets_install_path @@}}/apt-upgrades -s '{{@@ label('󰓦', color=main_theme_color) @@}}' -c '{{@@ main_theme_color @@}}' -n '{{@@ i3bar_inactive_color @@}}'
 markup=pango
-interval=once
+interval={{@@ 60 * 60 @@}}
 signal={{@@ i3blocks_signals.updates @@}}
 
 [github-release-upgrades]
 command={{@@ i3blocklets_install_path @@}}/github-releases-updates -L '{{@@ label('󰊤', color=main_theme_color) @@}}' -C '{{@@ main_theme_color @@}}' -0 '{{@@ i3bar_inactive_color @@}}'
 markup=pango
-interval=once
+interval={{@@ 60 * 60 @@}}
 signal={{@@ i3blocks_signals.updates @@}}
 
 {%@@ elif 'arch' in distro_id -@@%}
@@ -61,7 +61,7 @@ signal={{@@ i3blocks_signals.updates @@}}
 [arch-upgrades]
 command={{@@ i3blocklets_install_path @@}}/arch-update | sed -E '1s|^|{{@@ label('󰓦') @@}}|; s/ updates? available//; s/system up to date/0/'
 markup=pango
-interval=once
+interval={{@@ 60 * 60 @@}}
 signal={{@@ i3blocks_signals.updates @@}}
 AUR=true
 BASE_COLOR={{@@ i3bar_inactive_color @@}}

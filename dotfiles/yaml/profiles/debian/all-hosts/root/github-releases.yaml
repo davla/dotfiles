@@ -29,6 +29,9 @@ dotfiles:
   d_asdf:
     src: usr/local/share/github-releases/asdf-vm/asdf
     dst: '{{@@ github_releases_dir @@}}/asdf-vm/asdf'
+  d_clipcat:
+    src: usr/local/share/github-releases/xrelkd/clipcat
+    dst: '{{@@ github_releases_dir @@}}/xrelkd/clipcat'
   d_docker-credential-helpers:
     src: usr/local/share/github-releases/docker/docker-credential-helpers
     dst: '{{@@ github_releases_dir @@}}/docker/docker-credential-helpers'
@@ -62,6 +65,7 @@ profiles:
     dotfiles:
     - d_antibody
     - d_asdf
+    - d_clipcat
     - d_docker-credential-helpers
     - d_local_lib_sh
     - d_nerd-fonts

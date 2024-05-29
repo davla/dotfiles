@@ -1,0 +1,17 @@
+# clipcat systemd service file
+
+[Unit]
+Description=clipboard manager
+After=graphical-session.target
+BindsTo=graphical-session.target
+ConditionEnvironment=DISPLAY
+
+[Service]
+ExecStart=clipcatd --no-daemon --replace
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=clipcat
+SyslogLevel=info
+SyslogLevelPrefix=true
+Type=exec

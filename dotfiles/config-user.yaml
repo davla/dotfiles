@@ -166,6 +166,9 @@ dotfiles:
   f_calibre_global.py:
     src: config/calibre/global.py
     dst: '{{@@ xdg_config("calibre/global.py") @@}}'
+  f_clipcat.service:
+    src: config/systemd/user/clipcat.service
+    dst: '{{@@ xdg_config("systemd/user/clipcat.service") @@}}'
   f_clipman.service:
     src: config/systemd/user/clipman.service
     dst: '{{@@ xdg_config("systemd/user/clipman.service") @@}}'
@@ -415,6 +418,7 @@ profiles:
     - d_rofi
     - d_thunar
     - f_alacritty.toml
+    - f_clipcat.service
     - f_default-ws-layout.service
     - f_dunstrc
     - f_i3blocks_config

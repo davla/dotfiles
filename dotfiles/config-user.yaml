@@ -82,6 +82,9 @@ config:
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
+  d_applications:
+    src: local/share/applications
+    dst: '{{@@ xdg_data("applications") @@}}'
   d_desktop-directories:
     src: local/share/desktop-directories
     dst: '{{@@ xdg_data("desktop-directories") @@}}'
@@ -381,6 +384,7 @@ profiles:
   # feel settings of the GUI itself.
   gui:
     dotfiles:
+    - d_applications
     - f_mimeapps.list
     include:
     - gui-{{@@ display_server @@}}

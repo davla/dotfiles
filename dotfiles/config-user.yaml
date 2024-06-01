@@ -15,6 +15,18 @@ actions:
   post:
     autorandr: sh actions/autorandr.sh "{0}"
 
+    # This action aliases my terminal emulator of choice to the terminal
+    # emulators hardcoded in glib that it's the least likely to be actually
+    # installed. This way, GKT+ applications can open terminals for .desktop
+    # files with Terminal=true.
+    #
+    # At the time of writing, the list of terminal emulators hardcoded in glib
+    # can be found here:
+    # https://gitlab.gnome.org/GNOME/glib/-/blob/main/gio/gdesktopappinfo.c#L2694
+    glib-terminal: |
+        which {{@@ terminal @@}} | xargs -I '@' sudo ln --force --symbolic \
+            '@' /usr/local/bin/nxterm
+
     # This action applies gtk settings via gsettings. The settings are stored
     # in binary format, so no dotfile management is possible. The input file is
     # a custom-made JSON file in this repository, which is only processed by
@@ -375,6 +387,8 @@ profiles:
     - geany
     - look-and-feel
     - vscode
+    actions:
+    - glib-terminal
     variables:
       is_headless: false
 

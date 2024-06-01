@@ -1,2 +1,2 @@
-TerminalEmulator=alacritty
-WebBrowser=firefox
+TerminalEmulator={{@@ terminal @@}}
+WebBrowser={{@@ browser @@}}

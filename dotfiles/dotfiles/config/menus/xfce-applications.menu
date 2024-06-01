@@ -235,6 +235,7 @@
       <Filename>xfce4-session-logout.desktop</Filename>
     </Exclude>
     <Layout>
+      <Filename>alacritty.desktop</Filename>
       <Filename>ddm.desktop</Filename>
       <Filename>gufw.desktop</Filename>
       <Filename>gdebi.desktop</Filename>
@@ -247,7 +248,6 @@
       <Filename>synaptic.desktop</Filename>
       <Filename>hardinfo.desktop</Filename>
       <Filename>xfce4-taskmanager.desktop</Filename>
-      <Filename>alacritty.desktop</Filename>
       <Filename>xfce4-about.desktop</Filename>
     </Layout>
   </Menu>

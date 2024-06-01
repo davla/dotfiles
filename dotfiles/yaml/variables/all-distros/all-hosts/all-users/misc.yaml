@@ -19,3 +19,6 @@ variables:
   libs_path: /usr/local/lib
   logger_path: '{{@@ libs_path @@}}/sh/logger.sh'
   gh_release_path: '{{@@ libs_path @@}}/sh/gh-release.sh'
+
+  # The terminal emulator. Used in several places, hence defined here.
+  terminal: alacritty

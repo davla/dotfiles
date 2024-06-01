@@ -14,7 +14,7 @@
 	<icon>gksu-root-terminal</icon>
 	<name>Open root terminal here</name>
 	<unique-id>1528107969358966-2</unique-id>
-	<command>pkexec alacritty --working-directory %f</command>
+	<command>pkexec {{@@ terminal @@}} --working-directory %f</command>
 	<description>Opens a root terminal int he current directory</description>
 	<patterns>*</patterns>
 	<directories/>

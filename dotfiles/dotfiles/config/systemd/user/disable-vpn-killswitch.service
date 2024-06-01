@@ -1,0 +1,20 @@
+# Disable any VPN killswitch
+
+[Unit]
+Description=Disable NordVPN killswitch
+After=default.target
+BindsTo=default.target
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Type=oneshot
+ExecStart=nordvpn set killswitch disabled
+RemainAfterExit=true
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=disable-vpn-killswitch
+SyslogLevel=info
+SyslogLevelPrefix=true

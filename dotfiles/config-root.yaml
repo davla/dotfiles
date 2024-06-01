@@ -78,7 +78,7 @@ actions:
       esac
 
     # This action enables the systemd service file passed as an argument
-    systemd-enable: basename '{0}' '.service' | xargs systemctl enable
+    systemd-enable: basename '{0}' '.service' | xargs systemctl enable --now
 
     # This action applies the timezone settings.
     # In Debian, non-interactive mode in dpkg-reconfigure needs both

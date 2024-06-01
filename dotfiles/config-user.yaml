@@ -38,6 +38,11 @@ actions:
 
     i3: sh actions/i3.sh
 
+    # This action enables and activates the systemd service file passed as an
+    # argument
+    systemd-enable: |
+      basename '{0}' '.service' | xargs systemctl --user enable --now
+
     # This action installs VSCode extensions given in the first argument. This
     # needs to be a file with one package specification per line.
     vscode-install-extensions: >-
@@ -167,6 +172,11 @@ dotfiles:
   f_default-ws-layout.service:
     src: config/systemd/user/default-ws-layout.service
     dst: '{{@@ xdg_config("systemd/user/default-ws-layout.service") @@}}'
+  f_disable-vpn-killswitch.service:
+    src: config/systemd/user/disable-vpn-killswitch.service
+    dst: '{{@@ xdg_config("systemd/user/disable-vpn-killswitch.service") @@}}'
+    actions:
+    - systemd-enable '{{@@ _dotfile_abs_src @@}}'
   f_docker_config.json:
     src: config/docker/config.json
     dst: '{{@@ docker_path @@}}/config.json'

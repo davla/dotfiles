@@ -34,7 +34,7 @@ program_options:
 
   # [string] Set terminal command line to open directories. It will be invoked
   # with the folder path as its last command line argument.
-  terminal: alacritty --working-directory
+  terminal: {{@@ terminal @@}} --working-directory
 
   # [bool] Enable the tray icon. "auto" means auto-hide the tray icon when
   # there are no handled devices.

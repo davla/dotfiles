@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-# This script spawns an alacritty terminal running sway-launcher-desktop.
+# This script spawns a terminal running sway-launcher-desktop.
 #
 # The script acts as if stdout was attached directly to sway-launcher-desktop:
 # - if stdout is connected to a tty (e.g. run from an interactive terminal),
@@ -15,7 +15,7 @@
 #       The history file (HIST_FILE variable). Defaults to ''.
 #
 # --id, -i:
-#       The id used by the alacritty terminal (--class option).
+#       The id used by the terminal (--class option).
 #       Defaults to 'launcher'.
 #
 # --no-history, -H:
@@ -23,6 +23,8 @@
 #
 # --providers, -p:
 #       The providers file (PROVIDERS_FILE variable). Defaults to ''.
+#
+# {{@@ header() @@}}
 
 ########################################
 # Input processing
@@ -57,12 +59,12 @@ while [ $# -gt 0 ]; do
 done
 
 ########################################
-# Spawning alacritty
+# Spawning the terminal
 ########################################
 
 if [ ! -p /dev/fd/1 ]; then
     # Stdout is not piped. Just executing sway-launcher-desktop.
-    alacritty --class "$TERM_ID" -e sway-launcher-desktop
+    {{@@ terminal @@}} --class "$TERM_ID" -e sway-launcher-desktop
 else
     # Stdout is piped. sway-launcher-desktop's output is then redirected to a
     # named pipe shared with this script, that can then emit the pipe's content
@@ -70,9 +72,9 @@ else
     PIPE="$(mktemp -u)"
     mkfifo "$PIPE"
 
-    # Redirecting sway-launcher-desktop's output requires alacritty to execute
-    # a shell line, rather than an executable, hence the `sh -c`.
-    alacritty --class "$TERM_ID" -e sh -c "sway-launcher-desktop > $PIPE" &
+    # Redirecting sway-launcher-desktop's output requires the terminal to
+    # execute a shell line, rather than an executable, hence the `sh -c`.
+    {{@@ terminal @@}} --class "$TERM_ID" -e sh -c "sway-launcher-desktop > $PIPE" &
 
     cat "$PIPE"
     rm "$PIPE"

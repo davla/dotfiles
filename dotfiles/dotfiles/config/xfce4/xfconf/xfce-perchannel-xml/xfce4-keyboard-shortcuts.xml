@@ -54,7 +54,7 @@
       <property name="&lt;Primary&gt;&lt;Alt&gt;Down" type="string" value="move-to-monitor"/>
       <property name="&lt;Super&gt;z" type="string" value="adjust-scaling"/>
       <property name="&lt;Super&gt;t" type="string" value="exo-open --launch TerminalEmulator"/>
-      <property name="&lt;Super&gt;r" type="string" value="pkexec alacritty"/>
+      <property name="&lt;Super&gt;r" type="string" value="pkexec {{@@ terminal @@}}"/>
       <property name="&lt;Super&gt;h" type="empty">
         <property name="startup-notify" type="bool" value="true"/>
       </property>

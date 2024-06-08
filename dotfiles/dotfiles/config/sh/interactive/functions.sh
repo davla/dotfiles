@@ -73,8 +73,9 @@ tree-long-paginated() {
 # This is a convenience function to explore the filesystem. It visualizes a
 # path differently based on its content. In particular:
 # - Directories: lists the content in long format with pagination
+# - Binary files: opens the configured applications for their mime type
 # - JSON files: displays with jq and pagination
-# - Other files: displays with less.
+# - Text files: displays with less
 #
 # Arguments:
 #   - $1: The path to be inspected. Optional, defaults to the current directory
@@ -85,6 +86,8 @@ explore() {
 
     if [ -d "$E_TARGET" ]; then
         list-long-paginated "$E_TARGET" "$@"
+    elif [ "$(file --brief --mime-encoding "$E_TARGET")" = 'binary' ]; then
+        xdg-open "$E_TARGET"
     else
         # There's no way to tell JSON files apart than trying to parse them
         json-paginated "$E_TARGET" "$@" 2> /dev/null || less "$E_TARGET" "$@"

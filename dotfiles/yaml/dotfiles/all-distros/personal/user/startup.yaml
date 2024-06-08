@@ -4,6 +4,7 @@
 # my personal machine for unprivileged users.
 
 dotfiles:
+- f_disable-vpn-killswitch.service
 - f_gnome-keyring-pkcs11.desktop
 - f_gnome-keyring-secrets.desktop
 - f_gnome-keyring-ssh.desktop

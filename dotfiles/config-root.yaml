@@ -93,8 +93,8 @@ actions:
               ;;
 
           'debian')
-              xargs -I '{}' cp --remove-destination \
-                  '/usr/share/zoneinfo/{{}}' /etc/localtime < '{0}'
+              xargs -I '@' cp --remove-destination '/usr/share/zoneinfo/@' \
+                  /etc/localtime < '{0}'
               dpkg-reconfigure -f noninteractive tzdata
               ;;
       esac

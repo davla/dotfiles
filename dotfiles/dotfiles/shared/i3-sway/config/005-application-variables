@@ -1,0 +1,10 @@
+# This i3-sway configuration file defines shared application-related variables
+
+set $editor_width 52 ppt
+set $editor_height 79 ppt
+set $floating_width 47 ppt
+set $floating_height 51 ppt
+set $messaging_width 47 ppt
+set $messaging_height 74 ppt
+set $spotify_width 78 ppt
+set $spotify_height 79 ppt

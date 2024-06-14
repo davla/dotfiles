@@ -84,10 +84,6 @@ bindsym {
 # Windows
 #######################################
 
-# Variables
-set $floating_width 900
-set $floating_height 550
-
 # Assigning applications to workspaces
 assign {
     [$android_studio_criterion] $ws1
@@ -121,8 +117,8 @@ for_window [$launcher_criterion] floating enable, \
 # Messaging
 {%@@ for app in messaging_apps @@%}
 for_window [${{@@ app | replace('-', '_') @@}}_criterion] \
-    layout tabbed, \
-    resize set 900 800, move position center
+    layout tabbed, resize set $messaging_width $messaging_height, \
+    move position center
 {%@@ endfor @@%}
 
 {%@@- endif @@%}
@@ -130,23 +126,17 @@ for_window [${{@@ app | replace('-', '_') @@}}_criterion] \
 # Scratchpad editor
 {{@@ init_scratchpad('$scratchpad_editor_criterion') @@}}
 for_window [$scratchpad_editor_criterion] \
-    resize set 1000 850, move position center
+    resize set $editor_height $editor_width, move position center
 
 # Scratchpad terminal
 {{@@ init_scratchpad('$scratchpad_term_criterion') @@}}
 for_window [$scratchpad_term_criterion] \
-    resize set $floating_width $floating_height, \
-    move position center
+    resize set $floating_width $floating_height, move position center
 
 # Spotify
 {{@@ init_scratchpad('$spotify_criterion') @@}}
 for_window [$spotify_criterion] \
-    resize set 1500 850, move position center
-
-# Teams
-{{@@ init_scratchpad('$teams_criterion window_type="normal"') @@}}
-for_window [$teams_criterion window_type="normal"] \
-    resize set 1200 950, move position center
+    resize set $spotify_width $spotify_height, move position center
 
 # Thunderbird
 for_window [$thunderbird_criterion title=".* Reminder"] floating enable, \

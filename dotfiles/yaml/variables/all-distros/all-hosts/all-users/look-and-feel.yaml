@@ -20,17 +20,7 @@ variables:
   # Normal DPI values
   cursor_size: 24
   dpi: 90
-  i3_floating_width: 900
-  i3_floating_height: 550
-  i3_editor_width: 1000
-  i3_editor_height: 850
-  i3_spotify_width: 1500
-  i3_spotify_height: 850
   i3_spotify_scale: 1
-  i3_teams_width: 1200
-  i3_teams_height: 950
-  i3_telegram_width: 900
-  i3_telegram_height: 800
   lodpi_name: regular
   notification_border_radius: 10
   notification_border_width: 1
@@ -45,17 +35,6 @@ variables:
   # High DPI values
   hidpi_cursor_size: '{{@@ cursor_size * 2 @@}}'
   hidpi_dpi: '{{@@ dpi * 2 @@}}'
-  hidpi_i3_floating_width: '{{@@ i3_floating_width * 2 @@}}'
-  hidpi_i3_floating_height: '{{@@ i3_floating_height * 2 @@}}'
-  hidpi_i3_editor_width: '{{@@ i3_editor_width * 2 @@}}'
-  hidpi_i3_editor_height: '{{@@ i3_editor_height * 2 @@}}'
-  hidpi_i3_spotify_width: '{{@@ i3_spotify_width * 2 @@}}'
-  hidpi_i3_spotify_height: '{{@@ i3_spotify_height * 2 @@}}'
-  hidpi_i3_spotify_scale: '{{@@ i3_spotify_scale * 2 @@}}'
-  hidpi_i3_teams_width: '{{@@ i3_teams_width * 2 @@}}'
-  hidpi_i3_teams_height: '{{@@ i3_teams_height * 2 @@}}'
-  hidpi_i3_telegram_width: '{{@@ i3_telegram_width * 2 @@}}'
-  hidpi_i3_telegram_height: '{{@@ i3_telegram_height * 2 @@}}'
   hidpi_name: high
   hidpi_notification_border_radius: '{{@@ notification_border_radius * 2 @@}}'
   hidpi_notification_border_width: '{{@@ notification_border_width * 2 @@}}'

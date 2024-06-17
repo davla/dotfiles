@@ -93,6 +93,9 @@ dotfiles:
   d_desktop-directories:
     src: local/share/desktop-directories
     dst: '{{@@ xdg_data("desktop-directories") @@}}'
+  d_clipcat:
+    src: config/clipcat
+    dst: '{{@@ xdg_config("clipcat") @@}}'
   d_git:
     src: config/git
     dst: '{{@@ xdg_config("git") @@}}'
@@ -413,6 +416,7 @@ profiles:
   # little bit more than just the i3 configuration file.
   i3:
     dotfiles:
+    - d_clipcat
     - d_i3
     - d_i3-sway_shared_config
     - d_rofi

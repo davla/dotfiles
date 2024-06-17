@@ -2,6 +2,7 @@
 
 * {
     primarycolor: #FF5500;
+    lightcolor: #FFC9AD;
 }
 
 @import "base.rasi"

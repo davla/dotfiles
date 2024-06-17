@@ -1,0 +1,76 @@
+# Server endpoint
+# clipcat-menu connects to server via unix domain socket if `server_endpoint` is a file path like:
+# "/run/user/<user-id>/clipcat/grpc.sock".
+# clipcat-menu connects to server via http if `server_endpoint` is a URL like: "http://127.0.0.1:45045".
+server_endpoint = "/run/user/1000/clipcat/grpc.sock"
+
+# The default finder to invoke when no "--finder=<finder>" option provided.
+finder = "rofi"
+
+[log]
+
+# Emit log message to a log file.
+# Delete this line to disable emitting to a log file.
+# file_path = "/path/to/log/file"
+
+# Emit log message to systemd-journald.
+emit_journald = true
+
+# Emit log message to stdout.
+emit_stdout = false
+
+# Emit log message to stderr.
+emit_stderr = false
+
+# Log level.
+level = "INFO"
+
+# Options for "rofi".
+[rofi]
+
+# Length of line.
+line_length = 100
+
+# Length of menu.
+menu_length = 20
+
+# Prompt of menu.
+menu_prompt = ""
+
+# Extra arguments to pass to `rofi`.
+extra_arguments = ["-theme", "clipboard-manager.rasi"]
+
+# Options for "dmenu".
+[dmenu]
+
+# Length of line.
+line_length = 100
+
+# Length of menu.
+menu_length = 30
+
+# Prompt of menu.
+menu_prompt = "ei8urur"
+
+# Extra arguments to pass to `dmenu`.
+extra_arguments = [
+  "-fn",
+  "SauceCodePro Nerd Font Mono-12",
+  "-nb",
+  "#282828",
+  "-nf",
+  "#ebdbb2",
+  "-sb",
+  "#d3869b",
+  "-sf",
+  "#282828",
+]
+
+# Customize your finder.
+[custom_finder]
+
+# External program name.
+program = "fzf"
+
+# Arguments for calling external program.
+args = []

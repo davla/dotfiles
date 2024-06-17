@@ -6,8 +6,10 @@
 variables:
   # These variables define the content of look-and-feel themes
 
+  font_size: 11
   font_monospace: DejaVu Sans Mono, Symbols Nerd Font Mono
-  font: DejaVu Sans, Symbols Nerd Font, {{@@ font_monospace @@}} 11
+  font: >-
+    DejaVu Sans, Symbols Nerd Font, {{@@ font_monospace @@}} {{@@ font_size @@}}
 
   theme: Adwaita-dark
 

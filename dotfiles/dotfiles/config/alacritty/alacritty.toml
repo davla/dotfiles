@@ -40,7 +40,7 @@ blinking = "On"
 shape = "Underline"
 
 [font]
-size = 12.0
+size = 12.0 # FONT_HIGHER
 
 [mouse]
 hide_when_typing = true

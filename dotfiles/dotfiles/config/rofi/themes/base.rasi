@@ -5,7 +5,7 @@
  */
 
 configuration {
-    font: "monospace 12";
+    font: "monospace 12"; // FONT_HIGHER
 }
 
 * {
@@ -18,7 +18,7 @@ configuration {
 
     background-color: transparent;
     border: none;
-    font: "monospace 12";
+    font: "monospace 12"; // FONT_HIGHER
     highlight: bold {{@@ light_theme_color @@}};
     margin: 0;
     padding: 0;
@@ -48,7 +48,7 @@ entry {
 textbox-prompt {
     content: "> ";
     expand: false;
-    font: "monospace bold 18";
+    font: "monospace bold 18"; // FONT_HIGHER
 }
 
 message {

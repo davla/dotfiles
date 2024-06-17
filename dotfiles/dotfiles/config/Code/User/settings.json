@@ -5,7 +5,7 @@
     // Debug
     ///////////////////////////////////
 
-    "debug.console.fontSize": 15,
+    "debug.console.fontSize": 15, // FONT_HIGHER
     "debug.openExplorerOnEnd": true,
     "debug.showInlineBreakpointCandidates": false,
     "npm.enableRunFromFolder": true,
@@ -29,7 +29,7 @@
     "editor.folding": false,
     "editor.foldingHighlight": false,
     "editor.fontFamily": "{{@@ font_monospace @@}}, 'monospace', monospace",
-    "editor.fontSize": 15,
+    "editor.fontSize": 15, // FONT_HIGHER
     "editor.guides.bracketPairs": "active",
     "editor.matchBrackets": "never",
     "editor.minimap.enabled": false,

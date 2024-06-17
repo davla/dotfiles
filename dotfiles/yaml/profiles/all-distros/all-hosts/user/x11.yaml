@@ -23,9 +23,6 @@ dotfiles:
   f_orage_oragerc:
     src: config/orage/oragerc
     dst: '{{@@ xdg_config("orage/oragerc") @@}}'
-  f_parcellite_parcelliterc:
-    src: config/parcellite/parcelliterc
-    dst: '{{@@ xdg_config("parcellite/parcelliterc") @@}}'
   f_xresources:
     src: Xresources
     dst: ~/.Xresources
@@ -45,8 +42,6 @@ dynvariables:
 profiles:
   # This profile contains dotfiles used by GUI applications only on X11
   gui-x11:
-    dotfiles:
-    - f_parcellite_parcelliterc
     import:
     - ../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/gui-x11.yaml:optional
 

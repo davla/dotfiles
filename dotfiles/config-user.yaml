@@ -271,12 +271,6 @@ dotfiles:
       {{@@ xdg_config(
         "autostart/org.gnome.SettingsDaemon.DiskUtilityNotify.desktop"
       ) @@}}
-  f_parcellite.service:
-    src: config/systemd/user/parcellite.service
-    dst: '{{@@ xdg_config("systemd/user/parcellite.service") @@}}'
-  f_parcellite-startup.desktop:
-    src: config/autostart/disable-system-default.desktop
-    dst: '{{@@ xdg_config("autostart/parcellite-startup.desktop") @@}}'
   f_picom.conf:
     src: config/picom.conf
     dst: '{{@@ xdg_config("picom.conf") @@}}'
@@ -427,7 +421,6 @@ profiles:
     - f_dunstrc
     - f_i3blocks_config
     - f_i3-portals.conf
-    - f_parcellite.service
     - f_picom.conf
     - f_picom.service
     - f_xfce-power-manager.service
@@ -481,7 +474,6 @@ profiles:
     - f_gpg-agent.conf
     - f_light-locker.desktop
     - f_org.gnome.SettingsDaemon.DiskUtilityNotify.desktop
-    - f_parcellite-startup.desktop
     - f_print-applet.desktop
     - f_pulseaudio.desktop
     - f_python_keyring

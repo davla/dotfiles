@@ -146,6 +146,10 @@ dotfiles:
     src: usr/local/bin/progressive-web-app
     dst: /usr/local/bin/teams
     chmod: 755
+  f_local_bin_vpn:
+    src: usr/local/bin/{{@@ vpn_command @@}}
+    dst: /usr/local/bin/vpn
+    chmod: 755
   f_local_bin_whatsapp-nativefier:
     src: usr/local/bin/electron-wayland
     dst: /usr/local/bin/whatsapp-nativefier

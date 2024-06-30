@@ -34,7 +34,8 @@ GITHUB_REPO="$1"
 ########################################
 
 log_debug 'Download and install Docker credentials SecretService...'
-download_github_release_asset '.name | contains("secretservice") and contains("amd64")' \
+download_github_release_asset \
+    '.name | contains("secretservice") and contains("amd64")' \
     "$GITHUB_REPO" "$EXEC_PATH"
 
 log_debug "Set executable permissions to $EXEC_PATH..."

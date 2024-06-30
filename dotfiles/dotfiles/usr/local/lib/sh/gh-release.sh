@@ -15,6 +15,18 @@
 # Functions
 ########################################
 
+# This function removes its arguments. It is mean to be used as a script
+# termination trap.
+#
+# Arguments:
+#   - $@: Files and directories to be removed.
+cleanup_trap() {
+    log_debug "Remove $*"
+    rm --force --recursive "$@"
+    trap - EXIT
+    exit
+}
+
 # This function extracts files from the sources artiface of a GitHub release.
 # The sources assets' URL is extracted from the release assets metadata, which
 # are input in JSON format.
@@ -65,6 +77,40 @@ download_github_release_asset() {
 
     unset DL_GH_RELEASE_ASSET__GITHUB_REPO DL_GH_RELEASE_ASSET__JQ_FILTER \
         DL_GH_RELEASE_ASSET__OUT
+}
+
+# This function downloads and installs a .deb file from the assets of a GitHub
+# release. The .deb's URL is extracted from the .name field of the release
+# metadata, which is input in JSON format.
+#
+# Arguments:
+#   - $1: The jq filter used to extract the asset's URL. It is applied to the
+#         "assets[] | .name" array in the GitHub release JSON metadata
+#   - $2: The GitHub repository that made the release. Only used for logging
+#   - STDIN: The GitHub release JSON metadata
+install_github_release_deb() {
+    INSTALL_GH_RELEASE_DEB__NAME_JQ_FILTER="$1"
+    INSTALL_GH_RELEASE_DEB__GITHUB_REPO="$2"
+
+    INSTALL_GH_RELEASE_DEB__PACKAGE_NAME="${INSTALL_GH_RELEASE_DEB__GITHUB_REPO##*/}"
+    INSTALL_GH_RELEASE_DEB__TMP_DEB_FILE="$(mktemp \
+        "XXX-$INSTALL_GH_RELEASE_DEB__PACKAGE_NAME.deb")"
+    # shellcheck disable=SC2064
+    trap "cleanup_trap $INSTALL_GH_RELEASE_DEB__TMP_DEB_FILE" EXIT INT HUP TERM
+
+    log_debug "Download $INSTALL_GH_RELEASE_DEB__PACKAGE_NAME..."
+    download_github_release_asset \
+        ".name | $INSTALL_GH_RELEASE_DEB__NAME_JQ_FILTER" \
+        "$INSTALL_GH_RELEASE_DEB__GITHUB_REPO" \
+        "$INSTALL_GH_RELEASE_DEB__TMP_DEB_FILE"
+
+    log_debug "Install $INSTALL_GH_RELEASE_DEB__PACKAGE_NAME..."
+    dpkg --install "$INSTALL_GH_RELEASE_DEB__TMP_DEB_FILE" | log_debug
+
+    unset INSTALL_GH_RELEASE_DEB__GITHUB_REPO \
+        INSTALL_GH_RELEASE_DEB__NAME_JQ_FILTER \
+        INSTALL_GH_RELEASE_DEB__PACKAGE_NAME \
+        INSTALL_GH_RELEASE_DEB__TMP_DEB_FILE
 }
 
 # This function logs the given arguments as an error and exits with the chosen

@@ -4,6 +4,7 @@
 # work machine, for the root user
 
 variables:
+  vpn_command: vpn-nmcli
 
   # This variable defines the Zygal shell theme colorscheme.
   zygal_colorscheme: green

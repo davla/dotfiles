@@ -1,0 +1,119 @@
+#!/usr/bin/env sh
+
+# This script is meant to be used as an i3blocks blocklet. It displays an icon
+# in a different color based on whether a NetworkManager connection is active.
+# The connection is monitored for changes, so the script is meant as
+# long-running.
+#
+# Options:
+#   -C|--connection CONN            The name of the connection to watch
+#   -I|--icon ICON                  The icon to be displayed. Optional,
+#                                   defaults to 'V'
+#   -A|--active-color COLOR         The color to use when the connection is
+#                                   active
+#   -N|--inactive-color COLOR       The color to use when the connection is
+#                                   not active
+#   -P|--pango-attributes PANGO     Optional pango markup attributes to add to
+#                                   the icon
+
+########################################
+# Functions
+########################################
+
+# This function outputs the given connection state in the same format as
+# `nmcli monitor` event lines.
+#
+# Arguments:
+#   - $1: The connection name to output the status for
+connection_state_as_nmcli_event() {
+    CONN_STATE_NAME="$1"
+
+    printf '%s: ' "$CONN_STATE_NAME"
+    [ -n "$(nmcli -g GENERAL.STATE connection show "$CONN_STATE_NAME")" ] \
+        && echo 'connected' \
+        || echo 'disconnected'
+
+    unset CONN_STATE_NAME
+}
+
+# This filter processes event lines output by `nmcli monitor` into the pango
+# string that can be output from the i3block blocklet.
+#
+# Input:
+#   - STDIN: event lines as output by `nmcli monitor`
+nmcli_event_to_icon() {
+    grep --extended-regexp --line-buffered --line-regexp \
+        "^$CONNECTION_NAME: (connected|disconnected)" \
+    | sed --unbuffered "s/$CONNECTION_NAME: //g; \
+        s/disconnected/$INACTIVE_COLOR/; s/connected/$ACTIVE_COLOR/" \
+    | xargs -I '{}' printf '<span %s color="%s">%s</span>\n' \
+        "$PANGO_ATTRIBUTES" '{}' "$ICON"
+}
+
+########################################
+# Input processing
+########################################
+
+CONNECTION_NAME=''
+ICON='V'
+ACTIVE_COLOR=''
+INACTIVE_COLOR=''
+PANGO_ATTRIBUTES=''
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        '--connection'|'-C')
+            CONNECTION_NAME="$2"
+            shift
+            ;;
+
+        '--icon'|'-I')
+            ICON="$2"
+            shift
+            ;;
+
+        '--active-color'|'-A')
+            ACTIVE_COLOR="$2"
+            shift
+            ;;
+
+        '--inactive-color'|'-N')
+            INACTIVE_COLOR="$2"
+            shift
+            ;;
+
+        '--pango-attributes'|'-P')
+            PANGO_ATTRIBUTES="$2"
+            shift
+            ;;
+
+        *)
+            echo >&2 "Unknown option: $1"
+            exit 63
+            ;;
+    esac
+    shift
+done
+
+[ -z "$CONNECTION_NAME" ] && {
+    echo No connection name given!;
+    exit 62
+}
+[ -z "$ACTIVE_COLOR" ] && {
+    echo No active color given!;
+    exit 61
+}
+[ -z "$INACTIVE_COLOR" ] && {
+    echo No inactive color given!;
+    exit 60
+}
+
+########################################
+# Main
+########################################
+
+# Manually output initial state
+connection_state_as_nmcli_event "$CONNECTION_NAME" | nmcli_event_to_icon
+
+# Monitor subsequent changes
+nmcli monitor | nmcli_event_to_icon

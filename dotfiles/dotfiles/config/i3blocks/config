@@ -91,9 +91,15 @@ interval=1
 markup=pango
 signal={{@@ i3blocks_signals.network @@}}
 
-{#@@ My personal laptop's battery died years ago @@#}
 {%@@ if env['HOST'] == 'work' -@@%}
 
+{#@@ NordVPN has its own status icon @@#}
+[vpn]
+command={{@@ i3blocklets_install_path @@}}/nmcli-connection-status --connection 'VPN' --icon '󰞀' --active-color '{{@@ main_theme_color @@}}' --inactive-color '{{@@ i3bar_inactive_color @@}}' --pango-attributes 'size="130%" font_weight="bold"'
+interval=persistent
+markup=pango
+
+{#@@ My personal laptop's battery died years ago @@#}
 [batterybar]
 command={{@@ i3blocklets_install_path @@}}/batterybar -1 '{{@@ light_theme_color @@}}' -2 '{{@@ light_theme_color @@}}' -3 '{{@@ main_theme_color @@}}' -4 '{{@@ main_theme_color @@}}' -5 '{{@@ main_theme_color @@}}' -6 '{{@@ dark_theme_color @@}}' -7 '{{@@ dark_theme_color @@}}' -8 '{{@@ dark_theme_color @@}}' -f '{{@@ dark_theme_color @@}}' -c '{{@@ dark_theme_color @@}}' -f '{{@@ dark_theme_color @@}}' | sed '1s|^|{{@@ label('', spacing=3, size="110%") @@}}|'
 interval=5

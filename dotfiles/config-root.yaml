@@ -184,9 +184,9 @@ dotfiles:
     src: etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
     dst: /etc/NetworkManager/dispatcher.d/99-no-wireless-on-wired
     chmod: 755
-  f_99-philips-tv-hdmi.lua:
-    src: etc/wireplumber/main.lua.d/99-philips-tv-hdmi.lua
-    dst: /etc/wireplumber/main.lua.d/99-philips-tv-hdmi.lua
+  f_99-philips-tv-hdmi.conf:
+    src: etc/wireplumber/wireplumber.conf.d/99-philips-tv-hdmi.conf
+    dst: /etc/wireplumber/wireplumber.conf.d/99-philips-tv-hdmi.conf
   f_asdf-environment:
     src: etc/asdf-environment
     dst: '{{@@ asdf_environment_tmp_dst @@}}'
@@ -510,7 +510,7 @@ profiles:
   # This profile contains dotfiles related to hardware-related configuration
   hardware:
     dotfiles:
-    - f_99-philips-tv-hdmi.lua
+    - f_99-philips-tv-hdmi.conf
     - f_udev_999-hid.rules
 
   # This profile includes the i3 session dotfiles that require root privileges

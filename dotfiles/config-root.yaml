@@ -233,6 +233,10 @@ dotfiles:
     src: usr/lib/i3blocks/github-releases-updates
     dst: /usr/lib/i3blocks/github-releases-updates
     chmod: 755
+  f_i3blocks_nmcli-connection-status:
+    src: usr/lib/i3blocks/nmcli-connection-status
+    dst: /usr/lib/i3blocks/nmcli-connection-status
+    chmod: 755
   f_keyboard:
     src: etc/default/keyboard
     dst: /etc/default/keyboard

@@ -1,0 +1,39 @@
+#!/usr/bin/env sh
+
+# This script is a thin covenience wrapper around nmcli for activating and
+# deactivating a connection. It is meant to quickly connect to or disconnect
+# from a VPN, hence the default value of the connection name.
+#
+# Arguments:
+# - $1: one of:
+#     - on|up|connect: connects to the specified connection.
+#     - off|down|disconnect: disconnects from the specified connection.
+# - $2: the connection name. Defaults to 'VPN'.
+
+########################################
+# Input processing
+########################################
+
+CMD="$1"
+CONN_NAME="${2:-VPN}"
+
+########################################
+# Main
+########################################
+
+case "$(echo "$CMD" | tr '[:upper:]' '[:lower:]')" in
+    'on'|'up'|'connect')
+        CMD='up'
+        ;;
+
+    'off'|'down'|'disconnect')
+        CMD='down'
+        ;;
+
+    *)
+        echo >&2 "Unsupported command: $CMD"
+        exit 63
+        ;;
+esac
+
+nmcli connection "$CMD" "$CONN_NAME"

@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+
+# This script is a thin covenience wrapper around the nordvpn command. Its main
+# utility consists in activating/deactivating the killswitch upon
+# connection/disconnection, but it also uses some defaults of my choice when
+# connecting.
+#
+# Arguments:
+# - $1: one of:
+#     - on|up: connects to NordVPN with some default parameters and activates
+#              the killswitch
+#     - off|down: disconnects from NordVPN and deactivates the killswitch
+#     - any nordvpn subcommand: execute the nordvpn subcommand
+#
+# - $2+: any argument nordvpn accepts
+
+case "$(echo "$1" | tr '[:upper:]' '[:lower:]')" in
+    'on'|'up')
+        nordvpn connect --group P2P Switzerland
+        nordvpn set killswitch enabled
+        ;;
+
+    'off'|'down')
+        nordvpn set killswitch disabled
+        nordvpn disconnect
+        ;;
+
+    *)
+        nordvpn "$@"
+        ;;
+esac

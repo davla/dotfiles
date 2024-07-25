@@ -1,6 +1,6 @@
 /* This rofi theme is mean specifically for the drun modi */
 
-@theme "orange.rasi"
+@theme "base.rasi"
 @import "config.rasi"
 
 configuration {
@@ -11,6 +11,7 @@ configuration {
 
 listview {
     columns: 4;
+    fixed-columns: true;
     layout: vertical;
     lines: 6;
     spacing: @gap-m;

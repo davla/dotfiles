@@ -10,6 +10,7 @@ configuration {
 
 * {
     primarycolor: {{@@ main_theme_color @@}};
+
     gap-s: 0.5em;
     gap-m: 0.8em;
     gap-l: 1.15em;
@@ -18,6 +19,7 @@ configuration {
     background-color: transparent;
     border: none;
     font: "monospace 12";
+    highlight: bold {{@@ light_theme_color @@}};
     margin: 0;
     padding: 0;
     spacing: 0;

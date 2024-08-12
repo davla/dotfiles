@@ -22,8 +22,10 @@ element selected normal, element selected active {
 
 element-text {
     text-color: #999999;
+    highlight: bold #CCCCCC;
 }
 
 element-text selected normal, element-text selected active {
     text-color: @primarycolor;
+    highlight: bold {{@@ light_theme_color @@}};
 }

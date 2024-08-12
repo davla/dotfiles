@@ -93,6 +93,9 @@ dotfiles:
   d_desktop-directories:
     src: local/share/desktop-directories
     dst: '{{@@ xdg_data("desktop-directories") @@}}'
+  d_clipcat:
+    src: config/clipcat
+    dst: '{{@@ xdg_config("clipcat") @@}}'
   d_git:
     src: config/git
     dst: '{{@@ xdg_config("git") @@}}'
@@ -166,6 +169,9 @@ dotfiles:
   f_calibre_global.py:
     src: config/calibre/global.py
     dst: '{{@@ xdg_config("calibre/global.py") @@}}'
+  f_clipcat.service:
+    src: config/systemd/user/clipcat.service
+    dst: '{{@@ xdg_config("systemd/user/clipcat.service") @@}}'
   f_clipman.service:
     src: config/systemd/user/clipman.service
     dst: '{{@@ xdg_config("systemd/user/clipman.service") @@}}'
@@ -265,12 +271,6 @@ dotfiles:
       {{@@ xdg_config(
         "autostart/org.gnome.SettingsDaemon.DiskUtilityNotify.desktop"
       ) @@}}
-  f_parcellite.service:
-    src: config/systemd/user/parcellite.service
-    dst: '{{@@ xdg_config("systemd/user/parcellite.service") @@}}'
-  f_parcellite-startup.desktop:
-    src: config/autostart/disable-system-default.desktop
-    dst: '{{@@ xdg_config("autostart/parcellite-startup.desktop") @@}}'
   f_picom.conf:
     src: config/picom.conf
     dst: '{{@@ xdg_config("picom.conf") @@}}'
@@ -410,16 +410,17 @@ profiles:
   # little bit more than just the i3 configuration file.
   i3:
     dotfiles:
+    - d_clipcat
     - d_i3
     - d_i3-sway_shared_config
     - d_rofi
     - d_thunar
     - f_alacritty.toml
+    - f_clipcat.service
     - f_default-ws-layout.service
     - f_dunstrc
     - f_i3blocks_config
     - f_i3-portals.conf
-    - f_parcellite.service
     - f_picom.conf
     - f_picom.service
     - f_xfce-power-manager.service
@@ -473,7 +474,6 @@ profiles:
     - f_gpg-agent.conf
     - f_light-locker.desktop
     - f_org.gnome.SettingsDaemon.DiskUtilityNotify.desktop
-    - f_parcellite-startup.desktop
     - f_print-applet.desktop
     - f_pulseaudio.desktop
     - f_python_keyring

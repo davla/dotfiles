@@ -1,0 +1,115 @@
+# {{@@ header() @@}}
+
+# Run as a traditional UNIX daemon.
+daemonize = false
+
+# Maximum number of clip history.
+max_history = 50
+
+# File path of clip history,
+# if you omit this value, clipcatd persists history in `$XDG_CACHE_HOME/clipcat/clipcatd-history`.
+# history_file_path = "/home/<username>/.cache/clipcat/clipcatd-history"
+
+# File path of PID file,
+# if you omit this value, clipcatd places the PID file on `$XDG_RUNTIME_DIR/clipcatd.pid`.
+# pid_file = "/run/user/<user-id>/clipcatd.pid"
+
+# Controls how often the program updates its stored value of the Linux
+# primary selection. In the Linux environment, the primary selection is a
+# mechanism that automatically updates to reflect the current highlighted text or
+# object, typically updating with every mouse movement.
+primary_threshold_ms = 5000
+
+[log]
+
+# Emit log message to a log file.
+# If you omit this value, clipcatd disables emitting to a log file.
+#file_path = "/path/to/log/file"
+
+# Emit log message to systemd-journald.
+emit_journald = false
+
+# Emit log message to stdout.
+emit_stdout = true
+
+# Emit log message to stderr.
+emit_stderr = false
+
+# Log level
+level = "INFO"
+
+[watcher]
+
+# Enable watching X11/Wayland clipboard selection.
+enable_clipboard = true
+
+# Enable watching X11/Wayland primary selection.
+enable_primary = false
+
+# Ignore clips which match with one of the X11 `TARGETS`.
+sensitive_x11_atoms = ["x-kde-passwordManagerHint"]
+
+# Ignore text clips which match with one of the regular expressions.
+# The regular expression engine is powered by https://github.com/rust-lang/regex .
+denied_text_regex_patterns = []
+
+# Ignore text clips with a length <= `filter_text_min_length`, in characters (Unicode scalar value), not in byte.
+filter_text_min_length = 1
+
+# Ignore text clips with a length > `filter_text_max_length`, in characters (Unicode scalar value), not in byte.
+filter_text_max_length = 20_000_000
+
+# Enable capturing image or not.
+capture_image = true
+
+# Ignore image clips with a size > `filter_image_max_size`, in byte.
+filter_image_max_size = 5_242_880
+
+[grpc]
+
+# Enable gRPC over http.
+enable_http = false
+
+# Enable gRPC over unix domain socket.
+enable_local_socket = true
+
+# Host address for gRPC.
+host = "127.0.0.1"
+
+# Port number for gRPC.
+port = 45045
+
+# Path of unix domain socket.
+# If you omit this value, clipcatd places the socket on `$XDG_RUNTIME_DIR/clipcat/grpc.sock`.
+# local_socket = "/run/user/<user-id>/clipcat/grpc.sock"
+
+[dbus]
+
+# Enable D-Bus.
+enable = true
+
+# Specify the identifier for current clipcat instance.
+# The D-Bus service name shows as "org.clipcat.clipcat.instance-0".
+# If identifier is not provided, D-Bus service name shows as "org.clipcat.clipcat".
+identifier = "instance-0"
+
+[desktop_notification]
+
+# Enable desktop notification.
+enable = true
+
+# Path of a icon, the given icon will be displayed on desktop notification,
+# if your desktop notification server supports showing a icon.
+# If this value is not provided, the value `accessories-clipboard` is applied.
+icon = "/usr/share/icons/{{@@ icon_theme @@}}/scalable/real_icons/apps/xfce4-clipman-plugin.svg"
+
+# Timeout duration in milliseconds.
+# This sets the time from the time the notification is displayed until it is
+# closed again by the notification server.
+timeout_ms = 5000
+
+# Define the length of a long plaintext,
+# if the length of a plaintext is >= `long_plaintext_length`,
+# desktop notification is emitted.
+# If this value is 0, no desktop desktop notification is emitted when fetched a long plaintext.
+long_plaintext_length = 20000

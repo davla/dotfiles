@@ -55,7 +55,6 @@
         <value type="string" value="networkmanager applet"/>
         <value type="string" value="orage"/>
         <value type="string" value="package update indicator"/>
-        <value type="string" value="parcellite"/>
         <value type="string" value="remmina"/>
         <value type="string" value="scp-dbus-service.py"/>
         <value type="string" value="system-config-printer"/>

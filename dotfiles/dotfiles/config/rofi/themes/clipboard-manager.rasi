@@ -1,0 +1,29 @@
+/* This rofi theme is mean specifically for the clipboard manager */
+
+@theme "base.rasi"
+@import "config.rasi"
+
+configuration {
+    matching: "fuzzy";
+}
+
+listview {
+    spacing: 0.2em;
+}
+
+element {
+    border-color: @primarycolor;
+    padding: 0 0 0 0.35em;
+}
+
+element selected normal, element selected active {
+    border: 0 0 0 0.3em;
+}
+
+element-text {
+    text-color: #999999;
+}
+
+element-text selected normal, element-text selected active {
+    text-color: @primarycolor;
+}

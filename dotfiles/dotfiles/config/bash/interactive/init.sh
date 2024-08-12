@@ -5,26 +5,33 @@
 
 INTERACTIVE_BDOTDIR="$BDOTDIR/interactive"
 
+
+########################################
+# Configure core utils
+########################################
+
+source "$SDOTDIR/interactive/coreutils-config.sh"
+
 #######################################
-# Loading plugins
+# Load plugins
 #######################################
 
 source "$INTERACTIVE_BDOTDIR/plugins/init.sh"
 
 #######################################
-# Loading themes
+# Load themes
 #######################################
 
 source "$INTERACTIVE_BDOTDIR/theme/init.sh"
 
 #######################################
-# Loading aliases
+# Load aliases
 #######################################
 
 source "$INTERACTIVE_BDOTDIR/aliases.sh"
 
 #######################################
-# Loading functions
+# Load functions
 #######################################
 
 source "$INTERACTIVE_BDOTDIR/functions.sh"

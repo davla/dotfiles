@@ -165,6 +165,8 @@
 [core]
     autocrlf = input
     editor = vim
+    pager = less --chop-long-lines --no-init --quit-if-one-screen \
+        --RAW-CONTROL-CHARS
 
 {%@@ if git_credentials_helper is defined -@@%}
 

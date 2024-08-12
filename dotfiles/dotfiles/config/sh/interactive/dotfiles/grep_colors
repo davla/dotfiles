@@ -1,0 +1,16 @@
+{%@@ set foreground = '38;5;' @@%}
+{%@@ set light_blue = '45' @@%}
+{%@@ set green = '34' @@%}
+{%@@ set grey = '240' @@%}
+{%@@ set orange = '208' @@%}
+{%@@ set red = '160' @@%}
+{%@@ set yellow = '184' @@%}
+
+# {{@@ header() @@}}
+
+cx={{@@ foreground + grey @@}}
+mt={{@@ foreground + orange @@}}
+fn={{@@ foreground + green @@}}
+ln={{@@ foreground + yellow @@}}
+bn={{@@ foreground + red @@}}
+se={{@@ foreground + light_blue @@}}

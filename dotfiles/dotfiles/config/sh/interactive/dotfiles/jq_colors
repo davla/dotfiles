@@ -1,0 +1,35 @@
+{%@@ set default_foreground = '39' @@%}
+{%@@ set foreground = '38;5;' @@%}
+{%@@ set light_blue = '45' @@%}
+{%@@ set green = '34' @@%}
+{%@@ set orange = '208' @@%}
+{%@@ set yellow = '184' @@%}
+
+{%@@ set keyword = foreground + light_blue @@%}
+{%@@ set brackets = default_foreground @@%}
+
+# {{@@ header() @@}}
+
+# null
+{{@@ keyword @@}}
+
+# false
+{{@@ keyword @@}}
+
+# true
+{{@@ keyword @@}}
+
+# numbers
+{{@@ foreground + yellow @@}}
+
+# strings
+{{@@ foreground + green @@}}
+
+# arrays
+{{@@ brackets @@}}
+
+# objects
+{{@@ brackets @@}}
+
+# object keys
+{{@@ foreground + orange @@}}

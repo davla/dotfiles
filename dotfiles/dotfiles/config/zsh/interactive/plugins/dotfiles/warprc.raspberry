@@ -1,3 +1,0 @@
-pywikibot:{{@@ wiki_root @@}}/{{@@ pywikibot_path @@}}
-wiki-lua:{{@@ wiki_root @@}}/{{@@ wiki_modules_path @@}}
-wiki-util:{{@@ wiki_root @@}}/{{@@ wiki_util_path @@}}

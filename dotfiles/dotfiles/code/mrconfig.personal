@@ -27,37 +27,23 @@ skip = true
 #######################################
 
 
-[{{@@ aoc_2020_path @@}}]
+[i3-live-tree]
 checkout =
-    git clone 'git@github.com:davla/advent-of-code-2020.git' \
-        '{{@@ basename(aoc_2020_path) @@}}'
-
-
-[{{@@ i3_live_tree_path @@}}]
-checkout =
-    git clone 'git@github.com:davla/i3-live-tree.git' \
-        '{{@@ basename(i3_live_tree_path) @@}}'
+    git clone 'git@github.com:davla/i3-live-tree.git'
 init =
     init_asdf_project python
     which python | xargs poetry env use
     poetry install
 
 
-[{{@@ python_generator_path @@}}]
+[yeoman-python-poetry-vscode]
 checkout =
-    git clone 'git@github.com:davla/yeoman-python-poetry-vscode.git' \
-        '{{@@ basename(python_generator_path) @@}}'
+    git clone 'git@github.com:davla/yeoman-python-poetry-vscode.git'
 init =
     init_asdf_project nodejs
     npm install
 
 
-[{{@@ zygal_path @@}}]
+[zygal]
 checkout =
-    git clone 'git@github.com:davla/zygal.git' '{{@@ basename(zygal_path) @@}}'
-
-
-[wiki/spacing-server]
-checkout =
-    git clone 'git@github.com:pokemoncentral/wiki-spacing-server.git' \
-        'spacing-server'
+    git clone 'git@github.com:davla/zygal.git'

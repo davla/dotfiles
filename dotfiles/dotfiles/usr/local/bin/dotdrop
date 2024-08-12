@@ -67,7 +67,7 @@ esac
 # Executing dotdrop
 #######################################
 
-cd "{{@@ dotfiles_home | find_in_home | home_abs2var @@}}" || exit
+cd "{{@@ dirname(_dotdrop_dotpath) | find_in_home | home_abs2var @@}}" || exit
 
 . ../.dotfiles-env
 

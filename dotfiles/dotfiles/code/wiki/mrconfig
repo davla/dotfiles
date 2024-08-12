@@ -55,9 +55,8 @@ init =
     install_precommit
 
 
-[{{@@ wiki_macros_path @@}}]
-checkout = git clone 'git@github.com:pokemoncentral/wiki-macros.git' \
-    '{{@@ wiki_macros_path @@}}'
+[macros]
+checkout = git clone 'git@github.com:pokemoncentral/wiki-macros.git' 'macros'
 
 
 [{{@@ pywikibot_path @@}}]
@@ -95,9 +94,8 @@ update =
     git submodule update --init
 
 
-[{{@@ wiki_styles_path @@}}]
-checkout = git clone 'git@github.com:pokemoncentral/wiki-styles.git' \
-    '{{@@ wiki_styles_path @@}}'
+[styles]
+checkout = git clone 'git@github.com:pokemoncentral/wiki-styles.git' 'styles'
 init =
     init_asdf_project nodejs
     npm install
@@ -127,3 +125,8 @@ init =
     sed -e 's|modulesPath = ADD_YOUR_PATH_HERE|modulesPath = "{{@@ prepend_inst_dst(wiki_modules_path) @@}}"|g' \
         "$MR_REPO/config-templates/config.lua" > "$MR_REPO/lua/config.lua"
 order = {{@@ util_order @@}}
+
+[spacing-server]
+checkout =
+    git clone 'git@github.com:pokemoncentral/wiki-spacing-server.git' \
+        'spacing-server'

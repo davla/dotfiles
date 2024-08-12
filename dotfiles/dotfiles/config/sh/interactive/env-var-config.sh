@@ -2,6 +2,15 @@
 
 # This file contains environment variables used to configure some commands when
 # used interactively.
+#
+# {{@@ header() @@}}
+
+########################################
+# cd
+########################################
+
+export CDPATH="{{@@ ['.', code_root, cd_path ] | select('defined')
+    | map('tilde2home') | join(':') @@}}"
 
 #######################################
 # exa / ls

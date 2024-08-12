@@ -55,8 +55,6 @@ dotfiles:
     src: config/zsh
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ zdotdir @@}}'
-    instignore:
-    - interactive/plugins/dotfiles/warprc.*
     upignore:
     - .zcompdump
     - .zsh_history

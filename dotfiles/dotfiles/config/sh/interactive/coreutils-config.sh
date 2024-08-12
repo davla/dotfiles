@@ -1,7 +1,16 @@
 #!/usr/bin/env sh
 
-# This file contains configuration for UNIX core utilities when used
-# interactively (e.g. ls, grep...)
+# This file contains configuration for UNIX core utilities and shell builtins
+# when used interactively (e.g. cd, ls...)
+#
+# {{@@ header() @@}}
+
+########################################
+# cd
+########################################
+
+export CDPATH="{{@@ ['.', code_root, cd_path ] | select('defined')
+    | map('tilde2home') | join(':') @@}}"
 
 #######################################
 # exa

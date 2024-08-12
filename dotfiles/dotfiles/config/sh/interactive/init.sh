@@ -2,25 +2,30 @@
 
 # This script initializes interactive POSIX shells
 
-
 INTERACTIVE_SDOTDIR="$SDOTDIR/interactive"
 
 
+########################################
+# Configure core utils
+########################################
+
+. "$INTERACTIVE_SDOTDIR/env-var-config.sh"
+
 #######################################
-# Loading plugins
+# Load plugins
 #######################################
 
 . "$INTERACTIVE_SDOTDIR/plugins/shared.sh"
 . "$INTERACTIVE_SDOTDIR/plugins/specific.sh"
 
 #######################################
-# Loading aliases
+# Load aliases
 #######################################
 
 . "$INTERACTIVE_SDOTDIR/aliases.sh"
 
 #######################################
-# Loading functions
+# Load functions
 #######################################
 
 . "$INTERACTIVE_SDOTDIR/functions.sh"

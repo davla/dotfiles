@@ -3,10 +3,6 @@
 @theme "base.rasi"
 @import "config.rasi"
 
-configuration {
-    matching: "fuzzy";
-}
-
 listview {
     spacing: 0.2em;
 }

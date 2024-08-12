@@ -12,9 +12,10 @@ configuration {
     fixed-num-lines: true;
     hover-select: false;
     matching: "fuzzy";
+    sorting-method: "fzf";
     modi: [ combi, drun, filebrowser, keys, run ];
     show-icons: true;
-    sort: false;
+    sort: true;
     steal-focus: true;
     threads: 0;
     tokenize: true;

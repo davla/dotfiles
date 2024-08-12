@@ -38,7 +38,7 @@ menu_length = 20
 menu_prompt = ""
 
 # Extra arguments to pass to `rofi`.
-extra_arguments = ["-theme", "clipboard-manager.rasi"]
+extra_arguments = ["-theme", "clipboard-manager.rasi", "-i"]
 
 # Options for "dmenu".
 [dmenu]

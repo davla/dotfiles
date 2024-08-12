@@ -11,6 +11,12 @@ INTERACTIVE_ZDOTDIR="$ZDOTDIR/interactive"
 
 source "$SDOTDIR/interactive/env-var-config.sh"
 
+########################################
+# Configure builtins
+########################################
+
+source "$INTERACTIVE_ZDOTDIR/builtins-config.zsh"
+
 #######################################
 # Load plugins
 #######################################

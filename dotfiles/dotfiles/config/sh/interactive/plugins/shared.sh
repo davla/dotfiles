@@ -10,14 +10,6 @@
 [ "$(ps --no-headings -p "$$" -o 'comm')" != 'sh' ] && . "$ASDF_HOME/asdf.sh"
 
 #######################################
-# exa
-#######################################
-
-EXA_COLORS="$(grep -vP '(^#|^\s*$)' \
-    "$SDOTDIR/interactive/plugins/dotfiles/exa_colors" | paste -sd ':')"
-export EXA_COLORS
-
-#######################################
 # fasd
 #######################################
 

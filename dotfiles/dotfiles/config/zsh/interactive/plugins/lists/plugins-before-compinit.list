@@ -11,9 +11,3 @@ marzocchi/zsh-notify
 
 RobSis/zsh-reentry-hook
 MichaelAquilina/zsh-you-should-use
-
-{%@@- if user == 'user' @@%}
-
-mfaerevaag/wd kind:fpath
-
-{%@@- endif @@%}

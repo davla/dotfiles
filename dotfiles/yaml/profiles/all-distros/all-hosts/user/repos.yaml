@@ -18,8 +18,8 @@ config:
   func_file:
   - ../../../../../python/functions.py
   ignoreempty: true
-  import_config:
-  - ../all-users/shared.yaml
+  import_variables:
+  - ../../../../variables/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/repos.yaml:optional
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -62,16 +62,8 @@ profiles:
 variables:
   code_root: ~/code
 
-  aoc_2020_path: kotlin/advent-of-code-2020
-  cluedo_tracker_path: kotlin/cluedo-tracker
-  i3_live_tree_path: python/i3-live-tree
-  python_generator_path: js/yeoman-python-poetry-vscode
-  zygal_path: shell/zygal
-
   # Pokémon Central Wiki code workspace variables
   wiki_root: '{{@@ code_root @@}}/wiki'
   pywikibot_path: pywikibot
-  wiki_macros_path: macros
   wiki_modules_path: modules
-  wiki_styles_path: styles
   wiki_util_path: util

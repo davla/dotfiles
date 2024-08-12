@@ -235,13 +235,12 @@ zsdoc/data
 .gitsecret/keys/random_seed
 
 # Encrypted files
-dotfiles/yaml/**/private.yaml
-dotfiles/yaml/**/emails.yaml
 dotfiles/dotfiles/code/mrconfig.work
 dotfiles/dotfiles/config/i3/*-work
 dotfiles/dotfiles/config/mr/mrtrust.work.user
-dotfiles/dotfiles/config/zsh/interactive/plugins/dotfiles/warprc.work
 dotfiles/dotfiles/etc/security/pam_env.conf.work
+dotfiles/yaml/**/emails.yaml
+dotfiles/yaml/**/private.yaml
 dotfiles/yaml/variables/all-distros/raspberry/all-users/notify-commuter-card-renewal.yaml
 dotfiles/yaml/variables/all-distros/work/user/repos.yaml
 

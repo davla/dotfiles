@@ -118,15 +118,36 @@ json-paginated() {
 }
 
 #######################################
-# New commands
+# Random from the Web
 #######################################
+
+alias wget-stdout='wget --quiet --output-document -'
+
+# This function displays a dragon telling a random Chuck Norris fact
+chuck() {
+    wget-stdout 'https://api.chucknorris.io/jokes/random' \
+        | jq --raw-output '.value' | cowsay -W 60 -f blowfish
+}
 
 # This function displays a milk carton telling a random dad joke
 dad-joke() {
     {
-        curl --silent --header 'Accept: text/plain' https://icanhazdadjoke.com/
+        wget-stdout --header 'Accept: text/plain' https://icanhazdadjoke.com/
         echo
     } | cowsay -W 60 -f milk
+}
+
+# This function displays a stegosaurus telling a random fact
+fact() {
+    wget-stdout 'https://uselessfacts.jsph.pl/api/v2/facts/random' \
+        | jq --raw-output '.text' | cowsay -W 60 -f stegosaurus
+}
+
+# This function displays a stupid-looking slice of cheese telling a random
+# Trump quote
+trump() {
+    wget-stdout 'https://api.tronalddump.io/random/quote' \
+        | jq --raw-output '.value' | cowsay -W 60 -f cheese
 }
 
 ########################################

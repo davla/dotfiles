@@ -5,7 +5,6 @@
 
 configuration {
     drun-display-format: "{name}";
-    matching: "normal";
     modi: [ drun ];
 }
 

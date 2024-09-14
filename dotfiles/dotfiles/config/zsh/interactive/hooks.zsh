@@ -7,13 +7,30 @@
 # Environmed loading hook
 ########################################
 
-# This function is meant to be used as a chpwd hook. It simply sources any
-# environment file found in the current working directory, if any
+# This function is meant to be used as a chpwd hook. It sources environment
+# files in the current directory, or if none are found in the root of the git
+# repository, if within a git repository at all.
 load_environment() {
-    (setopt +o nomatch; [ -f .(*-|)env(Y1) ]) && {
-        echo 'Sourcing environment files'
-        source .(*-|)env(Y1)
+    local ENV_FILES="$(find_dotfiles .)"
+    [ -z "$ENV_FILES" ] && {
+        local GIT_ROOT="$(git rev-parse --path-format=relative \
+            --show-toplevel 2> /dev/null)"
+        [ -n "$GIT_ROOT" ] && ENV_FILES="$(find_dotfiles "${GIT_ROOT%/}")"
     }
+
+    for ENV_FILE in ${(ps. .)ENV_FILES}; do
+        echo "Source environment file $ENV_FILE"
+        source "$ENV_FILE"
+    done
+}
+
+# This function finds dotfiles in a given directory. If none are found, it
+# returns the empty string.
+#
+# Arguments:
+#   - $1: The directory to scan for dotfiles
+find_dotfiles() {
+    echo "$1"/.(*-|)env(N)
 }
 
 add-zsh-hook chpwd load_environment

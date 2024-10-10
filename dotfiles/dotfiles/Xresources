@@ -10,19 +10,6 @@ Gtk.CursorThemeSize: {{@@ cursor_size @@}}
 Gtk.IconSizes: ''
 Gtk.FontName: {{@@ font @@}}
 
-! Custom i3 resources
-i3wm.FloatingWidth: {{@@ i3_floating_width @@}}
-i3wm.FloatingHeight: {{@@ i3_floating_height @@}}
-i3wm.EditorWidth: {{@@ i3_editor_width @@}}
-i3wm.EditorHeight: {{@@ i3_editor_height @@}}
-i3wm.SpotifyWidth: {{@@ i3_spotify_width @@}}
-i3wm.SpotifyHeight: {{@@ i3_spotify_height @@}}
-i3wm.SpotifyScale: {{@@ i3_spotify_scale @@}}
-i3wm.TeamsWidth: {{@@ i3_teams_width @@}}
-i3wm.TeamsHeight: {{@@ i3_teams_height @@}}
-i3wm.TelegramWidth: {{@@ i3_telegram_width @@}}
-i3wm.TelegramHeight: {{@@ i3_telegram_height @@}}
-
 ! Look-and-feel resources
 Net.IconThemeName: {{@@ icon_theme @@}}
 Net.ThemeName: {{@@ theme @@}}

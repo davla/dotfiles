@@ -12,15 +12,15 @@
 print_info 'Install i3'
 case "$DISTRO" in
     'arch')
-        yay -S --needed autorandr dunst gnome-themes-extra i3 i3blocks \
-            i3-volume python-docopt python-i3ipc picom qt5ct rofi thunar \
-            xdg-desktop-portal xdg-desktop-portal-gtk
+        yay -S --needed autorandr dunst gnome-themes-extra hsetroot i3 \
+            i3blocks i3-volume python-docopt python-i3ipc picom qt5ct rofi \
+            thunar xdg-desktop-portal xdg-desktop-portal-gtk
         ;;
 
     'debian')
-        sudo apt-get install autorandr dunst i3 i3blocks python3-docopt \
-            python3-i3ipc picom qt5ct rofi thunar xdg-desktop-portal \
-            xdg-desktop-portal-gtk xfce4-power-manager
+        sudo apt-get install autorandr dunst hsetroot i3 i3blocks \
+            python3-docopt python3-i3ipc picom qt5ct rofi thunar \
+            xdg-desktop-portal xdg-desktop-portal-gtk xfce4-power-manager
         ;;
 esac
 

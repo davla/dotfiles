@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+#######################################
+# Desktop background
+#######################################
+
+# This fits the desktop background to the new resolution. Use hsetroot instead
+# of xsetroot due to incompatibilities with picom.
+hsetroot -solid '#131313'

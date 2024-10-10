@@ -51,10 +51,16 @@ dotfiles:
   d_scripts.d:
     src: config/autorandr/scripts.d
     dst: '{{@@ xdg_config("autorandr/scripts.d") @@}}'
+  f_postswitch:
+    src: config/autorandr/postswitch
+    dst: '{{@@ xdg_config("autorandr/postswitch") @@}}'
+    chmod: 755
 
 profiles:
   # This profile contains autorandr profiles
   autorandr:
+    dotfiles:
+    - f_postswitch
     import:
     - ../../../../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/autorandr.yaml:optional
     include:

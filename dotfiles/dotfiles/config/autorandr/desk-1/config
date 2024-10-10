@@ -1,21 +1,25 @@
-output eDP
-off
 output HDMI-A-0
 off
 output DisplayPort-0
 off
-output DisplayPort-1
+output DisplayPort-2
 off
 output DisplayPort-3
 off
 output DisplayPort-4
 off
-output DisplayPort-2
-crtc 1
-mode 1920x1080
+output DisplayPort-5
+off
+output eDP
+off
+output DisplayPort-1
+crtc 0
+mode 2560x1440
 pos 0x0
-rate 60.00
-x-prop-max_bpc 8
+primary
+rate 59.95
+x-prop-colorspace Default
+x-prop-max_bpc 16
 x-prop-non_desktop 0
 x-prop-scaling_mode None
 x-prop-tearfree auto

@@ -24,30 +24,24 @@ config:
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
-  d_desk-2:
-    src: config/autorandr/desk-2
-    dst: '{{@@ xdg_config("autorandr/desk-2") @@}}'
-  d_desk-3:
-    src: config/autorandr/desk-3
-    dst: '{{@@ xdg_config("autorandr/desk-3") @@}}'
-  d_dual-dk:
-    src: config/autorandr/dual-dk
-    dst: '{{@@ xdg_config("autorandr/dual-dk") @@}}'
-  d_dual-it:
-    src: config/autorandr/dual-it
-    dst: '{{@@ xdg_config("autorandr/dual-it") @@}}'
+  d_desk-1:
+    src: config/autorandr/desk-1
+    dst: '{{@@ xdg_config("autorandr/desk-1") @@}}'
+  d_elisa-and-rafał:
+    src: config/autorandr/elisa-and-rafał
+    dst: '{{@@ xdg_config("autorandr/elisa-and-rafał") @@}}'
+  d_gallo:
+    src: config/autorandr/gallo
+    dst: '{{@@ xdg_config("autorandr/gallo") @@}}'
   d_hdmi-cloned:
     src: config/autorandr/hdmi-cloned
     dst: '{{@@ xdg_config("autorandr/hdmi-cloned") @@}}'
-  d_hdmi-closed-lid:
-    src: config/autorandr/hdmi-closed-lid
-    dst: '{{@@ xdg_config("autorandr/hdmi-closed-lid") @@}}'
-  d_hdmi-only-dk:
-    src: config/autorandr/hdmi-only-dk
-    dst: '{{@@ xdg_config("autorandr/hdmi-only-dk") @@}}'
-  d_hdmi-only-it:
-    src: config/autorandr/hdmi-only-it
-    dst: '{{@@ xdg_config("autorandr/hdmi-only-it") @@}}'
+  d_hdmi-only-work:
+    src: config/autorandr/hdmi-only-work
+    dst: '{{@@ xdg_config("autorandr/hdmi-only-work") @@}}'
+  d_laezza:
+    src: config/autorandr/laezza
+    dst: '{{@@ xdg_config("autorandr/laezza") @@}}'
   d_laptop-only-personal:
     src: config/autorandr/laptop-only-personal
     dst: '{{@@ xdg_config("autorandr/laptop-only-personal") @@}}'

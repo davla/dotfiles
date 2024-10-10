@@ -1,0 +1,14 @@
+# Pacman hook that links grimshot into PATH
+
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Target = sway-contrib
+Target = sway-contrib-*
+Type = Package
+
+[Action]
+Description = Link grimshot into PATH
+Depends = coreutils
+When = PostTransaction
+Exec = /usr/bin/ln --force --symbolic /usr/share/sway-contrib/grimshot /usr/local/bin/grimshot

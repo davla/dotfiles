@@ -1,8 +1,0 @@
-%YAML 1.2
----
-# This variables file defines some miscellaneous host-specific variables for my
-# personal system.
-
-variables:
-  # Email to be used for git. Also my Github email
-  email: truzzialrogo@gmx.com

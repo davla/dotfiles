@@ -4,4 +4,4 @@
 [MAIL]
 HOST: imap.gmx.com
 PORT: 993
-USER: davide.laezza@gmx.com
+USER: {{@@ main_email @@}}

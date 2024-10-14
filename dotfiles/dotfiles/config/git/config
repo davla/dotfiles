@@ -159,12 +159,8 @@
 #     status
 #     tag
 
-{%@@ if git_commit_gpg_sign | is_truthy -@@%}
-
 [commit]
     gpgsign = true
-
-{%@@ endif -@@%}
 
 [core]
     autocrlf = input
@@ -234,5 +230,5 @@
 
 [user]
     name = {{@@ full_name @@}}
-    email = {{@@ email @@}}
-    username = {{@@ git_username @@}}
+    email = {{@@ git_email @@}}
+    username = davla

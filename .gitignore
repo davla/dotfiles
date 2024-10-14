@@ -187,6 +187,7 @@ zsdoc/data
 
 # Encrypted files
 dotfiles/yaml/**/private.yaml
+dotfiles/yaml/**/emails.yaml
 dotfiles/yaml/variables/all-distros/work/user/repos.yaml
 dotfiles/dotfiles/code/mrconfig.work
 dotfiles/dotfiles/config/zsh/interactive/plugins/dotfiles/warprc.work

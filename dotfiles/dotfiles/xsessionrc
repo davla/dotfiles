@@ -33,9 +33,3 @@ export QT_QPA_PLATFORMTHEME='qt5ct'
 #######################################
 
 autorandr --change --force
-
-#######################################
-# Desktop background
-#######################################
-
-xsetroot -solid '#131313'

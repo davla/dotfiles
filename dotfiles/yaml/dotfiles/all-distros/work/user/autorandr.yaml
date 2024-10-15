@@ -4,8 +4,10 @@
 # for my work machine.
 
 dotfiles:
-- d_desk-2
-- d_desk-3
+- d_desk-1
+- d_elisa-and-rafał
+- d_gallo
 - d_hdmi-cloned
-- d_hdmi-closed-lid
+- d_hdmi-only-work
+- d_laezza
 - d_laptop-only-work

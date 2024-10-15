@@ -1,8 +1,9 @@
 #!/usr/bin/env sh
 
-# This is a workaround for this bug, until 1.9 comes on debian:
-# https://github.com/phillipberndt/autorandr/issues/143
+#######################################
+# Desktop background
+#######################################
 
-# Disabling enabled but disconnected outputs
-xrandr -q | grep -P 'disconnected.+\).+$' | cut -f 1 -d ' ' \
-    | xargs -n 1 -i xrandr --output '{}' --off
+# This fits the desktop background to the new resolution. Use hsetroot instead
+# of xsetroot due to incompatibilities with picom.
+hsetroot -solid '#131313'

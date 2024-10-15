@@ -42,10 +42,7 @@ link_hooks() {
 case "$HOST" in
     'personal')
         HIDPI_CONFIGS='laptop-only-personal'
-        LODPI_CONFIGS='dual-dk
-dual-it
-hdmi-only-dk
-hdmi-only-it'
+        LODPI_CONFIGS=''
         ;;
 
     *)

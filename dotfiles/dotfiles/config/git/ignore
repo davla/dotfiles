@@ -1,3 +1,5 @@
+# {{@@ header() @@}}
+#
 # Created by https://www.gitignore.io/api/android,androidstudio,compressedarchive,eclipse,emacs,jetbrains+all,linux,netbeans,notepadpp,osx,sublimetext,textmate,vim,visualstudio,visualstudiocode,windows,xamarinstudio,xcode
 # Edit at https://www.gitignore.io/?templates=android,androidstudio,compressedarchive,eclipse,emacs,jetbrains+all,linux,netbeans,notepadpp,osx,sublimetext,textmate,vim,visualstudio,visualstudiocode,windows,xamarinstudio,xcode
 
@@ -805,4 +807,12 @@ DerivedData/
 #### Custom entries ####
 
 ### Local environment files ###
-.env
+.*env
+
+{#@@ My colleagues don't use asdf, but I do @@#}
+{%@@ if env['HOST'] == 'work' -@@%}
+
+### Local configuration files ###
+.tool-versions
+
+{%@@ endif -@@%}

@@ -165,7 +165,6 @@
 [core]
     autocrlf = input
     editor = vim
-    excludesFile = ~/.config/git/ignore
 
 {%@@ if git_credentials_helper is defined -@@%}
 

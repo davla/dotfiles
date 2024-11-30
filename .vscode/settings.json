@@ -36,6 +36,15 @@
     "./dotfiles/dotfiles/usr/local/lib/i3ipc-extras/src"
   ],
   "python.envFile": "${workspaceFolder}/.dotfiles-env",
+  "[json]": {
+    "editor.formatOnSave": false
+  },
+  "[jsonc]": {
+    "editor.formatOnSave": false
+  },
+  "[jsonl]": {
+    "editor.formatOnSave": false
+  },
   "[python]": {
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit"

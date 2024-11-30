@@ -1,347 +1,367 @@
 // {{@@ header() @@}}
-
 {
-    ///////////////////////////////////
-    // Debug
-    ///////////////////////////////////
+  ///////////////////////////////////
+  // Debug
+  ///////////////////////////////////
 
-    "debug.console.fontSize": 15,
-    "debug.openExplorerOnEnd": true,
-    "debug.showInlineBreakpointCandidates": false,
-    "npm.enableRunFromFolder": true,
-    "terminal.explorerKind": "external",
+  "debug.console.fontSize": 15,
+  "debug.openExplorerOnEnd": true,
+  "debug.showInlineBreakpointCandidates": false,
+  "npm.enableRunFromFolder": true,
+  "terminal.explorerKind": "external",
 
-    ///////////////////////////////////
-    // Editor
-    ///////////////////////////////////
+  ///////////////////////////////////
+  // Editor
+  ///////////////////////////////////
 
-    "breadcrumbs.filePath": "last",
-    "editor.acceptSuggestionOnEnter": "smart",
-    "editor.bracketPairColorization.enabled": true,
-    "editor.codeLens": false,
-    "editor.colorDecorators": false,
-    "editor.copyWithSyntaxHighlighting": false,
-    "editor.cursorStyle": "underline-thin",
-    "editor.detectIndentation": false,
-    "editor.dragAndDrop": false,
-    "editor.emptySelectionClipboard": false,
-    "editor.find.autoFindInSelection": "multiline",
-    "editor.folding": false,
-    "editor.foldingHighlight": false,
-    "editor.fontFamily": "{{@@ font_monospace @@}}, 'monospace', monospace",
-    "editor.fontSize": 15,
-    "editor.guides.bracketPairs": "active",
-    "editor.matchBrackets": "never",
-    "editor.minimap.enabled": false,
-    "editor.occurrencesHighlight": false,
-    "editor.quickSuggestions": {
-        "comments": "inline",
-        "strings": "inline",
-        "other": "inline"
-    },
-    "editor.renderLineHighlightOnlyWhenFocus": true,
-    "editor.rulers": [
-        79
-    ],
-    "editor.scrollBeyondLastColumn": 0,
-    "editor.selectionHighlight": false,
-    "editor.suggest.insertMode": "replace",
-    "editor.suggest.localityBonus": true,
-    "editor.suggest.shareSuggestSelections": true,
-    "editor.suggestSelection": "recentlyUsedByPrefix",
-    "editor.tabCompletion": "onlySnippets",
-    "files.associations": {
-        "**/.i3/config": "i3",
-        "**/i3/config": "i3"
-    },
-    "files.insertFinalNewline": true,
-    "files.trimFinalNewlines": true,
-    "files.trimTrailingWhitespace": true,
+  "breadcrumbs.filePath": "last",
+  "editor.acceptSuggestionOnEnter": "smart",
+  "editor.autoIndent": "advanced",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.codeLens": false,
+  "editor.colorDecorators": false,
+  "editor.copyWithSyntaxHighlighting": false,
+  "editor.cursorStyle": "underline-thin",
+  "editor.detectIndentation": true,
+  "editor.dragAndDrop": false,
+  "editor.emptySelectionClipboard": false,
+  "editor.find.autoFindInSelection": "multiline",
+  "editor.folding": false,
+  "editor.foldingHighlight": false,
+  "editor.fontFamily": "{{@@ font_monospace @@}}, 'monospace', monospace",
+  "editor.fontSize": 15,
+  "editor.guides.bracketPairs": "active",
+  "editor.matchBrackets": "never",
+  "editor.minimap.enabled": false,
+  "editor.occurrencesHighlight": "off",
+  "editor.quickSuggestions": {
+    "comments": "inline",
+    "strings": "inline",
+    "other": "inline"
+  },
+  "editor.renderLineHighlightOnlyWhenFocus": true,
+  "editor.rulers": [
+    79
+  ],
+  "editor.scrollBeyondLastColumn": 0,
+  "editor.selectionHighlight": false,
+  "editor.suggest.insertMode": "replace",
+  "editor.suggest.localityBonus": true,
+  "editor.suggest.shareSuggestSelections": true,
+  "editor.suggestSelection": "recentlyUsedByPrefix",
+  "editor.tabCompletion": "onlySnippets",
+  "files.autoSave": "onFocusChange",
+  "[json]": {
+    "editor.folding": true,
+  },
+  "[jsonc]": {
+    "editor.folding": true,
+  },
+  "[jsonl]": {
+    "editor.folding": true,
+  },
+  "[toml]": {
+    "editor.folding": true,
+  },
+  "[yaml]": {
+    "editor.folding": true,
+  },
 
-    ////////////////////////////////////////
-    // Extensions
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // Extensions
+  ////////////////////////////////////////
 
-    "extensions.closeExtensionDetailsOnViewChange": true,
+  "extensions.closeExtensionDetailsOnViewChange": true,
 
-    ////////////////////////////////////////
-    // External tools
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // External tools
+  ////////////////////////////////////////
 
-    "grunt.autoDetect": "off",
-    "gulp.autoDetect": "off",
-    "jake.autoDetect": "off",
+  "grunt.autoDetect": "off",
+  "gulp.autoDetect": "off",
+  "jake.autoDetect": "off",
 
-    ///////////////////////////////////
-    // Filesystem
-    ///////////////////////////////////
+  ///////////////////////////////////
+  // Formatting
+  ///////////////////////////////////
 
-    "files.autoSave": "onFocusChange",
-    "files.enableTrash": false,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.convertImportFormat": "explicit",
+    "source.unusedImports": "never"
+  },
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
 
-    ///////////////////////////////////
-    // Search
-    ///////////////////////////////////
+  ///////////////////////////////////
+  // Search
+  ///////////////////////////////////
 
-    "search.exclude": {
-        "**/dist": true
-    },
-    "search.showLineNumbers": true,
-    "search.smartCase": true,
-    "search.useGlobalIgnoreFiles": true,
+  "search.exclude": {
+    "**/dist": true
+  },
+  "search.showLineNumbers": true,
+  "search.smartCase": true,
+  "search.useGlobalIgnoreFiles": true,
 
-    ///////////////////////////////////
-    // Tabs
-    ///////////////////////////////////
+  ///////////////////////////////////
+  // Tabs
+  ///////////////////////////////////
 
-    "workbench.editor.closeOnFileDelete": true,
-    "workbench.editor.enablePreview": false,
-    "workbench.editor.enablePreviewFromQuickOpen": false,
-    "workbench.editor.focusRecentEditorAfterClose": false,
-    "workbench.editor.highlightModifiedTabs": true,
-    "workbench.editor.revealIfOpen": true,
-    "workbench.editor.untitled.labelFormat": "name",
+  "workbench.editor.closeOnFileDelete": true,
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "workbench.editor.focusRecentEditorAfterClose": false,
+  "workbench.editor.highlightModifiedTabs": true,
+  "workbench.editor.revealIfOpen": true,
+  "workbench.editor.untitled.labelFormat": "name",
 
-    ///////////////////////////////////
-    // Tree pane
-    ///////////////////////////////////
+  ///////////////////////////////////
+  // Tree pane
+  ///////////////////////////////////
 
-    "explorer.enableDragAndDrop": false,
-    "explorer.openEditors.visible": 0,
-    "workbench.tree.indent": 18,
-    "workbench.tree.renderIndentGuides": "always",
-    "workbench.view.alwaysShowHeaderActions": true,
+  "explorer.enableDragAndDrop": false,
+  "explorer.openEditors.visible": 1,
+  "files.enableTrash": false,
+  "workbench.tree.indent": 18,
+  "workbench.tree.renderIndentGuides": "always",
+  "workbench.view.alwaysShowHeaderActions": true,
 
-    ////////////////////////////////////////
-    // Window
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // Window
+  ////////////////////////////////////////
 
-    "window.menuBarVisibility": "toggle",
-    "window.newWindowDimensions": "maximized",
-    "window.restoreWindows": "folders",
-    "window.zoomLevel": 0.75,
+  "window.customTitleBarVisibility": "never",
+  "window.menuBarVisibility": "toggle",
+  "window.newWindowDimensions": "maximized",
+  "window.restoreWindows": "folders",
+  "window.titleBarStyle": "native",
+  "window.zoomLevel": 0.75,
 
-    ////////////////////////////////////////
-    // Misc
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // Misc
+  ////////////////////////////////////////
 
-    "git.enableCommitSigning": true,
-    "git.mergeEditor": false,
-    "problems.autoReveal": false,
-    "scm.autoReveal": false,
+  "git.enableCommitSigning": true,
+  "git.mergeEditor": false,
+  "problems.autoReveal": false,
+  "scm.autoReveal": false,
 
-    ////////////////////////////////////////
-    // CSS
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // CSS
+  ////////////////////////////////////////
 
-    "css.lint.ieHack": "warning",
-    "css.lint.zeroUnits": "warning",
+  "css.lint.ieHack": "warning",
+  "css.lint.zeroUnits": "warning",
 
-    ////////////////////////////////////////
-    // HTML
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // HTML
+  ////////////////////////////////////////
 
-    "html.format.indentInnerHtml": true,
+  "html.format.indentInnerHtml": true,
 
-    ////////////////////////////////////////
-    // JavaScript
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // JavaScript
+  ////////////////////////////////////////
 
-    "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
-    "javascript.format.semicolons": "insert",
-    "javascript.preferences.importModuleSpecifier": "non-relative",
-    "javascript.preferences.importModuleSpecifierEnding": "minimal",
-    "javascript.preferences.quoteStyle": "single",
-    "javascript.suggest.completeFunctionCalls": true,
-    "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
+  "javascript.format.semicolons": "insert",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.importModuleSpecifierEnding": "minimal",
+  "javascript.preferences.quoteStyle": "single",
+  "javascript.suggest.completeFunctionCalls": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
 
-    ////////////////////////////////////////
-    // Less
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // Less
+  ////////////////////////////////////////
 
-    "less.lint.idSelector": "warning",
-    "less.lint.ieHack": "warning",
-    "less.lint.unknownVendorSpecificProperties": "warning",
+  "less.lint.idSelector": "warning",
+  "less.lint.ieHack": "warning",
+  "less.lint.unknownVendorSpecificProperties": "warning",
 
-    ////////////////////////////////////////
-    // SCSS
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // SCSS
+  ////////////////////////////////////////
 
-    "scss.lint.idSelector": "warning",
-    "scss.lint.ieHack": "warning",
-    "scss.lint.unknownVendorSpecificProperties": "warning",
+  "scss.lint.idSelector": "warning",
+  "scss.lint.ieHack": "warning",
+  "scss.lint.unknownVendorSpecificProperties": "warning",
 
-    ////////////////////////////////////////
-    // TypeScript
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // TypeScript
+  ////////////////////////////////////////
 
-    "typescript.enablePromptUseWorkspaceTsdk": true,
-    "typescript.format.semicolons": "insert",
-    "typescript.preferences.importModuleSpecifier": "non-relative",
-    "typescript.preferences.importModuleSpecifierEnding": "minimal",
-    "typescript.preferences.quoteStyle": "single",
-    "typescript.suggest.completeFunctionCalls": true,
-    "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.format.semicolons": "insert",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifierEnding": "minimal",
+  "typescript.preferences.quoteStyle": "single",
+  "typescript.suggest.completeFunctionCalls": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
 
-    ////////////////////////////////////////
-    // JS/TS
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // JS/TS
+  ////////////////////////////////////////
 
-    "js/ts.implicitProjectConfig.checkJs": true,
+  "js/ts.implicitProjectConfig.checkJs": true,
 
-    ////////////////////////////////////////
-    // Look and feel
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // Look and feel
+  ////////////////////////////////////////
 
-    "workbench.colorCustomizations": {
-        "[Ayu Dark Bordered]": {
-            // Foreground colors
-            "activityBar.foreground": "#aaaaaa",
-            "activityBar.inactiveForeground": "#666666",
-            "breadcrumb.activeSelectionForeground": "#cccccc",
-            "breadcrumb.focusForeground": "#cccccc",
-            "breadcrumb.foreground": "#aaaaaa",
-            "checkbox.foreground": "#aaaaaa",
-            "descriptionForeground": "#aaaaaa",
-            "dropdown.foreground": "#aaaaaa",
-            "editorBracketHighlight.foreground1": "#00FFFF",
-            "editorBracketHighlight.foreground2": "#FF7700",
-            "editorBracketHighlight.foreground3": "#00FF22",
-            "editorBracketHighlight.foreground4": "#FFE600",
-            "editorBracketHighlight.unexpectedBracket.foreground": "#FF0015",
-            // "editorHoverWidget.foreground": "#aaaaaa",
-            // "editorSuggestWidget.foreground": "#aaaaaa",
-            // "editorSuggestWidget.highlightForeground": "#cccccc",
-            // "editorWidget.foreground": "#aaaaaa",
-            "foreground": "#aaaaaa",
-            "icon.foreground": "#aaaaaa",
-            // "input.foreground": "#aaaaaa",
-            "input.placeholderForeground": "#aaaaaa",
-            "inputOption.activeForeground": "#aaaaaa",
-            "inputValidation.infoForeground": "#aaaaaa",
-            "list.activeSelectionForeground": "#cccccc",
-            "list.focusForeground": "#cccccc",
-            // "list.highlightForeground": "#cccccc",
-            "list.hoverForeground": "#cccccc",
-            "list.inactiveSelectionForeground": "#aaaaaa",
-            // "notifications.foreground": "#aaaaaa",
-            "peekViewResult.fileForeground": "#aaaaaa",
-            "peekViewResult.lineForeground": "#666666",
-            "peekViewTitleDescription.foreground": "#aaaaaa",
-            "peekViewTitleLabel.foreground": "#666666",
-            "pickerGroup.foreground": "#666666",
-            // "quickInput.foreground": "#aaaaaa",
-            "sideBar.foreground": "#aaaaaa",
-            "sideBarSectionHeader.foreground": "#aaaaaa",
-            "sideBarTitle.foreground": "#aaaaaa",
-            "statusBar.debuggingForeground": "#aaaaaa",
-            "statusBar.foreground": "#aaaaaa",
-            "tab.activeForeground": "#aaaaaa",
-            "tab.hoverForeground": "#cccccc",
-            "tab.inactiveForeground": "#666666",
-            "tab.unfocusedInactiveForeground": "#666666",
+  "workbench.colorCustomizations": {
+    "[Ayu Dark Bordered]": {
+      // Foreground colors
+      "activityBar.foreground": "#aaaaaa",
+      "activityBar.inactiveForeground": "#666666",
+      "breadcrumb.activeSelectionForeground": "#cccccc",
+      "breadcrumb.focusForeground": "#cccccc",
+      "breadcrumb.foreground": "#aaaaaa",
+      "checkbox.foreground": "#aaaaaa",
+      "descriptionForeground": "#aaaaaa",
+      "dropdown.foreground": "#aaaaaa",
+      "editorBracketHighlight.foreground1": "#00FFFF",
+      "editorBracketHighlight.foreground2": "#FF7700",
+      "editorBracketHighlight.foreground3": "#00FF22",
+      "editorBracketHighlight.foreground4": "#FFE600",
+      "editorBracketHighlight.unexpectedBracket.foreground": "#FF0015",
+      // "editorHoverWidget.foreground": "#aaaaaa",
+      // "editorSuggestWidget.foreground": "#aaaaaa",
+      // "editorSuggestWidget.highlightForeground": "#cccccc",
+      // "editorWidget.foreground": "#aaaaaa",
+      "foreground": "#aaaaaa",
+      "icon.foreground": "#aaaaaa",
+      // "input.foreground": "#aaaaaa",
+      "input.placeholderForeground": "#aaaaaa",
+      "inputOption.activeForeground": "#aaaaaa",
+      "inputValidation.infoForeground": "#aaaaaa",
+      "list.activeSelectionForeground": "#cccccc",
+      "list.focusForeground": "#cccccc",
+      // "list.highlightForeground": "#cccccc",
+      "list.hoverForeground": "#cccccc",
+      "list.inactiveSelectionForeground": "#aaaaaa",
+      // "notifications.foreground": "#aaaaaa",
+      "peekViewResult.fileForeground": "#aaaaaa",
+      "peekViewResult.lineForeground": "#666666",
+      "peekViewTitleDescription.foreground": "#aaaaaa",
+      "peekViewTitleLabel.foreground": "#666666",
+      "pickerGroup.foreground": "#666666",
+      // "quickInput.foreground": "#aaaaaa",
+      "sideBar.foreground": "#aaaaaa",
+      "sideBarSectionHeader.foreground": "#aaaaaa",
+      "sideBarTitle.foreground": "#aaaaaa",
+      "statusBar.debuggingForeground": "#aaaaaa",
+      "statusBar.foreground": "#aaaaaa",
+      "tab.activeForeground": "#aaaaaa",
+      "tab.hoverForeground": "#cccccc",
+      "tab.inactiveForeground": "#666666",
+      "tab.unfocusedInactiveForeground": "#666666",
 
-            // Background colors
-            "editor.lineHighlightBackground": "#3b4863AA",
-            "editorSuggestWidget.selectedBackground": "#262e40AA",
-            "list.activeSelectionBackground": "#262e40AA",
-            "list.focusBackground": "#3b4863AA",
-            "list.hoverBackground": "#3b4863AA",
-            "list.inactiveSelectionBackground": "#262e40AA",
-            "peekViewEditor.background": "#111111",
-            "peekViewResult.background": "#0d1016",
-            "peekViewResult.selectionBackground": "#3b4863AA",
-            "peekViewEditor.matchHighlightBackground": "#e6b45033",
-            "peekViewTitle.background": "#0d1016",
-            "statusBar.debuggingBackground": "#262e40",
-            "tab.hoverBackground": "#3b486377",
+      // Background colors
+      "editor.lineHighlightBackground": "#3b4863AA",
+      "editorSuggestWidget.selectedBackground": "#262e40AA",
+      "list.activeSelectionBackground": "#262e40AA",
+      "list.focusBackground": "#3b4863AA",
+      "list.hoverBackground": "#3b4863AA",
+      "list.inactiveSelectionBackground": "#262e40AA",
+      "peekViewEditor.background": "#111111",
+      "peekViewResult.background": "#0d1016",
+      "peekViewResult.selectionBackground": "#3b4863AA",
+      "peekViewEditor.matchHighlightBackground": "#e6b45033",
+      "peekViewTitle.background": "#0d1016",
+      "statusBar.debuggingBackground": "#262e40",
+      "tab.hoverBackground": "#3b486377",
 
-            // Border colors
-            "activityBar.border": "#262e40",
-            "debugToolBar.border": "#262e40",
-            "editorSuggestWidget.border": "#60739f",
-            "editorGroupHeader.border": "#262e40",
-            "editorGroupHeader.tabsBorder": "#262e40",
-            "editorHoverWidget.border": "#60739f",
-            "notificationCenter.border": "#60739f",
-            "notifications.border": "#60739f",
-            "notificationToast.border": "#60739f",
-            "peekView.border": "#60739f",
-            "sideBar.border": "#262e40",
-            "statusBar.border": "#262e40",
-            "tab.border": "#262e40",
-        }
-    },
-    "workbench.colorTheme": "Ayu Dark Bordered",
-    "workbench.iconTheme": "ayu",
-    "workbench.preferredDarkColorTheme": "Ayu Dark Bordered",
+      // Border colors
+      "activityBar.border": "#262e40",
+      "debugToolBar.border": "#262e40",
+      "editorSuggestWidget.border": "#60739f",
+      "editorGroupHeader.border": "#262e40",
+      "editorGroupHeader.tabsBorder": "#262e40",
+      "editorHoverWidget.border": "#60739f",
+      "notificationCenter.border": "#60739f",
+      "notifications.border": "#60739f",
+      "notificationToast.border": "#60739f",
+      "peekView.border": "#60739f",
+      "sideBar.border": "#262e40",
+      "statusBar.border": "#262e40",
+      "tab.border": "#262e40",
+    }
+  },
+  "workbench.colorTheme": "Ayu Dark Bordered",
+  "workbench.iconTheme": "ayu",
+  "workbench.preferredDarkColorTheme": "Ayu Dark Bordered",
 
-    ////////////////////////////////////////
-    // C/C++ extension
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // C/C++ extension
+  ////////////////////////////////////////
 
-    "C_Cpp.formatting": "disabled",
-    "C_Cpp.workspaceParsingPriority": "high",
-    "cmake.configureOnEdit": false,
-    "cmake.configureOnOpen": false,
-    "cmake.skipConfigureIfCachePresent": true,
+  "C_Cpp.formatting": "disabled",
+  "C_Cpp.workspaceParsingPriority": "high",
+  "cmake.configureOnEdit": false,
+  "cmake.configureOnOpen": false,
+  "cmake.skipConfigureIfCachePresent": true,
 
-    ////////////////////////////////////////
-    // Emojisense extension
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // Emojisense extension
+  ////////////////////////////////////////
 
-    "emojisense.unicodeCompletionsEnabled": false,
-    "emojisense.emojiDecoratorsEnabled": false,
+  "emojisense.unicodeCompletionsEnabled": false,
+  "emojisense.emojiDecoratorsEnabled": false,
 
-    ////////////////////////////////////////
-    // Indent rainbow extension
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // Indent rainbow extension
+  ////////////////////////////////////////
 
-    "indentRainbow.colors": [
-        "#00FFFF1A",
-        "#FF77001A",
-        "#00FF221A",
-        "#FFE6001A"
-    ],
-    "indentRainbow.errorColor": "#FF00155A",
+  "indentRainbow.colors": [
+    "#00FFFF1A",
+    "#FF77001A",
+    "#00FF221A",
+    "#FFE6001A"
+  ],
+  "indentRainbow.errorColor": "#FF00155A",
 
-    ////////////////////////////////////////
-    // Lua extension
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // Lua extension
+  ////////////////////////////////////////
 
-    "Lua.develop.debuggerWait": true,
-    "Lua.hover.enable": false,
-    "Lua.hover.viewNumber": false,
-    "Lua.hover.viewString": false,
+  "Lua.develop.debuggerWait": true,
+  "Lua.hover.enable": false,
+  "Lua.hover.viewNumber": false,
+  "Lua.hover.viewString": false,
 
-    ////////////////////////////////////////
-    // PowerShell extension
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // PowerShell extension
+  ////////////////////////////////////////
 
-    "powershell.codeFormatting.pipelineIndentationStyle": "IncreaseIndentationForFirstPipeline",
-    "powershell.integratedConsole.showOnStartup": false,
+  "powershell.codeFormatting.pipelineIndentationStyle": "IncreaseIndentationForFirstPipeline",
+  "powershell.integratedConsole.showOnStartup": false,
 
-    ////////////////////////////////////////
-    // Python extension
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // Python extension
+  ////////////////////////////////////////
 
-    "python.diagnostics.sourceMapsEnabled": true,
-    "python.terminal.executeInFileDir": true,
+  "python.diagnostics.sourceMapsEnabled": true,
+  "python.terminal.executeInFileDir": true,
 
-    ////////////////////////////////////////
-    // Rust-analyzer extensions
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // Rust-analyzer extensions
+  ////////////////////////////////////////
 
-    "rust-analyzer.inlayHints.chainingHints.enable": false,
-    "rust-analyzer.inlayHints.parameterHints.enable": false,
-    "rust-analyzer.inlayHints.typeHints.enable": false,
+  "rust-analyzer.inlayHints.chainingHints.enable": false,
+  "rust-analyzer.inlayHints.parameterHints.enable": false,
+  "rust-analyzer.inlayHints.typeHints.enable": false,
 
-    ////////////////////////////////////////
-    // Misc extensions
-    ////////////////////////////////////////
+  ////////////////////////////////////////
+  // Misc extensions
+  ////////////////////////////////////////
 
-    "auto-comment-blocks.singleLineBlockOnEnter": true,
-    "dotnet.implementType.propertyGenerationBehavior": "preferAutoProperties",
-    "liveshare.presence": true,
-    "shellcheck.run": "onSave",
+  "auto-comment-blocks.singleLineBlockOnEnter": true,
+  "dotnet.implementType.propertyGenerationBehavior": "preferAutoProperties",
+  "liveshare.presence": true,
+  "shellcheck.run": "onSave",
 }

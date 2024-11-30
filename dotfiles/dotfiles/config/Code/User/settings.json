@@ -33,7 +33,7 @@
     "editor.guides.bracketPairs": "active",
     "editor.matchBrackets": "never",
     "editor.minimap.enabled": false,
-    "editor.occurrencesHighlight": false,
+    "editor.occurrencesHighlight": "off",
     "editor.quickSuggestions": {
         "comments": "inline",
         "strings": "inline",
@@ -107,7 +107,7 @@
     ///////////////////////////////////
 
     "explorer.enableDragAndDrop": false,
-    "explorer.openEditors.visible": 0,
+    "explorer.openEditors.visible": 1,
     "workbench.tree.indent": 18,
     "workbench.tree.renderIndentGuides": "always",
     "workbench.view.alwaysShowHeaderActions": true,
@@ -116,9 +116,11 @@
     // Window
     ////////////////////////////////////////
 
+    "window.customTitleBarVisibility": "never",
     "window.menuBarVisibility": "toggle",
     "window.newWindowDimensions": "maximized",
     "window.restoreWindows": "folders",
+    "window.titleBarStyle": "native",
     "window.zoomLevel": 0.75,
 
     ////////////////////////////////////////

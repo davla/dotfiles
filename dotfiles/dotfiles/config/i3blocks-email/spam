@@ -3,6 +3,6 @@
 
 # Spam GMX account
 [MAIL]
-HOST: imap.gmx.com
-PORT: 993
-USER: {{@@ spam_email @@}}
+HOST: {{@@ emails.spam.server.name @@}}
+PORT: {{@@ emails.spam.server.port @@}}
+USER: {{@@ emails.spam.address @@}}

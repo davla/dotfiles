@@ -2,6 +2,6 @@
 # https://github.com/vivien/i3blocks-contrib/tree/master/email
 
 [MAIL]
-HOST: imap.gmx.com
-PORT: 993
-USER: {{@@ main_email @@}}
+HOST: {{@@ emails.main.server.name @@}}
+PORT: {{@@ emails.main.server.port @@}}
+USER: {{@@ emails.main.address @@}}

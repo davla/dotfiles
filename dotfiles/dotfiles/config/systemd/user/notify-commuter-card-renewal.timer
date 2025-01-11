@@ -1,0 +1,10 @@
+# Commuter card renewal contraption systemd service file
+
+[Unit]
+Description=send push notification when the commuter card renewal email is received
+
+[Install]
+WantedBy=timers.target
+
+[Timer]
+OnCalendar=Wed *-*-* 02:45:00

@@ -1,6 +1,4 @@
 # wiki-fixes systemd service file
-#
-# {{@@ header() @@}}
 
 [Unit]
 Description=job performing various automated fixes on Pokémon Central Wiki

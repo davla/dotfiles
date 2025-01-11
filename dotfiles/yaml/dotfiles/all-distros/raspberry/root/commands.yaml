@@ -5,3 +5,4 @@
 
 dotfiles:
 - f_local_bin_my-certbot
+- f_local_bin-notify-commuter-card-renewal

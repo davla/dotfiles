@@ -9,6 +9,11 @@ actions:
     # is not logged in, via lingering
     linger: id -u | xargs sudo loginctl enable-linger
 
+    # This action installs the necessary packages for my commuter card renewal
+    # notification contraption
+    install-notify-commuter-card-renewal-deps: >
+      yay -S --needed at imapfilter ntfysh-bin
+
 config:
   backup: false
   banner: true
@@ -35,6 +40,14 @@ dotfiles:
     dst: '{{@@ imapfilter_check_commuter_card_renewal_path @@}}'
     chmod: 700
     trans_install: replace_password
+  f_notify-commuter-card-renewal.service:
+    src: config/systemd/user/notify-commuter-card-renewal.service
+    dst: '{{@@ xdg_config("systemd/user/notify-commuter-card-renewal.service") @@}}'
+    actions:
+    - install-notify-commuter-card-renewal-deps
+  f_notify-commuter-card-renewal.timer:
+    src: config/systemd/user/notify-commuter-card-renewal.timer
+    dst: '{{@@ xdg_config("systemd/user/notify-commuter-card-renewal.timer") @@}}'
   f_wiki-fixes.service:
     src: config/systemd/user/wiki-fixes.service
     dst: '{{@@ xdg_config("systemd/user/wiki-fixes.service") @@}}'
@@ -68,6 +81,8 @@ profiles:
   timers:
     dotfiles:
     - f_imapfilter_check-commuter-card-renewal.lua
+    - f_notify-commuter-card-renewal.service
+    - f_notify-commuter-card-renewal.timer
     - f_wiki-fixes.service
     - f_wiki-fixes.timer
     - f_wiki-home.service

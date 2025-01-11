@@ -1,0 +1,94 @@
+#!/usr/bin/env sh
+
+# This script sends and schedules a flock of push notifications if the
+# email with the receipt of my commuter card period renewal has been received.
+#
+# The command-line options are the ones used for logging. For detailed info,
+# check the source code at {{@@ logger_path @@}}. Here a quick summary:
+#   - --<log level>: sets the session log level. The log level must be valid
+#   - --color <on/off/auto>: configures the colored output settings
+#   - --journald <on/off>: configures the journald prefixes settings
+#   - --log-level <log level>: sets the session loggin level
+#   - --tag <on/off>: configures the tag settings
+#
+# {{@@ header() @@}}
+
+#######################################
+# Libraries includes
+#######################################
+
+. "{{@@ logger_path @@}}"
+
+########################################
+# Variables
+########################################
+
+# The topic push notification are published on
+NTFY_TOPIC='{{@@ commuter_card_renewal_push_topic @@}}'
+
+# The at queue where push notification jobs are scheduled
+AT_QUEUE='c'
+
+# The number of days after which the commuter card will be *already* expired
+CARD_DURATION_DAYS='30'
+
+########################################
+# Input processing
+########################################
+
+# Logging defaults
+logging_set_level 'info'
+logging_set_tag 'on'
+logging_set_journald 'off'
+
+while [ $# -gt 0 ]; do
+    set +e
+    logging_parse_arg "$1" "$2"
+    case "$?" in
+        255)
+            exit 255
+            ;;
+
+        *)
+            shift "$?"
+            ;;
+    esac
+    set -e
+done
+
+########################################
+# Main
+########################################
+
+log_debug 'Check for unread commuter card renewal email'
+RENEWAL_DATE="$(imapfilter -c "{{@@ imapfilter_check_commuter_card_renewal_path | home_abs2var @@}}")" || {
+    log_info 'No commuter card renewal email found'
+    exit 0
+}
+log_info 'Commuter card renewal email received'
+
+log_debug 'Check if notifications are already scheduled'
+[ -z "$(at -l -q "$AT_QUEUE")" ] || {
+    log_info 'Push notifications already scheduled'
+    exit 0
+}
+log_info 'Schedule push notification'
+
+log_debug 'Send notification for renewal email found'
+ntfy publish --priority low "$NTFY_TOPIC" 'Renewal email received'
+
+echo ntfy publish --priority default "'$NTFY_TOPIC'" \
+        "'Commuter pass expiring next week'" \
+    | at -q "$AT_QUEUE" "$RENEWAL_DATE + $(( CARD_DURATION_DAYS - 7 )) days"
+echo ntfy publish --priority default "'$NTFY_TOPIC'" \
+        "'Commuter pass expiring in 3 days'" \
+    | at -q "$AT_QUEUE" "$RENEWAL_DATE + $(( CARD_DURATION_DAYS - 3 )) days"
+echo ntfy publish --priority high "'$NTFY_TOPIC'" \
+        "'Commuter pass expiring in 2 days'" \
+    | at -q "$AT_QUEUE" "$RENEWAL_DATE + $(( CARD_DURATION_DAYS - 2 )) days"
+echo ntfy publish --priority max "'$NTFY_TOPIC'" \
+        "'Commuter pass expiring tomorrow'" \
+    | at -q "$AT_QUEUE" "$RENEWAL_DATE + $(( CARD_DURATION_DAYS - 1 )) days"
+echo ntfy publish --priority max "'$NTFY_TOPIC'" \
+        "'Commuter pass expired'" \
+    | at -q "$AT_QUEUE" "$RENEWAL_DATE + $CARD_DURATION_DAYS days"

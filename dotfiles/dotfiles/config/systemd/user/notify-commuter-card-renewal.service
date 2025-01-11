@@ -1,0 +1,18 @@
+# Commuter card renewal contraption systemd service file
+#
+# {{@@ header() @@}}
+
+[Unit]
+Description=send push notification when the commuter card renewal email is received
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart={{@@ notify_commuter_card_renewal_path @@}} --info --journald on --tag off
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=notify-commuter-card-renewal
+SyslogLevel=info
+SyslogLevelPrefix=true
+Type=exec

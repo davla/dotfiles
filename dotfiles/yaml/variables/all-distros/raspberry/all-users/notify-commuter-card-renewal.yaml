@@ -1,8 +1,0 @@
-%YAML 1.2
----
-# This variables file defines variables that need to be shared between root and
-# user profiles for my my commuter card renewal notification contraption
-
-variables:
-  imapfilter_check_commuter_card_renewal_path: >-
-    {{@@ xdg_config("imapfilter/check-commuter-card-renewal.lua") @@}}

@@ -33,6 +33,7 @@
   "isort.importStrategy": "fromEnvironment",
   "Lua.diagnostics.globals": [
     "IMAP",
+    "options"
   ],
   "python.analysis.autoImportCompletions": true,
   "python.analysis.extraPaths": [

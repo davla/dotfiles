@@ -31,6 +31,10 @@
     "black"
   ],
   "isort.importStrategy": "fromEnvironment",
+  "Lua.diagnostics.globals": [
+    "IMAP",
+    "options"
+  ],
   "python.analysis.autoImportCompletions": true,
   "python.analysis.extraPaths": [
     "./dotfiles/dotfiles/usr/local/lib/i3ipc-extras/src"
@@ -45,14 +49,16 @@
   "[jsonl]": {
     "editor.formatOnSave": false
   },
+  "[lua]": {
+    "editor.defaultFormatter": "JohnnyMorganz.stylua",
+    "editor.rulers": [ 120 ],
+  },
   "[python]": {
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit"
     },
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true,
-    "editor.rulers": [
-      88
-    ]
+    "editor.rulers": [ 88 ]
   },
 }

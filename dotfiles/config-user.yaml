@@ -295,6 +295,9 @@ dotfiles:
   f_python_keyring:
     src: config/python_keyring/keyringrc.cfg
     dst: '{{@@ xdg_config("python_keyring/keyringrc.cfg") @@}}'
+  f_rbw_config.json:
+    src: config/rbw/config.json
+    dst: '{{@@ xdg_config("rbw/config.json") @@}}'
   f_ssh_config:
     src: ssh/config
     dst: ~/.ssh/config

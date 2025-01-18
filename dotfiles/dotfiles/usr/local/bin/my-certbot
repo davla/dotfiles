@@ -9,7 +9,7 @@
 #   - $1: The domain the certificates should be installed for. Defaults to
 #         maze0.hunnur.com
 #   - $2: The mail to associate with the certificates. Defaults to my mail,
-#         {{@@ spam_email @@}}
+#         {{@@ emails.spam.address @@}}
 #
 # {{@@ header() @@}}
 
@@ -18,7 +18,7 @@
 #######################################
 
 DOMAIN="${1:-maze0.hunnur.com}"
-EMAIL="${2:-{{@@ spam_email @@}}}"
+EMAIL="${2:-{{@@ emails.spam.address @@}}}"
 
 #######################################
 # Installing certificates

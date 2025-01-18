@@ -1,0 +1,4 @@
+{
+  "email": "{{@@ emails.main.address @@}}",
+  "lock_timeout": {{@@ 60 * 5 @@}}
+}

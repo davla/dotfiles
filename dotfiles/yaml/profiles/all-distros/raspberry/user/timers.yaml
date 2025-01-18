@@ -9,6 +9,11 @@ actions:
     # is not logged in, via lingering
     linger: id -u | xargs sudo loginctl enable-linger
 
+    # This action installs the necessary packages for my commuter card renewal
+    # notification contraption
+    install-notify-commuter-card-renewal-deps: >
+      yay -S --needed at imapfilter ntfysh-bin
+
 config:
   backup: false
   banner: true
@@ -18,6 +23,9 @@ config:
   func_file:
   - ../../../../../python/functions.py
   ignoreempty: true
+  import_variables:
+  - ../../../../variables/all-distros/{{@@ env['HOST'] @@}}/all-users/emails.yaml:optional
+  - ../../../../variables/all-distros/{{@@ env['HOST'] @@}}/all-users/notify-commuter-card-renewal.yaml:optional
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -26,6 +34,20 @@ config:
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
+  f_imapfilter_check-commuter-card-renewal.lua:
+    src: config/imapfilter/check-commuter-card-renewal.lua
+    # Dynamic dst because the path is used inside a script
+    dst: '{{@@ imapfilter_check_commuter_card_renewal_path @@}}'
+    chmod: 700
+    trans_install: replace_password
+  f_notify-commuter-card-renewal.service:
+    src: config/systemd/user/notify-commuter-card-renewal.service
+    dst: '{{@@ xdg_config("systemd/user/notify-commuter-card-renewal.service") @@}}'
+    actions:
+    - install-notify-commuter-card-renewal-deps
+  f_notify-commuter-card-renewal.timer:
+    src: config/systemd/user/notify-commuter-card-renewal.timer
+    dst: '{{@@ xdg_config("systemd/user/notify-commuter-card-renewal.timer") @@}}'
   f_wiki-fixes.service:
     src: config/systemd/user/wiki-fixes.service
     dst: '{{@@ xdg_config("systemd/user/wiki-fixes.service") @@}}'
@@ -58,6 +80,9 @@ profiles:
   # This profile groups together systemd timers configuration.
   timers:
     dotfiles:
+    - f_imapfilter_check-commuter-card-renewal.lua
+    - f_notify-commuter-card-renewal.service
+    - f_notify-commuter-card-renewal.timer
     - f_wiki-fixes.service
     - f_wiki-fixes.timer
     - f_wiki-home.service
@@ -66,6 +91,23 @@ profiles:
     - f_working-repos.timer
     actions:
     - linger
+
+trans_install:
+  # This transformation fills in a placeholder for a password by interactively
+  # retrieving it from my password manager. The placeholder is hardcoded here
+  # and in the dotfile because dotdrop variables wouldn't work, as transitions
+  # are applied before templating.
+  # A transition was the most feasible alternative at the time of writing:
+  #
+  # - Dotdrop's uservariables don't allow custom commands, they are just
+  #   prompted. This makes it impossible to script using the password manager.
+  #
+  # - Profile dynamic variables can't access the emails.main.address dotdrop
+  #   variable, since that is imported from an encrypted file.
+  replace_password: |
+    export MAIN_EMAIL_PASSWORD="$(rbw get gmx '{{@@ emails.main.address @@}}' \
+        | sed 's#\\#\\\\#g')"
+    cat '{0}' | envsubst '$MAIN_EMAIL_PASSWORD' > '{1}'
 
 variables:
   # This variable is used as value for RandomizedDelaySec in systemd daily

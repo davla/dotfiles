@@ -27,6 +27,7 @@ config:
   import_variables:
   - ../../../../variables/all-distros/all-hosts/all-users/misc.yaml
   - ../../../../variables/all-distros/all-hosts/{{@@ user @@}}/misc.yaml
+  - ../../../../variables/all-distros/{{@@ env['HOST'] @@}}/all-users/notify-commuter-card-renewal.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -104,6 +105,11 @@ dotfiles:
   f_local_bin_my-certbot:
     src: usr/local/bin/my-certbot
     dst: /usr/local/bin/my-certbot
+    chmod: 755
+  f_local_bin-notify-commuter-card-renewal:
+    src: usr/local/bin/notify-commuter-card-renewal
+    # Dynamic dst because the path is used in another dotfile
+    dst: '{{@@ notify_commuter_card_renewal_path @@}}'
     chmod: 755
   f_local_bin_outlook:
     src: usr/local/bin/progressive-web-app

@@ -11,7 +11,7 @@ description = "Additional utilities for i3ipc"
 requires-python = ">=3.8"
 keywords = ["i3", "sway"]
 authors = [
-  { name = "{{@@ full_name @@}}", email = "{{@@ spam_email @@}}" },
+  { name = "{{@@ full_name @@}}", email = "{{@@ emails.spam.address @@}}" },
 ]
 classifiers = ["License :: OSI Approved :: MIT License"]
 

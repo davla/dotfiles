@@ -21,7 +21,8 @@ set -e
 # Variables
 ########################################
 
-INSTALL_PATH='{{@@ asdf_home @@}}'
+INSTALL_DIR='/usr/local/bin'
+EXEC_PATH="$INSTALL_DIR/asdf"
 
 ########################################
 # Input processing
@@ -33,9 +34,11 @@ GITHUB_REPO="$1"
 # Main
 ########################################
 
-log_debug 'Clean existing asdf installation...'
-rm --force --recursive "$INSTALL_PATH"
-mkdir --parents "$INSTALL_PATH"
-
 log_debug 'Download and install asdf version manager...'
-download_from_source_tarball '*' "$GITHUB_REPO" "$INSTALL_PATH"
+# asdf is not available on ARMv7
+download_github_release_asset '.name | endswith("linux-amd64.tar.gz")' \
+        "$GITHUB_REPO" \
+    | tar --extract --gzip --directory "$INSTALL_DIR"
+
+log_debug "Set executable permissions to $EXEC_PATH..."
+chmod +x "$EXEC_PATH"

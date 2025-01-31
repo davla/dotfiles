@@ -26,7 +26,7 @@ dotfiles:
   d_antibody:
     src: usr/local/share/github-releases/getantibody/antibody
     dst: '{{@@ github_releases_dir @@}}/getantibody/antibody'
-  d_asdf:
+  d_asdf-gh-release:
     src: usr/local/share/github-releases/asdf-vm/asdf
     dst: '{{@@ github_releases_dir @@}}/asdf-vm/asdf'
   d_clipcat:
@@ -67,7 +67,7 @@ profiles:
   github-releases:
     dotfiles:
     - d_antibody
-    - d_asdf
+    - d_asdf-gh-release
     - d_clipcat
     - d_docker-credential-helpers
     - d_local_lib_sh

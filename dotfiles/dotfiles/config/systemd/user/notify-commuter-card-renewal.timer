@@ -7,4 +7,4 @@ Description=send push notification when the commuter card renewal email is recei
 WantedBy=timers.target
 
 [Timer]
-OnCalendar=Wed *-*-* 02:45:00
+OnCalendar=*-*-* 02:45:00

@@ -30,7 +30,40 @@ NTFY_TOPIC='{{@@ commuter_card_renewal_push_topic @@}}'
 AT_QUEUE='c'
 
 # The number of days after which the commuter card will be *already* expired
-CARD_DURATION_DAYS='30'
+COMMUTER_CARD_DURATION_DAYS='30'
+
+########################################
+# Functions
+########################################
+
+# This function schedules a push notification for a set number of days before
+# the commuter card expires, at 05:00. It is necessary because ntfy only allows
+# delays up to 3 days.
+#
+# Arguments:
+#   - $1: the priority of the push notification.
+#   - $2: the message of the push notification.
+#   - $3: the renewal date of the commuter card.
+#   - $4: the number of days before the commuter card expiration date the push
+#         notification should be scheduled for.
+schedule_push_notification_before_expiration() {
+    SCHED_PUSH__PRIORITY="$1"
+    SCHED_PUSH__MESSAGE="$2"
+    SCHED_PUSH__RENEWAL_DATE="$3"
+    SCHED_PUSH__DAYS_BEFORE_EXPIRATION="$4"
+
+    SCHED_PUSH__DAYS_OFFSET="$(( COMMUTER_CARD_DURATION_DAYS - \
+        SCHED_PUSH__DAYS_BEFORE_EXPIRATION ))"
+    SCHED_PUSH__AT_TIME="05:00 $SCHED_PUSH__RENEWAL_DATE \
+        + $SCHED_PUSH__DAYS_OFFSET days"
+
+    echo ntfy publish --priority "$SCHED_PUSH__PRIORITY" "'$NTFY_TOPIC'" \
+        "'$SCHED_PUSH__MESSAGE'" | at -q "$AT_QUEUE" "$SCHED_PUSH__AT_TIME"
+
+    unset SCHED_PUSH__AT_TIME SCHED_PUSH__DAYS_BEFORE_EXPIRATION \
+        SCHED_PUSH__DAYS_OFFSET SCHED_PUSH__MESSAGE SCHED_PUSH__PRIORITY \
+        SCHED_PUSH__RENEWAL_DATE
+}
 
 ########################################
 # Input processing
@@ -77,18 +110,13 @@ log_info 'Schedule push notification'
 log_debug 'Send notification for renewal email found'
 ntfy publish --priority low "$NTFY_TOPIC" 'Renewal email received'
 
-echo ntfy publish --priority default "'$NTFY_TOPIC'" \
-        "'Commuter pass expiring next week'" \
-    | at -q "$AT_QUEUE" "$RENEWAL_DATE + $(( CARD_DURATION_DAYS - 7 )) days"
-echo ntfy publish --priority default "'$NTFY_TOPIC'" \
-        "'Commuter pass expiring in 3 days'" \
-    | at -q "$AT_QUEUE" "$RENEWAL_DATE + $(( CARD_DURATION_DAYS - 3 )) days"
-echo ntfy publish --priority high "'$NTFY_TOPIC'" \
-        "'Commuter pass expiring in 2 days'" \
-    | at -q "$AT_QUEUE" "$RENEWAL_DATE + $(( CARD_DURATION_DAYS - 2 )) days"
-echo ntfy publish --priority max "'$NTFY_TOPIC'" \
-        "'Commuter pass expiring tomorrow'" \
-    | at -q "$AT_QUEUE" "$RENEWAL_DATE + $(( CARD_DURATION_DAYS - 1 )) days"
-echo ntfy publish --priority max "'$NTFY_TOPIC'" \
-        "'Commuter pass expired'" \
-    | at -q "$AT_QUEUE" "$RENEWAL_DATE + $CARD_DURATION_DAYS days"
+schedule_push_notification_before_expiration 'default' \
+    'Commuter pass expiring next week' "$RENEWAL_DATE" 7
+schedule_push_notification_before_expiration 'default' \
+    'Commuter pass expiring in 3 days' "$RENEWAL_DATE" 3
+schedule_push_notification_before_expiration 'high' \
+    'Commuter pass expiring in 2 days' "$RENEWAL_DATE" 2
+schedule_push_notification_before_expiration 'max' \
+    'Commuter pass expiring tomorrow' "$RENEWAL_DATE" 1
+schedule_push_notification_before_expiration 'max' \
+    'Commuter pass expired' "$RENEWAL_DATE" 0

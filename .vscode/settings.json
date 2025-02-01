@@ -61,4 +61,8 @@
     "editor.formatOnSave": true,
     "editor.rulers": [ 88 ]
   },
+  "[yaml]": {
+    // Anything besides the RedHat yaml formatter
+    "editor.defaultFormatter": "vscode.css-language-features"
+  }
 }

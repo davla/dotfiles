@@ -27,6 +27,21 @@ include = cat '{{@@ mr_libs_path @@}}/asdf'
 
 
 #######################################
+# Importing helpers
+#######################################
+
+[DEFAULT]
+lib=
+    # This function installs pre-commit via the system package manager.
+    install_precommit() {
+        {%@@ if 'arch' in distro_id @@%}
+        yay -S --needed pre-commit
+        {%@@ elif distro_id == 'debian' @@%}
+        sudo apt-get install pre-commit
+        {%@@ endif @@%}
+    }
+
+#######################################
 # Repositories
 #######################################
 
@@ -37,6 +52,7 @@ checkout =
         '{{@@ wiki_modules_path @@}}'
 init =
     init_asdf_project lua
+    install_precommit
 
 
 [{{@@ wiki_macros_path @@}}]
@@ -91,6 +107,9 @@ init =
 checkout = git clone 'git@github.com:pokemoncentral/wiki-util.git' \
     '{{@@ wiki_util_path @@}}'
 init =
+    # Install pre-commit
+    install_precommit
+    #
     # Installing atom-macros dependencies
     cd "$MR_REPO/js/atom-macros" || exit
     init_asdf_project nodejs

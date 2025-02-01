@@ -125,10 +125,10 @@ fi
 print_info 'Install CLI packages shared across all hosts'
 sudo -u "$USER" yay -S --needed antibody-bin asdf-vm autoconf automake bind \
     cmake cmatrix cowsay curl debugedit dkms dos2unix eza fasd fortune-mod \
-    gcc git-secret gnupg htop jq lua luacheck man mercurial mmv moreutils \
-    multi-git-status myrepos nfs-utils nyancat otf-ipafont pacman-contrib \
-    p7zip playerctl pkgfile python python-pip python-pipenv rbw sl sudo \
-    thefuck ttf-baekmuk ttf-dejavu ttf-indic-otf ttf-khmer \
+    gcc git-secret gnupg htop jq lua luacheck luarocks man mercurial mmv \
+    moreutils multi-git-status myrepos nfs-utils nyancat otf-ipafont \
+    pacman-contrib p7zip playerctl pkgfile python python-pip python-pipenv \
+    rbw sl sudo thefuck ttf-baekmuk ttf-dejavu ttf-indic-otf ttf-khmer \
     ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono unzip vim \
     wqy-microhei-lite zip
 

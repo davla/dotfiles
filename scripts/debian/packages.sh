@@ -157,10 +157,11 @@ case "$HOST" in
     'personal')
         print_info "Install CLI packages for $HOST"
         apt-get install autorandr cabal-install cups ghc gifsicle git-review \
-            handbrake-cli hlint imagemagick intel-microcode lame \
-            libghc-hspec-dev mercurial nordvpn python-requests-futures \
-            python3-gdbm python3-gpg python3-lxml python3-pygments \
-            python3-requests python3-requests-oauthlib thunar-dropbox-plugin
+            handbrake-cli hlint imagemagick intel-microcode lame lua luacheck \
+            luarocks libghc-hspec-dev mercurial nordvpn \
+            python-requests-futures python3-gdbm python3-gpg python3-lxml \
+            python3-pygments python3-requests python3-requests-oauthlib \
+            thunar-dropbox-plugin
             ;;
 
     'work')

@@ -27,4 +27,5 @@ GITHUB_REPO="$1"
 # Main
 ########################################
 
+# clipcat is not available on ARMv7
 install_github_release_deb 'endswith("amd64.deb")' "$GITHUB_REPO"

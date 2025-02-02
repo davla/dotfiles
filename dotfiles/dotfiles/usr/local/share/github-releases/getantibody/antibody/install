@@ -27,4 +27,20 @@ GITHUB_REPO="$1"
 # Main
 ########################################
 
-install_github_release_deb 'endswith("linux_amd64.deb")' "$GITHUB_REPO"
+log_debug 'Determine antibody deb package suffix...'
+case "$(uname --machine)" in
+    'x86_64')
+        DEB_JQ_FILTER='endswith("linux_amd64.deb")'
+        ;;
+
+    'armv7l')
+        DEB_JQ_FILTER='endswith("linux_armv7.deb")'
+        ;;
+
+    *)
+        echo >&2 "Unknown machine hardware name"
+        exit 127
+        ;;
+esac
+
+install_github_release_deb "$DEB_JQ_FILTER" "$GITHUB_REPO"

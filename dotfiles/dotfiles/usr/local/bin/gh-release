@@ -240,7 +240,7 @@ find "$RELEASES_DIR" -maxdepth 2 -mindepth 2 -type d -printf '%P\n' \
                 log_info "Install $GITHUB_REPO version $LATEST_VERSION"
                 logging_export_config
                 printf '%s' "$LATEST_RELEASE_METADATA" \
-                    | "$REPO_PATH/install" "$GITHUB_REPO"
+                    | "$REPO_PATH/install" "$GITHUB_REPO" || continue
                 echo "$LATEST_VERSION" > "$INSTALLED_VERSION_FILE"
                 ;;
 

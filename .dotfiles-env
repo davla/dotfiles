@@ -5,9 +5,6 @@
 # Some custom python code uses imports
 export PYTHONPATH="$PYTHONPATH:$PWD"
 
-# Pipenv should be shared by root and unprivileged users
-export PIPENV_VENV_IN_PROJECT='true'
-
 # Display server
 if [ -n "$WAYLAND_DISPLAY" ]; then
     export DISPLAY_SERVER='wayland'

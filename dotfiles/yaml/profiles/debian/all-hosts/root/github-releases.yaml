@@ -41,6 +41,9 @@ dotfiles:
   d_nerd-fonts:
     src: usr/local/share/github-releases/ryanoasis/nerd-fonts
     dst: '{{@@ github_releases_dir @@}}/ryanoasis/nerd-fonts'
+  d_uv:
+    src: usr/local/share/github-releases/astral-sh/uv
+    dst: '{{@@ github_releases_dir @@}}/astral-sh/uv'
   f_github-releases.conf:
     src: usr/local/etc/github-releases.conf
     # Dynamic path as it's used somewhere else too
@@ -69,6 +72,7 @@ profiles:
     - d_docker-credential-helpers
     - d_local_lib_sh
     - d_nerd-fonts
+    - d_uv
     - f_github-releases.conf
     - f_local_bin_gh-releases
     import:

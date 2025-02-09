@@ -355,8 +355,8 @@ esac
 case "$STEP" in
     'custom-commands'|'all')
         # Custom commands - they are used by other scripts.
-        $STEP_RUNNER "sudo -H -E PYTHONPATH='./dotfiles:$PYTHONPATH' pipenv \
-            run dotdrop install -c dotfiles/config-root.yaml -p commands" \
+        $STEP_RUNNER "sudo -H -E PYTHONPATH='./dotfiles:$PYTHONPATH' uv run \
+            dotdrop install -c dotfiles/config-root.yaml -p commands" \
             'install your custom commands'
         ;;
 esac

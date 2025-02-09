@@ -35,7 +35,7 @@ cleanup_trap() {
 #   - $1: The file patterns to be extracted from the sources asset, relative
 #         to the repository root.
 #   - $2: The GitHub repository that made the release. Only used for logging
-#   - $4: The directory the files from the sources assets are extracted.
+#   - $3: The directory the files from the sources assets are extracted.
 #         Optional, defaults to the current directory
 #   - STDIN: The GitHub release JSON metadata
 download_from_source_tarball() {

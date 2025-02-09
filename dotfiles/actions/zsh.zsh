@@ -66,7 +66,6 @@ case "$DISTRO" in
 
     'debian')
         sudo mr --directory /opt/antibody --config /opt/.mrconfig install
-        sudo mr --directory /opt/asdf-vm --config /opt/.mrconfig install
         ;;
 esac
 

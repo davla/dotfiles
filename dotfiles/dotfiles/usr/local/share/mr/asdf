@@ -10,13 +10,8 @@ lib =
     init_asdf_project() {
         INIT_ASDF_PLUGIN="$1"
         #
-        # Checking whether the plugin is already installed because asdf exits
-        # with an error if so
-        asdf plugin list | grep "$INIT_ASDF_PLUGIN" > /dev/null 2>&1 \
-            || sudo bash -lc "asdf plugin add $INIT_ASDF_PLUGIN"
-        #
-        sudo bash -lc "asdf install $INIT_ASDF_PLUGIN \
-            && asdf reshim $INIT_ASDF_PLUGIN"
+        sudo asdf plugin add $INIT_ASDF_PLUGIN
+        sudo asdf install $INIT_ASDF_PLUGIN && asdf reshim $INIT_ASDF_PLUGIN"
         #
         unset INIT_ASDF_PLUGIN
     }

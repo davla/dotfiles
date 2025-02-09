@@ -67,8 +67,11 @@ export HIST_IGNORED_TYPOS='gi t*|gl'
 # Local paths are moved to the beginning of PATH because local binaries are
 # often shims. Hence they need to be first on PATH.
 
-{%@@ set local_path = ('/usr/local/sbin:' if user == 'root' else '')
-    + '/usr/local/bin' -@@%}
+{%@@ set local_path = [
+        '/usr/local/sbin' if user == 'root' else None,
+        '/usr/local/bin',
+        asdf_data + '/shims'
+    ] | select | join(':') -@@%}
 
 LOCAL_PATH="{{@@ local_path @@}}"
 PATH_WITHOUT_LOCAL="$(echo $PATH | sed -e "s|$LOCAL_PATH||g; s|^:||g; s|:\+|:|g")"

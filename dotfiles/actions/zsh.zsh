@@ -65,7 +65,7 @@ case "$DISTRO" in
         ;;
 
     'debian')
-        sudo mr --directory /opt/antibody --config /opt/.mrconfig install
+        sudo gh-release install
         ;;
 esac
 

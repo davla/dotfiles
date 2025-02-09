@@ -18,8 +18,8 @@ case "$DISTRO" in
 
     'debian')
         sudo apt-get install i3blocks
-        sudo mr -d /opt/i3-volume -c /opt/.mrconfig checkout
-        sudo mr -d /opt/i3-volume -c /opt/.mrconfig install
+        print_info 'Install i3-volume via github-releases'
+        sudo gh-release install
         ;;
 esac
 

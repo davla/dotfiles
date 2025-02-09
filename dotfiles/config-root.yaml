@@ -388,18 +388,18 @@ dotfiles:
     - _append '{{@@ symbols_dst @@}}' '{{@@ xkb_tmp_dst @@}}'
 
 dynvariables:
-  # These variables define which profile should be included to have asdf and
-  # rustup dotfiles in "cli" and "manual" profile respectively. "emtpy" is just
-  # a placeholder profile.
+  # These variables define dynamic included profiles, mostly due to manual
+  # installation mechanisms (such as github-releases) that are necessary on
+  # Debian but not on Arch.
+  # For example, asdf and rustup are installed as a system packages on Arch,
+  # but via github-releases on Debian. This means that their dotfiles belong
+  # to the "cli" profile for the former and to the "manual" profile for the
+  # latter.
   #
-  # In particular, on Arch asdf is installd via AUR, meaning that its dotfiles
-  # are the same as other cli applications installed via the package manager.
-  # Conversely, on Debian asdf is manually managed, so its dotfiles belong to
-  # the "manual" profile.
-  #
-  # They need to be defined here, rahter than in a distro-specific variables
-  # files, because variables from external variables are not yet available
-  # when including profiles.
+  # The variables need to be defined here, rather than in a distro-specific
+  # variables files, because variables from external files are not yet
+  # available when including profiles. The '-empty' postfixed profiles are just
+  # placeholders, and they don't actually exist.
   cli_asdf_include: |-
     case "$DISTRO" in
         'arch')
@@ -448,6 +448,16 @@ dynvariables:
                 ;;
         esac
     fi
+  i3_blocks_github_releases_include: |-
+    case "$DISTRO" in
+        'arch')
+            echo 'github-releases-empty'
+            ;;
+
+        'debian')
+            echo 'github-releases'
+            ;;
+    esac
 
 profiles:
   # This profile includes asdf version manager configuration files
@@ -540,6 +550,8 @@ profiles:
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/i3blocks.yaml:optional
     - yaml/dotfiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ env['DISPLAY_SERVER'] @@}}-i3blocks.yaml:optional
+    include:
+    - '{{@@ i3_blocks_github_releases_include @@}}'
 
   # This profile holds dotfiles used to install software manually, that is
   # without the aid of a package manager

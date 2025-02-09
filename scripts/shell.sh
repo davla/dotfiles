@@ -19,7 +19,10 @@ case "$DISTRO" in
     'debian')
         sudo apt-get install bash bash-completion dash exa fasd thefuck zsh \
             xsel
-        sudo mr -d /opt/antibody -c /opt/.mrconfig install
+
+        print_info 'Install antibody via github-releases'
+        dotdrop -U root install -p github-releases
+        sudo gh-release install
         ;;
 esac
 

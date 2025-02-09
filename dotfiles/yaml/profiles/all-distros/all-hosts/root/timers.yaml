@@ -13,7 +13,7 @@ actions:
 
           'debian')
               apt-get install zsh
-              mr -c /opt/.mrconfig -d /opt/antibody install
+              gh-release install
               ;;
       esac
 

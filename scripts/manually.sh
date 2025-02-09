@@ -93,15 +93,7 @@ esac
 #######################################
 
 print_info 'Install myrepos'
-case "$DISTRO" in
-    'arch')
-        pacman -S --needed myrepos
-        ;;
-
-    'debian')
-        apt-get install myrepos
-        ;;
-esac
+apt-get install myrepos
 
 print_info 'Install myrepos package management dotfiles'
 dotdrop install -p manual -U root
@@ -109,3 +101,11 @@ dotdrop install -p manual -U root
 print_info 'Install myrepos-managed packages'
 mr -d /opt -c /opt/.mrconfig checkout
 mr -d /opt -c /opt/.mrconfig install
+
+########################################
+# GitHub releases-based installation
+########################################
+
+print_info 'Install github-releases'
+dotdrop -U root install -p github-releases
+sudo gh-release install

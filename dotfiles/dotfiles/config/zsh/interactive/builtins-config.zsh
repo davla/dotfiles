@@ -7,13 +7,13 @@
 # Completion
 ########################################
 
-setopt AUTO_LIST AUTO_MENU AUTO_PARAM_SLASH AUTO_REMOVE_SLASH \
-    COMPLETE_IN_WORD LIST_AMBIGUOUS
-unsetopt AUTO_NAME_DIRS COMPLETE_ALIASES MENU_COMPLETE LIST_BEEP LIST_PACKED
+setopt AUTO_PARAM_SLASH AUTO_REMOVE_SLASH CD_SILENT COMPLETE_IN_WORD \
+    NO_LIST_AMBIGUOUS
+unsetopt AUTO_NAME_DIRS COMPLETE_ALIASES LIST_BEEP
 
 # Main
 zstyle ':completion:*' completer _expand _complete _correct _approximate _prefix
-zstyle ':completion:*' menu yes=2 select=2 interactive
+zstyle ':completion:*' menu yes=2 select=2 search
 zstyle ':completion:*' use-compctl false
 zstyle ':completion:*' verbose true
 
@@ -22,7 +22,10 @@ zstyle ':completion:*:default' list-packed false
 zstyle ':completion:*:default' show-ambiguity true
 zstyle ':completion:*:default' single-ignored menu
 zstyle ':completion:*' accept-exact-dirs true
+zstyle ':completion:*' add-space true
 zstyle ':completion:*' ambiguous false
+zstyle ':completion:*' insert-unambiguous true
+zstyle ':completion:*' keep-prefix true
 zstyle ':completion:*' list-dirs-first true
 zstyle ':completion:*' special-dirs true
 zstyle ':completion:*' squeeze-slashes true
@@ -57,9 +60,9 @@ zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p
 
 # Keybindings
 zmodload zsh/complist
-bindkey -M menuselect '^J' accept-search
-bindkey -M menuselect '^M' accept-search
-bindkey -M menuselect ' ' accept-and-infer-next-history
+bindkey -M menuselect ' ' accept-search
+bindkey -M menuselect '^J' accept-and-infer-next-history
+bindkey -M menuselect '^M' accept-and-infer-next-history
 bindkey -M menuselect '^I' forward-char
 bindkey -M menuselect ';' send-break
 bindkey -M menuselect '\e' send-break

@@ -318,21 +318,18 @@ dotfiles:
   f_sudo_asdf-env-keep:
     src: etc/sudoers.d/asdf-env-keep
     dst: /etc/sudoers.d/asdf-env-keep
+  f_sudo_custom:
+    src: etc/sudoers.d/custom
+    dst: /etc/sudoers.d/custom
   f_sudo_env-file:
     src: etc/sudoers.d/env-file
     dst: /etc/sudoers.d/env-file
-  f_sudo_insults:
-    src: etc/sudoers.d/insults
-    dst: /etc/sudoers.d/insults
   f_sudo_rustup-env-keep:
     src: etc/sudoers.d/rustup-env-keep
     dst: /etc/sudoers.d/rustup-env-keep
-  f_sudo_secure_path:
+  f_sudo_secure-path:
     src: etc/sudoers.d/secure_path
     dst: /etc/sudoers.d/secure_path
-  f_sudo_sudo-group:
-    src: etc/sudoers.d/sudo-group
-    dst: /etc/sudoers.d/sudo-group
   f_systemd_getty:
     src: etc/systemd/system/getty@tty1.service.d/override.conf
     dst: /etc/systemd/system/getty@tty1.service.d/override.conf
@@ -618,8 +615,7 @@ profiles:
   system-tweaks:
     dotfiles:
     - f_logind.conf.d_lid-switch.conf
-    - f_sudo_insults
-    - f_sudo_sudo-group
+    - f_sudo_custom
     include:
     - system-tweaks-{{@@ display_server @@}}
     import:

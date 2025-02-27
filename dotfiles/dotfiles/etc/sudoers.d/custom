@@ -1,0 +1,10 @@
+# This file contains custom sudo configuration
+
+# Allow users in the sudo group to execute any command
+%sudo	ALL=(ALL:ALL) ALL
+
+# Enable standard insults for failed sudo logins
+Defaults insults
+
+# Disable creation of file for first time login
+Defaults !admin_flag

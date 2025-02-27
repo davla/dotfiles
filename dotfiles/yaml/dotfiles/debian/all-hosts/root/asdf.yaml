@@ -4,4 +4,4 @@
 # necessary for root on a Debian system.
 
 dotfiles:
-- f_sudo_secure_path
+- f_sudo_secure-path

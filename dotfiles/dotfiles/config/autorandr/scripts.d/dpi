@@ -11,9 +11,9 @@
 #######################################
 
 if [ "$HIDPI" = 'true' ]; then
-    xrdb -merge "$HOME/.config/x11/Xresources.d/hidpi"
+    xrdb -merge "$HOME/.config/x11/xresources.d/hidpi"
 else
-    xrdb -merge "$HOME/.Xresources"
+    xrdb -merge "$HOME/.config/x11/xresources.d/shared"
 fi
 
 #######################################

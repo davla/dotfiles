@@ -23,12 +23,12 @@ dotfiles:
   f_orage_oragerc:
     src: config/orage/oragerc
     dst: '{{@@ xdg_config("orage/oragerc") @@}}'
-  f_xresources:
-    src: Xresources
-    dst: ~/.Xresources
-  f_xsessionrc:
-    src: xsessionrc
-    dst: ~/.xsessionrc
+  f_xresources.d_shared:
+    src: config/x11/xresources.d/shared
+    dst: '{{@@ xdg_config("x11/xresources.d/shared") @@}}'
+  f_config_xsessionrc:
+    src: config/x11/xsessionrc
+    dst: '{{@@ xdg_config("x11/xsessionrc") @@}}'
 
 dynvariables:
   # This variable is used to differentiate between user and root configuration
@@ -49,9 +49,9 @@ profiles:
   # graphical environment
   look-and-feel-x11:
     dotfiles:
-    - f_xresources
+    - f_xresources.d_shared
 
   # This profile gathers dotfiles used for user session startup only on X11
   startup-x11:
     dotfiles:
-    - f_xsessionrc
+    - f_config_xsessionrc

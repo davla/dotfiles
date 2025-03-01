@@ -4,10 +4,6 @@
 # and user
 
 variables:
-  # The path where docker dotfiles are installed. It's defined here as it's
-  # used in more than one config file
-  docker_path: '{{@@ xdg_config("docker") @@}}'
-
   # This is the top-level directory of this repository. Used by the zsh warprc
   # file and by the custom dotdrop wrapper command
   dotfiles_home: '{{@@ dirname(_dotdrop_dotpath) @@}}'

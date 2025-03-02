@@ -4,7 +4,7 @@ Configuration files for my Linux system.
 
 ## Intro
 
-<pre><code style="color: yellow">[^_^]</code> Hello, I'm your friendly automated assistant that will help you </pre>
+<pre>$\color{Yellow}[^_^]$ Hello, I'm your friendly automated assistant that will help you </pre>
 
 # setup
 System initial setup

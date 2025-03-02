@@ -2,7 +2,7 @@
 #
 # {{@@ header() @@}}
 
-{%@@ set repos_path = wiki_root | tilde2home @@%}
+{%@@ set repos_path = wiki_root | tildeTo('%h') @@%}
 
 [Unit]
 Description=Job keeping up-to-date working copies of repositories

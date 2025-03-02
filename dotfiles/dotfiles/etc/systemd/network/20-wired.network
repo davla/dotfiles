@@ -9,5 +9,5 @@ Name=en*
 [Network]
 Address={{@@ local_ip_addresses.raspberry @@}}/24
 Gateway={{@@ local_ip_addresses.router @@}}
-DNS=212.97.129.34
-DNS=86.58.174.90
+DNS=89.221.160.202
+DNS=80.199.160.142

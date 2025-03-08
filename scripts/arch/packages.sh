@@ -100,7 +100,7 @@ case "$HOST" in
     'personal')
         print_info "Install CLI packages for $HOST"
         sudo -u "$USER" yay -S --needed cups cups-pdf dropbox nordvpn rustup \
-            zsa-wally-cli
+            zsa-keymapp-bin
         ;;
 
     'raspberry')

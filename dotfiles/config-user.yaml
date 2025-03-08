@@ -185,7 +185,7 @@ dotfiles:
     - systemd-enable '{{@@ _dotfile_abs_src @@}}'
   f_docker_config.json:
     src: config/docker/config.json
-    dst: '{{@@ docker_path @@}}/config.json'
+    dst: '{{@@ xdg_config("docker/config.json") @@}}'
   f_dunstrc:
     src: config/dunst/dunstrc.lodpi
     dst: '{{@@ dunstrc_dst | default(xdg_config("dunst/dunstrc")) @@}}'
@@ -205,8 +205,8 @@ dotfiles:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/geoclue-demo-agent.desktop") @@}}'
   f_ghci:
-    src: ghci
-    dst: ~/.ghci
+    src: config/ghci
+    dst: '{{@@ xdg_config(".ghci") @@}}'
   f_gnome-keyring-pkcs11.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/gnome-keyring-pkcs11.desktop") @@}}'
@@ -251,8 +251,8 @@ dotfiles:
     src: config/xdg-desktop-portal/i3-portals.conf
     dst: '{{@@ xdg_config("xdg-desktop-portal/i3-portals.conf") @@}}'
   f_icons_index.theme:
-    src: icons/default/index.theme
-    dst: ~/.icons/default/index.theme
+    src: local/share/icons/default/index.theme
+    dst: '{{@@ xdg_data("icons/default/index.theme") @@}}'
   f_keyring.service:
     src: config/systemd/user/keyring.service
     dst: '{{@@ xdg_config("systemd/user/keyring.service") @@}}'

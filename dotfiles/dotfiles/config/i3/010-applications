@@ -1,3 +1,5 @@
+{%@@ from 'shared/i3-sway/macros.j2' import scratchpad_application -@@%}
+
 # This i3 configuration file contains application configuration, mainly
 # keyboard shortcuts and window management (e.g. workspace assignment)
 #
@@ -39,20 +41,20 @@ bindsym $mod+w exec {{@@ browser @@}}
 bindsym $mod+Shift+y exec geany
 bindsym $mod+y exec --no-startup-id \
     i3-msg '[$scratchpad_editor_criterion] scratchpad show' \
-    || geany --name scratchpad-editor
+        || geany --name scratchpad-editor
 bindsym $mod+Escape exec --no-startup-id systemctl poweroff
 bindsym $mod+e exec --no-startup-id \
     i3-msg '[${{@@ messaging_client @@}}_criterion] scratchpad show' \
-    || {{@@ messaging_client @@}}
+        || {{@@ messaging_client @@}}
 bindsym $mod+F5 exec --no-startup-id systemctl reboot
 bindsym $mod+Tab exec $term
 bindsym $mod+Shift+Tab exec --no-startup-id \
     i3-msg '[$scratchpad_term_criterion] scratchpad show' \
-    || $term --title scratchpad-terminal
+        || $term --title scratchpad-terminal
 bindsym $mod+u exec thunar
 bindsym $mod+p exec --no-startup-id \
     i3-msg '[$spotify_criterion] scratchpad show' \
-    || spotify --force-device-scale-factor=$spotify_scale
+        || spotify --force-device-scale-factor=$spotify_scale
 bindsym $mod+t exec {{@@ mail_client @@}}
 bindsym $mod+n exec --no-startup-id dunstctl close-all
 bindsym $mod+Shift+n exec --no-startup-id dunstctl history-pop
@@ -90,21 +92,20 @@ for_window [floating title="^$calc_title$"] \
     move position center
 
 # Scratchpad editor
-for_window [$scratchpad_editor_criterion] move scratchpad, scratchpad show, \
-    resize set $editor_width $editor_height, move position center
+{{@@ scratchpad_application('$scratchpad_editor_criterion',
+    '$editor_width', '$editor_height') @@}}
 
 # Scratchpad terminal
-for_window [$scratchpad_term_criterion] move scratchpad, scratchpad show, \
-    resize set $floating_width $floating_height, move position center
+{{@@ scratchpad_application('$scratchpad_term_criterion',
+    '$floating_width', '$floating_height') @@}}
 
 # Spotify
-for_window [$spotify_criterion] move scratchpad, scratchpad show, \
-    resize set $spotify_width $spotify_height, move position center
+{{@@ scratchpad_application('$spotify_criterion',
+    '$spotify_width', '$spotify_height') @@}}
 
 # Telegram
-for_window [$telegram_criterion] move scratchpad, scratchpad show, \
-    resize set $messaging_width $messaging_height, \
-    move position center
+{{@@ scratchpad_application('$telegram_criterion',
+    '$messaging_width', '$messaging_height') @@}}
 
 {%@@ if mail_client == 'thunderbird' @@%}
 # Thunderbird

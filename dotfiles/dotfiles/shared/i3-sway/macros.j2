@@ -1,0 +1,15 @@
+{#@@ This file contains macros used by both i3 and sway configurations. @@#}
+
+{#@@
+    Configures an application to be a "scratchpad application", that is an
+    application whose windows live in the scratchpad.
+
+    This is achieved by briefly moving the application windows to the
+    scratchpad upon creation, and then showing them immediately after.
+@@#}
+{%@@ macro scratchpad_application(criterion, width, height) -@@%}
+
+for_window [{{@@ criterion @@}}] move scratchpad, scratchpad show, \
+    resize set {{@@ width @@}} {{@@ height @@}}, move position center
+
+{%@@- endmacro -@@%}

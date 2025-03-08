@@ -18,9 +18,6 @@ set $mod Mod4
 set $mode_shifter_key Control
 set $wm_control_key Shift
 
-# Command aliases
-set $scratchpad_show scratchpad show, move position center
-
 # Applications
 set $term {{@@ terminal @@}}
 

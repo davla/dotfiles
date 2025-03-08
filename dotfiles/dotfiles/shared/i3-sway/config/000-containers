@@ -64,7 +64,7 @@ default_orientation vertical
 set $scratchpad_key r
 
 # Scratchpad keybindings
-bindsym $mod+$scratchpad_key $scratchpad_show
+bindsym $mod+$scratchpad_key scratchpad show
 bindsym $mod+Shift+$scratchpad_key move scratchpad
 
 #######################################

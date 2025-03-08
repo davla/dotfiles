@@ -5,16 +5,6 @@
 #
 # {{@@ header() @@}}
 
-{#@@
-    This macro is a workaround for `scratchpad show` discarding window criteria
-    when chained via a comma. An issue has been open on the sway repository
-    about this: https://github.com/swaywm/sway/issues/6031
-@@#}
-{%@@ macro init_scratchpad(criterion) @@%}
-for_window [{{@@ criterion @@}}] move scratchpad; \
-    [{{@@ criterion @@}}] $scratchpad_show
-{%@@ endmacro -@@%}
-
 #######################################
 # Variables
 #######################################
@@ -46,14 +36,14 @@ bindsym {
     $mod+e exec \
         swaymsg '[${{@@ messaging_client @@}}_criterion] scratchpad show' \
             || {{@@ messaging_client_cmd @@}}
-    $mod+p exec swaymsg '[$spotify_criterion] $scratchpad_show' || spotify
+    $mod+p exec swaymsg '[$spotify_criterion] scratchpad show' || spotify
     $mod+w exec firefox
     $mod+Shift+y exec geany
-    $mod+y exec swaymsg '[$scratchpad_editor_criterion] $scratchpad_show' \
+    $mod+y exec swaymsg '[$scratchpad_editor_criterion] scratchpad show' \
         || geany --name scratchpad-editor
     $mod+Tab exec $term
     $mod+Shift+Tab exec \
-        swaymsg '[$scratchpad_term_criterion] $scratchpad_show' \
+        swaymsg '[$scratchpad_term_criterion] scratchpad show' \
             || $term --title scratchpad-terminal
 
     {%@@- if env['HOST'] == 'personal' @@%}
@@ -123,19 +113,16 @@ for_window [${{@@ app | replace('-', '_') @@}}_criterion] \
 {%@@- endif @@%}
 
 # Scratchpad editor
-{{@@ init_scratchpad('$scratchpad_editor_criterion') @@}}
-for_window [$scratchpad_editor_criterion] \
-    resize set $editor_height $editor_width, move position center
+{{@@ scratchpad_application('$scratchpad_editor_criterion',
+    '$editor_width', '$editor_height') @@}}
 
 # Scratchpad terminal
-{{@@ init_scratchpad('$scratchpad_term_criterion') @@}}
-for_window [$scratchpad_term_criterion] \
-    resize set $floating_width $floating_height, move position center
+{{@@ scratchpad_application('$scratchpad_term_criterion',
+    '$floating_width', '$floating_height') @@}}
 
 # Spotify
-{{@@ init_scratchpad('$spotify_criterion') @@}}
-for_window [$spotify_criterion] \
-    resize set $spotify_width $spotify_height, move position center
+{{@@ scratchpad_application('$spotify_criterion',
+    '$spotify_width', '$spotify_height') @@}}
 
 # Thunderbird
 for_window [$thunderbird_criterion title=".* Reminder"] floating enable, \

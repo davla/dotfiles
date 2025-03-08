@@ -54,8 +54,8 @@ mode "media" {
         --player='{}'
 
     # Volume
-    bindsym y exec --no-startup-id $volume_mute_command
-    bindsym u exec --no-startup-id $volume_down_command
+    bindsym y exec --no-startup-id $volume_down_command
+    bindsym u exec --no-startup-id $volume_mute_command
     bindsym i exec --no-startup-id $volume_up_command
 
     # Back to normal: Enter or Escape or mode-enabling shortcut

@@ -1,19 +1,18 @@
 {%@@ include 'usr/local/etc/frequent-hosts.gui' -@@%}
 
+archlinux.org
 calendar.google.com
 codewars.com
 facebook.com
-forbrugsforeningen.dk
 forum.pokemoncentral.it
-glosbe.com
 keep.google.com
 lsb.dk
-nonsolomamma.com
 messenger.com
 moodle.studieskolen.dk
-pokemonshowdown.com
+rust-lang.org
+sporcle.com
+toggl.com
 track.toggl.com
 translate.google.com
-toggl.com
 wiki.pokemoncentral.it
 youtube.com

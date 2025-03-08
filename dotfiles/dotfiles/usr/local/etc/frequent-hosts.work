@@ -1,6 +1,1 @@
 {%@@ include 'usr/local/etc/frequent-hosts.gui' -@@%}
-
-atlassian.net
-bitbucket.org
-dev.azure.com
-endpointdns-azprod-euw-lb.jfrog.io

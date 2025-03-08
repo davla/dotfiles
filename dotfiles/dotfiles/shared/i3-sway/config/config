@@ -18,9 +18,6 @@ set $mod Mod4
 set $mode_shifter_key Control
 set $wm_control_key Shift
 
-# Command aliases
-set $scratchpad_show scratchpad show, move position center
-
 # Applications
 set $term {{@@ terminal @@}}
 
@@ -49,7 +46,7 @@ smart_borders on
 gaps inner 10
 gaps outer 0
 
-{%@@ if wm_name == 'sway' -@@%}
+{%@@ if on_wayland -@@%}
 
 ########################################
 # Cursor

@@ -1,4 +1,6 @@
 # This i3/sway configuration file contains mode definitions
+#
+# {{@@ header() @@}}
 
 #######################################
 # Media
@@ -24,9 +26,12 @@ set $volume_mute_command volume -ne 1000 mute
 bindsym XF86AudioPrev exec --no-startup-id $playback_prev_command
 bindsym XF86AudioNext exec --no-startup-id $playback_next_command
 bindsym XF86AudioPlay exec --no-startup-id $playback_playpause_command
-bindsym Shift+XF86AudioPrev exec $select_player $playback_prev_command --player='{}'
-bindsym Shift+XF86AudioNext exec $select_player $playback_next_command --player='{}'
-bindsym Shift+XF86AudioPlay exec $select_player $playback_playpause_command --player='{}'
+bindsym Shift+XF86AudioPrev exec $select_player $playback_prev_command \
+    --player='{}'
+bindsym Shift+XF86AudioNext exec $select_player $playback_next_command \
+    --player='{}'
+bindsym Shift+XF86AudioPlay exec $select_player $playback_playpause_command \
+    --player='{}'
 
 # Volume control
 bindsym XF86AudioMute exec --no-startup-id $volume_mute_command
@@ -45,7 +50,8 @@ mode "media" {
     bindsym j exec --no-startup-id $playback_playpause_command
     bindsym Shift+h exec $select_player $playback_prev_command --player='{}'
     bindsym Shift+k exec $select_player $playback_next_command --player='{}'
-    bindsym Shift+j exec $select_player $playback_playpause_command --player='{}'
+    bindsym Shift+j exec $select_player $playback_playpause_command \
+        --player='{}'
 
     # Volume
     bindsym y exec --no-startup-id $volume_mute_command

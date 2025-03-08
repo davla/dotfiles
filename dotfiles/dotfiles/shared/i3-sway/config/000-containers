@@ -29,7 +29,7 @@ set $ws8key k
 set $ws9key l
 set $ws10key semicolon
 
-# switch to workspace
+# Switch to workspace
 bindsym $mod+$ws1key workspace $ws1
 bindsym $mod+$ws2key workspace $ws2
 bindsym $mod+$ws3key workspace $ws3
@@ -41,7 +41,7 @@ bindsym $mod+$ws8key workspace $ws8
 bindsym $mod+$ws9key workspace $ws9
 bindsym $mod+$ws10key workspace $ws10
 
-# move focused container to workspace
+# Move focused container to workspace
 bindsym $mod+Shift+$ws1key move container to workspace $ws1; workspace $ws1
 bindsym $mod+Shift+$ws2key move container to workspace $ws2; workspace $ws2
 bindsym $mod+Shift+$ws3key move container to workspace $ws3; workspace $ws3

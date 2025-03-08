@@ -1,7 +1,9 @@
-# {{@@ header() @@}}
-#
+{%@@ from 'shared/i3-sway/macros.j2' import scratchpad_application -@@%}
+
 # This sway configuration file contains application configuration, mainly
 # keyboard shortcuts and window management (e.g. workspace assignment)
+#
+# {{@@ header() @@}}
 
 {#@@
     This macro is a workaround for `scratchpad show` discarding window criteria
@@ -19,11 +21,8 @@ for_window [{{@@ criterion @@}}] move scratchpad; \
 
 set {
     # Command criteria
-    $bitwarden_extension_criterion app_id=".*Firefox.*" \
-        title="[Ee]xtension.*[Bb]itwarden"
     $caprine_criterion app_id="caprine"
     $firefox_criterion app_id=".*Firefox.*"
-    $launcher_criterion app_id="launcher"
     $messaging_criterion con_mark="{{@@ messaging_mark @@}}"
     $scratchpad_editor_criterion app_id="scratchpad-editor"
     $scratchpad_term_criterion title="scratchpad-terminal"
@@ -90,8 +89,8 @@ assign {
 }
 
 # Switch to assigned workspace by focusing newly created windows
-for_window [$firefox_criterion] $ws2
-for_window [$thunderbird_criterion] $ws4
+for_window [$firefox_criterion] focus
+for_window [$thunderbird_criterion] focus
 for_window [$vscode_criterion] focus
 
 # Bitwarden
@@ -101,17 +100,15 @@ for_window [$vscode_criterion] focus
 # hence this trick of unfocusing and focusing again. This possibly happens
 # because the criterion matches by window name, and that changes a few times
 # after the window is created.
-for_window [$bitwarden_extension_criterion] floating enable, \
-    move position center, focus parent, focus
+for_window [$firefox_criterion title="[Ee]xtension.*[Bb]itwarden"] \
+    floating enable, move position center, focus parent, focus
 
 # Calculator
-for_window [title="^$calc_title$"] floating enable
-for_window [floating title="^$calc_title$"] \
-    resize set $floating_width $floating_height, \
-    move position center
+for_window [title="^$calc_title$"] floating enable, \
+    resize set $floating_width $floating_height, move position center
 
 # Launcher
-for_window [$launcher_criterion] floating enable, \
+for_window [app_id="launcher"] floating enable, \
     resize set $floating_width $floating_height, move position center
 
 {%@@ if messaging_apps -@@%}

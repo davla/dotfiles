@@ -1,8 +1,6 @@
-{%@@ if on_wayland @@%}
-# {{@@ header() @@}}
+# This i3/sway configuration file defines the configuration for the bar
 #
-# This sway configuration file defines the configuration for swaybar
-{%@@ endif @@%}
+# {{@@ header() @@}}
 
 #######################################
 # Bar
@@ -36,5 +34,10 @@ bar {
     }
 }
 
+{%@@ if on_x11 -@@%}
+
 # This is necessary to make the i3block Caps lock indicator work
-bindsym --release Caps_Lock exec --no-startup-id pkill -SIGRTMIN+{{@@ i3blocks_signals.caps @@}} i3blocks
+bindsym --release Caps_Lock exec --no-startup-id pkill \
+    -SIGRTMIN+{{@@ i3blocks_signals.caps @@}} i3blocks
+
+{%@@ endif @@%}

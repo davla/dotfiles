@@ -49,7 +49,7 @@ smart_borders on
 gaps inner 10
 gaps outer 0
 
-{%@@ if wm_name == 'sway' -@@%}
+{%@@ if on_wayland -@@%}
 
 ########################################
 # Cursor

@@ -2,6 +2,12 @@
 My dotfiles repository.
 
 ## TODO
+- Fix bot scripts exit status
+- Send at errors via mail
+- Stop using LightDM
+- Fix dotnet crypto in HOME
+- Fix wget files in HOME
+- Fix zsh theme timer refresh
 - Failed to start pkgfile database update.
 - Better placement of logger_path variable
 - github mails

@@ -16,16 +16,6 @@ source "$SDOTDIR/interactive/plugins/shared.sh"
 #
 ###############################################################################
 
-{%@@ if 'arch' in distro_id -@@%}
-
-#######################################
-# command-not-found
-#######################################
-
-source /usr/share/doc/pkgfile/command-not-found.zsh
-
-{%@@ endif -@@%}
-
 #######################################
 # deer
 #######################################
@@ -39,19 +29,6 @@ DEER_KEYS[down]=';'
 DEER_KEYS[up]=p
 DEER_KEYS[enter]="'"
 DEER_KEYS[leave]=l
-
-{%@@ if user == 'user' -@@%}
-
-#######################################
-# wd
-#######################################
-
-WD_CONFIG="$ZDOTDIR/interactive/plugins/dotfiles/warprc"
-WD_SKIP_EXPORT=true
-
-wd() { . "$ANTIBODY_HOME/"*wd/wd.sh }
-
-{%@@ endif -@@%}
 
 #######################################
 # zsh-autopair
@@ -68,7 +45,7 @@ AUTOPAIR_INHIBIT_INIT=true
 
 ZSH_AUTOSUGGEST_STRATEGY='match_prev_cmd'
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=73'
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=244'
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 
 #######################################

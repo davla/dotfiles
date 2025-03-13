@@ -2,37 +2,50 @@
 
 # This script initializes interactive zsh shells
 
-
 INTERACTIVE_ZDOTDIR="$ZDOTDIR/interactive"
 
+
+########################################
+# Configure core utils
+########################################
+
+source "$SDOTDIR/interactive/env-var-config.sh"
+
+########################################
+# Configure builtins
+########################################
+
+source "$INTERACTIVE_ZDOTDIR/builtins-config.zsh"
+
 #######################################
-# Loading plugins
+# Load plugins
 #######################################
 
 source "$INTERACTIVE_ZDOTDIR/plugins/init.zsh"
 
 #######################################
-# Loading theme
+# Load theme
 #######################################
 
 source "$INTERACTIVE_ZDOTDIR/theme/init.zsh"
 
 #######################################
-# Loading aliases
+# Load aliases
 #######################################
 
 source "$INTERACTIVE_ZDOTDIR/aliases.zsh"
 
 #######################################
-# Loading functions
+# Load functions
 #######################################
 
 source "$INTERACTIVE_ZDOTDIR/functions.zsh"
 
 ########################################
-# Loading hooks
+# Load hooks
 ########################################
 
 source "$INTERACTIVE_ZDOTDIR/hooks.zsh"
+
 
 unset INTERACTIVE_ZDOTDIR

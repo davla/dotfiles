@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh
 
-# This script contains functions that are added as zsh hooks for both
-# interactive and non-interactive shells
+# This script contains functions that are added as zsh hooks
 
 ########################################
 # Environmed loading hook
@@ -43,7 +42,7 @@ add-zsh-hook chpwd load_environment
 # common git typo, that is swapping the t and the space (e.g. gi tstatus).
 gi_history_fix() {
     emulate -L zsh
-    local TRIMMED_CMD="$(echo "$1" | xargs)"
+    local TRIMMED_CMD="$(zsh_trim_str "$1")"
     case "$TRIMMED_CMD" in
         *'gi t'*)
             local FIXED_CMD="git ${TRIMMED_CMD#'gi t'}"
@@ -57,8 +56,18 @@ gi_history_fix() {
 # the first argument matches the content of $HISTORY_IGNORE, with 0 otherwise.
 not_in_history_ignore() {
     emulate -L zsh
-    [[ "$(echo "$1" | xargs)" != ${~HISTORY_IGNORE} ]]
+    [[ "$(zsh_trim_str "$1")" != ${~HISTORY_IGNORE} ]]
 }
 
 add-zsh-hook zshaddhistory gi_history_fix
 add-zsh-hook zshaddhistory not_in_history_ignore
+
+# This function trims witespaces in a string by only using zsh features.
+#
+# Arguments:
+#   - $1: The string to be trimmed
+zsh_trim_str() {
+    setopt EXTENDED_GLOB
+    local TMP=${1##[[:space]]##}
+    echo ${TMP%%[[:space:]]##}
+}

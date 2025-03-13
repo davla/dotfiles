@@ -4,10 +4,6 @@
 # and user
 
 variables:
-  # This is the top-level directory of this repository. Used by the zsh warprc
-  # file and by the custom dotdrop wrapper command
-  dotfiles_home: '{{@@ dirname(_dotdrop_dotpath) @@}}'
-
   # The path where myrepos library files are installed
   mr_libs_path: /usr/local/share/mr
 

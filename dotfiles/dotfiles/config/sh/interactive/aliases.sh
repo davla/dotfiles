@@ -65,11 +65,29 @@ alias reboot='systemctl reboot'
 
 {%@@ endif -@@%}
 
+alias open='xdg-open'
+
+########################################
+# Convenience options aliases
+########################################
+
+# Shadow the actual command, as these options won't harm if always included
+alias diff='diff --color=auto'
+alias grep='grep --color=auto'
+
+# Create new commands, as these options might cause undesired behavior in
+# sourced shell code if the command is shadowed
+alias ddiff='diff --color=auto --report-identical-files --unified'
+alias ggrep='grep --color=auto --perl-regexp'
+alias jjq='jq --sort-keys'
+alias ssed='sed --regexp-extended'
+alias ttar='tar --auto-compress --one-top-level'
+alias xxargs='xargs --no-run-if-empty'
+
 ########################################
 # Shortening aliases
 ########################################
 
-alias open='xdg-open'
 alias paginate='less --no-init --quit-if-one-screen'
 
 ########################################

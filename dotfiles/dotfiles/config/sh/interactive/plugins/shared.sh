@@ -4,14 +4,6 @@
 # useful in interactive shells only
 
 #######################################
-# exa
-#######################################
-
-EXA_COLORS="$(grep -vP '(^#|^\s*$)' \
-    "$SDOTDIR/interactive/plugins/dotfiles/exa_colors" | paste -sd ':')"
-export EXA_COLORS
-
-#######################################
 # fasd
 #######################################
 

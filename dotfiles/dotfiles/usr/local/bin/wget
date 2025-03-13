@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+# This script invokes wget with the command-line options that stop it from
+# creating files in the home directory.
+#
+# Arguments:
+#   - $@: anything wget accepts
+#
+# {{@@ header() @@}}
+
+exec {{@@ second_on_path('wget') @@}} \
+    --hsts-file="${XDG_DATA_HOME:-$HOME/.local/share}/wget-hsts" "$@"

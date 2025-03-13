@@ -1,0 +1,50 @@
+# `sheldon` configuration file
+# ----------------------------
+#
+# You can modify this file directly or you can use one of the following
+# `sheldon` commands which are provided to assist in editing the config file:
+#
+# - `sheldon add` to add a new plugin to the config file
+# - `sheldon edit` to open up the config file in the default editor
+# - `sheldon remove` to remove a plugin from the config file
+#
+# See the documentation for more https://github.com/rossmacarthur/sheldon#readme
+
+shell = "zsh"
+
+[plugins]
+
+[plugins.autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+use = ["zsh-{{ name }}.zsh"]
+
+[plugins.completions]
+github = "zsh-users/zsh-completions"
+use = ["zsh-{{ name }}.plugin.zsh"]
+
+[plugins.notify]
+github = "marzocchi/zsh-notify"
+use = ["{{ name }}.plugin.zsh"]
+
+[plugins.reentry-hook]
+github = "RobSis/zsh-reentry-hook"
+use = ["zsh-{{ name }}.plugin.zsh"]
+
+[plugins.you-should-use]
+github = "MichaelAquilina/zsh-you-should-use"
+use = ["{{ name }}.plugin.zsh"]
+
+[plugins.compinit]
+inline = ""
+
+[plugins.autopair]
+github = "hlissner/zsh-autopair"
+use = ["{{ name }}.zsh"]
+
+[plugins.history-substring-search]
+github = "zsh-users/zsh-history-substring-search"
+use = ["zsh-{{ name }}.zsh"]
+
+[plugins.syntax-highlighting]
+github = "zsh-users/zsh-syntax-highlighting"
+use = ["zsh-{{ name }}.zsh"]

@@ -59,6 +59,9 @@ dotfiles:
     - .antibody
     - cache
     - 'plugins/plugins-*.zsh'
+  f_sheldon_plugins.toml:
+    src: config/sheldon/plugins.toml
+    dst: '{{@@ xdg_config("sheldon/plugins.toml") @@}}'
   f_shell-dirs:
     src: config/shell-dirs
     # Dynamic path as it's used somewhere else too
@@ -79,6 +82,7 @@ profiles:
     dotfiles:
     - d_sh
     - d_thefuck
+    - f_sheldon_plugins.toml
     - f_shell-dirs
     actions:
     - sh

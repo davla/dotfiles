@@ -12,15 +12,14 @@
 print_info 'Install system dependencies'
 case "$DISTRO" in
     'arch')
-        yay -S --needed antibody-bin bash bash-completion dash eza fasd \
-            thefuck zsh
+        yay -S --needed bash bash-completion dash eza fasd sheldon thefuck zsh
         ;;
 
     'debian')
         sudo apt-get install bash bash-completion dash exa fasd thefuck zsh \
             xsel
 
-        print_info 'Install antibody via github-releases'
+        print_info 'Install sheldon via github-releases'
         dotdrop -U root install -p github-releases
         sudo gh-release install
         ;;

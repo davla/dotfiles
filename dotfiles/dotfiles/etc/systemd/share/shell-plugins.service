@@ -1,4 +1,8 @@
 # shell-plugins systemd service file
+#
+# {{@@ header() @@}}
+
+{%@@ set sheldon_profile = '' if is_headless | is_truthy else 'gui' -@@%}
 
 [Unit]
 Description=Job updating shell plugins
@@ -6,7 +10,8 @@ After=network-online.target
 Wants=network-online.target
 
 [Service]
-ExecStart=/usr/bin/zsh -c 'antibody update'
+Environment=SHELDON_PROFILE='{{@@ sheldon_profile @@}}'
+ExecStart=sheldon lock
 StandardError=journal
 StandardOutput=journal
 SyslogFacility=local0

@@ -9,41 +9,164 @@
 # - `sheldon remove` to remove a plugin from the config file
 #
 # See the documentation for more https://github.com/rossmacarthur/sheldon#readme
+#
+# {{@@ header() @@}}
 
 shell = "zsh"
 
 [plugins]
 
+#######################################
+# autosuggestions
+#######################################
+
 [plugins.autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
 use = ["zsh-{{ name }}.zsh"]
+
+[plugins.autosuggestions.hooks]
+pre = '''
+ZSH_AUTOSUGGEST_STRATEGY='match_prev_cmd'
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=244'
+ZSH_AUTOSUGGEST_USE_ASYNC=true
+'''
+
+#######################################
+# completions
+#######################################
 
 [plugins.completions]
 github = "zsh-users/zsh-completions"
 use = ["zsh-{{ name }}.plugin.zsh"]
 
+#######################################
+# notify
+#######################################
+
 [plugins.notify]
 github = "marzocchi/zsh-notify"
 use = ["{{ name }}.plugin.zsh"]
+profiles = ["gui"]
+
+[plugins.notify.hooks]
+post = '''
+{%@@ set icon_theme_path = '/usr/share/icons/%s/scalable/emblems'
+    | format(icon_theme) -@@%}
+
+zstyle ':notify:*' app-name 'sh'
+zstyle ':notify:*' command-complete-timeout 5
+zstyle ':notify:*' error-icon "{{@@ icon_theme_path @@}}/emblem-important.svg"
+zstyle ':notify:*' error-title 'Error - took #{time_elapsed}'
+zstyle ':notify:*' expire-time 2500
+{%@@ if user == 'root' @@%}
+zstyle ':notify:*' notifier 'zsh-notify-sudo-user'
+{%@@ endif @@%}
+zstyle ':notify:*' success-icon "{{@@ icon_theme_path @@}}/emblem-ok.svg"
+zstyle ':notify:*' success-title 'OK - took #{time_elapsed}'
+'''
+
+#######################################
+# reentry-hook
+#######################################
 
 [plugins.reentry-hook]
 github = "RobSis/zsh-reentry-hook"
 use = ["zsh-{{ name }}.plugin.zsh"]
 
+#######################################
+# you-should-use
+#######################################
+
 [plugins.you-should-use]
 github = "MichaelAquilina/zsh-you-should-use"
 use = ["{{ name }}.plugin.zsh"]
 
+[plugins.you-should-use.hooks]
+pre = '''
+readonly SHELL_FORMAT_BOLD='\033[1m'
+readonly SHELL_FORMAT_RESET='\033[0m'
+readonly YSU_ALIAS_TYPE_COLOR='\033[38;5;33m'
+readonly YSU_COMMAND_COLOR='\033[38;5;45m'
+readonly YSU_ALIAS_COLOR='\033[38;5;81m'
+
+YSU_MESSAGE_FORMAT="$YSU_ALIAS_TYPE_COLOR%alias_type$SHELL_FORMAT_RESET: \
+$YSU_COMMAND_COLOR%command$SHELL_FORMAT_RESET -> \
+$SHELL_FORMAT_BOLD$YSU_ALIAS_COLOR%alias$SHELL_FORMAT_RESET"
+YSU_MESSAGE_POSITION='after'
+'''
+
+#######################################
+# compinit
+#######################################
+
 [plugins.compinit]
-inline = ""
+inline = '''
+autoload -Uz compinit bashcompinit
+compinit
+bashcompinit
+'''
+
+#######################################
+# autopair
+#######################################
 
 [plugins.autopair]
 github = "hlissner/zsh-autopair"
 use = ["{{ name }}.zsh"]
 
+[plugins.autopair.hooks]
+pre = '''
+typeset -gA AUTOPAIR_PAIRS
+AUTOPAIR_PAIRS+=('<' '>')
+
+AUTOPAIR_INHIBIT_INIT=true
+'''
+post = 'autopair-init'
+
+#######################################
+# history-substring-search
+#######################################
+
 [plugins.history-substring-search]
 github = "zsh-users/zsh-history-substring-search"
 use = ["zsh-{{ name }}.zsh"]
+
+[plugins.history-substring-search.hooks]
+post = '''
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=2,fg=15,bold'
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=9,fg=15,bold'
+HISTORY_SUBSTRING_SEARCH_GLOBBING_FLAGS='l'
+HISTORY_SUBSTRING_SEARCH_FUZZY='on'
+
+bindkey "${key[Up]}" history-substring-search-up
+bindkey "${key[Down]}" history-substring-search-down
+
+setopt HIST_IGNORE_ALL_DUPS
+'''
+
+#######################################
+# fasd
+#######################################
+
+[plugins.fasd]
+inline = '''
+export _FASD_DATA="$ZDOTDIR/interactive/plugins/data/.fasd"
+export _FASD_SHELL='zsh'
+
+source "$ZCACHEDIR/fasd"
+'''
+
+#######################################
+# thefuck
+#######################################
+
+[plugins.thefuck]
+inline = 'source "$ZCACHEDIR/thefuck"'
+
+#######################################
+# syntax-highlighting
+#######################################
 
 [plugins.syntax-highlighting]
 github = "zsh-users/zsh-syntax-highlighting"

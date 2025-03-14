@@ -26,13 +26,6 @@ DOTDIRS_FILE="${1:?}"
 . "$DOTDIRS_FILE"
 . "${ZDOTDIR:?}/.zshenv"
 
-########################################
-# Variables
-########################################
-
-ZSH_CACHE_DIR="${ZDOTDIR:?}/cache"
-ZSH_PLUGINS_DIR="${ZDOTDIR:?}/interactive/plugins"
-
 #######################################
 # Create symbolic links
 #######################################
@@ -51,17 +44,16 @@ ln --force --relative --symbolic "${ZDOTDIR:?}/.zshenv" "$HOME/.zshenv"
 # Initialize $ZDOTDIR
 #######################################
 
-mkdir --parents "${ZDOTDIR:?}/cache" "${ZDOTDIR:?}/interactive/plugins/data" \
-    "${ZDOTDIR:?}/interactive/plugins/dotfiles"
+mkdir --parents "${ZDOTDIR:?}/cache" "${ZDOTDIR:?}/interactive/plugins/data"
 
 #######################################
-# Install antibody
+# Install sheldon
 #######################################
 
-print_info 'Install antibody'
+print_info 'Install sheldon'
 case "$DISTRO" in
     'arch')
-        sudo -u "${SUDO_USER:-$(id -un)}" yay -S --needed antibody-bin
+        sudo -u "${SUDO_USER:-$(id -un)}" yay -S --needed sheldon
         ;;
 
     'debian')
@@ -75,12 +67,19 @@ esac
 
 print_info 'Install zsh plugins'
 
-antibody bundle \
-    < "$ZSH_PLUGINS_DIR/lists/plugins-before-compinit.list" \
-    > "$ZSH_PLUGINS_DIR/plugins-before-compinit.zsh"
-antibody bundle \
-    < "$ZSH_PLUGINS_DIR/lists/plugins-after-compinit.list" \
-    > "$ZSH_PLUGINS_DIR/plugins-after-compinit.zsh"
+SHELDON_PROFILE=''
+case "$DISPLAY_SERVER" in
+    'x11')
+        SHELDON_PROFILE='gui'
+        ;;
+
+    'wayland')
+        [ "$(id -un)" != 'root' ] && SHELDON_PROFILE='gui'
+        ;;
+esac
+
+sheldon --profile "$SHELDON_PROFILE" source \
+    > "${ZDOTDIR:?}/interactive/plugins/load.zsh"
 
 #######################################
 # Initialize cache

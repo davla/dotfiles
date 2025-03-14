@@ -24,12 +24,6 @@ source "$INTERACTIVE_ZDOTDIR/builtins-config.zsh"
 source "$INTERACTIVE_ZDOTDIR/plugins/init.zsh"
 
 #######################################
-# Load theme
-#######################################
-
-source "$INTERACTIVE_ZDOTDIR/theme/init.zsh"
-
-#######################################
 # Load aliases
 #######################################
 

@@ -75,10 +75,13 @@ env TF_SHELL='zsh' thefuck --alias 2>&1 > "$ZCACHEDIR/thefuck" \
 # Zygal theme
 ########################################
 
+log_debug 'Find zygal init file'
+ZYGAL_INIT="$(find "$XDG_DATA_HOME/sheldon" -type f \
+    -path '*zygal/zsh/autoload.zsh')"
+
 log_debug 'Source zygal-static function'
-source <(antibody init)
-antibody bundle < "$ZDOTDIR/interactive/theme/dotfiles/themes.list"
+source "$ZYGAL_INIT"
 
 log_info 'Write static zygal code'
-source "$ZDOTDIR/interactive/theme/dotfiles/zygal-conf.zsh"
+source "$ZDOTDIR/interactive/plugins/dotfiles/zygal-conf.zsh"
 zygal-static 2>&1 > "$ZCACHEDIR/zygal" | cut -f 1 -d ' '

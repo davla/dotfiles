@@ -14,6 +14,9 @@
 
 shell = "zsh"
 
+[templates]
+hooks = '{{ hooks?.pre | nl }}{{ hooks?.post | nl }}'
+
 [plugins]
 
 #######################################
@@ -171,3 +174,14 @@ inline = 'source "$ZCACHEDIR/thefuck"'
 [plugins.syntax-highlighting]
 github = "zsh-users/zsh-syntax-highlighting"
 use = ["zsh-{{ name }}.zsh"]
+
+#######################################
+# zygal
+#######################################
+
+[plugins.zygal]
+github = "davla/zygal"
+apply = ["hooks"]
+
+[plugins.zygal.hooks]
+pre = 'source "$ZCACHEDIR/zygal"'

@@ -5,6 +5,8 @@
 #
 # {{@@ header() @@}}
 
+{%@@ set dotfiles_dir = dirname(_dotfile_sub_abs_src) + '/dotfiles/' -@@%}
+
 ########################################
 # cd
 ########################################
@@ -16,28 +18,23 @@ export CDPATH="{{@@ ['.', code_root, cd_path ] | select('defined')
 # exa / ls
 #######################################
 
-EXA_COLORS="$(grep --invert-match --perl-regexp '(^#|^\s*$)' \
-        "$SDOTDIR/interactive/dotfiles/exa_colors" \
-    | paste --serial --delimiters ':')"
-export EXA_COLORS LS_COLORS="$EXA_COLORS"
+{%@@ set exa_colors = join_file_lines(dotfiles_dir + 'exa_colors',
+    separator = ':', skip_marker = '#') @@%}
+export EXA_COLORS='{{@@ exa_colors @@}}' LS_COLORS='{{@@ exa_colors @@}}'
 
 ########################################
 # grep
 ########################################
 
-GREP_COLORS="$(grep --invert-match --perl-regexp '(^#|^\s*$)' \
-        "$SDOTDIR/interactive/dotfiles/grep_colors" \
-    | paste --serial --delimiters ':')"
-export GREP_COLORS
+export GREP_COLORS='{{@@ join_file_lines(dotfiles_dir + 'grep_colors',
+    separator = ':', skip_marker = '#') @@}}'
 
 ########################################
 # jq
 ########################################
 
-JQ_COLORS="$(grep --invert-match --perl-regexp '(^#|^\s*$)' \
-        "$SDOTDIR/interactive/dotfiles/jq_colors" \
-    | paste --serial --delimiters ':')"
-export JQ_COLORS
+export JQ_COLORS='{{@@ join_file_lines(dotfiles_dir + 'jq_colors',
+    separator = ':', skip_marker = '#') @@}}'
 
 ########################################
 # less

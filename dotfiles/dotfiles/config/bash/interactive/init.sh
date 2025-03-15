@@ -7,22 +7,16 @@ INTERACTIVE_BDOTDIR="$BDOTDIR/interactive"
 
 
 ########################################
-# Configure core utils
+# Environment variables configuration
 ########################################
 
-source "$SDOTDIR/interactive/coreutils-config.sh"
+source "$SDOTDIR/interactive/env-var-config.sh"
 
 #######################################
 # Load plugins
 #######################################
 
 source "$INTERACTIVE_BDOTDIR/plugins/init.sh"
-
-#######################################
-# Load themes
-#######################################
-
-source "$INTERACTIVE_BDOTDIR/theme/init.sh"
 
 #######################################
 # Load aliases

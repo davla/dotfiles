@@ -10,16 +10,6 @@
 
 source "$SDOTDIR/interactive/plugins/shared.sh"
 
-{%@@ if 'arch' in distro_id -@@%}
-
-#######################################
-# command-not-found
-#######################################
-
-source /usr/share/doc/pkgfile/command-not-found.bash
-
-{%@@ endif -@@%}
-
 #######################################
 # fasd
 #######################################

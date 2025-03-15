@@ -349,11 +349,6 @@ dotfiles:
     dst: /etc/timezone
     actions:
     - timezone '{{@@ _dotfile_abs_dst @@}}'
-  f_underclock.service:
-    src: etc/systemd/system/underclock.service
-    dst: /etc/systemd/system/underclock.service
-    actions:
-    - systemd-enable '{{@@ _dotfile_abs_src @@}}'
   f_whole-fs.exports:
     src: etc/exports.d/whole-fs.exports
     dst: /etc/exports.d/whole-fs.exports
@@ -599,6 +594,9 @@ profiles:
 
   # This profile collects system startup jobs and configuration dotfiles
   startup:
+    dotfiles:
+    - f_temp-throttle.conf
+    - f_temp-throttle.service.d_override.conf
     import:
     - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional

@@ -115,7 +115,7 @@ if [ "$HOST" != 'raspberry' ]; then
         docker-credential-secretservice-bin gifsicle gdb ghc intel-ucode \
         libsecret hunspell hunspell-da hunspell-en_US hunspell-it \
         macchina networkmanager polkit-gnome rar reflector shellcheck \
-        temp-throttle-git
+        temp-throttle
         # dhcpcd doesn't work well with networkmanager (unless configured)
         if sudo -u "$USER" yay -Qs dhcpcd; then
             sudo -u "$USER" yay -R dhcpcd

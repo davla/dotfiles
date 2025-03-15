@@ -341,6 +341,9 @@ dotfiles:
   f_temp-throttle.conf:
     src: etc/temp-throttle.conf
     dst: /etc/temp-throttle.conf
+  f_temp-throttle.service.d_override.conf:
+    src: etc/systemd/system/temp-throttle.service.d/override.conf
+    dst: /etc/systemd/system/temp-throttle.service.d/override.conf
   f_timezone:
     src: etc/timezone
     dst: /etc/timezone

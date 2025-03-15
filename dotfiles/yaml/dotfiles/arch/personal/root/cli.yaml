@@ -5,3 +5,4 @@
 
 dotfiles:
 - f_temp-throttle.conf
+- f_temp-throttle.service.d_override.conf

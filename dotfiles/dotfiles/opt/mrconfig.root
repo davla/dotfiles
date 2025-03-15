@@ -23,9 +23,20 @@ include = cat '{{@@ '%s/.mrconfig.%s'
 #######################################
 
 
-[/opt/underclock]
+[/opt/temp-throttle]
 checkout =
-    git clone 'https://github.com/Sepero/temp-throttle.git' 'underclock'
+    git clone 'https://github.com/Sepero/temp-throttle.git' 'temp-throttle'
 install =
-    cp "$MR_REPO/"*.sh /usr/local/sbin/underclock;
-    chmod +x /usr/local/sbin/underclock
+    install --mode 755 --directory /usr/sbin
+    install --mode 755 --target-directory /usr/sbin \
+        "$MR_REPO/usr/sbin/temp-throttle"
+    #
+    install --mode 755 --directory /usr/share/doc/temp-throttle
+    install --mode 644 --target-directory /usr/share/doc/temp-throttle \
+        "$MR_REPO/usr/share/doc/"*
+    #
+    install --mode 755 --directory /usr/lib/systemd/systemd
+    install --mode 644 --target-directory /usr/lib/systemd/systemd \
+        "$MR_REPO/usr/lib/systemd/systemd/temp-throttle.service"
+    #
+    systemctl enable --now temp-throttle

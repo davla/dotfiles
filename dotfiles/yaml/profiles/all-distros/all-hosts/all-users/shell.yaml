@@ -42,6 +42,8 @@ dotfiles:
     src: config/sh
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ sdotdir @@}}'
+    instignore:
+    - interactive/dotfiles
   d_thefuck:
     src: config/thefuck
     dst: '{{@@ xdg_config("thefuck") @@}}'

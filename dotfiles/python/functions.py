@@ -12,6 +12,7 @@ import re
 from itertools import islice
 from pathlib import Path
 
+from jinja2 import Environment, pass_environment
 from python.lib import expand_xdg as xdg
 
 VENV_DIR = ".venv"
@@ -36,6 +37,28 @@ def desktop_with_name(name: str, root_dir_glob="/home/*/.local/share/") -> str:
 def filename(path: str) -> str:
     """Return the last path component without extension."""
     return Path(path).stem
+
+
+@pass_environment
+def join_file_lines(
+    env: Environment, path: str, separator: str = "", skip_marker: str = "#"
+) -> str:
+    """Return the lines in a file joined by a separator.
+
+    If the file is a jinja template, it will be rendered.
+
+    Blank lines are skipped. So are lines starting with the given skip marker,
+    optionally preceded by whitespace.
+
+    :param path: The path of the input file.
+    :param separator: The separator used to join the file's lines.
+    :return: The lines in the files joined by the separator.
+    """
+    file_content = env.get_template(path).render()
+    lines = (line.strip() for line in file_content.splitlines())
+    return separator.join(
+        line for line in lines if line and not line.startswith(skip_marker)
+    )
 
 
 def second_on_path(executable: str) -> str:

@@ -38,14 +38,10 @@ dotfiles:
     dst: '{{@@ bdotdir @@}}'
     upignore:
     - .bash_history
-    - cache
   d_sh:
     src: config/sh
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ sdotdir @@}}'
-    upignore:
-    - plugins/data
-    - cache
   d_thefuck:
     src: config/thefuck
     dst: '{{@@ xdg_config("thefuck") @@}}'

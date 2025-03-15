@@ -6,7 +6,7 @@ INTERACTIVE_SDOTDIR="$SDOTDIR/interactive"
 
 
 ########################################
-# Configure core utils
+# Environment variables configuration
 ########################################
 
 . "$INTERACTIVE_SDOTDIR/env-var-config.sh"

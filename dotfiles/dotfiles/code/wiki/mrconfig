@@ -69,11 +69,15 @@ init =
     ln --force --symbolic "{{@@ wiki_util_abs_path @@}}/bot/.tool-versions" \
         "$MR_REPO"
     init_asdf_project python
-    SYSTEM_VIRTUALENV="$(which virtualenv)"
-    asdf which python | xargs -I '{}' "$SYSTEM_VIRTUALENV" --python '{}' \
-        "{{@@ pywikibot_venv_path @@}}"
-    . "{{@@ pywikibot_venv_path @@}}/bin/activate"
-    pip install -r requirements.txt
+    [ -d '{{@@ pywikibot_venv_path @@}}' ] || {
+        SYSTEM_VIRTUALENV="$(which virtualenv)"
+        asdf which python | xargs -I '{}' "$SYSTEM_VIRTUALENV" --python '{}' \
+            '{{@@ pywikibot_venv_path @@}}'
+        . '{{@@ pywikibot_venv_path @@}}/bin/activate'
+        pip install -r requirements.txt
+        deactivate
+    }
+    . '{{@@ pywikibot_venv_path @@}}/bin/activate'
     #
     # Setting up Pokémon Central Wiki connection
     python pwb.py generate_family_file \

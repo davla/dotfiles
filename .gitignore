@@ -239,6 +239,7 @@ dotfiles/dotfiles/code/mrconfig.work
 dotfiles/dotfiles/config/i3/*-work
 dotfiles/dotfiles/config/mr/mrtrust.work.user
 dotfiles/dotfiles/etc/security/pam_env.conf.work
+dotfiles/dotfiles/usr/local/etc/frequent-hosts.work
 dotfiles/yaml/**/emails.yaml
 dotfiles/yaml/**/private.yaml
 dotfiles/yaml/variables/all-distros/raspberry/all-users/notify-commuter-card-renewal.yaml

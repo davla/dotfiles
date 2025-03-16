@@ -32,7 +32,6 @@ SAD_COLOR="$(printf '\e[1;96m')"
 
 # Exit codes
 EXIT_NO=253
-EXIT_SAY=245
 EXIT_YES=0
 
 # Faces
@@ -92,7 +91,7 @@ ask() {
         q|quit)
             # This sets $? for goodbye
             (exit 1)
-            goodbye -t
+            goodbye --trailing 1
             ;;
 
         y|yes)
@@ -100,7 +99,7 @@ ask() {
             ;;
 
         *)
-            say -t "$PROMPT_FACE" "Sorry, I didn't get it."
+            say --trailing 1 "$PROMPT_FACE" "Sorry, I didn't get it."
             ask "$@"
             # Need to return explicitly in order not to lose ask exit code: in
             # fact, the last command is the case statement, which overwrites
@@ -192,7 +191,7 @@ The log has been saved to $OUTPUT_LOG. $RETRY_PROMPT"
 # code available before its call.
 #
 # Arguments:
-#   - $1: Options for say tunctions (default: -llt).
+#   - $1: Options for say tunctions (default: --leading 2 --trailing 1).
 goodbye() {
     # This needs to be before positional parameter assignments, since they
     # would otherwise overwrite the exit code.
@@ -201,9 +200,8 @@ goodbye() {
     # This is used as a signal handler, the alternate buffer might be active
     [ "$IN_ALTERNATE_BUFFER" = 'true' ] && tput rmcup
 
-    GOODBYE__SAY_OPTS="${1:--llt}"
-
-    say "$GOODBYE__SAY_OPTS" "$SAD_FACE" \
+    # shellcheck disable=SC2068
+    say ${@:---leading 2 --trailing 1} "$SAD_FACE" \
         'Saying goodbye early! Anything went wrong?'
     exit "$GOODBYE__EXIT_CODE"
 }
@@ -221,7 +219,8 @@ prompt() {
     if ask "$PROMPT_FACE" "Do you want to $PROMPT__DESC? $CHOICES"; then
         execute "$PROMPT__CMD" "$PROMPT__DESC"
     else
-        say -tt "$PROMPT_FACE" "Skipping the step to $PROMPT__DESC then."
+        say --trailing 2 "$PROMPT_FACE" \
+            "Skipping the step to $PROMPT__DESC then."
     fi
 
     unset PROMPT__CMD PROMPT__DESC
@@ -232,38 +231,52 @@ prompt() {
 # trailing newline is printed by default.
 #
 # Arguments:
-#   - -l: Flag, adds a leading newline. Can be specified multiple times,
-#         to add more than one leading newline.
-#   - -t: Flag, adds a trailing newline. Can be specified multiple times,
-#         to add more than one trailing newline.
+#   - --leading <count>|-L COUNT: Number of leading newlines to display.
+#                                 Optional, defaults to none.
+#   - --trailing <count>|-T COUNT: Number of trailing newlines to display.
+#                                  Optional, defaults to none.
 #   - $1: The face to be printed
 #   - $2: The message to be printed
 say() {
-    SAY__NEWLINE_OPTS=''
-    while [ $# -gt 2 ]; do
+    SAY__FACE=''
+    SAY__MSG=''
+    SAY__LEADING_NEWLINES_COUNT=0
+    SAY__TRAILING_NEWLINES_COUNT=0
+    while [ $# -gt 0 ]; do
         case "$1" in
-            -*)
-                SAY__NEWLINE_OPTS="$SAY__NEWLINE_OPTS$1"
+            '--leading'|'-L')
+                SAY__LEADING_NEWLINES_COUNT="$2"
                 shift
                 ;;
+
+            '--trailing'|'-T')
+                SAY__TRAILING_NEWLINES_COUNT="$2"
+                shift
+                ;;
+
+            *)
+                if [ -z "$SAY__FACE" ]; then
+                    SAY__FACE="$1"
+                else
+                    SAY__MSG="$1"
+                fi
+                ;;
+
         esac
+        shift
     done
-    SAY__FACE="$1"
-    SAY__MSG="$2"
 
-    SAY__NEWLINE_OPTS="$(echo "$SAY__NEWLINE_OPTS" | tr --delete '-')"
-
-    # shellcheck disable=SC2059
-    printf "$SAY__NEWLINE_OPTS" | grep --only-matching 'l' | tr --delete 'l'
+    seq 1 "$SAY__LEADING_NEWLINES_COUNT" \
+        | xargs --no-run-if-empty printf '\n%.0s'
     # sed prepends the first line with the bot face and the following ones with
     # the indent
     printf '%s' "$SAY__MSG" | fold --spaces --width "$MSG_WIDTH" \
         | sed "1 s/^/$SAY__FACE / ; 2,$ s/^/$INDENT/"
-    # shellcheck disable=SC2059
-    printf "$SAY__NEWLINE_OPTS" | grep --only-matching 't' | tr --delete 't'
+    seq 1 "$SAY__TRAILING_NEWLINES_COUNT" \
+        | xargs --no-run-if-empty printf '\n%.0s'
 
-    unset SAY__FACE SAY__LEADING_NEWLINES SAY__MSG OPTION \
-        SAY__TRAILING_NEWLINES
+    unset SAY__FACE SAY__LEADING_NEWLINES_COUNT SAY__MSG \
+        SAY__TRAILING_NEWLINES_COUNT
 }
 
 #######################################
@@ -272,7 +285,7 @@ say() {
 
 trap goodbye EXIT
 
-say -tt "$PROMPT_FACE" "Hello, I'm your setup script!
+say --trailing 2 "$PROMPT_FACE" "Hello, I'm your setup script!
 I'll guide you step-by-step through your system setup. I'll prompt you before \
 each step, copy configuration files, execute commands, and report you output \
 and errors when they occur.
@@ -291,9 +304,9 @@ $STEPS: "
             read -r STEP
     else
         STEP='all'
-        say -tt "$PROMPT_FACE" "I will guide you through all the steps then. \
-I'll prompt you before each one, so you can skip the steps you don't want to \
-run"
+        say --trailing 2 "$PROMPT_FACE" "I will guide you through all the \
+steps then. I'll prompt you before each one, so you can skip the \
+steps you don't want to run"
     fi
 }
 
@@ -301,7 +314,7 @@ run"
 # by the user, or programmatically set to 'all'. We can therefore proceed to
 # valiation. A valid step is either 'all' or one of the listed steps.
 while [ "$STEP" != 'all' ] && ! echo "$STEPS" | grep --quiet "$STEP"; do
-    say -t "$PROMPT_FACE" "Sorry, I don't know the '$STEP' step."
+    say --trailing 1 "$PROMPT_FACE" "Sorry, I don't know the '$STEP' step."
     say "$PROMPT_FACE" "These are the available steps:
 $STEPS: "
     read -r STEP
@@ -458,6 +471,6 @@ esac
 # Outro
 #######################################
 
-say -t "$PROMPT_FACE" "System setup completed!
+say --trailing 1 "$PROMPT_FACE" "System setup completed!
 It's been a pleasure working with you, and I hope everything went fine.
 Bye-Bye!"

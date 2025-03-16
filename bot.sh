@@ -134,7 +134,7 @@ execute() {
     CMD="$1"
     DESC="$2"
 
-    OUTPUT_LOG=$(mktemp)
+    OUTPUT_LOG="$(mktemp)"
     # shellcheck disable=2064
     trap "rm $OUTPUT_LOG" EXIT
 
@@ -148,7 +148,14 @@ execute() {
             tput cup 0 0
         }
 
-        sh -c "$CMD" 2>&1 | tee "$OUTPUT_LOG"
+        # We can't just pipe the command to tee, as that would mask the
+        # command's exit code.
+        CMD_PIPE="$(mktemp --dry-run)"
+        mkfifo "$CMD_PIPE"
+        # shellcheck disable=2064
+        trap "rm $CMD_PIPE" EXIT
+        (tee "$OUTPUT_LOG" < "$CMD_PIPE") &
+        sh -c "$CMD" > "$CMD_PIPE" 2>&1
         CMD_EXIT="$?"
         printf 'Press enter to continue'
         read -r ANSWER

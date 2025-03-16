@@ -2,7 +2,6 @@
 My dotfiles repository.
 
 ## TODO
-- Fix bot scripts exit status
 - Send at errors via mail
 - Stop using LightDM
 - Fix dotnet crypto in HOME

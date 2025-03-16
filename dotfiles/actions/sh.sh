@@ -36,13 +36,6 @@ print_info 'Link POSIX shell startup files in home directory'
 ln --force --symbolic --relative "${SDOTDIR:?}/profile" "$HOME/.profile"
 
 #######################################
-# Initialize $SDOTDIR
-#######################################
-
-mkdir --parents "${SDOTDIR:?}/cache" "${SDOTDIR:?}/interactive/plugins/data" \
-    "${SDOTDIR:?}/interactive/plugins/dotfiles"
-
-#######################################
 # Initialize cache
 #######################################
 

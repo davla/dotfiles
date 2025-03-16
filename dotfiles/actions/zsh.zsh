@@ -41,12 +41,6 @@ print_info 'Link zsh environment file in home directory'
 ln --force --relative --symbolic "${ZDOTDIR:?}/.zshenv" "$HOME/.zshenv"
 
 #######################################
-# Initialize $ZDOTDIR
-#######################################
-
-mkdir --parents "${ZDOTDIR:?}/cache" "${ZDOTDIR:?}/interactive/plugins/data"
-
-#######################################
 # Install sheldon
 #######################################
 

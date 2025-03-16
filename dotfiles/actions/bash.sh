@@ -38,13 +38,6 @@ ln --force --symbolic --relative "${BDOTDIR:?}/bash_profile" \
     "$HOME/.bash_profile"
 
 #######################################
-# Initialize $BDOTDIR
-#######################################
-
-mkdir --parents "${BDOTDIR:?}/cache" "${BDOTDIR:?}/interactive/plugins/data" \
-    "${BDOTDIR:?}/interactive/plugins/dotfiles"
-
-#######################################
 # Initialize cache
 #######################################
 

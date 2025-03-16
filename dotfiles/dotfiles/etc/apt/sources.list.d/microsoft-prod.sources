@@ -3,8 +3,8 @@
 # {{@@ header() @@}}
 
 Types: deb
-Uris: https://packages.microsoft.com/debian/11/prod
-Suites: bullseye
+Uris: https://packages.microsoft.com/debian/12/prod
+Suites: bookworm
 Components: main
 {%@@ include 'etc/apt/sources.list.d/signed-by' @@%}
 Architectures: armhf arm64 amd64

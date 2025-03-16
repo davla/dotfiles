@@ -56,9 +56,9 @@ dotfiles:
     upignore:
     - .zcompdump
     - .zsh_history
-    - .antibody
-    - cache
-    - 'plugins/plugins-*.zsh'
+  f_sheldon_plugins.toml:
+    src: config/sheldon/plugins.toml
+    dst: '{{@@ xdg_config("sheldon/plugins.toml") @@}}'
   f_shell-dirs:
     src: config/shell-dirs
     # Dynamic path as it's used somewhere else too
@@ -79,6 +79,7 @@ profiles:
     dotfiles:
     - d_sh
     - d_thefuck
+    - f_sheldon_plugins.toml
     - f_shell-dirs
     actions:
     - sh
@@ -106,7 +107,7 @@ dynvariables:
   # installation mechanisms (such as github-releases) that are necessary on
   # Debian but not on Arch.
   # For example, the zsh dotfiles need plugins to be installed not to crash,
-  # and that requires antibody. On Arch it's just installed as a system
+  # and that requires sheldon. On Arch it's just installed as a system
   # package, but on Debian we need github-releases to install it
   #
   # The variables need to be defined here, rather than in a distro-specific

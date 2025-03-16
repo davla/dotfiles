@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-# This script installs uv to a system location. It is meant to be used via the
-# gh-release command.
+# This script installs sheldon to a system location. It is meant to be used via
+# the gh-release command.
 #
 # Arguments:
 #   - $1: The GitHub repository name the software is installed from
@@ -33,17 +33,18 @@ GITHUB_REPO="$1"
 # Main
 ########################################
 
-log_debug 'Download and extract uv to temporary directory...'
+log_debug 'Download and extract sheldon to temporary directory...'
 
-TMP_DIR="$(mktemp --directory --tmpdir gh-release-uv.XXX)"
+TMP_DIR="$(mktemp --directory --tmpdir gh-release-sheldon.XXX)"
 # shellcheck disable=SC2064
 trap "cleanup_trap $TMP_DIR" EXIT INT HUP TERM
 
 ASSET_JQ_FILTER="$(uname --machine \
-    | xargs printf '(.content_type == "application/x-gtar") and
-        (.name | contains("%s") and contains("linux") and contains("gnu"))')"
+    | xargs printf '.name | contains("%s") and contains("linux")')"
 download_github_release_asset "$ASSET_JQ_FILTER" "$GITHUB_REPO" \
-    | tar --extract --gzip --strip-components 1 --directory "$TMP_DIR"
+    | tar --extract --gzip --directory "$TMP_DIR"
 
-log_debug "Install uv executables to $INSTALL_DIR..."
-install --mode 755 "$TMP_DIR/"* "$INSTALL_DIR"
+log_debug "Install sheldon executables to $INSTALL_DIR..."
+install --mode 755 "$TMP_DIR/sheldon" "$INSTALL_DIR"
+
+# TODO: install completions too, they are in the archive

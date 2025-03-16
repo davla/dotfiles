@@ -26,6 +26,9 @@ dotfiles:
   d_asdf-gh-release:
     src: usr/local/share/github-releases/asdf-vm/asdf
     dst: '{{@@ github_releases_dir @@}}/asdf-vm/asdf'
+  d_bitwarden:
+    src: usr/local/share/github-releases/bitwarden/clients
+    dst: '{{@@ github_releases_dir @@}}/bitwarden/clients'
   d_clipcat:
     src: usr/local/share/github-releases/xrelkd/clipcat
     dst: '{{@@ github_releases_dir @@}}/xrelkd/clipcat'
@@ -67,6 +70,7 @@ profiles:
   github-releases:
     dotfiles:
     - d_asdf-gh-release
+    - d_bitwarden
     - d_clipcat
     - d_docker-credential-helpers
     - d_local_lib_sh

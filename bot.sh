@@ -109,6 +109,17 @@ ask() {
     esac
 }
 
+# This function is meant to be used as a trap.
+#
+# It cleans up resources acquired at any point in the script, such as the
+# terminal alternate buffer, named pipes and detached subprocesses.
+cleanup() {
+    [ "$IN_ALTERNATE_BUFFER" = 'true' ] && tput rmcup
+    [ -n "$OUTPUT_LOG" ] && rm --force "$OUTPUT_LOG"
+    [ -n "$CMD_PIPE" ] && rm --force "$CMD_PIPE"
+    [ -n "$CMD_TEE_PID" ] && kill -s TERM "$CMD_TEE_PID" > /dev/null 2>&1
+}
+
 # This function executes a command.
 #
 # It displays the command output in a separate screen buffer, waiting for user
@@ -125,8 +136,6 @@ execute() {
     EXECUTE__DESC="$2"
 
     OUTPUT_LOG="$(mktemp)"
-    # shellcheck disable=2064
-    trap "rm $OUTPUT_LOG" EXIT
 
     EXECUTE__RETRY='true'
     while [ "$EXECUTE__RETRY" = 'true' ]; do
@@ -142,11 +151,14 @@ execute() {
         # command's exit code.
         CMD_PIPE="$(mktemp --dry-run)"
         mkfifo "$CMD_PIPE"
-        # shellcheck disable=2064
-        trap "rm $CMD_PIPE" EXIT
+
         (tee "$OUTPUT_LOG" < "$CMD_PIPE") &
+        CMD_TEE_PID="$!"
+
         sh -c "$EXECUTE__CMD" > "$CMD_PIPE" 2>&1
         EXECUTE__CMD_EXIT_CODE="$?"
+
+        unset CMD_TEE_PID
         printf 'Press enter to continue'
         read -r ANSWER
 
@@ -197,8 +209,7 @@ goodbye() {
     # would otherwise overwrite the exit code.
     GOODBYE__EXIT_CODE="$?"
 
-    # This is used as a signal handler, the alternate buffer might be active
-    [ "$IN_ALTERNATE_BUFFER" = 'true' ] && tput rmcup
+    cleanup
 
     # shellcheck disable=SC2068
     say ${@:---leading 2 --trailing 1} "$SAD_FACE" \
@@ -283,7 +294,7 @@ say() {
 # Intro
 #######################################
 
-trap goodbye EXIT
+trap goodbye INT HUP TERM
 
 say --trailing 2 "$PROMPT_FACE" "Hello, I'm your setup script!
 I'll guide you step-by-step through your system setup. I'll prompt you before \
@@ -474,3 +485,5 @@ esac
 say --trailing 1 "$PROMPT_FACE" "System setup completed!
 It's been a pleasure working with you, and I hope everything went fine.
 Bye-Bye!"
+
+cleanup

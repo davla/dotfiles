@@ -7,6 +7,9 @@ My dotfiles repository.
 - Stop using LightDM
 - Fix dotnet crypto in HOME
 - Fix zsh theme timer refresh
+- Ensure systemd daemon-reload before enabling in hooks
+- Move shell functions and aliases to separate binaries
+- Shell completions/cache as hooks
 - Failed to start pkgfile database update.
 - Better placement of logger_path variable
 - github mails

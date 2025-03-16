@@ -70,15 +70,6 @@ find /etc/apt/sources.list.d/ -type f -name '*.sources' -print0 \
     | xargs -0 -I '{}' basename '{}' '.sources' | tr '[:upper:]' '[:lower:]' \
     | while read -r REPO; do
         case "$REPO" in
-            'deb-multimedia')
-                print_info "Installing apt repository key for $REPO"
-
-                apt-get update -oAcquire::AllowInsecureRepositories=true \
-                    --yes > /dev/null
-                apt-get install -oAcquire::AllowInsecureRepositories=true \
-                    --yes deb-multimedia-keyring > /dev/null
-                ;;
-
             'docker')
                 download_key_from_url "$REPO" \
                     'https://download.docker.com/linux/debian/gpg'

@@ -1,9 +1,0 @@
-# Debian multimedia
-#
-# {{@@ header() @@}}
-
-Types: deb
-Uris: https://www.deb-multimedia.org
-Suites: stable
-Components: main non-free
-Signed-By: /etc/apt/trusted.gpg.d/deb-multimedia-keyring.gpg

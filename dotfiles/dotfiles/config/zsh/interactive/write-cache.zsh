@@ -76,7 +76,7 @@ env TF_SHELL='zsh' thefuck --alias 2>&1 > "$ZCACHEDIR/thefuck" \
 ########################################
 
 log_debug 'Find zygal init file'
-ZYGAL_INIT="$(find "$XDG_DATA_HOME/sheldon" -type f \
+ZYGAL_INIT="$(find "${XDG_DATA_HOME:-$HOME/.local/share}/sheldon" -type f \
     -path '*zygal/zsh/autoload.zsh')"
 
 log_debug 'Source zygal-static function'

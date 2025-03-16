@@ -8,6 +8,7 @@
 #         variable.
 
 # This doesn't work if this script is sourced
+. "$(dirname "$0")/../../.dotfiles-env"
 . "$(dirname "$0")/../lib.sh"
 
 #######################################

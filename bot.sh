@@ -355,9 +355,9 @@ esac
 case "$STEP" in
     'custom-commands'|'all')
         # Custom commands - they are used by other scripts.
-        $STEP_RUNNER "sudo -H -E PYTHONPATH='./dotfiles:$PYTHONPATH' uv run \
-            dotdrop install -c dotfiles/config-root.yaml -p commands" \
-            'install your custom commands'
+        $STEP_RUNNER "sudo --set-home --preserve-env=$DOTFILES_ENV_VARS \
+            uv run dotdrop install --cfg dotfiles/config-root.yaml \
+            --profile commands" 'install your custom commands'
         ;;
 esac
 case "$STEP" in
@@ -371,14 +371,14 @@ case "$STEP" in
     'packages'|'all')
         # Packages installation - they make commands available for other
         # scripts.
-        $STEP_RUNNER "sudo -E sh -e scripts/$DISTRO/packages.sh $USER" \
+        $STEP_RUNNER "sudo sh -e scripts/$DISTRO/packages.sh $USER" \
             'packages installation'
         ;;
 esac
 case "$STEP" in
     'manual'|'all')
         # Manual applications install
-        $STEP_RUNNER "sudo -E sh -e -l scripts/manually.sh $USER" \
+        $STEP_RUNNER "sudo sh -e -l scripts/manually.sh $USER" \
             'install manually managed applications'
         ;;
 esac
@@ -399,7 +399,7 @@ esac
 case "$STEP" in
     'graphical-login'|'all')
         # Graphical login manager
-        $STEP_RUNNER 'sudo -E sh -e scripts/graphical-login.sh' \
+        $STEP_RUNNER 'sudo sh -e scripts/graphical-login.sh' \
             'install a graphical login manager'
         ;;
 esac
@@ -442,13 +442,13 @@ esac
 case "$STEP" in
     'network'|'all')
         # Network
-        $STEP_RUNNER "sudo -E sh -e scripts/network.sh" 'set up the network'
+        $STEP_RUNNER "sudo sh -e scripts/network.sh" 'set up the network'
         ;;
 esac
 case "$STEP" in
     'hardware'|'all')
         # Hardware
-        $STEP_RUNNER "sudo -E sh -e scripts/hardware.sh $USER" \
+        $STEP_RUNNER "sudo sh -e scripts/hardware.sh $USER" \
             'apply hardware tweaks'
         ;;
 esac
@@ -461,7 +461,7 @@ esac
 case "$STEP" in
     'remote-access'|'all')
         # Remote access configuration, such as ssh and nfs
-        $STEP_RUNNER 'sudo -E sh -e scripts/remote-access.sh' \
+        $STEP_RUNNER 'sudo sh -e scripts/remote-access.sh' \
             'set up remote access'
 esac
 case "$STEP" in
@@ -473,7 +473,7 @@ esac
 case "$STEP" in
     'themes'|'all')
         # Themes
-        $STEP_RUNNER 'sudo -E sh -e scripts/aesthetics.sh' \
+        $STEP_RUNNER 'sudo sh -e scripts/aesthetics.sh' \
             'install cursor, desktop and icon themes'
         ;;
 esac

@@ -44,7 +44,7 @@ for ARG in "$@"; do
 
             # Relative paths need to be resolved before cd-ing into the
             # dotfiles directory, otherwise they become invalid afterwards
-            [ -e "$ARG" ] && ARG="$(readlink -f "$ARG")"
+            [ -e "$ARG" ] && ARG="$(readlink --canonicalize "$ARG")"
             ARGS+=("$ARG")
             ;;
     esac
@@ -73,17 +73,17 @@ cd "{{@@ dirname(_dotdrop_dotpath) | find_in_home | home_abs2var @@}}" || exit
 
 case "$WHO" in
     'user'|'both')
-        uv run dotdrop "$CMD" -c 'config-user.yaml' "${ARGS[@]}"
+        uv run dotdrop "$CMD" --cfg 'config-user.yaml' "${ARGS[@]}"
         ;;
 esac
 
 case "$WHO" in
     'root'|'both')
         if [ "$USER" = 'root' ]; then
-            uv run dotdrop "$CMD" -c 'config-root.yaml' "${ARGS[@]}"
+            uv run dotdrop "$CMD" --cfg 'config-root.yaml' "${ARGS[@]}"
         else
-            sudo -E -H PYTHONPATH="$PYTHONPATH" uv run dotdrop "$CMD" \
-                -c 'config-root.yaml' "${ARGS[@]}"
+            sudo --set-home --preserve-env="$DOTFILES_ENV_VARS" \
+                uv run dotdrop "$CMD" --cfg 'config-root.yaml' "${ARGS[@]}"
         fi
         ;;
 esac

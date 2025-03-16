@@ -3,7 +3,16 @@
 # This scripts defines environment variables for the bot and its scripts
 
 # Some custom python code uses imports
-export PYTHONPATH="$PYTHONPATH:$PWD"
+case "$PYTHONPATH" in
+    *'dotfiles'*)
+        ;;
+
+    *)
+        PYTHONPATH="$PYTHONPATH:$(find "$PWD" -type f \
+            -name 'config-root.yaml' -printf '%h\n')"
+        export PYTHONPATH
+        ;;
+esac
 
 # Display server
 if [ -n "$WAYLAND_DISPLAY" ]; then
@@ -47,3 +56,6 @@ case "$HOST" in
         export OUTPUT_SCALING='unnecessary'
         ;;
 esac
+
+# List of exported variables exported, to be used by sudo --preserve-env option
+export DOTFILES_ENV_VARS='DISPLAY_SERVER,DISTRO,HOST,OUTPUT_SCALING,PYTHONPATH'

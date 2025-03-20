@@ -615,11 +615,11 @@ profiles:
   # locales
   system-tweaks:
     dotfiles:
-    - f_logind.conf.d_lid-switch.conf
     - f_sudo_custom
     include:
     - system-tweaks-{{@@ display_server @@}}
     import:
+    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/system-tweaks.yaml:optional
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/locales.yaml
     actions:
     - locales

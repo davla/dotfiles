@@ -39,9 +39,6 @@ dotfiles:
   f_caprine.sources:
     src: etc/apt/sources.list.d/caprine.sources
     dst: /etc/apt/sources.list.d/caprine.sources
-  f_deb-multimedia.sources:
-    src: etc/apt/sources.list.d/deb-multimedia.sources
-    dst: /etc/apt/sources.list.d/deb-multimedia.sources
   f_debian-testing.sources:
     src: etc/apt/sources.list.d/debian-official-extra.sources
     dst: /etc/apt/sources.list.d/debian-testing.sources
@@ -94,7 +91,6 @@ profiles:
     - d_dpkg_hooks
     - f_apt.conf.d_dpkg-hooks
     - f_firefox.sources
-    - f_deb-multimedia.sources
     - f_debian-testing.sources
     - f_debian-unstable.sources
     - f_docker.sources

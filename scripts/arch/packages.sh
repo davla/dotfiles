@@ -112,7 +112,7 @@ esac
 
 if [ "$HOST" != 'raspberry' ]; then
     print_info 'Install CLI packages for non-arm hosts'
-    sudo -u "$USER" yay -S --needed docker docker-compose \
+    sudo -u "$USER" yay -S --needed 7zip docker docker-compose \
         docker-credential-secretservice-bin gifsicle gdb ghc intel-ucode \
         libsecret hunspell hunspell-da hunspell-en_US hunspell-it \
         macchina networkmanager polkit-gnome rar reflector shellcheck \
@@ -128,7 +128,7 @@ sudo -u "$USER" yay -S --needed asdf-vm autoconf automake bind cmake cmatrix \
     cowsay curl debugedit dkms dos2unix eza fasd fortune-mod gcc git-secret \
     gnupg htop jq lua luacheck luarocks man mercurial mmv moreutils \
     multi-git-status myrepos nfs-utils nyancat otf-ipafont pacman-contrib \
-    p7zip playerctl pkgfile python python-pip rbw sheldon sl sudo thefuck \
+    playerctl pkgfile python python-pip rbw sheldon sl sudo thefuck \
     ttf-baekmuk ttf-dejavu ttf-indic-otf ttf-khmer ttf-nerd-fonts-symbols \
     ttf-nerd-fonts-symbols-mono unzip uv vim wqy-microhei-lite zip
 

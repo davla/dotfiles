@@ -23,16 +23,15 @@ hardware, i3, keyboard-layout, manual, network, packages, remote-access, \
 repos, security, shells, startup, sway, system-tweaks, themes, timers, xfce"
 
 # Colors
-RESET_COLOR='\033[0;0m'
+RESET_COLOR="$(printf '\e[0;0m')"
 
-ERROR_COLOR='\033[1;91m'
-OK_COLOR='\033[1;92m'
-PROMPT_COLOR='\033[1;93m'
-SAD_COLOR='\033[1;96m'
+ERROR_COLOR="$(printf '\e[1;91m')"
+OK_COLOR="$(printf '\e[1;92m')"
+PROMPT_COLOR="$(printf '\e[1;93m')"
+SAD_COLOR="$(printf '\e[1;96m')"
 
 # Exit codes
 EXIT_NO=253
-EXIT_SAY=245
 EXIT_YES=0
 
 # Faces
@@ -48,12 +47,12 @@ RETRY_PROMPT="Do you want to retry? $CHOICES"
 
 # Misc
 MSG_WIDTH="${COLUMNS:-80}"
-MSG_WIDTH=$(( MSG_WIDTH - $(printf '%s' "$INDENT" | wc -m) ))
+MSG_WIDTH=$(( MSG_WIDTH - $(printf '%s' "$INDENT" | wc --chars) ))
 IN_ALTERNATE_BUFFER='false'
 
 # Reset
-SHELL="$(ps --no-headers -p "$$" -o 'comm')"
-USER="$(id -un)"
+SHELL="$(ps --no-headers --pid "$$" -o 'comm')"
+USER="$(id --user --name)"
 
 #######################################
 # Input processing
@@ -84,32 +83,23 @@ ask() {
 
     say "$@"
 
-    read -r ANSWER
-
-    # Each case unsets ANSWER as it terminates with a return. Saving the exit
-    # code in a variable and returing it wouldn't help, as such variable
-    # cannot be unset after it's used.
-    case "$(echo "$ANSWER" | tr '[:upper:]' '[:lower:]')" in
+    case "$(head --lines 1 | tr '[:upper:]' '[:lower:]')" in
         n|no)
-            unset ANSWER
             return "$EXIT_NO"
             ;;
 
         q|quit)
-            unset ANSWER
             # This sets $? for goodbye
             (exit 1)
-            goodbye -t
+            goodbye --trailing 1
             ;;
 
         y|yes)
-            unset ANSWER
             return "$EXIT_YES"
             ;;
 
         *)
-            unset ANSWER
-            say -t "$PROMPT_FACE" "Sorry, I didn't get it."
+            say --trailing 1 "$PROMPT_FACE" "Sorry, I didn't get it."
             ask "$@"
             # Need to return explicitly in order not to lose ask exit code: in
             # fact, the last command is the case statement, which overwrites
@@ -117,6 +107,17 @@ ask() {
             return
             ;;
     esac
+}
+
+# This function is meant to be used as a trap.
+#
+# It cleans up resources acquired at any point in the script, such as the
+# terminal alternate buffer, named pipes and detached subprocesses.
+cleanup() {
+    [ "$IN_ALTERNATE_BUFFER" = 'true' ] && tput rmcup
+    [ -n "$OUTPUT_LOG" ] && rm --force "$OUTPUT_LOG"
+    [ -n "$CMD_PIPE" ] && rm --force "$CMD_PIPE"
+    [ -n "$CMD_TEE_PID" ] && kill -s TERM "$CMD_TEE_PID" > /dev/null 2>&1
 }
 
 # This function executes a command.
@@ -131,15 +132,13 @@ ask() {
 #   - $1: The command to be executed.
 #   - $1: Description of the command, to be used for failure/success report.
 execute() {
-    CMD="$1"
-    DESC="$2"
+    EXECUTE__CMD="$1"
+    EXECUTE__DESC="$2"
 
-    OUTPUT_LOG=$(mktemp)
-    # shellcheck disable=2064
-    trap "rm $OUTPUT_LOG" EXIT
+    OUTPUT_LOG="$(mktemp)"
 
-    RETRY='true'
-    while [ "$RETRY" = 'true' ]; do
+    EXECUTE__RETRY='true'
+    while [ "$EXECUTE__RETRY" = 'true' ]; do
         # `tput smcup` exits with an error if "alternate buffers" are not
         # supported by the terminal. In such case, we avoid changing the cursor
         # position, so that the previous output is not overwritten
@@ -148,8 +147,18 @@ execute() {
             tput cup 0 0
         }
 
-        sh -c "$CMD" 2>&1 | tee "$OUTPUT_LOG"
-        CMD_EXIT="$?"
+        # We can't just pipe the command to tee, as that would mask the
+        # command's exit code.
+        CMD_PIPE="$(mktemp --dry-run)"
+        mkfifo "$CMD_PIPE"
+
+        (tee "$OUTPUT_LOG" < "$CMD_PIPE") &
+        CMD_TEE_PID="$!"
+
+        sh -c "$EXECUTE__CMD" > "$CMD_PIPE" 2>&1
+        EXECUTE__CMD_EXIT_CODE="$?"
+
+        unset CMD_TEE_PID
         printf 'Press enter to continue'
         read -r ANSWER
 
@@ -158,24 +167,24 @@ execute() {
             tput rmcup
         }
 
-        if [ "$CMD_EXIT" -eq 0 ]; then
+        if [ "$EXECUTE__CMD_EXIT_CODE" -eq 0 ]; then
             ask "$OK_FACE" "Looks like everything went fine with the step to \
-$DESC! Hooray!
+$EXECUTE__DESC! Hooray!
 The log has been saved to $OUTPUT_LOG. $RETRY_PROMPT"
         else
             ask "$ERROR_FACE" "Looks like something went wrong with the step \
-to $DESC.
+to $EXECUTE__DESC.
 The log has been saved to $OUTPUT_LOG. $RETRY_PROMPT"
         fi
 
         # ask exit code, that is the user answer.
         case "$?" in
             "$EXIT_YES")
-                RETRY='true'
+                EXECUTE__RETRY='true'
                 ;;
 
             "$EXIT_NO")
-                RETRY='false'
+                EXECUTE__RETRY='false'
                 ;;
 
             *)  # Should never occur, hopefully an error message has already
@@ -187,26 +196,25 @@ The log has been saved to $OUTPUT_LOG. $RETRY_PROMPT"
 
     printf '\n'
 
-    unset CMD CMD_EXIT DESC OUTPUT_LOG RETRY
+    unset EXECUTE__CMD EXECUTE__CMD_EXIT_CODE EXECUTE__DESC EXECUTE__RETRY
 }
 
 # This function prints a message before exiting the script with the last exit
 # code available before its call.
 #
 # Arguments:
-#   - $1: Options for say tunctions (default: -llt).
+#   - $1: Options for say tunctions (default: --leading 2 --trailing 1).
 goodbye() {
     # This needs to be before positional parameter assignments, since they
     # would otherwise overwrite the exit code.
-    EXIT_CODE="$?"
+    GOODBYE__EXIT_CODE="$?"
 
-    # This is used as a signal handler, the alternate buffer might be active
-    [ "$IN_ALTERNATE_BUFFER" = 'true' ] && tput rmcup
+    cleanup
 
-    SAY_OPTS="${1:--llt}"
-
-    say "$SAY_OPTS" "$SAD_FACE" "Saying goodbye early! Anything went wrong?"
-    exit "$EXIT_CODE"
+    # shellcheck disable=SC2068
+    say ${@:---leading 2 --trailing 1} "$SAD_FACE" \
+        'Saying goodbye early! Anything went wrong?'
+    exit "$GOODBYE__EXIT_CODE"
 }
 
 # This function prompts the user whether to execute a command. The command is
@@ -216,16 +224,17 @@ goodbye() {
 #   - $1: The command to be run.
 #   - $2: The command description. It should preferrably be an imperative form.
 prompt() {
-    CMD="$1"
-    DESC="$2"
+    PROMPT__CMD="$1"
+    PROMPT__DESC="$2"
 
-    if ask "$PROMPT_FACE" "Do you want to $DESC? $CHOICES"; then
-        execute "$CMD" "$DESC"
+    if ask "$PROMPT_FACE" "Do you want to $PROMPT__DESC? $CHOICES"; then
+        execute "$PROMPT__CMD" "$PROMPT__DESC"
     else
-        say -tt "$PROMPT_FACE" "Skipping the step to $DESC then."
+        say --trailing 2 "$PROMPT_FACE" \
+            "Skipping the step to $PROMPT__DESC then."
     fi
 
-    unset CMD DESC
+    unset PROMPT__CMD PROMPT__DESC
 }
 
 # This function prints a message as "said" by the bot, that is a face with a
@@ -233,76 +242,61 @@ prompt() {
 # trailing newline is printed by default.
 #
 # Arguments:
-#   - -l: Flag, adds a leading newline. Can be specified multiple times,
-#         to add more than one leading newline.
-#   - -t: Flag, adds a trailing newline. Can be specified multiple times,
-#         to add more than one trailing newline.
+#   - --leading <count>|-L COUNT: Number of leading newlines to display.
+#                                 Optional, defaults to none.
+#   - --trailing <count>|-T COUNT: Number of trailing newlines to display.
+#                                  Optional, defaults to none.
 #   - $1: The face to be printed
 #   - $2: The message to be printed
 say() {
-    # OPTIND needs to be reset to 0 every time. This is POSIX shell, local
-    # variables don't exist. Unsetting it crashes the shell.
-    OPTIND=0
-
-    # These variables contain the actual newlines, not just counters.
-    LEADING_NEWLINES=''
-    TRAILING_NEWLINES=''
-    while getopts 'lt' OPTION; do
-        case "$OPTION" in
-            'l')
-                # Adding the newline itself
-                LEADING_NEWLINES="$LEADING_NEWLINES\n"
+    SAY__FACE=''
+    SAY__MSG=''
+    SAY__LEADING_NEWLINES_COUNT=0
+    SAY__TRAILING_NEWLINES_COUNT=0
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            '--leading'|'-L')
+                SAY__LEADING_NEWLINES_COUNT="$2"
+                shift
                 ;;
 
-            't')
-                # Adding the newline itself
-                TRAILING_NEWLINES="$TRAILING_NEWLINES\n"
+            '--trailing'|'-T')
+                SAY__TRAILING_NEWLINES_COUNT="$2"
+                shift
                 ;;
 
-            *)  # getopts has already printed an error message
-                exit "$EXIT_SAY"
+            *)
+                if [ -z "$SAY__FACE" ]; then
+                    SAY__FACE="$1"
+                else
+                    SAY__MSG="$1"
+                fi
                 ;;
+
         esac
+        shift
     done
-    shift $(( OPTIND - 1 ))
-    FACE="$1"
-    MSG="$2"
 
-    MSG="$(printf '%s' "$MSG" | fold -sw "$MSG_WIDTH")"
+    seq 1 "$SAY__LEADING_NEWLINES_COUNT" \
+        | xargs --no-run-if-empty printf '\n%.0s'
+    # sed prepends the first line with the bot face and the following ones with
+    # the indent
+    printf '%s' "$SAY__MSG" | fold --spaces --width "$MSG_WIDTH" \
+        | sed "1 s/^/$SAY__FACE / ; 2,$ s/^/$INDENT/"
+    seq 1 "$SAY__TRAILING_NEWLINES_COUNT" \
+        | xargs --no-run-if-empty printf '\n%.0s'
 
-    # Lines from the second onwards need to be separated, as the first one
-    # doesn't need indentation.
-    TAIL_LINES="$(printf '%s' "$MSG" | tail -n +2)"
-
-    # shellcheck disable=2059
-    printf "$LEADING_NEWLINES"
-    # shellcheck disable=2059
-    printf "$FACE"
-
-    # The first line is printed with a one space indentation.
-    printf '%s' "$MSG" | head -n 1 | xargs -0 printf ' %s'
-
-    [ -n "$TAIL_LINES" ] && {
-        # awk adds a newline, so it cannot be used on the last line, as we
-        # don't want any trailing newline by default
-        printf '%s' "$TAIL_LINES" | head -n -1 | awk "{print \"$INDENT\" \$0}"
-
-        # Using xargs -0 and printf prevents a newline from being printed.
-        printf '%s' "$TAIL_LINES" | tail -n 1 | xargs -0 printf "$INDENT%s"
-    }
-    # shellcheck disable=2059
-    printf "$TRAILING_NEWLINES"
-
-    unset FACE LEADING_NEWLINES MSG OPTION TAIL_LINES TRAILING_NEWLINES
+    unset SAY__FACE SAY__LEADING_NEWLINES_COUNT SAY__MSG \
+        SAY__TRAILING_NEWLINES_COUNT
 }
 
 #######################################
 # Intro
 #######################################
 
-trap goodbye INT TERM
+trap goodbye INT HUP TERM
 
-say -tt "$PROMPT_FACE" "Hello, I'm your setup script!
+say --trailing 2 "$PROMPT_FACE" "Hello, I'm your setup script!
 I'll guide you step-by-step through your system setup. I'll prompt you before \
 each step, copy configuration files, execute commands, and report you output \
 and errors when they occur.
@@ -321,18 +315,17 @@ $STEPS: "
             read -r STEP
     else
         STEP='all'
-        say -tt "$PROMPT_FACE" "I will guide you through all the steps then. \
-I'll prompt you before each one, so you can skip the steps you don't want to \
-run"
+        say --trailing 2 "$PROMPT_FACE" "I will guide you through all the \
+steps then. I'll prompt you before each one, so you can skip the \
+steps you don't want to run"
     fi
 }
 
 # At this point, $STEP is either provided by the cli, or interactively entered
 # by the user, or programmatically set to 'all'. We can therefore proceed to
 # valiation. A valid step is either 'all' or one of the listed steps.
-while [ "$STEP" != 'all' ] && ! echo "$STEPS" | grep "$STEP" > /dev/null 2>&1
-do
-    say -t "$PROMPT_FACE" "Sorry, I don't know the '$STEP' step."
+while [ "$STEP" != 'all' ] && ! echo "$STEPS" | grep --quiet "$STEP"; do
+    say --trailing 1 "$PROMPT_FACE" "Sorry, I don't know the '$STEP' step."
     say "$PROMPT_FACE" "These are the available steps:
 $STEPS: "
     read -r STEP
@@ -489,6 +482,8 @@ esac
 # Outro
 #######################################
 
-say -t "$PROMPT_FACE" "System setup completed!
+say --trailing 1 "$PROMPT_FACE" "System setup completed!
 It's been a pleasure working with you, and I hope everything went fine.
 Bye-Bye!"
+
+cleanup

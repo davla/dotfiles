@@ -42,6 +42,10 @@ else
 fi
 
 print_info 'Install project dependencies'
-uv sync
+# Compiling bytecode now to ensure that created files have non-root
+# permissions. By default uv compiles bytecode lazily the first time a command
+# is executed in the virtual environment, and if that happens as root, then the
+# files are created with root permissions.
+uv sync --compile-bytecode
 
 cd - > /dev/null 2>&1 || exit

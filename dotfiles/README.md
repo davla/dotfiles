@@ -5,7 +5,7 @@ My dotfiles repository.
 - Send at errors via mail
 - Stop using LightDM
 - Fix dotnet crypto in HOME
-- Fix zsh theme timer refresh
+- uv venv with root permissions
 - Ensure systemd daemon-reload before enabling in hooks
 - Move shell functions and aliases to separate binaries
 - Shell completions/cache as hooks

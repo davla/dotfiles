@@ -32,13 +32,16 @@ include = cat '{{@@ mr_libs_path @@}}/asdf'
 
 [DEFAULT]
 lib=
-    # This function installs pre-commit via the system package manager.
-    install_precommit() {
+    # This function installs pre-commit via the system package manager and
+    # initializes it in the repository
+    init_precommit() {
         {%@@ if 'arch' in distro_id @@%}
         yay -S --needed pre-commit
         {%@@ elif distro_id == 'debian' @@%}
         sudo apt-get install pre-commit
         {%@@ endif @@%}
+        #
+        pre-commit install
     }
 
 #######################################
@@ -52,7 +55,7 @@ checkout =
         '{{@@ wiki_modules_path @@}}'
 init =
     init_asdf_project lua
-    install_precommit
+    init_precommit
 
 
 [macros]
@@ -69,11 +72,15 @@ init =
     ln --force --symbolic "{{@@ wiki_util_abs_path @@}}/bot/.tool-versions" \
         "$MR_REPO"
     init_asdf_project python
-    SYSTEM_VIRTUALENV="$(which virtualenv)"
-    asdf which python | xargs -I '{}' "$SYSTEM_VIRTUALENV" --python '{}' \
-        "{{@@ pywikibot_venv_path @@}}"
-    . "{{@@ pywikibot_venv_path @@}}/bin/activate"
-    pip install -r requirements.txt
+    [ -d '{{@@ pywikibot_venv_path @@}}' ] || {
+        SYSTEM_VIRTUALENV="$(which virtualenv)"
+        asdf which python | xargs -I '{}' "$SYSTEM_VIRTUALENV" --python '{}' \
+            '{{@@ pywikibot_venv_path @@}}'
+        . '{{@@ pywikibot_venv_path @@}}/bin/activate'
+        pip install -r requirements.txt
+        deactivate
+    }
+    . '{{@@ pywikibot_venv_path @@}}/bin/activate'
     #
     # Setting up Pokémon Central Wiki connection
     python pwb.py generate_family_file \
@@ -106,7 +113,7 @@ checkout = git clone 'git@github.com:pokemoncentral/wiki-util.git' \
     '{{@@ wiki_util_path @@}}'
 init =
     # Install pre-commit
-    install_precommit
+    init_precommit
     #
     # Installing atom-macros dependencies
     cd "$MR_REPO/js/atom-macros" || exit

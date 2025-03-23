@@ -1,5 +1,5 @@
 --[[
-    This scripts runs within imapfilter. It checks if I have received the email with the monthly pass renewal receipt.
+    This script runs within imapfilter. It checks if I have received the email with the monthly pass renewal receipt.
     If that's the case, it prints to STDOUT the day when the renewal happened, in YYYY-MM-DD format, and exits with 0.
     If no email has been received, it exists with 1.
 

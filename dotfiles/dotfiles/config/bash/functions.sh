@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# This scripts defines some bash functions, used in bot interactive and
+# This script defines some bash functions, used in bot interactive and
 # non-interactive shells
 
 #######################################

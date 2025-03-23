@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# This scripts defines some bash functions that are useful in interactive shells
+# This script defines some bash functions that are useful in interactive shells
 # only
 
 #######################################

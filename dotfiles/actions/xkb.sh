@@ -4,7 +4,7 @@
 # former into the latter
 
 # This doesn't work if this script is sourced
-. "$(dirname "$0")/../../scripts/lib.sh"
+. "$(dirname "$0")/../../bot-steps/lib.sh"
 
 #######################################
 # Variables

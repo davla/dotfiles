@@ -92,9 +92,10 @@
   },
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
-  "files.insertFinalNewline": true,
-  "files.trimFinalNewlines": true,
-  "files.trimTrailingWhitespace": true,
+  // These are configured by .editorconfig
+  "files.insertFinalNewline": false,
+  "files.trimFinalNewlines": false,
+  "files.trimTrailingWhitespace": false,
 
   ///////////////////////////////////
   // Search

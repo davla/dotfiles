@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-# This scripts defines some zsh functions that are useful in interactive shells
+# This script defines some zsh functions that are useful in interactive shells
 # only
 
 #######################################

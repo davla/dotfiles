@@ -39,8 +39,8 @@ System initial setup
 - Fix mako actions
 - Fix bluez
 
-[error-face]: docs/error-face.svg "Error face"
-[indent]: docs/indent.svg "Indent"
-[ok-face]: docs/ok-face.svg "OK face"
-[prompt-face]: docs/prompt-face.svg "Prompt face"
-[sad-face]: docs/sad-face.svg "Sad face"
+[error-face]: docs/img/error-face.svg "Error face"
+[indent]: docs/img/indent.svg "Indent"
+[ok-face]: docs/img/ok-face.svg "OK face"
+[prompt-face]: docs/img/prompt-face.svg "Prompt face"
+[sad-face]: docs/img/sad-face.svg "Sad face"

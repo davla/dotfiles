@@ -189,6 +189,11 @@ dotfiles:
   f_dunstrc:
     src: config/dunst/dunstrc.lodpi
     dst: '{{@@ dunstrc_dst | default(xdg_config("dunst/dunstrc")) @@}}'
+  f_editorconfig:
+    src: config/editorconfig
+    dst: '{{@@ xdg_config("editorconfig") @@}}'
+    actions:
+    - link '{{@@ _dotfile_abs_dst @@}}' '$HOME/.editorconfig'
   f_fonts.conf:
     src: config/fontconfig/fonts.conf
     dst: '{{@@ xdg_config("fontconfig/fonts.conf") @@}}'
@@ -367,6 +372,8 @@ dotfiles:
 profiles:
   # This profile groups configuration files for CLI-based applictions.
   cli:
+    dotfiles:
+    - f_editorconfig
     import:
     - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/cli.yaml:optional

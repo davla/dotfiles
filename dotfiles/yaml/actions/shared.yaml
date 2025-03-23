@@ -2,3 +2,4 @@ actions:
   post:
     _rm: rm -f {0}
     recursive-exec-permissions: chmod +x -R '{0}'
+    link: ln --force --symbolic "{0}" "{1}"

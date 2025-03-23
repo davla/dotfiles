@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-# This scripts defines some POSIX shell functions that are useful in
+# This script defines some POSIX shell functions that are useful in
 # interactive shells only
 
 {%@@ if user == 'user' and 'arch' in distro_id

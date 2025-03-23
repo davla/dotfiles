@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-# This scripts contains initializaiton and configuration of plugins and tools
+# This script contains initializaiton and configuration of plugins and tools
 # that are shell-specific, and should therefore not be inherited by other
 # POSIX-compliant shells. Such plugins are useful in interactive shells only.
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-# This scripts defines some zsh aliases, used in bot interactive and
+# This script defines some zsh aliases, used in bot interactive and
 # non-interactive shells
 
 #######################################

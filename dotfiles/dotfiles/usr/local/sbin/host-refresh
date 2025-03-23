@@ -14,7 +14,7 @@
 # - The frequent hosts marker is not found.
 # - At least one host IP is not found.
 #
-# NOTE: this scripts DELETES everything after the
+# NOTE: this script DELETES everything after the
 # '{{@@ frequent_hosts_marker @@}}' marker from /etc/hosts, if the marker is
 # found.
 #

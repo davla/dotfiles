@@ -28,6 +28,21 @@ Configuration files for my Linux systems
 ![     ][indent]      They are encrypted in this repository via
                       [git-secret](https://sobolevn.me/git-secret/).
 
+## Dotdrop
+
+[README](./dotfiles/README.md)
+
+![[^_^]][prompt-face] [Dotdrop](https://github.com/deadc0de6/dotdrop)
+                      constitutes the functioning core of this repository.
+                      Immense gratitude to
+                      [deadc0de6](https://github.com/deadc0de6) for  
+![     ][indent]      creating and maintaining such an amazingly useful tool!  
+![[^_^]][prompt-face] The whole dotdrop setup is located at
+                      [`dotfiles`](./dotfiles/). Dotdrop is so central to this
+                      repository that it has  
+![     ][indent]      its own documentation section in
+                      [`dotfiles/README.md`](./dotfiles/README.md).  
+
 ## [`bot.sh`](./bot.sh)
 
 ![[^_^]][prompt-face] The [`bot.sh`](./bot.sh) script is where you will see

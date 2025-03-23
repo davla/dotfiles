@@ -11,7 +11,7 @@ BOT_FACE_REGEX='^!\S+'
 END_LINE='$'
 HARD_WRAP='  '
 INDENT='![     ][indent]'
-LINE_LENGTH='105'
+LINE_LENGTH='114'
 START_LINE='1'
 
 ########################################
@@ -177,11 +177,14 @@ sed --quiet "$START_LINE,${END_LINE}p$SED_LINE_QUIT" < "$INPUT_FILE" \
     | while read -r LINE; do
         BOT_FACE="$(echo "$LINE" \
             | grep --perl-regexp --only-match "$BOT_FACE_REGEX")"
-        echo "$LINE" | sed --regexp-extended "s/$BOT_FACE_REGEX //" \
+        echo "$LINE" | sed --regexp-extended "
+                s/$BOT_FACE_REGEX //;
+                s/$HARD_WRAP$//
+            " \
             | fold --space --width "$LINE_LENGTH" \
             | sed "
-                s/\s*$/$HARD_WRAP/;
                 1 s/^/$BOT_FACE /;
                 2,$ s/^/$INDENT /
+                s/\s*$/$HARD_WRAP/;
             "
     done

@@ -7,7 +7,7 @@
 #   - $1: The ddclient configuration file path
 
 # This doesn't work if this script is sourced
-. "$(dirname "$0")/../../scripts/lib.sh"
+. "$(dirname "$0")/../../bot-steps/lib.sh"
 
 #######################################
 # Input processing

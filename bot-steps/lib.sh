@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-# This file contains utility code shared across bot scripts
+# This file contains utility code shared across bot steps
 
 # This function prints a line with an informative message, that is a string
 # prefixed by a green "[INFO]"

@@ -25,4 +25,4 @@ systemctl enable --now nfs-server sshd
 
 # This script is only executed from here. However, it's a quite complex one
 # with a few gotchas, hence it's kept in a separate files.
-exec sh -e scripts/users.sh
+exec sh -e bot-steps/users.sh

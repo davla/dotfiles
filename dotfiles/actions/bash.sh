@@ -6,7 +6,7 @@
 #   - $1: The file defining the bash configuration directory path.
 
 # This doesn't work if this script is sourced
-. "$(dirname "$0")/../../scripts/lib.sh"
+. "$(dirname "$0")/../../bot-steps/lib.sh"
 
 #######################################
 # Input processing

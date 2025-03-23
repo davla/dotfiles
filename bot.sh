@@ -342,12 +342,12 @@ STEP="$(echo "${STEP}" | tr '[:upper:]' '[:lower:]')"
 case "$STEP" in
     'dotdrop'|'all')
         # Dotdrop setup - first as anything else depends on it.
-        $STEP_RUNNER "sh -e scripts/dotdrop.sh $PWD" 'set dotdrop up'
+        $STEP_RUNNER "sh -e bot-steps/dotdrop.sh $PWD" 'set dotdrop up'
         ;;
 esac
 case "$STEP" in
     'custom-commands'|'all')
-        # Custom commands - they are used by other scripts.
+        # Custom commands - they are used by other steps.
         $STEP_RUNNER "sudo --set-home --preserve-env=$DOTFILES_ENV_VARS \
             uv run dotdrop install --cfg dotfiles/config-root.yaml \
             --profile commands" 'install your custom commands'
@@ -355,7 +355,7 @@ case "$STEP" in
 esac
 case "$STEP" in
     'environment'|'all')
-        # Shell environment - environment variables are used in other scripts.
+        # Shell environment - environment variables are used in other steps.
         $STEP_RUNNER 'dotdrop -U root install -p environment' \
             'set up the environment'
         ;;
@@ -363,15 +363,15 @@ esac
 case "$STEP" in
     'packages'|'all')
         # Packages installation - they make commands available for other
-        # scripts.
-        $STEP_RUNNER "sudo sh -e scripts/$DISTRO/packages.sh $USER" \
+        # steps.
+        $STEP_RUNNER "sudo sh -e bot-steps/$DISTRO/packages.sh $USER" \
             'packages installation'
         ;;
 esac
 case "$STEP" in
     'manual'|'all')
         # Manual applications install
-        $STEP_RUNNER "sudo sh -e -l scripts/manually.sh $USER" \
+        $STEP_RUNNER "sudo sh -e -l bot-steps/manually.sh $USER" \
             'install manually managed applications'
         ;;
 esac
@@ -392,26 +392,26 @@ esac
 case "$STEP" in
     'graphical-login'|'all')
         # Graphical login manager
-        $STEP_RUNNER 'sudo sh -e scripts/graphical-login.sh' \
+        $STEP_RUNNER 'sudo sh -e bot-steps/graphical-login.sh' \
             'install a graphical login manager'
         ;;
 esac
 case "$STEP" in
     'i3'|'all')
         # i3
-        $STEP_RUNNER 'sh -e scripts/i3.sh' 'install i3'
+        $STEP_RUNNER 'sh -e bot-steps/i3.sh' 'install i3'
         ;;
 esac
 case "$STEP" in
     'sway'|'all')
         # i3
-        $STEP_RUNNER 'sh -e scripts/sway.sh' 'install sway'
+        $STEP_RUNNER 'sh -e bot-steps/sway.sh' 'install sway'
         ;;
 esac
 case "$STEP" in
     'xfce'|'all')
         # Xfce
-        $STEP_RUNNER 'sh -e scripts/xfce.sh' 'install Xfce'
+        $STEP_RUNNER 'sh -e bot-steps/xfce.sh' 'install Xfce'
         ;;
 esac
 case "$STEP" in
@@ -423,57 +423,58 @@ esac
 case "$STEP" in
     'startup'|'all')
         # Startup jobs
-        $STEP_RUNNER 'sh -e scripts/startup.sh' 'set up startup jobs'
+        $STEP_RUNNER 'sh -e bot-steps/startup.sh' 'set up startup jobs'
         ;;
 esac
 case "$STEP" in
     'timers'|'all')
         # Systemd timers
-        $STEP_RUNNER 'sh -e scripts/timers.sh' 'set up systemd timers'
+        $STEP_RUNNER 'sh -e bot-steps/timers.sh' 'set up systemd timers'
         ;;
 esac
 case "$STEP" in
     'network'|'all')
         # Network
-        $STEP_RUNNER "sudo sh -e scripts/network.sh" 'set up the network'
+        $STEP_RUNNER "sudo sh -e bot-steps/network.sh" 'set up the network'
         ;;
 esac
 case "$STEP" in
     'hardware'|'all')
         # Hardware
-        $STEP_RUNNER "sudo sh -e scripts/hardware.sh $USER" \
+        $STEP_RUNNER "sudo sh -e bot-steps/hardware.sh $USER" \
             'apply hardware tweaks'
         ;;
 esac
 case "$STEP" in
     'security'|'all')
         # SSH and GPG keys
-        $STEP_RUNNER "sh -e scripts/security.sh $*" 'generate SSH and GPG keys'
+        $STEP_RUNNER "sh -e bot-steps/security.sh $*" \
+            'generate SSH and GPG keys'
         ;;
 esac
 case "$STEP" in
     'remote-access'|'all')
         # Remote access configuration, such as ssh and nfs
-        $STEP_RUNNER 'sudo sh -e scripts/remote-access.sh' \
+        $STEP_RUNNER 'sudo sh -e bot-steps/remote-access.sh' \
             'set up remote access'
 esac
 case "$STEP" in
     'shells'|'all')
         # Shells setup
-        $STEP_RUNNER 'sh -e scripts/shell.sh' 'initialize the shells'
+        $STEP_RUNNER 'sh -e bot-steps/shell.sh' 'initialize the shells'
         ;;
 esac
 case "$STEP" in
     'themes'|'all')
         # Themes
-        $STEP_RUNNER 'sudo sh -e scripts/aesthetics.sh' \
+        $STEP_RUNNER 'sudo sh -e bot-steps/aesthetics.sh' \
             'install cursor, desktop and icon themes'
         ;;
 esac
 case "$STEP" in
     'repos'|'all')
         # Repositories
-        $STEP_RUNNER 'sh -e scripts/repos.sh' \
+        $STEP_RUNNER 'sh -e bot-steps/repos.sh' \
             'initialize your coding workspace'
         ;;
 esac

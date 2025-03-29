@@ -45,20 +45,6 @@ USER_NAME="${1:-$USER}"
 # Self-updating applications
 #######################################
 
-########################################
-# BitWarden
-########################################
-
-print_info 'Install BitWarden'
-
-BITWARDEN_DEB="$(mktemp /tmp/bitwarden-deb.XXX)"
-wget -qO "$BITWARDEN_DEB" \
-    'https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb'
-
-dpkg --install "$BITWARDEN_DEB"
-
-rm "$BITWARDEN_DEB"
-
 #######################################
 # Telegram
 #######################################

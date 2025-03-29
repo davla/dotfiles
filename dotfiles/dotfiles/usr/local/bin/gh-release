@@ -15,9 +15,14 @@ HELP_TEXT="
 Install, update and query status of software installed via GitHub releases.
 
 Usage:
-    gh-release update [--force|-F] [--i3blocks-signal|-S SIGNAL]
-    gh-release status
-    gh-release upgradable
+    gh-release update [--force|-F] [--i3blocks-signal|-S SIGNAL] [REPO...]
+    gh-release status [REPO...]
+    gh-release upgradable [REPO...]
+
+Arguments:
+    REPO: A GitHub repository to operate on. It must be present in the GitHub
+          releases configuration. It can be just the name of the repository, or
+          also include the owner. For example, 'rust' or 'rust-lang/rust'.
 
 Options:
     --force, -F                     Force installation even if the newest
@@ -37,20 +42,23 @@ Here a quick summary:
 Below, more information about the individual commands:
 
 update
-    Installs the newest available version of all the packages via GitHub
-    releases.
+    Installs the newest available version of one or more packages via GitHub
+    releases. If no repositories are given as arguments, it operates on all
+    configured repositories.
 
     Aliases: install
 
 status
-    Display the status of all the packages installed via GitHub releases,
-    including the newest version if not currently installed.
+    Display the status of one or more packages installed via GitHub releases,
+    including the newest version if not currently installed. If no repositories
+    are given as arguments, it operates on all configured repositories.
 
     Aliases: list
 
 upgradeable
-    Display the status of packages installed via GitHub releases *that have a
-    newer version available on GitHub*.
+    Display the status of one or more packages installed via GitHub releases
+    *that have a newer version available on GitHub*. If no repositories are
+    given as arguments, it operates on all configured repositories.
 
     Aliases: list-upgradable, list-upgradeable, upgradable
 "
@@ -163,6 +171,7 @@ case "$1" in
 esac
 shift
 
+REPOS=""
 while [ $# -gt 0 ]; do
     set +e
     logging_parse_arg "$1" "$2"
@@ -177,6 +186,10 @@ while [ $# -gt 0 ]; do
                 '--i3blocks-signal'|'-S')
                     I3BLOCKS_SIGNAL="$1"
                     shift 1
+                    ;;
+
+                *)
+                    REPOS="$REPOS $1"
                     ;;
             esac
             shift
@@ -202,7 +215,9 @@ done
 # Main
 ########################################
 
-find "$RELEASES_DIR" -maxdepth 2 -mindepth 2 -type d -printf '%P\n' \
+REPO_PATHS="$(echo "${REPOS## }" | tr ' ' '|' | xargs printf '.*(%s).*')"
+find "$RELEASES_DIR" -maxdepth 2 -mindepth 2 -type d \
+        -regextype 'posix-extended' -regex "$REPO_PATHS" -printf '%P\n' \
     | while read -r GITHUB_REPO; do
         log_info "Process $GITHUB_REPO..."
 

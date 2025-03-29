@@ -70,9 +70,6 @@ profiles:
   github-releases:
     dotfiles:
     - d_asdf-gh-release
-    - d_bitwarden
-    - d_clipcat
-    - d_docker-credential-helpers
     - d_local_lib_sh
     - d_nerd-fonts
     - d_sheldon

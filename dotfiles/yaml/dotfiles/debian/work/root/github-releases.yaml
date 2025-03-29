@@ -4,4 +4,7 @@
 # "github-releases" profile only on my work machine.
 
 dotfiles:
+- d_bitwarden
+- d_clipcat
+- d_docker-credential-helpers
 - d_i3-volume

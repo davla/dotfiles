@@ -371,7 +371,7 @@ esac
 case "$STEP" in
     'manual'|'all')
         # Manual applications install
-        $STEP_RUNNER "sudo sh -e -l bot-steps/manually.sh $USER" \
+        $STEP_RUNNER "sudo sh -e bot-steps/manually.sh" \
             'install manually managed applications'
         ;;
 esac

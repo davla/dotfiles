@@ -6,9 +6,6 @@
 #
 # Some hosts/distros cause this script to exit early, as there's nothing to be
 # manually installed
-#
-# Arguments:
-#   - $1: The user added to the telegram group. Optional, defaults to $USER.
 
 # This doesn't work if this script is sourced
 . "$(dirname "$0")/../.dotfiles-env"
@@ -27,53 +24,6 @@
     print_info 'Nothing to install manually via myrepos on raspberry'
     exit 0
 }
-
-#######################################
-# Variables
-#######################################
-
-# The directory where Telegram will be installed
-TELEGRAM_HOME='/opt/telegram'
-
-#######################################
-# Input processing
-#######################################
-
-USER_NAME="${1:-$USER}"
-
-#######################################
-# Self-updating applications
-#######################################
-
-#######################################
-# Telegram
-#######################################
-
-case "$HOST" in
-    'personal')
-        print_info 'Install Telegram'
-
-        # Install the executables
-        mkdir -p "$TELEGRAM_HOME"
-        wget -qO - 'https://telegram.org/dl/desktop/linux' \
-            | tar -xJC "$TELEGRAM_HOME" --strip-components=1
-
-        # Link the main executable in $PATH
-        ln --force --symbolic "$TELEGRAM_HOME/Telegram" \
-            '/usr/local/bin/telegram'
-
-        # Make updater work also for unprivileged users in telegram group
-        groupadd -f telegram
-        getent passwd telegram > /dev/null 2>&1 || useradd -r -g telegram \
-            telegram
-        usermod -aG telegram "$USER_NAME"
-        # Set telegram user login group to telegram, even if the user is not
-        # created above
-        usermod -g telegram telegram
-        chmod g+w "$TELEGRAM_HOME"
-        chown telegram:telegram -R "$TELEGRAM_HOME"
-        ;;
-esac
 
 #######################################
 # Myrepos-based installation

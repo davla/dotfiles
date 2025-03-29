@@ -8,3 +8,4 @@ dotfiles:
 - d_clipcat
 - d_docker-credential-helpers
 - d_i3-volume
+- d_telegram

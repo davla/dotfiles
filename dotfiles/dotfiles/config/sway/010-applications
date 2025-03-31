@@ -12,7 +12,7 @@
 set {
     # Command criteria
     $caprine_criterion app_id="caprine"
-    $firefox_criterion app_id=".*Firefox.*"
+    $firefox_criterion app_id=".*[Ff]irefox.*"
     $messaging_criterion con_mark="{{@@ messaging_mark @@}}"
     $scratchpad_editor_criterion app_id="scratchpad-editor"
     $scratchpad_term_criterion title="scratchpad-terminal"

@@ -333,6 +333,9 @@ dotfiles:
   f_vscode_argv.json:
     src: vscode/argv.json
     dst: ~/.vscode/argv.json
+  f_vimrc:
+    src: config/vim/vimrc
+    dst: '{{@@ xdg_config("vim/vimrc") @@}}'
   f_vscode_extension-list.txt:
     src: config/Code/User/extension-list.txt
     # Temporary destination as the file is not read by VSCode at runtime, so it
@@ -374,6 +377,7 @@ profiles:
   cli:
     dotfiles:
     - f_editorconfig
+    - f_vimrc
     import:
     - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/cli.yaml:optional

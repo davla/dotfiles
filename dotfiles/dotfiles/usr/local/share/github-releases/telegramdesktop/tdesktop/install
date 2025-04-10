@@ -15,24 +15,10 @@ set -e
 # Libraries includes
 #######################################
 
-# . "{{@@ gh_release_path @@}}"
-. /usr/local/lib/sh/gh-release.sh
+. "{{@@ gh_release_path @@}}"
 
 ########################################
-# Variables
-########################################
-
-INSTALL_DIR='/usr/local/bin'
-EXEC_PATH="$INSTALL_DIR/telegram-desktop"
-
-########################################
-# Input processing
-########################################
-
-GITHUB_REPO="$1"
-
-########################################
-# Main
+# Locate artifacts
 ########################################
 
 TMP_SOURCE_DIR="$(mktemp --tmpdir --directory 'XXX-telegramdesktop-src')"
@@ -47,6 +33,13 @@ jq --raw-output '[
 ] | join(" ")' > "$TMP_FILE"
 read -r BIN_ARCHIVE_URL SOURCE_ARCHIVE_URL < "$TMP_FILE"
 
+########################################
+# Install executables
+########################################
+
+EXEC_DIR='/usr/local/bin'
+EXEC_PATH="$EXEC_DIR/telegram-desktop"
+
 log_debug 'Download and install Telegram desktop binaries...'
 {
     wget --quiet --output-document - "$BIN_ARCHIVE_URL" \
@@ -59,7 +52,17 @@ log_debug "Set executable permissions to $EXEC_PATH..."
 chmod +x "$EXEC_PATH"
 
 log_debug "Alias telegram-desktop to telegram..."
-ln --symbolic --force "$EXEC_PATH" "$INSTALL_DIR/telegram"
+ln --symbolic --force "$EXEC_PATH" "$EXEC_DIR/telegram"
+
+########################################
+# Install assets
+########################################
+
+ASSETS_PATH='/usr/share'
+DBUS_SERVICES_DIR="$ASSETS_PATH/dbus-1/services"
+ICONS_DIR="$ASSETS_PATH/icons/hicolor"
+SRC_RESOURCES="$TMP_SOURCE_DIR/Telegram/Resources"
+SRC_XDG="$TMP_SOURCE_DIR/lib/xdg"
 
 log_debug 'Download Telegram desktop sources...'
 {
@@ -69,28 +72,16 @@ log_debug 'Download Telegram desktop sources...'
 tar --extract --gz --strip-components 1 --directory "$TMP_SOURCE_DIR" \
     --file "$TMP_FILE"
 
-DATA_ROOT='/usr/share'
-
 log_debug 'Install Telegram desktop XDG integration...'
-SRC_XDG="$TMP_SOURCE_DIR/lib/xdg"
-install -D "$SRC_XDG/org.telegram.desktop.desktop" \
-    "$DATA_ROOT/applications"
+install -D "$SRC_XDG/org.telegram.desktop.desktop" "$ASSETS_PATH/applications"
+install -D "$SRC_XDG/org.telegram.desktop.metainfo.xml" "$ASSETS_PATH/metainfo"
 
-DBUS_SERVICES_DIR="$DATA_ROOT/dbus-1/services"
 mkdir --parents "$DBUS_SERVICES_DIR"
-sed "s|@CMAKE_INSTALL_FULL_BINDIR@|$INSTALL_DIR|g" \
+sed "s|@CMAKE_INSTALL_FULL_BINDIR@|$EXEC_DIR|g" \
     "$SRC_XDG/org.telegram.desktop.service" \
     > "$DBUS_SERVICES_DIR/org.telegram.desktop.service"
 
-install -D "$SRC_XDG/org.telegram.desktop.metainfo.xml" \
-    "$DATA_ROOT/metainfo"
-
-# TODO: XDG portals
-
 log_debug 'Install Telegram desktop icons...'
-SRC_RESOURCES="$TMP_SOURCE_DIR/Telegram/Resources"
-ICONS_DIR="$DATA_ROOT/icons/hicolor"
-
 find "$SRC_RESOURCES/art/" -type f -regextype 'posix-extended' \
         -regex '.*icon[0-9]{2,3}.png' \
     | while read -r ICON; do

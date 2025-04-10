@@ -175,8 +175,9 @@ REPOS=""
 while [ $# -gt 0 ]; do
     set +e
     logging_parse_arg "$1" "$2"
+    LOGGING_PARSE_ARG_EXIT_CODE="$?"
     set -e
-    case "$?" in
+    case "$LOGGING_PARSE_ARG_EXIT_CODE" in
         0)
             case "$1" in
                 '--force'|'-F')
@@ -200,7 +201,7 @@ while [ $# -gt 0 ]; do
             ;;
 
         *)
-            shift "$?"
+            shift "$LOGGING_PARSE_ARG_EXIT_CODE"
             ;;
     esac
 done

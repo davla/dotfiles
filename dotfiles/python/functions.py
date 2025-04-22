@@ -86,9 +86,9 @@ def second_on_path(executable: str) -> str:
 
 def xdg_config(path: str) -> str:
     """Prepend XDG_CONFIG_HOME expansion to path."""
-    return xdg("CONFIG_HOME", path)
+    return str(xdg("CONFIG_HOME", path))
 
 
 def xdg_data(path: str) -> str:
     """Prepend XDG_DATA_HOME expansion to path."""
-    return xdg("DATA_HOME", path)
+    return str(xdg("DATA_HOME", path))

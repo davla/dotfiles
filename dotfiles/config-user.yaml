@@ -38,6 +38,15 @@ actions:
 
     i3: sh actions/i3.sh
 
+    # RetroArch won't accept some paths in its configuration files if they
+    # don't exist.
+    # Hence, we just preemptively create every path under `retroarch_data_dir`.
+    retroarch: |
+      grep '{{@@ retroarch_data_dir @@}}' --dereference-recursive '{0}' \
+        | sed --regexp-extended 's/^.+ = "~(.+)"$/$HOME\1/' \
+        | envsubst '$HOME' \
+        | xargs mkdir --parents
+
     # This action enables and activates the systemd service file passed as an
     # argument
     systemd-enable: |
@@ -124,6 +133,11 @@ dotfiles:
   d_qt5ct:
     src: config/qt5ct
     dst: '{{@@ xdg_config("qt5ct") @@}}'
+  d_retroarch:
+    src: config/retroarch
+    dst: '{{@@ xdg_config("retroarch") @@}}'
+    actions:
+    - retroarch '{{@@ _dotfile_abs_dst @@}}'
   d_rofi:
     src: config/rofi
     dst: '{{@@ xdg_config("rofi") @@}}'
@@ -413,10 +427,13 @@ profiles:
     - geany
     - look-and-feel
     - vscode
+    import:
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/gui.yaml:optional
     actions:
     - glib-terminal
     variables:
       is_headless: false
+      retroarch_data_dir: '{{@@ xdg_data("retroarch") | homeAsTilde @@}}'
 
   # This profile contains the dotfiles for the whole i3 session, that means a
   # little bit more than just the i3 configuration file.

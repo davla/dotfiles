@@ -1,0 +1,7 @@
+%YAML 1.2
+---
+# This dotfiles file lists the dotfiles to be used for the gui profile only on
+# Arch for my personal machine for unprivileged users.
+
+dotfiles:
+- d_retroarch

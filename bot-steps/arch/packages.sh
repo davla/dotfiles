@@ -113,10 +113,10 @@ esac
 if [ "$HOST" != 'raspberry' ]; then
     print_info 'Install CLI packages for non-arm hosts'
     sudo -u "$USER" yay -S --needed 7zip docker docker-compose \
-        docker-credential-secretservice-bin gifsicle gdb ghc intel-ucode \
-        libsecret hunspell hunspell-da hunspell-en_US hunspell-it \
-        macchina networkmanager polkit-gnome rar reflector shellcheck \
-        temp-throttle
+        docker-credential-secretservice-bin gdb ghc gifsicle hunspell \
+        hunspell-da hunspell-en_us hunspell-es_es hunspell-it intel-ucode \
+        libretro libsecret macchina networkmanager polkit-gnome rar reflector \
+        retroarch retroarch-assets-xmb shellcheck  temp-throttle
         # dhcpcd doesn't work well with networkmanager (unless configured)
         if sudo -u "$USER" yay -Qs dhcpcd; then
             sudo -u "$USER" yay -R dhcpcd

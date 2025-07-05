@@ -72,6 +72,14 @@ def is_truthy(value: Union[bool, str]) -> bool:
     return value
 
 
+def homeAsTilde(path: str | Path) -> str:
+    """Ensure home directory as tilde."""
+    try:
+        return "~/" + str(Path(path).relative_to(Path.home()))
+    except ValueError:
+        return path
+
+
 def home_abs2var(path: str) -> str:
     """Replace the user's home directory absolute path with '$HOME'."""
     return lib.abs_home_first.sub("$HOME", path)

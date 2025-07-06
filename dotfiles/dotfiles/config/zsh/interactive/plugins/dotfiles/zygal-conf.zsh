@@ -5,7 +5,7 @@
 # This script contains zygal configuration
 
 export ZYGAL_ASYNC='all'
-export ZYGAL_ENABLE_VCS_REMOTE=true
+export ZYGAL_ENABLE_VCS_REMOTE=false
 export ZYGAL_VCS_REMOTE_REFRESH_COUNT=10
 
 export GIT_PS1_SHOWDIRTYSTATE=true

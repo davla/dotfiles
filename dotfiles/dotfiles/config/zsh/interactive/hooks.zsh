@@ -3,7 +3,21 @@
 # This script contains functions that are added as zsh hooks
 
 ########################################
-# Environmed loading hook
+# Background hooks
+########################################
+
+# This function is meant to be used as a precmd hook. It attempts running
+# `git fetch` in the background each 10 times it executes.
+BG_GIT_FETCH_COUNT=0
+bg_git_fetch() {
+    BG_GIT_FETCH_COUNT=$(( (BG_GIT_FETCH_COUNT + 1) % 10 ))
+    [ "$BG_GIT_FETCH_COUNT" -eq 0 ] && (git -C "$PWD" fetch > /dev/null 2>&1 &)
+}
+
+add-zsh-hook precmd bg_git_fetch
+
+########################################
+# Environmed loading hooks
 ########################################
 
 # This function is meant to be used as a chpwd hook. It sources environment

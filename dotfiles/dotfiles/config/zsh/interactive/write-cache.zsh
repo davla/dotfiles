@@ -71,17 +71,25 @@ log_info 'Write thefuck zsh shell cache'
 env TF_SHELL='zsh' thefuck --alias 2>&1 > "$ZCACHEDIR/thefuck" \
     | log_error >&2
 
+{#@@
+    I don't install rust on my work machine and my raspberry pi takes forever
+    to compile rust
+@@#}
+{%@@ if env['HOST'] == 'personal' -@@%}
+
 ########################################
-# Zygal theme
+# zygal
 ########################################
 
-log_debug 'Find zygal init file'
-ZYGAL_INIT="$(find "${XDG_DATA_HOME:-$HOME/.local/share}/sheldon" -type f \
-    -path '*zygal/zsh/autoload.zsh')"
+log_debug 'Find zygal rust-prompt sources'
+ZYGAL_CARGO_HOME="$(find "${XDG_DATA_HOME:-$HOME/.local/share}/sheldon" \
+    -type f -path '*zygal/*/Cargo.toml' -printf '%h')"
 
-log_debug 'Source zygal-static function'
-source "$ZYGAL_INIT"
+log_debug 'Compile zygal-prompt binary'
+cargo build --release --manifest-path "$ZYGAL_CARGO_HOME/Cargo.toml"
 
-log_info 'Write static zygal code'
-source "$ZDOTDIR/interactive/plugins/dotfiles/zygal-conf.zsh"
-zygal-static 2>&1 > "$ZCACHEDIR/zygal" | cut --delimiter ' ' --fields 1
+log_info 'Install zygal-prompt binary'
+install -D --mode 755 "$ZYGAL_CARGO_HOME/target/release/zygal-prompt" \
+    "{{@@ zygal_prompt_path.zsh @@}}"
+
+{%@@ endif @@%}

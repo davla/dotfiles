@@ -78,7 +78,7 @@ case "$DISPLAY_SERVER" in
         ;;
 esac
 
-sheldon --profile "$SHELDON_PROFILE" source \
+sheldon --profile "$SHELDON_PROFILE" source --update \
     > "${ZDOTDIR:?}/interactive/plugins/load.zsh"
 
 #######################################

@@ -184,7 +184,8 @@ use = ["zsh-{{ name }}.zsh"]
 
 [plugins.zygal]
 github = "davla/zygal"
-apply = ["hooks"]
+branch = "feature/rust-rewrite"
+use = ["shell-hooks/zsh-theme.zsh"]
 
 [plugins.zygal.hooks]
-pre = 'source "$ZCACHEDIR/zygal"'
+pre = 'ZYGAL_PROMPT="{{@@ zygal_prompt_path.zsh @@}}"'

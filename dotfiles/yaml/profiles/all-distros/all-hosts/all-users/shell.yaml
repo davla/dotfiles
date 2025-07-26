@@ -132,3 +132,8 @@ variables:
   sdotdir: '{{@@ xdg_config("sh") @@}}'
   zdotdir: '{{@@ xdg_config("zsh") @@}}'
   shell_dirs_file: '{{@@ xdg_config("shell-dirs") @@}}'
+
+  zygal_prompt_path:
+    bash: '{{@@ xdg_data("zygal/bash/zygal-prompt") @@}}'
+    sh: '{{@@ xdg_data("zygal/sh/zygal-prompt") @@}}'
+    zsh: '{{@@ xdg_data("zygal/zsh/zygal-prompt") @@}}'

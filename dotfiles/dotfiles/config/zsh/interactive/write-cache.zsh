@@ -72,16 +72,15 @@ env TF_SHELL='zsh' thefuck --alias 2>&1 > "$ZCACHEDIR/thefuck" \
     | log_error >&2
 
 ########################################
-# Zygal theme
+# zygal
 ########################################
 
-log_debug 'Find zygal init file'
-ZYGAL_INIT="$(find "${XDG_DATA_HOME:-$HOME/.local/share}/sheldon" -type f \
-    -path '*zygal/zsh/autoload.zsh')"
+log_debug 'Find Zygal repository clone'
+ZYGAL_REPO="$(find "${XDG_DATA_HOME:-$HOME/.local/share}/sheldon" -type d \
+    -path '*davla/zygal*' -print -quit)"
 
-log_debug 'Source zygal-static function'
-source "$ZYGAL_INIT"
-
-log_info 'Write static zygal code'
-source "$ZDOTDIR/interactive/plugins/dotfiles/zygal-conf.zsh"
-zygal-static 2>&1 > "$ZCACHEDIR/zygal" | cut --delimiter ' ' --fields 1
+log_debug 'Compile and install zygal-prompt binary'
+cd "$ZYGAL_REPO" || exit
+sh zygal-build.sh --zygal-colorscheme '{{@@ zygal_colorscheme @@}}' \
+    --zygal-output '{{@@ zygal_prompt_path.zsh @@}}'
+cd - > /dev/null 2>&1 || exit

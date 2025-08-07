@@ -197,9 +197,9 @@ dotfiles:
     dst: '{{@@ xdg_config("systemd/user/disable-vpn-killswitch.service") @@}}'
     actions:
     - systemd-enable '{{@@ _dotfile_abs_src @@}}'
-  f_docker_config.json:
-    src: config/docker/config.json
-    dst: '{{@@ xdg_config("docker/config.json") @@}}'
+  f_containers_auth.json:
+    src: config/containers/auth.json
+    dst: '{{@@ xdg_config("containers/auth.json") @@}}'
   f_dunstrc:
     src: config/dunst/dunstrc.lodpi
     dst: '{{@@ dunstrc_dst | default(xdg_config("dunst/dunstrc")) @@}}'
@@ -390,6 +390,7 @@ profiles:
   # This profile groups configuration files for CLI-based applictions.
   cli:
     dotfiles:
+    - f_containers_auth.json
     - f_editorconfig
     - f_vimrc
     import:

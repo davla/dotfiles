@@ -194,6 +194,15 @@ dotfiles:
     actions:
     - _strip '{{@@ asdf_environment_append_marker @@}}' '{{@@ asdf_environment_dst @@}}'
     - _append '{{@@ asdf_environment_dst @@}}' '{{@@ asdf_environment_tmp_dst @@}}'
+  f_containers_nodocker:
+    src: etc/containers/nodocker
+    dst: /etc/containers/nodocker
+  f_containers_compose.conf:
+    src: etc/containers/containers.conf.d/compose.conf
+    dst: /etc/containers/containers.conf.d/compose.conf
+  f_containers_default_registry.conf:
+    src: etc/containers/registries.conf.d/default-registry.conf
+    dst: /etc/containers/registries.conf.d/default-registry.conf
   f_ddclient.conf:
     src: etc/ddclient.conf
     # Dynamic path since it differs across distros
@@ -472,6 +481,10 @@ profiles:
 
   # This profile groups configuration files for CLI-based applictions.
   cli:
+    dotfiles:
+    - f_containers_nodocker
+    - f_containers_compose.conf
+    - f_containers_default_registry.conf
     import:
     - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional

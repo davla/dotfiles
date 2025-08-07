@@ -11,7 +11,7 @@ Wants=network-online.target
 
 [Service]
 Environment=SHELDON_PROFILE='{{@@ sheldon_profile @@}}'
-ExecStart=sheldon lock
+ExecStart=sheldon lock --update
 StandardError=journal
 StandardOutput=journal
 SyslogFacility=local0

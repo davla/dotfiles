@@ -45,6 +45,11 @@ case "$(apt_operation)" in
                 *firefox-beta*)
                     set_alternative 'firefox-beta' 'firefox'
                     ;;
+
+                *podman-compose*)
+                    which podman-compose | xargs -I '{}' ln --symbolic \
+                        --force '{}' /usr/local/bin/docker-compose
+                    ;;
             esac
         done
         ;;

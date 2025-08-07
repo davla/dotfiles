@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+#
+# {{@@ header() @@}}
+
+{%@@ set docker_subcommand = basename(_dotfile_abs_dst)
+    | replace('docker-', '') -@@%}
+
+# Some systems still rely on docker-{{@@ docker_subcommand @@}} as a standalone
+# executable on PATH. This is just a wrapper script that forwards the call to
+# docker {{@@ docker_subcommand @@}}, hoping it's compatible.
+
+exec docker {{@@ docker_subcommand @@}} "$@"

@@ -1,0 +1,7 @@
+{%@@ from 'etc/pacman.d/hooks/alias.hook' import alias_hook @@%}
+
+{{@@- alias_hook(
+    cmd='docker-compose',
+    alias='podman-compose',
+    targets=['docker-compose', 'docker-compose-*'],
+) -@@}}

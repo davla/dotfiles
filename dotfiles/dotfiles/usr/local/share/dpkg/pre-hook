@@ -39,6 +39,10 @@ case "$(apt_operation)" in
                 *firefox-beta*)
                     rm_alternative 'firefox-beta' 'firefox'
                     ;;
+
+                *docker-compose*)
+                    rm --force /usr/local/bin/podman-compose
+                    ;;
             esac
         done
         ;;

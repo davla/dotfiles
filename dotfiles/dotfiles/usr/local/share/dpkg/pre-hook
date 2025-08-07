@@ -36,8 +36,16 @@ case "$(apt_operation)" in
                     rm_alternative 'code-insiders' 'code'
                     ;;
 
+                *docker-compose-plugin*)
+                    systemctl disable podman.socket
+                    ;;
+
                 *firefox-beta*)
                     rm_alternative 'firefox-beta' 'firefox'
+                    ;;
+
+                *podman-compose*)
+                    rm --force /usr/local/bin/docker-compose
                     ;;
             esac
         done

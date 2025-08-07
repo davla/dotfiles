@@ -74,17 +74,13 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
     case "$HOST" in
         'personal')
             print_info "Install GUI packages for $HOST"
-            sudo -u "$USER" yay -S --needed alacritty asunder atril baobab \
-                bitwarden blueman brasero calibre caprine firefox-beta-bin \
-                geany gnome-disk-utility gnome-keyring gufw handbrake kid3 \
+            sudo -u "$USER" yay -S --needed alacritty asunder atril \
+                baobab bitwarden blueman brasero calibre caprine \
+                docker-credential-secretservice-bin firefox-beta-bin geany \
+                gnome-disk-utility gnome-keyring gufw handbrake kid3 \
                 libreoffice-still mpv remmina seahorse simple-scan \
                 soundconverter spotify telegram-desktop thunderbird \
-                transmission-gtk whatsapp-nativefier
-
-            # Yay fails with a mysterious "-fork/exec" error when installing
-            # visual-studio-code-insiders-bin from AUR *together* with other
-            # packages.
-            sudo -u "$USER" yay -S --needed aur/visual-studio-code-insiders-bin
+                transmission-gtk visual-studio-code-insiders-bin
             ;;
     esac
 
@@ -112,8 +108,7 @@ esac
 
 if [ "$HOST" != 'raspberry' ]; then
     print_info 'Install CLI packages for non-arm hosts'
-    sudo -u "$USER" yay -S --needed 7zip docker docker-compose \
-        docker-credential-secretservice-bin gdb ghc gifsicle hunspell \
+    sudo -u "$USER" yay -S --needed 7zip gdb ghc gifsicle hunspell \
         hunspell-da hunspell-en_us hunspell-es_es hunspell-it intel-ucode \
         libretro libsecret macchina networkmanager polkit-gnome rar reflector \
         retroarch retroarch-assets-xmb shellcheck  temp-throttle
@@ -128,9 +123,10 @@ sudo -u "$USER" yay -S --needed asdf-vm autoconf automake bind cmake cmatrix \
     cowsay curl debugedit dkms dos2unix eza fasd fortune-mod gcc git-secret \
     gnupg htop jq lua luacheck luarocks man mercurial mmv moreutils \
     multi-git-status myrepos nfs-utils nyancat otf-ipafont pacman-contrib \
-    playerctl pkgfile python python-pip rbw sheldon sl sudo thefuck \
-    ttf-baekmuk ttf-dejavu ttf-indic-otf ttf-khmer ttf-nerd-fonts-symbols \
-    ttf-nerd-fonts-symbols-mono unzip uv vim wqy-microhei-lite zip
+    passt pkgfile playerctl podman-compose podman-docker python python-pip \
+    rbw sheldon sl sudo thefuck ttf-baekmuk ttf-dejavu ttf-indic-otf \
+    ttf-khmer ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono unzip uv vim \
+    wqy-microhei-lite zip
 
 # Dotfiles
 print_info 'Install CLI packages dotfiles'

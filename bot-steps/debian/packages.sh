@@ -159,7 +159,7 @@ case "$HOST" in
         print_info "Install CLI packages for $HOST"
         apt-get install autorandr cabal-install cups ghc gifsicle git-review \
             handbrake-cli hlint imagemagick intel-microcode lame lua luacheck \
-            luarocks libghc-hspec-dev mercurial nordvpn \
+            luarocks libghc-hspec-dev mercurial nordvpn podman-compose \
             python-requests-futures python3-gdbm python3-gpg python3-lxml \
             python3-pygments python3-requests python3-requests-oauthlib \
             thunar-dropbox-plugin
@@ -167,20 +167,20 @@ case "$HOST" in
 
     'work')
         print_info "Install CLI packages for $HOST"
-        apt-get install amd64-microcode awscli dotnet-sdk-7.0 dotnet-sdk-8.0 \
-            dotnet-sdk-9.0 i3lock xautolock
+        apt-get install amd64-microcode awscli docker-compose-plugin \
+            dotnet-sdk-7.0 dotnet-sdk-8.0 dotnet-sdk-9.0 i3lock xautolock
         ;;
 esac
 
 print_info 'Install CLI packages shared across all hosts'
 apt-get install apt-transport-https autoconf automake build-essential cmake \
-    cmatrix cowsay curl dbus-x11 dkms docker-ce dos2unix fonts-freefont-otf \
-    fonts-nanum fortune g++ gdb git git-secret gvfs-backends htop hunspell \
-    hunspell-en-us hunspell-it jq libbz2-dev liblzma-dev libncurses-dev \
-    libnotify-bin libreadline-dev libsecret-1-dev libsqlite3-dev libssl-dev \
-    lua5.4 make mmv mgitstatus moreutils nfs-common nyancat p7zip \
-    pipewire-jack playerctl policykit-1-gnome pycodestyle python3 python3-pip \
-    rar shellcheck sl software-properties-common systemd-cron \
+    cmatrix cowsay curl dbus-x11 dkms dos2unix fonts-freefont-otf fonts-nanum \
+    fortune g++ gdb git git-secret gvfs-backends htop hunspell hunspell-en-us \
+    hunspell-it jq libbz2-dev liblzma-dev libncurses-dev libnotify-bin \
+    libreadline-dev libsecret-1-dev libsqlite3-dev libssl-dev lua5.4 make mmv \
+    mgitstatus moreutils nfs-common nyancat p7zip pipewire-jack playerctl \
+    podman-docker policykit-1-gnome pycodestyle python3 python3-pip rar \
+    shellcheck sl software-properties-common systemd-cron \
     thunar-archive-plugin tk-dev uni2ascii unrar vim wmctrl xdotool \
     xserver-xorg-input-synaptics yad zip
 

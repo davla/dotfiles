@@ -4,7 +4,8 @@
 # and performs some additional setup for some of them when required.
 #
 # Arguments:
-#   - $1: user to run AUR helper with
+#   - $1: user to run AUR helper with and for which rootless podman is set up.
+#         Optional, defaults to $USER
 
 # This doesn't work if this script is sourced
 . "$(dirname "$0")/../../.dotfiles-env"
@@ -14,7 +15,7 @@
 # Input processing
 #######################################
 
-USER="${1:-$USER}"
+USER_NAME="${1:-$USER}"
 
 #######################################
 # Packages dotfiles
@@ -48,15 +49,15 @@ else
     print_info 'Install AUR helper'
     pacman -S --needed git base-devel
 
-    YAY_DIR="$(sudo -u "$USER" mktemp --directory 'XXX.yay.XXX')"
-    sudo -u "$USER" git clone 'https://aur.archlinux.org/yay-bin.git' \
+    YAY_DIR="$(sudo -u "$USER_NAME" mktemp --directory 'XXX.yay.XXX')"
+    sudo -u "$USER_NAME" git clone 'https://aur.archlinux.org/yay-bin.git' \
         "$YAY_DIR"
 
     cd "$YAY_DIR" || exit
-    sudo -u "$USER" makepkg -si
+    sudo -u "$USER_NAME" makepkg -si
     cd - > /dev/null 2>&1 || exit
 
-    sudo -u "$USER" rm -rf "$YAY_DIR"
+    sudo -u "$USER_NAME" rm -rf "$YAY_DIR"
 fi
 
 #######################################
@@ -74,7 +75,7 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
     case "$HOST" in
         'personal')
             print_info "Install GUI packages for $HOST"
-            sudo -u "$USER" yay -S --needed alacritty asunder atril \
+            sudo -u "$USER_NAME" yay -S --needed alacritty asunder atril \
                 baobab bitwarden blueman brasero calibre caprine \
                 docker-credential-secretservice-bin firefox-beta-bin geany \
                 gnome-disk-utility gnome-keyring gufw handbrake kid3 \
@@ -86,7 +87,7 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
 
     # Dotfiles
     print_info 'Install GUI packages dotfiles'
-    sudo -u "$USER" dotdrop install -p gui
+    sudo -u "$USER_NAME" dotdrop install -p gui
 fi
 
 #######################################
@@ -96,72 +97,85 @@ fi
 case "$HOST" in
     'personal')
         print_info "Install CLI packages for $HOST"
-        sudo -u "$USER" yay -S --needed cups cups-pdf dropbox nordvpn rustup \
-            zsa-keymapp-bin
+        sudo -u "$USER_NAME" yay -S --needed cups cups-pdf dropbox nordvpn \
+            rustup zsa-keymapp-bin
         ;;
 
     'raspberry')
         print_info "Install CLI packages for $HOST"
-        sudo -u "$USER" yay -S --needed at certbot ddclient libjpeg
+        sudo -u "$USER_NAME" yay -S --needed at certbot ddclient libjpeg
         ;;
 esac
 
 if [ "$HOST" != 'raspberry' ]; then
     print_info 'Install CLI packages for non-arm hosts'
-    sudo -u "$USER" yay -S --needed 7zip gdb ghc gifsicle hunspell \
+    sudo -u "$USER_NAME" yay -S --needed 7zip gdb ghc gifsicle hunspell \
         hunspell-da hunspell-en_us hunspell-es_es hunspell-it intel-ucode \
         libretro libsecret macchina networkmanager polkit-gnome rar reflector \
         retroarch retroarch-assets-xmb shellcheck  temp-throttle
         # dhcpcd doesn't work well with networkmanager (unless configured)
-        if sudo -u "$USER" yay -Qs dhcpcd; then
-            sudo -u "$USER" yay -R dhcpcd
+        if sudo -u "$USER_NAME" yay -Qs dhcpcd; then
+            sudo -u "$USER_NAME" yay -R dhcpcd
         fi
 fi
 
 print_info 'Install CLI packages shared across all hosts'
-sudo -u "$USER" yay -S --needed asdf-vm autoconf automake bind cmake cmatrix \
-    cowsay curl debugedit dkms dos2unix eza fasd fortune-mod gcc git-secret \
-    gnupg htop jq lua luacheck luarocks man mercurial mmv moreutils \
-    multi-git-status myrepos nfs-utils nyancat otf-ipafont pacman-contrib \
-    passt pkgfile playerctl podman-compose podman-docker python python-pip \
-    rbw sheldon sl sudo thefuck ttf-baekmuk ttf-dejavu ttf-indic-otf \
-    ttf-khmer ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono unzip uv vim \
-    wqy-microhei-lite zip
+sudo -u "$USER_NAME" yay -S --needed asdf-vm autoconf automake bind cmake \
+    cmatrix cowsay curl debugedit dkms dos2unix eza fasd fortune-mod gcc \
+    git-secret gnupg htop jq lua luacheck luarocks man mercurial mmv \
+    moreutils multi-git-status myrepos nfs-utils nyancat otf-ipafont \
+    pacman-contrib passt pkgfile playerctl podman-compose podman-docker \
+    python python-pip rbw sheldon sl sudo thefuck ttf-baekmuk ttf-dejavu \
+    ttf-indic-otf ttf-khmer ttf-nerd-fonts-symbols \
+    ttf-nerd-fonts-symbols-mono unzip uv vim wqy-microhei-lite zip
 
 # Dotfiles
 print_info 'Install CLI packages dotfiles'
-sudo -u "$USER" dotdrop install -p cli -U both
+sudo -u "$USER_NAME" dotdrop install -p cli -U both
 
 #######################################
 # Upgrade
 #######################################
 
 print_info 'Upgrade system'
-sudo -u "$USER" yay -Syyu
+sudo -u "$USER_NAME" yay -Syyu
 
 #######################################
 # Initial setup
 #######################################
 
-# Docker
-if [ "$HOST" != 'raspberry' ]; then
-    print_info "Add $USER to docker group"
-    usermod -aG docker "$USER"
-fi
+# Rootless podman
+print_info "Allow $USER_NAME to run rootless podman"
+id "$USER_NAME" \
+    | sed --regexp-extended 's/uid=([0-9]+).+ gid=([0-9]+).+/\1 \2/' \
+    | {
+        # Use shell group here because the variables created by read are only
+        # available in the subshell created by the pipe
+        read -r USER_ID GROUP_ID
+
+        SUB_UID_START="$(( USER_ID + 99000 ))"
+        usermod --add-subuids "$SUB_UID_START-$(( SUB_UID_START + 65535 ))" \
+            "$USER_NAME"
+
+        SUB_GID_START="$(( GROUP_ID + 99000 ))"
+        usermod --add-subgids "$SUB_GID_START-$(( SUB_GID_START + 65535 ))" \
+            "$USER_NAME"
+    }
+podman system migrate
 
 # Dropbox
 if [ "$HOST" = 'personal' ]; then
     # Prevent Dropbox auto-update by making its directory in $HOME read-only.
     # Adapted from
     # https://wiki.archlinux.org/title/dropbox#Prevent_automatic_updates.
-    sudo -u "$USER" sh -c '\
+    sudo -u "$USER_NAME" sh -c '\
         rm --recursive --force "$HOME/.dropbox-dist"; \
         install --directory --mode 000 "$HOME/.dropbox-dist"
     '
 
     print_info 'Enable and start dropbox and display device link URL'
-    systemctl enable --now "dropbox@$USER"
-    journalctl --boot --unit "dropbox@$USER" --output cat \
+    systemctl enable --now "dropbox@$USER_NAME"
+    journalctl --boot --unit "dropbox@$USER_NAME" --output cat \
         --grep 'Please visit' | head -n 1
 
     printf 'Press enter when authenticated...'
@@ -172,6 +186,6 @@ if [ "$HOST" = 'personal' ]; then
 
     # NordVPN
     print_info 'Configure NordVPN'
-    usermod -aG nordvpn "$USER"
-    sudo -u "$USER" nordvpn-config
+    usermod -aG nordvpn "$USER_NAME"
+    sudo -u "$USER_NAME" nordvpn-config
 fi

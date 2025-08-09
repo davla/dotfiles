@@ -4,8 +4,7 @@
 # system, and performs some additional setup for some of them when required.
 #
 # Arguments:
-#   - $1: name of the user to be added to the docker group. Defaults to $USER
-#         variable.
+#   - $1: user for which rootless podman is set up. Optional, defaults to $USER
 
 # This doesn't work if this script is sourced
 . "$(dirname "$0")/../../.dotfiles-env"
@@ -206,10 +205,35 @@ apt-get upgrade
 # Packages setup
 #######################################
 
-# Docker
-print_info "Enable docker for $USER_NAME"
-groupadd -f docker
-usermod -aG docker "$USER_NAME"
+# Rootless podman
+print_info "Allow $USER_NAME to run rootless podman"
+id "$USER_NAME" \
+    | sed --regexp-extended 's/uid=([0-9]+).+ gid=([0-9]+).+/\1 \2/' \
+    | {
+        # Use shell group here because the variables created by read are only
+        # available in the subshell created by the pipe
+        read -r USER_ID GROUP_ID
+
+        SUB_UID_START="$(( USER_ID + 99000 ))"
+        usermod --add-subuids "$SUB_UID_START-$(( SUB_UID_START + 65535 ))" \
+            "$USER_NAME"
+
+        SUB_GID_START="$(( GROUP_ID + 99000 ))"
+        usermod --add-subgids "$SUB_GID_START-$(( SUB_GID_START + 65535 ))" \
+            "$USER_NAME"
+    }
+podman system migrate
+
+if [ "$HOST" = 'work' ]; then
+    print_info "Make docker-compose use $USER_NAME's rootless podman"
+    systemctl --machine "$USER_NAME@" --user enable --now podman.socket
+    sudo -u "$USER_NAME" sh -c '
+        podman info --format "{{.Host.RemoteSocket.Path}}" \
+            | xargs -I "{}" \
+                podman context create podman --docker "host=unix://{}";
+        podman context use podman
+    '
+fi
 
 # NordVPN
 if [ "$HOST" = 'personal' ]; then

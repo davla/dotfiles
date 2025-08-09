@@ -406,7 +406,7 @@ dynvariables:
             ;;
     esac
   cli_rustup_include: |-
-    if [ "$HOST" = 'work' ]; then
+    if [ "$HOST" != 'personal' ]; then
         echo 'rustup-empty'
     else
         case "$DISTRO" in

@@ -29,7 +29,8 @@ connection_state_as_nmcli_event() {
     CONN_STATE_NAME="$1"
 
     printf '%s: ' "$CONN_STATE_NAME"
-    [ -n "$(nmcli -g GENERAL.STATE connection show "$CONN_STATE_NAME")" ] \
+    [ -n "$(nmcli --get-values GENERAL.STATE connection show \
+            "$CONN_STATE_NAME")" ] \
         && echo 'connected' \
         || echo 'disconnected'
 

@@ -49,7 +49,7 @@ download_key_from_url() {
     DL_URL_REPO_KEY_URL="$2"
 
     print_info "Installing apt repository key for $DL_URL_REPO_NAME"
-    wget "$DL_URL_REPO_KEY_URL" -O - | gpg --dearmor --yes \
+    wget "$DL_URL_REPO_KEY_URL" --output-document - | gpg --dearmor --yes \
         -o "$APT_KEY_DIR/$DL_URL_REPO_NAME.gpg"
 
     unset DL_URL_KEY_EXT DL_URL_REPO_KEY_URL DL_URL_REPO_NAME
@@ -60,14 +60,15 @@ download_key_from_url() {
 #######################################
 
 # Ensure the APT repository signatures directory exists
-mkdir -p "$APT_KEY_DIR"
+mkdir --parents "$APT_KEY_DIR"
 
 # Set temporary gpg keyring to import apt keys from keyservers
 OLD_GNUPGHOME="$GNUPGHOME"
-GNUPGHOME="$(mktemp -d)"
+GNUPGHOME="$(mktemp --directory)"
 
 find /etc/apt/sources.list.d/ -type f -name '*.sources' -print0 \
-    | xargs -0 -I '{}' basename '{}' '.sources' | tr '[:upper:]' '[:lower:]' \
+    | xargs --null -I '{}' basename '{}' '.sources' \
+    | tr '[:upper:]' '[:lower:]' \
     | while read -r REPO; do
         case "$REPO" in
             'docker')
@@ -104,5 +105,5 @@ find /etc/apt/sources.list.d/ -type f -name '*.sources' -print0 \
 
 # Restore GNUPGHOME
 GNUPGHOME="$OLD_GNUPGHOME"
-rm -rf "$OLD_GNUPGHOME"
+rm --force --recursive "$OLD_GNUPGHOME"
 unset OLD_GNUPGHOME

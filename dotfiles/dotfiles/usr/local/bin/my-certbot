@@ -27,6 +27,6 @@ EMAIL="${2:-{{@@ emails.spam.address @@}}}"
 certbot certificates 2> /dev/null | grep 'Found' > /dev/null 2>&1 && {
     echo 'Open port 80 as the TSL certificates are being installed'
     # shellcheck disable=2034
-    read ANSWER
-    certbot certonly --standalone -d "$DOMAIN" -m "$EMAIL"
+    read -r ANSWER
+    certbot certonly --standalone --domains "$DOMAIN" --email "$EMAIL"
 }

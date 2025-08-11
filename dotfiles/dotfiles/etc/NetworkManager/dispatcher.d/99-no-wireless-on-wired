@@ -16,7 +16,8 @@
 #   - $@: Any argument `wifi` accepts
 set_wireless() {
     wifi "$@"
-    echo "Wireless set $*" | systemd-cat -t 'WIRELESS-CTRL' -p info
+    echo "Wireless set $*" | systemd-cat --identifier 'WIRELESS-CTRL' \
+        --priority info
 }
 
 #######################################

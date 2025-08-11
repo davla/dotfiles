@@ -51,7 +51,7 @@ done
 }
 
 log_debug 'Create POSIX shell cache directory'
-mkdir -p "$SCACHEDIR"
+mkdir --parents "$SCACHEDIR"
 
 #######################################
 # fasd

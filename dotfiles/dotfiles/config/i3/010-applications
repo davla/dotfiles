@@ -34,9 +34,9 @@ set_from_resource $spotify_scale i3wm.SpotifyScale 1
 # Shortcuts
 #######################################
 
-bindsym $mod+Shift+e exec $term --title $calc_title -e lua
-bindsym --release $mod+space exec id -u | xargs -I '{}' rofi -theme drun.rasi \
-    -show drun -pid '/run/user/{}/rofi-dmenu.pid'
+bindsym $mod+Shift+e exec $term --title $calc_title --command lua
+bindsym --release $mod+space exec id --user | xargs -I '{}' \
+    rofi -theme drun.rasi -show drun -pid '/run/user/{}/rofi-dmenu.pid'
 bindsym $mod+Shift+space exec dmenu_run
 bindsym $mod+w exec {{@@ browser @@}}
 bindsym $mod+Shift+y exec geany

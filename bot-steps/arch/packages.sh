@@ -176,7 +176,7 @@ if [ "$HOST" = 'personal' ]; then
     print_info 'Enable and start dropbox and display device link URL'
     systemctl enable --now "dropbox@$USER_NAME"
     journalctl --boot --unit "dropbox@$USER_NAME" --output cat \
-        --grep 'Please visit' | head -n 1
+        --grep 'Please visit' | head --lines 1
 
     printf 'Press enter when authenticated...'
     # read requires a variable in POSIX shell
@@ -186,6 +186,6 @@ if [ "$HOST" = 'personal' ]; then
 
     # NordVPN
     print_info 'Configure NordVPN'
-    usermod -aG nordvpn "$USER_NAME"
+    usermod --append --groups nordvpn "$USER_NAME"
     sudo --user "$USER_NAME" nordvpn-config
 fi

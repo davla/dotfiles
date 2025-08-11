@@ -12,8 +12,8 @@ bindsym {
     $mod+$wm_control_key+x restart
 
     # Exit
-    $mod+$wm_control_key+v exec "swaynag -t warning \
-        -m 'You pressed the sway exit shortcut. Do you really want to exit \
-sway?' \
-        -B 'Yes, exit sway' 'swaymsg exit'"
+    $mod+$wm_control_key+v exec "swaynag --type warning \
+        --message 'You pressed the sway exit shortcut. Do you really want to \
+exit sway?' \
+        --button-no-terminal 'Yes, exit sway' 'swaymsg exit'"
 }

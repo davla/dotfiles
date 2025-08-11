@@ -12,7 +12,7 @@
 # Input processing
 #######################################
 
-ASDF_CONFIG="$(readlink -f "$1")"
+ASDF_CONFIG="$(readlink --canonicalize "$1")"
 
 #######################################
 # Link plugin dotfiles
@@ -26,7 +26,7 @@ ASDF_CONFIG="$(readlink -f "$1")"
 # leading dot to the filename, as this is what the plugins require.
 print_info 'Link asdf plugin configuration files'
 find "$ASDF_CONFIG" -mindepth 1 -type f -not -name 'asdfrc' -printf '%f\0' \
-    | xargs --null -i ln --force --symbolic "$ASDF_CONFIG/{}" "$HOME/.{}"
+    | xargs --null -I '{}' ln --force --symbolic "$ASDF_CONFIG/{}" "$HOME/.{}"
 
 ########################################
 # Set system tool versions for all users

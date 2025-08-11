@@ -16,7 +16,7 @@
 ########################################
 
 # Some settings below can only be applied after logging into NordVPN
-nordvpn account | grep -i 'not logged in' > /dev/null 2>&1 && {
+nordvpn account | grep --ignore-case 'not logged in' > /dev/null 2>&1 && {
     echo 'A browser window will open to log into NordVPN'
     nordvpn login | sed 's/.*http/http/g' | xargs xdg-open & disown
 

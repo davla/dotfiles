@@ -30,5 +30,6 @@ dotdrop install -p sway -U both
 
 print_info 'Enable sway systemd services'
 dotdrop files -bG -p sway -U both 2> /dev/null | grep service \
-    | cut -d ',' -f 2 | cut -d ':' -f 2 | xargs -n 1 basename \
+    | cut --delimiter ',' --fields 2 | cut --delimiter ':' --fields 2 \
+    | xargs --max-args 1 basename \
     | xargs systemctl --user add-wants sway-session.target

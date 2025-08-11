@@ -24,9 +24,9 @@ checkout =
 	git clone 'https://github.com/vivien/i3blocks-contrib' 'i3blocks-contrib'
 install =
     sudo apt-get install libx11-dev
-    make -C "$MR_REPO/cpu_usage2"
+    make --directory "$MR_REPO/cpu_usage2"
     #
-    mkdir -p '{{@@ i3blocklets_install_path @@}}'
+    mkdir --parents '{{@@ i3blocklets_install_path @@}}'
     for BLOCK in {{@@ i3blocks_contrib_list @@}}; do
         find "$MR_REPO/$BLOCK" -type f -executable -exec install --mode 755 \
             '{}' '{{@@ i3blocklets_install_path @@}}' \;

@@ -12,7 +12,7 @@
 # Ensure rustup paths exist
 ########################################
 
-mkdir -p "$RUSTUP_HOME"
+mkdir --parents "$RUSTUP_HOME"
 
 ########################################
 # Install rust toolchain

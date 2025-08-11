@@ -7,7 +7,7 @@ actions:
   post:
     # This action allows user systemd timers to be executed also when the user
     # is not logged in, via lingering
-    linger: id -u | xargs sudo loginctl enable-linger
+    linger: id --user | xargs sudo loginctl enable-linger
 
     # This action installs the necessary packages for my commuter card renewal
     # notification contraption

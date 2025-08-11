@@ -24,7 +24,7 @@ dotdrop_files() {
     INSTALLED_USER="${2:-user}"
 
     dotdrop files -bGp "$INSTALLED_PROFILE" -U "$INSTALLED_USER" 2> /dev/null \
-        | cut -d ',' -f 2 | cut -d ':' -f 2
+        | sed --regexp-extended 's/.*dst:([^,]+).*/\1/g'
 
     unset INSTALLED_PROFILE INSTALLED_USER
 }
@@ -35,7 +35,8 @@ dotdrop_files() {
 
 # Root timers and services
 print_info 'Retrieve system units'
-ROOT_UNITS="$(dotdrop_files 'timers' 'root' | grep -E '\.(service|timer)$')"
+ROOT_UNITS="$(dotdrop_files 'timers' 'root' \
+    | grep --extended-regexp '\.(service|timer)$')"
 
 # Shared timers and services (between root and unprivileged users)
 print_info 'Retrieve shared units'
@@ -43,16 +44,18 @@ SHARED_UNITS="$(echo "$ROOT_UNITS" | grep '^/etc/systemd/share/')"
 
 # Root timers
 print_info 'Retrieve root timers'
-ROOT_TIMERS="$(echo "$ROOT_UNITS" | grep '\.timer$' | xargs -n 1 basename)"
+ROOT_TIMERS="$(echo "$ROOT_UNITS" | grep '\.timer$' \
+    | xargs --no-run-if-empty basename --multiple)"
 
 # Shared timers (between root and unprivileged users)
 print_info 'Retrieve shared timers'
-SHARED_TIMERS="$(echo "$SHARED_UNITS" | grep '\.timer$' | xargs -n 1 basename)"
+SHARED_TIMERS="$(echo "$SHARED_UNITS" | grep '\.timer$' \
+    | xargs --no-run-if-empty basename --multiple)"
 
 # User timers
 print_info 'Retrieve user timers'
 USER_TIMERS="$(dotdrop_files 'timers' | grep '\.timer$' \
-    | xargs -rn 1 basename)"
+    | xargs --no-run-if-empty basename --multiple)"
 
 #######################################
 # Root and shared timers

@@ -11,6 +11,6 @@ bindsym $mod+$wm_control_key+c reload
 bindsym $mod+$wm_control_key+x restart
 
 # Exit
-bindsym $mod+$wm_control_key+v exec "i3-nagbar -t warning \
-    -m 'You pressed the i3 exit shortcut. Do you really want to exit i3?' \
-    -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+$wm_control_key+v exec "i3-nagbar --type warning \
+    --message 'You pressed the i3 exit shortcut. Do you really want to exit i3?' \
+    --button-no-terminal 'Yes, exit i3' 'i3-msg exit'"

@@ -13,8 +13,8 @@
 {%@@ if on_x11 | is_truthy -@@%}
 
 # Copy-paste
-alias c='xsel -i -b'
-alias p='xsel -o'
+alias c='xsel --input --clipboard'
+alias p='xsel --output'
 
 {#@@ On wayland copy and paste are only available to unprivileged users @@#}
 {%@@ elif on_wayland | is_truthy and user == 'user' -@@%}
@@ -29,7 +29,7 @@ alias p='wl-paste'
 {%@@ if user == 'user' -@@%}
 
 # Root shell
-alias root='sudo -s'
+alias root='sudo --shell'
 
 {%@@ endif -@@%}
 

@@ -64,17 +64,18 @@ done
 
 if [ ! -p /dev/fd/1 ]; then
     # Stdout is not piped. Just executing sway-launcher-desktop.
-    {{@@ terminal @@}} --class "$TERM_ID" -e sway-launcher-desktop
+    {{@@ terminal @@}} --class "$TERM_ID" --command sway-launcher-desktop
 else
     # Stdout is piped. sway-launcher-desktop's output is then redirected to a
     # named pipe shared with this script, that can then emit the pipe's content
     # to stdout.
-    PIPE="$(mktemp -u)"
+    PIPE="$(mktemp --dry-run)"
     mkfifo "$PIPE"
 
     # Redirecting sway-launcher-desktop's output requires the terminal to
     # execute a shell line, rather than an executable, hence the `sh -c`.
-    {{@@ terminal @@}} --class "$TERM_ID" -e sh -c "sway-launcher-desktop > $PIPE" &
+    {{@@ terminal @@}} --class "$TERM_ID" --command \
+        sh -c "sway-launcher-desktop > $PIPE" &
 
     cat "$PIPE"
     rm "$PIPE"

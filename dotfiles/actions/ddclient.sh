@@ -21,7 +21,7 @@ DDCLIENT_FILE="$1"
 
 printf 'Insert DNS service password: '
 
-OLD_STTY="$(stty -g)"
+OLD_STTY="$(stty --save)"
 stty -echo
 read -r DNS_PASSWD
 stty "$OLD_STTY"
@@ -31,4 +31,4 @@ stty "$OLD_STTY"
 #######################################
 
 print_info 'Update ddclient password'
-sed -i "7ipassword=$DNS_PASSWD" "$DDCLIENT_FILE"
+sed --in-place "7ipassword=$DNS_PASSWD" "$DDCLIENT_FILE"

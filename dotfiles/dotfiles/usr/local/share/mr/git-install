@@ -3,17 +3,18 @@
 
 [DEFAULT]
 updateWithResult =
-    mr -d "$MR_REPO" update 2> /dev/null | grep 'up to date' > /dev/null 2>&1
+    mr --directory "$MR_REPO" update 2> /dev/null \
+        | grep 'up to date' > /dev/null 2>&1
 upgrade =
-    mr updateWithResult > /dev/null 2>&1 || mr -d "$MR_REPO" install
+    mr updateWithResult > /dev/null 2>&1 || mr --directory "$MR_REPO" install
 lib =
     download_github_asset() {
         ASSET_URL="$1"
         ASSET_FILTER="$2"
         #
-        wget -qO- "$ASSET_URL" \
-            | jq -r ".assets[] | select(.name | $ASSET_FILTER).browser_download_url" \
-            | xargs wget -qO -
+        wget --quiet --output-document - "$ASSET_URL" | jq --raw-output \
+                ".assets[] | select(.name | $ASSET_FILTER).browser_download_url" \
+            | xargs wget --quiet --output-document -
         #
         unset ASSET_FILTER ASSET_URL
     }

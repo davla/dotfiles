@@ -20,10 +20,10 @@ get_title() {
         *'instance'*)
             # Player names with a PID look like this: 'firefox.instance28301'
             GET_TITLE_PID="$(echo "$GET_TITLE_PLAYER" \
-                | awk -F '.instance' '{ print $2; }')"
+                | awk --field-separator '.instance' '{ print $2; }')"
 
-            swaymsg -t get_tree \
-                | jq -r ".. | select(.pid? == $GET_TITLE_PID) | .name"
+            swaymsg --type get_tree | jq --raw-output \
+                ".. | select(.pid? == $GET_TITLE_PID) | .name"
 
             unset GET_TITLE_PID
             ;;
@@ -84,7 +84,8 @@ make_list_item() {
 
         *'youtube'*)
             # Removing anything after 'YouTube'
-            echo "$MAKE_LIST_ITEM_TITLE" | sed -E 's/(.*youtube).*/\1/i'
+            echo "$MAKE_LIST_ITEM_TITLE" | sed --regex-extended \
+                's/(.*youtube).*/\1/i'
             ;;
 
         *)

@@ -46,7 +46,7 @@ done
 # Main
 ########################################
 
-UPDATES_COUNT="$(gh-release upgradable --silent | wc -l)"
+UPDATES_COUNT="$(gh-release upgradable --silent | wc --lines)"
 [ "$UPDATES_COUNT" -eq 0 ] \
     && UPDATES_COUNT_COLOR="$NO_UPDATES_COLOR" \
     || UPDATES_COUNT_COLOR="$UPDATES_COLOR"

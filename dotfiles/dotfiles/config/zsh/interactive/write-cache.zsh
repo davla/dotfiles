@@ -53,7 +53,7 @@ done
 }
 
 log_debug 'Create zsh cache directory'
-mkdir -p "$ZCACHEDIR"
+mkdir --parents "$ZCACHEDIR"
 
 #######################################
 # fasd
@@ -84,4 +84,4 @@ source "$ZYGAL_INIT"
 
 log_info 'Write static zygal code'
 source "$ZDOTDIR/interactive/plugins/dotfiles/zygal-conf.zsh"
-zygal-static 2>&1 > "$ZCACHEDIR/zygal" | cut -f 1 -d ' '
+zygal-static 2>&1 > "$ZCACHEDIR/zygal" | cut --delimiter ' ' --fields 1

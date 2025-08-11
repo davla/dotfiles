@@ -30,4 +30,4 @@ bash "${BDOTDIR:?}/interactive/write-cache.sh" --info
 # Zsh
 ########################################
 
-zsh -f "${ZDOTDIR:?}/interactive/write-cache.zsh" --info
+zsh --no-rcs "${ZDOTDIR:?}/interactive/write-cache.zsh" --info

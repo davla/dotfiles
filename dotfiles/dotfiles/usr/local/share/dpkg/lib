@@ -31,7 +31,8 @@ find_apt_ancestor_pid() {
             ;;
 
         *)
-            APT_ANCESTOR_PPID="$(ps -p "$APT_ANCESTOR_THIS_PID" -o 'ppid:1=')"
+            APT_ANCESTOR_PPID="$(ps --pid "$APT_ANCESTOR_THIS_PID" \
+                -o 'ppid:1=')"
             find_apt_ancestor_pid "$APT_ANCESTOR_PPID"
             unset APT_ANCESTOR_PPID
             ;;
@@ -44,7 +45,7 @@ find_apt_ancestor_pid() {
 # parent process
 apt_operation() {
     APT_PID="$(find_apt_ancestor_pid "$PPID")"
-    tr '\0' ' ' < "/proc/$APT_PID/cmdline" | cut -d ' ' -f 2
+    tr '\0' ' ' < "/proc/$APT_PID/cmdline" | cut --delimiter ' ' --fields 2
     unset APT_PID
 }
 
@@ -52,6 +53,6 @@ apt_operation() {
 # process that possibly contain package names.
 apt_packages() {
     APT_PID="$(find_apt_ancestor_pid "$PPID")"
-    tr '\0' ' ' < "/proc/$APT_PID/cmdline" | cut -d ' ' -f 3-
+    tr '\0' ' ' < "/proc/$APT_PID/cmdline" | cut --delimiter ' ' --fields 3-
     unset APT_PID
 }

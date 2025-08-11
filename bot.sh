@@ -117,7 +117,7 @@ cleanup() {
     [ "$IN_ALTERNATE_BUFFER" = 'true' ] && tput rmcup
     [ -n "$OUTPUT_LOG" ] && rm --force "$OUTPUT_LOG"
     [ -n "$CMD_PIPE" ] && rm --force "$CMD_PIPE"
-    [ -n "$CMD_TEE_PID" ] && kill -s TERM "$CMD_TEE_PID" > /dev/null 2>&1
+    [ -n "$CMD_TEE_PID" ] && kill --signal TERM "$CMD_TEE_PID" > /dev/null 2>&1
 }
 
 # This function executes a command.

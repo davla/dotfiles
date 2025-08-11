@@ -49,15 +49,15 @@ else
     print_info 'Install AUR helper'
     pacman -S --needed git base-devel
 
-    YAY_DIR="$(sudo -u "$USER_NAME" mktemp --directory 'XXX.yay.XXX')"
-    sudo -u "$USER_NAME" git clone 'https://aur.archlinux.org/yay-bin.git' \
+    YAY_DIR="$(sudo --user "$USER_NAME" mktemp --directory 'XXX.yay.XXX')"
+    sudo --user "$USER_NAME" git clone 'https://aur.archlinux.org/yay-bin.git' \
         "$YAY_DIR"
 
     cd "$YAY_DIR" || exit
-    sudo -u "$USER_NAME" makepkg -si
+    sudo --user "$USER_NAME" makepkg --syncdeps --install
     cd - > /dev/null 2>&1 || exit
 
-    sudo -u "$USER_NAME" rm -rf "$YAY_DIR"
+    sudo --user "$USER_NAME" rm -rf "$YAY_DIR"
 fi
 
 #######################################
@@ -75,7 +75,7 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
     case "$HOST" in
         'personal')
             print_info "Install GUI packages for $HOST"
-            sudo -u "$USER_NAME" yay -S --needed alacritty asunder atril \
+            sudo --user "$USER_NAME" yay -S --needed alacritty asunder atril \
                 baobab bitwarden blueman brasero calibre caprine \
                 docker-credential-secretservice-bin firefox-beta-bin geany \
                 gnome-disk-utility gnome-keyring gufw handbrake kid3 \
@@ -87,7 +87,7 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
 
     # Dotfiles
     print_info 'Install GUI packages dotfiles'
-    sudo -u "$USER_NAME" dotdrop install -p gui
+    sudo --user "$USER_NAME" dotdrop install -p gui
 fi
 
 #######################################
@@ -97,30 +97,30 @@ fi
 case "$HOST" in
     'personal')
         print_info "Install CLI packages for $HOST"
-        sudo -u "$USER_NAME" yay -S --needed cups cups-pdf dropbox nordvpn \
-            rustup zsa-keymapp-bin
+        sudo --user "$USER_NAME" yay -S --needed cups cups-pdf dropbox \
+            nordvpn rustup zsa-keymapp-bin
         ;;
 
     'raspberry')
         print_info "Install CLI packages for $HOST"
-        sudo -u "$USER_NAME" yay -S --needed at certbot ddclient libjpeg
+        sudo --user "$USER_NAME" yay -S --needed at certbot ddclient libjpeg
         ;;
 esac
 
 if [ "$HOST" != 'raspberry' ]; then
     print_info 'Install CLI packages for non-arm hosts'
-    sudo -u "$USER_NAME" yay -S --needed 7zip gdb ghc gifsicle hunspell \
+    sudo --user "$USER_NAME" yay -S --needed 7zip gdb ghc gifsicle hunspell \
         hunspell-da hunspell-en_us hunspell-es_es hunspell-it intel-ucode \
         libretro libsecret macchina networkmanager polkit-gnome rar reflector \
         retroarch retroarch-assets-xmb shellcheck  temp-throttle
         # dhcpcd doesn't work well with networkmanager (unless configured)
-        if sudo -u "$USER_NAME" yay -Qs dhcpcd; then
-            sudo -u "$USER_NAME" yay -R dhcpcd
+        if sudo --user "$USER_NAME" yay -Qs dhcpcd; then
+            sudo --user "$USER_NAME" yay -R dhcpcd
         fi
 fi
 
 print_info 'Install CLI packages shared across all hosts'
-sudo -u "$USER_NAME" yay -S --needed asdf-vm autoconf automake bind cmake \
+sudo --user "$USER_NAME" yay -S --needed asdf-vm autoconf automake bind cmake \
     cmatrix cowsay curl debugedit dkms dos2unix eza fasd fortune-mod gcc \
     git-secret gnupg htop jq lua luacheck luarocks man mercurial mmv \
     moreutils multi-git-status myrepos nfs-utils nyancat otf-ipafont \
@@ -131,14 +131,14 @@ sudo -u "$USER_NAME" yay -S --needed asdf-vm autoconf automake bind cmake \
 
 # Dotfiles
 print_info 'Install CLI packages dotfiles'
-sudo -u "$USER_NAME" dotdrop install -p cli -U both
+sudo --user "$USER_NAME" dotdrop install -p cli -U both
 
 #######################################
 # Upgrade
 #######################################
 
 print_info 'Upgrade system'
-sudo -u "$USER_NAME" yay -Syyu
+sudo --user "$USER_NAME" yay -Syyu
 
 #######################################
 # Initial setup
@@ -168,7 +168,7 @@ if [ "$HOST" = 'personal' ]; then
     # Prevent Dropbox auto-update by making its directory in $HOME read-only.
     # Adapted from
     # https://wiki.archlinux.org/title/dropbox#Prevent_automatic_updates.
-    sudo -u "$USER_NAME" sh -c '\
+    sudo --user "$USER_NAME" sh -c '\
         rm --recursive --force "$HOME/.dropbox-dist"; \
         install --directory --mode 000 "$HOME/.dropbox-dist"
     '
@@ -187,5 +187,5 @@ if [ "$HOST" = 'personal' ]; then
     # NordVPN
     print_info 'Configure NordVPN'
     usermod -aG nordvpn "$USER_NAME"
-    sudo -u "$USER_NAME" nordvpn-config
+    sudo --user "$USER_NAME" nordvpn-config
 fi

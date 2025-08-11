@@ -34,7 +34,7 @@ actions:
     gsettings: |
       jq "to_entries[] | .key as \$schema | .value | to_entries[] \
               | [\$schema, .key, .value][]" '{0}' \
-          | xargs -n 3 gsettings set
+          | xargs --max-args 3 gsettings set
 
     i3: sh actions/i3.sh
 
@@ -55,7 +55,7 @@ actions:
     # This action installs VSCode extensions given in the first argument. This
     # needs to be a file with one package specification per line.
     vscode-install-extensions: >-
-      xargs -n 1 code --force --install-extension < "{0}"
+      xargs --max-args 1 code --force --install-extension < "{0}"
 
 config:
   backup: false

@@ -10,7 +10,7 @@ After=network-online.target
 Wants=network-online.target
 
 [Service]
-ExecStart=/usr/bin/mr -c "{{@@ repos_path @@}}/.mrconfig" -d "{{@@ repos_path @@}}" update
+ExecStart=/usr/bin/mr --directory "{{@@ repos_path @@}}" --config "{{@@ repos_path @@}}/.mrconfig" update
 StandardError=journal
 StandardOutput=journal
 SyslogFacility=local0

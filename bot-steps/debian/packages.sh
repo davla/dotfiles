@@ -238,7 +238,7 @@ fi
 # NordVPN
 if [ "$HOST" = 'personal' ]; then
     print_info 'Configure NordVPN'
-    groupadd -r nordvpn
-    usermod -aG nordvpn "$USER_NAME"
+    groupadd --system nordvpn
+    usermod --append --groups nordvpn "$USER_NAME"
     sudo --user "$USER_NAME" nordvpn-config
 fi

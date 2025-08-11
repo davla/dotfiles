@@ -35,7 +35,7 @@ playerctl --list-all > "$PLAYERS_FILE"
 ########################################
 
 ACTIVE_PLAYERS="$(playerctl --all-players status | paste "$PLAYERS_FILE" - \
-    | grep 'Playing' | cut -f 1)"
+    | grep 'Playing' | cut --fields 1)"
 rm "$PLAYERS_FILE"
 
 ########################################

@@ -77,7 +77,8 @@ clean_uninstalled_aur_packages() {
         "$PACMAN_FOREIGN_PACKAGES")"
 
     echo "$UNINSTALLED_YAY_PACKAGES" \
-        | xargs --no-run-if-empty -I '{}' rm -rf "${YAY_CACHE_DIR:?}/{}"
+        | xargs --no-run-if-empty -I '{}' \
+            rm --recursive --force "${YAY_CACHE_DIR:?}/{}"
 }
 
 # This function returns the upstream sources of old versions of an AUR package

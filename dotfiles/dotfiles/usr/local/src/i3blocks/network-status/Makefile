@@ -76,13 +76,13 @@ $(OBJECTS) : $(BUILD_DIR)/%.o : %.c | $(BUILD_DIR)
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) $< -o $@
 
 $(BUILD_DIR) :
-	mkdir -p $(BUILD_DIR)
+	mkdir --parents $(BUILD_DIR)
 
 clean :
 	$(RM) $(OBJECTS)
 
 clear : clean
-	$(RM) -r $(BUILD_DIR) $(EXEC)
+	$(RM) --recursive $(BUILD_DIR) $(EXEC)
 
 install : $(EXEC)
 	install --directory $(PREFIX)

@@ -25,7 +25,7 @@ get_history() {
 # - $1: the 1-based index of the history entry
 get_nth_history_entry() {
     # xargs turns the null-terminator to a newline
-    get_history | sed -z "$1q;d" | xargs -0 -n 1
+    get_history | sed --null-data "${1}q;d" | xargs --null --max-args 1
 }
 
 # This function implements the `list_cmd` sway-launcher-desktop provider entry.

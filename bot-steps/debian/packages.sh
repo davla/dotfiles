@@ -145,7 +145,7 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
 
     # Dotfiles
     print_info 'Install GUI packages dotfiles'
-    sudo -u "$USER_NAME" dotdrop install -p gui
+    sudo --user "$USER_NAME" dotdrop install -p gui
 fi
 
 #######################################
@@ -186,9 +186,9 @@ apt-get install apt-transport-https autoconf automake build-essential cmake \
 
 # Dotfiles
 print_info 'Install CLI packages dotfiles'
-sudo -u "$USER_NAME" dotdrop install -p cli -U user
+sudo --user "$USER_NAME" dotdrop install -p cli -U user
 if dotdrop -bG files -p cli -U root 2> /dev/null \
-    | grep -Ev '(^[[:blank:]]*|":)$'; then
+    | grep --extended-regexp --invert-match --quiet '(^[[:blank:]]*|":)$'; then
     dotdrop install -p cli -U root
 fi
 
@@ -216,5 +216,5 @@ if [ "$HOST" = 'personal' ]; then
     print_info 'Configure NordVPN'
     groupadd -r nordvpn
     usermod -aG nordvpn "$USER_NAME"
-    sudo -u "$USER_NAME" nordvpn-config
+    sudo --user "$USER_NAME" nordvpn-config
 fi

@@ -420,7 +420,6 @@ profiles:
   # feel settings of the GUI itself.
   gui:
     dotfiles:
-    - d_applications
     - f_mimeapps.list
     include:
     - gui-{{@@ display_server @@}}
@@ -428,6 +427,7 @@ profiles:
     - look-and-feel
     - vscode
     import:
+    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/gui.yaml:optional
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/gui.yaml:optional
     actions:
     - glib-terminal

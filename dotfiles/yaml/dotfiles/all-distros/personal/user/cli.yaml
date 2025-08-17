@@ -4,6 +4,6 @@
 # only on my personal machine for unprivileged users.
 
 dotfiles:
-- f_docker_config.json
+- f_containers_auth.json
 - f_ghci
 - f_hgrc

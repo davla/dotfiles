@@ -4,8 +4,7 @@
 # system, and performs some additional setup for some of them when required.
 #
 # Arguments:
-#   - $1: name of the user to be added to the docker group. Defaults to $USER
-#         variable.
+#   - $1: user for which rootless podman is set up. Optional, defaults to $USER
 
 # This doesn't work if this script is sourced
 . "$(dirname "$0")/../../.dotfiles-env"
@@ -159,7 +158,7 @@ case "$HOST" in
         print_info "Install CLI packages for $HOST"
         apt-get install autorandr cabal-install cups ghc gifsicle git-review \
             handbrake-cli hlint imagemagick intel-microcode lame lua luacheck \
-            luarocks libghc-hspec-dev mercurial nordvpn \
+            luarocks libghc-hspec-dev mercurial nordvpn podman-compose \
             python-requests-futures python3-gdbm python3-gpg python3-lxml \
             python3-pygments python3-requests python3-requests-oauthlib \
             thunar-dropbox-plugin
@@ -167,20 +166,20 @@ case "$HOST" in
 
     'work')
         print_info "Install CLI packages for $HOST"
-        apt-get install amd64-microcode awscli dotnet-sdk-7.0 dotnet-sdk-8.0 \
-            dotnet-sdk-9.0 i3lock xautolock
+        apt-get install amd64-microcode awscli docker-compose-plugin \
+            dotnet-sdk-7.0 dotnet-sdk-8.0 dotnet-sdk-9.0 i3lock xautolock
         ;;
 esac
 
 print_info 'Install CLI packages shared across all hosts'
 apt-get install apt-transport-https autoconf automake build-essential cmake \
-    cmatrix cowsay curl dbus-x11 dkms docker-ce dos2unix fonts-freefont-otf \
-    fonts-nanum fortune g++ gdb git git-secret gvfs-backends htop hunspell \
-    hunspell-en-us hunspell-it jq libbz2-dev liblzma-dev libncurses-dev \
-    libnotify-bin libreadline-dev libsecret-1-dev libsqlite3-dev libssl-dev \
-    lua5.4 make mmv mgitstatus moreutils nfs-common nyancat p7zip \
-    pipewire-jack playerctl policykit-1-gnome pycodestyle python3 python3-pip \
-    rar shellcheck sl software-properties-common systemd-cron \
+    cmatrix cowsay curl dbus-x11 dkms dos2unix fonts-freefont-otf fonts-nanum \
+    fortune g++ gdb git git-secret gvfs-backends htop hunspell hunspell-en-us \
+    hunspell-it jq libbz2-dev liblzma-dev libncurses-dev libnotify-bin \
+    libreadline-dev libsecret-1-dev libsqlite3-dev libssl-dev lua5.4 make mmv \
+    mgitstatus moreutils nfs-common nyancat p7zip pipewire-jack playerctl \
+    podman-docker policykit-1-gnome pycodestyle python3 python3-pip rar \
+    shellcheck sl software-properties-common systemd-cron \
     thunar-archive-plugin tk-dev uni2ascii unrar vim wmctrl xdotool \
     xserver-xorg-input-synaptics yad zip
 
@@ -206,10 +205,35 @@ apt-get upgrade
 # Packages setup
 #######################################
 
-# Docker
-print_info "Enable docker for $USER_NAME"
-groupadd -f docker
-usermod -aG docker "$USER_NAME"
+# Rootless podman
+print_info "Allow $USER_NAME to run rootless podman"
+id "$USER_NAME" \
+    | sed --regexp-extended 's/uid=([0-9]+).+ gid=([0-9]+).+/\1 \2/' \
+    | {
+        # Use shell group here because the variables created by read are only
+        # available in the subshell created by the pipe
+        read -r USER_ID GROUP_ID
+
+        SUB_UID_START="$(( USER_ID + 99000 ))"
+        usermod --add-subuids "$SUB_UID_START-$(( SUB_UID_START + 65535 ))" \
+            "$USER_NAME"
+
+        SUB_GID_START="$(( GROUP_ID + 99000 ))"
+        usermod --add-subgids "$SUB_GID_START-$(( SUB_GID_START + 65535 ))" \
+            "$USER_NAME"
+    }
+podman system migrate
+
+if [ "$HOST" = 'work' ]; then
+    print_info "Make docker-compose use $USER_NAME's rootless podman"
+    systemctl --machine "$USER_NAME@" --user enable --now podman.socket
+    sudo -u "$USER_NAME" sh -c '
+        podman info --format "{{.Host.RemoteSocket.Path}}" \
+            | xargs -I "{}" \
+                podman context create podman --docker "host=unix://{}";
+        podman context use podman
+    '
+fi
 
 # NordVPN
 if [ "$HOST" = 'personal' ]; then

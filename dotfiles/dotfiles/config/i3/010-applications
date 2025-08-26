@@ -16,6 +16,7 @@ set $outlook_criterion title="^Outlook.*PWA" class="Microsoft-edge" \
     instance="^crx__"
 set $scratchpad_editor_criterion instance="scratchpad-editor"
 set $scratchpad_term_criterion title="scratchpad-terminal"
+set $slack_criterion instance="slack"
 set $spotify_criterion instance="spotify"
 set $teams_criterion title="^Microsoft Teams" class="Microsoft-edge" \
     instance="^crx__"

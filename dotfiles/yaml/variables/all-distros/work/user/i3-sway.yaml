@@ -11,5 +11,5 @@ variables:
   mail_client: outlook
 
   messaging_apps: []
-  messaging_client: teams
-  messaging_client_cmd: teams
+  messaging_client: slack
+  messaging_client_cmd: slack

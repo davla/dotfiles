@@ -7,5 +7,6 @@
 # Third-party commands aliases
 #######################################
 
+alias cat='bat'
 alias ls='eza'
 alias tree='eza --tree'

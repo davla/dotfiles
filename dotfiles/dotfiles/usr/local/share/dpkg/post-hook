@@ -38,6 +38,10 @@ case "$(apt_operation)" in
     'dist-upgrade'|'install'|'reinstall'|'upgrade')
         for PACKAGE in $(apt_packages); do
             case "$PACKAGE" in
+                *bat*)
+                    set_alternative 'batcat' 'bat'
+                    ;;
+
                 *code-insiders*)
                     set_alternative 'code-insiders' 'code'
                     ;;

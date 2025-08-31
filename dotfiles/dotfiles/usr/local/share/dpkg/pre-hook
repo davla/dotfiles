@@ -32,6 +32,10 @@ case "$(apt_operation)" in
     'autopurge'|'autoremove'|'purge'|'remove')
         for PACKAGE in $(apt_packages); do
             case "$PACKAGE" in
+                *bat*)
+                    rm_alternative 'batcat' 'bat'
+                    ;;
+
                 *code-insiders*)
                     rm_alternative 'code-insiders' 'code'
                     ;;

@@ -15,6 +15,8 @@ actions:
   post:
     autorandr: sh actions/autorandr.sh "{0}"
 
+    bat-theme: bat cache --build
+
     # This action aliases my terminal emulator of choice to the terminal
     # emulators hardcoded in glib that it's the least likely to be actually
     # installed. This way, GKT+ applications can open terminals for .desktop
@@ -99,6 +101,11 @@ dotfiles:
   d_applications:
     src: local/share/applications
     dst: '{{@@ xdg_data("applications") @@}}'
+  d_bat:
+    src: config/bat
+    dst: '{{@@ xdg_config("bat") @@}}'
+    actions:
+    - bat-theme
   d_desktop-directories:
     src: local/share/desktop-directories
     dst: '{{@@ xdg_data("desktop-directories") @@}}'
@@ -390,6 +397,7 @@ profiles:
   # This profile groups configuration files for CLI-based applictions.
   cli:
     dotfiles:
+    - d_bat
     - f_editorconfig
     - f_vimrc
     import:

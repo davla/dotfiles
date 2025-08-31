@@ -134,4 +134,3 @@ gi() {
 ########################################
 
 alias e='explore'
-alias j='json-paginated'

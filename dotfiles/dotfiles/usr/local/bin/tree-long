@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+
+# This is a convenience command for eza tree output. Other than calling eza
+# with a bunch of nice options, it paginates the output if it doesn't fit in
+# one screen, without using a separate buffer.
+#
+# Arguments:
+#   - $1: Tree levels to be displayed. Optional, defaults to 2.
+#   - $2+: eza options to be added to the present ones, including the directory
+#          to be listed. Optional. It includes the first argument when it's not
+#          an integer number.
+
+########################################
+# Input processing
+########################################
+
+TREE_LEVEL='3'
+
+# Check if $1 is an integer number
+echo "$1" | grep --extended-regexp --quiet '^[0-9]+$' && {
+    TREE_LEVEL="$1"
+    shift
+}
+
+########################################
+# Main
+########################################
+
+exec list-long --tree --level "$TREE_LEVEL" "$@"

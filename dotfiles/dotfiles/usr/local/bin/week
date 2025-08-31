@@ -1,0 +1,78 @@
+#!/usr/bin/env sh
+
+# This is a utility command that operates with week numbers. It can perform a
+# few seemingly unrelated tasks, based on the arguments it's called with:
+#
+# - It prints the current ISO week number, if called with no arguments.
+# - It prints the Monday and Sunday of a week given its ISO number, if called
+#   with a single number.
+# - It prints the week number of a given day, if called with any number of
+#   arguments that can concatenate to a date in any of these formats:
+#   '%d-%m', '%d %m', '%d %b' or '%d-%b'
+#
+# Arguments:
+#   - $1: Optional, but when present, one of:
+#       - The week ISO number whose Monday and Sunday will be printed
+#       - One of the element of the date whose ISO week number will be printed
+#       - Nothing, to print the current ISO week number
+#   - $2: Optional, the next element of the date whose ISO week number will be
+#         printed
+
+########################################
+# Functions
+########################################
+
+# This function returns with 0 if the argument is composed only by digits, or
+# with 1 otherwise.
+#
+# Arguments:
+#   - $1: The value to be checked.
+is_integer() {
+    echo "$1" | grep --extended-regexp --line-regexp --quiet '[0-9]+'
+}
+
+########################################
+# Input processing
+########################################
+
+WEEK_NUMBER="$1"
+is_integer "$*" && HAS_WEEK_NUMBER='true' || HAS_WEEK_NUMBER='false'
+
+########################################
+# Main
+########################################
+
+if [ "$HAS_WEEK_NUMBER" = 'false' ]; then
+    echo "$*" | sed 's/-/ /g' | {
+        if [ "$#" -eq 0 ]; then
+            DATE='now'
+        else
+            read -r DAY MONTH
+            YEAR="$(date '+%Y')"
+            is_integer "$MONTH" \
+                && DATE="$YEAR-$MONTH-$DAY" \
+                || DATE="$MONTH $DAY $YEAR"
+        fi
+
+        date --date "$DATE" '+%V'
+    }
+
+    exit
+fi
+
+# Week 1 is by definition the one containing the 4th of January. In here we get
+# the offset of the 4th of January from Monday of the same week (the 4th of
+# January's weekday as a number).
+WEEK_FOURTH_JAN_OFFSET="$(date --date='Jan 04' '+%u')"
+
+# Getting the Monday of the week having the given ISO number by:
+# - Landing in such week by offsetting by the given number of weeks
+#   from the 4th of January.
+# - Going back to the Monday of the same week by subtracting the offset
+#   the 4th of January had from the Monday of its own week.
+WEEK_GIVEN_MONDAY="$(date --date="Jan 04 + $(( WEEK_NUMBER - 1 )) weeks \
+    - $(( WEEK_FOURTH_JAN_OFFSET - 1 )) days")"
+
+# `printf` to avoid printing the newline.
+date --date="$WEEK_GIVEN_MONDAY" '+%d %b' | xargs printf '%s %s - '
+date --date="$WEEK_GIVEN_MONDAY + 6 days" '+%d %b'

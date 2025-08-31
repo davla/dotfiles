@@ -53,6 +53,5 @@ export UNZIP='-a -L -o'
 ########################################
 
 export EDITOR='vim'
-export PAGER="less --chop-long-lines --no-init --quit-if-one-screen \
-    --RAW-CONTROL-CHARS"
+export PAGER='paginate'
 export VISUAL="$EDITOR"

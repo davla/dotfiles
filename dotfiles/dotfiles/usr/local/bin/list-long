@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+# This is a convenience command for eza long output. Other than calling eza
+# with a bunch of nice options, it paginates the output if it doesn't fit in
+# one screen, without using a separate buffer.
+#
+# Arguments:
+#   - $@: eza options to be added to the present ones, including the directory
+#         to be listed. Optional.
+
+exa --all --binary --header --long --sort type --color-scale --color always \
+    "$@" | paginate

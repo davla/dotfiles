@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+# This is a convenience command to paginate output by using less. Importantly,
+# it only paginates if the output doesn't fit in one screen, without using an
+# alternate terminal buffer.
+
+exec less --chop-long-lines --no-init --quit-if-one-screen --RAW-CONTROL-CHARS

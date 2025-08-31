@@ -98,6 +98,10 @@ dotfiles:
     src: usr/local/bin/launcher
     dst: /usr/local/bin/launcher
     chmod: 755
+  f_local_bin_list-long:
+    src: usr/local/bin/list-long
+    dst: /usr/local/bin/list-long
+    chmod: 755
   f_local_bin_lock-screen:
     src: usr/local/bin/lock-screen
     dst: /usr/local/bin/lock-screen
@@ -118,6 +122,10 @@ dotfiles:
   f_local_bin_outlook:
     src: usr/local/bin/progressive-web-app
     dst: /usr/local/bin/outlook
+    chmod: 755
+  f_local_bin_paginate:
+    src: usr/local/bin/paginate
+    dst: /usr/local/bin/paginate
     chmod: 755
   f_local_bin_rustup:
     src: usr/local/bin/rustup
@@ -156,6 +164,10 @@ dotfiles:
     src: usr/local/bin/progressive-web-app
     dst: /usr/local/bin/teams
     chmod: 755
+  f_local_bin_tree-long:
+    src: usr/local/bin/tree-long
+    dst: /usr/local/bin/tree-long
+    chmod: 755
   f_local_bin_vpn:
     src: usr/local/bin/{{@@ vpn_command @@}}
     dst: /usr/local/bin/vpn
@@ -167,6 +179,10 @@ dotfiles:
   f_local_bin_wifi:
     src: usr/local/bin/wifi
     dst: /usr/local/bin/wifi
+    chmod: 755
+  f_local_bin_week:
+    src: usr/local/bin/week
+    dst: /usr/local/bin/week
     chmod: 755
   f_local_bin_wget:
     src: usr/local/bin/wget
@@ -187,6 +203,10 @@ profiles:
   commands:
     dotfiles:
     - f_local_bin_dotdrop
+    - f_local_bin_list-long
+    - f_local_bin_paginate
+    - f_local_bin_tree-long
+    - f_local_bin_week
     - f_local_bin_wget
     import:
     - ../../../../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/commands.yaml:optional

@@ -4,7 +4,7 @@
 
 Types: deb
 Uris: https://linux.dropbox.com/debian
-Suites: bookworm
+Suites: trixie
 Components: main
 {%@@ include 'etc/apt/sources.list.d/signed-by' @@%}
 Architectures: i386 amd64

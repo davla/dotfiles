@@ -16,7 +16,7 @@ case "$DISTRO" in
         ;;
 
     'debian')
-        sudo apt-get install bash bash-completion dash exa fasd thefuck zsh \
+        sudo apt-get install bash bash-completion dash eza fasd thefuck zsh \
             xsel
 
         print_info 'Install sheldon via github-releases'

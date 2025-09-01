@@ -51,13 +51,6 @@ textbox-prompt {
     font: "monospace bold 18";
 }
 
-message {
-    margin: @prompt-width;
-    border-radius: @gap-l;
-    border-color: @bg2;
-    background-color: @bg2;
-}
-
 textbox {
     padding: 8px 24px;
 }

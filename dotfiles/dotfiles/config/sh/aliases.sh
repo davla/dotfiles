@@ -7,12 +7,12 @@
 # Third-party commands aliases
 #######################################
 
-alias ls='exa'
-alias tree='exa --tree'
+alias ls='eza'
+alias tree='eza --tree'
 
 ########################################
 # Shortening aliases
 ########################################
 
-alias list-long='exa --all --binary --header --long --sort=type'
+alias list-long='eza --all --binary --header --long --sort=type'
 alias tree-long='list-long --tree --level=3'

@@ -176,12 +176,11 @@ apt-get install apt-transport-https autoconf automake build-essential cmake \
     cmatrix cowsay curl dbus-x11 dkms dos2unix fonts-freefont-otf fonts-nanum \
     fortune g++ gdb git git-secret gvfs-backends htop hunspell hunspell-en-us \
     hunspell-it jq libbz2-dev liblzma-dev libncurses-dev libnotify-bin \
-    libreadline-dev libsecret-1-dev libsqlite3-dev libssl-dev lua5.4 make mmv \
-    mgitstatus moreutils nfs-common nyancat p7zip pipewire-jack playerctl \
-    podman-docker policykit-1-gnome pycodestyle python3 python3-pip rar \
-    shellcheck sl software-properties-common systemd-cron \
-    thunar-archive-plugin tk-dev uni2ascii unrar vim wmctrl xdotool \
-    xserver-xorg-input-synaptics yad zip
+    libreadline-dev libsecret-1-dev libsqlite3-dev libssl-dev lua5.4 make \
+    mate-polkit mmv mgitstatus moreutils nfs-common nyancat p7zip \
+    pipewire-jack playerctl podman-docker pycodestyle python3 python3-pip rar \
+    shellcheck sl systemd-cron thunar-archive-plugin tk-dev uni2ascii unrar \
+    vim wmctrl xdotool xserver-xorg-input-synaptics yad zip
 
 # Dotfiles
 print_info 'Install CLI packages dotfiles'

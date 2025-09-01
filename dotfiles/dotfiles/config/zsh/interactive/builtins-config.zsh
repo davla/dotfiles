@@ -36,7 +36,7 @@ zstyle ':completion:*' use-cache on
 
 # Colors
 zstyle ':completion:*' list-colors ''
-zstyle ':completion:*:default' list-colors ${(s.:.)EXA_COLORS} 'ma=38;5;250;100'
+zstyle ':completion:*:default' list-colors ${(s.:.)EZA_COLORS} 'ma=38;5;250;100'
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
 
 # Grouping

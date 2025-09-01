@@ -3,8 +3,8 @@ deb https://deb.debian.org/debian/ stable main contrib non-free non-free-firmwar
 deb-src https://deb.debian.org/debian/ stable main contrib non-free non-free-firmware
 
 # Debian stable-proposed-updates
-deb https://deb.debian.org/debian/ bookworm-proposed-updates main contrib non-free non-free-firmware
-deb-src https://deb.debian.org/debian/ bookworm-proposed-updates main contrib non-free non-free-firmware
+deb https://deb.debian.org/debian/ trixie-proposed-updates main contrib non-free non-free-firmware
+deb-src https://deb.debian.org/debian/ trixie-proposed-updates main contrib non-free non-free-firmware
 
 # Debian stable-updates
 deb https://deb.debian.org/debian/ stable-updates main contrib non-free non-free-firmware

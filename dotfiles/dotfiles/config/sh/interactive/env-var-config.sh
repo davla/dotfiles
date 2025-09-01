@@ -15,12 +15,12 @@ export CDPATH="{{@@ ['.', code_root, cd_path ] | select('defined')
     | map('tilde2home') | join(':') @@}}"
 
 #######################################
-# exa / ls
+# eza / ls
 #######################################
 
-{%@@ set exa_colors = join_file_lines(dotfiles_dir + 'exa_colors',
+{%@@ set eza_colors = join_file_lines(dotfiles_dir + 'eza_colors',
     separator = ':', skip_marker = '#') @@%}
-export EXA_COLORS='{{@@ exa_colors @@}}' LS_COLORS='{{@@ exa_colors @@}}'
+export EZA_COLORS='{{@@ eza_colors @@}}' LS_COLORS='{{@@ eza_colors @@}}'
 
 ########################################
 # grep

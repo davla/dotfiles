@@ -89,7 +89,8 @@ case "$(echo "$CREATE_SSH_KEYS" | tr '[:upper:]' '[:lower:]')" in
         # Display newly created public SSH key
         print_info "Display new SSH key at $SSH_KEY_PATH.pub"
         cat "$SSH_KEY_PATH.pub"
-        read -r
+        # shellcheck disable=SC2034
+        read -r ANSWER
 
         # Leaving SSH_KEY_PATH around for later use.
         unset SSH_KEY_FILE_NAME
@@ -137,24 +138,11 @@ echo "$GIT_ORIGIN" | grep --quiet --extended-regexp 'https?' && {
     print_info 'Change this repository remote to use SSH'
 
     # Change this repository URL to use SSH
-    echo "$GIT_ORIGIN" | \
-        sed --regexp-extended '
+    echo "$GIT_ORIGIN" \
+        | sed --regexp-extended '
             s|https?://(.+?)/(.+?)/(.+?)(.git)?|git@\1:\2/\3.git| ;
             s/(\.git)+$/.git/g
         ' | xargs git remote set-url origin
-
-    case "$HOST" in
-        *'work'*)
-            # Change this repository URL hostname to use the correct SSH key
-            print_info -n 'Change this repository URL hostname to use the '
-            echo 'correct SSH key'
-            # The remote might have just been changed, hence $GIT_ORIGIN is
-            # stale and the git origin url needs to be queried again
-            git remote get-url origin \
-                | sed 's/@github.com/@personal.github.com/' \
-                | xargs git remote set-url origin
-            ;;
-    esac
 }
 
 #######################################

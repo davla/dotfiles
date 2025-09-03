@@ -4,4 +4,4 @@
 # only on my work machine.
 
 dotfiles:
-- f_xautolock.service
+- f_xss-lock.service

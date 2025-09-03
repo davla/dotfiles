@@ -167,7 +167,7 @@ case "$HOST" in
     'work')
         print_info "Install CLI packages for $HOST"
         apt-get install amd64-microcode awscli docker-compose-plugin \
-            dotnet-sdk-7.0 dotnet-sdk-8.0 dotnet-sdk-9.0 i3lock xautolock
+            dotnet-sdk-7.0 dotnet-sdk-8.0 dotnet-sdk-9.0 i3lock xss-lock
         ;;
 esac
 

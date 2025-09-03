@@ -94,6 +94,7 @@ alias gl=' clear'
 # Abbreviation aliases
 ########################################
 
+alias e='explore'
 alias l='list-long'
 alias o='open'
 alias pg='paginate'

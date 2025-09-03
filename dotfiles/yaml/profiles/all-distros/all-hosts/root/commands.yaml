@@ -94,6 +94,10 @@ dotfiles:
     src: usr/local/bin/dotdrop
     dst: /usr/local/bin/dotdrop
     chmod: 755
+  f_local_bin_explore:
+    src: usr/local/bin/explore
+    dst: /usr/local/bin/explore
+    chmod: 755
   f_local_bin_launcher:
     src: usr/local/bin/launcher
     dst: /usr/local/bin/launcher
@@ -202,6 +206,7 @@ profiles:
   # This profile gathers my custom shell commands and their dependencies
   commands:
     dotfiles:
+    - f_local_bin_explore
     - f_local_bin_dotdrop
     - f_local_bin_list-long
     - f_local_bin_paginate

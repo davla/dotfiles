@@ -30,7 +30,7 @@
 
 export XDG_CURRENT_DESKTOP='{{@@ xdg_current_desktop @@}}'
 export XDG_SESSION_TYPE='{{@@ xdg_session_type @@}}'
-ENV_LIST='{{@@ env_list @@}} XDG_CURRENT_DESKTOP XDG_SESSION_TYPE TERMINAL'
+ENV_LIST='{{@@ env_list @@}} TERMINAL XDG_CURRENT_DESKTOP XDG_SESSION_ID XDG_SESSION_TYPE'
 TARGET='{{@@ target @@}}'
 
 ########################################

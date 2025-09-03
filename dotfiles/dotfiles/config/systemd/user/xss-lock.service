@@ -1,17 +1,19 @@
-# xautolock systemd service file
+# xss-lock systemd service file
 
 [Unit]
 Description=X11 inactivity screen locker
 After=graphical-session.target
 BindsTo=graphical-session.target
 ConditionEnvironment=DISPLAY
+ConditionEnvironment=XDG_SESSION_ID
 
 [Service]
-ExecStart=xautolock -time 5 -locker lock-screen -nowlocker lock-screen -detectsleep
+ExecStart=xss-lock --session $XDG_SESSION_ID -- lock-screen
 StandardError=journal
 StandardOutput=journal
 SyslogFacility=local0
-SyslogIdentifier=xautolock
+SyslogIdentifier=xss-lock
+SyslogIdentifier=xss-lock
 SyslogLevel=info
 SyslogLevelPrefix=true
 Type=exec

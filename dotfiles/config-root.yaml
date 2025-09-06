@@ -38,7 +38,7 @@ actions:
           INACTIVE_KEY_COLOR='{{@@ i3bar_inactive_color @@}}' \
           CAPS_LABEL='󰌎' \
           LABEL_SEPARATOR='<span size=\"1.8pt\"> </span>' \
-          PANGO_PROPS='size=\"110%\" font_weight=\"bold\"' \
+          PANGO_PROPS='size=\"180%\" font_weight=\"bold\"' \
           clean install
 
     # This action compiles the network-status custom i3block

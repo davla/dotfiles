@@ -55,7 +55,7 @@ esac
 # Input processing
 #######################################
 
-AUTORANDR_HOME="$(readlink -f "$1")"
+AUTORANDR_HOME="$(readlink --canonicalize "$1")"
 
 #######################################
 # Create symbolic links

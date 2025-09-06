@@ -59,7 +59,7 @@ signal={{@@ i3blocks_signals.updates @@}}
 {%@@ elif 'arch' in distro_id -@@%}
 
 [arch-upgrades]
-command={{@@ i3blocklets_install_path @@}}/arch-update | sed -E '1s|^|{{@@ label('󰓦') @@}}|; s/ updates? available//; s/system up to date/0/'
+command={{@@ i3blocklets_install_path @@}}/arch-update | sed --regexp-extended '1s|^|{{@@ label('󰓦') @@}}|; s/ updates? available//; s/system up to date/0/'
 markup=pango
 interval={{@@ 60 * 60 @@}}
 signal={{@@ i3blocks_signals.updates @@}}

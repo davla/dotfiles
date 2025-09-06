@@ -45,6 +45,6 @@ dotdrop -U both install -p zsh
 
 ZSH_PATH="$(which zsh)"
 print_info "Set default shell to zsh for $USER"
-chsh -s "$ZSH_PATH"
+chsh --shell "$ZSH_PATH"
 print_info 'Set default shell to zsh for root'
-sudo chsh -s "$ZSH_PATH"
+sudo chsh --shell "$ZSH_PATH"

@@ -21,7 +21,7 @@ en_US.UTF-8 UTF-8'
 
 print_info 'Uncomment locales in /etc/locale.gen'
 echo "$LOCALES" | while read -r LOCALE; do
-    sed -Ei "s/#\\s*$LOCALE/$LOCALE/" /etc/locale.gen
+    sed --regexp-extended --in-place "s/#\\s*$LOCALE/$LOCALE/" /etc/locale.gen
 done
 
 print_info 'Generate locales'
@@ -31,7 +31,7 @@ case "$DISTRO" in
         ;;
 
     'debian')
-        dpkg-reconfigure -f noninteractive locales
+        dpkg-reconfigure --frontend noninteractive locales
         ;;
 esac
 
@@ -42,7 +42,8 @@ esac
 print_info 'Alias spellcheckers'
 if [ -d /usr/share/hunspell/ ]; then
     for EN_US_FILE_PATH in /usr/share/hunspell/en_US.*; do
-        EN_US_EXT="$(basename "$EN_US_FILE_PATH" | cut -d '.' -f 2-)"
+        EN_US_EXT="$(basename "$EN_US_FILE_PATH" \
+            | cut --delimiter '.' --fields 2-)"
         ln --force --symbolic --relative "$EN_US_FILE_PATH" \
             "/usr/share/hunspell/en_DK.$EN_US_EXT"
     done

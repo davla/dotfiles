@@ -37,5 +37,5 @@ dotdrop install -p i3 -U both
 
 print_info 'Enable i3 systemd services'
 dotdrop files -bG -p i3 2> /dev/null | grep service \
-    | cut -d ',' -f 1 | cut -d '_' -f 2 \
+    | cut --delimiter ',' --fields 1 | cut --delimiter '_' --fields 2 \
     | xargs systemctl --user add-wants i3-session.target

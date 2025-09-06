@@ -13,4 +13,4 @@ systemctl enable --now nordvpnd
 # Creating nordvpn group
 ########################################
 
-groupadd -f nordvpn
+groupadd --force nordvpn

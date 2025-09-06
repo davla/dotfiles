@@ -38,9 +38,10 @@ FIRST_RESTART_RECEIVED='false'
 # happens when {{@@ wm_name @@}} is exiting, either with or without errors.
 # In all these cases, the {{@@ wm_name @@}} systemd session should be stopped.
 {
-    {{@@ wm_ipc_command @@}} -t subscribe '["shutdown"]' || stop_session
+    {{@@ wm_ipc_command @@}} --type subscribe '["shutdown"]' || stop_session
 } | while read -r EVENT; do
-        EVENT_CHANGE="$(echo "$EVENT" | jq -r '.change | ascii_downcase')"
+        EVENT_CHANGE="$(echo "$EVENT" \
+            | jq --raw-output '.change | ascii_downcase')"
 
         [ "$EVENT_CHANGE" = 'restart' ] && FIRST_RESTART_RECEIVED='true'
 

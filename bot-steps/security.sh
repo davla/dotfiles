@@ -64,7 +64,7 @@ prompt_ssh_key_name() {
 #######################################
 
 print_info "Ensure $SSH_HOME exists"
-mkdir -p "$SSH_HOME"
+mkdir --parents "$SSH_HOME"
 
 # Prompt the user for SSH key creation
 printf 'Do you want to create ssh keys? [y/n] '
@@ -133,14 +133,15 @@ unset SSH_KEY_PATH
 #######################################
 
 # If remote origin is https, it's not ssh
-echo "$GIT_ORIGIN" | grep -E 'https?' > /dev/null 2>&1 && {
+echo "$GIT_ORIGIN" | grep --quiet --extended-regexp 'https?' && {
     print_info 'Change this repository remote to use SSH'
 
     # Change this repository URL to use SSH
     echo "$GIT_ORIGIN" | \
-        sed -E -e 's|https?://(.+?)/(.+?)/(.+?)(.git)?|git@\1:\2/\3.git|' \
-            -e 's/(\.git)+$/.git/g' \
-        | xargs git remote set-url origin
+        sed --regexp-extended '
+            s|https?://(.+?)/(.+?)/(.+?)(.git)?|git@\1:\2/\3.git| ;
+            s/(\.git)+$/.git/g
+        ' | xargs git remote set-url origin
 
     case "$HOST" in
         *'work'*)
@@ -198,11 +199,12 @@ EOF
 
         print_info 'Display new public gpg key'
         # Actually get the content to paste on GitHub
-        gpg --list-secret-keys --with-colons | grep 'sec' | cut -d ':' -f 5 \
-            | xargs gpg --armor --export
-        read -r
+        gpg --list-secret-keys --with-colons | grep 'sec' \
+            | cut --delimiter ':' --fields 5 | xargs gpg --armor --export
+        # shellcheck disable=SC2034
+        read -r ANSWER
 
-        unset GPG_ARGS GPG_EMAIL GPG_NAME
+        unset ANSWER GPG_ARGS GPG_EMAIL GPG_NAME
         ;;
 
     # Not create gpg keys

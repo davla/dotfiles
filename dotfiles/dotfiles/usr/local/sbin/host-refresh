@@ -75,8 +75,8 @@ log_debug 'Frequent hosts file found at {{@@ frequent_hosts_path @@}}'
 
 # Line number of the frequent hosts marker
 log_debug 'Finding line number of frequent host marker'
-MARKER_LINE="$(grep -n '{{@@ frequent_hosts_marker @@}}' /etc/hosts \
-    | cut -d ':' -f 1)"
+MARKER_LINE="$(grep --line-number '{{@@ frequent_hosts_marker @@}}' \
+    /etc/hosts | cut --delimiter ':' --fields 1)"
 
 # Frequent hosts marker not found
 [ -z "$MARKER_LINE" ] && {
@@ -97,7 +97,7 @@ MARKER_LINE=$(( MARKER_LINE + 2 ))
 
 # Clearing frequent hosts entries
 log_debug 'Clearing frequent hosts entries'
-sed -i "$MARKER_LINE,\$d" /etc/hosts
+sed --in-place "$MARKER_LINE,\$d" /etc/hosts
 
 # Appending an entry in /etc/hosts for every frequent hosts
 log_debug 'Starting to update /etc/host'
@@ -115,7 +115,8 @@ while read -r HOST; do
     log_debug "Checking IPv4 for $HOST"
     IPv4="$(echo "$IPS" | grep 'has address')"
     if [ -n "$IPv4" ]; then
-        echo "$IPv4" | tail -n 1 | cut -d ' ' -f 1,4 >> /etc/hosts
+        echo "$IPv4" | tail --lines 1 \
+            | cut --delimiter ' ' --fields 1,4 >> /etc/hosts
         log_info "Updated IPv4 for $HOST"
     else
         log_info "IPv4 for $HOST not found"
@@ -124,7 +125,8 @@ while read -r HOST; do
     log_debug "Checking IPv6 for $HOST"
     IPv6="$(echo "$IPS" | grep 'has IPv6 address')"
     if [ -n "$IPv6" ]; then
-        echo "$IPv6" | tail -n 1 | cut -d ' ' -f 1,5 >> /etc/hosts
+        echo "$IPv6" | tail --lines 1 \
+            | cut --delimiter ' ' --fields 1,5 >> /etc/hosts
         log_info "Updated IPv6 for $HOST"
     else
         log_info "IPv6 for $HOST not found"

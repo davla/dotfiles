@@ -11,7 +11,7 @@
     graph = log --branches --remotes=origin --remotes=upstream --graph \
         --pretty=graph
     graph-all = log --all --graph --pretty=graph
-    info = status -sb
+    info = status --branch --short
     branch-new = checkout --quiet -b
     restore = checkout --quiet HEAD --
     squash = merge --squash

@@ -52,7 +52,7 @@ zstyle ':completion:*' list-grouped true
 # Specific commands
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
-zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+zstyle ':completion:*:kill:*' command 'ps --user $USER -o pid,%cpu,tty,cputime,cmd'
 
 # Prompts
 zstyle ':completion:*:default' list-prompt %SAt %p: TAB to scroll, or continue searching

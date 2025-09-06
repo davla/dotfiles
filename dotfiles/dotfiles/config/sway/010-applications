@@ -55,8 +55,8 @@ bindsym {
     {%@@- endif @@%}
 
     # TUI applications
-    $mod+Shift+e exec $term --title $calc_title -e lua
-    ctrl+alt+v exec launcher -p clipman.conf
+    $mod+Shift+e exec $term --title $calc_title --command lua
+    ctrl+alt+v exec launcher --providers clipman.conf
     $mod+space exec launcher
 
     # CLI commands

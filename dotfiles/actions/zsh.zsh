@@ -10,6 +10,12 @@
 . "$(dirname "$0")/../../bot-steps/lib.sh"
 
 #######################################
+# Variables
+#######################################
+
+USER_NAME="$(id --user --name)"
+
+#######################################
 # Input processing
 #######################################
 
@@ -47,7 +53,7 @@ ln --force --relative --symbolic "${ZDOTDIR:?}/.zshenv" "$HOME/.zshenv"
 print_info 'Install sheldon'
 case "$DISTRO" in
     'arch')
-        sudo -u "${SUDO_USER:-$(id -un)}" yay -S --needed sheldon
+        sudo --user "${SUDO_USER:-$USER_NAME}" yay -S --needed sheldon
         ;;
 
     'debian')
@@ -68,7 +74,7 @@ case "$DISPLAY_SERVER" in
         ;;
 
     'wayland')
-        [ "$(id -un)" != 'root' ] && SHELDON_PROFILE='gui'
+        [ "$USER_NAME" != 'root' ] && SHELDON_PROFILE='gui'
         ;;
 esac
 

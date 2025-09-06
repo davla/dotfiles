@@ -51,7 +51,7 @@ done
 }
 
 log_debug 'Create bash cache directory'
-mkdir -p "$BCACHEDIR"
+mkdir --parents "$BCACHEDIR"
 
 #######################################
 # fasd

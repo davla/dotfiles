@@ -21,7 +21,7 @@ dotdrop_files() {
     INSTALLED_USER="${2:-user}"
 
     dotdrop files -bGp "$INSTALLED_PROFILE" -U "$INSTALLED_USER" 2> /dev/null \
-        | cut -d ',' -f 2 | cut -d ':' -f 2
+        | cut --delimiter ',' --fields 2 | cut --delimiter ':' --fields 2
 
     unset INSTALLED_PROFILE INSTALLED_USER
 }
@@ -31,12 +31,12 @@ dotdrop_files() {
 #######################################
 
 if dotdrop -bG files -p startup -U root 2> /dev/null \
-    | grep -Eqv '(^[[:blank:]]*|":)$'; then
+    | grep --extended-regexp --quiet --invert-match '(^[[:blank:]]*|":)$'; then
     print_info 'Install root startup jobs'
     dotdrop install -p startup -U root
 
     print_info 'Enable and start root systemd services'
-    dotdrop_files 'startup' 'root' | grep -E '\.service$' \
+    dotdrop_files 'startup' 'root' | grep '\.service$' \
         | xargs --no-run-if-empty sudo systemctl enable --now
 else
     print_info 'No root startup jobs found'
@@ -50,5 +50,5 @@ print_info 'Install user startup jobs'
 dotdrop install -p startup -U user
 
 print_info 'Enable and start user systemd services'
-dotdrop_files 'startup' 'user' | grep -E '\.service$' \
+dotdrop_files 'startup' 'user' | grep '\.service$' \
     | xargs --no-run-if-empty systemctl --user enable --now

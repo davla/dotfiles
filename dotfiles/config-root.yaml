@@ -32,7 +32,7 @@ actions:
     # This action compiles the keyindicator2 custom i3block
     i3blocks_keyindicator2: |
       apt-get install build-essential libx11-dev
-      make -C '{{@@ _dotfile_abs_dst @@}}' \
+      make --directory '{{@@ _dotfile_abs_dst @@}}' \
           PREFIX='{{@@ i3blocklets_install_path @@}}' \
           ACTIVE_KEY_COLOR='{{@@ light_theme_color @@}}' \
           INACTIVE_KEY_COLOR='{{@@ i3bar_inactive_color @@}}' \
@@ -52,7 +52,7 @@ actions:
               apt-get install build-essential
               ;;
       esac
-      make -C '{{@@ _dotfile_abs_dst @@}}' \
+      make --directory '{{@@ _dotfile_abs_dst @@}}' \
           PREFIX='{{@@ i3blocklets_install_path @@}}' \
           GOOD_CONNECTION_QUALITY_COLOR='{{@@ dark_theme_color @@}}' \
           MEDIUM_CONNECTION_QUALITY_COLOR='{{@@ main_theme_color @@}}' \
@@ -95,12 +95,12 @@ actions:
           'debian')
               xargs -I '@' cp --remove-destination '/usr/share/zoneinfo/@' \
                   /etc/localtime < '{0}'
-              dpkg-reconfigure -f noninteractive tzdata
+              dpkg-reconfigure --frontend noninteractive tzdata
               ;;
       esac
 
     # This action creates the hid group used in udev rules
-    udev-hid: groupadd -fr hid
+    udev-hid: groupadd --force --system hid
 
     xkb: sh ./actions/xkb.sh
 

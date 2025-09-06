@@ -1,5 +1,5 @@
 actions:
   post:
-    _rm: rm -f {0}
-    recursive-exec-permissions: chmod +x -R '{0}'
+    _rm: rm --force {0}
+    recursive-exec-permissions: chmod +x --recursive '{0}'
     link: ln --force --symbolic "{0}" "{1}"

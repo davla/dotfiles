@@ -54,24 +54,26 @@ case "$HOST" in
         print_info 'Install Telegram'
 
         # Install the executables
-        mkdir -p "$TELEGRAM_HOME"
-        wget -qO - 'https://telegram.org/dl/desktop/linux' \
-            | tar -xJC "$TELEGRAM_HOME" --strip-components=1
+        mkdir --parents "$TELEGRAM_HOME"
+        wget --quiet --output-document - \
+                'https://telegram.org/dl/desktop/linux' \
+            | tar --extract --xz --directory "$TELEGRAM_HOME" \
+                --strip-components 1
 
         # Link the main executable in $PATH
         ln --force --symbolic "$TELEGRAM_HOME/Telegram" \
             '/usr/local/bin/telegram'
 
         # Make updater work also for unprivileged users in telegram group
-        groupadd -f telegram
-        getent passwd telegram > /dev/null 2>&1 || useradd -r -g telegram \
-            telegram
-        usermod -aG telegram "$USER_NAME"
+        groupadd --force telegram
+        getent passwd telegram > /dev/null 2>&1 \
+            || useradd --system --gid telegram telegram
+        usermod --append --groups telegram "$USER_NAME"
         # Set telegram user login group to telegram, even if the user is not
         # created above
-        usermod -g telegram telegram
+        usermod --gid telegram telegram
         chmod g+w "$TELEGRAM_HOME"
-        chown telegram:telegram -R "$TELEGRAM_HOME"
+        chown telegram:telegram --recursive "$TELEGRAM_HOME"
         ;;
 esac
 
@@ -86,8 +88,8 @@ print_info 'Install myrepos package management dotfiles'
 dotdrop install -p manual -U root
 
 print_info 'Install myrepos-managed packages'
-mr -d /opt -c /opt/.mrconfig checkout
-mr -d /opt -c /opt/.mrconfig install
+mr --directory /opt --config /opt/.mrconfig checkout
+mr --directory /opt --config /opt/.mrconfig install
 
 ########################################
 # GitHub releases-based installation

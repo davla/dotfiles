@@ -37,7 +37,9 @@ case "$DISTRO" in
     'debian')
         sudo apt-get install aptitude bash gnome-keyring lm-sensors \
             python3-keyring
-        sudo mr -d /opt/i3blocks-contrib -c /opt/.mrconfig checkout
-        sudo mr -d /opt/i3blocks-contrib -c /opt/.mrconfig install
+        sudo mr --directory /opt/i3blocks-contrib --config /opt/.mrconfig \
+            checkout
+        sudo mr --directory /opt/i3blocks-contrib --config /opt/.mrconfig \
+            install
         ;;
 esac

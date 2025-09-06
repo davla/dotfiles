@@ -7,7 +7,7 @@ BindsTo=graphical-session.target
 ConditionEnvironment=WAYLAND_DISPLAY
 
 [Service]
-ExecStart=wl-paste -t text --watch clipman store
+ExecStart=wl-paste --type text --watch clipman store
 StandardError=journal
 StandardOutput=journal
 SyslogFacility=local0

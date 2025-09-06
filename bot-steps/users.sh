@@ -23,10 +23,11 @@ NEW_USER="${1:-pi}"
 
 # If the current user is not given as a CLI parameter, getting the only one
 # that can login and is not root
-CURRENT_USER="${2:-$(sudo getent shadow | grep -vP '.*:[!\*]' \
-    | grep -v '^root' | cut -f 1 -d ':')}"
+CURRENT_USER="${2:-$(sudo getent shadow \
+    | grep --invert-match --perl-regexp '.*:[!\*]' \
+    | grep --invert-match '^root' | cut --delimiter ':' --fields 1)}"
 
-[ "$(echo "$CURRENT_USER" | wc -l)" -ne 1 ] && {
+[ "$(echo "$CURRENT_USER" | wc --lines)" -ne 1 ] && {
     echo 2>&1 'There is not only one non-root users with an active password:'
     echo 2>&1 "$CURRENT_USER"
     exit 1
@@ -37,7 +38,7 @@ CURRENT_USER="${2:-$(sudo getent shadow | grep -vP '.*:[!\*]' \
 #######################################
 
 # UNIX doesn't allow to change the current logged-in user login name.
-[ "$(id -nu)" = "$CURRENT_USER" ] && {
+[ "$(id --user --name)" = "$CURRENT_USER" ] && {
     printf 2>&1 'This script needs to be run with an user other than %s\n' \
         "$CURRENT_USER"
     exit 1
@@ -48,7 +49,7 @@ CURRENT_USER="${2:-$(sudo getent shadow | grep -vP '.*:[!\*]' \
 # Masking the exit code of the subshell is necessary, as ps exits with an error
 # if no processes matching the criteria are found.
 print_info "Kill $CURRENT_USER processes"
-CURRENT_USER_PROCESSES="$(ps --no-header -U "$CURRENT_USER" -o pid | xargs)" \
+CURRENT_USER_PROCESSES="$(ps --no-header --User "$CURRENT_USER" -o pid)" \
     || true
 # shellcheck disable=SC2086
 [ -n "$CURRENT_USER_PROCESSES" ] && sudo kill $CURRENT_USER_PROCESSES
@@ -58,9 +59,9 @@ CURRENT_USER_PROCESSES="$(ps --no-header -U "$CURRENT_USER" -o pid | xargs)" \
 #######################################
 
 print_info "Change login name $CURRENT_USER -> $NEW_USER"
-sudo usermod -l "$NEW_USER" "$CURRENT_USER"
-sudo usermod -d "/home/$NEW_USER" -m "$NEW_USER"
-sudo groupmod -n "$NEW_USER" "$CURRENT_USER"
+sudo usermod --login "$NEW_USER" "$CURRENT_USER"
+sudo usermod --home "/home/$NEW_USER" --move-home "$NEW_USER"
+sudo groupmod --new-name "$NEW_USER" "$CURRENT_USER"
 
 #######################################
 # Change passwords

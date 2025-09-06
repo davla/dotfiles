@@ -65,10 +65,10 @@ ICONS_ARCH="$(get_archive "$3" 'Icons')"
 
 print_info 'Install cursor themes'
 
-mkdir -p "$CURSORS_PATH"
+mkdir --parents "$CURSORS_PATH"
 
 # Install custom cursors themes
-tar -xjf "$CURSORS_ARCH" -C "$CURSORS_PATH"
+tar --extract --bzip2 --file "$CURSORS_ARCH" --directory "$CURSORS_PATH"
 
 # Old cursors
 # "http://xfce-look.org/CONTENT/content-files/145644-X-Steel-GRAY-negative.tar.gz" # X-Steel-Gray-negative
@@ -84,10 +84,10 @@ tar -xjf "$CURSORS_ARCH" -C "$CURSORS_PATH"
 
 print_info 'Install desktop themes'
 
-mkdir -p "$DESKTOP_PATH"
+mkdir --parents "$DESKTOP_PATH"
 
 # Installing custom cursors themes
-tar -xjf "$DESKTOP_ARCH" -C "$DESKTOP_PATH"
+tar --extract --bzip2 --file "$DESKTOP_ARCH" --directory "$DESKTOP_PATH"
 
 #######################################
 # Icon themes
@@ -95,12 +95,12 @@ tar -xjf "$DESKTOP_ARCH" -C "$DESKTOP_PATH"
 
 print_info 'Install icon themes'
 
-mkdir -p "$ICONS_PATH"
+mkdir --parents "$ICONS_PATH"
 
 # Install icons cursors themes
-tar -xjf "$ICONS_ARCH" -C "$ICONS_PATH"
+tar --extract --bzip2 --file "$ICONS_ARCH" --directory "$ICONS_PATH"
 
 # Create icon cache for the newly installed icons
 print_info 'Creating icon themes cache'
-tar -tjf "$ICONS_ARCH" --exclude='*/*' \
-    | xargs -n 1 -I '{}' gtk-update-icon-cache "$ICONS_PATH/{}"
+tar --list --bzip2 --file "$ICONS_ARCH" --exclude='*/*' \
+    | xargs --max-lines 1 -I '{}' gtk-update-icon-cache "$ICONS_PATH/{}"

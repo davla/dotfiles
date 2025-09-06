@@ -1,9 +1,10 @@
 actions:
   post:
     _insert_match: |-
-      LINE="$(grep -nPm 1 '{0}' {2} | cut -d ':' -f 1)"
-      [ -z "$LINE" ] && LINE="$(wc -l < {2})"
-      sed -i "$LINE r {1}" {2}
+      LINE="$(grep --line-number --max-count 1 --perl-regexp '{0}' {2} \
+          | cut --delimiter ':' --fields 1)"
+      [ -z "$LINE" ] && LINE="$(wc --lines < {2})"
+      sed --in-place "$LINE r {1}" {2}
     _insert_xml: |-
       python -i <<EOF
       import xml.etree.ElementTree as ET
@@ -25,12 +26,14 @@ actions:
       dest_document.write('{2}', encoding='UTF-8', xml_declaration=True)
       EOF
     _strip_file: |-
-      START="$(head -n 1 {0} | xargs -I '@' grep -nFm 1 '@' {1} \
-          | cut -d ':' -f 1)"
-      END="$(nl -b a -w 1 -s ' ' {1} | tac | grep -Fm 1 "$(tail -n 1 {0})" \
-          | cut -d ' ' -f 1)"
-      if [ -n "$START" ] && [ -n "$END" ]; then
-          sed -i "$START,$END d" {1}
+      START_LINE_NUMBER="$(head --lines 1 "{0}" | xargs -I '@' \
+              grep --fixed-strings --line-number --max-count 1 '@' "{1}" \
+          | cut --delimiter ':' --fields 1)"
+      END_LINE_NUMBER="$(tail --lines 1 "{0}" | xargs -I '@' \
+              grep --fixed-strings --line-number '@' "{1}" | tail --lines 1 \
+          | cut --delimiter ':' --fields 1)"
+      if [ -n "$START_LINE_NUMBER" ] && [ -n "$END_LINE_NUMBER" ]; then
+          sed --in-place "$START_LINE_NUMBER,$END_LINE_NUMBER d" {1}
       fi
     _strip_xml: |-
       python -i <<EOF

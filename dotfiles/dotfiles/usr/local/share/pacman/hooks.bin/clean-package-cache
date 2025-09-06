@@ -22,7 +22,7 @@ clean_bin_packages() {
     find "$YAY_CACHE_DIR" -maxdepth 1 -mindepth 1 -type d -name '*-bin' \
         | while read -r PACKAGE_DIR; do
             get_old_upstream_sources_and_build "$PACKAGE_DIR" \
-                | xargs --no-run-if-empty rm -rf
+                | xargs --no-run-if-empty rm --force --recursive
         done
 }
 
@@ -54,7 +54,7 @@ clean_source_packages() {
                 | xargs --no-run-if-empty file \
                 | grep --perl-regex --word-regexp '(compressed|archive)' \
                 | cut --delimiter ':' --fields 1 \
-                | xargs --no-run-if-empty rm -rf
+                | xargs --no-run-if-empty rm --force --recursive
         done
 }
 
@@ -77,7 +77,8 @@ clean_uninstalled_aur_packages() {
         "$PACMAN_FOREIGN_PACKAGES")"
 
     echo "$UNINSTALLED_YAY_PACKAGES" \
-        | xargs --no-run-if-empty -I '{}' rm -rf "${YAY_CACHE_DIR:?}/{}"
+        | xargs --no-run-if-empty -I '{}' \
+            rm --recursive --force "${YAY_CACHE_DIR:?}/{}"
 }
 
 # This function returns the upstream sources of old versions of an AUR package

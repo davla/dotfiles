@@ -31,7 +31,7 @@ dotdrop install -p repos -U both
 ########################################
 
 print_info 'Clone coding workspace'
-mr -d "$HOME" checkout
+mr --directory "$HOME" checkout
 
 print_info 'Initialize coding workspace'
-mr -d "$HOME" init
+mr --directory "$HOME" init

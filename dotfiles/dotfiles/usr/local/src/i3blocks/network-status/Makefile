@@ -47,7 +47,7 @@ endif
 ifdef WIRELESS_LABEL
     MACROS += -D'WIRELESS_LABEL="$(WIRELESS_LABEL)"'
 endif
-ifdef WAYLAND_DISPLAY
+ifeq ('$(DISPLAY_SERVER)', 'wayland')
     MACROS += -DSWAYBAR
 endif
 

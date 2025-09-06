@@ -13,9 +13,9 @@ void connections_print_indicator(struct network_connection* connections) {
 
     #ifdef SWAYBAR
     /*
-     * There is a bug in swaybar that prevents font size from being applied
-     * if no other text has been output. Therefore, we print an almost
-     * invisible space.
+     * There is a bug somewhere that prevents font size from being applied if
+     * no other text has been output. Therefore, we print an almost invisible
+     * space.
      */
     printf("<span size='0.001pt'> </span>");
     #endif

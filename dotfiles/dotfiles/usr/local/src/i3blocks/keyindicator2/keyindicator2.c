@@ -38,8 +38,13 @@ unsigned long get_leds() {
 }
 
 void show_indicator(unsigned long led, const char* label, int is_last) {
+    /*
+     * There is a bug somewhere that prevents font size from being applied if
+     * no other text has been output. Therefore, we print an almost invisible
+     * space.
+     */
     printf(
-        "<span %s color='%s'>%s</span>%s",
+        "<span size='0.001pt'> </span><span %s color='%s'>%s</span>%s",
         PANGO_PROPS,
         led ? ACTIVE_KEY_COLOR : INACTIVE_KEY_COLOR,
         label,

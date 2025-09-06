@@ -3,8 +3,9 @@
 {%@@- set color_markup = ' color="{!s}"'.format(color) if color is not none else '' -@@%}
 
 {#@@
-    There is a bug in swaybar that prevents font size from being applied if no
-    other text has been output. Therefore, we print an almost invisible space.
+    There is a bug somewhere in that prevents font size from being applied if
+    no other text has been output. Therefore, we print an almost invisible
+    space.
 @@#}
 {%@@- if on_wayland | is_truthy -@@%}
 <span size="0.001pt"> </span>

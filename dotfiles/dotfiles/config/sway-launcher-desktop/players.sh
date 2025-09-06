@@ -101,13 +101,13 @@ make_list_item() {
 # title of the player's window, with a few special cases (spotify, youtube...)
 make_player_list() {
     active-playerctl --list-all 2> /dev/null \
-        | while read PLAYER_LIST_PLAYER; do
+        | while read -r PLAYER_LIST_PLAYER; do
             PLAYER_LIST_TITLE="$(get_title "$PLAYER_LIST_PLAYER")"
             PLAYER_LIST_ITEM="$(make_list_item "$PLAYER_LIST_TITLE")"
             PLAYER_LIST_ICON="$(make_icon "$PLAYER_LIST_TITLE")"
 
-            printf "$PLAYER_LIST_PLAYER\034players\034$PLAYER_LIST_ICON "
-            echo "$PLAYER_LIST_ITEM"
+            printf "%s\034players\034 " "$PLAYER_LIST_PLAYER"
+            echo "$PLAYER_LIST_ICON $PLAYER_LIST_ITEM"
 
             unset PLAYER_LIST_ICON PLAYER_LIST_ITEM PLAYER_LIST_PLAYER \
                 PLAYER_LIST_TITLE
@@ -122,7 +122,7 @@ make_player_list() {
 list_cmd() {
     LIST_CMD_LIST="$(make_player_list)"
     [ -n "$LIST_CMD_LIST" ] \
-        && printf "$LIST_CMD_LIST" \
+        && printf '%s' "$LIST_CMD_LIST" \
         || printf '\034players\034No players found\n'
 }
 

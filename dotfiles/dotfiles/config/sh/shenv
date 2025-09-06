@@ -74,7 +74,8 @@ export HIST_IGNORED_TYPOS='gi t*|gl'
     ] | select | join(':') -@@%}
 
 LOCAL_PATH="{{@@ local_path @@}}"
-PATH_WITHOUT_LOCAL="$(echo $PATH | sed "s|$LOCAL_PATH||g; s|^:||g; s|:\+|:|g")"
+PATH_WITHOUT_LOCAL="$(echo "$PATH" \
+    | sed "s|$LOCAL_PATH||g; s|^:||g; s|:\+|:|g")"
 export PATH="${LOCAL_PATH:?}:${PATH_WITHOUT_LOCAL:?}"
 
 unset LOCAL_PATH PATH_WITHOUT_LOCAL

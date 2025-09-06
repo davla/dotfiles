@@ -12,19 +12,11 @@
 {%@@ set executable = second_on_path('signal-desktop') -@@%}
 
 ########################################
-#               Variables
-########################################
-
-# This variable contains the Signal desktop log line indicating that the
-# instance is ready
-READY_LOG_LINE='^config/get: Successfully read ephemeral config file$'
-
-########################################
 #           Spawn Signal
 ########################################
 
 # Spawn first instance in the background
-{ {{@@ executable @@}} {{@@ electron_wayland_options @@}} "$@" & disown; } \
+{ {{@@ executable @@}} {{@@ electron_wayland_options @@}} "$@" & } \
     | grep --max-count=1 'ephemeral'
 
 # Spawn second instance

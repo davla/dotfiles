@@ -11,7 +11,8 @@
 #######################################
 
 unset SSH_AGENT_PID
-export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+export SSH_AUTH_SOCK
 
 {%@@ endif -@@%}
 

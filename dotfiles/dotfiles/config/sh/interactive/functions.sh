@@ -72,8 +72,11 @@ trump() {
 #   - $2+: The other git arguments
 gi() {
     # Stripping the t from the first argument
-    1="$(echo $1 | sed 's/^t//')"
+    GI_SUB_CMD="$(echo "$1" | sed 's/^t//')"
+    shift
 
     # Executing git command
-    git "$@"
+    git "$GI_SUB_CMD" "$@"
+
+    unset GI_SUB_CMD
 }

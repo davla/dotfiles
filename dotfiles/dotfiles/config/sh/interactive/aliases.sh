@@ -85,12 +85,6 @@ alias ttar='tar --auto-compress --one-top-level'
 alias xxargs='xargs --no-run-if-empty'
 
 ########################################
-# Shortening aliases
-########################################
-
-alias paginate='less --no-init --quit-if-one-screen'
-
-########################################
 # Typos aliases
 ########################################
 
@@ -100,6 +94,8 @@ alias gl=' clear'
 # Abbreviation aliases
 ########################################
 
-alias ll='list-long'
+alias e='explore'
+alias l='list-long'
 alias o='open'
 alias pg='paginate'
+alias t='tree-long'

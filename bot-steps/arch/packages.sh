@@ -120,9 +120,9 @@ if [ "$HOST" != 'raspberry' ]; then
 fi
 
 print_info 'Install CLI packages shared across all hosts'
-sudo --user "$USER_NAME" yay -S --needed asdf-vm autoconf automake bind cmake \
-    cmatrix cowsay curl debugedit dkms dos2unix eza fasd fortune-mod gcc \
-    git-secret gnupg htop jq lua luacheck luarocks man mercurial mmv \
+sudo --user "$USER_NAME" yay -S --needed asdf-vm autoconf automake bat bind \
+    cmake cmatrix cowsay curl debugedit dkms dos2unix eza fasd fortune-mod \
+    gcc git-secret gnupg htop jq lua luacheck luarocks man mercurial mmv \
     moreutils multi-git-status myrepos nfs-utils nyancat otf-ipafont \
     pacman-contrib passt pkgfile playerctl podman-compose podman-docker \
     python python-pip rbw sheldon sl sudo thefuck ttf-baekmuk ttf-dejavu \

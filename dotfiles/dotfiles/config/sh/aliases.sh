@@ -7,12 +7,6 @@
 # Third-party commands aliases
 #######################################
 
+alias cat='bat'
 alias ls='eza'
 alias tree='eza --tree'
-
-########################################
-# Shortening aliases
-########################################
-
-alias list-long='eza --all --binary --header --long --sort=type'
-alias tree-long='list-long --tree --level=3'

@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+
+# This is a convenience command to explore the filesystem. It visualizes a
+# path differently based on its content. In particular:
+# - Directories: lists the content in long format with pagination
+# - Binary files: opens the configured applications for their mime type
+# - Text files: displays with bat
+#
+# Arguments:
+#   - $1: The path to be inspected. Optional, defaults to the current directory
+#   - $2+: Anything the selected visualization commands accepts. Optional.
+
+########################################
+# Input processing
+########################################
+
+TARGET_PATH="${1:-.}"
+
+########################################
+# Main
+########################################
+
+if [ -d "$TARGET_PATH" ]; then
+    exec list-long "$@"
+elif [ "$(file --brief --mime-encoding "$TARGET_PATH")" = 'binary' ]; then
+    exec xdg-open "$TARGET_PATH"
+else
+    exec bat "$@"
+fi

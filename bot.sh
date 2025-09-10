@@ -348,9 +348,9 @@ esac
 case "$STEP" in
     'custom-commands'|'all')
         # Custom commands - they are used by other steps.
-        $STEP_RUNNER "sudo --set-home --preserve-env=$DOTFILES_ENV_VARS \
-            uv run dotdrop install --cfg dotfiles/config-root.yaml \
-            --profile commands" 'install your custom commands'
+        $STEP_RUNNER "sudo --set-home devbox run dotdrop install \
+            --cfg config-root.yaml --profile commands" \
+            'install your custom commands'
         ;;
 esac
 case "$STEP" in

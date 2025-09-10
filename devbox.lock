@@ -1,0 +1,129 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "github:NixOS/nixpkgs/nixpkgs-unstable": {
+      "last_modified": "2025-09-05T01:14:44Z",
+      "resolved": "github:NixOS/nixpkgs/ca77296380960cd497a765102eeb1356eb80fed0?lastModified=1757034884&narHash=sha256-PgLSZDBEWUHpfTRfFyklmiiLBE1i1aGCtz4eRA3POao%3D"
+    },
+    "python-full@3.13.5": {
+      "last_modified": "2025-07-28T17:09:23Z",
+      "resolved": "github:NixOS/nixpkgs/648f70160c03151bc2121d179291337ad6bc564b#python313Full",
+      "source": "devbox-search",
+      "version": "3.13.5",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/fdgqvcsdlqjgzww2p17sy91vvx73cl7j-python3-3.13.5",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/fdgqvcsdlqjgzww2p17sy91vvx73cl7j-python3-3.13.5"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/imjii7yg48sisx3bz5va5cminczbq6r6-python3-3.13.5",
+              "default": true
+            },
+            {
+              "name": "debug",
+              "path": "/nix/store/j9bqd7hismpyqsd48sd9r824fs8wxld1-python3-3.13.5-debug"
+            }
+          ],
+          "store_path": "/nix/store/imjii7yg48sisx3bz5va5cminczbq6r6-python3-3.13.5"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/cm73ahxfy47vyxhj6ighqs0p64l31lyh-python3-3.13.5",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/cm73ahxfy47vyxhj6ighqs0p64l31lyh-python3-3.13.5"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/kl67434pm6yih34v0bz2ss0f5kzin00i-python3-3.13.5",
+              "default": true
+            },
+            {
+              "name": "debug",
+              "path": "/nix/store/lxka855zb94nlg4ir5y9pi32yqlbzlkv-python3-3.13.5-debug"
+            }
+          ],
+          "store_path": "/nix/store/kl67434pm6yih34v0bz2ss0f5kzin00i-python3-3.13.5"
+        }
+      }
+    },
+    "python313Packages.python-magic@latest": {
+      "last_modified": "2025-07-28T17:09:23Z",
+      "resolved": "github:NixOS/nixpkgs/648f70160c03151bc2121d179291337ad6bc564b#python313Packages.python-magic",
+      "source": "devbox-search",
+      "version": "0.4.27",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/qdcvl1pdil91cq65ghrqzy3c5zp2ldrs-python3.13-python-magic-0.4.27",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/0kp98nvgk74219pkmka693ax0fkmn3q4-python3.13-python-magic-0.4.27-dist"
+            }
+          ],
+          "store_path": "/nix/store/qdcvl1pdil91cq65ghrqzy3c5zp2ldrs-python3.13-python-magic-0.4.27"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/ic7slrnjknl92cnrxbgvpcgvrwv7dr7h-python3.13-python-magic-0.4.27",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/zvcavh6pp33x2vy19zhaw7hfb3k232sq-python3.13-python-magic-0.4.27-dist"
+            }
+          ],
+          "store_path": "/nix/store/ic7slrnjknl92cnrxbgvpcgvrwv7dr7h-python3.13-python-magic-0.4.27"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/9bas7jngn8pvrsqcpzig5g2m3b557fc7-python3.13-python-magic-0.4.27",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/bls1y7jwlr64g7kd4yhyh59ylagqnjsp-python3.13-python-magic-0.4.27-dist"
+            }
+          ],
+          "store_path": "/nix/store/9bas7jngn8pvrsqcpzig5g2m3b557fc7-python3.13-python-magic-0.4.27"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/8pkyy569a1hwis2ix2jyagrlfsnh7g7w-python3.13-python-magic-0.4.27",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/r8198h0dcv0dfcbd95jiimn5gjqv17c8-python3.13-python-magic-0.4.27-dist"
+            }
+          ],
+          "store_path": "/nix/store/8pkyy569a1hwis2ix2jyagrlfsnh7g7w-python3.13-python-magic-0.4.27"
+        }
+      }
+    }
+  }
+}

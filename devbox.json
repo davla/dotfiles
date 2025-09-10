@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.16.0/.schema/devbox.schema.json",
+  "packages": {
+    "python-full": {
+      "version":        "3.13.5",
+      "disable_plugin": true
+    },
+    "python313Packages.python-magic": "latest"
+  },
+  "shell": {
+    "scripts": {
+      "dotdrop": ". ./.dotfiles-env && cd dotfiles && uv run dotdrop $@"
+    }
+  }
+}

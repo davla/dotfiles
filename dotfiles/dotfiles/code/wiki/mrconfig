@@ -9,21 +9,12 @@
 {%@@- endmacro @@%}
 
 {%@@ set wiki_util_abs_path = prepend_inst_dst(wiki_util_path) @@%}
-{%@@ set pywikibot_venv_path = prepend_inst_dst(pywikibot_path + '/.venv') @@%}
 
 {#@@-
     This variable is used to allow pywikibot to be processed after util, as
     pywikibot setup uses some files in util.
 @@#}
 {%@@ set util_order = 10 @@%}
-
-
-#######################################
-# Importing helpers
-#######################################
-
-
-include = cat '{{@@ mr_libs_path @@}}/asdf'
 
 
 #######################################
@@ -54,7 +45,7 @@ checkout =
     git clone 'git@github.com:pokemoncentral/wiki-lua-modules.git' \
         '{{@@ wiki_modules_path @@}}'
 init =
-    init_asdf_project lua
+    devbox install
     init_precommit
 
 
@@ -69,18 +60,11 @@ checkout =
     git -C '{{@@ pywikibot_path @@}}' submodule update --init
 init =
     # Creating the virtual environment
-    ln --force --symbolic "{{@@ wiki_util_abs_path @@}}/bot/.tool-versions" \
-        "$MR_REPO"
-    init_asdf_project python
-    [ -d '{{@@ pywikibot_venv_path @@}}' ] || {
-        SYSTEM_VIRTUALENV="$(which virtualenv)"
-        asdf which python | xargs -I '{}' "$SYSTEM_VIRTUALENV" --python '{}' \
-            '{{@@ pywikibot_venv_path @@}}'
-        . '{{@@ pywikibot_venv_path @@}}/bin/activate'
-        pip install -r requirements.txt
-        deactivate
-    }
-    . '{{@@ pywikibot_venv_path @@}}/bin/activate'
+    ln --force --symbolic \
+        "{{@@ wiki_util_abs_path @@}}/bot/devbox."{json,lock} "$MR_REPO"
+    devbox install
+    [ -d "$MR_REPO/.venv" ] || devbox run pip install -r requirements.txt
+    . "$MR_REPO/.venv/bin/activate"
     #
     # Setting up Pokémon Central Wiki connection
     python pwb.py generate_family_file \
@@ -104,8 +88,8 @@ update =
 [styles]
 checkout = git clone 'git@github.com:pokemoncentral/wiki-styles.git' 'styles'
 init =
-    init_asdf_project nodejs
-    npm install
+    devbox install
+    devbox run npm install
 
 
 [{{@@ wiki_util_path @@}}]
@@ -115,20 +99,15 @@ init =
     # Install pre-commit
     init_precommit
     #
-    # Installing atom-macros dependencies
-    cd "$MR_REPO/js/atom-macros" || exit
-    init_asdf_project nodejs
-    npm install
-    #
     # Creating local config files
     # shellcheck disable=2016
-    sed
+    sed \
         --expression '
             s|PYWIKIBOT_DIR=ADD_YOUR_PATH_HERE|PYWIKIBOT_DIR="{{@@ prepend_inst_dst(pywikibot_path) @@}}"|g ;
             s|WIKILUAMODULES_DIR=ADD_YOUR_PATH_HERE|WIKILUAMODULES_DIR="{{@@ prepend_inst_dst(wiki_modules_path) @@}}"|g ;
             s|MACROS_DIR=ADD_YOUR_PATH_HERE|MACROS_DIR="{{@@ wiki_util_path @@}}/js/atom-macros"|g ;
-            s|# PYWIKIBOT_VIRTUALENV_DIR=ADD_YOUR_PATH_HERE|PYWIKIBOT_VIRTUALENV_DIR="{{@@ pywikibot_venv_path @@}}"|g
-        '
+            s|# PYWIKIBOT_VIRTUALENV_DIR=ADD_YOUR_PATH_HERE|PYWIKIBOT_VIRTUALENV_DIR="{{@@ prepend_inst_dst(pywikibot_path) @@}}/.venv"|g
+        ' \
         --expression "
             s|# source \$PYWIKIBOT_VIRTUALENV_DIR'/bin/activate'|. \"\$PYWIKIBOT_VIRTUALENV_DIR/bin/activate\"|g" \
         "$MR_REPO/config-templates/config.sh" > "$MR_REPO/bash/config.sh"

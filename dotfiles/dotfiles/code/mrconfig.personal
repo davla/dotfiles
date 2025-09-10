@@ -4,14 +4,6 @@
 # {{@@ header() @@}}
 
 #######################################
-# Import helpers
-#######################################
-
-
-include = cat '{{@@ mr_libs_path @@}}/asdf'
-
-
-#######################################
 # Import sub-workspaces
 #######################################
 
@@ -22,6 +14,7 @@ chain = true
 # it should be skipped for any mr actions.
 skip = true
 
+
 #######################################
 # Repositories
 #######################################
@@ -31,17 +24,16 @@ skip = true
 checkout =
     git clone 'git@github.com:davla/i3-live-tree.git'
 init =
-    init_asdf_project python
-    which python | xargs poetry env use
-    poetry install
+    devbox install
+    devbox run which python | xargs uv venv --clear --python
 
 
 [yeoman-python-poetry-vscode]
 checkout =
     git clone 'git@github.com:davla/yeoman-python-poetry-vscode.git'
 init =
-    init_asdf_project nodejs
-    npm install
+    devbox install
+    devbox run npm install
 
 
 [zygal]

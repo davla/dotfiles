@@ -809,10 +809,11 @@ DerivedData/
 ### Local environment files ###
 .*env
 
-{#@@ My colleagues don't use asdf, but I do @@#}
+{#@@ My colleagues don't use devbox, but I do @@#}
 {%@@ if env['HOST'] == 'work' -@@%}
 
 ### Local configuration files ###
-.tool-versions
+devbox.json
+devbox.lock
 
 {%@@ endif -@@%}

@@ -22,7 +22,7 @@ Configuration files for my Linux systems
 ![     ][indent]      the filesystem.  
 ![[^_^]][prompt-face] Dotdrop is executed as a Python dependency via
                       [uv](https://docs.astral.sh/uv/). The Python version is
-                      pinned by [asdf](https://asdf-vm.com/).  
+                      pinned by [devbox](https://www.jetify.com/devbox).  
 ![[ToT]][sad-face]    Some configuration files contain sensitive information,
                       especially for my work laptop configuration. They are  
 ![     ][indent]      encrypted in this repository via

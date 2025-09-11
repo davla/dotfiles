@@ -23,9 +23,6 @@ config:
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
-  d_asdf-gh-release:
-    src: usr/local/share/github-releases/asdf-vm/asdf
-    dst: '{{@@ github_releases_dir @@}}/asdf-vm/asdf'
   d_bitwarden:
     src: usr/local/share/github-releases/bitwarden/clients
     dst: '{{@@ github_releases_dir @@}}/bitwarden/clients'
@@ -72,7 +69,6 @@ profiles:
   # This profile holds the repository configuration for github-releases
   github-releases:
     dotfiles:
-    - d_asdf-gh-release
     - d_devbox
     - d_local_lib_sh
     - d_nerd-fonts

@@ -20,9 +20,6 @@ actions:
       esac
 
   post:
-    # Just polishes custom dotfiles installation, does not install languages
-    asdf: sh ./actions/asdf.sh '{{@@ asdf_config @@}}'
-
     # This action applies the grub configuration
     grub: update-grub
 
@@ -139,12 +136,6 @@ dotfiles:
   d_applications:
     src: usr/share/applications
     dst: /usr/share/applications
-  d_asdf:
-    src: usr/local/etc/asdf
-    # Dynamic path as it's used somewhere else too
-    dst: '{{@@ asdf_config @@}}'
-    actions:
-    - asdf
   d_i3blocks_keyindicator2:
     src: usr/local/src/i3blocks/keyindicator2
     dst: /usr/local/src/i3blocks/keyindicator2
@@ -187,13 +178,6 @@ dotfiles:
   f_99-philips-tv-hdmi.conf:
     src: etc/wireplumber/wireplumber.conf.d/99-philips-tv-hdmi.conf
     dst: /etc/wireplumber/wireplumber.conf.d/99-philips-tv-hdmi.conf
-  f_asdf-environment:
-    src: etc/asdf-environment
-    dst: '{{@@ asdf_environment_tmp_dst @@}}'
-    chmod: 600
-    actions:
-    - _strip '{{@@ asdf_environment_append_marker @@}}' '{{@@ asdf_environment_dst @@}}'
-    - _append '{{@@ asdf_environment_dst @@}}' '{{@@ asdf_environment_tmp_dst @@}}'
   f_containers_nodocker:
     src: etc/containers/nodocker
     dst: /etc/containers/nodocker
@@ -324,9 +308,6 @@ dotfiles:
   f_sshd_config.d_990-raspberry.conf:
     src: etc/ssh/sshd_config.d/990-raspberry.conf
     dst: /etc/ssh/sshd_config.d/990-raspberry.conf
-  f_sudo_asdf-env-keep:
-    src: etc/sudoers.d/asdf-env-keep
-    dst: /etc/sudoers.d/asdf-env-keep
   f_sudo_custom:
     src: etc/sudoers.d/custom
     dst: /etc/sudoers.d/custom
@@ -395,25 +376,14 @@ dynvariables:
   # These variables define dynamic included profiles, mostly due to manual
   # installation mechanisms (such as github-releases) that are necessary on
   # Debian but not on Arch.
-  # For example, asdf and rustup are installed as a system packages on Arch,
-  # but via github-releases on Debian. This means that their dotfiles belong
-  # to the "cli" profile for the former and to the "manual" profile for the
-  # latter.
+  # For example, rustup is installed as a system packages on Arch, but via
+  # github-releases on Debian. This means that their dotfiles belong to the
+  # "cli" profile for the former and to the "manual" profile for the latter.
   #
   # The variables need to be defined here, rather than in a distro-specific
   # variables files, because variables from external files are not yet
   # available when including profiles. The '-empty' postfixed profiles are just
   # placeholders, and they don't actually exist.
-  cli_asdf_include: |-
-    case "$DISTRO" in
-        'arch')
-            echo 'asdf'
-            ;;
-
-        'debian')
-            echo 'asdf-empty'
-            ;;
-    esac
   cli_rustup_include: |-
     if [ "$HOST" != 'personal' ]; then
         echo 'rustup-empty'
@@ -428,16 +398,6 @@ dynvariables:
                 ;;
         esac
     fi
-  manual_asdf_include: |-
-    case "$DISTRO" in
-        'arch')
-            echo 'asdf-empty'
-            ;;
-
-        'debian')
-            echo 'asdf'
-            ;;
-    esac
   manual_rustup_include: |-
     if [ "$HOST" = 'work' ]; then
         echo 'rustup-empty'
@@ -464,21 +424,6 @@ dynvariables:
     esac
 
 profiles:
-  # This profile includes asdf version manager configuration files
-  asdf:
-    dotfiles:
-    - f_etc_sudo-env-file
-    - d_asdf
-    - f_asdf-environment
-    - f_sudo_asdf-env-keep
-    - f_sudo_env-file
-    import:
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/asdf.yaml:optional
-    dynvariables:
-      asdf_environment_tmp_dst: mktemp /tmp/asdf-env-tmp.XXX
-    variables:
-      asdf_environment_dst: /etc/environment
-
   # This profile groups configuration files for CLI-based applictions.
   cli:
     dotfiles:
@@ -489,7 +434,6 @@ profiles:
     - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
     include:
-    - '{{@@ cli_asdf_include @@}}'
     - '{{@@ cli_rustup_include @@}}'
 
   # This profile contains dotfiles used to setup the global shell environment
@@ -568,7 +512,6 @@ profiles:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/manual.yaml:optional
     include:
     - github-releases
-    - '{{@@ manual_asdf_include @@}}'
     - '{{@@ manual_rustup_include @@}}'
 
   # This profile contains network-related configuration files

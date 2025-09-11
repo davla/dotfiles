@@ -160,6 +160,7 @@ execute() {
 
         unset CMD_TEE_PID
         printf 'Press enter to continue'
+        # shellcheck disable=SC2034
         read -r ANSWER
 
         [ "$IN_ALTERNATE_BUFFER" = 'true' ] && {

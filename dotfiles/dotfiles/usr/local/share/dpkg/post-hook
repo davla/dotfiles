@@ -1,8 +1,9 @@
 #!/usr/bin/env sh
 
 # This script is meant to execute actions after specific packages are installed
-# via APT. For the time being, it just sets some entries in the Debian
-# alternatives system.
+# via APT.
+#
+# {{@@ header() @@}}
 
 # This doesn't work if the script is sourced
 . "$(dirname "$0")/lib"
@@ -57,6 +58,15 @@ case "$(apt_operation)" in
                 *podman-compose*)
                     which podman-compose | xargs -I '{}' ln --symbolic \
                         --force '{}' /usr/local/bin/docker-compose
+                    ;;
+
+                *rustup*)
+                    printf '\033[0;32m[INFO]\033[0m Install rust-src toolchain'
+                    echo ' via rustup'
+                    mkdir --parents "{{@@ rustup_home @@}}"
+                    # rust-src is used by static analyzers
+                    env RUSTUP_HOME="{{@@ rustup_home @@}}" \
+                        rustup toolchain install stable --component rust-src
                     ;;
             esac
         done

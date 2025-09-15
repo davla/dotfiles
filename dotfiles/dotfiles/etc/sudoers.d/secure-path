@@ -1,8 +1,7 @@
-# This file adds rustup paths to the Debian default secure_path option
+# This file adds local sbin paths to the Debian default secure_path option
 #
 # {{@@ header() @@}}
 
 Defaults	secure_path="/usr/local/sbin:/usr/local/bin:\
-    {%@@ if env['HOST'] != 'work' -@@%} {{@@ rustup_shims @@}}/bin:\ {%@@ endif @@%}
     /usr/sbin:/usr/bin:\
     /sbin:/bin"

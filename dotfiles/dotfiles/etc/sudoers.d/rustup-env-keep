@@ -1,5 +1,0 @@
-# This file preserves in sudo the rustup configuration environment variables
-#
-# {{@@ header() @@}}
-
-Defaults    env_keep += "{{@@ rustup_env_var.keys() | map('upper') | join(' ') @@}}"

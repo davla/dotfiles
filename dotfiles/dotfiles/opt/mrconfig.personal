@@ -15,18 +15,3 @@ install =
         "$MR_REPO/usr/lib/systemd/system/temp-throttle.service"
     systemctl daemon-reload
     systemctl enable --now temp-throttle
-
-
-[{{@@ rustup_home @@}}]
-checkout =
-    mkdir --parents "{{@@ rustup_home @@}}" "{{@@ rustup_shims @@}}"
-install =
-    export RUSTUP_HOME="{{@@ rustup_home @@}}" \
-        CARGO_HOME="{{@@ rustup_shims @@}}"
-    curl --proto '=https' --tlsv1.2 --fail --silent --show-error \
-            'https://sh.rustup.rs' \
-        | sh -s -- -y --no-modify-path --component rust-src
-upgrade =
-    export RUSTUP_HOME="{{@@ rustup_home @@}}" \
-        CARGO_HOME="{{@@ rustup_shims @@}}"
-    rustup self update

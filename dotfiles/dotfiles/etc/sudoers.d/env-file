@@ -1,5 +1,0 @@
-# This file specifies the location of the sudo environment variables file
-#
-# {{@@ header() @@}}
-
-Defaults env_file="{{@@ sudo_env_file_dst @@}}"

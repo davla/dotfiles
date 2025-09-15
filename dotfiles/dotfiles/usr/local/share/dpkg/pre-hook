@@ -1,8 +1,9 @@
 #!/usr/bin/env sh
 
 # This script is meant to execute actions before specific packages are
-# uninstalled via APT. For the time being, it just removes some entries from
-# the Debian alternatives system.
+# uninstalled via APT.
+#
+# {{@@ header() @@}}
 
 # This doesn't work if the script is sourced
 . "$(dirname "$0")/lib"
@@ -50,6 +51,11 @@ case "$(apt_operation)" in
 
                 *podman-compose*)
                     rm --force /usr/local/bin/docker-compose
+                    ;;
+
+                *rustup*)
+                    printf '\033[0;32m[INFO]\033[0m Remove all rust toolchains'
+                    rm --force --recursive "{{@@ rustup_home @@}}"
                     ;;
             esac
         done

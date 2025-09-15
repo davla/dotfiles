@@ -8,6 +8,19 @@
 # This doesn't work if the script is sourced
 . "$(dirname "$0")/lib"
 
+########################################
+# Setup logging
+########################################
+
+. "{{@@ logger_path @@}}"
+logging_set_level 'info'
+logging_set_journald 'off'
+logging_set_tag 'on'
+
+#######################################
+# Functions
+#######################################
+
 # This function removes an alternative from the Debian alternative system.
 #
 # Arguments:
@@ -22,12 +35,15 @@ rm_alternative() {
     # package fully unpacked on the system.
     RM_ALT_BIN_PATH="$(which "$RM_ALT_BIN_NAME")" || return 0
 
-    printf '\033[0;32m[INFO]\033[0m Remove "%s" from "%s" alternatives.\n' \
-        "$RM_ALT_BIN_NAME" "$RM_ALT_GROUP_NAME"
+    log_info "Remove '$RM_ALT_BIN_NAME' from '$RM_ALT_GROUP_NAME' alternatives"
     update-alternatives --remove "$RM_ALT_GROUP_NAME" "$RM_ALT_BIN_PATH"
 
     unset RM_ALT_GROUP_NAME RM_ALT_BIN_NAME RM_ALT_BIN_PATH
 }
+
+########################################
+# Main
+########################################
 
 case "$(apt_operation)" in
     'autopurge'|'autoremove'|'purge'|'remove')
@@ -42,6 +58,7 @@ case "$(apt_operation)" in
                     ;;
 
                 *docker-compose-plugin*)
+                    log_info 'Disable podman daemon socket'
                     systemctl disable podman.socket
                     ;;
 
@@ -50,11 +67,12 @@ case "$(apt_operation)" in
                     ;;
 
                 *podman-compose*)
+                    log_info 'Remove "docker-compose" alias as "podman-compose"'
                     rm --force /usr/local/bin/docker-compose
                     ;;
 
                 *rustup*)
-                    printf '\033[0;32m[INFO]\033[0m Remove all rust toolchains'
+                    log_info 'Remove all rust toolchains'
                     rm --force --recursive "{{@@ rustup_home @@}}"
                     ;;
             esac

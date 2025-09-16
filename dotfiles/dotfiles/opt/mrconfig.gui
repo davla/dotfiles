@@ -1,11 +1,3 @@
-# This myrepos config file is used to install some packages system-wide and
-# keep them up-to-date, straight from git source repositories.
-#
-# In particular, this file groups packages used only in systems with a GUI
-#
-# {{@@ header() @@}}
-
-
 #######################################
 # Importing helpers
 #######################################

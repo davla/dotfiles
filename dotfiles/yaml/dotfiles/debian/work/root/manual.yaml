@@ -1,11 +1,9 @@
 %YAML 1.2
 ---
 # This dotfiles file lists the dotfiles involved in manual management of
-# packages from sources on Debian for my personal system
+# packages from sources on Debian for my work machine
 
 dotfiles:
 - d_myrepos-lib
-- f_mrconfig-distro
-- f_mrconfig-gui
-- f_mrconfig-main
+- f_mrconfig
 - f_mrtrust

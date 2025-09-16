@@ -275,14 +275,8 @@ dotfiles:
     actions:
     - _strip '{{@@ login_defs_append_marker @@}}' '{{@@ login_defs_dst @@}}'
     - _append '{{@@ login_defs_dst @@}}' '{{@@ getty_login_tmp_dst @@}}'
-  f_mrconfig-gui:
-    src: opt/mrconfig.gui
-    dst: /opt/.mrconfig.gui
-  f_mrconfig-distro:
-    src: opt/mrconfig.{{@@ env['DISTRO'] @@}}
-    dst: /opt/.mrconfig.{{@@ env['DISTRO'] @@}}
-  f_mrconfig-main:
-    src: opt/mrconfig.{{@@ user @@}}
+  f_mrconfig:
+    src: opt/mrconfig
     dst: /opt/.mrconfig
   f_networkd_20-wired.network:
     src: etc/systemd/network/20-wired.network

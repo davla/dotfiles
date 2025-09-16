@@ -6,7 +6,5 @@
 dotfiles:
 - d_applications
 - d_myrepos-lib
-- f_mrconfig-distro
-- f_mrconfig-gui
-- f_mrconfig-main
+- f_mrconfig
 - f_mrtrust

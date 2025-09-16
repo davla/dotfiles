@@ -1,24 +1,21 @@
-# This myrepos config file is used to install some packages system-wide and
-# keep them up-to-date, straight from git source repositories.
-#
-# In particular, this file groups packages necessary only on Debian systems.
-#
-# {{@@ header() @@}}
-
-
-#######################################
-# Importing helpers
-#######################################
-
-
-include = cat '{{@@ mr_libs_path @@}}/git-install'
-
-
 #######################################
 # Repositories
 #######################################
 
-{%@@ if env['HOST'] != 'work' -@@%}
+
+[/opt/temp-throttle]
+checkout =
+    git clone 'https://github.com/Sepero/temp-throttle.git' 'temp-throttle'
+install =
+    install --mode 755 -D --target-directory /usr/sbin \
+        "$MR_REPO/usr/sbin/temp-throttle"
+    install --mode 644 -D --target-directory /usr/share/doc/temp-throttle \
+        "$MR_REPO/usr/share/doc/temp-throttle/"*
+    install --mode 644 -D --target-directory /usr/lib/systemd/system \
+        "$MR_REPO/usr/lib/systemd/system/temp-throttle.service"
+    systemctl daemon-reload
+    systemctl enable --now temp-throttle
+
 
 [{{@@ rustup_home @@}}]
 checkout =
@@ -33,5 +30,3 @@ upgrade =
     export RUSTUP_HOME="{{@@ rustup_home @@}}" \
         CARGO_HOME="{{@@ rustup_shims @@}}"
     rustup self update
-
-{%@@ endif @@%}

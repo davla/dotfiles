@@ -1,0 +1,12 @@
+# This myrepos config file is used to install some packages system-wide and
+# keep them up-to-date, straight from git source repositories.
+#
+# {{@@ header() @@}}
+
+{%@@ if not is_headless | is_truthy -@@%}
+
+{%@@ include 'opt/mrconfig.gui' @@%}
+
+{%@@- endif @@%}
+
+{%@@ include 'opt/mrconfig.' + env['HOST'] ignore missing @@%}

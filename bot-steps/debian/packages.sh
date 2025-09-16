@@ -94,10 +94,10 @@ apt-get install apt-transport-https autoconf automake bat build-essential \
     fonts-nanum fortune g++ gdb git git-secret gvfs-backends htop hunspell \
     hunspell-en-us hunspell-it jq libbz2-dev liblzma-dev libncurses-dev \
     libnotify-bin libreadline-dev libsecret-1-dev libsqlite3-dev libssl-dev \
-    lua5.4 make mate-polkit mmv mgitstatus moreutils nfs-common nyancat p7zip \
-    pipewire-jack playerctl podman-docker pycodestyle python3 python3-pip rar \
-    shellcheck sl systemd-cron thunar-archive-plugin tk-dev uni2ascii unrar \
-    vim wmctrl xdotool xserver-xorg-input-synaptics yad zip
+    lua5.4 make mate-polkit mmv mgitstatus moreutils nfs-common nix nyancat \
+    p7zip pipewire-jack playerctl podman-docker pycodestyle python3 \
+    python3-pip rar shellcheck sl systemd-cron thunar-archive-plugin tk-dev \
+    uni2ascii unrar vim wmctrl xdotool xserver-xorg-input-synaptics yad zip
 
 # Dotfiles
 print_info 'Install CLI packages dotfiles'
@@ -117,6 +117,10 @@ apt-get upgrade
 #######################################
 # Packages setup
 #######################################
+
+# Nix
+print_info "Allow $USER_NAME to run nix commands"
+usermod --append --groups nix-users "$USER_NAME"
 
 # Rootless podman
 print_info "Allow $USER_NAME to run rootless podman"

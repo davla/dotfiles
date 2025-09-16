@@ -32,6 +32,9 @@ dotfiles:
   d_clipcat:
     src: usr/local/share/github-releases/xrelkd/clipcat
     dst: '{{@@ github_releases_dir @@}}/xrelkd/clipcat'
+  d_devbox:
+    src: usr/local/share/github-releases/jetify-com/devbox
+    dst: '{{@@ github_releases_dir @@}}/jetify-com/devbox'
   d_docker-credential-helpers:
     src: usr/local/share/github-releases/docker/docker-credential-helpers
     dst: '{{@@ github_releases_dir @@}}/docker/docker-credential-helpers'
@@ -70,6 +73,7 @@ profiles:
   github-releases:
     dotfiles:
     - d_asdf-gh-release
+    - d_devbox
     - d_local_lib_sh
     - d_nerd-fonts
     - d_sheldon

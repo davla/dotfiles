@@ -67,23 +67,22 @@ esac
 # Executing dotdrop
 #######################################
 
-cd "{{@@ dirname(_dotdrop_dotpath) | find_in_home | home_abs2var @@}}" || exit
-
-. ../.dotfiles-env
+cd "{{@@ dirname(dirname(_dotdrop_dotpath)) | find_in_home
+    | home_abs2var @@}}" || exit
 
 case "$WHO" in
     'user'|'both')
-        uv run dotdrop "$CMD" --cfg 'config-user.yaml' "${ARGS[@]}"
+        devbox run dotdrop "$CMD" --cfg 'config-user.yaml' "${ARGS[@]}"
         ;;
 esac
 
 case "$WHO" in
     'root'|'both')
         if [ "$USER" = 'root' ]; then
-            uv run dotdrop "$CMD" --cfg 'config-root.yaml' "${ARGS[@]}"
+            devbox run dotdrop "$CMD" --cfg 'config-root.yaml' "${ARGS[@]}"
         else
             sudo --set-home --preserve-env="$DOTFILES_ENV_VARS" \
-                uv run dotdrop "$CMD" --cfg 'config-root.yaml' "${ARGS[@]}"
+                devbox run dotdrop "$CMD" --cfg 'config-root.yaml' "${ARGS[@]}"
         fi
         ;;
 esac

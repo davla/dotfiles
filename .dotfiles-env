@@ -15,12 +15,14 @@ case "$PYTHONPATH" in
 esac
 
 # Display server
-if [ -n "$WAYLAND_DISPLAY" ]; then
-    export DISPLAY_SERVER='wayland'
-elif [ -n "$DISPLAY" ]; then
-    export DISPLAY_SERVER='x11'
-else
-    export DISPLAY_SERVER='headless'
+if [ -z "$DISPLAY_SERVER" ]; then
+    if [ -n "$WAYLAND_DISPLAY" ]; then
+        export DISPLAY_SERVER='wayland'
+    elif [ -n "$DISPLAY" ]; then
+        export DISPLAY_SERVER='x11'
+    else
+        export DISPLAY_SERVER='headless'
+    fi
 fi
 
 # Generic hostname

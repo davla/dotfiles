@@ -1,5 +1,0 @@
-# This file preserves in sudo the asdf configuration environment variables
-#
-# {{@@ header() @@}}
-
-Defaults    env_keep += "{{@@ asdf_env_var.keys() | map('upper') | join(' ') @@}}"

@@ -35,10 +35,11 @@ esac
 cd "$DOTDROP_DIR" || exit
 
 print_info 'Recreate empty virtual environment'
-if { which asdf && asdf which python; } > /dev/null 2>&1; then
-    asdf which python | xargs uv venv --python
+if which devbox > /dev/null 2>&1; then
+    devbox install
+    devbox run which python | xargs uv venv --clear --python
 else
-    uv venv
+    uv venv --clear
 fi
 
 print_info 'Install project dependencies'

@@ -69,8 +69,7 @@ export HIST_IGNORED_TYPOS='gi t*|gl'
 
 {%@@ set local_path = [
         '/usr/local/sbin' if user == 'root' else None,
-        '/usr/local/bin',
-        asdf_data + '/shims'
+        '/usr/local/bin'
     ] | select | join(':') -@@%}
 
 LOCAL_PATH="{{@@ local_path @@}}"

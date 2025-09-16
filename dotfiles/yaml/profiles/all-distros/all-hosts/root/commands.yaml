@@ -5,7 +5,7 @@
 
 actions:
   post:
-    # pip from $PATH is from asdf, not the system's
+    # pip from $PATH is from devbox, not the system's
     pip_install_editable: >-
       /usr/bin/pip install --break-system-packages --editable '{0}'
 

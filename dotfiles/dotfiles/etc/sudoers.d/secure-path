@@ -1,7 +1,0 @@
-# This file adds local sbin paths to the Debian default secure_path option
-#
-# {{@@ header() @@}}
-
-Defaults	secure_path="/usr/local/sbin:/usr/local/bin:\
-    /usr/sbin:/usr/bin:\
-    /sbin:/bin"

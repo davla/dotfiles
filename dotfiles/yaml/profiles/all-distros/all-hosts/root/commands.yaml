@@ -98,6 +98,11 @@ dotfiles:
     src: usr/local/bin/explore
     dst: /usr/local/bin/explore
     chmod: 755
+  f_local_bin_host-refresh:
+    src: usr/local/bin/host-refresh
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ host_refresh_path @@}}'
+    chmod: 755
   f_local_bin_launcher:
     src: usr/local/bin/launcher
     dst: /usr/local/bin/launcher
@@ -192,11 +197,6 @@ dotfiles:
     src: usr/local/bin/zsh-notify-sudo-user
     dst: /usr/local/bin/zsh-notify-sudo-user
     chmod: 755
-  f_local_sbin_host-refresh:
-    src: usr/local/sbin/host-refresh
-    # Dynamic path as it's used somewhere else too
-    dst: '{{@@ host_refresh_path @@}}'
-    chmod: 755
 
 profiles:
   # This profile gathers my custom shell commands and their dependencies
@@ -221,7 +221,7 @@ profiles:
     - d_local_lib_sh
     - f_hosts
     - f_frequent-hosts
-    - f_local_sbin_host-refresh
+    - f_local_bin_host-refresh
     actions:
     - _rm '{{@@ hosts_tmp_dst @@}}'
     dynvariables:
@@ -251,7 +251,7 @@ variables:
   # These paths are kept as variables since they need to be used both as `dst`
   # in dotfile entries and in dotfiles' content
   frequent_hosts_path: /usr/local/etc/frequent-hosts
-  host_refresh_path: /usr/local/sbin/host-refresh
+  host_refresh_path: /usr/local/bin/host-refresh
   shell_cache_path: /usr/local/bin/shell-cache
 
   electron_wayland_options: >-

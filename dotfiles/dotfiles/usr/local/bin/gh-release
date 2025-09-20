@@ -85,30 +85,6 @@ logging_set_journald 'off'
 # Functions
 ########################################
 
-# This function outputs the metadata of a GitHub repository latest release in
-# JSON format.
-#
-# Arguments:
-#   - $1: The GitHub repository name
-github_latest_release() {
-    wget --quiet --output-document - \
-        "https://api.github.com/repos/$1/releases/latest" \
-        || wget_error "Failed to retrieve latest release metadata for $1 via" \
-            'the GitHub WEB API'
-}
-
-# This function outputs the metadata of a GitHub repository latest 30 releases
-# in JSON format.
-#
-# Arguments:
-#   - $1: The GitHub repository name
-github_releases() {
-    wget --quiet --output-document - \
-        "https://api.github.com/repos/$1/releases" \
-        || wget_error "Failed to retrieve 30 latest release metadata for $1 " \
-            'via the GitHub WEB API'
-}
-
 # This function exits with 0 if the first argument is a later version number
 # than the second argument, or with 1 otherwise
 #
@@ -216,6 +192,12 @@ done
 # Main
 ########################################
 
+# This is the most reliable way to determine which JSON fields are supported by
+# the current version of the GitHub CLI
+RELEASE_LIST_JSON_FIELDS="$(gh release list --json 2>&1 | tail --lines +2 \
+    | xargs --max-lines=1 | paste --delimiters ',' --serial)"
+log_debug "Use GitHub release metadata fields: $RELEASE_LIST_JSON_FIELDS"
+
 REPO_PATHS="$(echo "${REPOS## }" | tr ' ' '|' | xargs printf '.*(%s).*')"
 find "$RELEASES_DIR" -maxdepth 2 -mindepth 2 -type d \
         -regextype 'posix-extended' -regex "$REPO_PATHS" -printf '%P\n' \
@@ -233,19 +215,19 @@ find "$RELEASES_DIR" -maxdepth 2 -mindepth 2 -type d \
             INSTALLED_VERSION='-'
         fi
 
-        RELEASE_JQ_FILTER_FILE="$REPO_PATH/latest-release-jq-filter"
-        if [ -f "$RELEASE_JQ_FILTER_FILE" ]; then
-            printf 'Use jq filter in %s to retrieve release metadata\n' \
-                "$RELEASE_JQ_FILTER_FILE" | log_debug
-            RELEASE_METADATA="$(github_releases "$GITHUB_REPO" \
-                | jq --from-file "$RELEASE_JQ_FILTER_FILE")"
-        else
-            log_debug 'Retrieve latest release metadata...'
-            RELEASE_METADATA="$(github_latest_release "$GITHUB_REPO")"
+        LATEST_VERSION_JQ_FILTER='first | .tagName'
+        LATEST_VERSION_JQ_FILTER_FILE="$REPO_PATH/latest-release-jq-filter"
+        if [ -f "$LATEST_VERSION_JQ_FILTER_FILE" ]; then
+            printf 'Use jq filter in %s to retrieve latest release version\n' \
+                "$LATEST_VERSION_JQ_FILTER_FILE" | log_debug
+            LATEST_VERSION_JQ_FILTER="$(cat "$LATEST_VERSION_JQ_FILTER_FILE") \
+                | $LATEST_VERSION_JQ_FILTER"
         fi
 
-        LATEST_VERSION="$(printf '%s' "$RELEASE_METADATA" \
-            | jq --raw-output '.name | scan("v?[\\d\\.]+")')"
+        LATEST_VERSION="$(gh --repo "$GITHUB_REPO" release list --order desc \
+            --exclude-drafts --exclude-pre-releases --limit 30 \
+            --json "$RELEASE_LIST_JSON_FIELDS" \
+            --jq "$LATEST_VERSION_JQ_FILTER")"
 
         log_debug 'Determine whether to execute...'
         if [ "$FORCE_INSTALL" = 'true' ] || [ "$CMD" = 'status' ] \
@@ -276,8 +258,8 @@ find "$RELEASES_DIR" -maxdepth 2 -mindepth 2 -type d \
             'update')
                 log_info "Install $GITHUB_REPO version $LATEST_VERSION"
                 logging_export_config
-                printf '%s' "$RELEASE_METADATA" \
-                    | "$REPO_PATH/install" "$GITHUB_REPO" || continue
+                "$REPO_PATH/install" "$GITHUB_REPO" "$LATEST_VERSION" \
+                    || continue
                 echo "$LATEST_VERSION" > "$INSTALLED_VERSION_FILE"
                 ;;
 

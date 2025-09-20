@@ -15,6 +15,32 @@
 # Functions
 ########################################
 
+# This function outputs the current machine's CPU architechture name, such as
+# "x86_64" or "arm64".
+#
+# Arguments:
+#   - $1: One of 'x86_64' or 'amd64'. Controls what's output for the x86-64
+#         architechture. Optional, defaults to 'x86_64'
+cpu_arch() {
+    CPU_ARCH__FORMAT="${1:-x86_64}"
+
+    case "$(echo "$CPU_ARCH__FORMAT" | tr '[:upper:]' '[:lower:]')" in
+        'x86_64')
+            uname --machine
+            ;;
+
+        'amd64')
+            uname --machine | sed 's/x86_64/amd64/'
+            ;;
+
+        *)
+            echo >&2 "Unknown output format: $CPU_ARCH__FORMAT"
+            ;;
+    esac
+
+    unset CPU_ARCH__FORMAT
+}
+
 # This function removes its arguments. It is mean to be used as a script
 # termination trap.
 #
@@ -27,98 +53,83 @@ cleanup_trap() {
     exit
 }
 
-# This function extracts files from the sources artiface of a GitHub release.
-# The sources assets' URL is extracted from the release assets metadata, which
-# are input in JSON format.
+# This function downloads a tar archive from the assets of a GitHub release and
+# extracts its content into a directory, stripping any directories in the
+# archive.
 #
 # Arguments:
-#   - $1: The file patterns to be extracted from the sources asset, relative
-#         to the repository root.
-#   - $2: The GitHub repository that made the release. Only used for logging
-#   - $3: The directory the files from the sources assets are extracted.
-#         Optional, defaults to the current directory
-#   - STDIN: The GitHub release JSON metadata
-download_from_source_tarball() {
-    DL_SRC_TAR__FILE_PATTERN="$1"
-    DL_SRC_TAR__GITHUB_REPO="$2"
-    DL_SRC_TAR__OUT_DIR="${3:-.}"
+#   - $1: The GitHub repository that made the release
+#   - $2: The GitHub release tag
+#   - $3: A glob matching the tar archive release artifact by name
+#   - $4: A glob used to select the files extracted from the tar archive
+#         Optional, defults to extracting all the files in the archive
+#   - $5: The directory where the tar archive is extracted to. Optional,
+#         defaults to `/usr/local/bin`
+install_github_release_tar() {
+    GH_RELEASE_TAR__REPO="$1"
+    GH_RELEASE_TAR__TAG="$2"
+    GH_RELEASE_TAR__ARCHIVE_GLOB="$3"
+    GH_RELEASE_TAR__BIN_GLOB="${4:-*}"
+    GH_RELEASE_TAR__DST_DIR="${5:-/usr/local/bin}"
 
-    jq --raw-output '.tarball_url' \
-        | {
-            xargs wget --quiet --output-document - \
-                || wget_error 'Failed to download sources asset for ' \
-                    "$DL_SRC_TAR__GITHUB_REPO"
-        } | tar --extract --gzip --no-anchored --strip-components 1 \
-                --directory "$DL_SRC_TAR__OUT_DIR" \
-                --wildcards "$DL_SRC_TAR__FILE_PATTERN"
-}
+    GH_RELEASE_TAR__COMPRESS=''
+    case "$GH_RELEASE_TAR__ARCHIVE_GLOB" in
+        *.tar.gz)
+            GH_RELEASE_TAR__COMPRESS='--gzip'
+            ;;
 
-# This function downloads an asset from a GitHub release. The asset's URL is
-# extracted from the release metadata, which is input in JSON format.
-#
-# Arguments:
-#   - $1: The jq filter used to extract the asset's URL. It is applied to the
-#         "assets" array in the GitHub release JSON metadata
-#   - $2: The GitHub repository that made the release. Only used for logging
-#   - $3: The path the asset is downloaded to. Optional, defaults to STDOUT
-#   - STDIN: The GitHub release JSON metadata
-download_github_release_asset() {
-    DL_GH_RELEASE_ASSET__JQ_FILTER="$1"
-    DL_GH_RELEASE_ASSET__GITHUB_REPO="$2"
-    DL_GH_RELEASE_ASSET__OUT="${3:--}"
+        *.tar.bz2)
+            GH_RELEASE_TAR__COMPRESS='--bzip2'
+            ;;
 
-    jq --raw-output ".assets[] | select($DL_GH_RELEASE_ASSET__JQ_FILTER).browser_download_url" \
-        | {
-            xargs wget --quiet --output-document "$DL_GH_RELEASE_ASSET__OUT" \
-                || wget_error "Failed to download release for" \
-                    "$DL_GH_RELEASE_ASSET__GITHUB_REPO with jq filter" \
-                    "'$DL_GH_RELEASE_ASSET__JQ_FILTER'"
-        }
+        *.tar.xz)
+            GH_RELEASE_TAR__COMPRESS='--xz'
+            ;;
+    esac
 
-    unset DL_GH_RELEASE_ASSET__GITHUB_REPO DL_GH_RELEASE_ASSET__JQ_FILTER \
-        DL_GH_RELEASE_ASSET__OUT
+    GH_RELEASE_TAR__PACKAGE="${GH_RELEASE_TAR__REPO##*/}"
+    printf 'Download and install %s to %s...\n' "$GH_RELEASE_TAR__PACKAGE" \
+        "$GH_RELEASE_TAR__DST_DIR" | log_debug
+    printf 'Use %s to extract %s\n' "$GH_RELEASE_TAR__COMPRESS" \
+        "$GH_RELEASE_TAR__PACKAGE" | log_debug
+
+    # The --transform option to tar extracts the basename
+    gh --repo "$GH_RELEASE_TAR__REPO" release download "$GH_RELEASE_TAR__TAG" \
+            --output - --pattern "$GH_RELEASE_TAR__ARCHIVE_GLOB" \
+        | tar --extract "$GH_RELEASE_TAR__COMPRESS" --transform 's|.*/||g' \
+            --directory "$GH_RELEASE_TAR__DST_DIR" \
+            --wildcards "$GH_RELEASE_TAR__BIN_GLOB"
+
+    unset GH_RELEASE_TAR__ARCHIVE_GLOB GH_RELEASE_TAR__BIN_GLOB \
+        GH_RELEASE_TAR__COMPRESS GH_RELEASE_TAR__DST_DIR \
+        GH_RELEASE_TAR__REPO GH_RELEASE_TAR__TAG
 }
 
 # This function downloads and installs a .deb file from the assets of a GitHub
-# release. The .deb's URL is extracted from the .name field of the release
-# metadata, which is input in JSON format.
+# release.
 #
 # Arguments:
-#   - $1: The jq filter used to extract the asset's URL. It is applied to the
-#         "assets[] | .name" array in the GitHub release JSON metadata
-#   - $2: The GitHub repository that made the release. Only used for logging
-#   - STDIN: The GitHub release JSON metadata
+#   - $1: The GitHub repository that made the release
+#   - $2: The GitHub release tag
+#   - $3: A glob matching the .deb release artifact by name
 install_github_release_deb() {
-    INSTALL_GH_RELEASE_DEB__NAME_JQ_FILTER="$1"
-    INSTALL_GH_RELEASE_DEB__GITHUB_REPO="$2"
+    GH_RELEASE_DEB__REPO="$1"
+    GH_RELEASE_DEB__TAG="$2"
+    GH_RELEASE_DEB__GLOB="$3"
 
-    INSTALL_GH_RELEASE_DEB__PACKAGE_NAME="${INSTALL_GH_RELEASE_DEB__GITHUB_REPO##*/}"
-    INSTALL_GH_RELEASE_DEB__TMP_DEB_FILE="$(mktemp \
-        "XXX-$INSTALL_GH_RELEASE_DEB__PACKAGE_NAME.deb")"
+    GH_RELEASE_DEB__PACKAGE="${GH_RELEASE_DEB__REPO##*/}"
+    GH_RELEASE_DEB__TMP_DEB="$(mktemp --dry-run \
+        "XXX-$GH_RELEASE_DEB__PACKAGE.deb")"
     # shellcheck disable=SC2064
-    trap "cleanup_trap $INSTALL_GH_RELEASE_DEB__TMP_DEB_FILE" EXIT INT HUP TERM
+    trap "cleanup_trap $GH_RELEASE_DEB__TMP_DEB" EXIT INT HUP TERM
 
-    log_debug "Download $INSTALL_GH_RELEASE_DEB__PACKAGE_NAME..."
-    download_github_release_asset \
-        ".name | $INSTALL_GH_RELEASE_DEB__NAME_JQ_FILTER" \
-        "$INSTALL_GH_RELEASE_DEB__GITHUB_REPO" \
-        "$INSTALL_GH_RELEASE_DEB__TMP_DEB_FILE"
+    log_debug "Download $GH_RELEASE_DEB__PACKAGE..."
+    gh --repo "$GH_RELEASE_DEB__REPO" release download "$GH_RELEASE_DEB__TAG" \
+        --output "$GH_RELEASE_DEB__TMP_DEB" --pattern "$GH_RELEASE_DEB__GLOB"
 
-    log_debug "Install $INSTALL_GH_RELEASE_DEB__PACKAGE_NAME..."
-    dpkg --install "$INSTALL_GH_RELEASE_DEB__TMP_DEB_FILE" | log_debug
+    log_debug "Install $GH_RELEASE_DEB__PACKAGE..."
+    dpkg --install "$GH_RELEASE_DEB__TMP_DEB" | log_debug
 
-    unset INSTALL_GH_RELEASE_DEB__GITHUB_REPO \
-        INSTALL_GH_RELEASE_DEB__NAME_JQ_FILTER \
-        INSTALL_GH_RELEASE_DEB__PACKAGE_NAME \
-        INSTALL_GH_RELEASE_DEB__TMP_DEB_FILE
-}
-
-# This function logs the given arguments as an error and exits with the chosen
-# error code for wget errors (67)
-#
-# Arguments:
-#   - $@: The error log message
-wget_error() {
-    log_error "$*"
-    exit 67
+    unset GH_RELEASE_DEB__GLOB GH_RELEASE_DEB__PACKAGE GH_RELEASE_DEB__REPO \
+        GH_RELEASE_DEB__TAG GH_RELEASE_DEB__TMP_DEB
 }

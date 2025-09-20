@@ -5,7 +5,7 @@
 #
 # Arguments:
 #   - $1: The GitHub repository name the software is installed from
-#   - STDIN: The the GitHub release JSON metadata
+#   - $2: The GitHub release tag containing the artifacts to install
 #
 # {{@@ header() @@}}
 
@@ -18,34 +18,15 @@ set -e
 . "{{@@ gh_release_path @@}}"
 
 ########################################
-# Variables
-########################################
-
-INSTALL_DIR='/usr/local/bin'
-
-########################################
 # Input processing
 ########################################
 
 GITHUB_REPO="$1"
+RELEASE_TAG="$2"
 
 ########################################
 # Main
 ########################################
 
-log_debug 'Download and extract devbox to temporary directory...'
-
-TMP_DIR="$(mktemp --directory --tmpdir gh-release-devbox.XXX)"
-# shellcheck disable=SC2064
-trap "cleanup_trap $TMP_DIR" EXIT INT HUP TERM
-
-ASSET_JQ_FILTER="$(uname --machine \
-    | sed 's/x86_64/amd64/g' \
-    | xargs printf '(.content_type == "application/gzip") and
-        (.name | contains("%s") and contains("linux"))')"
-
-download_github_release_asset "$ASSET_JQ_FILTER" "$GITHUB_REPO" \
-    | tar --extract --gzip --directory "$TMP_DIR"
-
-log_debug "Install devbox executables to $INSTALL_DIR..."
-install --mode 755 "$TMP_DIR/"* "$INSTALL_DIR"
+RELEASE_TAR_GLOB="*linux*$(cpu_arch 'amd64')*.tar.gz"
+install_github_release_tar "$GITHUB_REPO" "$RELEASE_TAG" "$RELEASE_TAR_GLOB"

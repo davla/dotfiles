@@ -5,7 +5,7 @@
 #
 # Arguments:
 #   - $1: The GitHub repository name the software is installed from
-#   - STDIN: The GitHub release JSON metadata
+#   - $2: The GitHub release tag containing the artifacts to install
 #
 # {{@@ header() @@}}
 
@@ -28,6 +28,7 @@ SYMBOLS_NERD_FONT_DIR=/usr/local/share/fonts/symbols-nerd-font/
 ########################################
 
 GITHUB_REPO="$1"
+RELEASE_TAG="$2"
 
 ########################################
 # Main
@@ -36,11 +37,9 @@ GITHUB_REPO="$1"
 log_debug "Ensure $SYMBOLS_NERD_FONT_DIR exists"
 mkdir --parents "$SYMBOLS_NERD_FONT_DIR"
 
-log_debug 'Download and install Nerd Fonts Symbols...'
-download_github_release_asset '.name == "NerdFontsSymbolsOnly.tar.xz"' \
-    "$GITHUB_REPO" \
-    | tar --extract --xz --no-anchored --directory "$SYMBOLS_NERD_FONT_DIR" \
-        --wildcards '*.ttf'
+RELEASE_TAR_GLOB='NerdFontsSymbolsOnly.tar.xz'
+install_github_release_tar "$GITHUB_REPO" "$RELEASE_TAG" "$RELEASE_TAR_GLOB" \
+    '*.ttf' "$SYMBOLS_NERD_FONT_DIR"
 
 log_debug 'Refresh fonts cache...'
 fc-cache --force --really-force --system-only --verbose | log_debug

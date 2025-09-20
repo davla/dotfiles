@@ -7,7 +7,6 @@
 actions:
   post:
     repo-keys: sh ./actions/repo-keys.sh '{{@@ apt_keys_dir @@}}'
-    recursive-exec-permissions: chmod +x --recursive '{0}'
 
 config:
   backup: false

@@ -5,7 +5,7 @@
 #
 # Arguments:
 #   - $1: The GitHub repository name the software is installed from
-#   - STDIN: The GitHub release JSON metadata
+#   - $2: The GitHub release tag containing the artifacts to install
 #
 # {{@@ header() @@}}
 
@@ -22,10 +22,11 @@ set -e
 ########################################
 
 GITHUB_REPO="$1"
+RELEASE_TAG="$2"
 
 ########################################
 # Main
 ########################################
 
 # clipcat is not available on ARMv7
-install_github_release_deb 'endswith("amd64.deb")' "$GITHUB_REPO"
+install_github_release_deb "$GITHUB_REPO" "$RELEASE_TAG" '*amd64.deb'

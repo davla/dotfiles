@@ -5,7 +5,7 @@
 #
 # Arguments:
 #   - $1: The GitHub repository name the software is installed from
-#   - STDIN: The the GitHub release JSON metadata
+#   - $2: The GitHub release tag containing the artifacts to install
 #
 # {{@@ header() @@}}
 
@@ -34,9 +34,7 @@ GITHUB_REPO="$1"
 ########################################
 
 log_debug 'Download and install Docker credentials SecretService...'
-download_github_release_asset \
-    '.name | contains("secretservice") and contains("amd64")' \
-    "$GITHUB_REPO" "$EXEC_PATH"
-
-log_debug "Set executable permissions to $EXEC_PATH..."
+cpu_arch 'amd64' | xargs -I '{}' gh --repo "$GITHUB_REPO" release download \
+    "$RELEASE_TAG" --output - --pattern '*secretservice*linux*{}' \
+        > "$EXEC_PATH"
 chmod +x "$EXEC_PATH"

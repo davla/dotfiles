@@ -5,7 +5,7 @@
 #
 # Arguments:
 #   - $1: The GitHub repository name the software is installed from
-#   - STDIN: The GitHub release JSON metadata
+#   - $2: The GitHub release tag containing the artifacts to install
 #
 # {{@@ header() @@}}
 
@@ -22,37 +22,23 @@ set -e
 # Variables
 ########################################
 
-SRC_EXEC_NAME='volume'
-
-########################################
-# Functions
-########################################
-
-# This function cleans up after the script. It is mean to be used as a trap
-cleanup() {
-    log_debug 'Clean up'
-    rm --force --recursive "$TMP_SRC_EXTRACT_DIR"
-    trap - EXIT
-    exit
-}
+DST_DIR='/usr/local/bin'
+SRC_EXEC='volume'
 
 ########################################
 # Input processing
 ########################################
 
 GITHUB_REPO="$1"
+RELEASE_TAG="$2"
 
 ########################################
 # Main
 ########################################
 
-trap cleanup EXIT INT HUP
-
-TMP_SRC_EXTRACT_DIR="$(mktemp --tmpdir --directory XXX.i3-volume)"
-
-log_debug 'Download i3-volume...'
-download_from_source_tarball "$SRC_EXEC_NAME" "$GITHUB_REPO" \
-    "$TMP_SRC_EXTRACT_DIR"
-
-log_debug 'Install i3-volume'
-install --mode 755 "$TMP_SRC_EXTRACT_DIR/$SRC_EXEC_NAME" /usr/local/bin
+log_debug 'Download and install i3-volume...'
+gh --repo "$GITHUB_REPO" release download "$RELEASE_TAG" --archive 'tar.gz' \
+        --output - \
+    | tar --extract --gzip --directory "$DST_DIR" --strip-components 1 \
+        --wildcards "*/$SRC_EXEC"
+chmod +x "$DST_DIR/$SRC_EXEC"

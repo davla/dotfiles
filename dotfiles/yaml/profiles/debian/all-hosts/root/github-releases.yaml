@@ -4,6 +4,10 @@
 # doesn't need it thanks to AUR <3). It lists the repositories individually
 # in order to allow fine-grained control over their inclusion in the profile.
 
+actions:
+  post:
+    install-gh: apt-get install gh
+
 config:
   backup: false
   banner: true
@@ -79,6 +83,7 @@ profiles:
     import:
     - ../../../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/github-releases.yaml:optional
     actions:
+    - install-gh
     - recursive-exec-permissions '/{{@@ github_releases_dir @@}}'
 
 variables:

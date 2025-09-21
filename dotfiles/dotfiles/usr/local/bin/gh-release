@@ -15,9 +15,10 @@ HELP_TEXT="
 Install, update and query status of software installed via GitHub releases.
 
 Usage:
-    gh-release update [--force|-F] [--i3blocks-signal|-S SIGNAL] [REPO...]
-    gh-release status [REPO...]
-    gh-release upgradable [REPO...]
+    gh-release update [--force|-F] [--i3blocks-signal|-S SIGNAL] [--read-token|-T] [REPO...]
+    gh-release status [--read-token|-T] [REPO...]
+    gh-release upgradable [--read-token|-T] [REPO...]
+    gh-release [--help|-H]
 
 Arguments:
     REPO: A GitHub repository to operate on. It must be present in the GitHub
@@ -30,6 +31,9 @@ Options:
     --i3blocks-signal, -S SIGNAL    The signal to send to i3blocks, usually to
                                     refresh a blocklet.
     --help, -H                      Show this help text.
+    --read-token, -T                Read a GitHub authentication token from
+                                    STDIN *if* the GitHub CLI is not already
+                                    authenticated.
 
 Other options are used for logging. For detailed info, check the source code at
 {{@@ logger_path @@}}.
@@ -112,7 +116,6 @@ print_upgradeable() {
 ########################################
 
 CMD=''
-FORCE_INSTALL='false'
 
 case "$1" in
     '--help'|'-H')
@@ -147,7 +150,12 @@ case "$1" in
 esac
 shift
 
-REPOS=""
+FORCE_INSTALL='false'
+# Only overwrite if the variable is empty or unset. It may be set in the
+# configuration file
+I3BLOCKS_SIGNAL="${I3BLOCKS_SIGNAL:-''}"
+READ_GITHUB_TOKEN='false'
+REPOS=''
 while [ $# -gt 0 ]; do
     set +e
     logging_parse_arg "$1" "$2"
@@ -162,7 +170,11 @@ while [ $# -gt 0 ]; do
 
                 '--i3blocks-signal'|'-S')
                     I3BLOCKS_SIGNAL="$1"
-                    shift 1
+                    shift
+                    ;;
+
+                '--token'|'-T')
+                    READ_GITHUB_TOKEN='true'
                     ;;
 
                 *)
@@ -191,6 +203,27 @@ done
 ########################################
 # Main
 ########################################
+
+log_debug 'Verify need to authenticate with GitHub'
+if gh auth status > /dev/null 2>&1; then
+    log_debug 'Already authenticated with GitHub'
+else
+    if [ "$READ_GITHUB_TOKEN" = 'true' ]; then
+        log_info 'Authenticate with GitHub via token read from STDIN'
+        gh auth login --with-token
+    elif [ -n "$SUDO_USER" ]; then
+        log_info "Authenticate with GitHub via browser as '$SUDO_USER'"
+        sudo --user "$SUDO_USER" gh auth login
+        sudo --user "$SUDO_USER" gh auth token | gh auth login --with-token
+    elif [ "$(id --user)" -ne 0 ]; then
+        log_info 'Authenticate with GitHub via browser'
+        gh auth login
+    else
+        log_error 'Cannot authenticate with GitHub: no token to be read from
+STDIN and no SUDO_USER to open a browser as'
+        exit 67
+    fi
+fi
 
 # This is the most reliable way to determine which JSON fields are supported by
 # the current version of the GitHub CLI

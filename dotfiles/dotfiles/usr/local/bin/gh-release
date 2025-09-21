@@ -78,7 +78,7 @@ upgradeable
 ########################################
 
 # Configuration variables
-. "{{@@ github_releases_conf @@}}"
+. "{{@@ gh_release_conf @@}}"
 
 # Logging defaults
 logging_set_level 'info'
@@ -232,12 +232,12 @@ RELEASE_LIST_JSON_FIELDS="$(gh release list --json 2>&1 | tail --lines +2 \
 log_debug "Use GitHub release metadata fields: $RELEASE_LIST_JSON_FIELDS"
 
 REPO_PATHS="$(echo "${REPOS## }" | tr ' ' '|' | xargs printf '.*(%s).*')"
-find "$RELEASES_DIR" -maxdepth 2 -mindepth 2 -type d \
+find "$GH_RELEASE_DIR" -maxdepth 2 -mindepth 2 -type d \
         -regextype 'posix-extended' -regex "$REPO_PATHS" -printf '%P\n' \
     | while read -r GITHUB_REPO; do
         log_info "Process $GITHUB_REPO..."
 
-        REPO_PATH="$RELEASES_DIR/$GITHUB_REPO"
+        REPO_PATH="$GH_RELEASE_DIR/$GITHUB_REPO"
 
         INSTALLED_VERSION_FILE="$REPO_PATH/installed-version"
         if [ -f "$INSTALLED_VERSION_FILE" ]; then

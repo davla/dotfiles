@@ -1,0 +1,96 @@
+%YAML 1.2
+---
+# This dotdrop config file defines the gh-release profile for Debian (Arch
+# doesn't need it thanks to AUR <3). It lists the repositories individually
+# in order to allow fine-grained control over their inclusion in the profile.
+
+actions:
+  post:
+    install-gh: apt-get install gh
+
+config:
+  backup: false
+  banner: true
+  create: true
+  dotpath: ../../../../../dotfiles
+  force_chmod: true
+  func_file:
+  - ../../../../../python/functions.py
+  ignoreempty: true
+  import_actions:
+  - ../../../../actions/shared.yaml
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+  showdiff: true
+  workdir: '{{@@ xdg_config("dotdrop") @@}}'
+
+dotfiles:
+  d_bitwarden:
+    src: usr/local/share/gh-release/bitwarden/clients
+    dst: '{{@@ gh_release_dir @@}}/bitwarden/clients'
+  d_clipcat:
+    src: usr/local/share/gh-release/xrelkd/clipcat
+    dst: '{{@@ gh_release_dir @@}}/xrelkd/clipcat'
+  d_devbox:
+    src: usr/local/share/gh-release/jetify-com/devbox
+    dst: '{{@@ gh_release_dir @@}}/jetify-com/devbox'
+  d_docker-credential-helpers:
+    src: usr/local/share/gh-release/docker/docker-credential-helpers
+    dst: '{{@@ gh_release_dir @@}}/docker/docker-credential-helpers'
+  d_i3-volume:
+    src: usr/local/share/gh-release/hastinbe/i3-volume
+    dst: '{{@@ gh_release_dir @@}}/hastinbe/i3-volume'
+  d_nerd-fonts:
+    src: usr/local/share/gh-release/ryanoasis/nerd-fonts
+    dst: '{{@@ gh_release_dir @@}}/ryanoasis/nerd-fonts'
+  d_sheldon:
+    src: usr/local/share/gh-release/rossmacarthur/sheldon
+    dst: '{{@@ gh_release_dir @@}}/rossmacarthur/sheldon'
+  d_uv:
+    src: usr/local/share/gh-release/astral-sh/uv
+    dst: '{{@@ gh_release_dir @@}}/astral-sh/uv'
+  f_gh-release.conf:
+    src: usr/local/etc/gh-release.conf
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ gh_release_conf @@}}'
+  f_local_bin_gh-release:
+    src: usr/local/bin/gh-release
+    dst: /usr/local/bin/gh-release
+    chmod: 755
+
+dynvariables:
+  # This variable is used to differentiate between user and root configuration
+  # in some dotfiles.
+  #
+  # It needs to be defined here, rahter than in a shared variables files,
+  # because variables from external variables are not yet available when
+  # importing dotfiles.
+  user: '[ "$USER" = "root" ] && echo "root" || echo "user"'
+
+profiles:
+  # This profile holds the repository configuration for gh-release
+  gh-release:
+    dotfiles:
+    - d_devbox
+    - d_local_lib_sh
+    - d_nerd-fonts
+    - d_sheldon
+    - d_uv
+    - f_gh-release.conf
+    - f_local_bin_gh-release
+    import:
+    - ../../../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/gh-release.yaml:optional
+    actions:
+    - install-gh
+    - recursive-exec-permissions '/{{@@ gh_release_dir @@}}'
+
+variables:
+  # The base directory where the gh-release configuration for all the
+  # repositories is found
+  gh_release_dir: /usr/local/share/gh-release
+
+  # This is the path to the configuration file for gh-release. It's a variable
+  # because it's used in both the dotfile dst and the gh-release file itself.
+  gh_release_conf: /usr/local/etc/gh-release.conf

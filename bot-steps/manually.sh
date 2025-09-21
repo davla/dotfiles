@@ -95,6 +95,6 @@ mr --directory /opt --config /opt/.mrconfig install
 # GitHub releases-based installation
 ########################################
 
-print_info 'Install github-releases'
-dotdrop -U root install -p github-releases
+print_info 'Install gh-release'
+dotdrop -U root install -p gh-release
 sudo gh-release install

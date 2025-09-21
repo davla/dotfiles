@@ -19,8 +19,8 @@ case "$DISTRO" in
         sudo apt-get install bash bash-completion dash eza fasd thefuck zsh \
             xsel
 
-        print_info 'Install sheldon via github-releases'
-        dotdrop -U root install -p github-releases
+        print_info 'Install sheldon via gh-release'
+        dotdrop -U root install -p gh-release
         sudo gh-release install
         ;;
 esac

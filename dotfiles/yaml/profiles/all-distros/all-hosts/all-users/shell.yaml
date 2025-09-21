@@ -90,7 +90,7 @@ profiles:
     - d_zsh
     include:
     - sh
-    - '{{@@ zsh_github_release_include @@}}'
+    - '{{@@ zsh_gh_release_include @@}}'
     actions:
     - zsh
 
@@ -104,24 +104,24 @@ dynvariables:
   user: '[ "$USER" = "root" ] && echo "root" || echo "user"'
 
   # These variables define dynamic included profiles, mostly due to manual
-  # installation mechanisms (such as github-releases) that are necessary on
-  # Debian but not on Arch.
+  # installation mechanisms (such as gh-release) that are necessary on Debian
+  # but not on Arch.
   # For example, the zsh dotfiles need plugins to be installed not to crash,
   # and that requires sheldon. On Arch it's just installed as a system
-  # package, but on Debian we need github-releases to install it
+  # package, but on Debian we need gh-release to install it
   #
   # The variables need to be defined here, rather than in a distro-specific
   # variables files, because variables from external files are not yet
   # available when including profiles.
-  zsh_github_release_include: |-
+  zsh_gh_release_include: |-
     case "$DISTRO" in
         'arch')
             # This is just a placeholder, the profile doesn't exist
-            echo 'github-releases-empty'
+            echo 'gh-release-empty'
             ;;
 
         'debian')
-            echo 'github-releases'
+            echo 'gh-release'
             ;;
     esac
 

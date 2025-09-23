@@ -3,20 +3,15 @@
 # This script installs rust toolchains via rustup
 
 ########################################
-# Set rustup environment variables
-########################################
-
-{%@@ include 'etc/rustup-environment' @@%}
-
-########################################
 # Ensure rustup paths exist
 ########################################
 
-mkdir --parents "$RUSTUP_HOME"
+mkdir --parents "{{@@ rustup_home @@}}"
 
 ########################################
 # Install rust toolchain
 ########################################
 
 # rust-src is used by static analyzers
-rustup toolchain install stable --component rust-src
+env RUSTUP_HOME="{{@@ rustup_home @@}}" \
+    rustup toolchain install stable --component rust-src

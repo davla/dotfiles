@@ -1,11 +1,25 @@
 #!/usr/bin/env sh
 
 # This script is meant to execute actions after specific packages are installed
-# via APT. For the time being, it just sets some entries in the Debian
-# alternatives system.
+# via APT.
+#
+# {{@@ header() @@}}
 
 # This doesn't work if the script is sourced
 . "$(dirname "$0")/lib"
+
+########################################
+# Setup logging
+########################################
+
+. "{{@@ logger_path @@}}"
+logging_set_level 'info'
+logging_set_journald 'off'
+logging_set_tag 'on'
+
+#######################################
+# Functions
+#######################################
 
 # This function sets an alternative from the Debian alternative system. If the
 # alternatives group doesn't exist, it is created.
@@ -22,8 +36,7 @@ set_alternative() {
     # package fully unpacked on the system.
     SET_ALT_BIN_PATH="$(which "$SET_ALT_BIN_NAME")" || return 0
 
-    printf '\033[0;32m[INFO]\033[0m Add "%s" to "%s" alternatives.\n' \
-        "$SET_ALT_BIN_NAME" "$SET_ALT_GROUP_NAME"
+    log_info "Add '$SET_ALT_BIN_NAME' to '$SET_ALT_GROUP_NAME' alternatives"
     update-alternatives --install \
         "/usr/local/bin/$SET_ALT_GROUP_NAME" \
         "$SET_ALT_GROUP_NAME" \
@@ -33,6 +46,10 @@ set_alternative() {
 
     unset SET_ALT_GROUP_NAME SET_ALT_BIN_NAME SET_ALT_BIN_PATH
 }
+
+########################################
+# Main
+########################################
 
 case "$(apt_operation)" in
     'dist-upgrade'|'install'|'reinstall'|'upgrade')
@@ -47,7 +64,8 @@ case "$(apt_operation)" in
                     ;;
 
                 *docker-compose-plugin*)
-                    systemctl enable --now podman.socket
+                    log_info 'Enable podman daemon socket'
+                    systemctl enable podman.socket
                     ;;
 
                 *firefox-beta*)
@@ -55,8 +73,17 @@ case "$(apt_operation)" in
                     ;;
 
                 *podman-compose*)
+                    log_info 'Alias "docker-compose" as "podman-compose"'
                     which podman-compose | xargs -I '{}' ln --symbolic \
                         --force '{}' /usr/local/bin/docker-compose
+                    ;;
+
+                *rustup*)
+                    log_info 'Install rust-src toolchain via rustup'
+                    mkdir --parents "{{@@ rustup_home @@}}"
+                    # rust-src is used by static analyzers
+                    env RUSTUP_HOME="{{@@ rustup_home @@}}" \
+                        rustup toolchain install stable --component rust-src
                     ;;
             esac
         done

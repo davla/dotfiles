@@ -115,7 +115,7 @@ __logging_print() {
 # environment, so that they can be inherited by subprocesses.
 #
 # NOTE: The subprocesses still need to import the logging file to have access
-#       to the logging functionalitites. It's only the configuration that is
+#       to the logging functionalities. It's only the configuration that is
 #       inherited from the parent.
 logging_export_config() {
     export __LOGGING_COLOR __LOGGING_JOURNALD_PREFIXES \

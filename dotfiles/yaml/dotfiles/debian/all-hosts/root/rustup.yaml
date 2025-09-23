@@ -1,7 +1,0 @@
-%YAML 1.2
----
-# This dotfiles file contains the dotfiles related to rustup that are only
-# necessary for root on a Debian system.
-
-dotfiles:
-- f_sudo_secure-path

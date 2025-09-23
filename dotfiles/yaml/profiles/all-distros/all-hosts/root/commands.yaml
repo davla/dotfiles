@@ -131,10 +131,6 @@ dotfiles:
     src: usr/local/bin/paginate
     dst: /usr/local/bin/paginate
     chmod: 755
-  f_local_bin_rustup:
-    src: usr/local/bin/rustup
-    dst: /usr/local/bin/rustup
-    chmod: 755
   f_local_bin_signal-desktop:
     src: usr/local/bin/signal-desktop
     dst: /usr/local/bin/signal-desktop

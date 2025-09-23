@@ -14,8 +14,3 @@ variables:
   local_ip_addresses:
     raspberry: '192.168.0.3'
     router: '192.168.0.1'
-
-  # This variable defines the destination path of the sudo environment
-  # variables file. It's declared here because it's used in more than one
-  # profiles.
-  sudo_env_file_dst: /etc/sudo-env-file

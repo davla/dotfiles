@@ -219,9 +219,9 @@ dotfiles:
   f_i3_sway_systemd-session-watch.service:
     src: shared/i3-sway/systemd/systemd-session-watch.service
     dst: /etc/systemd/user/{{@@ wm_name @@}}-session-watch.service
-  f_i3blocks_github-releases-updates:
-    src: usr/lib/i3blocks/github-releases-updates
-    dst: /usr/lib/i3blocks/github-releases-updates
+  f_i3blocks_gh-release-updates:
+    src: usr/lib/i3blocks/gh-release-updates
+    dst: /usr/lib/i3blocks/gh-release-updates
     chmod: 755
   f_i3blocks_nmcli-connection-status:
     src: usr/lib/i3blocks/nmcli-connection-status
@@ -349,22 +349,22 @@ dotfiles:
 
 dynvariables:
   # This variable determines whether the "i3blocks" profile should include the
-  # "github-releases" profile. It is made necessary by the fact that manual
-  # installation mechanisms are only necessary on Debian, as in Arch there is
-  # usually an AUR package.
+  # "gh-releases" profile. It is made necessary by the fact that such type of
+  # manual installation mechanisms are only necessary on Debian, as on Arch
+  # there is usually an AUR package.
   #
   # The variable needs to be defined here, rather than in a distro-specific
   # variables files, because variables from external files are not yet
-  # available when including profiles. The '-empty' postfixed profile is just
-  # a placeholder and it doesn't actually exist.
-  i3blocks_github_releases_include: |-
+  # available when including profiles. The '-empty' postfixed profile is just a
+  # placeholder, and it doesn't actually exist.
+  i3_blocks_gh_release_include: |-
     case "$DISTRO" in
         'arch')
-            echo 'github-releases-empty'
+            echo 'gh-release-empty'
             ;;
 
         'debian')
-            echo 'github-releases'
+            echo 'gh-release'
             ;;
     esac
 
@@ -445,7 +445,7 @@ profiles:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/i3blocks.yaml:optional
     - yaml/dotfiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ env['DISPLAY_SERVER'] @@}}-i3blocks.yaml:optional
     include:
-    - '{{@@ i3blocks_github_releases_include @@}}'
+    - '{{@@ i3_blocks_gh_release_include @@}}'
 
   # This profile holds dotfiles used to install software manually, that is
   # without the aid of a package manager
@@ -453,7 +453,7 @@ profiles:
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/manual.yaml:optional
     include:
-    - github-releases
+    - gh-release
 
   # This profile contains network-related configuration files
   network:

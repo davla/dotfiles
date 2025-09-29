@@ -1,0 +1,32 @@
+#!/usr/bin/env sh
+
+# This script installs uv to a system location. It is meant to be used via the
+# gh-release command.
+#
+# Arguments:
+#   - $1: The GitHub repository name the software is installed from
+#   - $2: The GitHub release tag containing the artifacts to install
+#
+# {{@@ header() @@}}
+
+set -e
+
+#######################################
+# Libraries includes
+#######################################
+
+. "{{@@ gh_release_path @@}}"
+
+########################################
+# Input processing
+########################################
+
+GITHUB_REPO="$1"
+RELEASE_TAG="$2"
+
+########################################
+# Main
+########################################
+
+RELEASE_TAR_GLOB="*$(cpu_arch)*linux*gnu*.tar.gz"
+install_github_release_tar "$GITHUB_REPO" "$RELEASE_TAG" "$RELEASE_TAR_GLOB"

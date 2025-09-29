@@ -6,5 +6,5 @@
 
 dotfiles:
 - f_80i3blocks
-- f_i3blocks_github-releases-updates
+- f_i3blocks_gh-release-updates
 - f_i3blocks_nmcli-connection-status

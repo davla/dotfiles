@@ -1,2 +1,2 @@
 # The Bitwarden clients repository has different releases for each client type
-map(select(.tag_name | startswith("desktop"))) | first
+map(select(.tagName | startswith("desktop")))

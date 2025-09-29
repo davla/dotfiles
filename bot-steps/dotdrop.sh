@@ -23,7 +23,7 @@ case "$DISTRO" in
 
     'debian')
         which uv > /dev/null 2>&1 ||
-            # Quick-and-dirty uv installation. github-releases will take over
+            # Quick-and-dirty uv installation. GitHub releases will take over
             # once provisioning is complete
             uname --machine | xargs -I '{}' wget --quiet --output-document - \
                     'https://github.com/astral-sh/uv/releases/latest/download/uv-{}-unknown-linux-gnu.tar.gz' \

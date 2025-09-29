@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 # This script is meant as an i3blocks blocklet. It displays the number of
-# upgradable packages via github-releases with pango markup.
+# upgradable packages via gh-release with pango markup.
 #
 # Options:
 #   -0|--no-updates-color COLOR     The color of the number of upgrades when

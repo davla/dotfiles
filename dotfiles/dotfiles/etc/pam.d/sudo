@@ -1,0 +1,4 @@
+# {{@@ pam_sudo_append_marker @@}}
+#
+# {{@@ header() @@}}
+session    required     pam_env.so

@@ -273,6 +273,14 @@ dotfiles:
     actions:
     - _strip '{{@@ pam_login_append_marker @@}}' '{{@@ pam_login_dst @@}}'
     - _append '{{@@ pam_login_dst @@}}' '{{@@ startup_tmp_dst @@}}'
+  f_pam.d_sudo:
+    src: etc/pam.d/sudo
+    # Dynamic path since the dotfile content is appended to dst
+    dst: '{{@@ environment_tmp_dst @@}}'
+    chmod: 600
+    actions:
+    - _strip '{{@@ pam_sudo_append_marker @@}}' '{{@@ pam_sudo_dst @@}}'
+    - _append '{{@@ pam_sudo_dst @@}}' '{{@@ environment_tmp_dst @@}}'
   f_pam_env.conf:
     src: etc/security/pam_env.conf
     # Dynamic path since the dotfile content is appended to dst
@@ -382,6 +390,7 @@ profiles:
   environment:
     dotfiles:
     - f_pam_env.conf
+    - f_pam.d_sudo
     actions:
     - environment
     - _rm '{{@@ environment_tmp_dst @@}}'
@@ -390,7 +399,9 @@ profiles:
     variables:
       pam_env_conf_append_marker: >-
         PAM environment file for user environment variables
+      pam_sudo_append_marker: Load PAM environment variables
       pam_env_conf_dst: /etc/security/pam_env.conf
+      pam_sudo_dst: /etc/pam.d/sudo
 
   # This profile groups dotfiles used to configure login from a getty
   getty-login:

@@ -12,4 +12,4 @@ Type = Package
 [Action]
 Description = Installing rust toolchain
 When = PostTransaction
-Exec = {{@@ install_rust_toolchain_path @@}}
+Exec = {{@@ rustup_setup_path @@}}

@@ -51,9 +51,9 @@ dotfiles:
     dst: '{{@@ clean_package_cache_path @@}}'
     chmod: 755
   f_pacman_hooks.bin_install-rust-toolchain:
-    src: usr/local/share/pacman/hooks.bin/install-rust-toolchain
+    src: usr/local/share/pacman/hooks.bin/rustup-setup
     # Dynamic path as it's used somewhere else too
-    dst: '{{@@ install_rust_toolchain_path @@}}'
+    dst: '{{@@ rustup_setup_path @@}}'
     chmod: 755
   f_pacman_hooks.bin_nordvpn-setup:
     src: usr/local/share/pacman/hooks.bin/nordvpn-setup
@@ -90,8 +90,8 @@ profiles:
     variables:
       pacman_hook_bin_path: /usr/local/share/pacman/hooks.bin
       clean_package_cache_path: '{{@@ pacman_hook_bin_path @@}}/clean-package-cache'
-      install_rust_toolchain_path: '{{@@ pacman_hook_bin_path @@}}/install-rust-toolchain'
       nordvpn_setup_path: '{{@@ pacman_hook_bin_path @@}}/nordvpn-setup'
+      rustup_setup_path: '{{@@ pacman_hook_bin_path @@}}/rustup-setup'
       pacman_conf_append_marker: Custom configuration
       pacman_conf_dst: /etc/pacman.conf
       pacman_ignore_path: /etc/pacman.d/ignore

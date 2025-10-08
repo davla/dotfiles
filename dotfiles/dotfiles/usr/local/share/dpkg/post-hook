@@ -79,10 +79,12 @@ case "$(apt_operation)" in
                     ;;
 
                 *rustup*)
-                    log_info 'Install rust-src toolchain via rustup'
-                    mkdir --parents "{{@@ rustup_home @@}}"
+                    log_info 'Install stable toolchain via rustup'
+                    mkdir --parents '{{@@ rustup_home @@}}/tmp'
+                    # Allow non-root users to check for toolchain updates
+                    chmod a+w '{{@@ rustup_home @@}}/tmp'
                     # rust-src is used by static analyzers
-                    env RUSTUP_HOME="{{@@ rustup_home @@}}" \
+                    env RUSTUP_HOME='{{@@ rustup_home @@}}' \
                         rustup toolchain install stable --component rust-src
                     ;;
             esac

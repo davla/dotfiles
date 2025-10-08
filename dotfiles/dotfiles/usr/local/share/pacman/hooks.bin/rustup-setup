@@ -1,17 +1,19 @@
 #!/usr/bin/env sh
 
-# This script installs rust toolchains via rustup
+# This script installs rust toolchains via rustup and allows non-root users to
+# check for new toolchain versions
 
 ########################################
-# Ensure rustup paths exist
+# Allow non-root update
 ########################################
 
-mkdir --parents "{{@@ rustup_home @@}}"
+mkdir --parents '{{@@ rustup_home @@}}/tmp'
+chmod a+w '{{@@ rustup_home @@}}/tmp'
 
 ########################################
 # Install rust toolchain
 ########################################
 
 # rust-src is used by static analyzers
-env RUSTUP_HOME="{{@@ rustup_home @@}}" \
+env RUSTUP_HOME='{{@@ rustup_home @@}}' \
     rustup toolchain install stable --component rust-src

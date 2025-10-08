@@ -73,7 +73,7 @@ case "$(apt_operation)" in
 
                 *rustup*)
                     log_info 'Remove all rust toolchains'
-                    rm --force --recursive "{{@@ rustup_home @@}}"
+                    rm --force --recursive '{{@@ rustup_home @@}}'
                     ;;
             esac
         done

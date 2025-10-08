@@ -17,12 +17,6 @@ source "{{@@ shell_dirs_file | home_abs2var @@}}"
 
 source "$SDOTDIR/shenv"
 
-######################################
-# Defining Environment variables
-######################################
-
-export ANTIBODY_HOME="$ZDOTDIR/.antibody"
-
 #######################################
 # Loading aliases
 #######################################

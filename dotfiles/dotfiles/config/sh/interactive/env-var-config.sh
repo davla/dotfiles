@@ -14,14 +14,6 @@
 export CDPATH="{{@@ ['.', code_root, cd_path ] | select('defined')
     | map('tilde2home') | join(':') @@}}"
 
-#######################################
-# eza / ls
-#######################################
-
-{%@@ set eza_colors = join_file_lines(dotfiles_dir + 'eza_colors',
-    separator = ':', skip_marker = '#') @@%}
-export EZA_COLORS='{{@@ eza_colors @@}}' LS_COLORS='{{@@ eza_colors @@}}'
-
 ########################################
 # grep
 ########################################
@@ -41,6 +33,10 @@ export JQ_COLORS='{{@@ join_file_lines(dotfiles_dir + 'jq_colors',
 ########################################
 
 export LESS='--chop-long-lines --RAW-CONTROL-CHARS'
+
+# Render UTF-8 characters
+export LESSCHARSET='utf-8'
+export LESSUTFCHARDEF='e000-f8ff:p,f0001-fffff:p'
 
 ########################################
 # unzip

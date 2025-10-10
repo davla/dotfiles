@@ -1,0 +1,184 @@
+# eza theme file
+#
+# {{@@ header() @@}}
+
+{#@@ Color hexes -@@#}
+{%@@- set blue = '#0071FF' -@@%}
+{%@@- set dark_green = '#00B000' -@@%}
+{%@@- set light_blue = '#1EF2FF' -@@%}
+{%@@- set light_green = '#00EA00' -@@%}
+{%@@- set orange = '#FF5500' -@@%}
+{%@@- set purple = '#CE51FF' -@@%}
+{%@@- set red = '#CD0000' -@@%}
+{%@@- set yellow = '#EDD400' -@@%}
+
+{#@@- Semantic colors -@@#}
+{%@@- set directory = light_blue -@@%}
+{%@@- set error = red -@@%}
+{%@@- set execute = dark_green -@@%}
+{%@@- set read = yellow -@@%}
+{%@@- set root = light_green -@@%}
+{%@@- set special = red -@@%}
+{%@@- set sticky = light_blue -@@%}
+{%@@- set write = orange -@@%}
+{%@@- set you = orange -@@%}
+
+{%@@- macro color(hex) -@@%}
+
+{ foreground: '{{@@ hex @@}}', is_bold: false }
+
+{%@@- endmacro -@@%}
+
+{%@@- macro file(hex, icon) -@@%}
+
+{ icon: { glyph: '{{@@ icon @@}}', style: {{@@ color(hex) @@}} } }
+
+{%@@- endmacro -@@%}
+
+colourful: true
+
+broken_symlink: {{@@ color(error) @@}}
+
+date: {{@@ color(yellow) @@}}
+
+extensions:
+  {%@@ for ext in ['c', 'h'] @@%}
+  {{@@ ext @@}}: {{@@ file(light_blue, '') @@}}
+  {%@@ endfor @@%}
+  cmake: {{@@ file(light_blue, '') @@}}
+  clj: {{@@ file(light_green, '') @@}}
+  {%@@ for ext in ['cc', 'cxx', 'cpp', 'hh', 'hpp', 'hxx'] @@%}
+  {{@@ ext @@}}: {{@@ file(light_blue, '') @@}}
+  {%@@ endfor @@%}
+  cs: {{@@ file(purple, '') @@}}
+  css: {{@@ file(blue, '') @@}}
+  {%@@ for ext in ['csproj', 'proj', 'sln'] @@%}
+  {{@@ ext @@}}: {{@@ file(purple, '󰪮') @@}}
+  {%@@ endfor @@%}
+  {%@@ for ext in ['erl', 'hrl'] @@%}
+  {{@@ ext @@}}: {{@@ file(dark_green, '') @@}}
+  {%@@ endfor @@%}
+  {%@@ for ext in ['ex', 'exs'] @@%}
+  {{@@ ext @@}}: {{@@ file(purple, '') @@}}
+  {%@@ endfor @@%}
+  fs: {{@@ file(purple, '') @@}}
+  go: {{@@ file(light_blue, '') @@}}
+  gradle: {{@@ file(dark_green, '') @@}}
+  {%@@ for ext in ['groovy', 'gvy', 'gy'] @@%}
+  {{@@ ext @@}}: {{@@ file(dark_green, '') @@}}
+  {%@@ endfor @@%}
+  hs: {{@@ file(blue, '') @@}}
+  {%@@ for ext in ['htm', 'html'] @@%}
+  {{@@ ext @@}}: {{@@ file(orange, '') @@}}
+  {%@@ endfor @@%}
+  {%@@ for ext in ['ini', 'conf'] @@%}
+  {{@@ ext @@}}: {{@@ file(orange, '') @@}}
+  {%@@ endfor @@%}
+  java: {{@@ file(red, '') @@}}
+  js: {{@@ file(yellow, '') @@}}
+  {%@@ for ext in ['json', 'jsonc', 'jsonl'] @@%}
+  {{@@ ext @@}}: {{@@ file(orange, '') @@}}
+  {%@@ endfor @@%}
+  kt: {{@@ file(orange, '') @@}}
+  {%@@ for ext in ['cl', 'l', 'lisp', 'lsp'] @@%}
+  {{@@ ext @@}}: {{@@ file(dark_green, '') @@}}
+  {%@@ endfor @@%}
+  lua: {{@@ file(blue, '') @@}}
+  {%@@ for ext in ['m', 'mm'] @@%}
+  {{@@ ext @@}}: {{@@ file(light_blue, '') @@}}
+  {%@@ endfor @@%}
+  ml: {{@@ file(blue, '') @@}}
+  php: {{@@ file(blue, '') @@}}
+  pl: {{@@ file(dark_green, '') @@}}
+  py: {{@@ file(yellow, '') @@}}
+  rb: {{@@ file(red, '') @@}}
+  rs: {{@@ file(red, '󱘗') @@}}
+  {%@@ for ext in ['sass', 'scss'] @@%}
+  {{@@ ext @@}}: {{@@ file(purple, '') @@}}
+  {%@@ endfor @@%}
+  {%@@ for ext in ['sbt', 'scala'] @@%}
+  {{@@ ext @@}}: {{@@ file(red, '') @@}}
+  {%@@ endfor @@%}
+  service: {{@@ file(dark_green, '󰇴') @@}}
+  {%@@ for ext in ['sh', 'shellcheckrc', 'zsh'] @@%}
+  {{@@ ext @@}}: {{@@ file(orange, '') @@}}
+  {%@@ endfor @@%}
+  sock: { icon: { glyph: '󰟥' } }
+  sql: {{@@ file(blue, '') @@}}
+  swift: {{@@ file(orange, '') @@}}
+  target: {{@@ file(dark_green, '󰓾') @@}}
+  timer: {{@@ file(dark_green, '') @@}}
+  toml: {{@@ file(orange, '') @@}}
+  ts: {{@@ file(blue, '') @@}}
+  vb: {{@@ file(purple, '') @@}}
+  xml: {{@@ file(dark_green, '󰗀') @@}}
+  {%@@ for ext in ['yaml', 'yml'] @@%}
+  {{@@ ext @@}}: {{@@ file(red, '') @@}}
+  {%@@ endfor @@%}
+
+filenames:
+  {%@@ for ext in ['lock', 'toml'] @@%}
+  Cargo.{{@@ ext @@}}: {{@@ file(red, '󱘗') @@}}
+  {%@@ endfor @@%}
+  CMakeLists.txt: {{@@ file(light_blue, '') @@}}
+  {%@@ for file_name in ['.devbox', 'devbox.json', 'devbox.lock'] @@%}
+  {{@@ file_name @@}}: {{@@ file(blue, '󱄅') @@}}
+  {%@@ endfor @@%}
+  {%@@ for file_name in ['Dockerfile', 'docker-compose.yaml', 'docker-compose.yml'] @@%}
+  {{@@ file_name @@}}: {{@@ file(light_blue, '') @@}}
+  {%@@ endfor @@%}
+  Gemfile: {{@@ file(red, '') @@}}
+  .idea: {{@@ file(red, '') @@}}
+  Makefile: {{@@ file(light_blue, '') @@}}
+  {%@@ for file_name in ['package-lock.json', 'package.json', 'pnpm-lock.yaml', 'yarn.lock'] @@%}
+  {{@@ file_name @@}}: {{@@ file(dark_green, '') @@}}
+  {%@@ endfor @@%}
+  {%@@ for file_name in ['Pipfile', 'Pipfile.lock', 'poetry.lock', 'pyproject.toml', 'requirements.txt', 'setup.cfg', 'uv.lock', '.venv'] @@%}
+  {{@@ file_name @@}}: {{@@ file(yellow, '') @@}}
+  {%@@ endfor @@%}
+  .vs: {{@@ file(purple, '') @@}}
+  .vscode: {{@@ file(blue, '') @@}}
+
+filekinds:
+  block_device: {{@@ color(special) @@}}
+  char_device: {{@@ color(special) @@}}
+  execute: {{@@ color(execute) @@}}
+  normal: {{@@ color(orange) @@}}
+  directory: {{@@ color(directory) @@}}
+  symlink: {{@@ color(light_green) @@}}
+  socket: {{@@ color(special) @@}}
+
+perms:
+  user_read: {{@@ color(read) @@}}
+  user_write: {{@@ color(write) @@}}
+  user_execute_file: {{@@ color(execute) @@}}
+  user_execute_other: {{@@ color(execute) @@}}
+  group_read: {{@@ color(read) @@}}
+  group_write: {{@@ color(write) @@}}
+  group_execute: {{@@ color(execute) @@}}
+  other_read: {{@@ color(read) @@}}
+  other_write: {{@@ color(write) @@}}
+  other_execute: {{@@ color(execute) @@}}
+  special_user_file: {{@@ color(sticky) @@}}
+  special_other: {{@@ color(sticky) @@}}
+
+size:
+  {%@@ set units = ['byte', 'kilo', 'mega', 'giga', 'huge'] -@@%}
+
+  {%@@- for unit in units @@%}
+  number_{{@@ unit @@}}: {{@@ color(light_green) @@}}
+  {%@@ endfor -@@%}
+
+  {%@@- for unit in units @@%}
+  unit_{{@@ unit @@}}: {{@@ color(dark_green) @@}}
+  {%@@ endfor @@%}
+
+symlink_path: {{@@ color(directory) @@}}
+
+users:
+  group_other: { prefix_with_reset: true, is_bold: false }
+  group_root: {{@@ color(root) @@}}
+  group_yours: {{@@ color(you) @@}}
+  user_other: { prefix_with_reset: true, is_bold: false }
+  user_root: {{@@ color(root) @@}}
+  user_you: {{@@ color(you) @@}}

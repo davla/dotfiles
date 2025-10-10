@@ -215,6 +215,9 @@ dotfiles:
     dst: '{{@@ xdg_config("editorconfig") @@}}'
     actions:
     - link '{{@@ _dotfile_abs_dst @@}}' '$HOME/.editorconfig'
+  f_eza_theme.yml:
+    src: config/eza/theme.yml
+    dst: '{{@@ xdg_config("eza/theme.yml") @@}}'
   f_fonts.conf:
     src: config/fontconfig/fonts.conf
     dst: '{{@@ xdg_config("fontconfig/fonts.conf") @@}}'
@@ -399,6 +402,7 @@ profiles:
     dotfiles:
     - d_bat
     - f_editorconfig
+    - f_eza_theme.yml
     - f_vimrc
     import:
     - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional

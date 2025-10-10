@@ -8,5 +8,5 @@
 #   - $@: eza options to be added to the present ones, including the directory
 #         to be listed. Optional.
 
-exa --all --binary --header --long --sort type --color-scale --color always \
-    "$@" | paginate
+eza --all --binary --color-scale --color always --header --icons always \
+    --long --sort type "$@" | paginate

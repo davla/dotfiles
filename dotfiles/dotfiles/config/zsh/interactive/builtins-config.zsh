@@ -12,7 +12,8 @@ setopt AUTO_LIST AUTO_PARAM_SLASH AUTO_REMOVE_SLASH CD_SILENT \
 unsetopt AUTO_NAME_DIRS COMPLETE_ALIASES LIST_BEEP
 
 # Main
-zstyle ':completion:*' completer _expand _complete _correct _approximate _prefix
+zstyle ':completion:*' completer _expand _complete _correct _approximate \
+    _prefix
 zstyle ':completion:*' menu select search
 zstyle ':completion:*' use-compctl false
 zstyle ':completion:*' verbose true
@@ -36,12 +37,17 @@ zstyle ':completion:*' use-cache on
 
 # Colors
 zstyle ':completion:*' list-colors ''
-zstyle ':completion:*:default' list-colors ${(s.:.)EZA_COLORS} 'ma=38;5;250;100'
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+zstyle ':completion:*:default' list-colors 'bd=38;5;160' 'cd=38;5;160' \
+    'di=38;5;51' 'ex=38;5;34' 'fi=38;5;208' 'ln=38;5;155' 'or=38;5;160' \
+    'pi=38;5;160' 'so=38;5;160' 'ma=38;5;250;100'
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' \
+    'r:|[._-]=* r:|=* l:|=*'
 
 # Grouping
-zstyle ':completion:*:*:-command-:*:*' group-order alias builtins functions commands
-zstyle ':completion:*:*:*:*:corrections' format '%F{227}??? %d (errors: %e) ???%f'
+zstyle ':completion:*:*:-command-:*:*' group-order alias builtins functions \
+    commands
+zstyle ':completion:*:*:*:*:corrections' format \
+    '%F{227}??? %d (errors: %e) ???%f'
 zstyle ':completion:*:*:*:*:descriptions' format '%F{208}--- %d ---%f'
 zstyle ':completion:*:messages' format ' %F{34}+++ %d +++%f'
 zstyle ':completion:*:warnings' format ' %F{160}!!! no matches found !!!%f'
@@ -50,9 +56,12 @@ zstyle ':completion:*' group-name ''
 zstyle ':completion:*' list-grouped true
 
 # Specific commands
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
-zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
-zstyle ':completion:*:kill:*' command 'ps --user $USER -o pid,%cpu,tty,cputime,cmd'
+zstyle ':completion:*:*:kill:*:processes' list-colors \
+    '=(#b) #([0-9]#)*=0=01;31'
+zstyle ':completion:*:cd:*' tag-order local-directories directory-stack \
+    path-directories
+zstyle ':completion:*:kill:*' command \
+    'ps --user $USER -o pid,%cpu,tty,cputime,cmd'
 
 # Prompts
 zstyle ':completion:*:default' list-prompt %SAt %p: TAB to scroll, or continue searching

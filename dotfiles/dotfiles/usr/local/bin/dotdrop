@@ -81,8 +81,8 @@ case "$WHO" in
         if [ "$USER" = 'root' ]; then
             devbox run dotdrop "$CMD" --cfg 'config-root.yaml' "${ARGS[@]}"
         else
-            sudo --set-home --preserve-env="$DOTFILES_ENV_VARS" \
-                devbox run dotdrop "$CMD" --cfg 'config-root.yaml' "${ARGS[@]}"
+            devbox run sudo-dotdrop "$CMD" --cfg 'config-root.yaml' \
+                "${ARGS[@]}"
         fi
         ;;
 esac

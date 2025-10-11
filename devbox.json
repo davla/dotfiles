@@ -9,7 +9,18 @@
   },
   "shell": {
     "scripts": {
-      "dotdrop": ". ./.dotfiles-env && cd dotfiles && uv run dotdrop $@"
+      "dotdrop": [
+        ". ./.dotfiles-env",
+        "cd dotfiles > /dev/null",
+        "sudo --set-home --preserve-env=\"$DOTFILES_ENV_VARS\" \\",
+        "    --user \"$USER\" uv run dotdrop $@"
+      ],
+      "sudo-dotdrop": [
+        ". ./.dotfiles-env",
+        "cd dotfiles > /dev/null",
+        "sudo --set-home --preserve-env=\"$DOTFILES_ENV_VARS\" \\",
+        "    uv run dotdrop $@"
+      ]
     }
   }
 }

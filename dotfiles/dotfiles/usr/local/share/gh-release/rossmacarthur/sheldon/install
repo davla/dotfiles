@@ -31,3 +31,6 @@ RELEASE_TAG="$2"
 RELEASE_TAR_GLOB="*$(cpu_arch)*linux*.tar.gz"
 install_github_release_tar "$GITHUB_REPO" "$RELEASE_TAG" "$RELEASE_TAR_GLOB" \
     'sheldon'
+
+sheldon completions --shell bash | install_bash_completion "$GITHUB_REPO"
+sheldon completions --shell zsh | install_zsh_completion "$GITHUB_REPO"

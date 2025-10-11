@@ -98,7 +98,6 @@ Configuration files for my Linux systems
 ![[°o°]][ok-face]     Move shell functions and aliases to separate executables.  
 ![[°o°]][ok-face]     Refresh shell completions/cache as hooks for
                       plugin/package updates.  
-![[°o°]][ok-face]     Add `dotdrop`, `sheldon` and more shell autocompletion.  
 ![[^_^]][prompt-face] Setup keyboard shortcuts for bluez.  
 ![[^_^]][prompt-face] Prevent `dotnet` crypto stuff from showing up in `$HOME`.  
 ![[^_^]][prompt-face] Allow logger colors with no tags.  

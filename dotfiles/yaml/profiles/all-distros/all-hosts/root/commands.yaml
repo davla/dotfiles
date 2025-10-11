@@ -5,6 +5,8 @@
 
 actions:
   post:
+    dotdrop-completion: sh actions/dotdrop-completion.sh '{0}'
+
     # pip from $PATH is from devbox, not the system's
     pip_install_editable: >-
       /usr/bin/pip install --break-system-packages --editable '{0}'
@@ -94,6 +96,8 @@ dotfiles:
     src: usr/local/bin/dotdrop
     dst: /usr/local/bin/dotdrop
     chmod: 755
+    actions:
+    - dotdrop-completion '{{@@ dirname(dirname(_dotdrop_dotpath)) @@}}'
   f_local_bin_explore:
     src: usr/local/bin/explore
     dst: /usr/local/bin/explore

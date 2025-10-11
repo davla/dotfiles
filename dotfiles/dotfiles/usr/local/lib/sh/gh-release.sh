@@ -12,6 +12,13 @@
 . "{{@@ logger_path @@}}"
 
 ########################################
+# Variables
+########################################
+
+BASH_COMPLETIONS_DIR='/usr/local/share/bash-completion/completions'
+ZSH_COMPLETIONS_DIR='/usr/local/share/zsh/site-functions'
+
+########################################
 # Functions
 ########################################
 
@@ -132,4 +139,40 @@ install_github_release_deb() {
 
     unset GH_RELEASE_DEB__GLOB GH_RELEASE_DEB__PACKAGE GH_RELEASE_DEB__REPO \
         GH_RELEASE_DEB__TAG GH_RELEASE_DEB__TMP_DEB
+}
+
+# This function installs a bash completion file received via STDIN.
+#
+# Inputs:
+#   - STDIN: The content of the bash completion.
+#   - $1: The name for the completion file. If it's a path, only the base name
+#         is used.
+install_bash_completion() {
+    GH_RELEASE_BASH__COMP_FILE="$(basename "$1")"
+
+    log_info "Install bash completion for $GH_RELEASE_BASH__COMP_FILE"
+    mkdir --parents "$BASH_COMPLETIONS_DIR"
+    GH_RELEASE_BASH__OUT="$BASH_COMPLETIONS_DIR/$GH_RELEASE_BASH__COMP_FILE"
+    log_debug "Write bash completion at $GH_RELEASE_BASH__OUT"
+    cat > "$GH_RELEASE_BASH__OUT"
+
+    unset GH_RELEASE_BASH__COMP_FILE GH_RELEASE_BASH__OUT
+}
+
+# This function installs a zsh completion file received via STDIN.
+#
+# Inputs:
+#   - STDIN: The content of the zsh completion.
+#   - $1: The name for the completion file. If it's a path, only the base name
+#         is used. An '_' prefix is added if not already present.
+install_zsh_completion() {
+    GH_RELEASE_ZSH__COMP_FILE="$(basename "$1")"
+
+    log_info "Install zsh completion for $GH_RELEASE_ZSH__COMP_FILE"
+    mkdir --parents "$ZSH_COMPLETIONS_DIR"
+    GH_RELEASE_ZSH__OUT="$ZSH_COMPLETIONS_DIR/_${GH_RELEASE_ZSH__COMP_FILE##_}"
+    log_debug "Write zsh completion at $GH_RELEASE_ZSH__OUT"
+    cat > "$GH_RELEASE_ZSH__OUT"
+
+    unset GH_RELEASE_ZSH__COMP_FILE GH_RELEASE_ZSH__OUT
 }

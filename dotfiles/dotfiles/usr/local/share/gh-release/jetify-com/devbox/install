@@ -30,3 +30,6 @@ RELEASE_TAG="$2"
 
 RELEASE_TAR_GLOB="*linux*$(cpu_arch 'amd64')*.tar.gz"
 install_github_release_tar "$GITHUB_REPO" "$RELEASE_TAG" "$RELEASE_TAR_GLOB"
+
+devbox completion bash | install_bash_completion "$GITHUB_REPO"
+devbox completion zsh | install_zsh_completion "$GITHUB_REPO"

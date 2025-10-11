@@ -30,3 +30,6 @@ RELEASE_TAG="$2"
 
 RELEASE_TAR_GLOB="*$(cpu_arch)*linux*gnu*.tar.gz"
 install_github_release_tar "$GITHUB_REPO" "$RELEASE_TAG" "$RELEASE_TAR_GLOB"
+
+uv generate-shell-completion bash | install_bash_completion "$GITHUB_REPO"
+uv generate-shell-completion zsh | install_zsh_completion "$GITHUB_REPO"

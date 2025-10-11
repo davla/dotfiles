@@ -13,9 +13,9 @@
         "cursor-blink": false,
         "cursor-size": "{{@@ cursor_size @@}}",
         "cursor-theme": "{{@@ cursor_theme @@}}",
-        "font-name": "{{@@ font @@}}",
+        "font-name": "{{@@ font.normal.name @@}}",
         "gtk-theme": "{{@@ theme @@}}",
         "icon-theme": "{{@@ icon_theme @@}}",
-        "monospace-font-name": "DejaVuSansMono"
+        "monospace-font-name": "{{@@ font.monospace.name @@}}"
     }
 }

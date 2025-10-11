@@ -23,7 +23,7 @@
 
 layer=overlay
 anchor=top-right
-font={{@@ font @@}}
+font={{@@ font.normal.name @@}}
 background-color={{@@ opacify(background_color) @@}}
 text-color={{@@ opacify(text_color) @@}}
 width={{@@ notification_width @@}}

@@ -28,7 +28,7 @@
   "editor.find.autoFindInSelection": "multiline",
   "editor.folding": false,
   "editor.foldingHighlight": false,
-  "editor.fontFamily": "{{@@ font_monospace @@}}, 'monospace', monospace",
+  "editor.fontFamily": "{{@@ font.monospace.family @@}}, 'monospace', monospace",
   "editor.fontSize": 15,
   "editor.guides.bracketPairs": "active",
   "editor.matchBrackets": "never",

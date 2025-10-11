@@ -26,9 +26,9 @@ set $term {{@@ terminal @@}}
 #######################################
 
 {%@@ if on_wayland @@%}
-set $font {{@@ font @@}}
+set $font {{@@ font.normal.name @@}}
 {%@@ else @@%}
-set_from_resource $font Gtk.FontName {{@@ font @@}}
+set_from_resource $font Gtk.FontName {{@@ font.normal.name @@}}
 {%@@ endif @@%}
 font pango:$font
 

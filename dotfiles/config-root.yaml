@@ -193,6 +193,12 @@ dotfiles:
     dst: '{{@@ ddclient_dst_path @@}}'
     actions:
     - ddclient '{{@@ _dotfile_abs_dst @@}}'
+  f_dotnet_bash_completion:
+    src: usr/local/share/bash-completion/completions/dotnet
+    dst: /usr/local/share/bash-completion/completions/dotnet
+  f_dotnet_zsh_completion:
+    src: usr/local/share/zsh/site-functions/_dotnet
+    dst: /usr/local/share/zsh/site-functions/_dotnet
   f_etc_zshrc:
     src: etc/zsh/zshrc
     # Dynamic path since the dotfile content is appended to dst

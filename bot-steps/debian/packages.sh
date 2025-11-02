@@ -47,10 +47,11 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
     case "$HOST" in
         'personal')
             print_info "Install GUI packages for $HOST"
-            apt-get install asunder blueman brasero calibre caprine dropbox \
-                gimp gufw handbrake-gtk libreoffice-calc libreoffice-impress \
+            apt-get install blueman brasero calibre caprine dropbox gimp gufw \
+                handbrake-gtk libreoffice-calc libreoffice-impress \
                 libreoffice-writer kid3 remmina simple-scan soundconverter \
-                system-config-printer thunderbird transmission-gtk vlc
+                sound-juicer system-config-printer thunderbird \
+                transmission-gtk vlc
                 ;;
     esac
 

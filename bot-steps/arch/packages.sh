@@ -75,13 +75,13 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
     case "$HOST" in
         'personal')
             print_info "Install GUI packages for $HOST"
-            sudo --user "$USER_NAME" yay -S --needed alacritty asunder atril \
-                baobab bitwarden blueman brasero calibre caprine \
+            sudo --user "$USER_NAME" yay -S --needed alacritty atril baobab \
+                bitwarden blueman brasero calibre caprine \
                 docker-credential-secretservice-bin firefox-beta-bin geany \
                 gnome-disk-utility gnome-keyring gufw handbrake kid3 \
                 libreoffice-still mpv remmina seahorse simple-scan \
-                soundconverter spotify telegram-desktop thunderbird \
-                transmission-gtk visual-studio-code-insiders-bin
+                soundconverter sound-juicer spotify telegram-desktop \
+                thunderbird transmission-gtk visual-studio-code-insiders-bin
             ;;
     esac
 

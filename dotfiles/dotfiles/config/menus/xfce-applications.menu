@@ -187,13 +187,13 @@
       <Category>Video</Category>
     </Include>
     <Layout>
-      <Filename>asunder.desktop</Filename>
       <Filename>brasero.desktop</Filename>
       <Filename>camorama.desktop</Filename>
       <Filename>fr.handbrake.ghb.desktop</Filename>
       <Filename>net.sourceforge.kid3.desktop</Filename>
       <Filename>gtk-recordmydesktop.desktop</Filename>
       <Filename>soundconverter.desktop</Filename>
+      <Filename>sound-juicer.desktop</Filename>
       <Filename>spotify.desktop</Filename>
       <Filename>tuxguitar.desktop</Filename>
       <Filename>vlc.desktop</Filename>

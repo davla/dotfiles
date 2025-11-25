@@ -1,7 +1,0 @@
-%YAML 1.2
----
-# This dotfiles file lists the apt sources dotfiles to be included in the
-# "packages" profile on Debian only on my work machine
-
-dotfiles:
-- f_microsoft-prod.sources

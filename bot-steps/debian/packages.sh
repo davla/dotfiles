@@ -161,6 +161,13 @@ if [ "$HOST" = 'work' ]; then
             | xargs -I "{}" \
                 podman context create podman --docker "host=unix://{}";
         podman context use podman
+
+        DOCKER_CONFIG="$HOME/.docker/config.json"
+        [ -f "$DOCKER_CONFIG" ] || {
+            dirname "$DOCKER_CONFIG" | xargs mkdir --parents
+            ln --symbolic --force "$HOME/.config/containers/auth.json"
+                "$DOCKER_CONFIG"
+        }
     '
 fi
 

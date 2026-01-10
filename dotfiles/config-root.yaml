@@ -539,7 +539,6 @@ profiles:
     - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/i3-sway.yaml:optional
     include:
     - i3blocks
-    - wayland-wrappers
     variables:
       wm_name: sway
 

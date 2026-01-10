@@ -1,7 +1,0 @@
-{#@@
-    This electron Wayland shim has a dedicated file because the file name and
-    the actual executable don't match. In fact, we use the "code" file to
-    execute "code-insiders".
-@@#}
-{%@@ set executable = 'code-insiders' @@%}
-{%@@ include 'usr/local/bin/electron-wayland' @@%}

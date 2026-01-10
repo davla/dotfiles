@@ -76,7 +76,7 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
         'personal')
             print_info "Install GUI packages for $HOST"
             sudo --user "$USER_NAME" yay -S --needed alacritty atril baobab \
-                bitwarden blueman brasero calibre caprine \
+                bitwarden-bin blueman brasero calibre caprine \
                 docker-credential-secretservice-bin firefox-beta-bin geany \
                 gnome-disk-utility gnome-keyring gufw handbrake kid3 \
                 libreoffice-still mpv remmina seahorse simple-scan \

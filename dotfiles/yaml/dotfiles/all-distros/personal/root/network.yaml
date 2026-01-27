@@ -5,4 +5,5 @@
 
 dotfiles:
 - f_99-no-wireless-on-wired
+- f_NetworkManager_conf.d_dns.conf
 - f_local_bin_wifi

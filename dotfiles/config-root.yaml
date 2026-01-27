@@ -24,6 +24,12 @@ actions:
     grub: update-grub
 
     ddclient: sh ./actions/ddclient.sh '{0}'
+
+    # This action enables systemd-resolved and integrates it with resolv.conf
+    enable-systemd-resolved: |
+      systemctl enable --now systemd-resolved
+      ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+
     locales: sh ./actions/locales.sh
 
     # This action compiles the keyindicator2 custom i3block
@@ -268,6 +274,11 @@ dotfiles:
   f_networkd_20-wired.network:
     src: etc/systemd/network/20-wired.network
     dst: /etc/systemd/network/20-wired.network
+  f_NetworkManager_conf.d_dns.conf:
+    src: etc/NetworkManager/conf.d/dns.conf
+    dst: /etc/NetworkManager/conf.d/dns.conf
+    actions:
+    - enable-systemd-resolved
   f_pacman_i3blocks-contrib-arch-update.hook:
     src: etc/pacman.d/hooks/i3blocks-contrib-arch-update.hook
     dst: /etc/pacman.d/hooks/i3blocks-contrib-arch-update.hook

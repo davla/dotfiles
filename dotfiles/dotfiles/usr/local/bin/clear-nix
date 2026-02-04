@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+# This script attempts to free some disk space used by nix, without going too
+# deep in the rabbit hole. Adapted from here:
+# https://www.reddit.com/r/NixOS/comments/1j70gew/how_to_clean_nixstore/
+
+sudo nix-collect-garbage --delete-old
+nix-collect-garbage --delete-old
+
+sudo nix store gc
+sudo nix store optimise
+nix store gc
+nix store optimise
+
+sudo nix profile wipe-history
+nix profile wipe-history

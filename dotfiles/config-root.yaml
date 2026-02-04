@@ -279,6 +279,9 @@ dotfiles:
     dst: /etc/NetworkManager/conf.d/dns.conf
     actions:
     - enable-systemd-resolved
+  f_nix.conf:
+    src: etc/xdg/nix/nix.conf
+    dst: /etc/xdg/nix/nix.conf
   f_pacman_i3blocks-contrib-arch-update.hook:
     src: etc/pacman.d/hooks/i3blocks-contrib-arch-update.hook
     dst: /etc/pacman.d/hooks/i3blocks-contrib-arch-update.hook
@@ -400,6 +403,7 @@ profiles:
     - f_containers_nodocker
     - f_containers_compose.conf
     - f_containers_default_registry.conf
+    - f_nix.conf
     import:
     - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
 

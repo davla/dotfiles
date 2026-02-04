@@ -68,6 +68,10 @@ dotfiles:
     src: usr/local/bin/active-playerctl
     dst: /usr/local/bin/active-playerctl
     chmod: 755
+  f_local_bin_clear-nix:
+    src: usr/local/bin/clear-nix
+    dst: /usr/local/bin/clear-nix
+    chmod: 755
   f_local_bin_default-ws-layout:
     src: usr/local/bin/default-ws-layout
     dst: /usr/local/bin/default-ws-layout

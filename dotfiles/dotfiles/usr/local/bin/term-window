@@ -1,0 +1,63 @@
+#!/usr/bin/env sh
+
+# This script runs the passed command in a new terminal window, piping STDIN to
+# and STDOUT from the command
+#
+# Options:
+# --id ID, -I ID:
+#       The id used by the terminal (--class option).
+#       Must be before positional arguments.
+#       Defaults to 'launcher'.
+#
+# Arguments:
+# - $@: The command to be executed
+#
+# {{@@ header() @@}}
+
+########################################
+# Input processing
+########################################
+
+TERM_ID='launcher'
+case "$1" in
+    '--id'|'-i')
+        TERM_ID="$2"
+        shift 2
+        ;;
+esac
+
+########################################
+# Redirect STDIN and STDOUT
+########################################
+
+PIPES=''
+
+STDIN_PIPE='/dev/null'
+[ -p /dev/fd/0 ] && {
+    STDIN_PIPE="$(mktemp --dry-run)"
+    mkfifo "$STDIN_PIPE"
+    PIPES="$PIPES $STDIN_PIPE"
+}
+
+STDOUT_PIPE='/dev/null'
+[ -p /dev/fd/1 ] && {
+    STDOUT_PIPE="$(mktemp --dry-run)"
+    mkfifo "$STDOUT_PIPE"
+    PIPES="$PIPES $STDOUT_PIPE"
+}
+
+[ -n "$PIPES" ] && {
+    # shellcheck disable=SC2064
+    trap "rm $PIPES" EXIT INT HUP TERM
+}
+
+########################################
+# Open terminal window
+########################################
+
+# Spawning sh is necessary to redirect the command's STDIN and STDOUT
+{{@@ terminal @@}} --class "$TERM_ID" --command \
+    sh -c "$* < $STDIN_PIPE > $STDOUT_PIPE" &
+
+cat > "$STDIN_PIPE"
+cat "$STDOUT_PIPE"

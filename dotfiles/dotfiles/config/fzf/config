@@ -1,0 +1,9 @@
+# Fzf default options
+
+--cycle
+--input-border line
+--layout reverse
+--margin 1,2
+--no-info
+--preview-window down,border-rounded
+--preview 'echo {}'

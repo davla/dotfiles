@@ -95,10 +95,6 @@ dotfiles:
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ host_refresh_path @@}}'
     chmod: 755
-  f_local_bin_launcher:
-    src: usr/local/bin/launcher
-    dst: /usr/local/bin/launcher
-    chmod: 755
   f_local_bin_list-long:
     src: usr/local/bin/list-long
     dst: /usr/local/bin/list-long
@@ -156,6 +152,10 @@ dotfiles:
   f_local_bin_teams:
     src: usr/local/bin/progressive-web-app
     dst: /usr/local/bin/teams
+    chmod: 755
+  f_local_bin_term-window:
+    src: usr/local/bin/term-window
+    dst: /usr/local/bin/term-window
     chmod: 755
   f_local_bin_tree-long:
     src: usr/local/bin/tree-long

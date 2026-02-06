@@ -13,3 +13,10 @@ for_window [{{@@ criterion @@}}] move scratchpad, scratchpad show, \
     resize set {{@@ width @@}} {{@@ height @@}}, move position center
 
 {%@@- endmacro -@@%}
+
+{#@@ This macro opens a terminal window that executes a given sh command @@#}
+{%@@ macro tui(cmd, marker='$tui_marker', term='$term') -@@%}
+
+{{@@ term @@}} --class {{@@ marker @@}} --command sh -c "{{@@ cmd @@}}"
+
+{%@@- endmacro -@@%}

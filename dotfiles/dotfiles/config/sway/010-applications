@@ -1,4 +1,4 @@
-{%@@ from 'shared/i3-sway/macros.j2' import scratchpad_application -@@%}
+{%@@ from 'shared/i3-sway/macros.j2' import scratchpad_application, tui -@@%}
 
 # This sway configuration file contains application configuration, mainly
 # keyboard shortcuts and window management (e.g. workspace assignment)
@@ -56,7 +56,8 @@ bindsym {
 
     # TUI applications
     $mod+Shift+e exec $term --title $calc_title --command lua
-    ctrl+alt+v exec launcher --providers clipman.conf
+    ctrl+alt+v exec {{@@ tui("clipman pick --print0 --tool CUSTOM \
+        --tool-args 'fzf --read0 --no-multi-line'") @@}}
     $mod+space exec launcher
 
     # CLI commands
@@ -97,10 +98,6 @@ for_window [$firefox_criterion title="[Ee]xtension.*[Bb]itwarden"] \
 for_window [title="^$calc_title$"] floating enable, \
     resize set $floating_width $floating_height, move position center
 
-# Launcher
-for_window [app_id="launcher"] floating enable, \
-    resize set $floating_width $floating_height, move position center
-
 {%@@ if messaging_apps -@@%}
 
 # Messaging
@@ -127,6 +124,10 @@ for_window [${{@@ app | replace('-', '_') @@}}_criterion] \
 # Thunderbird
 for_window [$thunderbird_criterion title=".* Reminder"] floating enable, \
     move position 68 ppt 1 ppt
+
+# TUI terminal
+for_window [app_id="$tui_marker"] floating enable, \
+    resize set $floating_width $floating_height, move position center
 
 #######################################
 # Application startup

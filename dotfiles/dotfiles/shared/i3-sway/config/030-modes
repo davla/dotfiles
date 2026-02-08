@@ -13,11 +13,8 @@
 set $playback_prev_command active-playerctl previous
 set $playback_next_command active-playerctl next
 set $playback_playpause_command active-playerctl play-pause
-{%@@ if on_wayland @@%}
-set $select_player launcher --providers players.conf | xargs -I "{}"
-{%@@ else @@%}
-set $select_player active-playerctl --list-all | dmenu | xargs -I '{}'
-{%@@ endif @@%}
+set $select_player playerctl --list-all | term-window fzf --no-preview \
+    | xargs -I '{}'
 set $volume_down_command volume -ne 1000 down 5
 set $volume_up_command volume -ne 1000 -x 100 up 5
 set $volume_mute_command volume -ne 1000 mute

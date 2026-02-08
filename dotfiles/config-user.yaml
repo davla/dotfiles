@@ -151,9 +151,6 @@ dotfiles:
   d_sway:
     src: config/sway
     dst: '{{@@ xdg_config("sway") @@}}'
-  d_sway-launcher-desktop:
-    src: config/sway-launcher-desktop
-    dst: '{{@@ xdg_config("sway-launcher-desktop") @@}}'
   d_thunar:
     src: config/Thunar
     dst: '{{@@ xdg_config("Thunar") @@}}'
@@ -537,7 +534,6 @@ profiles:
     - d_i3-sway_shared_config
     - d_i3blocks-email
     - d_sway
-    - d_sway-launcher-desktop
     - f_alacritty.toml
     - f_clipman.service
     - f_default-ws-layout.service

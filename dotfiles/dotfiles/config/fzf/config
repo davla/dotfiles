@@ -1,7 +1,7 @@
 # Fzf default options
 
 --cycle
---input-border line
+--input-border bottom
 --layout reverse
 --margin 1,2
 --no-info

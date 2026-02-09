@@ -1,4 +1,4 @@
-{%@@ from 'shared/i3-sway/macros.j2' import scratchpad_application -@@%}
+{%@@ from 'shared/i3-sway/macros.j2' import scratchpad_application, tui -@@%}
 
 # This i3 configuration file contains application configuration, mainly
 # keyboard shortcuts and window management (e.g. workspace assignment)
@@ -61,7 +61,7 @@ bindsym $mod+n exec --no-startup-id dunstctl close-all
 bindsym $mod+Shift+n exec --no-startup-id dunstctl history-pop
 bindsym $mod+m exec --no-startup-id dunstctl close
 bindsym $mod+comma exec --no-startup-id dunstctl action
-bindsym Ctrl+Mod1+v exec clipcat-menu insert
+bindsym ctrl+alt+v exec {{@@ tui('clipcat-menu insert') @@}}
 
 {%@@ if env['HOST'] == 'personal' -@@%}
 
@@ -113,6 +113,10 @@ for_window [floating title="^$calc_title$"] \
 for_window [$thunderbird_criterion title=".* Reminder"] floating enable, \
     move position 68 ppt 1 ppt
 {%@@ endif -@@%}
+
+# TUI
+for_window [class="$tui_marker"] floating enable, \
+    resize set $floating_width $floating_height, move position center
 
 #######################################
 # Application startup

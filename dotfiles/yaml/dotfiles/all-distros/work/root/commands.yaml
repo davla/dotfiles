@@ -10,5 +10,6 @@ dotfiles:
 - f_local_bin_lock-screen
 - f_local_bin_outlook
 - f_local_bin_teams
+- f_local_bin_term-window
 - f_local_bin_vpn
 - f_local_bin_zsh-notify-sudo-user

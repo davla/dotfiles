@@ -61,7 +61,7 @@ bindsym $mod+n exec --no-startup-id dunstctl close-all
 bindsym $mod+Shift+n exec --no-startup-id dunstctl history-pop
 bindsym $mod+m exec --no-startup-id dunstctl close
 bindsym $mod+comma exec --no-startup-id dunstctl action
-bindsym Ctrl+Mod1+v exec clipcat-menu insert
+bindsym Ctrl+Mod1+v exec term-window clipcat-menu insert
 
 {%@@ if env['HOST'] == 'personal' -@@%}
 
@@ -91,6 +91,10 @@ for_window [title="^$calc_title$"] floating enable
 for_window [floating title="^$calc_title$"] \
     resize set $floating_width $floating_height, \
     move position center
+
+# Launcher
+for_window [class="launcher"] floating enable, \
+    resize set $floating_width $floating_height, move position center
 
 # Scratchpad editor
 {{@@ scratchpad_application('$scratchpad_editor_criterion',

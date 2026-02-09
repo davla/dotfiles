@@ -545,7 +545,6 @@ profiles:
     - f_local_bin_default-ws-layout
     - f_local_bin_systemd-sway-session
     - f_local_bin_systemd-sway-session-watch
-    - f_local_bin_term-window
     import:
     - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/i3-sway.yaml:optional
     include:

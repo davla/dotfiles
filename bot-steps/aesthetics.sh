@@ -35,10 +35,10 @@ get_archive() {
     ARCHIVE="$1"
     ARCHIVE_NAME="$2"
 
-    print_info "Retrieve $ARCHIVE_NAME archive path" >&2
+    print_info "Retrieve $ARCHIVE_NAME archive path" >&3
     [ -z "$ARCHIVE" ] && {
         echo "$ARCHIVE_NAME" | tr '[:upper:]' '[:lower:]' \
-            | xargs printf >&2 'Enter the %s theme archive path: '
+            | xargs printf >&3 'Enter the %s theme archive path: '
         read -r ARCHIVE
     }
 
@@ -55,9 +55,13 @@ get_archive() {
 # Input processing
 #######################################
 
+exec 3<&1
+
 CURSORS_ARCH="$(get_archive "$1" 'Cursor')"
 DESKTOP_ARCH="$(get_archive "$2" 'Desktop')"
 ICONS_ARCH="$(get_archive "$3" 'Icons')"
+
+exec 3<&-
 
 #######################################
 # Cursor themes

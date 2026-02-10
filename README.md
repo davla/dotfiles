@@ -104,8 +104,6 @@ Configuration files for my Linux systems
 ![[^_^]][prompt-face] Investigate more uses for jinja default.  
 ![[^_^]][prompt-face] Investigate uses of empty `dst:` instead of mktemp.  
 ![[^_^]][prompt-face] Update append dotdrop action so that it doesn't remove.  
-![[>.<]][error-face]  Don't use STDERR in `aesthetics.sh::get_archive` to
-                      prompt the user.  
 ![[>.<]][error-face]  Ensure systemd daemon-reload before enabling in pacman
                       hooks.  
 ![[>.<]][error-face]  Ensure that autorandr environemnt variable are loaded in

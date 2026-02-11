@@ -347,25 +347,23 @@ dotfiles:
     dst: /etc/exports.d/whole-fs.exports
   f_xkb_base.lst:
     src: usr/share/X11/xkb/rules/base.lst
-    # Dynamic path since the dotfile content is inserted into dst
-    dst: '{{@@ xkb_tmp_dst @@}}'
-    chmod: 600
+    # Empty destination since the content is inserted into existing files
+    dst:
     actions:
     - >-
       _strip_file '{{@@ _dotfile_abs_src @@}}' '{{@@ base_lst_dst @@}}'
     - >-
-      _insert_match '^\s*\sintl\s\s*us' '{{@@ xkb_tmp_dst @@}}'
+      _insert_match '^\s*\sintl\s\s*us' '{{@@ _dotfile_abs_src @@}}'
         '{{@@ base_lst_dst @@}}'
   f_xkb_base.xml:
     src: usr/share/X11/xkb/rules/base.xml
-    # Dynamic path since the dotfile content is inserted into dst
-    dst: '{{@@ xkb_tmp_dst @@}}'
-    chmod: 600
+    # Empty destination since the content is inserted into existing files
+    dst:
     actions:
     - _strip_xml ".//*[name='intl-custom'].." '{{@@ base_xml_dst @@}}'
     - >-
       _insert_xml ".//*[description='English (US, intl., with dead keys)'].."
-        '{{@@ xkb_tmp_dst @@}}' '{{@@ base_xml_dst @@}}'
+        '{{@@ _dotfile_abs_src @@}}' '{{@@ base_xml_dst @@}}'
   f_xkb_us:
     src: usr/share/X11/xkb/symbols/us
     dst: '{{@@ xkb_tmp_dst @@}}'

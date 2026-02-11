@@ -362,13 +362,12 @@ dotfiles:
     dst: '{{@@ xdg_config("vim/vimrc") @@}}'
   f_vscode_extension-list.txt:
     src: config/Code/User/extension-list.txt
-    # Temporary destination as the file is not read by VSCode at runtime, so it
-    # can be deleted
-    dst: '{{@@ vscode_tmp_dst @@}}'
-    chmod: 600
+    # Empty destination as the file is only processed by the action and not
+    # actually needed on the filesystem
+    dst:
     actions:
     # This action installs VSCode extensions listed in the dotfile on-the-fly
-    - vscode-install-extensions '{{@@ vscode_tmp_dst @@}}'
+    - vscode-install-extensions '{{@@ _dotfile_abs_src @@}}'
     # This transformation actually creates the dotfile.
     trans_update: vscode-list-extensions
   f_vscode_keybindings.json:
@@ -568,8 +567,6 @@ profiles:
     - f_vscode_tasks.json
     actions:
     - link-vscode-insiders-config
-    dynvariables:
-      vscode_tmp_dst: mktemp /tmp/vscode-tmp.XXX
     variables:
       is_headless: false
 

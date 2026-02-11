@@ -95,22 +95,17 @@ Configuration files for my Linux systems
                       via a dedicated answer after step execution.  
 ![[°o°]][ok-face]     Stop using LightDM.  
 ![[°o°]][ok-face]     Actually send myself a mail on `at` job errors.  
-![[°o°]][ok-face]     Move shell functions and aliases to separate executables.  
-![[°o°]][ok-face]     Refresh shell completions/cache as hooks for
-                      plugin/package updates.  
 ![[^_^]][prompt-face] Setup keyboard shortcuts for bluez.  
 ![[^_^]][prompt-face] Prevent `dotnet` crypto stuff from showing up in `$HOME`.  
 ![[^_^]][prompt-face] Allow logger colors with no tags.  
 ![[^_^]][prompt-face] Investigate more uses for jinja default.  
 ![[^_^]][prompt-face] Investigate uses of empty `dst:` instead of mktemp.  
-![[^_^]][prompt-face] Update append dotdrop action so that it doesn't remove.  
 ![[>.<]][error-face]  Ensure systemd daemon-reload before enabling in pacman
                       hooks.  
 ![[>.<]][error-face]  Ensure that autorandr environemnt variable are loaded in
                       xsessionrc.  
 ![[>.<]][error-face]  Handle failure with pkgfile database update at Arch
                       startup.  
-![[>.<]][error-face]  Better placement of logger_path dotdrop variable.  
 ![[>.<]][error-face]  Automatically update ACYLS icons.  
 ![[>.<]][error-face]  Fix problems with mako actions.  
 ![[>.<]][error-face]  Update bot relative paths.  

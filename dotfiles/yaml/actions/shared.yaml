@@ -1,5 +1,65 @@
+%YAML 1.2
+---
+# This dotdrop actions file is meant for actions shared between many profiles
+
 actions:
+  pre:
+    _strip: "sed --in-place '/{0}/,$d' {1}"
+
   post:
+    _append_tmp: 'cat {1} >> {0}; rm --force {1}'
     _rm: rm --force {0}
-    recursive-exec-permissions: chmod +x --recursive '{0}'
     link: ln --force --symbolic "{0}" "{1}"
+    recursive-exec-permissions: chmod +x --recursive '{0}'
+
+    _insert_match: |-
+      LINE="$(grep --line-number --max-count 1 --perl-regexp '{0}' {2} \
+          | cut --delimiter ':' --fields 1)"
+      [ -z "$LINE" ] && LINE="$(wc --lines < {2})"
+      sed --in-place "$LINE r {1}" {2}
+
+    _insert_xml: |-
+      python -i <<EOF
+      import xml.etree.ElementTree as ET
+
+      with open('{1}', 'r') as source, open('{2}', 'r') as dest:
+          source_document = ET.parse(source)
+          dest_document = ET.parse(dest)
+
+      node = source_document.find('.')
+      parent = dest_document.find("{0}/..")
+      target = parent.find("{0}")
+
+      index = next(
+          index
+          for index, child in enumerate(parent)
+          if child == target
+      )
+      parent.insert(index + 1, node)
+      dest_document.write('{2}', encoding='UTF-8', xml_declaration=True)
+      EOF
+
+    _strip_file: |-
+      START_LINE_NUMBER="$(head --lines 1 "{0}" | xargs -I '@' \
+              grep --fixed-strings --line-number --max-count 1 '@' "{1}" \
+          | cut --delimiter ':' --fields 1)"
+      END_LINE_NUMBER="$(tail --lines 1 "{0}" | xargs -I '@' \
+              grep --fixed-strings --line-number '@' "{1}" | tail --lines 1 \
+          | cut --delimiter ':' --fields 1)"
+      if [ -n "$START_LINE_NUMBER" ] && [ -n "$END_LINE_NUMBER" ]; then
+          sed --in-place "$START_LINE_NUMBER,$END_LINE_NUMBER d" {1}
+      fi
+
+    _strip_xml: |-
+      python -i <<EOF
+      import xml.etree.ElementTree as ET
+
+      with open('{1}', 'r') as f:
+          document = ET.parse(f)
+
+      parent = document.find("{0}/..")
+      if parent is not None:
+          target = parent.find("{0}")
+          parent.remove(target)
+          document.write('{1}', encoding='UTF-8', xml_declaration=True)
+      EOF

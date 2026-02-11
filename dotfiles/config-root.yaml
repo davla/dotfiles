@@ -117,7 +117,7 @@ config:
   - python/functions.py
   ignoreempty: true
   import_actions:
-  - yaml/actions/*.yaml
+  - yaml/actions/shared.yaml
   import_configs:
   - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
   - yaml/profiles/all-distros/all-hosts/all-users/shared.yaml
@@ -213,7 +213,7 @@ dotfiles:
     actions:
     - _create_if_empty '{{@@ etc_zshrc_dst @@}}' '#!/usr/bin/env zsh\n'
     - _strip '{{@@ etc_zshrc_append_marker @@}}' '{{@@ etc_zshrc_dst @@}}'
-    - _append '{{@@ etc_zshrc_dst @@}}' '{{@@ zsh_tmp_dst @@}}'
+    - _append_tmp '{{@@ etc_zshrc_dst @@}}' '{{@@ zsh_tmp_dst @@}}'
   f_grub:
     src: etc/default/grub
     dst: /etc/default/grub
@@ -267,7 +267,7 @@ dotfiles:
     chmod: 600
     actions:
     - _strip '{{@@ login_defs_append_marker @@}}' '{{@@ login_defs_dst @@}}'
-    - _append '{{@@ login_defs_dst @@}}' '{{@@ getty_login_tmp_dst @@}}'
+    - _append_tmp '{{@@ login_defs_dst @@}}' '{{@@ getty_login_tmp_dst @@}}'
   f_mrconfig:
     src: opt/mrconfig
     dst: /opt/.mrconfig
@@ -292,7 +292,7 @@ dotfiles:
     chmod: 600
     actions:
     - _strip '{{@@ pam_login_append_marker @@}}' '{{@@ pam_login_dst @@}}'
-    - _append '{{@@ pam_login_dst @@}}' '{{@@ startup_tmp_dst @@}}'
+    - _append_tmp '{{@@ pam_login_dst @@}}' '{{@@ startup_tmp_dst @@}}'
   f_pam.d_sudo:
     src: etc/pam.d/sudo
     # Dynamic path since the dotfile content is appended to dst
@@ -300,7 +300,7 @@ dotfiles:
     chmod: 600
     actions:
     - _strip '{{@@ pam_sudo_append_marker @@}}' '{{@@ pam_sudo_dst @@}}'
-    - _append '{{@@ pam_sudo_dst @@}}' '{{@@ environment_tmp_dst @@}}'
+    - _append_tmp '{{@@ pam_sudo_dst @@}}' '{{@@ environment_tmp_dst @@}}'
   f_pam_env.conf:
     src: etc/security/pam_env.conf
     # Dynamic path since the dotfile content is appended to dst
@@ -308,7 +308,7 @@ dotfiles:
     chmod: 600
     actions:
     - _strip '{{@@ pam_env_conf_append_marker @@}}' '{{@@ pam_env_conf_dst @@}}'
-    - _append '{{@@ pam_env_conf_dst @@}}' '{{@@ environment_tmp_dst @@}}'
+    - _append_tmp '{{@@ pam_env_conf_dst @@}}' '{{@@ environment_tmp_dst @@}}'
   f_raspberry.automount:
     src: etc/systemd/system/mnt-raspberry.automount
     dst: /etc/systemd/system/mnt-raspberry.automount
@@ -373,7 +373,7 @@ dotfiles:
     # Dynamic path since the dotfile content is appended to dst
     actions:
     - _strip '{{@@ symbols_append_marker @@}}' '{{@@ symbols_dst @@}}'
-    - _append '{{@@ symbols_dst @@}}' '{{@@ xkb_tmp_dst @@}}'
+    - _append_tmp '{{@@ symbols_dst @@}}' '{{@@ xkb_tmp_dst @@}}'
 
 dynvariables:
   # This variable determines whether the "i3blocks" profile should include the

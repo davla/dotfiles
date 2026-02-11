@@ -1,5 +1,0 @@
-actions:
-  pre:
-    _strip: "sed --in-place '/{0}/,$d' {1}"
-  post:
-    _append: 'cat {1} >> {0}; rm --force {1}'

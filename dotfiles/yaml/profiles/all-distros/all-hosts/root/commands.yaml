@@ -17,7 +17,7 @@ config:
   create: true
   dotpath: ../../../../../dotfiles
   import_actions:
-  - ../../../../actions/append.yaml
+  - ../../../../actions/shared.yaml
   filter_file:
   - ../../../../../python/filters.py
   force_chmod: true
@@ -63,7 +63,7 @@ dotfiles:
     chmod: 600
     actions:
     - _strip '{{@@ hosts_append_marker @@}}' '{{@@ hosts_dst @@}}'
-    - _append '{{@@ hosts_dst @@}}' '{{@@ hosts_tmp_dst @@}}'
+    - _append_tmp '{{@@ hosts_dst @@}}' '{{@@ hosts_tmp_dst @@}}'
   f_local_bin_active-playerctl:
     src: usr/local/bin/active-playerctl
     dst: /usr/local/bin/active-playerctl

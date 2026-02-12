@@ -59,7 +59,8 @@ bindsym {
     ctrl+alt+v exec clipman pick --tool=STDOUT --print0 \
         | term-window fzf --read0 --no-multi-line \
         | wl-copy --trim-newline
-    $mod+space exec launcher
+    --release $mod+space exec id --user | xargs -I '{}' \
+        rofi -theme drun.rasi -show drun -pid '/run/user/{}/rofi-dmenu.pid'
 
     # CLI commands
     $mod+m exec makoctl dismiss --all

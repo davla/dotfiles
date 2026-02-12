@@ -58,7 +58,8 @@ bindsym {
     $mod+Shift+e exec $term --title $calc_title --command lua
     ctrl+alt+v exec {{@@ tui("clipman pick --print0 --tool CUSTOM \
         --tool-args 'fzf --read0 --no-multi-line'") @@}}
-    $mod+space exec launcher
+    $mod+space exec id --user | xargs -I '{}' rofi -theme drun.rasi \
+        -show drun -pid '/run/user/{}/rofi-dmenu.pid'
 
     # CLI commands
     $mod+m exec makoctl dismiss --all

@@ -533,6 +533,7 @@ profiles:
     dotfiles:
     - d_i3-sway_shared_config
     - d_i3blocks-email
+    - d_rofi
     - d_sway
     - f_alacritty.toml
     - f_clipman.service

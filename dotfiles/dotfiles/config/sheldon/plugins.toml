@@ -48,9 +48,12 @@ use = ["zsh-{{ name }}.plugin.zsh"]
 #######################################
 
 [plugins.notify]
-github = "marzocchi/zsh-notify"
+github = "davla/zsh-notify"
 use = ["{{ name }}.plugin.zsh"]
 profiles = ["gui"]
+{%@@ if on_wayland | is_truthy @@%}
+branch = "feature/sway"
+{%@@ endif @@%}
 
 [plugins.notify.hooks]
 post = '''

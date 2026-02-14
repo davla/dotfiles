@@ -1,5 +1,25 @@
 # Fzf default options
+#
+# {{@@ header() @@}}
 
+{%@@ set default_fg = '#AAAAAA' -@@%}
+{%@@ set hl_fg = main_theme_color -@@%}
+
+--color '
+    current-fg:{{@@ default_fg @@}}:bold
+    current-hl:{{@@ hl_fg @@}}
+    gutter:{{@@ dark_theme_color @@}}
+    hl:{{@@ hl_fg @@}}
+    input-border:{{@@ dark_theme_color @@}}
+    input-fg:{{@@ default_fg @@}}:regular
+    list-fg:#888888:regular
+    pointer:{{@@ main_theme_color @@}}
+    preview-border:{{@@ dark_theme_color @@}}
+    preview-fg:{{@@ default_fg @@}}:regular
+    prompt:{{@@ main_theme_color @@}}:bold
+    scrollbar:{{@@ dark_theme_color @@}}
+    selected-hl:{{@@ hl_fg @@}}
+'
 --cycle
 --input-border bottom
 --layout reverse

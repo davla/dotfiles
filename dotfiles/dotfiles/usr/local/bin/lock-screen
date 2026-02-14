@@ -1,13 +1,14 @@
 #!/usr/bin/env sh
 
 # This script just invokes i3lock with some parameters
+#
+# {{@@ header() @@}}
 
 ########################################
 # Variables
 ########################################
 
-# The bright orange I know and love.
-BACKGROUND_COLOR='FF5500'
+BACKGROUND_COLOR='{{@@ main_theme_color[1:] @@}}'
 
 ########################################
 # Execute

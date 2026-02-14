@@ -1,3 +1,5 @@
+# {{@@ header() @@}}
+
 [colors]
 draw_bold_text_with_bright_colors = true
 transparent_background_colors = true
@@ -13,7 +15,7 @@ white = "#FFFFFF"
 yellow = "#FFB454"
 
 [colors.cursor]
-cursor = "#FF5500"
+cursor = "{{@@ main_theme_color @@}}"
 
 [colors.normal]
 black = "#01060E"

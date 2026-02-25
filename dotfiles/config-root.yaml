@@ -142,6 +142,9 @@ dotfiles:
   d_applications:
     src: usr/share/applications
     dst: /usr/share/applications
+  d_flatpak_overrides:
+    src: var/lib/flatpak/overrides
+    dst: /var/lib/flatpak/overrides
   d_i3blocks_keyindicator2:
     src: usr/local/src/i3blocks/keyindicator2
     dst: /usr/local/src/i3blocks/keyindicator2

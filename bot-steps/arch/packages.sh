@@ -109,10 +109,10 @@ esac
 
 if [ "$HOST" != 'raspberry' ]; then
     print_info 'Install CLI packages for non-arm hosts'
-    sudo --user "$USER_NAME" yay -S --needed 7zip gdb ghc gifsicle hunspell \
-        hunspell-da hunspell-en_us hunspell-es_es hunspell-it intel-ucode \
-        libretro libsecret macchina networkmanager polkit-gnome rar reflector \
-        retroarch retroarch-assets-xmb shellcheck  temp-throttle
+    sudo --user "$USER_NAME" yay -S --needed 7zip flatpak gdb ghc gifsicle \
+        hunspell hunspell-da hunspell-en_us hunspell-es_es hunspell-it \
+        intel-ucode libretro libsecret macchina networkmanager polkit-gnome \
+        rar reflector retroarch retroarch-assets-xmb shellcheck temp-throttle
         # dhcpcd doesn't work well with networkmanager (unless configured)
         if sudo --user "$USER_NAME" yay -Qs dhcpcd; then
             sudo --user "$USER_NAME" yay -R dhcpcd

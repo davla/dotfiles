@@ -4,4 +4,5 @@
 # on my personal machine for root.
 
 dotfiles:
+- d_flatpak_overrides
 - f_local_bin_nordvpn-config

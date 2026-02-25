@@ -38,7 +38,7 @@ alias root='sudo --shell'
 
 {%@@ if 'arch' in distro_id -@@%}
 
-alias update='yay -Suyy'
+alias update='yay -Suyy ; sudo --login flatpak update'
 
 {%@@ elif distro_id == 'debian' -@@%}
 

@@ -11,11 +11,14 @@ import os
 import re
 from itertools import islice
 from pathlib import Path
+from typing import Optional
 
 from jinja2 import Environment, pass_environment
 from python.lib import expand_xdg as xdg
 
 VENV_DIR = ".venv"
+
+FLATPAK_APP_DATA = Path.home() / ".var/app"
 
 
 def abs_path(path: str) -> str:
@@ -37,6 +40,11 @@ def desktop_with_name(name: str, root_dir_glob="/home/*/.local/share/") -> str:
 def filename(path: str) -> str:
     """Return the last path component without extension."""
     return Path(path).stem
+
+
+def flatpak_app_data_dir(app_id: str) -> str:
+    """Return the data directory for a given Flatpak application."""
+    return f"{FLATPAK_APP_DATA}/{app_id}"
 
 
 @pass_environment

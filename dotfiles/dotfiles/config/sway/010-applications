@@ -20,7 +20,7 @@ set {
     $spotify_criterion app_id="^spotify$"
     $teams_criterion instance=".*microsoft teams.*"
     $telegram_criterion app_id=".*telegram.*" title=".*Telegram.*"
-    $thunderbird_criterion app_id="thunderbird"
+    $thunderbird_criterion app_id=".*[Mm]ozilla\.[Tt]hunderbird.*"
     $vscode_criterion app_id="^[Cc]ode.*"
 
     # Application instance titles
@@ -36,11 +36,12 @@ bindsym {
     $mod+e exec \
         swaymsg '[${{@@ messaging_client @@}}_criterion] scratchpad show' \
             || {{@@ messaging_client_cmd @@}}
-    $mod+p exec swaymsg '[$spotify_criterion] scratchpad show' || spotify
+    $mod+p exec swaymsg '[$spotify_criterion] scratchpad show' \
+        || com.spotify.Client
     $mod+w exec firefox
-    $mod+Shift+y exec geany
+    $mod+Shift+y exec org.geany.Geany
     $mod+y exec swaymsg '[$scratchpad_editor_criterion] scratchpad show' \
-        || geany --name scratchpad-editor
+        || org.geany.Geany --name scratchpad-editor
     $mod+Tab exec $term
     $mod+Shift+Tab exec \
         swaymsg '[$scratchpad_term_criterion] scratchpad show' \
@@ -50,7 +51,7 @@ bindsym {
 
     $mod+o exec firefox https://calendar.google.com/calendar/r
     $mod+u exec firefox https://keep.google.com/#home
-    $mod+t exec thunderbird
+    $mod+t exec org.mozilla.Thunderbird
 
     {%@@- endif @@%}
 

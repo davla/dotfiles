@@ -24,12 +24,11 @@
 case "$HOST" in
     'personal')
         print_info "Install Flatpak applications for $HOST"
-        # No Bitwarden as it still has copy-paste issues on Wayland
-        flatpak install --noninteractive calibre caprine discordapp \
+        flatpak install --noninteractive brasero calibre caprine discordapp \
             freedownloadmanager fr.handbrake.ghb kid3 transmissionbt \
             org.signal.Signal soundconverter soundjuicer org.telegram.desktop \
             thunderbird
-        ;; # dropbox retroarch
+        ;;
 esac
 
 print_info 'Install Flatpak applications shared across all hosts'

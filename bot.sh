@@ -46,9 +46,11 @@ INDENT='      '
 RETRY_PROMPT="Do you want to retry? $CHOICES"
 
 # Misc
+IN_ALTERNATE_BUFFER='false'
 MSG_WIDTH="${COLUMNS:-80}"
 MSG_WIDTH=$(( MSG_WIDTH - $(printf '%s' "$INDENT" | wc --chars) ))
-IN_ALTERNATE_BUFFER='false'
+# shellcheck disable=SC2089
+SUDO_SH="sudo --preserve-env='$DOTFILES_ENV_VARS' sh"
 
 # Reset
 SHELL="$(ps --no-headers --pid "$$" -o 'comm')"
@@ -365,14 +367,14 @@ case "$STEP" in
     'packages'|'all')
         # Packages installation - they make commands available for other
         # steps.
-        $STEP_RUNNER "sudo sh -e bot-steps/$DISTRO/packages.sh $USER" \
+        $STEP_RUNNER "$SUDO_SH -e bot-steps/$DISTRO/packages.sh $USER" \
             'packages installation'
         ;;
 esac
 case "$STEP" in
     'manual'|'all')
         # Manual applications install
-        $STEP_RUNNER "sudo sh -e -l bot-steps/manually.sh $USER" \
+        $STEP_RUNNER "$SUDO_SH -e -l bot-steps/manually.sh $USER" \
             'install manually managed applications'
         ;;
 esac
@@ -393,7 +395,7 @@ esac
 case "$STEP" in
     'graphical-login'|'all')
         # Graphical login manager
-        $STEP_RUNNER 'sudo sh -e bot-steps/graphical-login.sh' \
+        $STEP_RUNNER "$SUDO_SH -e bot-steps/graphical-login.sh" \
             'install a graphical login manager'
         ;;
 esac
@@ -436,13 +438,13 @@ esac
 case "$STEP" in
     'network'|'all')
         # Network
-        $STEP_RUNNER "sudo sh -e bot-steps/network.sh" 'set up the network'
+        $STEP_RUNNER "$SUDO_SH -e bot-steps/network.sh" 'set up the network'
         ;;
 esac
 case "$STEP" in
     'hardware'|'all')
         # Hardware
-        $STEP_RUNNER "sudo sh -e bot-steps/hardware.sh $USER" \
+        $STEP_RUNNER "$SUDO_SH -e bot-steps/hardware.sh $USER" \
             'apply hardware tweaks'
         ;;
 esac
@@ -456,7 +458,7 @@ esac
 case "$STEP" in
     'remote-access'|'all')
         # Remote access configuration, such as ssh and nfs
-        $STEP_RUNNER 'sudo sh -e bot-steps/remote-access.sh' \
+        $STEP_RUNNER "$SUDO_SH -e bot-steps/remote-access.sh" \
             'set up remote access'
 esac
 case "$STEP" in
@@ -468,7 +470,7 @@ esac
 case "$STEP" in
     'themes'|'all')
         # Themes
-        $STEP_RUNNER 'sudo sh -e bot-steps/aesthetics.sh' \
+        $STEP_RUNNER "$SUDO_SH -e bot-steps/aesthetics.sh" \
             'install cursor, desktop and icon themes'
         ;;
 esac

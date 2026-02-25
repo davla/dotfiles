@@ -14,8 +14,12 @@
         "cursor-size": "{{@@ cursor_size @@}}",
         "cursor-theme": "{{@@ cursor_theme @@}}",
         "font-name": "{{@@ font.normal.name @@}}",
+        "gtk-color-scheme": "prefer-dark",
         "gtk-theme": "{{@@ theme @@}}",
         "icon-theme": "{{@@ icon_theme @@}}",
         "monospace-font-name": "{{@@ font.monospace.name @@}}"
+    },
+    "org.gnome.desktop.wm.preferences": {
+      "theme": "{{@@ theme @@}}"
     }
 }

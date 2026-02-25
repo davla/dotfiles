@@ -248,3 +248,4 @@ dotfiles/yaml/variables/all-distros/work/user/repos.yaml
 # Unignoring previously ignored files
 !env/
 !lib/
+!var/

@@ -116,10 +116,8 @@ ask() {
 # It cleans up resources acquired at any point in the script, such as the
 # terminal alternate buffer, named pipes and detached subprocesses.
 cleanup() {
-    [ "$IN_ALTERNATE_BUFFER" = 'true' ] && tput rmcup
-    [ -n "$OUTPUT_LOG" ] && rm --force "$OUTPUT_LOG"
-    [ -n "$CMD_PIPE" ] && rm --force "$CMD_PIPE"
-    [ -n "$CMD_TEE_PID" ] && kill --signal TERM "$CMD_TEE_PID" > /dev/null 2>&1
+    tput rmcup
+    rm --force "$OUTPUT_LOG"
 }
 
 # This function executes a command.
@@ -149,18 +147,10 @@ execute() {
             tput cup 0 0
         }
 
-        # We can't just pipe the command to tee, as that would mask the
-        # command's exit code.
-        CMD_PIPE="$(mktemp --dry-run)"
-        mkfifo "$CMD_PIPE"
-
-        (tee "$OUTPUT_LOG" < "$CMD_PIPE") &
-        CMD_TEE_PID="$!"
-
-        sh -c "$EXECUTE__CMD" > "$CMD_PIPE" 2>&1
+        script --quiet --return --command "$EXECUTE__CMD" \
+            --log-out "$OUTPUT_LOG"
         EXECUTE__CMD_EXIT_CODE="$?"
 
-        unset CMD_TEE_PID
         printf 'Press enter to continue'
         # shellcheck disable=SC2034
         read -r ANSWER

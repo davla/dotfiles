@@ -132,7 +132,7 @@ dotfiles:
     dst: '{{@@ xdg_config("i3blocks-email") @@}}'
   d_geany_filedefs:
     src: config/geany/filedefs
-    dst: '{{@@ xdg_config("geany/filedefs") @@}}'
+    dst: '{{@@ flatpak_app_xdg_config("geany") @@}}/filedefs'
     cmpignore:
     - '*.README'
     upignore:
@@ -184,9 +184,9 @@ dotfiles:
   f_autorandr.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/autorandr.desktop") @@}}'
-  f_calibre_global.py:
-    src: config/calibre/global.py
-    dst: '{{@@ xdg_config("calibre/global.py") @@}}'
+  f_calibre_global.py.json:
+    src: config/calibre/global.py.json
+    dst: '{{@@ flatpak_app_xdg_config("calibre") @@}}/global.py.json'
   f_clipcat.service:
     src: config/systemd/user/clipcat.service
     dst: '{{@@ xdg_config("systemd/user/clipcat.service") @@}}'
@@ -223,13 +223,14 @@ dotfiles:
     dst: '{{@@ xdg_config("fzf/config") @@}}'
   f_geany_colorschemes_on-my-own.conf:
     src: config/geany/colorschemes/on-my-own.conf
-    dst: '{{@@ xdg_config("geany/colorschemes/on-my-own.conf") @@}}'
+    dst: >-
+      {{@@ flatpak_app_xdg_config("geany") @@}}/colorschemes/on-my-own.conf
   f_geany_geany.conf:
     src: config/geany/geany.conf
-    dst: '{{@@ xdg_config("geany/geany.conf") @@}}'
+    dst: '{{@@ flatpak_app_xdg_config("geany") @@}}/geany.conf'
   f_geany_keybindings.conf:
     src: config/geany/keybindings.conf
-    dst: '{{@@ xdg_config("geany/keybindings.conf") @@}}'
+    dst: '{{@@ flatpak_app_xdg_config("geany") @@}}/keybindings.conf'
   f_geoclue-demo-agent.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/geoclue-demo-agent.desktop") @@}}'

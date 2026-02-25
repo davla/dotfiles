@@ -39,10 +39,10 @@ bindsym --release $mod+space exec id --user | xargs -I '{}' \
     rofi -theme drun.rasi -show drun -pid '/run/user/{}/rofi-dmenu.pid'
 bindsym $mod+Shift+space exec dmenu_run
 bindsym $mod+w exec {{@@ browser @@}}
-bindsym $mod+Shift+y exec geany
+bindsym $mod+Shift+y exec org.geany.Geany
 bindsym $mod+y exec --no-startup-id \
     i3-msg '[$scratchpad_editor_criterion] scratchpad show' \
-        || geany --name scratchpad-editor
+        || org.geany.Geany --name scratchpad-editor
 bindsym $mod+Escape exec --no-startup-id systemctl poweroff
 bindsym $mod+e exec --no-startup-id \
     i3-msg '[${{@@ messaging_client @@}}_criterion] scratchpad show' \
@@ -55,7 +55,7 @@ bindsym $mod+Shift+Tab exec --no-startup-id \
 bindsym $mod+u exec thunar
 bindsym $mod+p exec --no-startup-id \
     i3-msg '[$spotify_criterion] scratchpad show' \
-        || spotify --force-device-scale-factor=$spotify_scale
+        || com.spotify.Client --force-device-scale-factor=$spotify_scale
 bindsym $mod+t exec {{@@ mail_client @@}}
 bindsym $mod+n exec --no-startup-id dunstctl close-all
 bindsym $mod+Shift+n exec --no-startup-id dunstctl history-pop

@@ -65,25 +65,27 @@ fi
 #######################################
 
 print_info 'Update package repository'
-pacman -Syy
+pacman -Suyy
 
 #######################################
 # Install GUI applications
 #######################################
 
+# docker-credential-secretservice-bin gnome-keyring
 if [ "$DISPLAY_SERVER" != 'headless' ]; then
     case "$HOST" in
         'personal')
             print_info "Install GUI packages for $HOST"
-            sudo --user "$USER_NAME" yay -S --needed alacritty atril baobab \
-                bitwarden-bin blueman brasero calibre caprine \
-                docker-credential-secretservice-bin firefox-beta-bin geany \
-                gnome-disk-utility gnome-keyring gufw handbrake kid3 \
-                libreoffice-still mpv remmina seahorse simple-scan \
-                soundconverter sound-juicer spotify telegram-desktop \
-                thunderbird transmission-gtk visual-studio-code-insiders-bin
+            sudo --user "$USER_NAME" yay -S --needed alacritty blueman \
+                firefox-beta-bin flatpak gnome-disk-utility gufw remmina \
+                visual-studio-code-insiders-bin
+            # This doesn't work if this script is sourced
+            sh "$(dirname "$0")/../flatpak.sh"
             ;;
     esac
+
+    print_info 'Install GUI packages shared across all hosts'
+    sudo --user "$USER_NAME" yay -S --needed bitwarden-bin
 
     # Dotfiles
     print_info 'Install GUI packages dotfiles'
@@ -109,10 +111,10 @@ esac
 
 if [ "$HOST" != 'raspberry' ]; then
     print_info 'Install CLI packages for non-arm hosts'
-    sudo --user "$USER_NAME" yay -S --needed 7zip flatpak gdb ghc gifsicle \
-        hunspell hunspell-da hunspell-en_us hunspell-es_es hunspell-it \
-        intel-ucode libretro libsecret macchina networkmanager polkit-gnome \
-        rar reflector retroarch retroarch-assets-xmb shellcheck temp-throttle
+    sudo --user "$USER_NAME" yay -S --needed 7zip gdb ghc gifsicle hunspell \
+        hunspell-da hunspell-en_us hunspell-es_es hunspell-it intel-ucode \
+        libretro libsecret macchina networkmanager polkit-gnome rar reflector \
+        retroarch retroarch-assets-xmb shellcheck temp-throttle
         # dhcpcd doesn't work well with networkmanager (unless configured)
         if sudo --user "$USER_NAME" yay -Qs dhcpcd; then
             sudo --user "$USER_NAME" yay -R dhcpcd

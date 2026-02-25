@@ -4,4 +4,5 @@
 # personal machine for unprivileged users.
 
 dotfiles:
+- f_calibre_global.py.json
 - d_applications

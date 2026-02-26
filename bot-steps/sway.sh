@@ -11,9 +11,9 @@
 
 print_info 'Install sway'
 yay -S --needed cargo-binstall clipman gnome-themes-extra i3blocks-git \
-    i3blocks-contrib-git i3-volume mako python-docopt python-i3ipc qt5ct sway \
-    sway-contrib sway-launcher-desktop swayidle ttf-font-icons udiskie \
-    wdisplays wev wl-clipboard xdg-desktop-portal xdg-desktop-portal-gtk \
+    i3blocks-contrib-git i3-volume mako python-docopt python-i3ipc qt5ct rofi \
+    sway sway-contrib swayidle ttf-font-icons udiskie wdisplays wev \
+    wl-clipboard xdg-desktop-portal xdg-desktop-portal-gtk \
     xdg-desktop-portal-wlr
 sudo cargo binstall --root /usr/local swayfocus
 

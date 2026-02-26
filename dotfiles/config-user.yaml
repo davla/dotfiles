@@ -151,9 +151,6 @@ dotfiles:
   d_sway:
     src: config/sway
     dst: '{{@@ xdg_config("sway") @@}}'
-  d_sway-launcher-desktop:
-    src: config/sway-launcher-desktop
-    dst: '{{@@ xdg_config("sway-launcher-desktop") @@}}'
   d_thunar:
     src: config/Thunar
     dst: '{{@@ xdg_config("Thunar") @@}}'
@@ -221,6 +218,9 @@ dotfiles:
   f_fonts.conf:
     src: config/fontconfig/fonts.conf
     dst: '{{@@ xdg_config("fontconfig/fonts.conf") @@}}'
+  f_fzf_config:
+    src: config/fzf/config
+    dst: '{{@@ xdg_config("fzf/config") @@}}'
   f_geany_colorschemes_on-my-own.conf:
     src: config/geany/colorschemes/on-my-own.conf
     dst: '{{@@ xdg_config("geany/colorschemes/on-my-own.conf") @@}}'
@@ -402,6 +402,7 @@ profiles:
     - d_bat
     - f_editorconfig
     - f_eza_theme.yml
+    - f_fzf_config
     - f_vimrc
     import:
     - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
@@ -531,8 +532,8 @@ profiles:
     dotfiles:
     - d_i3-sway_shared_config
     - d_i3blocks-email
+    - d_rofi
     - d_sway
-    - d_sway-launcher-desktop
     - f_alacritty.toml
     - f_clipman.service
     - f_default-ws-layout.service

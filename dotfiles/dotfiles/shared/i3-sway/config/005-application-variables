@@ -1,5 +1,13 @@
 # This i3-sway configuration file defines shared application-related variables
+#
+# {{@@ header() @@}}
 
+# Terminal
+
+set $term {{@@ terminal @@}}
+set $tui_marker tui
+
+# Float sizes
 set $editor_width 52 ppt
 set $editor_height 79 ppt
 set $floating_width 47 ppt

@@ -5,7 +5,7 @@
 server_endpoint = "/run/user/1000/clipcat/grpc.sock"
 
 # The default finder to invoke when no "--finder=<finder>" option provided.
-finder = "rofi"
+finder = "custom"
 
 [log]
 
@@ -73,4 +73,4 @@ extra_arguments = [
 program = "fzf"
 
 # Arguments for calling external program.
-args = []
+args = ["--with-nth", "2..", "--preview", "echo {2..}"]

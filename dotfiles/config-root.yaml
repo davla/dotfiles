@@ -545,7 +545,6 @@ profiles:
     - f_i3_sway_systemd-session.target
     - f_i3_sway_systemd-session-watch.service
     - f_local_bin_default-ws-layout
-    - f_local_bin_launcher
     - f_local_bin_systemd-sway-session
     - f_local_bin_systemd-sway-session-watch
     import:

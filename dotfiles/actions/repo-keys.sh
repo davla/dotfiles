@@ -93,7 +93,7 @@ find /etc/apt/sources.list.d/ -type f -name '*.sources' -print0 \
 
             'spotify')
                 download_key_from_url "$REPO" \
-                    'https://download.spotify.com/debian/pubkey_C85668DF69375001.gpg'
+                    'https://download.spotify.com/debian/pubkey_5384CE82BA52C83A.asc'
                 ;;
 
             'vscode')

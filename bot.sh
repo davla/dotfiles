@@ -18,9 +18,10 @@
 
 # All the available bot steps. In a variable so that we can check for validity
 # when interactively prompting the user.
-STEPS="custom-commands, dotdrop, environment, getty-login, graphical-login, \
-hardware, i3, keyboard-layout, manual, network, packages, remote-access, \
-repos, security, shells, startup, sway, system-tweaks, themes, timers, xfce"
+STEPS="custom-commands, dependencies, environment, getty-login, \
+graphical-login, hardware, i3, keyboard-layout, manual, network, packages, \
+remote-access, repos, security, shells, startup, sway, system-tweaks, themes, \
+timers, xfce"
 
 # Colors
 RESET_COLOR="$(printf '\e[0;0m')"
@@ -333,9 +334,10 @@ STEP="$(echo "${STEP}" | tr '[:upper:]' '[:lower:]')"
 [ "$STEP" = 'all' ] && STEP_RUNNER='prompt' || STEP_RUNNER='execute'
 
 case "$STEP" in
-    'dotdrop'|'all')
-        # Dotdrop setup - first as anything else depends on it.
-        $STEP_RUNNER "sh -e bot-steps/dotdrop.sh $PWD" 'set dotdrop up'
+    'dependencies'|'all')
+        # Dependecies setup - first as anything else depends on it.
+        $STEP_RUNNER "sh -e bot-steps/dependencies.sh $PWD" \
+            'install dependencies'
         ;;
 esac
 case "$STEP" in

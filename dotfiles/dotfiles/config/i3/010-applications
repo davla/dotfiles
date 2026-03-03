@@ -106,10 +106,6 @@ for_window [instance="{{@@ app.window_criterion @@}}"] \
 {{@@ scratchpad_application('$spotify_criterion',
     '$spotify_width', '$spotify_height') @@}}
 
-# Telegram
-{{@@ scratchpad_application('$telegram_criterion',
-    '$messaging_width', '$messaging_height') @@}}
-
 {%@@ if env['HOST'] != 'work' @@%}
 # Thunderbird
 assign [$thunderbird_criterion] $ws4

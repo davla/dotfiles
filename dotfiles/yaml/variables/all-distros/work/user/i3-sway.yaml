@@ -4,9 +4,7 @@
 # system only, for unprivileged users.
 
 variables:
-  browser: microsoft-edge
-  i3blocks_temperature_chip: thinkpad-isa-0000
-  mail_client: outlook
+  browser: firefox
 
   messaging:
     cmd: com.slack.Slack

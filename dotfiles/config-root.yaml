@@ -234,6 +234,10 @@ dotfiles:
   f_i3_sway_systemd-session-watch.service:
     src: shared/i3-sway/systemd/systemd-session-watch.service
     dst: /etc/systemd/user/{{@@ wm_name @@}}-session-watch.service
+  f_i3blocks_flatpak-updates:
+    src: usr/lib/i3blocks/flatpak-updates
+    dst: /usr/lib/i3blocks/flatpak-updates
+    chmod: 755
   f_i3blocks_gh-release-updates:
     src: usr/lib/i3blocks/gh-release-updates
     dst: /usr/lib/i3blocks/gh-release-updates
@@ -473,6 +477,7 @@ profiles:
   # blocklets
   i3blocks:
     dotfiles:
+    - f_i3blocks_flatpak-updates
     - d_i3blocks_network-status
     import:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/i3blocks.yaml:optional

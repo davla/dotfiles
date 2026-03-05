@@ -1,6 +1,6 @@
 {%@@ from 'usr/lib/i3blocks/update-counter' import update_counter -@@%}
 
 {{@@ update_counter(
-    cmd='gh-release upgradable --silent',
-    package_manager='gh-release',
+    cmd='flatpak remote-ls --updates',
+    package_manager='flatpak',
 ) @@}}

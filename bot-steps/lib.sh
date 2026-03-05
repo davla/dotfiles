@@ -27,3 +27,59 @@ print_info() {
     printf "\e[32m[INFO]\e[0m %s$NEWLINE" "$1"
     unset NEWLINE OPTION
 }
+
+# This function installs my AUR helper of choice (yay).
+#
+# Arguments:
+#   - $1: The unprivileged user to run the installation as.
+#         Optional, defaults to $SUDO_USER.
+install_aur_helper() {
+    INST_AUR_HELP__USER="${1:-$SUDO_USER}"
+
+    which yay > /dev/null 2>&1 && {
+        print_info 'yay AUR helper already installed'
+        return
+    }
+
+    print_info 'Install yay AUR helper'
+    pacman --synchronize --refresh --refresh --needed git base-devel
+    sudo --user "$INST_AUR_HELP__USER" sh -c '
+        YAY_DIR="$(mktemp --directory XXX.yay.XXX)"
+        trap "rm --recursive --force $YAY_DIR" EXIT HUP INT TERM
+
+        git clone https://aur.archlinux.org/yay-bin.git "$YAY_DIR"
+        cd "$YAY_DIR" || exit
+        makepkg --syncdeps --install
+        cd - > /dev/null 2>&1 || exit
+    '
+
+    unset INST_AUR_HELP__USER
+}
+
+# Configure the system package manager and flatpak and updates package lists.
+#
+# Arguments:
+#   - $1: The unprivileged user to install the AUR helper as.
+#         Optional, defaults to $SUDO_USER and then to $USER.
+setup_package_managers() {
+    SETUP_PACK_MAN__USER="${1:-${SUDO_USER:-$USER}}"
+    case "$DISTRO" in
+        'arch')
+            print_info 'Setup pacman and yay'
+            install_aur_helper "$SETUP_PACK_MAN__USER"
+            dotdrop install -p packages -U root
+            sudo --user "$SETUP_PACK_MAN__USER" yay --sync --refresh --refresh
+            [ "$DISPLAY_SERVER" != 'headless' ] \
+                && sudo --user "$SETUP_PACK_MAN__USER" \
+                    yay --sync --needed flatpak
+            ;;
+
+        'debian')
+            print_info 'Setup apt'
+            dotdrop install -p packages -U root
+            apt-get update
+            [ "$DISPLAY_SERVER" != 'headless' ] && apt-get install flatpak
+            ;;
+    esac
+    unset SETUP_PACK_MAN__USER
+}

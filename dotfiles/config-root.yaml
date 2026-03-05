@@ -295,11 +295,11 @@ dotfiles:
   f_login.defs:
     src: etc/login.defs
     # Dynamic path since the dotfile content is appended to dst
-    dst: '{{@@ getty_login_tmp_dst @@}}'
+    dst: '{{@@ sway_tmp_dst @@}}'
     chmod: 600
     actions:
     - _strip '{{@@ login_defs_append_marker @@}}' '{{@@ login_defs_dst @@}}'
-    - _append_tmp '{{@@ login_defs_dst @@}}' '{{@@ getty_login_tmp_dst @@}}'
+    - _append_tmp '{{@@ login_defs_dst @@}}' '{{@@ sway_tmp_dst @@}}'
   f_mrconfig:
     src: opt/mrconfig
     dst: /opt/.mrconfig
@@ -459,25 +459,6 @@ profiles:
       pam_env_conf_dst: /etc/security/pam_env.conf
       pam_sudo_dst: /etc/pam.d/sudo
 
-  # This profile groups dotfiles used to configure login from a getty
-  getty-login:
-    dotfiles:
-    - f_login.defs
-    - f_systemd_getty
-    actions:
-    - _rm '{{@@ getty_login_tmp_dst @@}}'
-    dynvariables:
-      getty_login_tmp_dst: mktemp /tmp/getty-login-append.XXX
-    variables:
-      login_defs_append_marker: Local options
-      login_defs_dst: /etc/login.defs
-
-  # This profile gathers the graphical login manager dotfiles
-  graphical-login:
-    dotfiles:
-    - f_lightdm.conf.d_02_custom.conf
-    - f_lightdm-gtk-greeter.conf.d_02_custom.conf
-
   # This profile contains dotfiles related to hardware-related configuration
   hardware:
     dotfiles:
@@ -492,6 +473,8 @@ profiles:
     - f_i3_sway_10-systemd
     - f_i3_sway_systemd-session.target
     - f_i3_sway_systemd-session-watch.service
+    - f_lightdm.conf.d_02_custom.conf
+    - f_lightdm-gtk-greeter.conf.d_02_custom.conf
     - f_local_bin_default-ws-layout
     - f_local_bin_systemd-i3-session
     - f_local_bin_systemd-i3-session-watch
@@ -586,11 +569,19 @@ profiles:
     - f_local_bin_default-ws-layout
     - f_local_bin_systemd-sway-session
     - f_local_bin_systemd-sway-session-watch
+    - f_login.defs
+    - f_systemd_getty
     import:
     - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/i3-sway.yaml:optional
     include:
     - i3blocks
+    actions:
+    - _rm '{{@@ sway_tmp_dst @@}}'
+    dynvariables:
+      sway_tmp_dst: mktemp /tmp/sway-append.XXX
     variables:
+      login_defs_append_marker: Local options
+      login_defs_dst: /etc/login.defs
       wm_name: sway
 
   # This profile groups keyboard layout dotfiles

@@ -51,6 +51,9 @@
   "editor.suggestSelection": "recentlyUsedByPrefix",
   "editor.tabCompletion": "onlySnippets",
   "files.autoSave": "onFocusChange",
+  "github.copilot.nextEditSuggestions.enabled": false,
+  "workbench.editor.useModal": "off",
+  "extensions.allowOpenInModalEditor": false,
   "[json]": {
     "editor.folding": true,
   },
@@ -168,13 +171,13 @@
   // JavaScript
   ////////////////////////////////////////
 
-  "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
-  "javascript.format.semicolons": "insert",
-  "javascript.preferences.importModuleSpecifier": "non-relative",
-  "javascript.preferences.importModuleSpecifierEnding": "minimal",
-  "javascript.preferences.quoteStyle": "single",
-  "javascript.suggest.completeFunctionCalls": true,
-  "javascript.updateImportsOnFileMove.enabled": "always",
+  "js.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
+  "js.format.semicolons": "insert",
+  "js.preferences.importModuleSpecifier": "non-relative",
+  "js.preferences.importModuleSpecifierEnding": "minimal",
+  "js.preferences.quoteStyle": "single",
+  "js.suggest.completeFunctionCalls": true,
+  "js.updateImportsOnFileMove.enabled": "always",
 
   ////////////////////////////////////////
   // Less
@@ -196,13 +199,13 @@
   // TypeScript
   ////////////////////////////////////////
 
-  "typescript.enablePromptUseWorkspaceTsdk": true,
-  "typescript.format.semicolons": "insert",
-  "typescript.preferences.importModuleSpecifier": "non-relative",
-  "typescript.preferences.importModuleSpecifierEnding": "minimal",
-  "typescript.preferences.quoteStyle": "single",
-  "typescript.suggest.completeFunctionCalls": true,
-  "typescript.updateImportsOnFileMove.enabled": "always",
+  "ts.enablePromptUseWorkspaceTsdk": true,
+  "ts.format.semicolons": "insert",
+  "ts.preferences.importModuleSpecifier": "non-relative",
+  "ts.preferences.importModuleSpecifierEnding": "minimal",
+  "ts.preferences.quoteStyle": "single",
+  "ts.suggest.completeFunctionCalls": true,
+  "ts.updateImportsOnFileMove.enabled": "always",
 
   ////////////////////////////////////////
   // JS/TS
@@ -215,7 +218,7 @@
   ////////////////////////////////////////
 
   "workbench.colorCustomizations": {
-    "[Ayu Dark Bordered]": {
+    "[Ayu Dark]": {
       // Foreground colors
       "activityBar.foreground": "#aaaaaa",
       "activityBar.inactiveForeground": "#666666",
@@ -293,9 +296,9 @@
       "tab.border": "#262e40",
     }
   },
-  "workbench.colorTheme": "Ayu Dark Bordered",
+  "workbench.colorTheme": "Ayu Dark",
   "workbench.iconTheme": "ayu",
-  "workbench.preferredDarkColorTheme": "Ayu Dark Bordered",
+  "workbench.preferredDarkColorTheme": "Ayu Dark",
 
   ////////////////////////////////////////
   // C/C++ extension
@@ -330,6 +333,9 @@
   // Lua extension
   ////////////////////////////////////////
 
+  "[lua]": {
+    "editor.defaultFormatter": "JohnnyMorganz.stylua"
+  },
   "Lua.develop.debuggerWait": true,
   "Lua.hover.enable": false,
   "Lua.hover.viewNumber": false,
@@ -346,6 +352,12 @@
   // Python extension
   ////////////////////////////////////////
 
+  "python.analysis.aiHoverSummaries": false,
+  "python.analysis.aiCodeActions": {
+    "implementAbstractClasses": true,
+    "generateSymbol": true,
+    "convertFormatString": true
+  },
   "python.diagnostics.sourceMapsEnabled": true,
   "python.terminal.executeInFileDir": true,
 
@@ -362,6 +374,7 @@
   ////////////////////////////////////////
 
   "auto-comment-blocks.singleLineBlockOnEnter": true,
+  "chat.tools.terminal.outputLocation": "chat",
   "dotnet.implementType.propertyGenerationBehavior": "preferAutoProperties",
   "liveshare.presence": true,
   "shellcheck.run": "onSave",

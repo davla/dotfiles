@@ -21,7 +21,7 @@ case "$DISTRO" in
 
         print_info 'Install sheldon via gh-release'
         dotdrop -U root install -p gh-release
-        sudo gh-release install
+        sudo gh-release install sheldon
         ;;
 esac
 

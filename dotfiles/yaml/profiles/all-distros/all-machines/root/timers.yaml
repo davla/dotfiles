@@ -13,7 +13,8 @@ actions:
 
           'debian')
               apt-get install zsh
-              gh-release install
+              gh auth status --active > /dev/null 2>&1 \
+                  && gh-release install sheldon
               ;;
       esac
 
@@ -104,8 +105,8 @@ profiles:
     - f_root_shell-cache.service.d_override.conf
     - f_root_shell-plugins.service.d_override.conf
     include:
-    - shared-timers
     - host-refresh
+    - shared-timers
     import:
     - ../../../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/timers.yaml:optional
 

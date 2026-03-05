@@ -18,8 +18,8 @@ case "$DISTRO" in
 
     'debian')
         sudo apt-get install i3blocks
-        print_info 'Install i3-volume via gh-release'
-        sudo gh-release install
+        dotdrop -U root install -p gh-release
+        gh_release_install i3-volume
         ;;
 esac
 

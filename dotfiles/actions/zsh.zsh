@@ -57,7 +57,7 @@ case "$DISTRO" in
         ;;
 
     'debian')
-        sudo gh-release install
+        sudo gh-release install sheldon
         ;;
 esac
 

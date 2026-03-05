@@ -5,6 +5,14 @@
 # This doesn't work if this script is sourced
 . "$(dirname "$0")/lib.sh"
 
+########################################
+# Set up package managers
+########################################
+
+# This step is run early in the provisioning process. We should ensure that the
+# package managers are actually setup
+setup_package_managers
+
 #######################################
 # Installing Xfce
 #######################################
@@ -26,6 +34,12 @@ case "$DISTRO" in
         sudo apt-get purge xfce4-clipman xfce4-clipman-plugin xfce4-notes
         ;;
 esac
+
+########################################
+# Logout to load graphic session
+########################################
+
+logout_into_graphical_session 'x11'
 
 #######################################
 # Installing Xfce dotfiles

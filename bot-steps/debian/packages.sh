@@ -97,7 +97,7 @@ apt-get install apt-transport-https autoconf automake bat build-essential \
     moreutils nfs-common nix nyancat p7zip pipewire-jack playerctl \
     podman-docker pycodestyle python3 python3-pip rar rustup shellcheck sl \
     systemd-cron systemd-resolved thunar-archive-plugin tk-dev uni2ascii \
-    unrar vim wmctrl xdotool xserver-xorg-input-synaptics yad zip
+    unrar vim yad zip
 
 # Dotfiles
 print_info 'Install CLI packages dotfiles'

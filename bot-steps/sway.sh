@@ -5,6 +5,14 @@
 # This doesn't work if this script is sourced
 . "$(dirname "$0")/lib.sh"
 
+########################################
+# Set up package managers
+########################################
+
+# This step is run early in the provisioning process. We should ensure that the
+# package managers are actually setup
+setup_package_managers
+
 #######################################
 # Install sway
 #######################################
@@ -15,6 +23,12 @@ yay -S --needed cargo-binstall clipman gnome-themes-extra i3blocks-git \
     qt5ct rofi sway sway-contrib swayidle ttf-font-icons udiskie wdisplays \
     wev wl-clipboard xdg-desktop-portal xdg-desktop-portal-gtk \
     xdg-desktop-portal-wlr
+
+########################################
+# Logout to load graphic session
+########################################
+
+logout_into_graphical_session 'wayland'
 
 #######################################
 # Install sway dotfiles
@@ -28,7 +42,7 @@ dotdrop install -p sway -U both
 #######################################
 
 print_info 'Enable sway systemd services'
-dotdrop files -bG -p sway -U both 2> /dev/null | grep service \
+dotdrop files -bG -p sway -U both 2> /dev/null | grep 'service,' \
     | cut --delimiter ',' --fields 2 | cut --delimiter ':' --fields 2 \
     | xargs --max-args 1 basename \
     | xargs systemctl --user add-wants sway-session.target

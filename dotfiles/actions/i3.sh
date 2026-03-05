@@ -18,8 +18,10 @@ case "$DISTRO" in
 
     'debian')
         sudo apt-get install i3blocks
-        print_info 'Install i3-volume via gh-release'
-        sudo gh-release install
+        # Use absolute path because `dotdrop` resolves to the python package
+        # binary within `uv run`
+        /usr/local/bin/dotdrop install -U root -p manual
+        gh_release_install i3-volume
         ;;
 esac
 

@@ -1,0 +1,115 @@
+#!/usr/bin/env sh
+
+# This script ensures that the GitHub CLI is authenticated, by trying to log if
+# no active GitHub CLI user is detected. It attempts to log in via the
+# following methods:
+#
+# - `--token` flag: read the GitHub authentication token from STDIN.
+# - `--browser-user` flag: log in via a browser as such user.
+# - execute as non-root user: log in via a browser as such user.
+# - `SUDO_USER` environment variable: log in via a browser as such user.
+#
+# Arguments:
+#   - --token, -T
+#     Read GitHub authentication token from STDIN.
+#
+#   - --browser-user <user>, -B USER
+#     Log in as <user> via a browser.
+#
+#   - Anything that logger accepts. For detailed info, check the source code at
+#     {{@@ logger_path @@}}. Here a quick summary:
+#     - --<log level>: sets the session log level. The log level must be valid
+#     - --color <on/off/auto>: configures the colored output settings
+#     - --journald <on/off>: configures the journald prefixes settings
+#     - --log-level <log level>: sets the session loggin level
+#     - --tag <on/off>: configures the tag settings
+#
+# While this script could be a `gh` extension, that would require some extra
+# scaffolding than a simple script, such as a separate repository.
+#
+# {{@@ header() @@}}
+
+#######################################
+# Libraries includes
+#######################################
+
+. "{{@@ logger_path @@}}"
+
+#######################################
+# Input processing
+#######################################
+
+BROWSER_USER="$SUDO_USER"
+READ_GITHUB_TOKEN='false'
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        '--browser-user'|'-B')
+            BROWSER_USER="$2"
+            shift 1
+            ;;
+
+        '--token'|'-T')
+            READ_GITHUB_TOKEN='true'
+            ;;
+
+        *)
+            logging_parse_arg "$1" "$2"
+            case "$?" in
+                1)
+                    ;;
+
+                2)
+                    shift 1
+                    ;;
+
+                255)
+                    exit 255
+                    ;;
+            esac
+            ;;
+    esac
+    shift 1
+done
+
+########################################
+# Main
+########################################
+
+log_info 'Check if authenticated with GitHub...'
+gh auth status > /dev/null 2>&1 && {
+    log_info 'Already authenticated with GitHub'
+    exit 0
+}
+log_debug 'Not authenticated with GitHub'
+
+[ "$READ_GITHUB_TOKEN" = 'true' ] && {
+    log_info 'Authenticate with GitHub via token read from STDIN'
+    gh auth login --with-token
+    exit 0
+}
+
+[ -n "$BROWSER_USER" ] && {
+    log_debug "Authenticate with GitHub as $BROWSER_USER"
+    sudo --user "$BROWSER_USER" gh auth status > /dev/null 2>&1 || {
+        log_debug "Authenticate with GitHub via browser as $BROWSER_USER"
+        # If the GitHub CLI ends up actually opening a browser window it will
+        # hang, waiting until it's closed before proceeding.
+        log_debug 'Ensure open browser window for the GitHub CLI'
+        xdg-open 'http://example.com' &
+        sudo --user "$BROWSER_USER" gh auth login --web
+    }
+    log_info "Authenticate with GitHub with $BROWSER_USER's token"
+    sudo --user "$BROWSER_USER" gh auth token | gh auth login --with-token
+    exit 0
+}
+
+[ "$(id --user)" -ne 0 ] && {
+    log_info 'Authenticate with GitHub via browser'
+    gh auth login --web
+    exit 0
+}
+
+log_error 'Cannot authenticate with GitHub:
+- No token to be read from STDIN
+- No non-root user to open a browser as'
+exit 63

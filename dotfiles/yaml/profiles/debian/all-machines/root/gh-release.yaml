@@ -6,7 +6,10 @@
 
 actions:
   post:
-    install-gh: apt-get install gh
+    # Firefox is necessary to authenticate the GitHub CLI
+    install-gh: |
+      [ $DISPLAY_SERVER != 'headless' ] && apt-get install firefox-beta
+      apt-get install gh
 
 config:
   backup: false
@@ -80,6 +83,7 @@ profiles:
     - d_uv
     - f_gh-release.conf
     - f_local_bin_gh-release
+    - f_local_bin_ensure-gh-logged-in
     import:
     - ../../../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/gh-release.yaml:optional
     actions:

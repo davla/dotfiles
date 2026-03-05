@@ -2,6 +2,21 @@
 
 # This file contains utility code shared across bot steps
 
+# This function installs a package via gh-release, ensuring the GitHub CLI is
+# logged in.
+#
+# Arguments:
+#   - $1: The package to be installed via gh-releases
+gh_release_install() {
+    GH_RELEASE_INSTALL__PACKAGE="$1"
+
+    ensure-gh-logged-in
+    print_info "Install $GH_RELEASE_INSTALL__PACKAGE via gh-release"
+    sudo gh-release install "$GH_RELEASE_INSTALL__PACKAGE"
+
+    unset GH_RELEASE_INSTALL__PACKAGE
+}
+
 # This function installs my AUR helper of choice (yay).
 #
 # Arguments:

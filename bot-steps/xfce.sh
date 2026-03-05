@@ -5,6 +5,14 @@
 # This doesn't work if this script is sourced
 . "$(dirname "$0")/lib.sh"
 
+########################################
+# Set up package managers
+########################################
+
+# This step is run early in the provisioning process. We should ensure that the
+# package managers are actually setup
+setup_package_managers
+
 #######################################
 # Installing Xfce
 #######################################
@@ -41,3 +49,9 @@ dotdrop install -p xfce
 # Sensor plugin
 print_info 'Fix hddtemp permissions for sensor plugin'
 sudo chmod u+s /usr/sbin/hddtemp
+
+########################################
+# Logout to load graphic session
+########################################
+
+logout_into_graphical_session 'x11'

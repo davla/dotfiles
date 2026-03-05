@@ -292,11 +292,11 @@ dotfiles:
   f_login.defs:
     src: etc/login.defs
     # Dynamic path since the dotfile content is appended to dst
-    dst: '{{@@ getty_login_tmp_dst @@}}'
+    dst: '{{@@ sway_tmp_dst @@}}'
     chmod: 600
     actions:
     - _strip '{{@@ login_defs_append_marker @@}}' '{{@@ login_defs_dst @@}}'
-    - _append_tmp '{{@@ login_defs_dst @@}}' '{{@@ getty_login_tmp_dst @@}}'
+    - _append_tmp '{{@@ login_defs_dst @@}}' '{{@@ sway_tmp_dst @@}}'
   f_mrconfig:
     src: opt/mrconfig
     dst: /opt/.mrconfig
@@ -456,25 +456,6 @@ profiles:
       pam_env_conf_dst: /etc/security/pam_env.conf
       pam_sudo_dst: /etc/pam.d/sudo
 
-  # This profile groups dotfiles used to configure login from a getty
-  getty-login:
-    dotfiles:
-    - f_login.defs
-    - f_systemd_getty
-    actions:
-    - _rm '{{@@ getty_login_tmp_dst @@}}'
-    dynvariables:
-      getty_login_tmp_dst: mktemp /tmp/getty-login-append.XXX
-    variables:
-      login_defs_append_marker: Local options
-      login_defs_dst: /etc/login.defs
-
-  # This profile gathers the graphical login manager dotfiles
-  graphical-login:
-    dotfiles:
-    - f_lightdm.conf.d_02_custom.conf
-    - f_lightdm-gtk-greeter.conf.d_02_custom.conf
-
   # This profile contains dotfiles related to hardware-related configuration
   hardware:
     dotfiles:
@@ -486,6 +467,8 @@ profiles:
   i3:
     dotfiles:
     - d_i3blocks_keyindicator2
+    - f_lightdm.conf.d_02_custom.conf
+    - f_lightdm-gtk-greeter.conf.d_02_custom.conf
     - f_local_bin_systemd-i3-session
     - f_local_bin_systemd-i3-session-watch
     include:
@@ -579,9 +562,17 @@ profiles:
     - f_flatpak_overrides_wayland
     - f_local_bin_systemd-sway-session
     - f_local_bin_systemd-sway-session-watch
+    - f_login.defs
+    - f_systemd_getty
     include:
     - i3-sway
+    actions:
+    - _rm '{{@@ sway_tmp_dst @@}}'
+    dynvariables:
+      sway_tmp_dst: mktemp /tmp/sway-append.XXX
     variables:
+      login_defs_append_marker: Local options
+      login_defs_dst: /etc/login.defs
       wm_name: sway
 
   # This profile groups keyboard layout dotfiles

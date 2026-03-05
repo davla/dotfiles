@@ -43,22 +43,7 @@ fi
 # Install AUR helper
 #######################################
 
-if pacman -Q --quiet --search yay > /dev/null 2>&1; then
-    print_info 'AUR helper already installed'
-else
-    print_info 'Install AUR helper'
-    pacman -S --needed git base-devel
-
-    YAY_DIR="$(sudo --user "$USER_NAME" mktemp --directory 'XXX.yay.XXX')"
-    sudo --user "$USER_NAME" git clone 'https://aur.archlinux.org/yay-bin.git' \
-        "$YAY_DIR"
-
-    cd "$YAY_DIR" || exit
-    sudo --user "$USER_NAME" makepkg --syncdeps --install
-    cd - > /dev/null 2>&1 || exit
-
-    sudo --user "$USER_NAME" rm -rf "$YAY_DIR"
-fi
+install_aur_helper "$USER_NAME"
 
 #######################################
 # Update package archive

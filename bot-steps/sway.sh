@@ -33,3 +33,14 @@ dotdrop files -bG -p sway -U both 2> /dev/null | grep service \
     | cut --delimiter ',' --fields 2 | cut --delimiter ':' --fields 2 \
     | xargs --max-args 1 basename \
     | xargs systemctl --user add-wants sway-session.target
+
+########################################
+# Logout to load graphic session
+########################################
+
+[ "$DISPLAY_SERVER" != 'wayland' ] && {
+    echo 'Logout necessary to load the graphic session. Press enter...'
+    # shellcheck disable=SC2034
+    read -r ANSWER
+    loginctl terminate-user "$USER"
+}

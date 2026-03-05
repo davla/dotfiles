@@ -41,3 +41,14 @@ dotdrop install -p xfce
 # Sensor plugin
 print_info 'Fix hddtemp permissions for sensor plugin'
 sudo chmod u+s /usr/sbin/hddtemp
+
+########################################
+# Logout to load graphic session
+########################################
+
+[ "$DISPLAY_SERVER" != 'x11' ] && {
+    echo 'Logout necessary to load the graphic session. Press enter...'
+    # shellcheck disable=SC2034
+    read -r ANSWER
+    loginctl terminate-user "$USER"
+}

@@ -18,9 +18,10 @@ case "$DISTRO" in
         ;;
 
     'debian')
-        sudo apt-get install autorandr dunst hsetroot i3 i3blocks \
-            python3-docopt python3-i3ipc picom qt5ct rofi thunar \
-            xdg-desktop-portal xdg-desktop-portal-gtk xfce4-power-manager
+        sudo apt-get install autorandr dunst hsetroot i3 i3blocks lightdm \
+            lightdm-gtk-greeter lightdm-gtk-greeter-settings python3-docopt \
+            python3-i3ipc picom qt5ct rofi thunar xdg-desktop-portal \
+            xdg-desktop-portal-gtk xfce4-power-manager xserver-xorg-input-all
         ;;
 esac
 
@@ -39,3 +40,14 @@ print_info 'Enable i3 systemd services'
 dotdrop files -bG -p i3 2> /dev/null | grep service \
     | cut --delimiter ',' --fields 1 | cut --delimiter '_' --fields 2 \
     | xargs systemctl --user add-wants i3-session.target
+
+########################################
+# Logout to load graphic session
+########################################
+
+[ "$DISPLAY_SERVER" != 'x11' ] && {
+    echo 'Logout necessary to load the graphic session. Press enter...'
+    # shellcheck disable=SC2034
+    read -r ANSWER
+    loginctl terminate-user "$USER"
+}

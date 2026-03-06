@@ -140,7 +140,7 @@ echo "$GIT_ORIGIN" | grep --quiet --extended-regexp 'https?' && {
     # Change this repository URL to use SSH
     echo "$GIT_ORIGIN" \
         | sed --regexp-extended '
-            s|https?://(.+?)/(.+?)/(.+?)(.git)?|git@\1:\2/\3.git| ;
+            s|https?://(.+?)/(.+?)/(.+?)(.git)?|git@personal.\1:\2/\3.git| ;
             s/(\.git)+$/.git/g
         ' | xargs git remote set-url origin
 }

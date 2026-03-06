@@ -28,6 +28,26 @@ print_info() {
     unset NEWLINE OPTION
 }
 
+# This function installs a package via gh-release but only if the GitHub CLI is
+# already authenticated.
+#
+# Arguments:
+#   - $1: The package to be installed via gh-releases
+gh_release_install() {
+    GH_RELEASE_INSTALL__PACKAGE="$1"
+
+    gh auth status --active > /dev/null 2>&1 || {
+        print_info -n "GitHub CLI not authenticated. Can't install "
+        echo "$GH_RELEASE_INSTALL__PACKAGE via gh-releases"
+        exit 0
+    }
+
+    print_info "Install $GH_RELEASE_INSTALL__PACKAGE via gh-release"
+    sudo gh-release install "$GH_RELEASE_INSTALL__PACKAGE"
+
+    unset GH_RELEASE_INSTALL__PACKAGE
+}
+
 # This function installs my AUR helper of choice (yay).
 #
 # Arguments:

@@ -4,4 +4,4 @@
 # only on my work machine.
 
 dotfiles:
-- f_xss-lock.service
+- f_vmware-user.service

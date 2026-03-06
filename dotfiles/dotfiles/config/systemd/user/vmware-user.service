@@ -1,19 +1,19 @@
-# xss-lock systemd service file
+# WMware user systemd service file
 
 [Unit]
-Description=X11 inactivity screen locker
+Description=WMware integration
 After=graphical-session.target
 BindsTo=graphical-session.target
 ConditionEnvironment=DISPLAY
 ConditionEnvironment=XDG_SESSION_ID
 
 [Service]
-ExecStart=xss-lock --session $XDG_SESSION_ID -- lock-screen
+ExecStart=vmware-user-suid-wrapper
 StandardError=journal
 StandardOutput=journal
 SyslogFacility=local0
-SyslogIdentifier=xss-lock
-SyslogIdentifier=xss-lock
+SyslogIdentifier=vmware-user
+SyslogIdentifier=vmware-user
 SyslogLevel=info
 SyslogLevelPrefix=true
-Type=exec
+Type=forking

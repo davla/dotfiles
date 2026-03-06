@@ -165,7 +165,7 @@ if [ "$HOST" = 'work' ]; then
         DOCKER_CONFIG="$HOME/.docker/config.json"
         [ -f "$DOCKER_CONFIG" ] || {
             dirname "$DOCKER_CONFIG" | xargs mkdir --parents
-            ln --symbolic --force "$HOME/.config/containers/auth.json"
+            ln --symbolic --force "$HOME/.config/containers/auth.json" \
                 "$DOCKER_CONFIG"
         }
     '

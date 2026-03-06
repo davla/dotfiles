@@ -20,16 +20,6 @@ USER_NAME="${1:-$USER}"
 # Repositories dotfiles
 #######################################
 
-[ "$HOST" = 'work' ] && {
-    print_info 'Add Microsoft Debian repository'
-    MICROSOFT_REPO_DEB="$(mktemp)"
-    # shellcheck disable=SC2064
-    trap "rm --force $MICROSOFT_REPO_DEB" INT HUP TERM
-    wget --quiet --output-document "$MICROSOFT_REPO_DEB" \
-        https://packages.microsoft.com/config/debian/13/packages-microsoft-prod.deb
-    dpkg --install "$MICROSOFT_REPO_DEB"
-}
-
 print_info 'Install package manager dotfiles'
 dotdrop install -p packages
 print_info 'Update package index'
@@ -94,8 +84,8 @@ case "$HOST" in
 
     'work')
         print_info "Install CLI packages for $HOST"
-        apt-get install amd64-microcode awscli docker-compose-plugin \
-            dotnet-sdk-10.0 i3lock xss-lock
+        apt-get install amd64-microcode awscli docker-compose-plugin golang \
+            just open-vm-tools-desktop
         ;;
 esac
 

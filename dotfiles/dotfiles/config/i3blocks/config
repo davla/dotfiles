@@ -115,9 +115,14 @@ interval=persist
 markup=pango
 min_width=   99%
 
+{%@@ if env['HOST'] != 'work' -@@%}
+
+{#@@ Virtual machines don't have access to CPU temperature @@#}
 # This block displays CPU temperature
 [temperature]
 color={{@@ dark_theme_color @@}}
 command={{@@ i3blocklets_install_path @@}}/temperature -w 60 -c 80 --chip {{@@ i3blocks_temperature_chip @@}} | sed '1s|^|{{@@ label('󱃃', size='140%', spacing=3, color=main_theme_color) @@}}|; s/#FF0000/{{@@ light_theme_color @@}}/I; s/#FFFC00/{{@@ main_theme_color @@}}/I'
 markup=pango
 interval=2
+
+{%@@ endif -@@%}

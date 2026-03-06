@@ -1,19 +1,13 @@
-{%@@ set suite_name = filename(_dotfile_abs_dst) | replace('debian-', '') -@@%}
+# Debian stable
 
-# Debian {{@@ suite_name @@}}
-#
-# {{@@ header() @@}}
-
-Enabled: no
 Types: deb deb-src
 Uris: https://deb.debian.org/debian/
-Suites: {{@@ suite_name @@}} {{@@ suite_name @@}}-updates
+Suites: stable stable-backports proposed-updates stable-updates
 Components: main contrib non-free non-free-firmware
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 
-Enabled: no
 Types: deb deb-src
 Uris: https://security.debian.org/debian-security/
-Suites: {{@@ suite_name @@}}-security
+Suites: stable-security
 Components: main contrib non-free non-free-firmware
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg

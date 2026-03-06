@@ -38,6 +38,9 @@ dotfiles:
   f_caprine.sources:
     src: etc/apt/sources.list.d/caprine.sources
     dst: /etc/apt/sources.list.d/caprine.sources
+  f_debian-stable.sources:
+    src: etc/apt/sources.list.d/debian-stable.sources
+    dst: /etc/apt/sources.list.d/debian-stable.sources
   f_debian-testing.sources:
     src: etc/apt/sources.list.d/debian-official-extra.sources
     dst: /etc/apt/sources.list.d/debian-testing.sources
@@ -56,9 +59,9 @@ dotfiles:
   f_nordvpn.sources:
     src: etc/apt/sources.list.d/nordvpn.sources
     dst: /etc/apt/sources.list.d/nordvpn.sources
-  f_sources.list:
-    src: etc/apt/sources.list
-    dst: /etc/apt/sources.list
+  f_sources.sources:
+    src: etc/apt/sources.sources
+    dst: /etc/apt/sources.sources
   f_spotify.sources:
     src: etc/apt/sources.list.d/spotify.sources
     dst: /etc/apt/sources.list.d/spotify.sources
@@ -87,10 +90,10 @@ profiles:
     - d_dpkg_hooks
     - f_apt.conf.d_dpkg-hooks
     - f_firefox.sources
-    - f_debian-testing.sources
+    - f_debian-stable.sources
     - f_debian-unstable.sources
     - f_docker.sources
-    - f_sources.list
+    - f_sources.sources
     - f_spotify.sources
     - f_vscode.sources
     import:

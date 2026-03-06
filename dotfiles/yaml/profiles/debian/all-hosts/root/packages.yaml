@@ -35,6 +35,9 @@ dotfiles:
   f_apt.conf.d_dpkg-hooks:
     src: etc/apt/apt.conf.d/70dpkg-hooks
     dst: /etc/apt/apt.conf.d/70dpkg-hooks
+  f_debian-stable.sources:
+    src: etc/apt/sources.list.d/debian-stable.sources
+    dst: /etc/apt/sources.list.d/debian-stable.sources
   f_debian-testing.sources:
     src: etc/apt/sources.list.d/debian-official-extra.sources
     dst: /etc/apt/sources.list.d/debian-testing.sources
@@ -53,9 +56,6 @@ dotfiles:
   f_nordvpn.sources:
     src: etc/apt/sources.list.d/nordvpn.sources
     dst: /etc/apt/sources.list.d/nordvpn.sources
-  f_sources.list:
-    src: etc/apt/sources.list
-    dst: /etc/apt/sources.list
   f_vscode.sources:
     src: etc/apt/sources.list.d/vscode.sources
     dst: /etc/apt/sources.list.d/vscode.sources
@@ -69,6 +69,23 @@ dynvariables:
   # importing dotfiles.
   user: '[ "$USER" = "root" ] && echo "root" || echo "user"'
 
+  # This variable contains the generic name of the current Debian suite, such
+  # as "stable", "testing" or "unstable"
+  current_debian_suite: |
+    case "$(lsb_release --codename --short)" in
+        'trixie')
+            echo 'stable'
+            ;;
+
+        'forky')
+            echo 'testing'
+            ;;
+
+        'sid')
+            echo 'unstable'
+            ;;
+    esac
+
 variables:
   # The directory where repository signature keys are installed. It's used in
   # Signed-By configuration in .sources files
@@ -81,10 +98,10 @@ profiles:
     - d_dpkg_hooks
     - f_apt.conf.d_dpkg-hooks
     - f_firefox.sources
+    - f_debian-stable.sources
     - f_debian-testing.sources
     - f_debian-unstable.sources
     - f_docker.sources
-    - f_sources.list
     - f_vscode.sources
     import:
     - ../../../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/packages.yaml:optional

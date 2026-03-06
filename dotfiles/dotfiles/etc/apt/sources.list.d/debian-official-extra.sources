@@ -1,19 +1,20 @@
 {%@@ set suite_name = filename(_dotfile_abs_dst) | replace('debian-', '') -@@%}
+{%@@ set enabled = 'yes' if suite_name == current_debian_suite else 'no' -@@%}
 
 # Debian {{@@ suite_name @@}}
 #
 # {{@@ header() @@}}
 
-Enabled: no
+Enabled: {{@@ enabled @@}}
 Types: deb deb-src
 Uris: https://deb.debian.org/debian/
-Suites: {{@@ suite_name @@}}
+Suites: {{@@ suite_name @@}} {{@@ suite_name @@}}-updates
 Components: main contrib non-free non-free-firmware
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 
-Enabled: no
+Enabled: {{@@ enabled @@}}
 Types: deb deb-src
-Uris: https://deb.debian.org/debian-security/
+Uris: https://security.debian.org/debian-security/
 Suites: {{@@ suite_name @@}}-security
 Components: main contrib non-free non-free-firmware
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg

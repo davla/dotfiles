@@ -16,7 +16,6 @@ set {
     $scratchpad_editor_criterion app_id="scratchpad-editor"
     $scratchpad_term_criterion title="scratchpad-terminal"
     $spotify_criterion app_id="^spotify$"
-    $teams_criterion instance=".*microsoft teams.*"
     $thunderbird_criterion app_id=".*[Mm]ozilla\.[Tt]hunderbird.*"
     $vscode_criterion app_id="^[Cc]ode.*"
 

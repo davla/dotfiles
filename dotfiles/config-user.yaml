@@ -346,9 +346,6 @@ dotfiles:
   f_sway-portals.conf:
     src: config/xdg-desktop-portal/sway-portals.conf
     dst: '{{@@ xdg_config("xdg-desktop-portal/sway-portals.conf") @@}}'
-  f_teams.desktop:
-    src: config/autostart/disable-system-default.desktop
-    dst: '{{@@ xdg_config("autostart/teams.desktop") @@}}'
   f_trolltech.conf:
     src: config/Trolltech.conf
     dst: '{{@@ xdg_config("Trolltech.conf") @@}}'
@@ -383,9 +380,9 @@ dotfiles:
   f_vscode_tasks.json:
     src: config/Code/User/tasks.json
     dst: '{{@@ xdg_config("Code/User/tasks.json") @@}}'
-  f_xss-lock.service:
-    src: config/systemd/user/xss-lock.service
-    dst: '{{@@ xdg_config("systemd/user/xss-lock.service") @@}}'
+  f_vmware-user.service:
+    src: config/systemd/user/vmware-user.service
+    dst: '{{@@ xdg_config("systemd/user/vmware-user.service") @@}}'
   f_xdg-user-dirs.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/xdg-user-dirs.desktop") @@}}'

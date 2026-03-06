@@ -106,7 +106,7 @@ actions:
               ;;
 
           'debian')
-              xargs -I '@' cp --remove-destination '/usr/share/zoneinfo/@' \
+              xargs -I '@' ln --force --symbolic '/usr/share/zoneinfo/@' \
                   /etc/localtime < '{0}'
               dpkg-reconfigure --frontend noninteractive tzdata
               ;;

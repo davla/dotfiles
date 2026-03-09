@@ -100,8 +100,6 @@ Configuration files for my Linux systems
 ![[^_^]][prompt-face] Allow logger colors with no tags.  
 ![[^_^]][prompt-face] Investigate more uses for jinja default.  
 ![[^_^]][prompt-face] Investigate uses of empty `dst:` instead of mktemp.  
-![[>.<]][error-face]  Ensure systemd daemon-reload before enabling in pacman
-                      hooks.  
 ![[>.<]][error-face]  Ensure that autorandr environemnt variable are loaded in
                       xsessionrc.  
 ![[>.<]][error-face]  Handle failure with pkgfile database update at Arch

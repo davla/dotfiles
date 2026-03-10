@@ -52,23 +52,21 @@ esac
 #######################################
 
 if [ "$DISPLAY_SERVER" != 'headless' ]; then
+    print_info 'Install GUI packages shared across all hosts'
+    apt-get install alacritty code-insiders firefox-beta flatpak gdebi \
+        gnome-disk-utility hardinfo peek synaptic xfce4-screenshooter
+
     # Installation
     # shellcheck disable=2039
     case "$HOST" in
         'personal')
             print_info "Install GUI packages for $HOST"
-            apt-get install blueman brasero calibre caprine dropbox gimp gufw \
-                handbrake-gtk libreoffice-calc libreoffice-impress \
-                libreoffice-writer kid3 remmina simple-scan soundconverter \
-                sound-juicer system-config-printer thunderbird \
-                transmission-gtk vlc
+            apt-get install blueman dropbox gufw remmina system-config-printer
                 ;;
     esac
 
-    print_info 'Install GUI packages shared across all hosts'
-    apt-get install alacritty atril baobab code-insiders firefox-beta gdebi \
-        geany gnome-clocks gnome-disk-utility gparted hardinfo pavucontrol \
-        peek seahorse spotify-client synaptic xfce4-screenshooter
+    # This doesn't work if this script is sourced
+    sh "$(dirname "$0")/../flatpak.sh"
 
     # Dotfiles
     print_info 'Install GUI packages dotfiles'
@@ -85,8 +83,8 @@ case "$HOST" in
     'personal')
         print_info "Install CLI packages for $HOST"
         apt-get install autorandr cabal-install cups ghc gifsicle git-review \
-            handbrake-cli hlint imagemagick intel-microcode lame lua luacheck \
-            luarocks libghc-hspec-dev mercurial nordvpn podman-compose \
+            hlint imagemagick intel-microcode lame lua luacheck luarocks \
+            libghc-hspec-dev mercurial nordvpn podman-compose \
             python-requests-futures python3-gdbm python3-gpg python3-lxml \
             python3-pygments python3-requests python3-requests-oauthlib \
             thunar-dropbox-plugin

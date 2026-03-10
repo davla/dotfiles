@@ -91,11 +91,6 @@ find /etc/apt/sources.list.d/ -type f -name '*.sources' -print0 \
                     'https://repo.nordvpn.com/gpg/nordvpn_public.asc'
                 ;;
 
-            'spotify')
-                download_key_from_url "$REPO" \
-                    'https://download.spotify.com/debian/pubkey_5384CE82BA52C83A.asc'
-                ;;
-
             'vscode')
                 download_key_from_url "$REPO" \
                     'https://packages.microsoft.com/keys/microsoft.asc'

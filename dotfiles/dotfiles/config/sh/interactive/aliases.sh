@@ -49,7 +49,8 @@ alias update='yay --refresh --refresh --sync --sysupgrade ;
 
 {%@@ elif distro_id == 'debian' -@@%}
 
-alias update='sudo apt update && sudo apt dist-upgrade && sudo apt autoremove'
+alias update='sudo apt update && sudo apt dist-upgrade && sudo apt autoremove
+    ; {{@@ flatpak_update @@}} ; sudo gh-release install'
 
 {%@@ endif -@@%}
 

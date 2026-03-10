@@ -1,0 +1,10 @@
+{#@@
+    This snippet adds system-wide zsh configuration, that can be beneficial for
+    any user or that is not user-specific.
+-@@#}
+
+{{@@ zsh_system_append_marker @@}}
+
+# Source POSIX profiles
+
+emulate sh -c 'source /etc/profile'

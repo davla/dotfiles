@@ -1,0 +1,7 @@
+%YAML 1.2
+---
+# This dotfiles file lists the extra dotfiles the "zsh-system" profile on
+# Debian for root
+
+dotfiles:
+- f_etc_zshenv

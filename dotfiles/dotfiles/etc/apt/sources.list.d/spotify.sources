@@ -1,9 +1,0 @@
-# Spotify
-#
-# {{@@ header() @@}}
-
-Types: deb
-Uris: http://repository.spotify.com
-Suites: stable
-Components: non-free
-{%@@ include 'etc/apt/sources.list.d/signed-by' @@%}

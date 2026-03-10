@@ -29,9 +29,14 @@ case "$HOST" in
             org.signal.Signal soundconverter soundjuicer org.telegram.desktop \
             thunderbird
         ;;
+
+    'work')
+        print_info "Install Flatpak applications for $HOST"
+        flatpak install --noninteractive slack
+        ;;
 esac
 
 print_info 'Install Flatpak applications shared across all hosts'
 # No Bitwarden as it still has copy-paste issues on Wayland
-flatpak install --noninteractive adwaita-dark baobab drawing org.geany.Geany \
-    io.mpv.Mpv pwvucontrol seahorse simplescan spotify
+flatpak install --noninteractive adwaita-dark baobab org.gnome.clocks drawing \
+    org.geany.Geany io.mpv.Mpv pwvucontrol seahorse simplescan spotify

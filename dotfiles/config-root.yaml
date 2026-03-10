@@ -30,6 +30,13 @@ actions:
       systemctl enable --now systemd-resolved
       ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
+    # This action links the installed dotfile in Xsession.d with the given name
+    link_in_Xsession.d: |
+      if [ -d /etc/X11/Xsession.d ]; then
+          sudo ln --force --symbolic '{{@@ _dotfile_abs_dst @@}}' \
+              '/etc/X11/Xsession.d/{0}'
+      fi
+
     locales: sh ./actions/locales.sh
 
     # This action compiles the keyindicator2 custom i3block
@@ -80,8 +87,11 @@ actions:
               ;;
       esac
 
-    # This action enables the systemd service file passed as an argument
-    systemd-enable: basename '{0}' '.service' | xargs systemctl enable --now
+    # This action enables and starts the systemd service for the installed
+    # .service dotfile
+    systemd-enable: |-
+      basename '{{@@ _dotfile_abs_dst @@}}' '.service' \
+          | xargs systemctl enable --now
 
     # This action applies the timezone settings.
     # In Debian, non-interactive mode in dpkg-reconfigure needs both
@@ -142,9 +152,6 @@ dotfiles:
   d_applications:
     src: usr/share/applications
     dst: /usr/share/applications
-  d_flatpak_overrides:
-    src: var/lib/flatpak/overrides
-    dst: /var/lib/flatpak/overrides
   d_i3blocks_keyindicator2:
     src: usr/local/src/i3blocks/keyindicator2
     dst: /usr/local/src/i3blocks/keyindicator2
@@ -208,6 +215,15 @@ dotfiles:
   f_dotnet_zsh_completion:
     src: usr/local/share/zsh/site-functions/_dotnet
     dst: /usr/local/share/zsh/site-functions/_dotnet
+  f_etc_zshenv:
+    src: etc/zsh/zshenv
+    # Dynamic path since the dotfile content is appended to dst
+    dst: '{{@@ zsh_tmp_dst @@}}'
+    chmod: 600
+    actions:
+    - _create_if_empty '{{@@ etc_zshenv_dst @@}}' '#!/usr/bin/env zsh\n'
+    - _strip '{{@@ zsh_system_append_marker @@}}' '{{@@ etc_zshenv_dst @@}}'
+    - _append_tmp '{{@@ etc_zshenv_dst @@}}' '{{@@ zsh_tmp_dst @@}}'
   f_etc_zshrc:
     src: etc/zsh/zshrc
     # Dynamic path since the dotfile content is appended to dst
@@ -215,8 +231,17 @@ dotfiles:
     chmod: 600
     actions:
     - _create_if_empty '{{@@ etc_zshrc_dst @@}}' '#!/usr/bin/env zsh\n'
-    - _strip '{{@@ etc_zshrc_append_marker @@}}' '{{@@ etc_zshrc_dst @@}}'
+    - _strip '{{@@ zsh_system_append_marker @@}}' '{{@@ etc_zshrc_dst @@}}'
     - _append_tmp '{{@@ etc_zshrc_dst @@}}' '{{@@ zsh_tmp_dst @@}}'
+  f_flatpak_overrides_wayland:
+    src: var/lib/flatpak/overrides/global
+    dst: /var/lib/flatpak/overrides/global
+  f_flatpak_overrides_signal:
+    src: var/lib/flatpak/overrides/org.signal.Signal
+    dst: /var/lib/flatpak/overrides/org.signal.Signal
+  f_flatpak_remotes_flathub:
+    src: etc/flatpak/remotes.d/flathub.flatpakrepo
+    dst: /etc/flatpak/remotes.d/flathub.flatpakrepo
   f_grub:
     src: etc/default/grub
     dst: /etc/default/grub
@@ -316,11 +341,16 @@ dotfiles:
     actions:
     - _strip '{{@@ pam_env_conf_append_marker @@}}' '{{@@ pam_env_conf_dst @@}}'
     - _append_tmp '{{@@ pam_env_conf_dst @@}}' '{{@@ environment_tmp_dst @@}}'
+  f_profile.d_flatpak-bin-path.sh:
+    src: etc/profile.d/flatpak-bin-path.sh
+    dst: /etc/profile.d/flatpak-bin-path.sh
+    actions:
+    - link_in_Xsession.d '21flatpak-bin-path'
   f_raspberry.automount:
     src: etc/systemd/system/mnt-raspberry.automount
     dst: /etc/systemd/system/mnt-raspberry.automount
     actions:
-    - systemd-enable '{{@@ _dotfile_abs_src @@}}'
+    - systemd-enable
   f_raspberry.mount:
     src: etc/systemd/system/mnt-raspberry.mount
     dst: /etc/systemd/system/mnt-raspberry.mount
@@ -549,6 +579,7 @@ profiles:
   sway:
     dotfiles:
     - d_local_lib_i3ipc-extras
+    - f_flatpak_overrides_wayland
     - f_i3_sway_10-systemd
     - f_i3_sway_systemd-session.target
     - f_i3_sway_systemd-session-watch.service
@@ -587,9 +618,12 @@ profiles:
     - f_etc_zshrc
     dynvariables:
       zsh_tmp_dst: mktemp /tmp/zsh-dotfiles.XXX
+    import:
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/zsh-system.yaml:optional
     variables:
-      etc_zshrc_append_marker: '# Custom'
+      zsh_system_append_marker: '# Custom'
       etc_zshrc_dst: /etc/zsh/zshrc
+      etc_zshenv_dst: /etc/zsh/zshenv
     actions:
     - _rm '{{@@ zsh_tmp_dst @@}}'
 

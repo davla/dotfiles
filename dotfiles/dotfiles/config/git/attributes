@@ -1,0 +1,3 @@
+# Default git attributes
+
+*.md whitespace=-blank-at-eol

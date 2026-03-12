@@ -95,10 +95,19 @@
   },
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
-  // These are configured by .editorconfig
+  // These are configured in the global .editorconfig
   "files.insertFinalNewline": false,
   "files.trimFinalNewlines": false,
   "files.trimTrailingWhitespace": false,
+  /*
+   * Prevent Prettier from formatting markdown. It has no option to allow
+   * trailing whitespaces.
+   */
+  "[markdown]": {
+    "editor.defaultFormatter": "vscode.markdown-language-features",
+    // This is configured in the global .editorconfig
+    "files.trimTrailingWhitespace": false,
+  },
 
   ///////////////////////////////////
   // Search

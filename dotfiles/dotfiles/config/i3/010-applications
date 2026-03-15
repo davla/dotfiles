@@ -12,15 +12,14 @@
 # Command criteria
 set $firefox_criterion class="firefox"
 set $microsoft_edge_criterion class="Microsoft-edge" instance="^(?!crx__)"
+set $messaging_criterion {{@@ messaging.criterion @@}}
 set $outlook_criterion title="^Outlook.*PWA" class="Microsoft-edge" \
     instance="^crx__"
 set $scratchpad_editor_criterion instance="scratchpad-editor"
 set $scratchpad_term_criterion title="scratchpad-terminal"
-set $slack_criterion instance="slack"
 set $spotify_criterion instance="spotify"
 set $teams_criterion title="^Microsoft Teams" class="Microsoft-edge" \
     instance="^crx__"
-set $telegram_criterion instance="telegram" title="Telegram.*"
 set $thunderbird_criterion class="thunderbird"
 set $vscode_criterion instance="code"
 
@@ -45,8 +44,7 @@ bindsym $mod+y exec --no-startup-id \
         || org.geany.Geany --name scratchpad-editor
 bindsym $mod+Escape exec --no-startup-id systemctl poweroff
 bindsym $mod+e exec --no-startup-id \
-    i3-msg '[${{@@ messaging_client @@}}_criterion] scratchpad show' \
-        || {{@@ messaging_client @@}}
+    i3-msg '[$messaging_criterion] scratchpad show' || {{@@ messaging.cmd @@}}
 bindsym $mod+F5 exec --no-startup-id systemctl reboot
 bindsym $mod+Tab exec $term
 bindsym $mod+Shift+Tab exec --no-startup-id \
@@ -91,6 +89,19 @@ for_window [title="^$calc_title$"] floating enable
 for_window [floating title="^$calc_title$"] \
     resize set $floating_width $floating_height, \
     move position center
+
+{%@@ if messaging.apps -@@%}
+
+# Messaging
+{%@@ for app in messaging.apps -@@%}
+
+for_window [instance="{{@@ app.window_criterion @@}}"] \
+    layout tabbed, resize set $messaging_width $messaging_height, \
+    move position center
+
+{%@@ endfor -@@%}
+
+{%@@ endif -@@%}
 
 # Scratchpad editor
 {{@@ scratchpad_application('$scratchpad_editor_criterion',

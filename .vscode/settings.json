@@ -22,6 +22,7 @@
     "**/i3/**/*": "i3",
     "**/i3blocks*/**/*": "ini",
     "**/mako/config": "ini",
+    "**/messaging/config.toml": "ini",
     "**/mr/**/*": "shellscript",
     "**/pacman.d/**/*": "ini",
     "**/sway/**/*": "i3",

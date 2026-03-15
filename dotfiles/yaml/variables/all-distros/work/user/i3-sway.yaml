@@ -5,11 +5,10 @@
 
 variables:
   browser: microsoft-edge
-
   i3blocks_temperature_chip: thinkpad-isa-0000
-
   mail_client: outlook
 
-  messaging_apps: []
-  messaging_client: slack
-  messaging_client_cmd: slack
+  messaging:
+    cmd: com.slack.Slack
+    criterion: instance="slack"
+    apps: null

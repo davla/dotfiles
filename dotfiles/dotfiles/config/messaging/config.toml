@@ -1,0 +1,18 @@
+# Configuration file for my custom messaging script
+#
+# {{@@ header() @@}}
+
+# The mark to be used for the most recently focused window
+mark = '{{@@ messaging.mark @@}}'
+
+# The name of throaway workspace the windows are initially placed into
+throwaway-workspace = 'messaging'
+
+# The messaging apps to be spawned
+{%@@ for app in messaging.apps -@@%}
+
+[[apps]]
+cmd = '{{@@ app.cmd @@}}'
+window_criterion = '{{@@ app.window_criterion @@}}'
+
+{%@@ endfor @@%}

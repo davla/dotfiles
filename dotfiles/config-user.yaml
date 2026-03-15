@@ -292,6 +292,9 @@ dotfiles:
   f_mako_config:
     src: config/mako/config
     dst: '{{@@ xdg_config("mako/config") @@}}'
+  f_messaging_config.toml:
+    src: config/messaging/config.toml
+    dst: '{{@@ xdg_config("messaging/config.toml") @@}}'
   f_mimeapps.list:
     src: config/mimeapps.list
     dst: '{{@@ xdg_config("mimeapps.list") @@}}'
@@ -540,6 +543,7 @@ profiles:
     - f_default-ws-layout.service
     - f_i3blocks_config
     - f_mako_config
+    - f_messaging_config.toml
     - f_swayfocus.service
     - f_swayidle_config
     - f_swayidle.service

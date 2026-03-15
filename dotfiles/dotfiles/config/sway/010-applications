@@ -11,15 +11,12 @@
 
 set {
     # Command criteria
-    $caprine_criterion app_id="caprine"
     $firefox_criterion app_id=".*[Ff]irefox.*"
-    $messaging_criterion con_mark="{{@@ messaging_mark @@}}"
+    $messaging_criterion {{@@ messaging.criterion @@}}
     $scratchpad_editor_criterion app_id="scratchpad-editor"
     $scratchpad_term_criterion title="scratchpad-terminal"
-    $signal_criterion app_id="signal"
     $spotify_criterion app_id="^spotify$"
     $teams_criterion instance=".*microsoft teams.*"
-    $telegram_criterion app_id=".*telegram.*" title=".*Telegram.*"
     $thunderbird_criterion app_id=".*[Mm]ozilla\.[Tt]hunderbird.*"
     $vscode_criterion app_id="^[Cc]ode.*"
 
@@ -33,9 +30,8 @@ set {
 
 bindsym {
     # GUI applications
-    $mod+e exec \
-        swaymsg '[${{@@ messaging_client @@}}_criterion] scratchpad show' \
-            || {{@@ messaging_client_cmd @@}}
+    $mod+e exec swaymsg '[$messaging_criterion] scratchpad show' \
+        || {{@@ messaging.cmd @@}}
     $mod+p exec swaymsg '[$spotify_criterion] scratchpad show' \
         || com.spotify.Client
     $mod+w exec firefox
@@ -100,16 +96,18 @@ for_window [$firefox_criterion title="[Ee]xtension.*[Bb]itwarden"] \
 for_window [title="^$calc_title$"] floating enable, \
     resize set $floating_width $floating_height, move position center
 
-{%@@ if messaging_apps -@@%}
+{%@@ if messaging.apps -@@%}
 
 # Messaging
-{%@@ for app in messaging_apps @@%}
-for_window [${{@@ app | replace('-', '_') @@}}_criterion] \
+{%@@ for app in messaging.apps -@@%}
+
+for_window [app_id="{{@@ app.window_criterion @@}}"] \
     layout tabbed, resize set $messaging_width $messaging_height, \
     move position center
-{%@@ endfor @@%}
 
-{%@@- endif @@%}
+{%@@ endfor -@@%}
+
+{%@@ endif -@@%}
 
 # Scratchpad editor
 {{@@ scratchpad_application('$scratchpad_editor_criterion',

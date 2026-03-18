@@ -4,7 +4,6 @@
 # packages from sources on Debian for my personal system
 
 dotfiles:
-- d_applications
 - d_myrepos-lib
 - f_mrconfig
 - f_mrtrust

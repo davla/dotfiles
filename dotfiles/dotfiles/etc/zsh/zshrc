@@ -1,9 +1,9 @@
 {#@@
-    This snippet adds system-wide zsh configuration, that can be beneficial for
-    any user or that is not user-specific.
+    This snippet adds system-wide interactive zsh configuration, that can be
+    beneficial for any user or that is not user-specific.
 -@@#}
 
-{{@@ etc_zshrc_append_marker @@}}
+{{@@ zsh_system_append_marker @@}}
 
 ########################################
 # Keybindings

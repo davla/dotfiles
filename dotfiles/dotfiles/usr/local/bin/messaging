@@ -1,31 +1,24 @@
 #!/usr/bin/env python3
 
-"""Spawn applications in a tabbed container in the scratchpad and mark currently
-focused window.
-
-The application windows are loosely matched by "app_id" in sway and "instance" in i3.
-
-The applications are initially moved to a throwaway workspace.
-
-Usage:
-    messaging --mark <mark> --workspace <workspace> <app>...
-    messaging --help
-
-Options:
-    --mark <mark>, -M MARK                  The mark to be used for the last
-                                            used window.
-    --workspace <workspace>, -W WORKSPACE   The throaway workspace the windows
-                                            are placed into.
-    --help, -H                              Show this help text.
+"""Spawn applications in a scratchpad tabbed container and mark currently focused
+window.
 """
 
 import asyncio
 import os
 import shutil
+import textwrap
+import tomllib
+from argparse import ArgumentParser, RawDescriptionHelpFormatter
+from asyncio.subprocess import Process
+from collections.abc import Iterable, Sequence
+from dataclasses import dataclass
+from pathlib import Path
 from subprocess import DEVNULL
+from typing import Awaitable, Optional, Self
 
-from docopt import docopt
-from i3ipc import Event
+from i3ipc import CommandReply, Connection, Event
+from i3ipc.aio import Con, Connection
 from i3ipc_extras import ConnectionExtras
 
 
@@ -34,25 +27,27 @@ class MessagingApp:
 
     window_match_prop = "app_id" if "WAYLAND_DISPLAY" in os.environ else "instance"
 
-    def __init__(self, bin_name):
-        self.name = bin_name
-        self.window_criterion = f'{self.window_match_prop}=".*(?i){self.name}.*"'
+    def __init__(self, cmd: str, window_criterion: str) -> None:
+        self.name = cmd
+        self.window_criterion = f'{self.window_match_prop}="{window_criterion}"'
         self.container_id = None
         self.case_insensitive_name = self.name.casefold()
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(self.name)
 
-    def is_app_window(self, window):
+    def is_app_window(self, window: Con) -> bool:
         """Return whether a window belongs to this messaging application."""
+        if self.container_id is not None:
+            return self.container_id == window.id
+
+        window_prop_value = getattr(window, self.window_match_prop, "").casefold()
         return (
-            self.container_id == window.id
-            if self.container_id is not None
-            else self.case_insensitive_name
-            in getattr(window, self.window_match_prop, "").casefold()
+            window_prop_value in self.case_insensitive_name
+            or self.case_insensitive_name in window_prop_value
         )
 
-    def spawn(self):
+    def spawn(self) -> Awaitable[Process]:
         """Start the messaging application as a subprocesses."""
         executable = shutil.which(self.name)
         if executable is None:
@@ -63,59 +58,142 @@ class MessagingApp:
         )
 
 
+@dataclass
+class Config:
+    """The configuration parameters.
+
+    Values from command-line arguments and the TOML configuration file are merged.
+    Command-line values override the ones in the TOML file.
+    """
+
+    mark: str
+    throwaway_workspace: str
+    apps: Sequence[MessagingApp]
+
+    @classmethod
+    def parse(cls, cli_args: Optional[Sequence[str]] = None) -> Self:
+        args = cls._cli_args_parser().parse_args(cli_args)
+        with open(args.config, "rb") as toml_file:
+            config_file = tomllib.load(toml_file)
+        return cls(
+            mark=args.mark or config_file["mark"],
+            throwaway_workspace=args.workspace or config_file["throwaway-workspace"],
+            apps=[MessagingApp(**app) for app in config_file["apps"]],
+        )
+
+    @staticmethod
+    def _cli_args_parser() -> ArgumentParser:
+        xdg_config = Path(os.environ.get("XDG_CONFIG_HOME", Path("~", ".config")))
+        default_toml_path = (xdg_config / "messaging" / "config.toml").expanduser()
+
+        args_parser = ArgumentParser(
+            description=" ".join(__doc__.splitlines()),
+            epilog=textwrap.dedent(
+                f"""
+                The configuration file has the following TOML structure:
+
+                ```toml
+                # The mark to be used for the most recently focused window
+                mark = 'messaging-mark'
+
+                # The name of throaway workspace the windows are initially placed into
+                throwaway-workspace = 'messaging-ws'
+
+                # The messaging apps to be spawned
+                [[app]]
+                cmd = 'basic-texts'
+                window-criterion = 'basic-texts-id'
+
+                [[app]]
+                cmd = 'stay-in-touch'
+                window-criterion = 'rather-not-id'
+                ```
+
+                The applications are initially moved to a throwaway workspace.
+                """
+            ),
+            formatter_class=RawDescriptionHelpFormatter,
+        )
+        args_parser.add_argument(
+            "--config",
+            "-C",
+            help="The location of the configuration file. Defaults to $XDG_CONFIG_HOME/messaging/config.toml, or $HOME/.config/messaging/config.toml if XDG_CONFIG_HOME is not defined.",
+            type=str,
+            required=False,
+            default=default_toml_path,
+        )
+        args_parser.add_argument(
+            "--mark",
+            "-M",
+            type=str,
+            required=False,
+            help="The mark to be used for the most recently focused window.",
+        )
+        args_parser.add_argument(
+            "--workspace",
+            "-W",
+            type=str,
+            required=False,
+            help="The name of throaway workspace the windows are initially placed into.",
+        )
+        return args_parser
+
+
 class AppSet:
     """A remove-only set of messaging applications."""
 
-    def __init__(self, apps):
+    def __init__(self, apps: Iterable[MessagingApp]) -> None:
         self.apps = set(apps)
 
-    def __bool__(self):
+    def __bool__(self) -> bool:
         """Return whether there are any messaging applications left."""
         return bool(self.apps)
 
-    def discard(self, app):
+    def discard(self, app: MessagingApp) -> None:
         """Remove a messaging application from the set."""
         self.apps.discard(app)
 
-    def discard_by_window(self, window):
+    def discard_by_window(self, window: Con) -> None:
         """Remove the application matching the given window, if any."""
         for app in self.apps:
             if app.is_app_window(window):
                 self.apps.discard(app)
                 return
 
-    def find_by_window(self, window):
+    def find_by_window(self, window: Con) -> Optional[MessagingApp]:
         """Return the application matching the given window."""
         try:
             return next(app for app in self.apps if app.is_app_window(window))
         except StopIteration:
             return None
 
-    def has_app_by_window(self, window):
+    def has_app_by_window(self, window: Con) -> bool:
         """Whether there is any application matching the given window."""
         return any(app.is_app_window(window) for app in self.apps)
 
 
-def add_mark(i3, criterion, mark):
+def add_mark(
+    i3: Connection, criterion: str, mark: str
+) -> Awaitable[list[CommandReply]]:
     """Add a mark to an i3 container identified by a criterion."""
     return i3.command(f"[{criterion}] mark --add {mark}")
 
 
-def con_id_criterion(id):
+def con_id_criterion(id: str) -> str:
     """Return the con_id criterion for a given id."""
     return f"con_id={id}"
 
 
-async def make_messaging_container(i3, workspace, mark, apps):
+async def make_messaging_container(i3: Connection, config: Config) -> None:
     """Create i3 container for messaging applications."""
-    await move_apps_to_tmp_workspace(i3, workspace, apps)
-    await wait_for_app_titles(i3, apps)
-    first_app_criterion = con_id_criterion(apps[0].container_id)
+    await move_apps_to_tmp_workspace(i3, config.throwaway_workspace, config.apps)
+    await wait_for_app_titles(i3, config.apps)
+    first_app_criterion = con_id_criterion(config.apps[0].container_id)
     await make_scratchpad(i3, first_app_criterion)
-    await add_mark(i3, first_app_criterion, mark)
+    await add_mark(i3, first_app_criterion, config.mark)
 
 
-async def make_scratchpad(i3, criterion):
+async def make_scratchpad(i3: Connection, criterion: str) -> None:
     """Send the messaging contaner to the i3 scratchpad."""
     current_workspace = (await i3.get_tree()).find_focused().workspace()
     await i3.command(
@@ -125,7 +203,9 @@ async def make_scratchpad(i3, criterion):
     )
 
 
-async def mark_on_focus(i3, mark, apps):
+async def mark_on_focus(
+    i3: Connection, mark: str, apps: Iterable[MessagingApp]
+) -> None:
     """Add a mark to the last focused messaging window."""
     remaining_apps = AppSet(apps)
     window_events = (
@@ -145,20 +225,16 @@ async def mark_on_focus(i3, mark, apps):
             return
 
 
-def move_apps_to_tmp_workspace(i3, workspace, apps):
+def move_apps_to_tmp_workspace(
+    i3: Connection, workspace: str, apps: Iterable[MessagingApp]
+) -> Awaitable[list[CommandReply]]:
     """Send the application windows to a throwaway workspace."""
     return i3.command(
         "\n".join(f'assign [{app.window_criterion}] "{workspace}"' for app in apps)
     )
 
 
-def parse_cli_args():
-    """Parse command-line arguments."""
-    args = docopt(__doc__)
-    return args["<app>"], args["--mark"], args["--workspace"]
-
-
-async def wait_for_app_titles(i3, apps):
+async def wait_for_app_titles(i3: Connection, apps: Iterable[MessagingApp]) -> None:
     """Wait for applications to generate a "window" i3 event with change == "title"."""
     events = i3.events(Event.WINDOW_TITLE)
     remaining_apps = AppSet(apps)
@@ -171,15 +247,13 @@ async def wait_for_app_titles(i3, apps):
         remaining_apps.discard(app)
 
 
-async def main():
-    app_names, mark, workspace = parse_cli_args()
-
-    apps = list(map(MessagingApp, app_names))
-    await asyncio.gather(*map(MessagingApp.spawn, apps))
+async def main() -> None:
+    config = Config.parse()
+    await asyncio.gather(*map(MessagingApp.spawn, config.apps))
 
     i3 = await ConnectionExtras().connect()
-    await make_messaging_container(i3, mark, workspace, apps)
-    await mark_on_focus(i3, mark, apps)
+    await make_messaging_container(i3, config)
+    await mark_on_focus(i3, config.mark, config.apps)
 
 
 if __name__ == "__main__":

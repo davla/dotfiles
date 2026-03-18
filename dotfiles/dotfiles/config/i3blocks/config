@@ -69,6 +69,12 @@ UPDATE_COLOR={{@@ main_theme_color @@}}
 
 {%@@ endif -@@%}
 
+[flatpak-upgrades]
+command={{@@ i3blocklets_install_path @@}}/flatpak-updates -L '{{@@ label('', color=main_theme_color) @@}}' -C '{{@@ main_theme_color @@}}' -0 '{{@@ i3bar_inactive_color @@}}'
+markup=pango
+interval={{@@ 60 * 60 @@}}
+signal={{@@ i3blocks_signals.updates @@}}
+
 {%@@ if not on_wayland @@%}
 {#@@
     Temporarily disabling this on wayland, I haven't coded wayland support for

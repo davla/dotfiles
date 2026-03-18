@@ -4,6 +4,7 @@
 # "packages" profile on Debian only on my personal machine
 
 dotfiles:
-- f_caprine.sources
 - f_dropbox.sources
+- f_flatpak_remotes_flathub
 - f_nordvpn.sources
+- f_profile.d_flatpak-bin-path.sh

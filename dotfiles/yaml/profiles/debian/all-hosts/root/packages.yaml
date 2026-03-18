@@ -35,9 +35,6 @@ dotfiles:
   f_apt.conf.d_dpkg-hooks:
     src: etc/apt/apt.conf.d/70dpkg-hooks
     dst: /etc/apt/apt.conf.d/70dpkg-hooks
-  f_caprine.sources:
-    src: etc/apt/sources.list.d/caprine.sources
-    dst: /etc/apt/sources.list.d/caprine.sources
   f_debian-testing.sources:
     src: etc/apt/sources.list.d/debian-official-extra.sources
     dst: /etc/apt/sources.list.d/debian-testing.sources
@@ -59,9 +56,6 @@ dotfiles:
   f_sources.list:
     src: etc/apt/sources.list
     dst: /etc/apt/sources.list
-  f_spotify.sources:
-    src: etc/apt/sources.list.d/spotify.sources
-    dst: /etc/apt/sources.list.d/spotify.sources
   f_vscode.sources:
     src: etc/apt/sources.list.d/vscode.sources
     dst: /etc/apt/sources.list.d/vscode.sources
@@ -91,9 +85,8 @@ profiles:
     - f_debian-unstable.sources
     - f_docker.sources
     - f_sources.list
-    - f_spotify.sources
     - f_vscode.sources
     import:
-    - ../../../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/apt-sources.yaml:optional
+    - ../../../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/packages.yaml:optional
     actions:
     - repo-keys

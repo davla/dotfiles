@@ -1,9 +1,15 @@
 #!/usr/bin/env sh
 
-# {{@@ header() @@}}
-
 # This script defines some POSIX shell aliases that are useful in interactive
 # shells only
+#
+# {{@@ header() @@}}
+
+{%@@ set flatpak_update = '{
+    sudo --login flatpak update
+    : "Flatpak triggers execute in a sandbox, they cannot send signals"
+    pkill -RTMIN+%s i3blocks
+}' % i3blocks_signals.updates -@@%}
 
 #######################################
 # Core commands aliases
@@ -38,11 +44,13 @@ alias root='sudo --shell'
 
 {%@@ if 'arch' in distro_id -@@%}
 
-alias update='yay -Suyy'
+alias update='yay --refresh --refresh --sync --sysupgrade ;
+    {{@@ flatpak_update @@}}'
 
 {%@@ elif distro_id == 'debian' -@@%}
 
-alias update='sudo apt update && sudo apt dist-upgrade && sudo apt autoremove'
+alias update='sudo apt update && sudo apt dist-upgrade && sudo apt autoremove
+    ; {{@@ flatpak_update @@}} ; sudo gh-release install'
 
 {%@@ endif -@@%}
 

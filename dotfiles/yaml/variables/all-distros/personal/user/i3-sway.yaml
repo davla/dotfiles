@@ -5,16 +5,19 @@
 
 variables:
   browser: firefox
-
   i3blocks_temperature_chip: coretemp-isa-0000
-
   mail_client: thunderbird
 
-  messaging_apps: [ telegram, signal, caprine ]
-  messaging_client: messaging
-  messaging_mark: messaging
-  messaging_client_cmd: >-
-    messaging
-    --mark {{@@ messaging_mark @@}}
-    --workspace messaging
-    {{@@ messaging_apps | join(" ") @@}}
+  messaging:
+    cmd: messaging
+    mark: messaging
+    criterion: con_mark="{{@@ messaging.mark @@}}"
+    apps:
+    - cmd: org.telegram.desktop
+      window_criterion: org.telegram.desktop
+
+    - cmd: org.signal.Signal
+      window_criterion: org.signal.Signal
+
+    - cmd: com.sindresorhus.Caprine
+      window_criterion: Caprine

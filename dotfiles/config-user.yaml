@@ -459,14 +459,9 @@ profiles:
     dotfiles:
     - d_clipcat
     - d_i3
-    - d_i3-sway_shared_config
-    - d_rofi
     - d_thunar
-    - f_alacritty.toml
     - f_clipcat.service
-    - f_default-ws-layout.service
     - f_dunstrc
-    - f_i3blocks_config
     - f_i3-portals.conf
     - f_picom.conf
     - f_picom.service
@@ -478,15 +473,31 @@ profiles:
     - i3
     include:
     - autorandr
+    - i3-sway
     - i3-{{@@ output_scaling @@}}
-    - look-and-feel
-    - startup
     variables:
       display_server: x11
-      is_headless: false
       on_wayland: false
       on_x11: true
       wm_name: i3
+
+  # This profile groups together dotfiles and variables that are used both in
+  # the i3 and sway profiles. Its main purpose is to be include'd from such
+  # profiles.
+  i3-sway:
+    dotfiles:
+    - d_i3-sway_shared_config
+    - d_rofi
+    - f_alacritty.toml
+    - f_default-ws-layout.service
+    - f_i3blocks_config
+    include:
+    - look-and-feel
+    - startup
+    import:
+    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/i3-sway.yaml:optional
+    variables:
+      is_headless: false
 
   # This profile includes the dotfiles for look & feel of a GUI environment,
   # both Gtk, Qt and bare X11.
@@ -536,14 +547,8 @@ profiles:
   # little bit more than just the sway configuration files.
   sway:
     dotfiles:
-    - d_i3-sway_shared_config
-    - d_i3blocks-email
-    - d_rofi
     - d_sway
-    - f_alacritty.toml
     - f_clipman.service
-    - f_default-ws-layout.service
-    - f_i3blocks_config
     - f_mako_config
     - f_messaging_config.toml
     - f_swayfocus.service
@@ -551,11 +556,9 @@ profiles:
     - f_swayidle.service
     - f_sway-portals.conf
     include:
-    - look-and-feel
-    - startup
+    - i3-sway
     variables:
       display_server: wayland
-      is_headless: false
       on_wayland: true
       on_x11: false
       wm_name: sway

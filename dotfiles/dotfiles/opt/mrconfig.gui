@@ -12,6 +12,15 @@ include = cat '{{@@ mr_libs_path @@}}/git-install'
 
 
 [/opt/i3blocks-contrib]
+{%@@ set blocklet_names = ([
+        'apt-upgrades',
+        'batterybar' if has_battery | is_truthy else None,
+        'cpu_usage2',
+        'temperature' if has_cpu_temp_sensors | is_truthy else None,
+    ]
+    + (i3blocks_contrib_blocklets | default([])))
+    | reject('none') -@@%}
+
 checkout =
 	git clone 'https://github.com/vivien/i3blocks-contrib' 'i3blocks-contrib'
 install =
@@ -19,7 +28,7 @@ install =
     make --directory "$MR_REPO/cpu_usage2"
     #
     mkdir --parents '{{@@ i3blocklets_install_path @@}}'
-    for BLOCK in {{@@ i3blocks_contrib_list @@}}; do
+    for BLOCK in {{@@ blocklet_names | join(' ') @@}}; do
         find "$MR_REPO/$BLOCK" -type f -executable -exec install --mode 755 \
             '{}' '{{@@ i3blocklets_install_path @@}}' \;
     done

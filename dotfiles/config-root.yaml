@@ -488,30 +488,30 @@ profiles:
   # to be installed
   i3:
     dotfiles:
-    - d_local_lib_i3ipc-extras
-    - f_i3_sway_10-systemd
-    - f_i3_sway_systemd-session.target
-    - f_i3_sway_systemd-session-watch.service
-    - f_local_bin_default-ws-layout
+    - d_i3blocks_keyindicator2
     - f_local_bin_systemd-i3-session
     - f_local_bin_systemd-i3-session-watch
-    import:
-    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/i3-sway.yaml:optional
     include:
-    - i3blocks
+    - i3-sway
     - x11
     variables:
       wm_name: i3
 
-  # This profile groups i3blocks-related dotfiles, both for contrib and custom
-  # blocklets
-  i3blocks:
+  # This profile groups together dotfiles and variables that are used both in
+  # the i3 and sway profiles. Its main purpose is to be include'd from such
+  # profiles.
+  i3-sway:
     dotfiles:
-    - f_i3blocks_flatpak-updates
     - d_i3blocks_network-status
+    - d_local_lib_i3ipc-extras
+    - f_i3_sway_10-systemd
+    - f_i3_sway_systemd-session-watch.service
+    - f_i3_sway_systemd-session.target
+    - f_i3blocks_flatpak-updates
+    - f_local_bin_default-ws-layout
     import:
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/i3blocks.yaml:optional
-    - yaml/dotfiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ env['DISPLAY_SERVER'] @@}}-i3blocks.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/i3-sway.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/i3-sway.yaml:optional
     include:
     - '{{@@ i3_blocks_gh_release_include @@}}'
 
@@ -578,18 +578,11 @@ profiles:
   # installed
   sway:
     dotfiles:
-    - d_local_lib_i3ipc-extras
     - f_flatpak_overrides_wayland
-    - f_i3_sway_10-systemd
-    - f_i3_sway_systemd-session.target
-    - f_i3_sway_systemd-session-watch.service
-    - f_local_bin_default-ws-layout
     - f_local_bin_systemd-sway-session
     - f_local_bin_systemd-sway-session-watch
-    import:
-    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/i3-sway.yaml:optional
     include:
-    - i3blocks
+    - i3-sway
     variables:
       wm_name: sway
 

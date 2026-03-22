@@ -97,16 +97,6 @@ interval=1
 markup=pango
 signal={{@@ i3blocks_signals.network @@}}
 
-{%@@ if env['HOST'] == 'work' -@@%}
-
-{#@@ NordVPN has its own status icon @@#}
-[vpn]
-command={{@@ i3blocklets_install_path @@}}/nmcli-connection-status --connection 'VPN' --icon '󰞀' --active-color '{{@@ main_theme_color @@}}' --inactive-color '{{@@ i3bar_inactive_color @@}}' --pango-attributes 'size="130%" font_weight="bold"'
-interval=persistent
-markup=pango
-
-{%@@ endif -@@%}
-
 {%@@ if has_battery | is_truthy -@@%}
 
 [battery]

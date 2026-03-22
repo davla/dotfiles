@@ -146,7 +146,7 @@ dotfiles:
     dst: /usr/local/bin/tree-long
     chmod: 755
   f_local_bin_vpn:
-    src: usr/local/bin/{{@@ vpn_command @@}}
+    src: usr/local/bin/vpn
     dst: /usr/local/bin/vpn
     chmod: 755
   f_local_bin_wifi:

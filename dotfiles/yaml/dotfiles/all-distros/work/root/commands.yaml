@@ -8,5 +8,4 @@ dotfiles:
 - f_local_bin_clear-nix
 - f_local_bin_docker-compose
 - f_local_bin_docker-machine
-- f_local_bin_vpn
 - f_local_bin_zsh-notify-sudo-user

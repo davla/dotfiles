@@ -21,9 +21,6 @@ set $vscode_criterion instance="code"
 # Application instance titles
 set $calc_title calculator
 
-# Resources
-set_from_resource $spotify_scale i3wm.SpotifyScale 1
-
 #######################################
 # Shortcuts
 #######################################
@@ -47,8 +44,7 @@ bindsym $mod+Shift+Tab exec --no-startup-id \
         || $term --title scratchpad-terminal
 bindsym $mod+u exec thunar
 bindsym $mod+p exec --no-startup-id \
-    i3-msg '[$spotify_criterion] scratchpad show' \
-        || com.spotify.Client --force-device-scale-factor=$spotify_scale
+    i3-msg '[$spotify_criterion] scratchpad show' || com.spotify.Client
 bindsym $mod+n exec --no-startup-id dunstctl close-all
 bindsym $mod+Shift+n exec --no-startup-id dunstctl history-pop
 bindsym $mod+m exec --no-startup-id dunstctl close

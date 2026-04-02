@@ -1,2 +1,0 @@
-{%@@ from 'shared/gtk/settings.ini' import settings_ini with context @@%}
-{{@@ settings_ini(cursor_size, lodpi_name, '3.0') @@}}

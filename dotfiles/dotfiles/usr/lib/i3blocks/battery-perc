@@ -1,0 +1,122 @@
+#!/usr/bin/env sh
+
+# This script is meant as an i3blocks blocklet. It displays information about
+# the first battery with pango markup.
+#
+# {{@@ header() @@}}
+#
+# Options:
+#   --battery-label LABER   Label used when drawing energy from the battery.
+#
+#   --color-0 COLOR         Color used for the battery percentage when it's
+#                           below 20%.
+#
+#   --color-20 COLOR        Color to use for the battery percentage when it's
+#                           between 20% and 39%, both inclusive.
+#
+#   --color-40 COLOR        Color to use for the battery percentage when it's
+#                           between 40% and 59%, both inclusive.
+#
+#   --color-60 COLOR        Color to use for the battery percentage when it's
+#                           between 60% and 79%, both inclusive.
+#
+#   --color-80 COLOR        Color to use for the battery percentage when it's
+#                           above 79%.
+#
+#   --power-label LABEL     Label used when drawing energy from the electricity
+#                           network, regardless of whether the battery is
+#                           actually charging.
+
+########################################
+# Input processing
+########################################
+
+BATTERY_LABEL=''
+COLOR_0=''
+COLOR_20=''
+COLOR_40=''
+COLOR_60=''
+COLOR_80=''
+POWER_LABEL=''
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        '--battery-label')
+            BATTERY_LABEL="$2"
+            shift
+            ;;
+
+        '--color-0')
+            COLOR_0="$2"
+            shift
+            ;;
+
+        '--color-20')
+            COLOR_20="$2"
+            shift
+            ;;
+
+        '--color-40')
+            COLOR_40="$2"
+            shift
+            ;;
+
+        '--color-60')
+            COLOR_60="$2"
+            shift
+            ;;
+
+        '--color-80')
+            COLOR_80="$2"
+            shift
+            ;;
+
+        '--power-label')
+            POWER_LABEL="$2"
+            shift
+            ;;
+    esac
+    shift
+done
+
+########################################
+# Main
+########################################
+
+acpi --battery | {
+    # Use shell group here because the variables created by read are only
+    # available in the subshell created by the pipe.
+    IFS=',' read -r NAME_AND_STATE PERC REST
+
+    STATE="$(echo "$NAME_AND_STATE" | cut --delimiter ':' --fields 2 | xargs \
+        | tr '[:upper:]' '[:lower:]')"
+    case "$STATE" in
+        'ac'|'charging'|'full'|'not charging')
+            LABEL="$POWER_LABEL"
+            ;;
+
+        'discharging')
+            LABEL="$BATTERY_LABEL"
+            ;;
+
+        *)
+            LABEL='???'
+            ;;
+    esac
+
+    # %%% uses parameter expansion to remove the % at the end.
+    PERC_NUM="$(echo "${PERC%%%}" | xargs)"
+    if [ "$PERC_NUM" -ge 80 ]; then
+        COLOR="$COLOR_80"
+    elif [ "$PERC_NUM" -ge 60 ]; then
+        COLOR="$COLOR_60"
+    elif [ "$PERC_NUM" -ge 40 ]; then
+        COLOR="$COLOR_40"
+    elif [ "$PERC_NUM" -ge 20 ]; then
+        COLOR="$COLOR_20"
+    else
+        COLOR="$COLOR_0"
+    fi
+
+    printf '%s<span color="%s">%d%%</span>\n' "$LABEL" "$COLOR" "$PERC_NUM"
+}

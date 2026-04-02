@@ -1,0 +1,52 @@
+%YAML 1.2
+---
+# This variables file contains variables related to both i3 and sway that are
+# needeed by both root and unprivileged users.
+
+dynvariables:
+  # This variable determines whether to show the battery i3block blocklet.
+  # Usage:
+  # - Root: only on debian, determines whether the executable for the i3block
+  #   blocklet is copied to i3blocklets_install_path.
+  # - Unprivileged users: i3blocks config file.
+  has_battery: >-
+    sensors | grep --ignore-case --quiet bat
+    && echo 'true'
+    || echo 'false'
+
+  # This variable determines whether to show the CPU temperature i3block
+  # blocklet.
+  # Usage:
+  # - Root: only on debian, determines whether the executable for the i3block
+  #   blocklet is copied to i3blocklets_install_path.
+  # - Unprivileged users: i3blocks config file.
+  has_cpu_temp_sensors: >-
+    sensors | grep --ignore-case --quiet temp
+    && echo 'true'
+    || echo 'false'
+
+variables:
+  # These variables define i3blocks signals.
+  # Usage:
+  # - Root: singal emissions, such APT/Pacman configuration files.
+  # - Unprivileged users: i3blocks config file.
+  i3blocks_signals:
+    caps: 20
+    network: 30
+    updates: 10
+
+  # This variable defines the i3blocks blocklets installation location, both
+  # contrib and custom.
+  # It is set to where the AUR package i3blocks-contrib-git places the
+  # executable to simplify the setup.
+  # Usage:
+  # - Root: only on debian, determines where the executables from contrib
+  #   i3blocks blocklets are installed.
+  # - Unprivileged users: i3blocks config file.
+  i3blocklets_install_path: /usr/lib/i3blocks
+
+  # This variable define i3bar-specific colors.
+  # Usage:
+  # - Root: compilation of custom i3blocks blocklets implemented in C
+  # - Unprivileged users: i3blocks config file.
+  i3bar_inactive_color: '#666666'

@@ -1,10 +1,12 @@
 %YAML 1.2
 ---
-# This variables file contains variables used to customized the look & feel of
-# the desktop GUI, including DPI values for both normal and high DPI screens
+# This variables file contains variables used to configure look-and-feel of
+# GUIs that have the same values regardless of the colorscheme.
 
 variables:
-  # These variables define the content of look-and-feel themes
+  cursor_size: 24
+  dpi: 90
+  theme: Adwaita-dark
 
   font:
     size: 11
@@ -19,42 +21,20 @@ variables:
         {{@@ font.monospace.family @@}}
         {{@@ font.size @@}}
 
-  theme: Adwaita-dark
+  # These variables are used both by dunst and mako
+  notification:
+    background_color: '#000000'
+    border_radius: 10
+    border_width: 1
+    height: 95
+    icon_size: 40
+    margin: 8
+    padding:
+      horizontal: 8
+      vertical: 10
+    width: 430
 
-  # These variables are used for configuring look-and-feel tools
-  gtk2_path: '{{@@ xdg_config("gtk-2.0") @@}}'
+  # This variable is used both as a dotfile dst and as the content of an
+  # environment variable
+  gtk2_path: '{{@@ xdg_config("gtk-2.0/gtkrc") @@}}'
 
-  # These variables define dpi-dependent values for tools that, unfortunately,
-  # don't scale automatically with the dpi set in X11
-  #
-  # Normal DPI values
-  cursor_size: 24
-  dpi: 90
-  i3_spotify_scale: 1
-  lodpi_name: regular
-  notification_border_radius: 10
-  notification_border_width: 1
-  notification_height: 95
-  notification_horizontal_padding: 8
-  notification_icon_size: 40
-  notification_margin: 8
-  notification_progress_bar_height: 20
-  notification_vertical_padding: 10
-  notification_width: 430
-
-  # High DPI values
-  hidpi_cursor_size: '{{@@ cursor_size * 2 @@}}'
-  hidpi_dpi: '{{@@ dpi * 2 @@}}'
-  hidpi_name: high
-  hidpi_notification_border_radius: '{{@@ notification_border_radius * 2 @@}}'
-  hidpi_notification_border_width: '{{@@ notification_border_width * 2 @@}}'
-  hidpi_notification_horizontal_padding: >-
-    {{@@ notification_horizontal_padding * 2 @@}}
-  hidpi_notification_icon_size: '{{@@ notification_icon_size * 2 @@}}'
-  hidpi_notification_margin: '{{@@ notification_margin * 2 @@}}'
-  hidpi_notification_progress_bar_height: >-
-    '{{@@ notification_progress_bar_height * 2 @@}}'
-  hidpi_notification_vertical_padding: >-
-    {{@@ notification_vertical_padding * 2 @@}}
-  hidpi_notification_width: '{{@@ notification_width * 2 @@}}'
-  hidpi_notification_height: '{{@@ notification_height * 2 @@}}'

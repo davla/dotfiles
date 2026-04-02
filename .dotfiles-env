@@ -49,19 +49,5 @@ DISTRO="$(grep -P '^ID' /etc/os-release | tail -n 1 \
     | cut -d '=' -f 2 | xargs)"
 export DISTRO
 
-# Machine-related variables
-case "$MACHINE" in
-    'personal')
-        [ "$DISPLAY_SERVER" = 'x11' ] \
-            && OUTPUT_SCALING='static' \
-            || OUTPUT_SCALING='dynamic'
-        export OUTPUT_SCALING
-        ;;
-
-    *)
-        export OUTPUT_SCALING='unnecessary'
-        ;;
-esac
-
 # List of exported variables exported, to be used by sudo --preserve-env option
-export DOTFILES_ENV_VARS='DISPLAY_SERVER,DISTRO,HOST,MACHINE,OUTPUT_SCALING,PYTHONPATH'
+export DOTFILES_ENV_VARS='DISPLAY_SERVER,DISTRO,HOST,MACHINE,PYTHONPATH'

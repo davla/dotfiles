@@ -75,7 +75,6 @@ config:
   - yaml/actions/shared.yaml
   import_configs:
   - yaml/profiles/all-distros/all-machines/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
-  - yaml/profiles/all-distros/all-machines/{{@@ user @@}}/{{@@ output_scaling @@}}.yaml:optional
   - yaml/profiles/all-distros/all-machines/{{@@ user @@}}/autorandr.yaml:optional
   - yaml/profiles/all-distros/all-machines/{{@@ user @@}}/repos.yaml:optional
   - yaml/profiles/all-distros/all-machines/all-users/shared.yaml
@@ -206,8 +205,8 @@ dotfiles:
     src: config/containers/auth.json
     dst: '{{@@ xdg_config("containers/auth.json") @@}}'
   f_dunstrc:
-    src: config/dunst/dunstrc.lodpi
-    dst: '{{@@ dunstrc_dst | default(xdg_config("dunst/dunstrc")) @@}}'
+    src: config/dunst/dunstrc
+    dst: '{{@@ xdg_config("dunst/dunstrc") @@}}'
   f_editorconfig:
     src: config/editorconfig
     dst: '{{@@ xdg_config("editorconfig") @@}}'
@@ -257,20 +256,20 @@ dotfiles:
     actions:
     - gsettings '{{@@ _dotfile_abs_dst @@}}'
   f_gtk-2.0_gtkrc:
-    src: config/gtk-2.0/gtkrc.lodpi
-    dst: '{{@@ "%s/%s" | format(gtk2_path, gtk2_gtkrc_dst | default("gtkrc")) @@}}'
+    src: config/gtk-2.0/gtkrc
+    dst: '{{@@ gtk2_path @@}}'
   f_gtk-3.0_gtk.css:
     src: shared/gtk/gtk.css
     dst: '{{@@ xdg_config("gtk-3.0/gtk.css") @@}}'
   f_gtk-3.0_settings.ini:
-    src: config/gtk-3.0/settings.ini.lodpi
-    dst: '{{@@ gtk3_settings_dst | default(xdg_config("gtk-3.0/settings.ini")) @@}}'
+    src: shared/gtk/settings.ini
+    dst: '{{@@ xdg_config("gtk-3.0/settings.ini") @@}}'
   f_gtk-4.0_gtk.css:
     src: shared/gtk/gtk.css
     dst: '{{@@ xdg_config("gtk-4.0/gtk.css") @@}}'
   f_gtk-4.0_settings.ini:
-    src: config/gtk-4.0/settings.ini.lodpi
-    dst: '{{@@ gtk4_settings_dst | default(xdg_config("gtk-4.0/settings.ini")) @@}}'
+    src: shared/gtk/settings.ini
+    dst: '{{@@ xdg_config("gtk-4.0/settings.ini") @@}}'
   f_hgrc:
     src: config/hg/hgrc
     dst: '{{@@ xdg_config("hg/hgrc") @@}}'
@@ -474,7 +473,6 @@ profiles:
     include:
     - autorandr
     - i3-sway
-    - i3-{{@@ output_scaling @@}}
     variables:
       display_server: x11
       on_wayland: false
@@ -515,7 +513,6 @@ profiles:
     - f_trolltech.conf
     include:
     - look-and-feel-{{@@ display_server @@}}
-    - look-and-feel-{{@@ output_scaling @@}}
     variables:
       is_headless: false
     dynvariables:
@@ -541,7 +538,6 @@ profiles:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/startup.yaml:optional
     include:
     - startup-{{@@ display_server @@}}
-    - startup-{{@@ output_scaling @@}}
 
   # This profile contains the dotfiles for the whole sway session, that means a
   # little bit more than just the sway configuration files.
@@ -619,12 +615,6 @@ variables:
   is_headless: '{{@@ display_server == "headless" @@}}'
   on_wayland: '{{@@ display_server == "wayland" @@}}'
   on_x11: '{{@@ display_server == "x11" @@}}'
-
-  # This variable determines which type of output scaling is in use on the
-  # system where dotdrop is running. It's defined here as it's used in this
-  # config file when importing sub-config and including profiles, when
-  # variables from external files are not yet available.
-  output_scaling: '{{@@ env["OUTPUT_SCALING"] + "-scaling" @@}}'
 
   # This variable is used to differentiate between user and root configuration
   # in some dotfiles.

@@ -1,8 +1,6 @@
 ! {{@@ header() @@}}
 
 ! Xresources file
-! Size values are for normal DPI screens. High DPI values are loaded when
-! necessary from a separate Xresources files
 
 ! Gtk resources
 Gtk.CursorThemeName: {{@@ cursor_theme @@}}

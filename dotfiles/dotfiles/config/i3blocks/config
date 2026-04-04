@@ -10,13 +10,16 @@
 <span size="0.001pt"> </span>
 {%@@- endif -@@%}
 
-<span size="{{@@ size @@}}" font_weight="bold"{{@@ color_markup @@}}>{{@@ char @@}}{{@@ ' ' * spacing @@}}</span>
+<span size="{{@@ size @@}}" font_weight="bold"{{@@ color_markup @@}}>{{@@ char @@}}</span>{{@@ ' ' * spacing @@}}
 
 {%@@- endmacro -@@%}
 
 # {{@@ header() @@}}
 #
 # This is the i3blocks config file
+
+# Add some padding around the separator symbol
+separator_block_width=36
 
 # This block shows the time and the date, including the weekday
 [time]

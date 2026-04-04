@@ -1,0 +1,4 @@
+# This script serves the sole purposed of overriding the USERXSESSIONRC.
+# It must therefore be placed lexicographically early ihn /etc/X11/Xsession.d
+
+USERXSESSIONRC="${XDG_CONFIG_HOME:-$HOME/.config}/x11/xsessionrc"

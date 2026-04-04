@@ -1,0 +1,88 @@
+#!/usr/bin/env sh
+
+# This script displays the {{@@ wm_name @@}} window tree of the workspace
+# containing the currently focused window.
+#
+# It follows live updates of the workspace, barring send_tick
+#
+# {{@@ header() @@}}
+#
+# Arguments:
+#   - $1: The tick payload
+
+{%@@ set ipc_cmd = 'i3-msg' if wm_name == 'i3' else 'swaymsg' -@@%}
+
+########################################
+# Variables
+########################################
+
+TREE_CHILD_INDENT='  '
+
+########################################
+# Functions
+########################################
+
+# This function prints an {{@@ wm_name @@}} window tree depth-first. Each level
+# down the tree is indented by an extra $REE_CHILD_INDENT.
+#
+# It's defined as a subshell (with parentheses wrapping the body), rather than
+# a regular command group, because it's recursive.
+#
+# Arguments:
+#   - $1: The {{@@ wm_name @@}} window tree to be printed, in the JSON format
+#         returned by {{@@ ipc_cmd @@}}.
+#   - $2: The current node indent. Defaults to the empty string.
+print_tree() (
+    TREE="$1"
+    CURRENT_INDENT="${2:-""}"
+
+    NODE_NAME="$(echo "$TREE" | jq --raw-output '
+            {
+                "horizontal": " Horiz",
+                "vertical": " Vert",
+                "workspace": "󰨝",
+            } as $labels
+            | [
+                $labels[.type]?,
+                .name,
+                $labels[.orientation]?,
+                if .focused then "󰧀" else null end
+            ]
+            | map(values)
+            | join(" ")')"
+    printf '%s%s\n' "$CURRENT_INDENT" "$NODE_NAME"
+
+    echo "$TREE" | jq --compact-output --unbuffered '.nodes? | arrays | .[]' \
+        | while read -r CHILD; do
+            print_tree "$CHILD" "${CURRENT_INDENT}${TREE_CHILD_INDENT}"
+        done
+)
+
+########################################
+# Process input
+########################################
+
+TICK_PAYLOAD="$1"
+[ -z "$TICK_PAYLOAD" ] && {
+    echo 2>&1 'Error: no tick payload provided!'
+    exit 63
+}
+
+########################################
+# Main
+########################################
+
+JQ_EVENT_FILTER="$(printf '
+select(
+    .first?
+    or .payload? == "%s"
+    or IN("close", "floating", "focus", "fullscreen_mode", "move", "title"; .change?)
+) | ""' "$TICK_PAYLOAD")"
+
+{{@@ ipc_cmd @@}} --monitor --type SUBSCRIBE '["window", "tick"]' \
+    | jq --raw-output --unbuffered "$JQ_EVENT_FILTER" \
+    | while read -r _; do
+        FOCUSED_WORKSPACE="$({{@@ ipc_cmd @@}} --type GET_TREE \
+            | jq '.. | select(.type? == "workspace" and any(..; .focused?))')"
+        print_tree "$FOCUSED_WORKSPACE"
+    done

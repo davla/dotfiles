@@ -1,0 +1,7 @@
+%YAML 1.2
+---
+# This dotfiles file holds the dotfiles to be included in the
+# "system-tweaks-x11" profile only on my work desktop for root.
+
+dotfiles:
+- f_x11_mode_4k.conf

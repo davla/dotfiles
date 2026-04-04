@@ -25,7 +25,7 @@ dotfiles:
   d_pacman_hooks:
     src: etc/pacman.d/hooks
     dst: /etc/pacman.d/hooks
-    # These ignore fields are necessary because some hooks are host-specific
+    # These ignore fields are necessary because some hooks are machine-specific
     cmpignore:
     - '*/i3blocks-contrib*.hook'
     instignore:
@@ -83,7 +83,7 @@ profiles:
     - f_pacman_mirrorlists
     - f_pacman_options
     import:
-    - ../../../../dotfiles/arch/{{@@ env['HOST'] @@}}/root/packages.yaml:optional
+    - ../../../../dotfiles/arch/{{@@ env['MACHINE'] @@}}/root/packages.yaml:optional
     dynvariables:
       pacman_tmp_dst: mktemp /tmp/pacman-append.XXX
     variables:

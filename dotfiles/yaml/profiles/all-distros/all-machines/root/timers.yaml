@@ -107,7 +107,7 @@ profiles:
     - shared-timers
     - host-refresh
     import:
-    - ../../../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
+    - ../../../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/timers.yaml:optional
 
 
 variables:

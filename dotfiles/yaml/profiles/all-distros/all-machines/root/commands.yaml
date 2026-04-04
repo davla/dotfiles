@@ -27,9 +27,9 @@ config:
   import_configs:
   - ../all-users/shell.yaml
   import_variables:
-  - ../../../../variables/all-distros/all-hosts/all-users/misc.yaml
-  - ../../../../variables/all-distros/all-hosts/{{@@ user @@}}/misc.yaml
-  - ../../../../variables/all-distros/{{@@ env['HOST'] @@}}/all-users/notify-commuter-card-renewal.yaml:optional
+  - ../../../../variables/all-distros/all-machines/all-users/misc.yaml
+  - ../../../../variables/all-distros/all-machines/{{@@ user @@}}/misc.yaml
+  - ../../../../variables/all-distros/{{@@ env['MACHINE'] @@}}/all-users/notify-commuter-card-renewal.yaml:optional
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -53,7 +53,7 @@ dotfiles:
     actions:
     - pip_install_editable '{{@@ _dotfile_abs_dst @@}}'
   f_frequent-hosts:
-    src: usr/local/etc/frequent-hosts.{{@@ env['HOST'] @@}}
+    src: usr/local/etc/frequent-hosts.{{@@ env['MACHINE'] @@}}
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ frequent_hosts_path @@}}'
   f_hosts:
@@ -194,7 +194,7 @@ profiles:
     - f_local_bin_week
     - f_local_bin_wget
     import:
-    - ../../../../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/commands.yaml:optional
+    - ../../../../dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/commands.yaml:optional
     include:
     - host-refresh
     - shell-cache

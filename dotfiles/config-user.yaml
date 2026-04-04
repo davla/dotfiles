@@ -74,22 +74,22 @@ config:
   import_actions:
   - yaml/actions/shared.yaml
   import_configs:
-  - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
-  - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ output_scaling @@}}.yaml:optional
-  - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/autorandr.yaml:optional
-  - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/repos.yaml:optional
-  - yaml/profiles/all-distros/all-hosts/all-users/shared.yaml
-  - yaml/profiles/all-distros/all-hosts/all-users/shell.yaml
-  - yaml/profiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
+  - yaml/profiles/all-distros/all-machines/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
+  - yaml/profiles/all-distros/all-machines/{{@@ user @@}}/{{@@ output_scaling @@}}.yaml:optional
+  - yaml/profiles/all-distros/all-machines/{{@@ user @@}}/autorandr.yaml:optional
+  - yaml/profiles/all-distros/all-machines/{{@@ user @@}}/repos.yaml:optional
+  - yaml/profiles/all-distros/all-machines/all-users/shared.yaml
+  - yaml/profiles/all-distros/all-machines/all-users/shell.yaml
+  - yaml/profiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/timers.yaml:optional
   import_variables:
-  - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
-  - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/all-users/*.yaml:optional
-  - yaml/variables/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/*.yaml:optional
-  - yaml/variables/{{@@ env['DISTRO'] @@}}/all-hosts/all-users/*.yaml:optional
-  - yaml/variables/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
-  - yaml/variables/all-distros/{{@@ env['HOST'] @@}}/all-users/*.yaml:optional
-  - yaml/variables/all-distros/all-hosts/{{@@ user @@}}/*.yaml:optional
-  - yaml/variables/all-distros/all-hosts/all-users/*.yaml
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/all-users/*.yaml:optional
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/all-machines/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/all-machines/all-users/*.yaml:optional
+  - yaml/variables/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/all-distros/{{@@ env['MACHINE'] @@}}/all-users/*.yaml:optional
+  - yaml/variables/all-distros/all-machines/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/all-distros/all-machines/all-users/*.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -409,9 +409,9 @@ profiles:
     - f_fzf_config
     - f_vimrc
     import:
-    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/cli.yaml:optional
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/cli.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-machines/{{@@ user @@}}/cli.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/cli.yaml:optional
     include:
     - git
 
@@ -420,7 +420,7 @@ profiles:
     dotfiles:
     - d_git
     import:
-    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/git.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/git.yaml:optional
 
   # This profile groups geany-related dotfiles. Individual files are addressed,
   # rather than the whole directory, as it was execssively complex to ignore
@@ -445,8 +445,8 @@ profiles:
     - look-and-feel
     - vscode
     import:
-    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/gui.yaml:optional
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/gui.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/gui.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/gui.yaml:optional
     actions:
     - glib-terminal
     variables:
@@ -468,7 +468,7 @@ profiles:
     - f_xfce-power-manager.service
     - f_xfce4-power-manager.xml
     import:
-    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/i3.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/i3.yaml:optional
     actions:
     - i3
     include:
@@ -495,7 +495,7 @@ profiles:
     - look-and-feel
     - startup
     import:
-    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/i3-sway.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/i3-sway.yaml:optional
     variables:
       is_headless: false
 
@@ -537,8 +537,8 @@ profiles:
     - f_python_keyring
     - f_xdg-user-dirs.desktop
     import:
-    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/startup.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/startup.yaml:optional
     include:
     - startup-{{@@ display_server @@}}
     - startup-{{@@ output_scaling @@}}

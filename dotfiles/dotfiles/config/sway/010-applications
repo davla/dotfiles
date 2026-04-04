@@ -43,7 +43,7 @@ bindsym {
         swaymsg '[$scratchpad_term_criterion] scratchpad show' \
             || $term --title scratchpad-terminal
 
-    {%@@- if env['HOST'] == 'personal' @@%}
+    {%@@- if env['MACHINE'] == 'personal' @@%}
 
     $mod+o exec firefox https://calendar.google.com/calendar/r
     $mod+u exec firefox https://keep.google.com/#home

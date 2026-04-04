@@ -20,10 +20,10 @@
 
 # This block shows the time and the date, including the weekday
 [time]
-command=date '+%H:%M:%S        %d-%m-%Y (%a){%@@ if env['HOST'] == 'work' @@%} - %V{%@@ endif @@%}'
+command=date '+%H:%M:%S        %d-%m-%Y (%a){%@@ if env['MACHINE'] == 'work' @@%} - %V{%@@ endif @@%}'
 interval=1
 
-{%@@ if env['HOST'] == 'personal' -@@%}
+{%@@ if env['MACHINE'] == 'personal' -@@%}
 
 # This block displays the main mail watcher
 [email]

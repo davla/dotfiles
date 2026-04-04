@@ -810,7 +810,7 @@ DerivedData/
 .*env
 
 {#@@ My colleagues don't use devbox, but I do @@#}
-{%@@ if env['HOST'] == 'work' -@@%}
+{%@@ if env['MACHINE'] == 'work' -@@%}
 
 ### Local configuration files ###
 devbox.json

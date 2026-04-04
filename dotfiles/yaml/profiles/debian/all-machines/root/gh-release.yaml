@@ -81,7 +81,7 @@ profiles:
     - f_gh-release.conf
     - f_local_bin_gh-release
     import:
-    - ../../../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/gh-release.yaml:optional
+    - ../../../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/gh-release.yaml:optional
     actions:
     - install-gh
     - recursive-exec-permissions '/{{@@ gh_release_dir @@}}'

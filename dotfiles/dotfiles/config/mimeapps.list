@@ -38,7 +38,7 @@ x-scheme-handler/sftp={{@@ browser_desktop @@}}
 x-scheme-handler/spotify=spotify.desktop
 x-scheme-handler/unknown={{@@ browser_desktop @@}}
 
-{%@@- if env['HOST'] == 'personal' @@%}
+{%@@- if env['MACHINE'] == 'personal' @@%}
 
 application/ogg=mpv.desktop
 audio/x-aac=mpv.desktop
@@ -62,7 +62,7 @@ x-scheme-handler/mailto={{@@ basename(desktop_with_name('Thunderbird')) @@}}
 x-scheme-handler/nordvpn=nordvpn.desktop
 x-scheme-handler/tg=org.telegram.desktop.desktop
 
-{%@@ elif env['HOST'] == 'work' @@%}
+{%@@ elif env['MACHINE'] == 'work' @@%}
 
 application/zip=xarchiver.desktop
 x-scheme-handler/postman=Postman.desktop

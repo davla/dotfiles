@@ -2,7 +2,7 @@
 
 # This script sets up the network configuration, namely:
 #   - A GNOME-network-manager script that disables Wi-Fi when cabled connection
-#     is available, for hosts that have both network interfaces
+#     is available, for machines that have both network interfaces
 #   - Local hosts to /etc/hosts
 #   - Frequently visited host IP caching in /etc/hosts setup
 
@@ -14,7 +14,7 @@
 # Install network manager
 #######################################
 
-if [ "$HOST" != 'raspberry' ]; then
+if [ "$MACHINE" != 'raspberry' ]; then
     print_info 'Install GNOME network manager'
     case "$DISTRO" in
         'arch')
@@ -45,7 +45,7 @@ host-refresh --info --journald off --color on
 # Apply changes
 #######################################
 
-if [ "$HOST" = 'raspberry' ]; then
+if [ "$MACHINE" = 'raspberry' ]; then
     print_info 'Restart network daemon. This might impact the SSH connection.'
     systemctl restart systemd-networkd
 fi

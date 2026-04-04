@@ -9,4 +9,4 @@
 
 {%@@- endif @@%}
 
-{%@@ include 'opt/mrconfig.' + env['HOST'] ignore missing @@%}
+{%@@ include 'opt/mrconfig.' + env['MACHINE'] ignore missing @@%}

@@ -61,7 +61,7 @@ Configuration files for my Linux systems
                       name, either by passing it on the command line, or by  
 ![     ][indent]      interactively entering it when prompted.  
 ![[>.<]][error-face]  There is no information on which steps should be run on
-                      which host. I also get it wrong often.  
+                      which machine. I also get it wrong often.  
 ![[^_^]][prompt-face] Each step runs in a terminal alternate buffer (if
                       supported) for a cleaner output. The output is also
                       written to  

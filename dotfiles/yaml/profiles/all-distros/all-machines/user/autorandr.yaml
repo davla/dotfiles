@@ -62,7 +62,7 @@ profiles:
     dotfiles:
     - f_postswitch
     import:
-    - ../../../../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/autorandr.yaml:optional
+    - ../../../../dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/autorandr.yaml:optional
     include:
     - autorandr-{{@@ output_scaling @@}}
 

@@ -1,36 +1,75 @@
 #!/usr/bin/env python3
 
 import asyncio
-from collections.abc import Iterable
-from typing import Generator, Self
+from collections.abc import AsyncGenerator, Generator, Iterable
+from dataclasses import dataclass
+from typing import ClassVar, Self
 
+import i3ipc
 from blessed import Terminal
 from i3ipc.aio import Con, Connection
 
-# from i3ipc_extras import ConnectionExtras
+
+@dataclass
+class I3Event:
+    con_id: int
+    is_new: bool
+
+
+@dataclass
+class KeyPress:
+    key: str
+
+
+TuiEvent = I3Event | KeyPress
 
 
 class Tui:
-    _i3: Connection
-    _term: Terminal
     _curr_con_idx: int
+    _event_queue: asyncio.Queue
+    _i3: Connection
     _subtree: list[Con]
+    _term: Terminal
+    _workspace_id: int
+    _keystroke_listener_task: asyncio.Task
+
+    _i3_events: ClassVar[Iterable[i3ipc.Event]] = (
+        i3ipc.Event.WINDOW_CLOSE,
+        i3ipc.Event.WINDOW_FLOATING,
+        i3ipc.Event.WINDOW_FULLSCREEN_MODE,
+        i3ipc.Event.WINDOW_MOVE,
+        i3ipc.Event.WINDOW_NEW,
+        i3ipc.Event.WINDOW_TITLE,
+    )
 
     def __init__(self, i3: Connection):
-        self._i3 = i3
-        self._term = Terminal()
         self._curr_con_idx = 0
+        self._event_queue = asyncio.Queue()
+        self._i3 = i3
         self._subtree = []
+        self._term = Terminal()
 
-    async def command(self, cmd: str) -> None:
+        asyncio.get_event_loop().set_task_factory(asyncio.eager_task_factory)
+        self._keystroke_listener_task = asyncio.create_task(
+            self._listen_to_keystrokes(),
+        )
+
+        # This is set in Self.render(), which is in turn called in Self.new()
+        self._workspace_id = -1
+
+    async def events(self) -> AsyncGenerator[TuiEvent]:
+        while True:
+            event = await self._event_queue.get()
+
+            if isinstance(event, I3Event) and event.is_new:
+                con = (await self._i3.get_tree()).find_by_id(event.con_id)
+                if con.workspace().id != self._workspace_id:
+                    continue
+
+            yield event
+
+    async def i3_command(self, cmd: str) -> None:
         await self._subtree[self._curr_con_idx].command(cmd)
-        await self._render()
-
-    async def keypresses(self):
-        with self._term.cbreak():
-            while True:
-                keystroke = await self._term.async_inkey()
-                yield keystroke.name if keystroke.is_sequence else str(keystroke)
 
     def move_down(self) -> None:
         if self._curr_con_idx < len(self._subtree) - 1:
@@ -45,17 +84,37 @@ class Tui:
     def quit(self) -> None:
         self._print_ctrl(self._term.home + self._term.clear)
 
-    @classmethod
-    async def new(cls) -> Self:
-        tui = cls(await Connection().connect())
-        await tui._render()
-        return tui
-
-    async def _render(self) -> None:
+    async def render(self) -> None:
         focused_workspace = (await self._i3.get_tree()).find_focused().workspace()
+        self._workspace_id = focused_workspace.id
+
         self._print_ctrl(self._term.home + self._term.clear)
         self._subtree = list(print_depth_first_descendants(focused_workspace))
         self._print_ctrl(self._term.move_xy(0, self._curr_con_idx))
+
+    @classmethod
+    async def new(cls) -> Self:
+        tui = cls(await Connection().connect())
+
+        await tui.render()
+        for event in cls._i3_events:
+            tui._i3.on(event, tui._put_i3_event_into_queue)
+
+        return tui
+
+    async def _listen_to_keystrokes(self) -> None:
+        with self._term.cbreak():
+            while True:
+                keystroke = await self._term.async_inkey()
+                key = keystroke.name if keystroke.is_sequence else str(keystroke)
+                self._event_queue.put_nowait(KeyPress(key))
+
+    async def _put_i3_event_into_queue(
+        self, _: Connection, event: i3ipc.WindowEvent
+    ) -> None:
+        i3_event = I3Event(event.container.id, event.change == "new")
+        if i3_event.is_new or any(c.id == i3_event.con_id for c in self._subtree):
+            self._event_queue.put_nowait(i3_event)
 
     def _print_ctrl(self, ctrl_str: str):
         print(ctrl_str, end="", flush=True)
@@ -107,21 +166,20 @@ def print_depth_first_descendants(
         yield from print_depth_first_descendants(child, subtree, indent_level + 1)
 
 
-async def try_exec_i3_command(tui: Tui, key: str) -> bool:
-    try:
-        await tui.command(commands[key])
-        return True
-    except KeyError:
-        return False
-
-
 async def main():
     tui = await Tui.new()
-    async for key in tui.keypresses():
-        if await try_exec_i3_command(tui, key):
+    async for tui_event in tui.events():
+        if isinstance(tui_event, I3Event):
+            await tui.render()
             continue
 
-        quit = exec_tui_command(tui, key)
+        try:
+            await tui.i3_command(commands[tui_event.key])
+            continue
+        except KeyError:
+            pass
+
+        quit = exec_tui_command(tui, tui_event.key)
         if quit:
             break
 

@@ -20,6 +20,15 @@ config:
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
+  f_autorandr.desktop:
+    src: config/autostart/disable-system-default.desktop
+    dst: '{{@@ xdg_config("autostart/autorandr.desktop") @@}}'
+  f_autorandr_postswitch:
+    src: config/autorandr/postswitch
+    dst: '{{@@ xdg_config("autorandr/postswitch") @@}}'
+  f_autorandr_work-desktop:
+    src: config/autorandr/work-desktop
+    dst: '{{@@ xdg_config("autorandr/work-desktop") @@}}'
   f_orage_oragerc:
     src: config/orage/oragerc
     dst: '{{@@ xdg_config("orage/oragerc") @@}}'
@@ -54,4 +63,8 @@ profiles:
   # This profile gathers dotfiles used for user session startup only on X11
   startup-x11:
     dotfiles:
+    - f_autorandr_postswitch
+    - f_autorandr.desktop
     - f_config_xsessionrc
+    import:
+    - ../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup-x11.yaml:optional

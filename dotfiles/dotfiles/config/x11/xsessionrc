@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 
-# This script initializes the X11 session.
-#
 # {{@@ header() @@}}
+#
+# This script initializes the X11 session.
 
 #######################################
 # Display-specific environment setup

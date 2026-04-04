@@ -13,8 +13,6 @@ actions:
       ln --force --symbolic --relative "$HOME/.vscode" "$HOME/.vscode-insiders"
 
   post:
-    autorandr: sh actions/autorandr.sh "{0}"
-
     bat-theme: bat cache --build
 
     # This action aliases my terminal emulator of choice to the terminal
@@ -75,7 +73,6 @@ config:
   - yaml/actions/shared.yaml
   import_configs:
   - yaml/profiles/all-distros/all-machines/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
-  - yaml/profiles/all-distros/all-machines/{{@@ user @@}}/autorandr.yaml:optional
   - yaml/profiles/all-distros/all-machines/{{@@ user @@}}/repos.yaml:optional
   - yaml/profiles/all-distros/all-machines/all-users/shared.yaml
   - yaml/profiles/all-distros/all-machines/all-users/shell.yaml
@@ -181,9 +178,6 @@ dotfiles:
   f_at-spi-dbus-bus.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/at-spi-dbus-bus.desktop") @@}}'
-  f_autorandr.desktop:
-    src: config/autostart/disable-system-default.desktop
-    dst: '{{@@ xdg_config("autostart/autorandr.desktop") @@}}'
   f_calibre_global.py.json:
     src: config/calibre/global.py.json
     dst: '{{@@ flatpak_app_xdg_config.calibre @@}}/global.py.json'
@@ -471,7 +465,6 @@ profiles:
     actions:
     - i3
     include:
-    - autorandr
     - i3-sway
     variables:
       display_server: x11
@@ -524,7 +517,6 @@ profiles:
   startup:
     dotfiles:
     - f_at-spi-dbus-bus.desktop
-    - f_autorandr.desktop
     - f_geoclue-demo-agent.desktop
     - f_gpg-agent.conf
     - f_light-locker.desktop

@@ -7,4 +7,10 @@ requires-python = ">=3.12"
 dependencies = ["dotdrop>=1.15.0", "xdg>=6.0.0"]
 
 [dependency-groups]
-dev = ["black>=25.1.0", "docopt>=0.6.2", "i3ipc>=2.2.1", "isort>=6.0.0"]
+dev = [
+  "black>=25.1.0",
+  "blessed>=1.38.0",
+  "docopt>=0.6.2",
+  "i3ipc>=2.2.1",
+  "isort>=6.0.0",
+]

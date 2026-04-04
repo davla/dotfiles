@@ -1,0 +1,130 @@
+#!/usr/bin/env python3
+
+import asyncio
+from collections.abc import Iterable
+from typing import Generator, Self
+
+from blessed import Terminal
+from i3ipc.aio import Con, Connection
+
+# from i3ipc_extras import ConnectionExtras
+
+
+class Tui:
+    _i3: Connection
+    _term: Terminal
+    _curr_con_idx: int
+    _subtree: list[Con]
+
+    def __init__(self, i3: Connection):
+        self._i3 = i3
+        self._term = Terminal()
+        self._curr_con_idx = 0
+        self._subtree = []
+
+    async def command(self, cmd: str) -> None:
+        await self._subtree[self._curr_con_idx].command(cmd)
+        await self._render()
+
+    async def keypresses(self):
+        with self._term.cbreak():
+            while True:
+                keystroke = await self._term.async_inkey()
+                yield keystroke.name if keystroke.is_sequence else str(keystroke)
+
+    def move_down(self) -> None:
+        if self._curr_con_idx < len(self._subtree) - 1:
+            self._curr_con_idx += 1
+            self._print_ctrl(self._term.move_down())
+
+    def move_up(self) -> None:
+        if self._curr_con_idx > 0:
+            self._curr_con_idx -= 1
+            self._print_ctrl(self._term.move_up())
+
+    def quit(self) -> None:
+        self._print_ctrl(self._term.home + self._term.clear)
+
+    @classmethod
+    async def new(cls) -> Self:
+        tui = cls(await Connection().connect())
+        await tui._render()
+        return tui
+
+    async def _render(self) -> None:
+        focused_workspace = (await self._i3.get_tree()).find_focused().workspace()
+        self._print_ctrl(self._term.home + self._term.clear)
+        self._subtree = list(print_depth_first_descendants(focused_workspace))
+        self._print_ctrl(self._term.move_xy(0, self._curr_con_idx))
+
+    def _print_ctrl(self, ctrl_str: str):
+        print(ctrl_str, end="", flush=True)
+
+
+commands = {
+    "g": "layout toggle split",
+    "h": "split h",
+    "KEY_SHIFT_DOWN": "move down",
+    "KEY_SHIFT_LEFT": "move left",
+    "KEY_SHIFT_RIGHT": "move right",
+    "KEY_SHIFT_UP": "move up",
+    "s": "layout stacked",
+    "t": "layout tabbed",
+    "v": "split v",
+}
+
+
+def con_name(con: Con) -> str:
+    con_type = con.type if con.type != "con" or con.name is None else ""
+    name = con.name or con.layout
+    return " ".join((con_type, name)).strip()
+
+
+def exec_tui_command(tui: Tui, key: str) -> bool:
+    match key:
+        case "KEY_UP":
+            tui.move_up()
+
+        case "KEY_DOWN":
+            tui.move_down()
+
+        case "q":
+            tui.quit()
+            return True
+
+    return False
+
+
+def print_depth_first_descendants(
+    con: Con, subtree: Iterable[Con] = None, indent_level: int = 0
+) -> Generator[Con]:
+    subtree = con.descendants() if subtree is None else subtree
+
+    print(" " * indent_level * 2 + con_name(con) + (" *" if con.focused else ""))
+    yield con
+
+    for child in (c for c in subtree if c.parent.id == con.id):
+        yield from print_depth_first_descendants(child, subtree, indent_level + 1)
+
+
+async def try_exec_i3_command(tui: Tui, key: str) -> bool:
+    try:
+        await tui.command(commands[key])
+        return True
+    except KeyError:
+        return False
+
+
+async def main():
+    tui = await Tui.new()
+    async for key in tui.keypresses():
+        if await try_exec_i3_command(tui, key):
+            continue
+
+        quit = exec_tui_command(tui, key)
+        if quit:
+            break
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

@@ -492,6 +492,7 @@ profiles:
     - i3-sway
     - x11
     variables:
+      wm_ipc_cmd: i3-msg
       wm_name: i3
 
   # This profile groups together dotfiles and variables that are used both in
@@ -582,6 +583,7 @@ profiles:
     include:
     - i3-sway
     variables:
+      wm_ipc_cmd: swaymsg
       wm_name: sway
 
   # This profile groups keyboard layout dotfiles

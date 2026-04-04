@@ -25,8 +25,12 @@ if [ -z "$DISPLAY_SERVER" ]; then
     fi
 fi
 
+# Populate HOST in devbox shell
+HOST="$(hostnamectl --static)"
+export HOST
+
 # Current machine name
-case "$(hostnamectl --static)" in
+case "$HOST" in
     'davide-laptop'|'davide-arch')
         export MACHINE='personal'
         ;;
@@ -60,4 +64,4 @@ case "$MACHINE" in
 esac
 
 # List of exported variables exported, to be used by sudo --preserve-env option
-export DOTFILES_ENV_VARS='DISPLAY_SERVER,DISTRO,MACHINE,OUTPUT_SCALING,PYTHONPATH'
+export DOTFILES_ENV_VARS='DISPLAY_SERVER,DISTRO,HOST,MACHINE,OUTPUT_SCALING,PYTHONPATH'

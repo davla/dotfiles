@@ -43,7 +43,7 @@ profiles:
   # This profile contains dotfiles used by GUI applications only on X11
   gui-x11:
     import:
-    - ../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/gui-x11.yaml:optional
+    - ../dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/gui-x11.yaml:optional
 
   # This profile holds dotfiles used for look & feel, but only on X11-based
   # graphical environment

@@ -29,7 +29,7 @@ dotdrop install -p packages -U root
 ########################################
 
 # Chaotic AUR is x86_64-only
-if [ "$HOST" != 'raspberry' ]; then
+if [ "$MACHINE" != 'raspberry' ]; then
     # Chaotic AUR
     print_info 'Add Chaotic AUR repository'
     pacman-key --recv-key FBA220DFC880C036 --keyserver 'keyserver.ubuntu.com'
@@ -72,9 +72,9 @@ pacman -Suyy
 #######################################
 
 if [ "$DISPLAY_SERVER" != 'headless' ]; then
-    case "$HOST" in
+    case "$MACHINE" in
         'personal')
-            print_info "Install GUI packages for $HOST"
+            print_info "Install GUI packages for $MACHINE"
             sudo --user "$USER_NAME" yay -S --needed alacritty blueman \
                 firefox-beta-bin flatpak gnome-disk-utility gufw remmina \
                 retroarch retroarch-assets-xmb visual-studio-code-insiders-bin
@@ -84,7 +84,7 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
     esac
 
     # No Bitwarden as it still has copy-paste issues on Wayland
-    print_info 'Install GUI packages shared across all hosts'
+    print_info 'Install GUI packages shared across all machines'
     sudo --user "$USER_NAME" yay -S --needed bitwarden-bin
 
     # Dotfiles
@@ -96,22 +96,22 @@ fi
 # Install CLI applications
 #######################################
 
-case "$HOST" in
+case "$MACHINE" in
     'personal')
-        print_info "Install CLI packages for $HOST"
+        print_info "Install CLI packages for $MACHINE"
         sudo --user "$USER_NAME" yay -S --needed cups cups-pdf \
             docker-credential-secretservice-bin dropbox libretro nordvpn \
             rustup zsa-keymapp-bin
         ;;
 
     'raspberry')
-        print_info "Install CLI packages for $HOST"
+        print_info "Install CLI packages for $MACHINE"
         sudo --user "$USER_NAME" yay -S --needed at certbot ddclient libjpeg
         ;;
 esac
 
-if [ "$HOST" != 'raspberry' ]; then
-    print_info 'Install CLI packages for non-arm hosts'
+if [ "$MACHINE" != 'raspberry' ]; then
+    print_info 'Install CLI packages for non-arm machines'
     sudo --user "$USER_NAME" yay -S --needed 7zip gdb ghc gifsicle \
         gnome-keyring hunspell hunspell-da hunspell-en_us hunspell-es_es \
         hunspell-it intel-ucode libsecret macchina networkmanager \
@@ -122,7 +122,7 @@ if [ "$HOST" != 'raspberry' ]; then
         fi
 fi
 
-print_info 'Install CLI packages shared across all hosts'
+print_info 'Install CLI packages shared across all machines'
 sudo --user "$USER_NAME" yay -S --needed autoconf automake bat bind cmake \
     cmatrix cowsay curl debugedit devbox-bin dkms dos2unix eza fasd \
     fortune-mod fzf gcc git-secret gnupg htop jq lua luacheck luarocks man \
@@ -167,7 +167,7 @@ id "$USER_NAME" \
 podman system migrate
 
 # Dropbox
-if [ "$HOST" = 'personal' ]; then
+if [ "$MACHINE" = 'personal' ]; then
     # Prevent Dropbox auto-update by making its directory in $HOME read-only.
     # Adapted from
     # https://wiki.archlinux.org/title/dropbox#Prevent_automatic_updates.

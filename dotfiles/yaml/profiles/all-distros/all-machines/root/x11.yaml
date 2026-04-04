@@ -23,6 +23,18 @@ dotfiles:
   d_xorg.conf.d:
     src: etc/X11/xorg.conf.d
     dst: /etc/X11/xorg.conf.d
+    cmpignore:
+    - 92-mode*.conf
+    instignore:
+    - 92-mode*.conf
+    upignore:
+    - 92-mode*.conf
+  f_mode.conf:
+    src: etc/X11/Xsession.d/92-mode-{{@@ mode @@}}.conf
+    dst: /etc/X11/Xsession.d/92-mode-{{@@ mode @@}}.conf
+  f_override-userxsessionrc:
+    src: etc/X11/Xsession.d/01x11-override-userxsessionrc
+    dst: /etc/X11/Xsession.d/01x11-override-userxsessionrc
   f_xsession.options:
     src: etc/X11/Xsession.options
     dst: /etc/X11/Xsession.options
@@ -31,9 +43,13 @@ profiles:
   # This profile gathers dotfiles used for system startup only on X11
   startup-x11:
     dotfiles:
+    - f_override-userxsessionrc
     - f_xsession.options
 
   # This profile holds dotfiles used for system-wide configuration only on X11
   system-tweaks-x11:
     dotfiles:
     - d_xorg.conf.d
+    - f_mode.conf
+    dynvariables:
+      mode:

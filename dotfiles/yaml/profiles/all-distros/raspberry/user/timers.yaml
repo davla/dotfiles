@@ -24,8 +24,8 @@ config:
   - ../../../../../python/functions.py
   ignoreempty: true
   import_variables:
-  - ../../../../variables/all-distros/{{@@ env['HOST'] @@}}/all-users/emails.yaml:optional
-  - ../../../../variables/all-distros/{{@@ env['HOST'] @@}}/all-users/notify-commuter-card-renewal.yaml:optional
+  - ../../../../variables/all-distros/{{@@ env['MACHINE'] @@}}/all-users/emails.yaml:optional
+  - ../../../../variables/all-distros/{{@@ env['MACHINE'] @@}}/all-users/notify-commuter-card-renewal.yaml:optional
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink

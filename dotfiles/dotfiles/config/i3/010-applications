@@ -55,7 +55,7 @@ bindsym $mod+m exec --no-startup-id dunstctl close
 bindsym $mod+comma exec --no-startup-id dunstctl action
 bindsym ctrl+mod1+v exec {{@@ tui('clipcat-menu insert') @@}}
 
-{%@@ if env['HOST'] == 'personal' -@@%}
+{%@@ if env['MACHINE'] == 'personal' -@@%}
 
 bindsym $mod+t exec thunderbird
 bindsym $mod+o exec {{@@ browser @@}} https://calendar.google.com/calendar/r
@@ -106,7 +106,7 @@ for_window [instance="{{@@ app.window_criterion @@}}"] \
 {{@@ scratchpad_application('$spotify_criterion',
     '$spotify_width', '$spotify_height') @@}}
 
-{%@@ if env['HOST'] != 'work' @@%}
+{%@@ if env['MACHINE'] != 'work' @@%}
 # Thunderbird
 assign [$thunderbird_criterion] $ws4
 for_window [$thunderbird_criterion title=".* Reminder"] floating enable, \

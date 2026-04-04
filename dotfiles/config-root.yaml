@@ -129,18 +129,18 @@ config:
   import_actions:
   - yaml/actions/shared.yaml
   import_configs:
-  - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
-  - yaml/profiles/all-distros/all-hosts/all-users/shared.yaml
-  - yaml/profiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/*.yaml:optional
+  - yaml/profiles/all-distros/all-machines/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
+  - yaml/profiles/all-distros/all-machines/all-users/shared.yaml
+  - yaml/profiles/{{@@ env['DISTRO'] @@}}/all-machines/{{@@ user @@}}/*.yaml:optional
   import_variables:
-  - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
-  - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/all-users/*.yaml:optional
-  - yaml/variables/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/*.yaml:optional
-  - yaml/variables/{{@@ env['DISTRO'] @@}}/all-hosts/all-users/*.yaml:optional
-  - yaml/variables/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
-  - yaml/variables/all-distros/{{@@ env['HOST'] @@}}/all-users/*.yaml:optional
-  - yaml/variables/all-distros/all-hosts/{{@@ user @@}}/*.yaml:optional
-  - yaml/variables/all-distros/all-hosts/all-users/*.yaml
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/all-users/*.yaml:optional
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/all-machines/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/all-machines/all-users/*.yaml:optional
+  - yaml/variables/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/all-distros/{{@@ env['MACHINE'] @@}}/all-users/*.yaml:optional
+  - yaml/variables/all-distros/all-machines/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/all-distros/all-machines/all-users/*.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -437,7 +437,7 @@ profiles:
     - f_containers_default_registry.conf
     - f_nix.conf
     import:
-    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/cli.yaml:optional
 
   # This profile contains dotfiles used to setup the global shell environment
   environment:
@@ -508,8 +508,8 @@ profiles:
     - f_i3blocks_flatpak-updates
     - f_local_bin_default-ws-layout
     import:
-    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/i3-sway.yaml:optional
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/i3-sway.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/i3-sway.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-machines/{{@@ user @@}}/i3-sway.yaml:optional
     include:
     - '{{@@ i3_blocks_gh_release_include @@}}'
 
@@ -517,7 +517,7 @@ profiles:
   # without the aid of a package manager
   manual:
     import:
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/manual.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/manual.yaml:optional
     include:
     - gh-release
 
@@ -526,10 +526,10 @@ profiles:
     include:
     - host-refresh
     import:
-    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/network.yaml:optional
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/network.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/network.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/network.yaml:optional
 
-  # This profile collects useful configuration for accessing a host remotely
+  # This profile collects useful configuration for accessing a machine remotely
   remote-access:
     dotfiles:
     - f_sshd_config.d_990-raspberry.conf
@@ -546,8 +546,8 @@ profiles:
     - f_temp-throttle.conf
     - f_temp-throttle.service.d_override.conf
     import:
-    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/startup.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/startup.yaml:optional
     include:
     - startup-{{@@ display_server @@}}
     actions:
@@ -567,8 +567,8 @@ profiles:
     include:
     - system-tweaks-{{@@ display_server @@}}
     import:
-    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/system-tweaks.yaml:optional
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/locales.yaml
+    - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/system-tweaks.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-machines/{{@@ user @@}}/locales.yaml
     actions:
     - locales
 
@@ -594,7 +594,7 @@ profiles:
     - xkb
     - _rm '{{@@ xkb_tmp_dst @@}}'
     import:
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/xkb.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-machines/{{@@ user @@}}/xkb.yaml:optional
     dynvariables:
       xkb_tmp_dst: mktemp /tmp/xkb-dotfiles.XXX
     variables:
@@ -610,7 +610,7 @@ profiles:
     dynvariables:
       zsh_tmp_dst: mktemp /tmp/zsh-dotfiles.XXX
     import:
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/zsh-system.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-machines/{{@@ user @@}}/zsh-system.yaml:optional
     variables:
       zsh_system_append_marker: '# Custom'
       etc_zshrc_dst: /etc/zsh/zshrc

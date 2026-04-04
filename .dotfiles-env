@@ -25,18 +25,18 @@ if [ -z "$DISPLAY_SERVER" ]; then
     fi
 fi
 
-# Generic hostname
+# Current machine name
 case "$(hostnamectl --static)" in
     'davide-laptop'|'davide-arch')
-        export HOST='personal'
+        export MACHINE='personal'
         ;;
 
     'raspberry'|*'pi'*)
-        export HOST='raspberry'
+        export MACHINE='raspberry'
         ;;
 
     *)
-        export HOST='work'
+        export MACHINE='work'
         ;;
 esac
 
@@ -45,8 +45,8 @@ DISTRO="$(grep -P '^ID' /etc/os-release | tail -n 1 \
     | cut -d '=' -f 2 | xargs)"
 export DISTRO
 
-# Host-related variables
-case "$HOST" in
+# Machine-related variables
+case "$MACHINE" in
     'personal')
         [ "$DISPLAY_SERVER" = 'x11' ] \
             && OUTPUT_SCALING='static' \
@@ -60,4 +60,4 @@ case "$HOST" in
 esac
 
 # List of exported variables exported, to be used by sudo --preserve-env option
-export DOTFILES_ENV_VARS='DISPLAY_SERVER,DISTRO,HOST,OUTPUT_SCALING,PYTHONPATH'
+export DOTFILES_ENV_VARS='DISPLAY_SERVER,DISTRO,MACHINE,OUTPUT_SCALING,PYTHONPATH'

@@ -104,6 +104,6 @@ profiles:
     - f_docker.sources
     - f_vscode.sources
     import:
-    - ../../../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/packages.yaml:optional
+    - ../../../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/packages.yaml:optional
     actions:
     - repo-keys

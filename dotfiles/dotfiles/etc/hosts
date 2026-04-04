@@ -2,7 +2,7 @@
 #
 # {{@@ header() @@}}
 
-{%@@- if env['HOST'] == 'personal' @@%}
+{%@@- if env['MACHINE'] == 'personal' @@%}
 
 {%@@ for name, addr in local_ip_addresses.items() @@%}
 

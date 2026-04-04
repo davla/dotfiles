@@ -19,7 +19,7 @@ config:
   - ../../../../../python/functions.py
   ignoreempty: true
   import_variables:
-  - ../../../../variables/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/repos.yaml:optional
+  - ../../../../variables/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/repos.yaml:optional
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -43,21 +43,21 @@ dotfiles:
     actions:
     - mrconfig
   f_mrconfig_code:
-    src: code/mrconfig.{{@@ env['HOST'] @@}}
+    src: code/mrconfig.{{@@ env['MACHINE'] @@}}
     dst: '{{@@ code_root @@}}/.mrconfig'
   f_mrconfig_wiki:
     src: code/wiki/mrconfig
     dst: '{{@@ wiki_root @@}}/.mrconfig'
 
 profiles:
-  # This profile groups myrepos config files to bootstrap a host's workspace
+  # This profile groups myrepos config files to bootstrap a machine's workspace
   repos:
     dotfiles:
     - f_mrconfig
     - f_mrconfig_code
     - f_mrtrust
     import:
-    - ../../../../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/repos.yaml:optional
+    - ../../../../dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/repos.yaml:optional
 
 variables:
   code_root: ~/code

@@ -311,7 +311,7 @@
     foreground = "{{@@ text_color @@}}"
     urgency = critical
 
-{%@@ if env['HOST'] == 'work' -@@%}
+{%@@ if env['MACHINE'] == 'work' -@@%}
 
 [outlook]
     body = .*outlook.office.com.*

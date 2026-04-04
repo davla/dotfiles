@@ -4,8 +4,8 @@
 # their initial setup. Non self-updating applications are managed via myrepos,
 # while the others have a custom installation process.
 #
-# Some hosts/distros cause this script to exit early, as there's nothing to be
-# manually installed
+# Some machines/distros cause this script to exit early, as there's nothing to
+# be manually installed
 
 # This doesn't work if this script is sourced
 . "$(dirname "$0")/../.dotfiles-env"
@@ -20,7 +20,7 @@
     echo 'AUR :D'
     exit 0
 }
-[ "$HOST" = 'raspberry' ] && {
+[ "$MACHINE" = 'raspberry' ] && {
     print_info 'Nothing to install manually via myrepos on raspberry'
     exit 0
 }

@@ -1,0 +1,7 @@
+%YAML 1.2
+---
+# This dotfiles file lists the dotfiles to be used for the "startup-x11"
+# profile for my work desktop for unprivileged users.
+
+dotfiles:
+- f_autorandr_work-desktop

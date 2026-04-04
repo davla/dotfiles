@@ -28,7 +28,7 @@
   "editor.find.autoFindInSelection": "multiline",
   "editor.folding": false,
   "editor.foldingHighlight": false,
-  "editor.fontFamily": "{{@@ font.monospace.family @@}}, 'monospace', monospace",
+  "editor.fontFamily": "DejaVu Sans Mono, Symbols Nerd Font Mono, 'monospace', monospace",
   "editor.fontSize": 15,
   "editor.guides.bracketPairs": "active",
   "editor.matchBrackets": "never",

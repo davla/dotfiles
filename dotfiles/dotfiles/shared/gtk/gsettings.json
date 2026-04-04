@@ -13,11 +13,11 @@
         "cursor-blink": false,
         "cursor-size": "{{@@ cursor_size @@}}",
         "cursor-theme": "{{@@ cursor_theme @@}}",
-        "font-name": "{{@@ font.normal.name @@}}",
+        "font-name": "{{@@ font @@}}",
         "gtk-color-scheme": "prefer-dark",
         "gtk-theme": "{{@@ theme @@}}",
         "icon-theme": "{{@@ icon_theme @@}}",
-        "monospace-font-name": "{{@@ font.monospace.name @@}}"
+        "monospace-font-name": "monospace {{@@ font_size @@}}"
     },
     "org.gnome.desktop.wm.preferences": {
       "theme": "{{@@ theme @@}}"

@@ -23,11 +23,11 @@ set $wm_control_key Shift
 #######################################
 
 {%@@ if on_wayland @@%}
-set $font {{@@ font.normal.name @@}}
+font pango:{{@@ font @@}}
 {%@@ else @@%}
-set_from_resource $font Gtk.FontName {{@@ font.normal.name @@}}
-{%@@ endif @@%}
+set_from_resource $font Gtk.FontName {{@@ font @@}}
 font pango:$font
+{%@@ endif @@%}
 
 #######################################
 # Gaps

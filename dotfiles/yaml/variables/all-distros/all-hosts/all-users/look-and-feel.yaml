@@ -6,19 +6,7 @@
 variables:
   # These variables define the content of look-and-feel themes
 
-  font:
-    size: 11
-    monospace:
-      family: DejaVu Sans Mono, Symbols Nerd Font Mono
-      name: '{{@@ font.monospace.family @@}} {{@@ font.size @@}}'
-
-    normal:
-      family: DejaVu Sans, Symbols Nerd Font
-      name: >-
-        {{@@ font.normal.family @@}},
-        {{@@ font.monospace.family @@}}
-        {{@@ font.size @@}}
-
+  font: 'sans 11'
   theme: Adwaita-dark
 
   # These variables are used for configuring look-and-feel tools

@@ -8,7 +8,7 @@
 Gtk.CursorThemeName: {{@@ cursor_theme @@}}
 Gtk.CursorThemeSize: {{@@ cursor_size @@}}
 Gtk.IconSizes: ''
-Gtk.FontName: {{@@ font.normal.name @@}}
+Gtk.FontName: {{@@ font @@}}
 
 ! Look-and-feel resources
 Net.IconThemeName: {{@@ icon_theme @@}}

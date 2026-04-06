@@ -1,4 +1,5 @@
-# This i3-sway configuration file defines shared application-related variables
+# This i3-sway configuration file defines variables shared by both window
+# managers
 #
 # {{@@ header() @@}}
 

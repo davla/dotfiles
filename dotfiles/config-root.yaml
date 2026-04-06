@@ -250,12 +250,6 @@ dotfiles:
   f_i3_sway_10-systemd:
     src: shared/i3-sway/systemd/10-systemd
     dst: /etc/{{@@ wm_name @@}}/config.d/10-systemd
-  f_i3_sway_systemd-session.target:
-    src: shared/i3-sway/systemd/systemd-session.target
-    dst: /etc/systemd/user/{{@@ wm_name @@}}-session.target
-  f_i3_sway_systemd-session-watch.service:
-    src: shared/i3-sway/systemd/systemd-session-watch.service
-    dst: /etc/systemd/user/{{@@ wm_name @@}}-session-watch.service
   f_i3blocks_battery-perc:
     src: usr/lib/i3blocks/battery-perc
     dst: /usr/lib/i3blocks/battery-perc
@@ -268,6 +262,12 @@ dotfiles:
     src: usr/lib/i3blocks/gh-release-updates
     dst: /usr/lib/i3blocks/gh-release-updates
     chmod: 755
+  f_i3-sway-session.target:
+    src: etc/systemd/user/i3-sway-session.target
+    dst: /etc/systemd/user/{{@@ wm_name @@}}-session.target
+  f_i3-sway-session-watch.service:
+    src: etc/systemd/user/i3-sway-session-watch.service
+    dst: /etc/systemd/user/{{@@ wm_name @@}}-session-watch.service
   f_keyboard:
     src: etc/default/keyboard
     dst: /etc/default/keyboard
@@ -486,13 +486,14 @@ profiles:
   i3:
     dotfiles:
     - d_i3blocks_keyindicator2
-    - f_local_bin_systemd-i3-session
-    - f_local_bin_systemd-i3-session-watch
     include:
     - i3-sway
     - x11
     variables:
+      wm_ipc_cmd: i3-msg
       wm_name: i3
+      wm_systemd_env_vars:
+      - DISPLAY
 
   # This profile groups together dotfiles and variables that are used both in
   # the i3 and sway profiles. Its main purpose is to be include'd from such
@@ -502,12 +503,14 @@ profiles:
     - d_i3blocks_network-status
     - d_local_lib_i3ipc-extras
     - f_i3_sway_10-systemd
-    - f_i3_sway_systemd-session-watch.service
-    - f_i3_sway_systemd-session.target
+    - f_i3-sway-session-watch.service
+    - f_i3-sway-session.target
     - f_i3blocks_battery-perc
     - f_i3blocks_flatpak-updates
     - f_local_bin_default-ws-layout
     - f_local_bin_i3-ws-live-tree
+    - f_local_bin_systemd-i3-sway-session
+    - f_local_bin_systemd-i3-sway-session-watch
     import:
     - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/i3-sway.yaml:optional
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-machines/{{@@ user @@}}/i3-sway.yaml:optional
@@ -578,12 +581,14 @@ profiles:
   sway:
     dotfiles:
     - f_flatpak_overrides_wayland
-    - f_local_bin_systemd-sway-session
-    - f_local_bin_systemd-sway-session-watch
     include:
     - i3-sway
     variables:
+      wm_ipc_cmd: swaymsg
       wm_name: sway
+      wm_systemd_env_vars:
+      - SWAYSOCK
+      - WAYLAND_DISPLAY
 
   # This profile groups keyboard layout dotfiles
   xkb:

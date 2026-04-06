@@ -33,7 +33,7 @@ TREE_CHILD_INDENT='  '
 #
 # Arguments:
 #   - $1: The {{@@ wm_name @@}} window tree to be printed, in the JSON format
-#         returned by {{@@ ipc_cmd @@}}.
+#         returned by {{@@ wm_ipc_cmd @@}}.
 #   - $2: The current node indent. Defaults to the empty string.
 print_tree() (
     TREE="$1"
@@ -84,10 +84,10 @@ select(
     or IN("close", "floating", "focus", "fullscreen_mode", "move", "title"; .change?)
 ) | ""' "$TICK_PAYLOAD")"
 
-{{@@ ipc_cmd @@}} --monitor --type SUBSCRIBE '["window", "tick"]' \
+{{@@ wm_ipc_cmd @@}} --monitor --type SUBSCRIBE '["window", "tick"]' \
     | jq --raw-output --unbuffered "$JQ_EVENT_FILTER" \
     | while read -r _; do
-        FOCUSED_WORKSPACE="$({{@@ ipc_cmd @@}} --type GET_TREE \
+        FOCUSED_WORKSPACE="$({{@@ wm_ipc_cmd @@}} --type GET_TREE \
             | jq '.. | select(.type? == "workspace" and any(..; .focused?))')"
         tput clear
         print_tree "$FOCUSED_WORKSPACE"

@@ -1,16 +1,3 @@
-{#@@
-    This macro injects some graphical-session-specific content in its output.
-    This "compile-time" computation of values has been favored over run-time
-    computation for efficiency reasons, since this script would be run at each
-    graphical session startup.
-@@#}
-{%@@ macro systemd_graphical_session(
-    env_list,
-    xdg_current_desktop,
-    xdg_session_type,
-    target='%s-session.target' % xdg_current_desktop
-) -@@%}
-
 #!/usr/bin/env sh
 
 # This script sets up/tears down systemd graphical sessions. This mostly
@@ -28,10 +15,18 @@
 # Variables
 ########################################
 
-export XDG_CURRENT_DESKTOP='{{@@ xdg_current_desktop @@}}'
-export XDG_SESSION_TYPE='{{@@ xdg_session_type @@}}'
-ENV_LIST='{{@@ env_list @@}} TERMINAL XDG_CURRENT_DESKTOP XDG_SESSION_ID XDG_SESSION_TYPE'
-TARGET='{{@@ target @@}}'
+export XDG_CURRENT_DESKTOP='{{@@ wm_name @@}}'
+export XDG_SESSION_TYPE='{{@@ display_server @@}}'
+TARGET='{{@@ wm_name @@}}-session.target'
+ENV_LIST='{{@@ (
+    wm_systemd_env_vars + [
+        'I3SOCK',
+        'TERMINAL',
+        'XDG_CURRENT_DESKTOP',
+        'XDG_SESSION_ID',
+        'XDG_SESSION_TYPE'
+    ]
+) | join(' ') @@}}'
 
 ########################################
 # Input processing
@@ -67,5 +62,3 @@ case "$ACTION" in
         exit 127
         ;;
 esac
-
-{%@@- endmacro @@%}

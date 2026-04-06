@@ -1,11 +1,3 @@
-{#@@
-    This macro injects some graphical-session-specific content in its output.
-    This "compile-time" computation of values has been favored over run-time
-    computation for efficiency reasons, since this script would be run in the
-    background in each session.
-@@#}
-{%@@ macro systemd_graphical_session_watch(wm_ipc_command) -@@%}
-
 #!/usr/bin/env sh
 
 # This script stops the {{@@ wm_name @@}} systemd session when a shutdown event
@@ -33,12 +25,12 @@ FIRST_RESTART_RECEIVED='false'
     FIRST_RESTART_RECEIVED='true'
 } &
 
-# If {{@@ wm_ipc_command @@}} exits with an error, it's usually because the IPC
+# If {{@@ wm_ipc_cmd @@}} exits with an error, it's usually because the IPC
 # socket has been closed before the shutdown event has been emitted. This
 # happens when {{@@ wm_name @@}} is exiting, either with or without errors.
 # In all these cases, the {{@@ wm_name @@}} systemd session should be stopped.
 {
-    {{@@ wm_ipc_command @@}} --type subscribe '["shutdown"]' || stop_session
+    {{@@ wm_ipc_cmd @@}} --type subscribe '["shutdown"]' || stop_session
 } | while read -r EVENT; do
         EVENT_CHANGE="$(echo "$EVENT" \
             | jq --raw-output '.change | ascii_downcase')"
@@ -51,5 +43,3 @@ FIRST_RESTART_RECEIVED='false'
             || [ "$FIRST_RESTART_RECEIVED" = 'true' ] \
             && systemd-{{@@ wm_name @@}}-session down
     done
-
-{%@@ endmacro @@%}

@@ -15,8 +15,10 @@ for_window [{{@@ criterion @@}}] move scratchpad, scratchpad show, \
 {%@@- endmacro -@@%}
 
 {#@@ This macro opens a terminal window that executes a given sh command @@#}
-{%@@ macro tui(cmd, marker='$tui_marker', term='$term') -@@%}
+{%@@ macro tui(cmd, term_args=(), marker='$tui_marker', term='$term') -@@%}
 
-{{@@ term @@}} --class {{@@ marker @@}} --command sh -c "{{@@ cmd @@}}"
+{{@@
+    ([term, '--class', marker] + (term_args | list)) | join(' ')
+@@}} --command sh -c "{{@@ cmd @@}}"
 
 {%@@- endmacro -@@%}

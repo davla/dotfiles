@@ -1,5 +1,9 @@
+{%@@ from 'shared/i3-sway/macros.j2' import tui -@@%}
+
 # This i3/sway configuration files defines keyboard shortcuts for containers
 # (e.g. workspaces and windows)
+#
+# {{@@ header() @@}}
 
 #######################################
 # Workspaces
@@ -75,6 +79,10 @@ bindsym $mod+Shift+$scratchpad_key move scratchpad
 set $float_key f
 set $float_center_criterion window_type="dialog" window_type="splash"
 
+set $close_i3_ws_live_tree {{@@ i3_ws_live_tree.criterion @@}} kill
+set $send_i3_ws_live_tree_tick exec swaymsg --type SEND_TICK \
+    '{{@@ i3_ws_live_tree.tick_payload @@}}'
+
 # Change focus
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
@@ -88,8 +96,20 @@ bindsym $mod+q kill
 floating_modifier $mod
 for_window [floating $float_center_criterion] move position center
 
+# i3-ws-live-tree window
+no_focus {{@@ i3_ws_live_tree.criterion @@}}
+for_window {{@@ i3_ws_live_tree.criterion @@}} floating enable, \
+    opacity set 100, \
+    resize set {{@@ i3_ws_live_tree.term_width @@}} ppt 40 ppt, \
+    move position {{@@ 100 - i3_ws_live_tree.term_width @@}} ppt 0 ppt
+
 # Container focus, split, layout, float and resize
-bindsym $mod+$mode_shifter_key+c mode "containers"
+bindsym $mod+$mode_shifter_key+c mode "containers", exec {{@@ tui(
+    cmd="%s '%s'" % (i3_ws_live_tree.cmd, i3_ws_live_tree.tick_payload),
+    term_args=('--title', i3_ws_live_tree.marker),
+    marker=i3_ws_live_tree.marker
+) @@}}
+
 mode "containers" {
     # Focus
     bindsym p focus parent
@@ -100,13 +120,13 @@ mode "containers" {
     bindsym Left focus left
 
     # Split
-    bindsym h split h
-    bindsym v split v
+    bindsym h split h; $send_i3_tree_tick
+    bindsym v split v; $send_i3_tree_tick
 
     # Layout
-    bindsym s layout stacking
-    bindsym t layout tabbed
-    bindsym g layout toggle split
+    bindsym s layout stacking; $send_i3_tree_tick
+    bindsym t layout tabbed; $send_i3_tree_tick
+    bindsym g layout toggle split; $send_i3_tree_tick
 
     # Fullscreen
     bindsym l fullscreen toggle
@@ -132,7 +152,7 @@ mode "containers" {
     bindsym q kill
 
     # Back to normal: Enter or Escape or mode-enabling shortcut
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-    bindsym $mod+$mode_shifter_key+c mode "default"
+    bindsym Return mode "default"; $close_i3_ws_live_tree
+    bindsym Escape mode "default"; $close_i3_ws_live_tree
+    bindsym $mod+$mode_shifter_key+c mode "default"; $close_i3_ws_live_tree
 }

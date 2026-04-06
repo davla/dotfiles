@@ -507,6 +507,7 @@ profiles:
     - f_i3blocks_battery-perc
     - f_i3blocks_flatpak-updates
     - f_local_bin_default-ws-layout
+    - f_local_bin_i3-ws-live-tree
     import:
     - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/i3-sway.yaml:optional
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-machines/{{@@ user @@}}/i3-sway.yaml:optional

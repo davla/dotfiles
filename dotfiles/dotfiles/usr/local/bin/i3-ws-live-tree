@@ -1,16 +1,19 @@
 #!/usr/bin/env sh
 
-# This script displays the {{@@ wm_name @@}} window tree of the workspace
-# containing the currently focused window.
+# This script live-displays the {{@@ wm_name @@}} window tree of the workspace
+# containing the currently focused window, following any updates as they occur.
 #
-# It follows live updates of the workspace, barring send_tick
+# Updates to the window tree are detected via relevant "window"
+# {{@@ wm_name @@}} IPC events, but can also be manually triggered by sending
+# "tick" events with same payload as this script's first argument.
+# This is necessary to respond to {{@@ wm_name @@}} container layout changes,
+# which unfortunately are not covered by IPC events.
 #
 # {{@@ header() @@}}
 #
 # Arguments:
-#   - $1: The tick payload
-
-{%@@ set ipc_cmd = 'i3-msg' if wm_name == 'i3' else 'swaymsg' -@@%}
+#   - $1: The payload that "tick" {{@@ wm_name @@}} IPC events should have in
+#         order to trigger redrawing the window tree.
 
 ########################################
 # Variables
@@ -23,7 +26,7 @@ TREE_CHILD_INDENT='  '
 ########################################
 
 # This function prints an {{@@ wm_name @@}} window tree depth-first. Each level
-# down the tree is indented by an extra $REE_CHILD_INDENT.
+# down the tree is indented by an extra $TREE_CHILD_INDENT.
 #
 # It's defined as a subshell (with parentheses wrapping the body), rather than
 # a regular command group, because it's recursive.
@@ -64,7 +67,7 @@ print_tree() (
 
 TICK_PAYLOAD="$1"
 [ -z "$TICK_PAYLOAD" ] && {
-    echo 2>&1 'Error: no tick payload provided!'
+    echo 2>&1 'Error: missing payload for "tick" {{@@ wm_name @@}} IPC events!'
     exit 63
 }
 

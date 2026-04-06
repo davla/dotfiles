@@ -57,7 +57,7 @@ variables:
   # leveraging dotdrop templating.
   i3_ws_live_tree:
     cmd: i3-ws-live-tree
-    criterion: '[title={{@@ i3_ws_live_tree.marker @@}}]'
+    criterion: '[title=^{{@@ i3_ws_live_tree.marker @@}}$]'
     marker: i3-ws-live-tree
     term_width: 20
     tick_payload: '{{@@ i3_ws_live_tree.marker @@}}::render'

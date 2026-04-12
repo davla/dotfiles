@@ -26,20 +26,18 @@ logging_set_tag 'on'
 # Arguments:
 #   - $1: The name of the binary to add to the alternatives system
 #   - $2: The alternatives group name
-rm_alternative() {
-    RM_ALT_BIN_NAME="$1"
-    RM_ALT_GROUP_NAME="$2"
+rm_alternative() (
+    BIN_NAME="$1"
+    GROUP_NAME="$2"
 
     # If the executable is not found on PATH, there's nothing to setup yet.
     # This script is executed multiple times by dpkg, not all of them have the
     # package fully unpacked on the system.
-    RM_ALT_BIN_PATH="$(which "$RM_ALT_BIN_NAME")" || return 0
+    BIN_PATH="$(which "$BIN_NAME")" || return 0
 
-    log_info "Remove '$RM_ALT_BIN_NAME' from '$RM_ALT_GROUP_NAME' alternatives"
-    update-alternatives --remove "$RM_ALT_GROUP_NAME" "$RM_ALT_BIN_PATH"
-
-    unset RM_ALT_GROUP_NAME RM_ALT_BIN_NAME RM_ALT_BIN_PATH
-}
+    log_info "Remove '$BIN_NAME' from '$GROUP_NAME' alternatives"
+    update-alternatives --remove "$GROUP_NAME" "$BIN_PATH"
+)
 
 ########################################
 # Main

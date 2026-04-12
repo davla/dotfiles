@@ -43,16 +43,14 @@ find_apt_ancestor_pid() {
 
 # This function returns the operation command line arguments of the first apt
 # parent process
-apt_operation() {
+apt_operation() (
     APT_PID="$(find_apt_ancestor_pid "$PPID")"
     tr '\0' ' ' < "/proc/$APT_PID/cmdline" | cut --delimiter ' ' --fields 2
-    unset APT_PID
-}
+)
 
 # This function returns the command line arguments of the first apt parent
 # process that possibly contain package names.
-apt_packages() {
+apt_packages() (
     APT_PID="$(find_apt_ancestor_pid "$PPID")"
     tr '\0' ' ' < "/proc/$APT_PID/cmdline" | cut --delimiter ' ' --fields 3-
-    unset APT_PID
-}
+)

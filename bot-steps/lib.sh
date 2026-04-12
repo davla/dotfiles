@@ -8,13 +8,9 @@
 # Arguments:
 #   - $1: The package to be installed via gh-releases
 gh_release_install() {
-    GH_RELEASE_INSTALL__PACKAGE="$1"
-
     ensure-gh-logged-in
-    print_info "Install $GH_RELEASE_INSTALL__PACKAGE via gh-release"
-    sudo gh-release install "$GH_RELEASE_INSTALL__PACKAGE"
-
-    unset GH_RELEASE_INSTALL__PACKAGE
+    print_info "Install $1 via gh-release"
+    sudo gh-release install "$1"
 }
 
 # This function installs my AUR helper of choice (yay).
@@ -22,8 +18,8 @@ gh_release_install() {
 # Arguments:
 #   - $1: The unprivileged user to run the installation as.
 #         Optional, defaults to $SUDO_USER.
-install_aur_helper() {
-    INST_AUR_HELP__USER="${1:-$SUDO_USER}"
+install_aur_helper() (
+    AUR_HELPER_USER="${1:-$SUDO_USER}"
 
     which yay > /dev/null 2>&1 && {
         print_info 'yay AUR helper already installed'
@@ -32,7 +28,7 @@ install_aur_helper() {
 
     print_info 'Install yay AUR helper'
     pacman --synchronize --refresh --refresh --needed git base-devel
-    sudo --user "$INST_AUR_HELP__USER" sh -c '
+    sudo --user "$AUR_HELPER_USER" sh -c '
         YAY_DIR="$(mktemp --directory XXX.yay.XXX)"
         trap "rm --recursive --force $YAY_DIR" EXIT HUP INT TERM
 
@@ -41,9 +37,7 @@ install_aur_helper() {
         makepkg --syncdeps --install
         cd - > /dev/null 2>&1 || exit
     '
-
-    unset INST_AUR_HELP__USER
-}
+)
 
 # Log the current user out if the DISPLAY_SERVER environment variable is *not*
 # set to the given value.
@@ -54,14 +48,24 @@ install_aur_helper() {
 #   - $1: The value the DISPLAY_SERVER environment variable should have in
 #         order *not* to trigger a logout.
 logout_into_graphical_session() {
-    LOGOUT_INTO_DS__TARGET_DISPLAY_SERVER="$1"
-
-    if [ "$DISPLAY_SERVER" != "$LOGOUT_INTO_DS__TARGET_DISPLAY_SERVER" ]; then
+    if [ "$DISPLAY_SERVER" != "$1" ]; then
         prompted_logout 'Logout necessary to load the graphical session'
     fi
-
-    unset LOGOUT_INTO_DS__TARGET_DISPLAY_SERVER
 }
+
+# This function returns the absolute paths where the files belonging to a
+# dotdrop profile are installed to.
+#
+# Arguments:
+#   - $1: The dotdrop profile whose files will be returned
+#   - $2: The user the dotdrop profile belongs to. Optional, defaults to "user"
+dotdrop_files() (
+    DOTDROP_PROFILE="$1"
+    DOTDROP_USER="${2:-user}"
+
+    dotdrop files -bGp "$DOTDROP_PROFILE" -U "$DOTDROP_USER" 2> /dev/null \
+        | cut --delimiter ',' --fields 2 | cut --delimiter ':' --fields 2
+)
 
 # This function prints a line with an informative message, that is a string
 # prefixed by a green "[INFO]"
@@ -69,7 +73,8 @@ logout_into_graphical_session() {
 # Arguments:
 #   - n: don't print final newline.
 #   - $1: the message to be printed.
-print_info() {
+print_info() (
+    MSG="$1"
     NEWLINE='\n'
     while getopts ':n' OPTION; do
         case "$OPTION" in
@@ -85,9 +90,8 @@ print_info() {
     done
     shift $(( OPTIND - 1 ))
 
-    printf "\e[32m[INFO]\e[0m %s$NEWLINE" "$1"
-    unset NEWLINE OPTION
-}
+    printf "\e[32m[INFO]\e[0m %s$NEWLINE" "$MSG"
+)
 
 # Log out the current user upon pressing enter, after displaying an informative
 # prompt.
@@ -106,16 +110,16 @@ prompted_logout() {
 # Arguments:
 #   - $1: The unprivileged user to install the AUR helper as.
 #         Optional, defaults to $SUDO_USER and then to $USER.
-setup_package_managers() {
-    SETUP_PACK_MAN__USER="${1:-${SUDO_USER:-$USER}}"
+setup_package_managers() (
+    AUR_HELPER_USER="${1:-${SUDO_USER:-$USER}}"
     case "$DISTRO" in
         'arch')
             print_info 'Setup pacman and yay'
-            install_aur_helper "$SETUP_PACK_MAN__USER"
+            install_aur_helper "$AUR_HELPER_USER"
             dotdrop install -p packages -U root
-            sudo --user "$SETUP_PACK_MAN__USER" yay --sync --refresh --refresh
+            sudo --user "$AUR_HELPER_USER" yay --sync --refresh --refresh
             [ "$DISPLAY_SERVER" != 'headless' ] \
-                && sudo --user "$SETUP_PACK_MAN__USER" \
+                && sudo --user "$AUR_HELPER_USER" \
                     yay --sync --needed flatpak
             ;;
 
@@ -127,5 +131,4 @@ setup_package_managers() {
                 && sudo apt-get install --no-install-recommends flatpak
             ;;
     esac
-    unset SETUP_PACK_MAN__USER
-}
+)

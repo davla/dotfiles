@@ -7,26 +7,6 @@
 . "$(dirname "$0")/lib.sh"
 
 #######################################
-# Functions
-#######################################
-
-# This function returns the absolute paths where the files belonging to a
-# dotdrop profile are installed to.
-#
-# Arguments:
-#   - $1: The dotdrop profile whose files will be returned
-#   - $2: The user the dotdrop profile belongs to. Optional, defaults to "user"
-dotdrop_files() {
-    INSTALLED_PROFILE="$1"
-    INSTALLED_USER="${2:-user}"
-
-    dotdrop files -bGp "$INSTALLED_PROFILE" -U "$INSTALLED_USER" 2> /dev/null \
-        | cut --delimiter ',' --fields 2 | cut --delimiter ':' --fields 2
-
-    unset INSTALLED_PROFILE INSTALLED_USER
-}
-
-#######################################
 # System startup jobs
 #######################################
 

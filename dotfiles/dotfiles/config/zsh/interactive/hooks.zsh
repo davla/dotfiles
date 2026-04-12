@@ -10,7 +10,7 @@
 # `git fetch` in the background each 10 times it executes.
 BG_GIT_FETCH_COUNT=0
 bg_git_fetch() {
-    BG_GIT_FETCH_COUNT=$(( (BG_GIT_FETCH_COUNT + 1) % 10 ))
+    BG_GIT_FETCH_COUNT="$(( (BG_GIT_FETCH_COUNT + 1) % 10 ))"
     [ "$BG_GIT_FETCH_COUNT" -eq 0 ] && (git -C "$PWD" fetch > /dev/null 2>&1 &)
 }
 

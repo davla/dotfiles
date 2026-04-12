@@ -27,25 +27,20 @@ logging_set_tag 'on'
 # Arguments:
 #   - $1: The name of the binary to add to the alternatives system
 #   - $2: The alternatives group name
-set_alternative() {
-    SET_ALT_BIN_NAME="$1"
-    SET_ALT_GROUP_NAME="$2"
+set_alternative() (
+    BIN_NAME="$1"
+    ALT_GROUP_NAME="$2"
 
     # If the executable is not found on PATH, there's nothing to setup yet.
     # This script is executed multiple times by dpkg, not all of them have the
     # package fully unpacked on the system.
-    SET_ALT_BIN_PATH="$(which "$SET_ALT_BIN_NAME")" || return 0
+    BIN_PATH="$(which "$BIN_NAME")" || return 0
 
-    log_info "Add '$SET_ALT_BIN_NAME' to '$SET_ALT_GROUP_NAME' alternatives"
-    update-alternatives --install \
-        "/usr/local/bin/$SET_ALT_GROUP_NAME" \
-        "$SET_ALT_GROUP_NAME" \
-        "$SET_ALT_BIN_PATH" \
-        50
-    update-alternatives --set "$SET_ALT_GROUP_NAME" "$SET_ALT_BIN_PATH"
-
-    unset SET_ALT_GROUP_NAME SET_ALT_BIN_NAME SET_ALT_BIN_PATH
-}
+    log_info "Add '$BIN_NAME' to '$ALT_GROUP_NAME' alternatives"
+    update-alternatives --install "/usr/local/bin/$ALT_GROUP_NAME" \
+        "$ALT_GROUP_NAME" "$BIN_PATH" 50
+    update-alternatives --set "$ALT_GROUP_NAME" "$BIN_PATH"
+)
 
 ########################################
 # Main

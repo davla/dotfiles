@@ -1,0 +1,98 @@
+%YAML 1.2
+---
+# This dotdrop config file defines the packages profile for Arch. It mostly
+# consists of pacman hooks.
+
+config:
+  backup: false
+  banner: true
+  create: true
+  dotpath: ../../../../../dotfiles
+  force_chmod: true
+  func_file:
+  - ../../../../../python/functions.py
+  ignoreempty: true
+  import_actions:
+  - ../../../../actions/shared.yaml
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+  showdiff: true
+  workdir: '{{@@ xdg_config("dotdrop") @@}}'
+
+dotfiles:
+  d_pacman_hooks:
+    src: etc/pacman.d/hooks
+    dst: /etc/pacman.d/hooks
+    # These ignore fields are necessary because some hooks are machine-specific
+    cmpignore:
+    - '*/i3blocks-contrib*.hook'
+    instignore:
+    - '*/i3blocks-contrib*.hook'
+    upignore:
+    - '*/i3blocks-contrib*.hook'
+  f_pacman_conf:
+    src: etc/pacman.conf
+    # Dynamic path since the dotfile content is appended to dst
+    dst: '{{@@ pacman_tmp_dst @@}}'
+    chmod: 600
+    actions:
+    - _strip '{{@@ pacman_conf_append_marker @@}}' '{{@@ pacman_conf_dst @@}}'
+    - _append_tmp '{{@@ pacman_conf_dst @@}}' '{{@@ pacman_tmp_dst @@}}'
+  f_pacman_ignore:
+    src: etc/pacman.d/ignore
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ pacman_ignore_path @@}}'
+  f_pacman_hooks.bin_clean-package-cache:
+    src: usr/local/share/pacman/hooks.bin/clean-package-cache
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ clean_package_cache_path @@}}'
+    chmod: 755
+  f_pacman_hooks.bin_install-rust-toolchain:
+    src: usr/local/share/pacman/hooks.bin/rustup-setup
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ rustup_setup_path @@}}'
+    chmod: 755
+  f_pacman_hooks.bin_nordvpn-setup:
+    src: usr/local/share/pacman/hooks.bin/nordvpn-setup
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ nordvpn_setup_path @@}}'
+    chmod: 755
+  f_pacman_mirrorlists:
+    src: etc/pacman.d/mirrorlists
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ pacman_mirrorlists_path @@}}'
+  f_pacman_options:
+    src: etc/pacman.d/options
+    # Dynamic path as it's used somewhere else too
+    dst: '{{@@ pacman_options_path @@}}'
+  f_reflector.conf:
+    src: etc/xdg/reflector/reflector.conf
+    dst: /etc/xdg/reflector/reflector.conf
+
+profiles:
+  # This profile contains pacman hooks
+  packages:
+    dotfiles:
+    - d_pacman_hooks
+    - f_pacman_conf
+    - f_pacman_ignore
+    - f_pacman_hooks.bin_clean-package-cache
+    - f_pacman_hooks.bin_nordvpn-setup
+    - f_pacman_mirrorlists
+    - f_pacman_options
+    import:
+    - ../../../../dotfiles/arch/{{@@ env['MACHINE'] @@}}/root/packages.yaml:optional
+    dynvariables:
+      pacman_tmp_dst: mktemp /tmp/pacman-append.XXX
+    variables:
+      pacman_hook_bin_path: /usr/local/share/pacman/hooks.bin
+      clean_package_cache_path: '{{@@ pacman_hook_bin_path @@}}/clean-package-cache'
+      nordvpn_setup_path: '{{@@ pacman_hook_bin_path @@}}/nordvpn-setup'
+      rustup_setup_path: '{{@@ pacman_hook_bin_path @@}}/rustup-setup'
+      pacman_conf_append_marker: Custom configuration
+      pacman_conf_dst: /etc/pacman.conf
+      pacman_ignore_path: /etc/pacman.d/ignore
+      pacman_mirrorlists_path: /etc/pacman.d/mirrorlists
+      pacman_options_path: /etc/pacman.d/options

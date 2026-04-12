@@ -30,13 +30,11 @@ esac
 print_info 'Install dependencies used in i3blocks scripts'
 case "$DISTRO" in
     'arch')
-        yay -S --needed bash i3blocks-contrib-git gnome-keyring lm-sensors \
-            python-keyring
+        yay -S --needed bash i3blocks-contrib-git gnome-keyring python-keyring
         ;;
 
     'debian')
-        sudo apt-get install aptitude bash gnome-keyring lm-sensors \
-            python3-keyring
+        sudo apt-get install aptitude bash gnome-keyring python3-keyring
         sudo mr --directory /opt/i3blocks-contrib --config /opt/.mrconfig \
             checkout
         sudo mr --directory /opt/i3blocks-contrib --config /opt/.mrconfig \

@@ -21,9 +21,9 @@
 # Install applications
 ########################################
 
-case "$HOST" in
+case "$MACHINE" in
     'personal')
-        print_info "Install Flatpak applications for $HOST"
+        print_info "Install Flatpak applications for $MACHINE"
         flatpak install --noninteractive brasero calibre caprine discordapp \
             freedownloadmanager fr.handbrake.ghb kid3 transmissionbt \
             org.signal.Signal soundconverter soundjuicer org.telegram.desktop \
@@ -31,12 +31,12 @@ case "$HOST" in
         ;;
 
     'work')
-        print_info "Install Flatpak applications for $HOST"
+        print_info "Install Flatpak applications for $MACHINE"
         flatpak install --noninteractive slack
         ;;
 esac
 
-print_info 'Install Flatpak applications shared across all hosts'
+print_info 'Install Flatpak applications shared across all machines'
 # No Bitwarden as it still has copy-paste issues on Wayland
 flatpak install --noninteractive adwaita-dark baobab org.gnome.clocks drawing \
     org.geany.Geany io.mpv.Mpv pwvucontrol seahorse simplescan spotify

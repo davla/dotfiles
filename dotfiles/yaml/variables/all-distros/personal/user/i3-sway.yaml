@@ -6,7 +6,6 @@
 variables:
   browser: firefox
   i3blocks_temperature_chip: coretemp-isa-0000
-  mail_client: thunderbird
 
   messaging:
     cmd: messaging

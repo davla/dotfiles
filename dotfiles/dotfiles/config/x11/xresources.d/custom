@@ -1,0 +1,20 @@
+! {{@@ header() @@}}
+
+! Xresources file
+
+! Gtk resources
+Gtk.CursorThemeName: {{@@ cursor_theme @@}}
+Gtk.CursorThemeSize: {{@@ cursor_size @@}}
+Gtk.IconSizes: ''
+Gtk.FontName: {{@@ font @@}}
+
+! Look-and-feel resources
+Net.IconThemeName: {{@@ icon_theme @@}}
+Net.ThemeName: {{@@ theme @@}}
+
+! Cursor resources
+Xcursor.theme: {{@@ cursor_theme @@}}
+Xcursor.size: {{@@ cursor_size @@}}
+
+! DPI
+Xft.dpi: {{@@ dpi @@}}

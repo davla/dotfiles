@@ -1,0 +1,69 @@
+%YAML 1.2
+---
+# This dotdrop config file is meant for managing and bootstraping code
+# repositories and workspace setup
+
+actions:
+  post:
+    mrconfig: >-
+      ln --force --symbolic --relative '{{@@ _dotfile_abs_dst @@}}' \
+          "$HOME/.mrconfig"
+
+config:
+  backup: false
+  banner: true
+  create: true
+  dotpath: ../../../../../dotfiles
+  force_chmod: true
+  func_file:
+  - ../../../../../python/functions.py
+  ignoreempty: true
+  import_variables:
+  - ../../../../variables/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/repos.yaml:optional
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+  showdiff: true
+  workdir: '{{@@ xdg_config("dotdrop") @@}}'
+
+dynvariables:
+  # This variable is used to differentiate between user and root configuration
+  # in some dotfiles.
+  #
+  # It needs to be defined here, rahter than in a shared variables files,
+  # because variables from external variables are not yet available when
+  # importing dotfiles.
+  user: '[ "$USER" = "root" ] && echo "root" || echo "user"'
+
+dotfiles:
+  f_mrconfig:
+    src: config/mr/mrconfig
+    dst: '{{@@ xdg_config("mr/mrconfig") @@}}'
+    actions:
+    - mrconfig
+  f_mrconfig_code:
+    src: code/mrconfig.{{@@ env['MACHINE'] @@}}
+    dst: '{{@@ code_root @@}}/.mrconfig'
+  f_mrconfig_wiki:
+    src: code/wiki/mrconfig
+    dst: '{{@@ wiki_root @@}}/.mrconfig'
+
+profiles:
+  # This profile groups myrepos config files to bootstrap a machine's workspace
+  repos:
+    dotfiles:
+    - f_mrconfig
+    - f_mrconfig_code
+    - f_mrtrust
+    import:
+    - ../../../../dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/repos.yaml:optional
+
+variables:
+  code_root: ~/code
+
+  # Pokémon Central Wiki code workspace variables
+  wiki_root: '{{@@ code_root @@}}/wiki'
+  pywikibot_path: pywikibot
+  wiki_modules_path: modules
+  wiki_util_path: util

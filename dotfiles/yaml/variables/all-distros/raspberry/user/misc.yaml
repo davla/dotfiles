@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
-# This variables file defines some miscellaneous host-specific variables on my
-# raspberry pi, for unprivileged users
+# This variables file defines some miscellaneous machine-specific variables on
+# my raspberry pi, for unprivileged users
 
 variables:
   # This variable defines the Zygal shell theme colorscheme.

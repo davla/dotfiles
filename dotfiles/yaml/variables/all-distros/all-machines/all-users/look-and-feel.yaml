@@ -1,0 +1,29 @@
+%YAML 1.2
+---
+# This variables file contains variables used to configure look-and-feel of
+# GUIs that have the same values regardless of the colorscheme.
+
+variables:
+  cursor_size: 24
+  dpi: 90
+  font_size: 11
+  font: 'sans {{@@ font_size @@}}'
+  theme: Adwaita-dark
+
+  # These variables are used both by dunst and mako
+  notification:
+    background_color: '#000000'
+    border_radius: 10
+    border_width: 1
+    height: 95
+    icon_size: 40
+    margin: 8
+    padding:
+      horizontal: 8
+      vertical: 10
+    width: 430
+
+  # This variable is used both as a dotfile dst and as the content of an
+  # environment variable
+  gtk2_path: '{{@@ xdg_config("gtk-2.0/gtkrc") @@}}'
+

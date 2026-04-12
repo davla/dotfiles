@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
-# This variables file defines some miscellaneous host-specific variables for my
-# raspberry pi, for the root user.
+# This variables file defines some miscellaneous machine-specific variables for
+# my raspberry pi, for the root user.
 
 variables:
 

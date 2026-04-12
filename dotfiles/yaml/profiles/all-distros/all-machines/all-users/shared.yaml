@@ -1,0 +1,47 @@
+%YAML 1.2
+---
+# This dotdrop config file is meant for dotfiles, actions, profiles etc. shared
+# between both root and user, on all machines and on all distros
+
+actions:
+  # This action links an mrtrust file to where myrepos expect it to be
+  mrtrust: ln --force --symbolic --relative '{0}' "$HOME/.mrtrust"
+
+config:
+  backup: false
+  banner: true
+  create: true
+  dotpath: ../../../../../dotfiles
+  force_chmod: true
+  func_file:
+  - ../../../../../python/functions.py
+  ignoreempty: true
+  import_configs:
+  - ../{{@@ user @@}}/timers.yaml:optional
+  keepdot: false
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: false
+  showdiff: true
+  workdir: '{{@@ xdg_config("dotdrop") @@}}'
+
+dotfiles:
+  d_local_lib_sh:
+    src: usr/local/lib/sh
+    dst: '{{@@ libs_path @@}}/sh'
+  f_mrtrust:
+    src: config/mr/mrtrust
+    dst: '{{@@ xdg_config("mr/mrtrust") @@}}'
+    actions:
+    - mrtrust '{{@@ _dotfile_abs_dst @@}}'
+
+dynvariables:
+  # This variable is used to differentiate between user and root configuration
+  # in some dotfiles.
+  #
+  # It needs to be defined here, rahter than in a shared variables files,
+  # because variables from external variables are not yet available when
+  # importing dotfiles.
+  user: '[ "$USER" = "root" ] && echo "root" || echo "user"'
+
+profiles:

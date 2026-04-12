@@ -1,0 +1,8 @@
+%YAML 1.2
+---
+# This dotfiles file lists the dotfiles to be included in the "i3-sway" profile
+# only for debian for root.
+
+dotfiles:
+- f_80i3blocks
+- f_i3blocks_gh-release-updates

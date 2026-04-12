@@ -1,0 +1,19 @@
+# WMware user systemd service file
+
+[Unit]
+Description=WMware integration
+After=graphical-session.target
+BindsTo=graphical-session.target
+ConditionEnvironment=DISPLAY
+ConditionEnvironment=XDG_SESSION_ID
+
+[Service]
+ExecStart=vmware-user-suid-wrapper
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=vmware-user
+SyslogIdentifier=vmware-user
+SyslogLevel=info
+SyslogLevelPrefix=true
+Type=forking

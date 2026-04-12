@@ -23,10 +23,10 @@ separator_block_width=36
 
 # This block shows the time and the date, including the weekday
 [time]
-command=date '+%H:%M:%S        %d-%m-%Y (%a){%@@ if env['HOST'] == 'work' @@%} - %V{%@@ endif @@%}'
+command=date '+%H:%M:%S        %d-%m-%Y (%a){%@@ if env['MACHINE'] == 'work' @@%} - %V{%@@ endif @@%}'
 interval=1
 
-{%@@ if env['HOST'] == 'personal' -@@%}
+{%@@ if env['MACHINE'] == 'personal' -@@%}
 
 # This block displays the main mail watcher
 [email]
@@ -100,17 +100,10 @@ interval=1
 markup=pango
 signal={{@@ i3blocks_signals.network @@}}
 
-{%@@ if env['HOST'] == 'work' -@@%}
+{%@@ if has_battery | is_truthy -@@%}
 
-{#@@ NordVPN has its own status icon @@#}
-[vpn]
-command={{@@ i3blocklets_install_path @@}}/nmcli-connection-status --connection 'VPN' --icon '󰞀' --active-color '{{@@ main_theme_color @@}}' --inactive-color '{{@@ i3bar_inactive_color @@}}' --pango-attributes 'size="130%" font_weight="bold"'
-interval=persistent
-markup=pango
-
-{#@@ My personal laptop's battery died years ago @@#}
-[batterybar]
-command={{@@ i3blocklets_install_path @@}}/batterybar -1 '{{@@ light_theme_color @@}}' -2 '{{@@ light_theme_color @@}}' -3 '{{@@ main_theme_color @@}}' -4 '{{@@ main_theme_color @@}}' -5 '{{@@ main_theme_color @@}}' -6 '{{@@ dark_theme_color @@}}' -7 '{{@@ dark_theme_color @@}}' -8 '{{@@ dark_theme_color @@}}' -f '{{@@ dark_theme_color @@}}' -c '{{@@ dark_theme_color @@}}' -a '{{@@ dark_theme_color @@}}' | sed '1s|^|{{@@ label('', spacing=3, size="110%") @@}}|'
+[battery]
+command={{@@ i3blocklets_install_path @@}}/battery-perc --battery-label '{{@@ label('', size='115%', color=main_theme_color, spacing=2) @@}}' --power-label '{{@@ label('󱐥', size='135%', color=main_theme_color, spacing=2) @@}}' --color-0 '{{@@ light_theme_color @@}}' --color-20 '{{@@ light_theme_color @@}}' --color-40 '{{@@ main_theme_color @@}}' --color-60 '{{@@ main_theme_color @@}}' --color-80 '{{@@ dark_theme_color @@}}'
 interval=5
 markup=pango
 
@@ -124,9 +117,14 @@ interval=persist
 markup=pango
 min_width=   99%
 
+{%@@ if has_cpu_temp_sensors | is_truthy -@@%}
+
+{#@@ Virtual machines don't have access to CPU temperature @@#}
 # This block displays CPU temperature
 [temperature]
 color={{@@ dark_theme_color @@}}
 command={{@@ i3blocklets_install_path @@}}/temperature -w 60 -c 80 --chip {{@@ i3blocks_temperature_chip @@}} | sed '1s|^|{{@@ label('󱃃', size='140%', spacing=3, color=main_theme_color) @@}}|; s/#FF0000/{{@@ light_theme_color @@}}/I; s/#FFFC00/{{@@ main_theme_color @@}}/I'
 markup=pango
 interval=2
+
+{%@@ endif -@@%}

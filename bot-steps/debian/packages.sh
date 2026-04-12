@@ -20,16 +20,6 @@ USER_NAME="${1:-$USER}"
 # Repositories dotfiles
 #######################################
 
-[ "$HOST" = 'work' ] && {
-    print_info 'Add Microsoft Debian repository'
-    MICROSOFT_REPO_DEB="$(mktemp)"
-    # shellcheck disable=SC2064
-    trap "rm --force $MICROSOFT_REPO_DEB" INT HUP TERM
-    wget --quiet --output-document "$MICROSOFT_REPO_DEB" \
-        https://packages.microsoft.com/config/debian/13/packages-microsoft-prod.deb
-    dpkg --install "$MICROSOFT_REPO_DEB"
-}
-
 print_info 'Install package manager dotfiles'
 dotdrop install -p packages
 print_info 'Update package index'
@@ -40,9 +30,9 @@ apt-get update
 #######################################
 
 # shellcheck disable=2039
-case "$HOST" in
+case "$MACHINE" in
     'personal')
-        print_info "Install drivers for host $HOST"
+        print_info "Install drivers for $MACHINE"
         apt-get install firmware-realtek firmware-iwlwifi
         ;;
 esac
@@ -52,15 +42,15 @@ esac
 #######################################
 
 if [ "$DISPLAY_SERVER" != 'headless' ]; then
-    print_info 'Install GUI packages shared across all hosts'
+    print_info 'Install GUI packages shared across all machines'
     apt-get install alacritty code-insiders firefox-beta flatpak gdebi \
         gnome-disk-utility hardinfo peek synaptic xfce4-screenshooter
 
     # Installation
     # shellcheck disable=2039
-    case "$HOST" in
+    case "$MACHINE" in
         'personal')
-            print_info "Install GUI packages for $HOST"
+            print_info "Install GUI packages for $MACHINE"
             apt-get install blueman dropbox gufw remmina system-config-printer
                 ;;
     esac
@@ -79,9 +69,9 @@ fi
 
 # Installation
 # shellcheck disable=2039
-case "$HOST" in
+case "$MACHINE" in
     'personal')
-        print_info "Install CLI packages for $HOST"
+        print_info "Install CLI packages for $MACHINE"
         apt-get install autorandr cabal-install cups ghc gifsicle git-review \
             hlint imagemagick intel-microcode lame lua luacheck luarocks \
             libghc-hspec-dev mercurial nordvpn podman-compose \
@@ -91,13 +81,13 @@ case "$HOST" in
             ;;
 
     'work')
-        print_info "Install CLI packages for $HOST"
-        apt-get install amd64-microcode awscli docker-compose-plugin \
-            dotnet-sdk-10.0 i3lock xss-lock
+        print_info "Install CLI packages for $MACHINE"
+        apt-get install amd64-microcode awscli docker-compose-plugin golang \
+            just open-vm-tools-desktop
         ;;
 esac
 
-print_info 'Install CLI packages shared across all hosts'
+print_info 'Install CLI packages shared across all machines'
 apt-get install apt-transport-https autoconf automake bat build-essential \
     cmake cmatrix cowsay curl dbus-x11 dkms dos2unix fonts-freefont-otf \
     fonts-nanum fortune fzf g++ gdb git git-secret gvfs-backends htop \
@@ -151,7 +141,7 @@ id "$USER_NAME" \
     }
 podman system migrate
 
-if [ "$HOST" = 'work' ]; then
+if [ "$MACHINE" = 'work' ]; then
     print_info "Make docker-compose use $USER_NAME's rootless podman"
     systemctl --machine "$USER_NAME@" --user enable --now podman.socket
     sudo --user "$USER_NAME" sh -c '
@@ -170,7 +160,7 @@ if [ "$HOST" = 'work' ]; then
 fi
 
 # NordVPN
-if [ "$HOST" = 'personal' ]; then
+if [ "$MACHINE" = 'personal' ]; then
     print_info 'Configure NordVPN'
     groupadd --system nordvpn
     usermod --append --groups nordvpn "$USER_NAME"

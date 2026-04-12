@@ -13,8 +13,6 @@ actions:
       ln --force --symbolic --relative "$HOME/.vscode" "$HOME/.vscode-insiders"
 
   post:
-    autorandr: sh actions/autorandr.sh "{0}"
-
     bat-theme: bat cache --build
 
     # This action aliases my terminal emulator of choice to the terminal
@@ -74,22 +72,20 @@ config:
   import_actions:
   - yaml/actions/shared.yaml
   import_configs:
-  - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
-  - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/{{@@ output_scaling @@}}.yaml:optional
-  - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/autorandr.yaml:optional
-  - yaml/profiles/all-distros/all-hosts/{{@@ user @@}}/repos.yaml:optional
-  - yaml/profiles/all-distros/all-hosts/all-users/shared.yaml
-  - yaml/profiles/all-distros/all-hosts/all-users/shell.yaml
-  - yaml/profiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/timers.yaml:optional
+  - yaml/profiles/all-distros/all-machines/{{@@ user @@}}/{{@@ display_server @@}}.yaml:optional
+  - yaml/profiles/all-distros/all-machines/{{@@ user @@}}/repos.yaml:optional
+  - yaml/profiles/all-distros/all-machines/all-users/shared.yaml
+  - yaml/profiles/all-distros/all-machines/all-users/shell.yaml
+  - yaml/profiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/timers.yaml:optional
   import_variables:
-  - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
-  - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/all-users/*.yaml:optional
-  - yaml/variables/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/*.yaml:optional
-  - yaml/variables/{{@@ env['DISTRO'] @@}}/all-hosts/all-users/*.yaml:optional
-  - yaml/variables/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/*.yaml:optional
-  - yaml/variables/all-distros/{{@@ env['HOST'] @@}}/all-users/*.yaml:optional
-  - yaml/variables/all-distros/all-hosts/{{@@ user @@}}/*.yaml:optional
-  - yaml/variables/all-distros/all-hosts/all-users/*.yaml
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/all-users/*.yaml:optional
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/all-machines/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/{{@@ env['DISTRO'] @@}}/all-machines/all-users/*.yaml:optional
+  - yaml/variables/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/all-distros/{{@@ env['MACHINE'] @@}}/all-users/*.yaml:optional
+  - yaml/variables/all-distros/all-machines/{{@@ user @@}}/*.yaml:optional
+  - yaml/variables/all-distros/all-machines/all-users/*.yaml
   keepdot: false
   link_dotfile_default: nolink
   link_on_import: nolink
@@ -182,9 +178,6 @@ dotfiles:
   f_at-spi-dbus-bus.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/at-spi-dbus-bus.desktop") @@}}'
-  f_autorandr.desktop:
-    src: config/autostart/disable-system-default.desktop
-    dst: '{{@@ xdg_config("autostart/autorandr.desktop") @@}}'
   f_calibre_global.py.json:
     src: config/calibre/global.py.json
     dst: '{{@@ flatpak_app_xdg_config.calibre @@}}/global.py.json'
@@ -206,8 +199,8 @@ dotfiles:
     src: config/containers/auth.json
     dst: '{{@@ xdg_config("containers/auth.json") @@}}'
   f_dunstrc:
-    src: config/dunst/dunstrc.lodpi
-    dst: '{{@@ dunstrc_dst | default(xdg_config("dunst/dunstrc")) @@}}'
+    src: config/dunst/dunstrc
+    dst: '{{@@ xdg_config("dunst/dunstrc") @@}}'
   f_editorconfig:
     src: config/editorconfig
     dst: '{{@@ xdg_config("editorconfig") @@}}'
@@ -257,20 +250,20 @@ dotfiles:
     actions:
     - gsettings '{{@@ _dotfile_abs_dst @@}}'
   f_gtk-2.0_gtkrc:
-    src: config/gtk-2.0/gtkrc.lodpi
-    dst: '{{@@ "%s/%s" | format(gtk2_path, gtk2_gtkrc_dst | default("gtkrc")) @@}}'
+    src: config/gtk-2.0/gtkrc
+    dst: '{{@@ gtk2_path @@}}'
   f_gtk-3.0_gtk.css:
     src: shared/gtk/gtk.css
     dst: '{{@@ xdg_config("gtk-3.0/gtk.css") @@}}'
   f_gtk-3.0_settings.ini:
-    src: config/gtk-3.0/settings.ini.lodpi
-    dst: '{{@@ gtk3_settings_dst | default(xdg_config("gtk-3.0/settings.ini")) @@}}'
+    src: shared/gtk/settings.ini
+    dst: '{{@@ xdg_config("gtk-3.0/settings.ini") @@}}'
   f_gtk-4.0_gtk.css:
     src: shared/gtk/gtk.css
     dst: '{{@@ xdg_config("gtk-4.0/gtk.css") @@}}'
   f_gtk-4.0_settings.ini:
-    src: config/gtk-4.0/settings.ini.lodpi
-    dst: '{{@@ gtk4_settings_dst | default(xdg_config("gtk-4.0/settings.ini")) @@}}'
+    src: shared/gtk/settings.ini
+    dst: '{{@@ xdg_config("gtk-4.0/settings.ini") @@}}'
   f_hgrc:
     src: config/hg/hgrc
     dst: '{{@@ xdg_config("hg/hgrc") @@}}'
@@ -346,9 +339,6 @@ dotfiles:
   f_sway-portals.conf:
     src: config/xdg-desktop-portal/sway-portals.conf
     dst: '{{@@ xdg_config("xdg-desktop-portal/sway-portals.conf") @@}}'
-  f_teams.desktop:
-    src: config/autostart/disable-system-default.desktop
-    dst: '{{@@ xdg_config("autostart/teams.desktop") @@}}'
   f_trolltech.conf:
     src: config/Trolltech.conf
     dst: '{{@@ xdg_config("Trolltech.conf") @@}}'
@@ -383,9 +373,9 @@ dotfiles:
   f_vscode_tasks.json:
     src: config/Code/User/tasks.json
     dst: '{{@@ xdg_config("Code/User/tasks.json") @@}}'
-  f_xss-lock.service:
-    src: config/systemd/user/xss-lock.service
-    dst: '{{@@ xdg_config("systemd/user/xss-lock.service") @@}}'
+  f_vmware-user.service:
+    src: config/systemd/user/vmware-user.service
+    dst: '{{@@ xdg_config("systemd/user/vmware-user.service") @@}}'
   f_xdg-user-dirs.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/xdg-user-dirs.desktop") @@}}'
@@ -409,9 +399,9 @@ profiles:
     - f_fzf_config
     - f_vimrc
     import:
-    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-hosts/{{@@ user @@}}/cli.yaml:optional
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/cli.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/cli.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-machines/{{@@ user @@}}/cli.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/cli.yaml:optional
     include:
     - git
 
@@ -419,6 +409,8 @@ profiles:
   git:
     dotfiles:
     - d_git
+    import:
+    - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/git.yaml:optional
 
   # This profile groups geany-related dotfiles. Individual files are addressed,
   # rather than the whole directory, as it was execssively complex to ignore
@@ -443,8 +435,8 @@ profiles:
     - look-and-feel
     - vscode
     import:
-    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/gui.yaml:optional
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/gui.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/gui.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/gui.yaml:optional
     actions:
     - glib-terminal
     variables:
@@ -457,34 +449,43 @@ profiles:
     dotfiles:
     - d_clipcat
     - d_i3
-    - d_i3-sway_shared_config
-    - d_rofi
     - d_thunar
-    - f_alacritty.toml
     - f_clipcat.service
-    - f_default-ws-layout.service
     - f_dunstrc
-    - f_i3blocks_config
     - f_i3-portals.conf
     - f_picom.conf
     - f_picom.service
     - f_xfce-power-manager.service
     - f_xfce4-power-manager.xml
     import:
-    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/i3.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/i3.yaml:optional
     actions:
     - i3
     include:
-    - autorandr
-    - i3-{{@@ output_scaling @@}}
-    - look-and-feel
-    - startup
+    - i3-sway
     variables:
       display_server: x11
-      is_headless: false
       on_wayland: false
       on_x11: true
       wm_name: i3
+
+  # This profile groups together dotfiles and variables that are used both in
+  # the i3 and sway profiles. Its main purpose is to be include'd from such
+  # profiles.
+  i3-sway:
+    dotfiles:
+    - d_i3-sway_shared_config
+    - d_rofi
+    - f_alacritty.toml
+    - f_default-ws-layout.service
+    - f_i3blocks_config
+    include:
+    - look-and-feel
+    - startup
+    import:
+    - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/i3-sway.yaml:optional
+    variables:
+      is_headless: false
 
   # This profile includes the dotfiles for look & feel of a GUI environment,
   # both Gtk, Qt and bare X11.
@@ -502,7 +503,6 @@ profiles:
     - f_trolltech.conf
     include:
     - look-and-feel-{{@@ display_server @@}}
-    - look-and-feel-{{@@ output_scaling @@}}
     variables:
       is_headless: false
     dynvariables:
@@ -514,7 +514,6 @@ profiles:
   startup:
     dotfiles:
     - f_at-spi-dbus-bus.desktop
-    - f_autorandr.desktop
     - f_geoclue-demo-agent.desktop
     - f_gpg-agent.conf
     - f_light-locker.desktop
@@ -524,24 +523,17 @@ profiles:
     - f_python_keyring
     - f_xdg-user-dirs.desktop
     import:
-    - yaml/dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
-    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['HOST'] @@}}/{{@@ user @@}}/startup.yaml:optional
+    - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/startup.yaml:optional
+    - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/startup.yaml:optional
     include:
     - startup-{{@@ display_server @@}}
-    - startup-{{@@ output_scaling @@}}
 
   # This profile contains the dotfiles for the whole sway session, that means a
   # little bit more than just the sway configuration files.
   sway:
     dotfiles:
-    - d_i3-sway_shared_config
-    - d_i3blocks-email
-    - d_rofi
     - d_sway
-    - f_alacritty.toml
     - f_clipman.service
-    - f_default-ws-layout.service
-    - f_i3blocks_config
     - f_mako_config
     - f_messaging_config.toml
     - f_swayfocus.service
@@ -549,11 +541,9 @@ profiles:
     - f_swayidle.service
     - f_sway-portals.conf
     include:
-    - look-and-feel
-    - startup
+    - i3-sway
     variables:
       display_server: wayland
-      is_headless: false
       on_wayland: true
       on_x11: false
       wm_name: sway
@@ -614,12 +604,6 @@ variables:
   is_headless: '{{@@ display_server == "headless" @@}}'
   on_wayland: '{{@@ display_server == "wayland" @@}}'
   on_x11: '{{@@ display_server == "x11" @@}}'
-
-  # This variable determines which type of output scaling is in use on the
-  # system where dotdrop is running. It's defined here as it's used in this
-  # config file when importing sub-config and including profiles, when
-  # variables from external files are not yet available.
-  output_scaling: '{{@@ env["OUTPUT_SCALING"] + "-scaling" @@}}'
 
   # This variable is used to differentiate between user and root configuration
   # in some dotfiles.

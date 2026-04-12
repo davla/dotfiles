@@ -1,0 +1,10 @@
+%YAML 1.2
+---
+# This variables file defines some i3-sway related variables only for debian
+# for root
+
+variables:
+  # This variable contains additional i3blocks blocklets whose executables are
+  # installed to a system location
+  i3blocks_contrib_blocklets:
+  - email

@@ -61,7 +61,7 @@ Configuration files for my Linux systems
                       name, either by passing it on the command line, or by  
 ![     ][indent]      interactively entering it when prompted.  
 ![[>.<]][error-face]  There is no information on which steps should be run on
-                      which host. I also get it wrong often.  
+                      which machine. I also get it wrong often.  
 ![[^_^]][prompt-face] Each step runs in a terminal alternate buffer (if
                       supported) for a cleaner output. The output is also
                       written to  
@@ -100,8 +100,6 @@ Configuration files for my Linux systems
 ![[^_^]][prompt-face] Allow logger colors with no tags.  
 ![[^_^]][prompt-face] Investigate more uses for jinja default.  
 ![[^_^]][prompt-face] Investigate uses of empty `dst:` instead of mktemp.  
-![[>.<]][error-face]  Ensure that autorandr environemnt variable are loaded in
-                      xsessionrc.  
 ![[>.<]][error-face]  Handle failure with pkgfile database update at Arch
                       startup.  
 ![[>.<]][error-face]  Automatically update ACYLS icons.  

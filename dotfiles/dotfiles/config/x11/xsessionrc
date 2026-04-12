@@ -1,33 +1,8 @@
 #!/usr/bin/env sh
 
 # {{@@ header() @@}}
-
+#
 # This script initializes the X11 session.
-
-{%@@ if user == 'user' -@@%}
-
-#######################################
-# ssh-agent provided by gpg-agent
-#######################################
-
-unset SSH_AGENT_PID
-SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-export SSH_AUTH_SOCK
-
-{%@@ endif -@@%}
-
-#######################################
-# Gtk 2 environment variables
-#######################################
-
-export GTK2_RC_FILES="{{@@ gtk2_path | home_abs2var @@}}/gtkrc"
-
-#######################################
-# Qt environment variables
-#######################################
-
-export QT_AUTO_SCREEN_SCALE_FACTOR=1
-export QT_QPA_PLATFORMTHEME='qt5ct'
 
 #######################################
 # Display-specific environment setup

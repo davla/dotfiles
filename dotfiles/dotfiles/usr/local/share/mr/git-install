@@ -7,37 +7,3 @@ updateWithResult =
         | grep 'up to date' > /dev/null 2>&1
 upgrade =
     mr updateWithResult > /dev/null 2>&1 || mr --directory "$MR_REPO" install
-lib =
-    download_github_asset() {
-        ASSET_URL="$1"
-        ASSET_FILTER="$2"
-        #
-        wget --quiet --output-document - "$ASSET_URL" | jq --raw-output \
-                ".assets[] | select(.name | $ASSET_FILTER).browser_download_url" \
-            | xargs wget --quiet --output-document -
-        #
-        unset ASSET_FILTER ASSET_URL
-    }
-    #
-    get_github_latest_release() {
-        LATEST_REPO="$1"
-        LATEST_NAME_FILTER="$2"
-        #
-        download_github_asset \
-            "https://api.github.com/repos/$LATEST_REPO/releases/latest" \
-            "$LATEST_NAME_FILTER"
-        #
-        unset LATEST_NAME_FILTER LATEST_REPO
-    }
-    #
-    get_github_release() {
-        RELEASE_REPO="$1"
-        RELEASE_VERSION="$2"
-        RELEASE_NAME_FILTER="$3"
-        #
-        download_github_asset \
-            "https://api.github.com/repos/$RELEASE_REPO/releases/tags/$RELEASE_VERSION" \
-            "$RELEASE_NAME_FILTER"
-        #
-        unset RELEASE_NAME_FILTER RELEASE_REPO RELEASE_VERSION
-    }

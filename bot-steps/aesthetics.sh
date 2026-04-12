@@ -31,7 +31,7 @@ ICONS_PATH="/usr/share/icons"
 #   - $1: Archive path. Can be the empty string
 #   - $2: the archive name, used in prompt and error messages. Must be
 #         capitalized.
-get_archive() {
+get_archive() (
     ARCHIVE="$1"
     ARCHIVE_NAME="$2"
 
@@ -48,8 +48,7 @@ get_archive() {
     }
 
     echo "$ARCHIVE"
-    unset ARCHIVE ARCHIVE_NAME
-}
+)
 
 #######################################
 # Input processing

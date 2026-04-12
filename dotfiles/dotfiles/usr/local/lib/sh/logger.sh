@@ -83,26 +83,32 @@ __LOGGING_COLOR="${__LOGGING_COLOR:-''}"
 # Arguments;
 #   - $1: The message log level
 #   - $2: The message tag
-__logging_print() {
-    __LOG_MSG_LEVEL="$1"
-    __LOG_MSG_TAG=${2:-''}
-    __LOG_MSG="$3"
+__logging_print() (
+    LEVEL="$1"
+    TAG=${2:-''}
+    MSG="$3"
 
-    __LOG_MSG_FORMAT="$__LOG_MSG_TAG%s\n"
-
-    if [ "$__LOGGING_LEVEL_CURRENT" -ge "$__LOG_MSG_LEVEL" ]; then
-        if [ -n "$__LOG_MSG" ]; then
-            # shellcheck disable=2059
-            printf "$__LOG_MSG_FORMAT" "$__LOG_MSG"
-        else
-            xargs -I '{}' printf "$__LOG_MSG_FORMAT" '{}'
-        fi
-    elif [ -z "$__LOG_MSG" ]; then
-        cat > /dev/null
+    FORMAT="$TAG%s\n"
+    if [ -n "$MSG" ]; then
+        READ_STDIN='false'
+    else
+        READ_STDIN='true'
     fi
 
-    unset __LOG_MSG __LOG_MSG_FORMAT __LOG_MSG_LEVEL __LOG_MSG_TAG
-}
+    if [ "$__LOGGING_LEVEL_CURRENT" -ge "$LEVEL" ]; then
+        if [ "$READ_STDIN" = 'true' ]; then
+            xargs -I '{}' printf "$FORMAT" '{}'
+        else
+            # shellcheck disable=2059
+            printf "$FORMAT" "$MSG"
+        fi
+    # Some commands rightfully expect their STDOUT to be read if it's not piped
+    # to a TTY. Hence, if the log message is expected on STDIN, we still read
+    # from it and pipe it to the void.
+    elif [ "$READ_STDIN" = 'true' ]; then
+        cat > /dev/null
+    fi
+)
 
 #######################################
 # Configuration functions
@@ -328,92 +334,84 @@ logging_set_tag() {
 #
 # Arguments:
 #   - $1: The message to be logged. Optional.
-log_debug() {
+log_debug() (
     [ "$__LOGGING_TAG" = 'true' ] && {
-        __LOG_TAG_DEBUG='[DEBUG] '
+        TAG='[DEBUG] '
     }
 
     [ "$__LOGGING_COLOR" = 'true' ] && {
-        __LOG_TAG_DEBUG="\e[2m$__LOG_TAG_DEBUG\e[0m"
+        TAG="\e[2m$TAG\e[0m"
     }
 
     [ "$__LOGGING_JOURNALD_PREFIXES" = 'true' ] && {
-        __LOG_TAG_DEBUG="<7>$__LOG_TAG_DEBUG"
+        TAG="<7>$TAG"
     }
 
-    __logging_print "$__LOGGING_LEVEL_DEBUG" "$__LOG_TAG_DEBUG" "$1"
-
-    unset __LOG_TAG_DEBUG
-}
+    __logging_print "$__LOGGING_LEVEL_DEBUG" "$TAG" "$1"
+)
 
 # This function logs a message of "info" level. The message can either be
 # passed as an argument, or be read by stdin.
 #
 # Arguments:
 #   - $1: The message to be logged. Optional.
-log_info() {
+log_info() (
     [ "$__LOGGING_TAG" = 'true' ] && {
-        __LOG_TAG_INFO='[INFO] '
+        TAG='[INFO] '
     }
 
     [ "$__LOGGING_COLOR" = 'true' ] && {
-        __LOG_TAG_INFO="\e[32m$__LOG_TAG_INFO\e[0m"
+        TAG="\e[32m$TAG\e[0m"
     }
 
     [ "$__LOGGING_JOURNALD_PREFIXES" = 'true' ] && {
-        __LOG_TAG_INFO="<6>$__LOG_TAG_INFO"
+        TAG="<6>$TAG"
     }
 
-    __logging_print "$__LOGGING_LEVEL_INFO" "$__LOG_TAG_INFO" "$1"
-
-    unset __LOG_TAG_INFO
-}
+    __logging_print "$__LOGGING_LEVEL_INFO" "$TAG" "$1"
+)
 
 # This function logs a message of "warning" level. The message can either be
 # passed as an argument, or be read by stdin.
 #
 # Arguments:
 #   - $1: The message to be logged. Optional.
-log_warning() {
+log_warning() (
     [ "$__LOGGING_TAG" = 'true' ] && {
-        __LOG_TAG_WARNING='[WARNING] '
+        TAG='[WARNING] '
     }
 
     [ "$__LOGGING_COLOR" = 'true' ] && {
-        __LOG_TAG_WARNING="\e[33m$__LOG_TAG_WARNING\e[0m"
+        TAG="\e[33m$TAG\e[0m"
     }
 
     [ "$__LOGGING_JOURNALD_PREFIXES" = 'true' ] && {
-        __LOG_TAG_WARNING="<4>$__LOG_TAG_WARNING"
+        TAG="<4>$TAG"
     }
 
-    __logging_print "$__LOGGING_LEVEL_WARNING" "$__LOG_TAG_WARNING" "$1"
-
-    unset __LOG_TAG_WARNING
-}
+    __logging_print "$__LOGGING_LEVEL_WARNING" "$TAG" "$1"
+)
 
 # This function logs a message of "error" level on stderr. The message can
 # either be passed as an argument, or be read by stdin.
 #
 # Arguments:
 #   - $1: The message to be logged. Optional.
-log_error() {
+log_error() (
     [ "$__LOGGING_TAG" = 'true' ] && {
-        __LOG_TAG_ERROR='[ERROR] '
+        TAG='[ERROR] '
     }
 
     [ "$__LOGGING_COLOR" = 'true' ] && {
-        __LOG_TAG_ERROR="\e[31m$__LOG_TAG_ERROR\e[0m"
+        TAG="\e[31m$TAG\e[0m"
     }
 
     [ "$__LOGGING_JOURNALD_PREFIXES" = 'true' ] && {
-        __LOG_TAG_ERROR="<3>$__LOG_TAG_ERROR"
+        TAG="<3>$TAG"
     }
 
-    __logging_print "$__LOGGING_LEVEL_ERROR" "$__LOG_TAG_ERROR" "$1" >&2
-
-    unset __LOG_TAG_ERROR
-}
+    __logging_print "$__LOGGING_LEVEL_ERROR" "$TAG" "$1" >&2
+)
 
 # This function logs a message of "silent" level, which means it does nothing.
 # It is defined mostly for consistency. The message can either be passed as an
@@ -421,9 +419,11 @@ log_error() {
 #
 # Arguments:
 #   - $1: The message to be logged. Optional.
-log_silent() {
-    return 0
-}
+log_silent() (
+    # We still need to read from stdin if no message is given. That's handled
+    # in __logging_print
+    __logging_print "$__LOGGING_LEVEL_SILENT" '' "$1" > /dev/null
+)
 
 # This function logs a message with the provided logging level. The level must
 # be one of the supported ones, that is:
@@ -438,7 +438,7 @@ log_silent() {
 # Arguments:
 #   - $1: The logging level. Must be one of those listed above.
 #   - $2: The message to be logged. Optional.
-log() {
+log() (
     case "$(echo "$1" | tr '[:upper:]' '[:lower:]')" in
         'debug')
             log_debug "$2"
@@ -456,4 +456,4 @@ log() {
             log_silent "$2"
             ;;
     esac
-}
+)

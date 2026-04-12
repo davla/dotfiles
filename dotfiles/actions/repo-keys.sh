@@ -26,17 +26,15 @@ APT_KEY_DIR="$1"
 #   - $1: The repository name, used as a name for the GPG key file.
 #   - $2: The GPG key to download.
 #   - $3: The keyserver to use. Defaults to 'hkp://keyserver.ubuntu.com:80'.
-download_key_from_keyserver() {
-    DL_SRV_REPO_NAME="$1"
-    DL_SRV_KEY="$2"
-    DL_SRV_KEYSERVER="${3:-hkp://keyserver.ubuntu.com:80}"
+download_key_from_keyserver() (
+    REPO_NAME="$1"
+    REPO_KEY="$2"
+    KEYSERVER="${3:-hkp://keyserver.ubuntu.com:80}"
 
     print_info "Installing apt repository key for $REPO"
-    gpg --keyserver "$DL_SRV_KEYSERVER" --recv-keys "$DL_SRV_KEY"
-    gpg --export "$DL_SRV_KEY" > "$APT_KEY_DIR/$DL_SRV_REPO_NAME.gpg"
-
-    unset DL_SRV_KEY DL_SRV_KEYSERVER DL_SRV_REPO_NAME
-}
+    gpg --keyserver "$KEYSERVER" --recv-keys "$REPO_KEY"
+    gpg --export "$REPO_KEY" > "$APT_KEY_DIR/$REPO_NAME.gpg"
+)
 
 # This function downloads an APT key from a URL and installs it into the APT
 # trusted GPG keys directory.
@@ -44,16 +42,14 @@ download_key_from_keyserver() {
 # Arguments:
 #   - $1: The repository name, used as a name for the GPG key file.
 #   - $2: The URL of the GPG key to download.
-download_key_from_url() {
-    DL_URL_REPO_NAME="$1"
-    DL_URL_REPO_KEY_URL="$2"
+download_key_from_url() (
+    REPO_NAME="$1"
+    REPO_KEY_URL="$2"
 
-    print_info "Installing apt repository key for $DL_URL_REPO_NAME"
-    wget "$DL_URL_REPO_KEY_URL" --output-document - | gpg --dearmor --yes \
-        -o "$APT_KEY_DIR/$DL_URL_REPO_NAME.gpg"
-
-    unset DL_URL_KEY_EXT DL_URL_REPO_KEY_URL DL_URL_REPO_NAME
-}
+    print_info "Installing apt repository key for $REPO_NAME"
+    wget "$REPO_KEY_URL" --output-document - | gpg --dearmor --yes \
+        -o "$APT_KEY_DIR/$REPO_NAME.gpg"
+)
 
 #######################################
 # Repositoy keys

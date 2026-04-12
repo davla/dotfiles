@@ -38,16 +38,14 @@ DEFAULT_SSH_KEY='id_rsa'
 #
 # Arguments:
 #   - $1: The file descriptor the prompts are output to.
-prompt_ssh_key_name() {
-    PROMPT_SSH_OUTPUT="$1"
+prompt_ssh_key_name() (
+    OUTPUT_FD="$1"
 
     printf "Enter SSH key filename [default '%s']: " "$DEFAULT_SSH_KEY" \
-        >&"$PROMPT_SSH_OUTPUT"
-    read -r PROMPT_SSH_FILE_NAME
-    echo "$SSH_HOME/${PROMPT_SSH_FILE_NAME:-$DEFAULT_SSH_KEY}"
-
-    unset PROMPT_SSH_FILE_NAME PROMPT_SSH_OUTPUT
-}
+        >&"$OUTPUT_FD"
+    read -r SSH_KEY_FILE_NAME
+    echo "$SSH_HOME/${SSH_KEY_FILE_NAME:-$DEFAULT_SSH_KEY}"
+)
 
 #######################################
 # Input processing

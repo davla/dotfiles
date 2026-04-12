@@ -2,57 +2,48 @@
 
 # This script contains utility functions for dpkg hooks
 
-# This variable is used to cache the result of find_apt_ancestor_pid
-APT_ANCESTOR_PID=''
-
 # This function recursively computes the PID of the closest APT ancestor
 # of a given process.
 #
 # Arguments:
 #   - $1: The PID of the process whose closes APT ancestor PID is returned.
-find_apt_ancestor_pid() {
-    APT_ANCESTOR_THIS_PID="$1"
+#         Optional, defaults to the current process' parent PID.
+find_apt_ancestor_pid() (
+    THIS_PID="${1:-$PPID}"
 
-    if [ -n "$APT_ANCESTOR_PID" ]; then
-        echo "$APT_ANCESTOR_PID"
-        return 0
-    elif [ -z "$APT_ANCESTOR_THIS_PID" ]; then
+    if [ -z "$THIS_PID" ]; then
         echo >&2 "find_apt_ancestor_pid: empty PID."
         return 64
-    elif [ "$APT_ANCESTOR_THIS_PID" -eq 1 ]; then
+    elif [ "$THIS_PID" -eq 1 ]; then
         echo >&2 "find_apt_ancestor_pid: no APT ancestor found."
         return 63
     fi
 
-    case "$(cat "/proc/$APT_ANCESTOR_THIS_PID/comm")" in
+    case "$(cat "/proc/$THIS_PID/comm")" in
         'apt'|'apt-get')
-            APT_ANCESTOR_PID="$APT_ANCESTOR_THIS_PID"
-            echo "$APT_ANCESTOR_PID"
+            echo "$THIS_PID"
             ;;
 
         *)
-            APT_ANCESTOR_PPID="$(ps --pid "$APT_ANCESTOR_THIS_PID" \
-                -o 'ppid:1=')"
-            find_apt_ancestor_pid "$APT_ANCESTOR_PPID"
-            unset APT_ANCESTOR_PPID
+            find_apt_ancestor_pid "$(ps --pid "$THIS_PID" -o 'ppid:1=')"
             ;;
     esac
-
-    unset APT_ANCESTOR_THIS_PID
-}
+)
 
 # This function returns the operation command line arguments of the first apt
 # parent process
+#
+# Arguments:
+#   - $1: The APT PID that triggered the current hook
 apt_operation() {
-    APT_PID="$(find_apt_ancestor_pid "$PPID")"
-    tr '\0' ' ' < "/proc/$APT_PID/cmdline" | cut --delimiter ' ' --fields 2
-    unset APT_PID
+    tr '\0' ' ' < "/proc/$1/cmdline" | cut --delimiter ' ' --fields 2
 }
 
 # This function returns the command line arguments of the first apt parent
 # process that possibly contain package names.
+#
+# Arguments:
+#   - $1: The APT PID that triggered the current hook
 apt_packages() {
-    APT_PID="$(find_apt_ancestor_pid "$PPID")"
-    tr '\0' ' ' < "/proc/$APT_PID/cmdline" | cut --delimiter ' ' --fields 3-
-    unset APT_PID
+    tr '\0' ' ' < "/proc/$1/cmdline" | cut --delimiter ' ' --fields 3-
 }

@@ -70,13 +70,11 @@ trump() {
 # Arguments:
 #   - $1: The git command prefixed with a t (e.g. tlog)
 #   - $2+: The other git arguments
-gi() {
+gi() (
     # Stripping the t from the first argument
-    GI_SUB_CMD="$(echo "$1" | sed 's/^t//')"
+    GIT_SUB_CMD="$(echo "$1" | sed 's/^t//')"
     shift
 
     # Executing git command
-    git "$GI_SUB_CMD" "$@"
-
-    unset GI_SUB_CMD
-}
+    git "$GIT_SUB_CMD" "$@"
+)

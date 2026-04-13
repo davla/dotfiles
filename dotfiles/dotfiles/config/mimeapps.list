@@ -2,20 +2,38 @@
 #
 # {{@@ header() @@}}
 
-{%@@ set browser_desktop = basename(desktop_with_name(browser)
-    or browser + '.desktop') -@@%}
+{%@@ set browser_desktop = desktop_with_name(browser) @@%}
+{%@@ set geany_desktop = desktop_with_name('geany') @@%}
+{%@@ set mpv_desktop = desktop_with_name('mpv') @@%}
+{%@@ set telegram_desktop = desktop_with_name('telegram') -@@%}
 
 [Default Applications]
-application/json=geany.desktop
+application/json={{@@ geany_desktop @@}}
 application/octet-stream={{@@ browser_desktop @@}}
-application/pdf=atril.desktop
+application/ogg={{@@ mpv_desktop @@}}
+application/pdf={{@@ browser_desktop @@}}
 application/vnd.oasis.opendocument.text=libreoffice-writer.desktop
-application/x-extension-htm=geany.desktop
-application/x-extension-html=geany.desktop
-application/x-extension-shtml=geany.desktop
-application/x-extension-xht=geany.desktop
-application/x-extension-xhtml=geany.desktop
-application/xhtml+xml=geany.desktop
+application/x-extension-htm={{@@ geany_desktop @@}}
+application/x-extension-html={{@@ geany_desktop @@}}
+application/x-extension-shtml={{@@ geany_desktop @@}}
+application/x-extension-xht={{@@ geany_desktop @@}}
+application/x-extension-xhtml={{@@ geany_desktop @@}}
+application/xhtml+xml={{@@ geany_desktop @@}}
+audio/x-aac={{@@ mpv_desktop @@}}
+audio/x-aiff={{@@ mpv_desktop @@}}
+audio/x-flac={{@@ mpv_desktop @@}}
+audio/x-it={{@@ mpv_desktop @@}}
+audio/x-mod={{@@ mpv_desktop @@}}
+audio/x-ms-asx={{@@ mpv_desktop @@}}
+audio/x-ms-wma={{@@ mpv_desktop @@}}
+audio/x-musepack={{@@ mpv_desktop @@}}
+audio/x-ogg={{@@ mpv_desktop @@}}
+audio/x-opus+ogg={{@@ mpv_desktop @@}}
+audio/x-s3m={{@@ mpv_desktop @@}}
+audio/x-speex+ogg={{@@ mpv_desktop @@}}
+audio/x-tta={{@@ mpv_desktop @@}}
+audio/x-wavpack={{@@ mpv_desktop @@}}
+audio/x-xm={{@@ mpv_desktop @@}}
 image/*={{@@ browser_desktop @@}}
 image/gif={{@@ browser_desktop @@}}
 image/jpeg={{@@ browser_desktop @@}}
@@ -26,41 +44,32 @@ image/tiff={{@@ browser_desktop @@}}
 image/vnd.djvu+multipage={{@@ browser_desktop @@}}
 image/vnd.djvu={{@@ browser_desktop @@}}
 image/webp={{@@ browser_desktop @@}}
-text/html=geany.desktop
-text/markdown=geany.desktop
-text/plain=geany.desktop
+text/html={{@@ geany_desktop @@}}
+text/markdown={{@@ geany_desktop @@}}
+text/plain={{@@ geany_desktop @@}}
+video/mp4={{@@ mpv_desktop @@}}
+video/x-matroska={{@@ mpv_desktop @@}};
 x-scheme-handler/about={{@@ browser_desktop @@}}
 x-scheme-handler/chrome={{@@ browser_desktop @@}}
 x-scheme-handler/ftp={{@@ browser_desktop @@}}
 x-scheme-handler/http={{@@ browser_desktop @@}}
 x-scheme-handler/https={{@@ browser_desktop @@}}
 x-scheme-handler/sftp={{@@ browser_desktop @@}}
-x-scheme-handler/spotify=spotify.desktop
+x-scheme-handler/spotify={{@@ desktop_with_name('Spotify') @@}}
 x-scheme-handler/unknown={{@@ browser_desktop @@}}
 
 {%@@- if env['MACHINE'] == 'personal' @@%}
 
-application/ogg=mpv.desktop
-audio/x-aac=mpv.desktop
-audio/x-aiff=mpv.desktop
-audio/x-flac=mpv.desktop
-audio/x-it=mpv.desktop
-audio/x-mod=mpv.desktop
-audio/x-ms-asx=mpv.desktop
-audio/x-ms-wma=mpv.desktop
-audio/x-musepack=mpv.desktop
-audio/x-ogg=mpv.desktop
-audio/x-opus+ogg=mpv.desktop
-audio/x-s3m=mpv.desktop
-audio/x-speex+ogg=mpv.desktop
-audio/x-tta=mpv.desktop
-audio/x-wavpack=mpv.desktop
-audio/x-xm=mpv.desktop
-video/mp4=mpv.desktop
-video/x-matroska=mpv.desktop;
-x-scheme-handler/mailto={{@@ basename(desktop_with_name('Thunderbird')) @@}}
+x-scheme-handler/mailto={{@@ desktop_with_name('Thunderbird') @@}}
 x-scheme-handler/nordvpn=nordvpn.desktop
-x-scheme-handler/tg=org.telegram.desktop.desktop
+x-scheme-handler/tg={{@@ telegram_desktop @@}}
+x-scheme-handler/tg={{@@ telegram_desktop @@}}
+x-scheme-handler/tonsite={{@@ telegram_desktop @@}}
+x-scheme-handler/fdm={{@@ desktop_with_name('Free Download Manager') @@}}
+
+[Added Associations]
+x-scheme-handler/tg={{@@ telegram_desktop @@}}
+x-scheme-handler/tonsite={{@@ telegram_desktop @@}}
 
 {%@@ elif env['MACHINE'] == 'work' @@%}
 

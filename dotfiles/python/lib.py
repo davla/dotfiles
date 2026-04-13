@@ -6,7 +6,7 @@
 import re
 from pathlib import Path, PurePath
 
-import xdg
+import xdg_base_dirs as xdg
 
 abs_home_first = re.compile("^" + str(Path.home()))
 tilde_first = re.compile("^~")
@@ -32,7 +32,7 @@ def expand_xdg(xdg_var: str, path: str) -> PurePath:
     lowercase, and either with or without the 'XDG_' prefix.
     """
     xdg_var = xdg_var if xdg_var.startswith("XDG_") else "XDG_" + xdg_var
-    return getattr(xdg, xdg_var.upper()) / path
+    return getattr(xdg, xdg_var.lower())() / path
 
 
 def strip_home(self: PurePath) -> PurePath:

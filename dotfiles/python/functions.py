@@ -6,15 +6,14 @@ This module defines some custom functions to be used in dotdrop jinja2
 templates.
 """
 
-import glob
 import os
 import re
 from itertools import islice
 from pathlib import Path
-from typing import Optional
 
 from jinja2 import Environment, pass_environment
 from python.lib import expand_xdg as xdg
+from xdg_base_dirs import xdg_data_dirs
 
 VENV_DIR = ".venv"
 
@@ -26,14 +25,14 @@ def abs_path(path: str) -> str:
     return Path(path).expand_home().resolve()
 
 
-def desktop_with_name(name: str, root_dir_glob="/home/*/.local/share/") -> str:
+def desktop_with_name(name: str) -> str:
     """Return .desktop file matching the given name case-insensitively."""
     name_regex = re.compile(f"Name=.*{name}.*", re.IGNORECASE)
-    desktop_files = glob.iglob(f"{root_dir_glob}/**/*.desktop")
-    for desktop_file_name in desktop_files:
-        with open(desktop_file_name, "r") as desktop_file:
-            if any(map(name_regex.match, desktop_file)):
-                return desktop_file_name
+    for desktop_dir in xdg_data_dirs():
+        for desktop_file_name in desktop_dir.glob("applications/*.desktop"):
+            with open(desktop_file_name, "r") as desktop_file:
+                if any(map(name_regex.match, desktop_file)):
+                    return desktop_file_name.name
     return None
 
 

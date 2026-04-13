@@ -50,7 +50,7 @@ IN_ALTERNATE_BUFFER='false'
 MSG_WIDTH="${COLUMNS:-80}"
 MSG_WIDTH=$(( MSG_WIDTH - $(printf '%s' "$INDENT" | wc --chars) ))
 # shellcheck disable=SC2089
-SUDO_SH="sudo --preserve-env='$DOTFILES_ENV_VARS' sh"
+SUDO_SH="sudo --preserve-env sh"
 
 # Reset
 SHELL="$(ps --no-headers --pid "$$" -o 'comm')"

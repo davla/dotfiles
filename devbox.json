@@ -8,16 +8,16 @@
     "python313Packages.python-magic": "latest"
   },
   "shell": {
+    "init_hook": [
+        ". ./.dotfiles-env",
+        "cd dotfiles > /dev/null"
+    ],
     "scripts": {
       "dotdrop": [
-        ". ./.dotfiles-env",
-        "cd dotfiles > /dev/null",
         "sudo --set-home --preserve-env=\"$DOTFILES_ENV_VARS\" \\",
         "    --user \"$USER\" uv run dotdrop $@"
       ],
       "sudo-dotdrop": [
-        ". ./.dotfiles-env",
-        "cd dotfiles > /dev/null",
         "sudo --set-home --preserve-env=\"$DOTFILES_ENV_VARS\" \\",
         "    uv run dotdrop $@"
       ]

@@ -10,9 +10,9 @@ case "$PYTHONPATH" in
     *)
         PYTHONPATH="$PYTHONPATH:$(find "$PWD" -type f \
             -name 'config-root.yaml' -printf '%h\n')"
-        export PYTHONPATH
         ;;
 esac
+export PYTHONPATH
 
 # Display server
 if [ -z "$DISPLAY_SERVER" ]; then

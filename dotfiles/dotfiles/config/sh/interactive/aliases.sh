@@ -8,6 +8,7 @@
 {%@@ set flatpak_update = '{
     sudo --login flatpak update
     : "Flatpak triggers execute in a sandbox, they cannot send signals"
+    sudo --login flatpak uninstall --unused
     pkill -RTMIN+%s i3blocks
 }' % i3blocks_signals.updates -@@%}
 

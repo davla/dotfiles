@@ -130,13 +130,9 @@ dotfiles:
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ shell_cache_path @@}}'
     chmod: 755
-  f_local_bin_systemd-i3-session:
-    src: usr/local/bin/systemd-i3-session
-    dst: /usr/local/bin/systemd-i3-session
-    chmod: 755
-  f_local_bin_systemd-sway-session:
-    src: usr/local/bin/systemd-sway-session
-    dst: /usr/local/bin/systemd-sway-session
+  f_local_bin_systemd-i3-sway-session:
+    src: usr/local/bin/systemd-i3-sway-session
+    dst: /usr/local/bin/systemd-{{@@ wm_name @@}}-session
     chmod: 755
   f_local_bin_systemd-i3-sway-session-watch:
     src: usr/local/bin/systemd-i3-sway-session-watch

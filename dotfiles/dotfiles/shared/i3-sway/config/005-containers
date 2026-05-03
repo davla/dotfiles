@@ -102,9 +102,6 @@ for_window [floating $float_center_criterion] move position center
 # i3-ws-live-tree window
 no_focus {{@@ i3_ws_live_tree.criterion @@}}
 for_window {{@@ i3_ws_live_tree.criterion @@}} floating enable, \
-    {%@@ if wm_name == 'sway' -@@%}
-        opacity set 1,
-    {%@@- endif @@%}
     resize set {{@@ i3_ws_live_tree.term_width @@}} ppt 40 ppt, \
     move position {{@@ i3_ws_live_tree_pos_x @@}} ppt {{@@ i3_ws_live_tree_pos_y @@}} ppt
 

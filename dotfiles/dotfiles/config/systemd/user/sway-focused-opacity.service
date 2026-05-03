@@ -1,4 +1,6 @@
-# swayfocus systemd service file
+# sway-focused-opacity systemd service file
+#
+# {{@@ header() @@}}
 
 [Unit]
 Description=Sway window opacity daemon
@@ -10,11 +12,12 @@ ConditionEnvironment=SWAYSOCK
 WantedBy=sway-session.target
 
 [Service]
-ExecStart=swayfocus 0.5
+ExecStart=sway-focused-opacity --unfocused-opacity 0.5 \
+    --always-opaque '.name == "{{@@ i3_ws_live_tree.marker @@}}"'
 StandardError=journal
 StandardOutput=journal
 SyslogFacility=local0
-SyslogIdentifier=swayfocus
+SyslogIdentifier=sway-focused-opacity
 SyslogLevel=info
 SyslogLevelPrefix=true
 Type=exec

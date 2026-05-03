@@ -15,7 +15,6 @@ yay -S --needed cargo-binstall clipman gnome-themes-extra i3blocks-git \
     qt5ct rofi sway sway-contrib swayidle ttf-font-icons udiskie wdisplays \
     wev wl-clipboard xdg-desktop-portal xdg-desktop-portal-gtk \
     xdg-desktop-portal-wlr
-sudo cargo binstall --root /usr/local swayfocus
 
 #######################################
 # Install sway dotfiles

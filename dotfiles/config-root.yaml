@@ -581,6 +581,7 @@ profiles:
   sway:
     dotfiles:
     - f_flatpak_overrides_wayland
+    - f_local_bin_sway-focused-opacity
     include:
     - i3-sway
     variables:

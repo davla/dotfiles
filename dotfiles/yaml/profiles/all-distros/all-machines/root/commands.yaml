@@ -130,6 +130,10 @@ dotfiles:
     # Dynamic path as it's used somewhere else too
     dst: '{{@@ shell_cache_path @@}}'
     chmod: 755
+  f_local_bin_sway-focused-opacity:
+    src: usr/local/bin/sway-focused-opacity
+    dst: /usr/local/bin/sway-focused-opacity
+    chmod: 755
   f_local_bin_systemd-i3-sway-session:
     src: usr/local/bin/systemd-i3-sway-session
     dst: /usr/local/bin/systemd-{{@@ wm_name @@}}-session

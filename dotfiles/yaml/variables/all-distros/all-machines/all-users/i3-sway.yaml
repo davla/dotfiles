@@ -50,3 +50,14 @@ variables:
   # - Root: compilation of custom i3blocks blocklets implemented in C
   # - Unprivileged users: i3blocks config file.
   i3bar_inactive_color: '#666666'
+
+  # These variables are used in the i3-ws-live-tree setup, mostly in the
+  # i3/sway container configuration files.
+  # They are defined here to allow the YAML dictionariy to refer to itself by
+  # leveraging dotdrop templating.
+  i3_ws_live_tree:
+    cmd: i3-ws-live-tree
+    criterion: '[title=^{{@@ i3_ws_live_tree.marker @@}}$]'
+    marker: i3-ws-live-tree
+    term_width: 20
+    tick_payload: '{{@@ i3_ws_live_tree.marker @@}}::render'

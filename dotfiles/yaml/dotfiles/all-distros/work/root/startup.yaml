@@ -5,3 +5,5 @@
 
 dotfiles:
 - f_pam.d_login
+- f_vm-shared.automount
+- f_vm-shared.mount

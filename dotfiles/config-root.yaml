@@ -376,6 +376,14 @@ dotfiles:
     dst: /etc/timezone
     actions:
     - timezone '{{@@ _dotfile_abs_dst @@}}'
+  f_vm-shared.automount:
+    src: etc/systemd/system/mnt-vm-shared.automount
+    dst: /etc/systemd/system/mnt-vm-shared.automount
+    actions:
+    - systemd-enable
+  f_vm-shared.mount:
+    src: etc/systemd/system/mnt-vm-shared.mount
+    dst: /etc/systemd/system/mnt-vm-shared.mount
   f_whole-fs.exports:
     src: etc/exports.d/whole-fs.exports
     dst: /etc/exports.d/whole-fs.exports

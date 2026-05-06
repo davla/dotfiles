@@ -1,0 +1,10 @@
+# Virtual machine shared directories systemd mount unit
+
+[Unit]
+Description=Virtual machine shared directories mount
+
+[Mount]
+Where=/mnt/vm/shared
+What=.host:/
+Type=fuse.vmhgfs-fuse
+Options=allow_other,uid=1000

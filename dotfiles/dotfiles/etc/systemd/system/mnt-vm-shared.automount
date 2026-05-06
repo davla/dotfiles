@@ -1,0 +1,10 @@
+# Virtual machine shared directories systemd automount unit
+
+[Unit]
+Description=Virtual machine shared directories automount
+
+[Install]
+WantedBy=multi-user.target
+
+[Automount]
+Where=/mnt/vm/shared

@@ -327,9 +327,9 @@ dotfiles:
   f_ssh_config:
     src: ssh/config
     dst: ~/.ssh/config
-  f_swayfocus.service:
-    src: config/systemd/user/swayfocus.service
-    dst: '{{@@ xdg_config("systemd/user/swayfocus.service") @@}}'
+  f_sway-focused-opacity.service:
+    src: config/systemd/user/sway-focused-opacity.service
+    dst: '{{@@ xdg_config("systemd/user/sway-focused-opacity.service") @@}}'
   f_swayidle_config:
     src: config/swayidle/config
     dst: '{{@@ xdg_config("swayidle/config") @@}}'
@@ -537,7 +537,7 @@ profiles:
     - f_clipman.service
     - f_mako_config
     - f_messaging_config.toml
-    - f_swayfocus.service
+    - f_sway-focused-opacity.service
     - f_swayidle_config
     - f_swayidle.service
     - f_sway-portals.conf

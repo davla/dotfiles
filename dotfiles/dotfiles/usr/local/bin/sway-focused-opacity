@@ -1,0 +1,77 @@
+#!/usr/bin/env sh
+
+# This is a script to set window opacity based on focus for sway. The currently
+# focused window is made fully opaque, while unfocused windows are given the
+# provided opacity.
+#
+# Arguments:
+#
+# --unfocused-opacity <opacity>
+#    The opacity given to unfocused windows, in the range [0, 1].
+#
+# --always-opaque <jq-filter>
+#    A jq filter on a sway IPC `container` object, which should return `true`
+#    if the container should have full opacity even when unfocused.
+#    Optional, defaults to `false` (e.g. no windows will have full opacity when
+#    unfocused).
+
+########################################
+# Input processing
+########################################
+
+ALWAYS_OPAQUE='false'
+UNFOCUSED_OPACITY=''
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        '--always-opaque')
+            ALWAYS_OPAQUE="$2"
+            shift
+            ;;
+
+        '--unfocused-opacity')
+            UNFOCUSED_OPACITY="$2"
+            shift
+            ;;
+
+        *)
+            echo >&2 "Unknown argument: $1"
+            exit 63
+            ;;
+    esac
+    shift
+done
+
+[ "$(expr "$UNFOCUSED_OPACITY" '>=' '0' '&' "$UNFOCUSED_OPACITY" '<=' '1')" \
+    -eq '0' ] && {
+    echo >&2 "Invalid --unfocused-opacity: '$UNFOCUSED_OPACITY'"
+    exit 62
+}
+
+########################################
+# Main
+########################################
+
+INITIAL_FOCUSED_CONTAINER="$(swaymsg --type get_tree \
+    | jq '.. | select(.focused? == true)')"
+PREV_FOCUSED_ID="$(echo "$INITIAL_FOCUSED_CONTAINER" | jq '.id')"
+PREV_KEEP_OPAQUE="$(echo "$INITIAL_FOCUSED_CONTAINER" | jq "$ALWAYS_OPAQUE")"
+# Free some memory
+unset INITIAL_FOCUSED_CONTAINER
+
+JQ_FILTER="$(printf \
+    'select(.change == "focus").container | [.id, %s] | join(" ")' \
+    "$ALWAYS_OPAQUE")"
+swaymsg --monitor --type SUBSCRIBE '["window"]' \
+    | jq --raw-output --unbuffered "$JQ_FILTER" \
+    | while read -r CURR_FOCUSED_ID CURR_KEEP_OPAQUE; do
+        MSG='[con_id=__focused__] opacity set 1'
+        [ "$PREV_KEEP_OPAQUE" = 'false' ] \
+            && MSG="[con_id=$PREV_FOCUSED_ID] opacity set $UNFOCUSED_OPACITY; \
+                $MSG"
+        swaymsg "$MSG"
+
+        PREV_FOCUSED_ID="$CURR_FOCUSED_ID"
+        PREV_KEEP_OPAQUE="$CURR_KEEP_OPAQUE"
+    done
+

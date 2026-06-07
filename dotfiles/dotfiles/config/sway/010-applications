@@ -46,7 +46,7 @@ bindsym {
 
     $mod+o exec firefox https://calendar.google.com/calendar/r
     $mod+u exec firefox https://keep.google.com/#home
-    $mod+t exec org.mozilla.Thunderbird
+    $mod+t exec org.mozilla.thunderbird
 
     {%@@- endif @@%}
 

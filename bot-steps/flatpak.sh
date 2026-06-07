@@ -27,7 +27,7 @@ case "$MACHINE" in
         flatpak install --noninteractive brasero calibre caprine discordapp \
             freedownloadmanager fr.handbrake.ghb kid3 transmissionbt \
             org.signal.Signal soundconverter soundjuicer org.telegram.desktop \
-            thunderbird
+            org.mozilla.thunderbird
         ;;
 
     'work')

@@ -29,9 +29,6 @@
 # Myrepos-based installation
 #######################################
 
-print_info 'Install myrepos'
-apt-get install myrepos
-
 print_info 'Install myrepos package management dotfiles'
 dotdrop install -p manual -U root
 

@@ -16,8 +16,8 @@ case "$DISTRO" in
         ;;
 
     'debian')
-        sudo apt-get install bash bash-completion dash eza fasd thefuck zsh \
-            xsel
+        sudo apt-get install --no-install-recommends bash bash-completion \
+            dash eza fasd thefuck zsh xsel
         dotdrop -U root install -p gh-release
         gh_release_install sheldon
         ;;

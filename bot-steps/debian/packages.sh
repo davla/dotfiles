@@ -33,7 +33,8 @@ apt-get update
 case "$MACHINE" in
     'personal')
         print_info "Install drivers for $MACHINE"
-        apt-get install firmware-realtek firmware-iwlwifi
+        apt-get install --no-install-recommends firmware-realtek \
+            firmware-iwlwifi
         ;;
 esac
 
@@ -43,15 +44,17 @@ esac
 
 if [ "$DISPLAY_SERVER" != 'headless' ]; then
     print_info 'Install GUI packages shared across all machines'
-    apt-get install alacritty code-insiders firefox-beta flatpak gdebi \
-        gnome-disk-utility hardinfo peek synaptic xfce4-screenshooter
+    apt-get install --no-install-recommends alacritty code-insiders \
+        firefox-beta flatpak gdebi gnome-disk-utility hardinfo peek synaptic \
+        xfce4-screenshooter
 
     # Installation
     # shellcheck disable=2039
     case "$MACHINE" in
         'personal')
             print_info "Install GUI packages for $MACHINE"
-            apt-get install blueman dropbox gufw remmina system-config-printer
+            apt-get install --no-install-recommends blueman dropbox gufw \
+                remmina system-config-printer
                 ;;
     esac
 
@@ -72,32 +75,33 @@ fi
 case "$MACHINE" in
     'personal')
         print_info "Install CLI packages for $MACHINE"
-        apt-get install autorandr cabal-install cups ghc gifsicle git-review \
-            hlint imagemagick intel-microcode lame lua luacheck luarocks \
-            libghc-hspec-dev mercurial nordvpn podman-compose \
-            python-requests-futures python3-gdbm python3-gpg python3-lxml \
-            python3-pygments python3-requests python3-requests-oauthlib \
-            thunar-dropbox-plugin
+        apt-get install --no-install-recommends autorandr cabal-install cups \
+            ghc gifsicle git-review hlint imagemagick intel-microcode lame \
+            lua luacheck luarocks libghc-hspec-dev mercurial nordvpn \
+            podman-compose python-requests-futures python3-gdbm python3-gpg \
+            python3-lxml python3-pygments python3-requests \
+            python3-requests-oauthlib thunar-dropbox-plugin
             ;;
 
     'work')
         print_info "Install CLI packages for $MACHINE"
-        apt-get install amd64-microcode awscli docker-compose-plugin golang \
-            just open-vm-tools-desktop
+        apt-get install --no-install-recommends amd64-microcode awscli \
+            docker-compose-plugin golang just open-vm-tools-desktop
         ;;
 esac
 
 print_info 'Install CLI packages shared across all machines'
-apt-get install apt-transport-https autoconf automake bat build-essential \
-    cmake cmatrix cowsay curl dbus-x11 dkms dos2unix fonts-freefont-otf \
-    fonts-nanum fortune fzf g++ gdb git git-secret gvfs-backends htop \
-    hunspell hunspell-en-us hunspell-it jq libbz2-dev liblzma-dev \
-    libncurses-dev libnotify-bin libreadline-dev libsecret-1-dev \
+apt-get install --no-install-recommends apt-transport-https autoconf automake \
+    bat buildah build-essential cmake cmatrix cowsay curl dbus-x11 dkms \
+    dos2unix fonts-dejavu fonts-freefont-otf fonts-nanum fortune fzf g++ gdb \
+    git git-secret gnome-keyring-pkcs11 gvfs-backends htop hunspell \
+    hunspell-en-us hunspell-it jq libbz2-dev liblzma-dev libncurses-dev \
+    libnotify-bin libpam-gnome-keyring libreadline-dev libsecret-1-dev \
     libsqlite3-dev libssl-dev lua5.4 make mate-polkit mmv mgitstatus \
-    moreutils nfs-common nix nyancat p7zip pipewire-jack playerctl \
+    moreutils nfs-common nix nyancat p7zip passt pipewire-jack playerctl \
     podman-docker pycodestyle python3 python3-pip rar rustup shellcheck sl \
-    systemd-cron systemd-resolved thunar-archive-plugin tk-dev uni2ascii \
-    unrar vim yad zip
+    systemd-cron systemd-resolved thunar-archive-plugin tk-dev uidmap \
+    uni2ascii unrar vim yad zip
 
 # Dotfiles
 print_info 'Install CLI packages dotfiles'

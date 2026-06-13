@@ -22,7 +22,7 @@ if [ "$MACHINE" != 'raspberry' ]; then
             ;;
 
         'debian')
-            apt-get install network-manager-gnome
+            apt-get install --no-install-recommends network-manager-gnome
             ;;
     esac
 fi

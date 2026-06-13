@@ -23,7 +23,7 @@ include = cat '{{@@ mr_libs_path @@}}/git-install'
 checkout =
 	git clone 'https://github.com/vivien/i3blocks-contrib' 'i3blocks-contrib'
 install =
-    sudo apt-get install libx11-dev
+    sudo apt-get install --no-install-recommends build-essential libx11-dev
     make --directory "$MR_REPO/cpu_usage2"
     #
     mkdir --parents '{{@@ i3blocklets_install_path @@}}'

@@ -8,8 +8,9 @@ actions:
   post:
     # Firefox is necessary to authenticate the GitHub CLI
     install-gh: |
-      [ $DISPLAY_SERVER != 'headless' ] && apt-get install firefox-beta
-      apt-get install gh
+      [ $DISPLAY_SERVER != 'headless' ] \
+          && apt-get install --no-install-recommends firefox-beta
+      apt-get install --no-install-recommends gh
 
 config:
   backup: false

@@ -17,7 +17,7 @@ case "$DISTRO" in
         ;;
 
     'debian')
-        sudo apt-get install i3blocks
+        sudo apt-get install --no-install-recommends i3blocks
         # Use absolute path because `dotdrop` resolves to the python package
         # binary within `uv run`
         /usr/local/bin/dotdrop install -U root -p manual
@@ -36,7 +36,8 @@ case "$DISTRO" in
         ;;
 
     'debian')
-        sudo apt-get install aptitude bash gnome-keyring python3-keyring
+        sudo apt-get install --no-install-recommends aptitude bash \
+            gnome-keyring python3-keyring
         sudo mr --directory /opt/i3blocks-contrib --config /opt/.mrconfig \
             checkout
         sudo mr --directory /opt/i3blocks-contrib --config /opt/.mrconfig \

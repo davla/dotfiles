@@ -114,7 +114,8 @@ setup_package_managers() {
             print_info 'Setup apt'
             dotdrop install -p packages -U root
             sudo apt-get update
-            [ "$DISPLAY_SERVER" != 'headless' ] && sudo apt-get install flatpak
+            [ "$DISPLAY_SERVER" != 'headless' ] \
+                && sudo apt-get install --no-install-recommends flatpak
             ;;
     esac
     unset SETUP_PACK_MAN__USER

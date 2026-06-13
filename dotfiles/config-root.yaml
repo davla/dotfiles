@@ -15,7 +15,7 @@ actions:
               ;;
 
           'debian')
-              apt-get install bash dash zsh
+              apt-get install --no-install-recommends bash dash zsh
               ;;
       esac
 
@@ -30,7 +30,7 @@ actions:
       systemctl enable --now systemd-resolved
       ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
-    install-mr: apt-get install mr
+    install-mr: apt-get install --no-install-recommends myrepos
 
     # This action links the installed dotfile in Xsession.d with the given name
     link_in_Xsession.d: |
@@ -43,7 +43,7 @@ actions:
 
     # This action compiles the keyindicator2 custom i3block
     i3blocks_keyindicator2: |
-      apt-get install build-essential libx11-dev
+      apt-get install --no-install-recommends build-essential libx11-dev
       make --directory '{{@@ _dotfile_abs_dst @@}}' \
           PREFIX='{{@@ i3blocklets_install_path @@}}' \
           ACTIVE_KEY_COLOR='{{@@ light_theme_color @@}}' \
@@ -61,7 +61,7 @@ actions:
               ;;
 
           'debian')
-              apt-get install build-essential
+              apt-get install --no-install-recommends build-essential
               ;;
       esac
       make --directory '{{@@ _dotfile_abs_dst @@}}' \
@@ -85,7 +85,7 @@ actions:
               ;;
 
           'debian')
-              apt-get install jq
+              apt-get install --no-install-recommends jq
               ;;
       esac
 

@@ -42,7 +42,8 @@ case "$DISTRO" in
         # part of the provisioning, which we can't run it without such binaries
         # available to sudo. Talk about chicken and egg...
         su --command "apt-get update \
-            && apt-get install git-secret gnupg nix rbw sudo \
+            && apt-get install --no-install-recommends git-secret gnupg nix \
+                rbw sudo \
             && cp $PARENT_DIR/../dotfiles/dotfiles/$SUDO_SECURE_PATH \
                 $SUDO_SECURE_PATH"
         ;;

@@ -56,10 +56,7 @@ esac
 groups "$USER" | grep --perl-regexp --quiet '(?=.*nix-users)(?=.*sudo)' || {
     print_info 'Allow sudo and non-root nix'
     su --command "/sbin/usermod --append --groups 'nix-users,sudo' '$USER'"
-    echo 'Logout necessary to apply new groups. Press enter...'
-    # shellcheck disable=SC2034
-    read -r ANSWER
-    loginctl terminate-user "$USER"
+    prompted_logout 'Logout necessary to apply new groups'
 }
 
 ########################################

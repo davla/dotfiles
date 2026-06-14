@@ -368,8 +368,7 @@ esac
 case "$STEP" in
     'environment'|'all')
         # Shell environment - environment variables are used in other steps.
-        $STEP_RUNNER 'dotdrop -U root install -p environment' \
-            'set up the environment'
+        $STEP_RUNNER 'sh -e bot-steps/environment.sh' 'set up the environment'
         ;;
 esac
 case "$STEP" in

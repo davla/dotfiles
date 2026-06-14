@@ -57,10 +57,7 @@ logout_into_graphical_session() {
     LOGOUT_INTO_DS__TARGET_DISPLAY_SERVER="$1"
 
     if [ "$DISPLAY_SERVER" != "$LOGOUT_INTO_DS__TARGET_DISPLAY_SERVER" ]; then
-        echo 'Logout necessary to load the graphical session. Press enter...'
-        # shellcheck disable=SC2034
-        read -r ANSWER
-        loginctl terminate-user "$USER"
+        prompted_logout 'Logout necessary to load the graphical session'
     fi
 
     unset LOGOUT_INTO_DS__TARGET_DISPLAY_SERVER
@@ -90,6 +87,18 @@ print_info() {
 
     printf "\e[32m[INFO]\e[0m %s$NEWLINE" "$1"
     unset NEWLINE OPTION
+}
+
+# Log out the current user upon pressing enter, after displaying an informative
+# prompt.
+#
+# Arguments:
+#   - $1: The informative prompt. Will be followed by '. Press enter...'.
+prompted_logout() {
+    echo "$1. Press enter..."
+    # shellcheck disable=SC2034
+    read -r ANSWER
+    loginctl terminate-user "$USER"
 }
 
 # Configure the system package manager and flatpak and updates package lists.

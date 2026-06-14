@@ -468,6 +468,8 @@ profiles:
     dotfiles:
     - f_pam_env.conf
     - f_pam.d_sudo
+    include:
+    - zsh-system
     actions:
     - environment
     - _rm '{{@@ environment_tmp_dst @@}}'

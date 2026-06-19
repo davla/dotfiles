@@ -4,4 +4,4 @@
 # "system-tweaks-x11" profile only on my work desktop for root.
 
 dotfiles:
-- f_x11_mode_4k.conf
+- f_x11_mode_4K.conf

@@ -5,5 +5,7 @@
 
 dotfiles:
 - f_pam.d_login
-- f_vm-shared.automount
+# The order here matters. The *.automount unit is enabled in a dotdrop
+# post-install action, which fails if needs its *.mount doesn't exist.
 - f_vm-shared.mount
+- f_vm-shared.automount

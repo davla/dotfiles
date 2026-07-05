@@ -100,8 +100,8 @@ apt-get install --no-install-recommends apt-transport-https autoconf automake \
     libsqlite3-dev libssl-dev lua5.4 make mate-polkit mmv mgitstatus \
     moreutils nfs-common nix nyancat p7zip passt pipewire-jack playerctl \
     podman-docker pycodestyle python3 python3-pip rar rustup shellcheck sl \
-    systemd-cron systemd-resolved thunar-archive-plugin tk-dev uidmap \
-    uni2ascii unrar vim yad zip
+    systemd-cron thunar-archive-plugin tk-dev uidmap uni2ascii unrar vim yad \
+    zip
 
 # Dotfiles
 print_info 'Install CLI packages dotfiles'

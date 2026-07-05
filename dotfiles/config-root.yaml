@@ -25,11 +25,6 @@ actions:
 
     ddclient: sh ./actions/ddclient.sh '{0}'
 
-    # This action enables systemd-resolved and integrates it with resolv.conf
-    enable-systemd-resolved: |
-      systemctl enable --now systemd-resolved
-      ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
-
     install-mr: apt-get install --no-install-recommends myrepos
 
     # This action links the installed dotfile in Xsession.d with the given name
@@ -88,6 +83,24 @@ actions:
               apt-get install --no-install-recommends jq
               ;;
       esac
+
+    # This action restarts network daemons
+    restart-network: |
+      if [ "$MACHINE" = 'raspberry' ]; then
+          systemctl enable systemd-networkd
+          echo 'Restart network daemon. This might impact the SSH connection'
+          systemctl restart systemd-networkd
+      else
+          systemctl enable NetworkManager
+          echo 'Restart NetworkManager'
+          systemctl restart NetworkManager
+      fi
+
+      # Integrate systemd-resolved with resolv.conf
+      ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+      systemctl enable systemd-resolved
+      echo 'Restart systemd-resolved'
+      systemctl restart systemd-resolved
 
     # This action enables and starts the systemd service for the installed
     # .service dotfile
@@ -308,8 +321,6 @@ dotfiles:
   f_NetworkManager_conf.d_dns.conf:
     src: etc/NetworkManager/conf.d/dns.conf
     dst: /etc/NetworkManager/conf.d/dns.conf
-    actions:
-    - enable-systemd-resolved
   f_nix.conf:
     src: etc/xdg/nix/nix.conf
     dst: /etc/xdg/nix/nix.conf
@@ -530,6 +541,8 @@ profiles:
     import:
     - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/network.yaml:optional
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/network.yaml:optional
+    actions:
+    - restart-network
 
   # This profile collects useful configuration for accessing a machine remotely
   remote-access:

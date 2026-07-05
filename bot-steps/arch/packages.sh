@@ -99,12 +99,8 @@ if [ "$MACHINE" != 'raspberry' ]; then
     print_info 'Install CLI packages for non-arm machines'
     sudo --user "$USER_NAME" yay -S --needed 7zip gdb ghc gifsicle \
         gnome-keyring hunspell hunspell-da hunspell-en_us hunspell-es_es \
-        hunspell-it intel-ucode libsecret macchina networkmanager \
-        polkit-gnome rar reflector shellcheck temp-throttle
-        # dhcpcd doesn't work well with networkmanager (unless configured)
-        if sudo --user "$USER_NAME" yay -Qs dhcpcd; then
-            sudo --user "$USER_NAME" yay -R dhcpcd
-        fi
+        hunspell-it intel-ucode libsecret macchina polkit-gnome rar reflector \
+        shellcheck temp-throttle
 fi
 
 print_info 'Install CLI packages shared across all machines'

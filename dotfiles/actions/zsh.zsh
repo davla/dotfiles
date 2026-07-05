@@ -57,7 +57,10 @@ case "$DISTRO" in
         ;;
 
     'debian')
-        sudo gh-release install
+        # Use absolute path because `dotdrop` resolves to the python package
+        # binary within `uv run`
+        /usr/local/bin/dotdrop -U root install -p gh-release
+        gh_release_install sheldon
         ;;
 esac
 

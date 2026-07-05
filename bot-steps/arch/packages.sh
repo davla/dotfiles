@@ -43,22 +43,7 @@ fi
 # Install AUR helper
 #######################################
 
-if pacman -Q --quiet --search yay > /dev/null 2>&1; then
-    print_info 'AUR helper already installed'
-else
-    print_info 'Install AUR helper'
-    pacman -S --needed git base-devel
-
-    YAY_DIR="$(sudo --user "$USER_NAME" mktemp --directory 'XXX.yay.XXX')"
-    sudo --user "$USER_NAME" git clone 'https://aur.archlinux.org/yay-bin.git' \
-        "$YAY_DIR"
-
-    cd "$YAY_DIR" || exit
-    sudo --user "$USER_NAME" makepkg --syncdeps --install
-    cd - > /dev/null 2>&1 || exit
-
-    sudo --user "$USER_NAME" rm -rf "$YAY_DIR"
-fi
+install_aur_helper "$USER_NAME"
 
 #######################################
 # Update package archive
@@ -72,6 +57,10 @@ pacman -Suyy
 #######################################
 
 if [ "$DISPLAY_SERVER" != 'headless' ]; then
+    # No Bitwarden as it still has copy-paste issues on Wayland
+    print_info 'Install GUI packages shared across all machines'
+    sudo --user "$USER_NAME" yay -S --needed bitwarden-bin
+
     case "$MACHINE" in
         'personal')
             print_info "Install GUI packages for $MACHINE"
@@ -83,10 +72,6 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
             ;;
     esac
 
-    # No Bitwarden as it still has copy-paste issues on Wayland
-    print_info 'Install GUI packages shared across all machines'
-    sudo --user "$USER_NAME" yay -S --needed bitwarden-bin
-
     # Dotfiles
     print_info 'Install GUI packages dotfiles'
     sudo --user "$USER_NAME" dotdrop install -p gui
@@ -95,6 +80,16 @@ fi
 #######################################
 # Install CLI applications
 #######################################
+
+print_info 'Install CLI packages shared across all machines'
+sudo --user "$USER_NAME" yay -S --needed autoconf automake bat bind cmake \
+    cmatrix cowsay curl debugedit devbox-bin dkms dos2unix eza fasd \
+    fortune-mod fzf gcc git-secret gnupg htop jq lua luacheck luarocks man \
+    mercurial mmv moreutils multi-git-status myrepos nfs-utils nyancat \
+    otf-ipafont pacman-contrib passt pkgfile playerctl podman-compose \
+    podman-docker python python-pip rbw sheldon sl sudo thefuck ttf-baekmuk \
+    ttf-dejavu ttf-indic-otf ttf-khmer ttf-nerd-fonts-symbols \
+    ttf-nerd-fonts-symbols-mono unzip uv vim wqy-microhei-lite zip
 
 case "$MACHINE" in
     'personal')
@@ -114,23 +109,9 @@ if [ "$MACHINE" != 'raspberry' ]; then
     print_info 'Install CLI packages for non-arm machines'
     sudo --user "$USER_NAME" yay -S --needed 7zip gdb ghc gifsicle \
         gnome-keyring hunspell hunspell-da hunspell-en_us hunspell-es_es \
-        hunspell-it intel-ucode libsecret macchina networkmanager \
-        polkit-gnome rar reflector shellcheck temp-throttle
-        # dhcpcd doesn't work well with networkmanager (unless configured)
-        if sudo --user "$USER_NAME" yay -Qs dhcpcd; then
-            sudo --user "$USER_NAME" yay -R dhcpcd
-        fi
+        hunspell-it intel-ucode libsecret macchina polkit-gnome rar reflector \
+        shellcheck temp-throttle
 fi
-
-print_info 'Install CLI packages shared across all machines'
-sudo --user "$USER_NAME" yay -S --needed autoconf automake bat bind cmake \
-    cmatrix cowsay curl debugedit devbox-bin dkms dos2unix eza fasd \
-    fortune-mod fzf gcc git-secret gnupg htop jq lua luacheck luarocks man \
-    mercurial mmv moreutils multi-git-status myrepos nfs-utils nyancat \
-    otf-ipafont pacman-contrib passt pkgfile playerctl podman-compose \
-    podman-docker python python-pip rbw sheldon sl sudo thefuck ttf-baekmuk \
-    ttf-dejavu ttf-indic-otf ttf-khmer ttf-nerd-fonts-symbols \
-    ttf-nerd-fonts-symbols-mono unzip uv vim wqy-microhei-lite zip
 
 # Dotfiles
 print_info 'Install CLI packages dotfiles'

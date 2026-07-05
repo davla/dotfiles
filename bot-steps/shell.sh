@@ -16,12 +16,10 @@ case "$DISTRO" in
         ;;
 
     'debian')
-        sudo apt-get install bash bash-completion dash eza fasd thefuck zsh \
-            xsel
-
-        print_info 'Install sheldon via gh-release'
+        sudo apt-get install --no-install-recommends bash bash-completion \
+            dash eza fasd thefuck zsh xsel
         dotdrop -U root install -p gh-release
-        sudo gh-release install
+        gh_release_install sheldon
         ;;
 esac
 

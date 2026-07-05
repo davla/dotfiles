@@ -15,7 +15,7 @@ actions:
               ;;
 
           'debian')
-              apt-get install bash dash zsh
+              apt-get install --no-install-recommends bash dash zsh
               ;;
       esac
 
@@ -25,10 +25,7 @@ actions:
 
     ddclient: sh ./actions/ddclient.sh '{0}'
 
-    # This action enables systemd-resolved and integrates it with resolv.conf
-    enable-systemd-resolved: |
-      systemctl enable --now systemd-resolved
-      ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+    install-mr: apt-get install --no-install-recommends myrepos
 
     # This action links the installed dotfile in Xsession.d with the given name
     link_in_Xsession.d: |
@@ -41,7 +38,7 @@ actions:
 
     # This action compiles the keyindicator2 custom i3block
     i3blocks_keyindicator2: |
-      apt-get install build-essential libx11-dev
+      apt-get install --no-install-recommends build-essential libx11-dev
       make --directory '{{@@ _dotfile_abs_dst @@}}' \
           PREFIX='{{@@ i3blocklets_install_path @@}}' \
           ACTIVE_KEY_COLOR='{{@@ light_theme_color @@}}' \
@@ -59,7 +56,7 @@ actions:
               ;;
 
           'debian')
-              apt-get install build-essential
+              apt-get install --no-install-recommends build-essential
               ;;
       esac
       make --directory '{{@@ _dotfile_abs_dst @@}}' \
@@ -83,9 +80,27 @@ actions:
               ;;
 
           'debian')
-              apt-get install jq
+              apt-get install --no-install-recommends jq
               ;;
       esac
+
+    # This action restarts network daemons
+    restart-network: |
+      if [ "$MACHINE" = 'raspberry' ]; then
+          systemctl enable systemd-networkd
+          echo 'Restart network daemon. This might impact the SSH connection'
+          systemctl restart systemd-networkd
+      else
+          systemctl enable NetworkManager
+          echo 'Restart NetworkManager'
+          systemctl restart NetworkManager
+      fi
+
+      # Integrate systemd-resolved with resolv.conf
+      ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+      systemctl enable systemd-resolved
+      echo 'Restart systemd-resolved'
+      systemctl restart systemd-resolved
 
     # This action enables and starts the systemd service for the installed
     # .service dotfile
@@ -292,11 +307,11 @@ dotfiles:
   f_login.defs:
     src: etc/login.defs
     # Dynamic path since the dotfile content is appended to dst
-    dst: '{{@@ getty_login_tmp_dst @@}}'
+    dst: '{{@@ sway_tmp_dst @@}}'
     chmod: 600
     actions:
     - _strip '{{@@ login_defs_append_marker @@}}' '{{@@ login_defs_dst @@}}'
-    - _append_tmp '{{@@ login_defs_dst @@}}' '{{@@ getty_login_tmp_dst @@}}'
+    - _append_tmp '{{@@ login_defs_dst @@}}' '{{@@ sway_tmp_dst @@}}'
   f_mrconfig:
     src: opt/mrconfig
     dst: /opt/.mrconfig
@@ -306,8 +321,6 @@ dotfiles:
   f_NetworkManager_conf.d_dns.conf:
     src: etc/NetworkManager/conf.d/dns.conf
     dst: /etc/NetworkManager/conf.d/dns.conf
-    actions:
-    - enable-systemd-resolved
   f_nix.conf:
     src: etc/xdg/nix/nix.conf
     dst: /etc/xdg/nix/nix.conf
@@ -357,6 +370,9 @@ dotfiles:
   f_sudo_custom:
     src: etc/sudoers.d/custom
     dst: /etc/sudoers.d/custom
+  f_sudo_secure-path:
+    src: etc/sudoers.d/secure-path
+    dst: /etc/sudoers.d/secure-path
   f_systemd_getty:
     src: etc/systemd/system/getty@tty1.service.d/override.conf
     dst: /etc/systemd/system/getty@tty1.service.d/override.conf
@@ -417,9 +433,9 @@ dotfiles:
 
 dynvariables:
   # This variable determines whether the "i3blocks" profile should include the
-  # "gh-releases" profile. It is made necessary by the fact that such type of
-  # manual installation mechanisms are only necessary on Debian, as on Arch
-  # there is usually an AUR package.
+  # "manual" profile. It is made necessary by the fact that such type of manual
+  # installation mechanisms are only necessary on Debian, as on Arch there is
+  # usually an AUR package.
   #
   # The variable needs to be defined here, rather than in a distro-specific
   # variables files, because variables from external files are not yet
@@ -428,11 +444,11 @@ dynvariables:
   i3_blocks_gh_release_include: |-
     case "$DISTRO" in
         'arch')
-            echo 'gh-release-empty'
+            echo 'manual-empty'
             ;;
 
         'debian')
-            echo 'gh-release'
+            echo 'manual'
             ;;
     esac
 
@@ -452,6 +468,8 @@ profiles:
     dotfiles:
     - f_pam_env.conf
     - f_pam.d_sudo
+    include:
+    - zsh-system
     actions:
     - environment
     - _rm '{{@@ environment_tmp_dst @@}}'
@@ -464,25 +482,6 @@ profiles:
       pam_env_conf_dst: /etc/security/pam_env.conf
       pam_sudo_dst: /etc/pam.d/sudo
 
-  # This profile groups dotfiles used to configure login from a getty
-  getty-login:
-    dotfiles:
-    - f_login.defs
-    - f_systemd_getty
-    actions:
-    - _rm '{{@@ getty_login_tmp_dst @@}}'
-    dynvariables:
-      getty_login_tmp_dst: mktemp /tmp/getty-login-append.XXX
-    variables:
-      login_defs_append_marker: Local options
-      login_defs_dst: /etc/login.defs
-
-  # This profile gathers the graphical login manager dotfiles
-  graphical-login:
-    dotfiles:
-    - f_lightdm.conf.d_02_custom.conf
-    - f_lightdm-gtk-greeter.conf.d_02_custom.conf
-
   # This profile contains dotfiles related to hardware-related configuration
   hardware:
     dotfiles:
@@ -494,6 +493,8 @@ profiles:
   i3:
     dotfiles:
     - d_i3blocks_keyindicator2
+    - f_lightdm.conf.d_02_custom.conf
+    - f_lightdm-gtk-greeter.conf.d_02_custom.conf
     include:
     - i3-sway
     - x11
@@ -532,6 +533,8 @@ profiles:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/manual.yaml:optional
     include:
     - gh-release
+    actions:
+    - install-mr
 
   # This profile contains network-related configuration files
   network:
@@ -540,6 +543,8 @@ profiles:
     import:
     - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/network.yaml:optional
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/network.yaml:optional
+    actions:
+    - restart-network
 
   # This profile collects useful configuration for accessing a machine remotely
   remote-access:
@@ -580,6 +585,7 @@ profiles:
     - system-tweaks-{{@@ display_server @@}}
     import:
     - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/system-tweaks.yaml:optional
+    - yaml/dotfiles/{@@ env['DISTRO'] @@}}/all-machines/{{@@ user @@}}/system-tweaks.yaml:optional
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/all-machines/{{@@ user @@}}/locales.yaml
     actions:
     - locales
@@ -590,9 +596,17 @@ profiles:
     dotfiles:
     - f_flatpak_overrides_wayland
     - f_local_bin_sway-focused-opacity
+    - f_login.defs
+    - f_systemd_getty
     include:
     - i3-sway
+    actions:
+    - _rm '{{@@ sway_tmp_dst @@}}'
+    dynvariables:
+      sway_tmp_dst: mktemp /tmp/sway-append.XXX
     variables:
+      login_defs_append_marker: Local options
+      login_defs_dst: /etc/login.defs
       wm_ipc_cmd: swaymsg
       wm_name: sway
       wm_systemd_env_vars:

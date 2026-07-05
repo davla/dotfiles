@@ -29,9 +29,9 @@ dotfiles:
     - 92-mode*.conf
     upignore:
     - 92-mode*.conf
-  f_x11_mode_4k.conf:
-    src: etc/X11/xorg.conf.d/92-mode-4k.conf
-    dst: /etc/X11/xorg.conf.d/92-mode-4k.conf
+  f_x11_mode_4K.conf:
+    src: etc/X11/xorg.conf.d/92-mode-4K.conf
+    dst: /etc/X11/xorg.conf.d/92-mode-4K.conf
   f_x11_mode_1080p.conf:
     src: etc/X11/xorg.conf.d/92-mode-1080p.conf
     dst: /etc/X11/xorg.conf.d/92-mode-1080p.conf

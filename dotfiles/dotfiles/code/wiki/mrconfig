@@ -29,7 +29,7 @@ lib=
         {%@@ if 'arch' in distro_id @@%}
         yay -S --needed pre-commit
         {%@@ elif distro_id == 'debian' @@%}
-        sudo apt-get install pre-commit
+        sudo apt-get install --no-install-recommends pre-commit
         {%@@ endif @@%}
         #
         pre-commit install

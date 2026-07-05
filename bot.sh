@@ -18,9 +18,9 @@
 
 # All the available bot steps. In a variable so that we can check for validity
 # when interactively prompting the user.
-STEPS="custom-commands, dotdrop, environment, getty-login, graphical-login, \
-hardware, i3, keyboard-layout, manual, network, packages, remote-access, \
-repos, security, shells, startup, sway, system-tweaks, themes, timers, xfce"
+STEPS="custom-commands, dependencies, environment, hardware, i3, \
+keyboard-layout, manual, network, packages, remote-access, repos, security, \
+shells, startup, sway, system-tweaks, themes, timers, xfce"
 
 # Colors
 RESET_COLOR="$(printf '\e[0;0m')"
@@ -333,9 +333,10 @@ STEP="$(echo "${STEP}" | tr '[:upper:]' '[:lower:]')"
 [ "$STEP" = 'all' ] && STEP_RUNNER='prompt' || STEP_RUNNER='execute'
 
 case "$STEP" in
-    'dotdrop'|'all')
-        # Dotdrop setup - first as anything else depends on it.
-        $STEP_RUNNER "sh -e bot-steps/dotdrop.sh $PWD" 'set dotdrop up'
+    'dependencies'|'all')
+        # Dependecies setup - first as anything else depends on it.
+        $STEP_RUNNER "sh -e bot-steps/dependencies.sh $PWD" \
+            'install dependencies'
         ;;
 esac
 case "$STEP" in
@@ -347,10 +348,27 @@ case "$STEP" in
         ;;
 esac
 case "$STEP" in
+    'i3'|'all')
+        # i3 - other steps act differently when in a graphical environment
+        $STEP_RUNNER 'sh -e bot-steps/i3.sh' 'install i3'
+        ;;
+esac
+case "$STEP" in
+    'sway'|'all')
+        # sway - other steps act differently when in a graphical environment
+        $STEP_RUNNER 'sh -e bot-steps/sway.sh' 'install sway'
+        ;;
+esac
+case "$STEP" in
+    'xfce'|'all')
+        # Xfce - other steps act differently when in a graphical environment
+        $STEP_RUNNER 'sh -e bot-steps/xfce.sh' 'install Xfce'
+        ;;
+esac
+case "$STEP" in
     'environment'|'all')
         # Shell environment - environment variables are used in other steps.
-        $STEP_RUNNER 'dotdrop -U root install -p environment' \
-            'set up the environment'
+        $STEP_RUNNER 'sh -e bot-steps/environment.sh' 'set up the environment'
         ;;
 esac
 case "$STEP" in
@@ -358,7 +376,7 @@ case "$STEP" in
         # Packages installation - they make commands available for other
         # steps.
         $STEP_RUNNER "$SUDO_SH -e bot-steps/$DISTRO/packages.sh $USER" \
-            'packages installation'
+            'install packages'
         ;;
 esac
 case "$STEP" in
@@ -373,38 +391,6 @@ case "$STEP" in
         # System-wide configuration, sucha as sudo and locales
         $STEP_RUNNER 'dotdrop -U root install -p system-tweaks' \
             'install system-wide configuration'
-        ;;
-esac
-case "$STEP" in
-    'getty-login'|'all')
-        # Getty login manager
-        $STEP_RUNNER 'dotdrop -U root install -p getty-login' \
-            'set up getty login'
-        ;;
-esac
-case "$STEP" in
-    'graphical-login'|'all')
-        # Graphical login manager
-        $STEP_RUNNER "$SUDO_SH -e bot-steps/graphical-login.sh" \
-            'install a graphical login manager'
-        ;;
-esac
-case "$STEP" in
-    'i3'|'all')
-        # i3
-        $STEP_RUNNER 'sh -e bot-steps/i3.sh' 'install i3'
-        ;;
-esac
-case "$STEP" in
-    'sway'|'all')
-        # i3
-        $STEP_RUNNER 'sh -e bot-steps/sway.sh' 'install sway'
-        ;;
-esac
-case "$STEP" in
-    'xfce'|'all')
-        # Xfce
-        $STEP_RUNNER 'sh -e bot-steps/xfce.sh' 'install Xfce'
         ;;
 esac
 case "$STEP" in

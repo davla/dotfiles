@@ -1,0 +1,7 @@
+%YAML 1.2
+---
+# This dotfiles file lists the dotfiles to be included in the "system-tweaks"
+# profile only on debian systems for root.
+
+dotfiles:
+- f_sudo-secure-path

@@ -204,26 +204,7 @@ done
 # Main
 ########################################
 
-log_debug 'Verify need to authenticate with GitHub'
-if gh auth status > /dev/null 2>&1; then
-    log_debug 'Already authenticated with GitHub'
-else
-    if [ "$READ_GITHUB_TOKEN" = 'true' ]; then
-        log_info 'Authenticate with GitHub via token read from STDIN'
-        gh auth login --with-token
-    elif [ -n "$SUDO_USER" ]; then
-        log_info "Authenticate with GitHub via browser as '$SUDO_USER'"
-        sudo --user "$SUDO_USER" gh auth login
-        sudo --user "$SUDO_USER" gh auth token | gh auth login --with-token
-    elif [ "$(id --user)" -ne 0 ]; then
-        log_info 'Authenticate with GitHub via browser'
-        gh auth login
-    else
-        log_error 'Cannot authenticate with GitHub: no token to be read from
-STDIN and no SUDO_USER to open a browser as'
-        exit 67
-    fi
-fi
+ensure-gh-logged-in "$@"
 
 # This is the most reliable way to determine which JSON fields are supported by
 # the current version of the GitHub CLI

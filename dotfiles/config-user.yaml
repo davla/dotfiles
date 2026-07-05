@@ -32,6 +32,17 @@ actions:
     # a custom-made JSON file in this repository, which is only processed by
     # this action and not actually saved anywhere.
     gsettings: |
+      which jq > /dev/null 2>&1 && which gsettings > /dev/null 2>&1 \
+          || case "$DISTRO" in
+                'arch')
+                    sudo pacman -S --needed glib2 jq
+                    ;;
+
+                'debian')
+                    sudo apt-get install --no-install-recommends jq \
+                      libglib2.0-bin
+                    ;;
+            esac
       jq "to_entries[] | .key as \$schema | .value | to_entries[] \
               | [\$schema, .key, .value][]" '{0}' \
           | xargs --max-args 3 gsettings set

@@ -15,7 +15,7 @@ case "$DISTRO" in
         ;;
 
     'debian')
-        sudo apt-get install myrepos
+        sudo apt-get install --no-install-recommends myrepos
         ;;
 esac
 

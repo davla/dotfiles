@@ -1,6 +1,6 @@
 --[[
-    This script runs within imapfilter. It checks if I have received the email with the monthly pass renewal receipt.
-    If that's the case, it prints to STDOUT the day when the renewal happened, in YYYY-MM-DD format, and exits with 0.
+    This script runs within imapfilter. It checks if I have received the email with the commuter card renewal receipt.
+    If that's the case, it prints to STDOUT the commuter card expiration day, in '%d %B %Y' format, and exits with 0.
     If no email has been received, it exists with 1.
 
     {{@@ header() @@}}
@@ -10,8 +10,8 @@ local os = require("os")
 
 options.info = false
 
-local RENEWAL_SUBJECT = "Automatisk fornyelse af periode på dit pendlerkort"
-local RENEWAL_DATE_PATTERN = "<span style=.->(%d%d)-(%d%d)-(%d%d%d%d)</span>"
+local RENEWAL_SUBJECT = "Commuter Card Invoice"
+local EXPIRATION_DATE_PATTERN = "Valid to: (%w+) (%d+), (%d%d%d%d)"
 
 local get_email_at = function(emails, index)
     local mailbox, uid = table.unpack(emails[index])
@@ -30,8 +30,8 @@ if #unread_renewal_mails == 0 then
 end
 
 local renewal_mail_body = get_email_at(unread_renewal_mails, 1):fetch_body()
-local renewal_day, renewal_month, renewal_year = renewal_mail_body:match(RENEWAL_DATE_PATTERN)
+local expiration_month, expiration_day, expiration_year = renewal_mail_body:match(EXPIRATION_DATE_PATTERN)
 
-print(table.concat({ renewal_year, renewal_month, renewal_day }, "-"))
+print(table.concat({ expiration_day, expiration_month, expiration_year }, " "))
 
 os.exit(0)

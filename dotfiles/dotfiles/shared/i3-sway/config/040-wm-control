@@ -1,0 +1,20 @@
+# This i3/sway configuration file includes keybindings to control the window
+# manager itself
+#
+# {{@@ header() @@}}
+
+#######################################
+# Shortcuts
+#######################################
+
+# Reload the configuration file
+bindsym $mod+$wm_control_key+c reload
+
+# Restart
+bindsym $mod+$wm_control_key+x restart
+
+# Exit
+bindsym $mod+$wm_control_key+v exec "{{@@ wm_nag_cmd @@}} --type warning \
+    --message 'You pressed the {{@@ wm_name @@}} exit shortcut. Do you really want to exit {{@@ wm_name @@}}?' \
+    --button-no-terminal 'Yes, exit {{@@ wm_name @@}}' \
+        '{{@@ wm_ipc_cmd @@}} exit'"

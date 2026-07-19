@@ -15,6 +15,10 @@ actions:
   post:
     bat-theme: bat cache --build
 
+    download: |
+      dirname '{1}' | xargs mkdir --parents
+      wget --quiet --output-document '{1}' '{0}'
+
     # This action aliases my terminal emulator of choice to the terminal
     # emulators hardcoded in glib that it's the least likely to be actually
     # installed. This way, GKT+ applications can open terminals for .desktop
@@ -183,6 +187,13 @@ dotfiles:
   d_yay:
     src: config/yay
     dst: '{{@@ xdg_config("yay") @@}}'
+  d_zed:
+    src: config/zed
+    dst: '{{@@ xdg_config("zed") @@}}'
+    actions:
+    - >-
+        download 'https://zed-themes.com/download/themes/isMWb-UoMV2YX8YDpHGGq'
+        '{{@@ xdg_config("zed/themes/ayu-even-darker.json") @@}}'
   f_alacritty.toml:
     src: config/alacritty/alacritty.toml
     dst: '{{@@ xdg_config("alacritty/alacritty.toml") @@}}'
@@ -440,6 +451,7 @@ profiles:
   gui:
     dotfiles:
     - f_mimeapps.list
+    - d_zed
     include:
     - gui-{{@@ display_server @@}}
     - geany

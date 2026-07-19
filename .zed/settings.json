@@ -1,0 +1,40 @@
+// Folder-specific settings
+//
+// For a full list of overridable settings, and general information on folder-specific settings,
+// see the documentation: https://zed.dev/docs/configuring-zed#settings-files
+{
+  "file_types": {
+    "INI": [
+      "*.list",
+      "*.rc",
+      "*.theme",
+      "dunstrc",
+      "gtkrc",
+      "hgrc",
+      "mrconfig*",
+      "picom.conf",
+      "**/geany/filedefs/**",
+      "**/i3blocks*/**/*",
+      "**/mako/config",
+      "**/messaging/config.toml",
+      "**/pacman.d/**/*",
+    ],
+    "XML": ["fonts.conf", "xfce-applications.menu"],
+    "Shell Script": ["**/mr/**/*"],
+  },
+  "languages": {
+    "JSON": {
+      "format_on_save": "off",
+    },
+    "JSONC": {
+      "format_on_save": "off",
+    },
+    "Python": {
+      "wrap_guides": [88]
+    }
+  },
+  "language_servers": [
+    "!dockerfile-language-server",
+    "..."
+  ]
+}

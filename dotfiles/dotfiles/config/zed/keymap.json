@@ -1,0 +1,55 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Editor",
+    "bindings": {
+      "alt-a": "editor::SortLinesCaseSensitive",
+      "alt-c": ["editor::ToggleComments", { "advance_downwards": false }],
+      "alt-d": "editor::GoToDefinition",
+      "alt-i": "editor::GoToImplementation",
+      "alt-l": "editor::GoToDeclaration",
+      "alt-n": "editor::Rename",
+      "alt-q": [
+        "action::Sequence",
+        ["editor::SelectInsideDelimiters", "editor::UnwrapSyntaxNode"],
+      ],
+      "alt-r": "editor::FindAllReferences",
+      "ctrl-d": "editor::DuplicateLineDown",
+      "ctrl-down": "editor::MoveLineDown",
+      "ctrl-i": "editor::Indent",
+      "ctrl-u": "editor::Outdent",
+      "ctrl-up": "editor::MoveLineUp",
+    },
+    "unbind": {
+      "ctrl-d": ["editor::SelectNext", { "replace_newest": false }],
+      "ctrl-i": "editor::ShowSignatureHelp",
+      "ctrl-u": "editor::UndoSelection",
+    },
+  },
+  {
+    "context": "Pane",
+    "bindings": {
+      "alt-left": "pane::ActivatePreviousItem",
+      "alt-right": "pane::ActivateNextItem",
+    },
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "alt-j": "language_selector::Toggle",
+      "ctrl-b": "project_panel::Toggle",
+      "ctrl-j": "project_panel::CollapseAllEntries",
+    },
+  },
+  {
+    "bindings": {
+      "ctrl-p": "command_palette::Toggle",
+    },
+  },
+]

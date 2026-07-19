@@ -1,0 +1,210 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "inline_code_actions": false,
+  "icon_theme": "Symbols Icon Theme",
+  "base_keymap": "VSCode",
+  "minimap": {
+    "show": "never",
+  },
+  "selection_highlight": false,
+  "buffer_font_fallbacks": ["Symbols Nerd Font Mono", ".ZedMono"],
+  "buffer_font_family": "DejaVu Sans Mono",
+  "ensure_final_newline_on_save": false,
+  "wrap_guides": [79],
+  "toolbar": {
+    "agent_review": true,
+    "selections_menu": true,
+    "quick_actions": false,
+    "breadcrumbs": false,
+  },
+  "which_key": {
+    "enabled": false,
+  },
+  "active_pane_modifiers": {
+    "inactive_opacity": 0.8,
+  },
+  "bottom_dock_layout": "contained",
+  "preview_tabs": {
+    "enable_preview_from_project_panel": false,
+    "enabled": false,
+  },
+  "tabs": {
+    "show_close_button": "hover",
+    "show_diagnostics": "all",
+    "activate_on_close": "left_neighbour",
+    "close_position": "right",
+    "file_icons": true,
+    "git_status": true,
+  },
+  "tab_bar": {
+    "show_pinned_tabs_in_separate_row": false,
+    "show_tab_bar_buttons": false,
+    "show_nav_history_buttons": false,
+    "show": true,
+  },
+  "title_bar": {
+    "button_layout": "platform_default",
+    "show_menus": false,
+    "show_user_picture": false,
+    "show_user_menu": false,
+    "show_sign_in": false,
+    "show_onboarding_banner": false,
+    "show_project_items": false,
+    "show_branch_name": false,
+    "show_branch_status_icon": false,
+  },
+  "debugger": {
+    "dock": "left",
+    "button": true,
+  },
+  "search": {
+    "button": false,
+  },
+  "diagnostics": {
+    "inline": {
+      "padding": 4,
+      "min_column": 0,
+      "enabled": false,
+    },
+    "button": true,
+  },
+  "terminal": {
+    "button": false,
+  },
+  "status_bar": {
+    "show_active_file": false,
+    "line_endings_button": true,
+    "cursor_position_button": true,
+    "active_encoding_button": "non_utf8",
+    "active_language_button": true,
+  },
+  "window_decorations": "client",
+  "proxy": "",
+  "git": {
+    "inline_blame": {
+      "enabled": false,
+    },
+  },
+  "close_on_file_delete": true,
+  "seed_search_query_from_cursor": "selection",
+  "use_smartcase_search": true,
+  "prettier": {
+    "allowed": true,
+  },
+  "completions": {
+    "lsp_fetch_timeout_ms": 10,
+  },
+  "semantic_tokens": "combined",
+  "colorize_brackets": true,
+  "middle_click_paste": false,
+  "inlay_hints": {
+    "show_type_hints": true,
+  },
+  "completion_menu_item_kind": "symbol",
+  "completion_menu_scrollbar": "auto",
+  "format_on_save": "on",
+  "indent_guides": {
+    "coloring": "indent_aware",
+  },
+  "auto_indent_on_paste": false,
+  "scrollbar": {
+    "show": "auto",
+  },
+  "gutter": {
+    "folds": true,
+    "runnables": false,
+    "breakpoints": true,
+    "min_line_number_digits": 0,
+    "bookmarks": false,
+  },
+  "drag_and_drop_selection": {
+    "enabled": false,
+  },
+  "hover_popover_hiding_delay": 0,
+  "show_signature_help_after_edits": true,
+  "autosave": "on_focus_change",
+  "unnecessary_code_fade": 0.3,
+  "auto_update": false,
+  "cursor_shape": "underline",
+  "markdown_preview_code_font_family": ".ZedMono",
+  "markdown_preview_font_family": ".ZedSans",
+  "agent_ui_font_size": 16.0,
+  "buffer_line_height": "comfortable",
+  "default_open_behavior": "new_window",
+  "cli_default_open_behavior": "new_window",
+  "use_system_prompts": false,
+  "use_system_path_prompts": false,
+  "on_last_window_closed": "quit_app",
+  "when_closing_with_no_tabs": "keep_window_open",
+  "project_panel": {
+    "hide_hidden": false,
+    "hide_root": true,
+    "drag_and_drop": false,
+    "git_status_indicator": false,
+    "diagnostic_badges": true,
+    "bold_folder_labels": false,
+    "indent_size": 30.0,
+    "folder_icons": false,
+    "entry_spacing": "comfortable",
+    "default_width": 300.0,
+    "button": true,
+    "dock": "left",
+  },
+  "outline_panel": {
+    "button": false,
+    "dock": "left",
+  },
+  "collaboration_panel": {
+    "button": false,
+    "dock": "left",
+  },
+  "agent": {
+    "button": false,
+    "dock": "right",
+    "favorite_models": [],
+    "model_parameters": [],
+  },
+  "git_panel": {
+    "file_icons": true,
+    "button": false,
+    "dock": "left",
+  },
+  "ui_font_size": 17.0,
+  "buffer_font_size": 16.0,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "Ayu Even Darker",
+  },
+  "languages": {
+    "YAML": {
+      "formatter": "none",
+    },
+  },
+  "auto_install_extensions": {
+    "bearded-icon-theme": true,
+    "catppuccin-icons": true,
+    "charmed-icons": true,
+    "desktop": true,
+    "docker-compose": true,
+    "dockerfile": true,
+    "editorconfig": true,
+    "emoji-completions": true,
+    "html": true,
+    "ini": true,
+    "jinja2": true,
+    "lua": true,
+    "make": true,
+    "monospace-icon-theme": true,
+    "symbols": true,
+    "toml": true,
+    "xml": true,
+  },
+}

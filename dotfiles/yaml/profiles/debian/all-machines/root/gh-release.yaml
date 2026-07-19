@@ -55,6 +55,9 @@ dotfiles:
   d_uv:
     src: usr/local/share/gh-release/astral-sh/uv
     dst: '{{@@ gh_release_dir @@}}/astral-sh/uv'
+  d_zed:
+    src: usr/local/share/gh-release/dariogriffo/zed-debian
+    dst: '{{@@ gh_release_dir @@}}/dariogriffo/zed-debian'
   f_gh-release.conf:
     src: usr/local/etc/gh-release.conf
     # Dynamic path as it's used somewhere else too

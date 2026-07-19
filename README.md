@@ -96,7 +96,6 @@ Configuration files for my Linux systems
 ![[°o°]][ok-face]     Stop using LightDM.  
 ![[°o°]][ok-face]     Actually send myself a mail on `at` job errors.  
 ![[^_^]][prompt-face] Setup keyboard shortcuts for bluez.  
-![[^_^]][prompt-face] Prevent `dotnet` crypto stuff from showing up in `$HOME`.  
 ![[^_^]][prompt-face] Allow logger colors with no tags.  
 ![[^_^]][prompt-face] Investigate more uses for jinja default.  
 ![[^_^]][prompt-face] Investigate uses of empty `dst:` instead of mktemp.  

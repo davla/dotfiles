@@ -18,6 +18,7 @@ set {
     $spotify_criterion app_id="^spotify$"
     $thunderbird_criterion app_id=".*[Mm]ozilla\.[Tt]hunderbird.*"
     $vscode_criterion app_id="^[Cc]ode.*"
+    $zed_criterion app_id=".*[Zz]ed.*"
 
     # Application instance titles
     $calc_title calculator
@@ -74,12 +75,14 @@ assign {
     [$vscode_criterion] $ws1
     [$firefox_criterion] $ws2
     [$thunderbird_criterion] $ws4
+    [$zed_criterion] $ws1
 }
 
 # Switch to assigned workspace by focusing newly created windows
 for_window [$firefox_criterion] focus
 for_window [$thunderbird_criterion] focus
 for_window [$vscode_criterion] focus
+for_window [$zed_criterion] focus
 
 # Bitwarden
 # Popup from Firefox extension

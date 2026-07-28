@@ -86,25 +86,22 @@ __LOGGING_COLOR="${__LOGGING_COLOR:-''}"
 __logging_print() {
     __LOG_MSG_LEVEL="$1"
     __LOG_MSG_TAG=${2:-''}
+    __LOG_MSG="$3"
 
     __LOG_MSG_FORMAT="$__LOG_MSG_TAG%s\n"
 
-    [ "$__LOGGING_LEVEL_CURRENT" -ge "$__LOG_MSG_LEVEL" ] && {
-        if [ -n "$3" ]; then
-            __LOG_MSG="$3"
+    if [ "$__LOGGING_LEVEL_CURRENT" -ge "$__LOG_MSG_LEVEL" ]; then
+        if [ -n "$__LOG_MSG" ]; then
             # shellcheck disable=2059
             printf "$__LOG_MSG_FORMAT" "$__LOG_MSG"
         else
-            while read -r __LOG_MSG; do
-                # shellcheck disable=2059
-                printf "$__LOG_MSG_FORMAT" "$__LOG_MSG"
-            done
+            xargs -I '{}' printf "$__LOG_MSG_FORMAT" '{}'
         fi
+    elif [ -z "$__LOG_MSG" ]; then
+        cat > /dev/null
+    fi
 
-        unset __LOG_MSG
-    }
-
-    unset __LOG_MSG_FORMAT __LOG_MSG_LEVEL __LOG_MSG_TAG
+    unset __LOG_MSG __LOG_MSG_FORMAT __LOG_MSG_LEVEL __LOG_MSG_TAG
 }
 
 #######################################

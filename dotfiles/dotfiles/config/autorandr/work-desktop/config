@@ -1,23 +1,23 @@
-output Virtual2
+output Virtual-2
 off
-output Virtual3
+output Virtual-3
 off
-output Virtual4
+output Virtual-4
 off
-output Virtual5
+output Virtual-5
 off
-output Virtual6
+output Virtual-6
 off
-output Virtual7
+output Virtual-7
 off
-output Virtual8
+output Virtual-8
 off
-output Virtual1
+output Virtual-1
 crtc 0
 filter bilinear
 mode 3840x2160
 pos 0x0
 primary
-rate 59.98
-transform 0.549988,0.000000,0.000000,0.000000,0.549988,0.000000,0.000000,0.000000,1.000000
+rate 60.00
+transform 0.649994,0.000000,0.000000,0.000000,0.649994,0.000000,0.000000,0.000000,1.000000
 x-prop-non_desktop 0

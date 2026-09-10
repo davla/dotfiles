@@ -46,6 +46,9 @@ dotfiles:
   d_i3-volume:
     src: usr/local/share/gh-release/hastinbe/i3-volume
     dst: '{{@@ gh_release_dir @@}}/hastinbe/i3-volume'
+  d_lazysql:
+    src: usr/local/share/gh-release/jorgerojas26/lazysql
+    dst: '{{@@ gh_release_dir @@}}/jorgerojas26/lazysql'
   d_nerd-fonts:
     src: usr/local/share/gh-release/ryanoasis/nerd-fonts
     dst: '{{@@ gh_release_dir @@}}/ryanoasis/nerd-fonts'
@@ -78,6 +81,7 @@ profiles:
   gh-release:
     dotfiles:
     - d_devbox
+    - d_lazysql
     - d_local_lib_sh
     - d_nerd-fonts
     - d_sheldon

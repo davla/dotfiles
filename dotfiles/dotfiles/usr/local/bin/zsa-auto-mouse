@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+MOUSE_LAYER=''
+TIMEOUT=3
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        '--mouse-layer')
+            MOUSE_LAYER="$2"
+            shift
+            ;;
+
+        '--reset-timeout')
+            TIMEOUT="$2"
+            shift
+            ;;
+    esac
+    shift
+done
+
+[ -z "$MOUSE_LAYER" ] && {
+    echo >&2 'No --mouse-layer specified'
+    exit 63
+}
+
+current_layer() {
+    kontroll status --json | jq '.keyboard.current_layer'
+}
+
+BEFORE_AUTO_MOUSE_LAYER="$(current_layer)"
+IN_AUTO_MOUSE='false'
+
+evsieve $(printf -- '--input %s ' /dev/input/by-id/*event-mouse*) --print \
+    | while true; do
+        if read -r -t "$TIMEOUT"; then
+            [ "$IN_AUTO_MOUSE" = 'true' ] && continue
+
+            BEFORE_AUTO_MOUSE_LAYER="$(current_layer)"
+            [ "$BEFORE_AUTO_MOUSE_LAYER" = "$MOUSE_LAYER" ] && continue
+
+            kontroll set-layer --index "$MOUSE_LAYER"
+            IN_AUTO_MOUSE='true'
+        else
+            [ "$IN_AUTO_MOUSE" != 'true' ] && continue
+
+            [ "$(current_layer)" = "$MOUSE_LAYER" ] && \
+                kontroll set-layer --index "$BEFORE_AUTO_MOUSE_LAYER"
+            IN_AUTO_MOUSE='false'
+        fi
+    done

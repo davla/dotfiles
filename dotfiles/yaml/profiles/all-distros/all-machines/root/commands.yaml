@@ -166,6 +166,10 @@ dotfiles:
     src: usr/local/bin/wget
     dst: /usr/local/bin/wget
     chmod: 755
+  f_local_bin_zsa-auto-mouse:
+    src: usr/local/bin/zsa-auto-mouse
+    dst: /usr/local/bin/zsa-auto-mouse
+    chmod: 755
   f_local_bin_zsh-notify-sudo-user:
     src: usr/local/bin/zsh-notify-sudo-user
     dst: /usr/local/bin/zsh-notify-sudo-user

@@ -399,6 +399,9 @@ dotfiles:
   f_xfce4-power-manager.xml:
     src: config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
     dst: '{{@@ xdg_config("xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml") @@}}'
+  f_zsa-auto-mouse.service:
+    src: config/systemd/user/zsa-auto-mouse.service
+    dst: '{{@@ xdg_config("systemd/user/zsa-auto-mouse.service") @@}}'
 
 profiles:
   # This profile groups configuration files for CLI-based applictions.
@@ -492,6 +495,7 @@ profiles:
     - f_alacritty.toml
     - f_default-ws-layout.service
     - f_i3blocks_config
+    - f_zsa-auto-mouse.service
     include:
     - look-and-feel
     - startup

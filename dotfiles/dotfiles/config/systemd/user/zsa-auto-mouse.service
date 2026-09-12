@@ -1,0 +1,16 @@
+# zsa-auto-mouse systemd service file
+
+[Unit]
+Description=Auto-mouse layer for ZSA keyboards
+After=graphical-session.target
+BindsTo=graphical-session.target
+
+[Service]
+ExecStart=zsa-auto-mouse --mouse-layer 3
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=zsa-auto-mouse
+SyslogLevel=info
+SyslogLevelPrefix=true
+Type=exec

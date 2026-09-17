@@ -10,4 +10,5 @@ dotfiles:
 - f_local_bin_idea
 - f_local_bin_lock-screen
 - f_local_bin_vpn
+- f_local_bin_zsa-auto-mouse
 - f_local_bin_zsh-notify-sudo-user

@@ -1,0 +1,16 @@
+# zsa-keymapp systemd service file
+
+[Unit]
+Description=ZSA Keymapp
+After=graphical-session.target
+BindsTo=graphical-session.target
+
+[Service]
+ExecStart=keymapp
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=keymapp
+SyslogLevel=info
+SyslogLevelPrefix=true
+Type=exec

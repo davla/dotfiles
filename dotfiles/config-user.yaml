@@ -156,6 +156,9 @@ dotfiles:
   d_rofi:
     src: config/rofi
     dst: '{{@@ xdg_config("rofi") @@}}'
+  d_sqlit:
+    src: config/sqlit
+    dst: '{{@@ xdg_config("sqlit") @@}}'
   d_sway:
     src: config/sway
     dst: '{{@@ xdg_config("sway") @@}}'
@@ -405,6 +408,7 @@ profiles:
   cli:
     dotfiles:
     - d_bat
+    - d_sqlit
     - f_editorconfig
     - f_eza_theme.yml
     - f_fzf_config

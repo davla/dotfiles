@@ -1,0 +1,27 @@
+{
+  "keymap": {
+    "action_keys": {
+      "autocomplete": {
+        "autocomplete_accept": ["tab", "enter"]
+      },
+      "results": {
+        "clear_results": ["x", "ctrl+l"],
+        "delete_row": "backspace",
+        "edit_cell": "enter",
+        "results_filter": ["/", "ctrl+f"],
+        "results_column_picker": ["f", "F", "c", "C"]
+      },
+      "tree": {
+        "collapse_tree": ["z", "ctrl+j"],
+        "delete_connection": "delete",
+        "delete_connection_folder": "delete",
+        "duplicate_connection": "ctrl+d",
+        "tree_filter": ["/", "ctrl+f"]
+      },
+      "value_view": {
+        "collapse_all_json_nodes": ["z", "ctrl+j"],
+        "expand_all_json_nodes": ["Z", "ctrl+J"]
+      }
+    }
+  }
+}

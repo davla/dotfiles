@@ -1,0 +1,22 @@
+{
+  "theme": {
+    "name": "ayu-dark",
+    "dark": true,
+    "primary": "#FF8F40",
+    "secondary": "#FF8F40",
+    "accent": "#FF7733",
+    "warning": "#FEB454",
+    "error": "#EF7177",
+    "success": "#405C1C",
+    "foreground": "#BDBDBD",
+    "background": "#000000",
+    "surface": "#000102",
+    "panel": "#0C0D10",
+    "variables": {
+      "border": "#666666",
+      "input-selection-background": "#1B4A6E",
+      "mode-normal-color": "#A9D94B",
+      "mode-insert-color": "#5AC1FE"
+    }
+  }
+}

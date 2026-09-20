@@ -87,9 +87,10 @@ sudo --user "$USER_NAME" yay -S --needed autoconf automake bat bind cmake \
     fortune-mod fzf gcc git-secret gnupg htop jq lua luacheck luarocks man \
     mercurial mmv moreutils multi-git-status myrepos nfs-utils nyancat \
     otf-ipafont pacman-contrib passt pkgfile playerctl podman-compose \
-    podman-docker python python-pip rbw sheldon sl sudo thefuck ttf-baekmuk \
-    ttf-dejavu ttf-indic-otf ttf-khmer ttf-nerd-fonts-symbols \
-    ttf-nerd-fonts-symbols-mono unzip uv vim wqy-microhei-lite zip
+    podman-docker python python-pip python-psycopg2 rbw sheldon sl sqlit sudo \
+    thefuck ttf-baekmuk ttf-dejavu ttf-indic-otf ttf-khmer \
+    ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono unzip uv vim \
+    wqy-microhei-lite zip
 
 case "$MACHINE" in
     'personal')

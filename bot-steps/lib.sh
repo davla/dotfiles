@@ -118,17 +118,18 @@ setup_package_managers() (
             install_aur_helper "$AUR_HELPER_USER"
             dotdrop install -p packages -U root
             sudo --user "$AUR_HELPER_USER" yay --sync --refresh --refresh
-            [ "$DISPLAY_SERVER" != 'headless' ] \
-                && sudo --user "$AUR_HELPER_USER" \
-                    yay --sync --needed flatpak
-            ;;
+            if [ "$DISPLAY_SERVER" != 'headless' ]; then
+                sudo --user "$AUR_HELPER_USER" yay --sync --needed flatpak
+            fi
+	    ;;
 
         'debian')
             print_info 'Setup apt'
             dotdrop install -p packages -U root
             sudo apt-get update
-            [ "$DISPLAY_SERVER" != 'headless' ] \
-                && sudo apt-get install --no-install-recommends flatpak
-            ;;
+            if [ "$DISPLAY_SERVER" != 'headless' ]; then
+                sudo apt-get install --no-install-recommends flatpak
+            fi
+	    ;;
     esac
 )

@@ -359,9 +359,6 @@ dotfiles:
   f_vimrc:
     src: config/vim/vimrc
     dst: '{{@@ xdg_config("vim/vimrc") @@}}'
-  f_vmware-user.service:
-    src: config/systemd/user/vmware-user.service
-    dst: '{{@@ xdg_config("systemd/user/vmware-user.service") @@}}'
   f_xdg-user-dirs.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/xdg-user-dirs.desktop") @@}}'

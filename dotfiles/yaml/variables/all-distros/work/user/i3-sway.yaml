@@ -5,6 +5,7 @@
 
 variables:
   browser: firefox
+  i3blocks_temperature_chip: acpitz-acpi-0
 
   messaging:
     cmd: com.slack.Slack

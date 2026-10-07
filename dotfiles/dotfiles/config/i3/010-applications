@@ -42,6 +42,7 @@ bindsym $mod+Tab exec $term
 bindsym $mod+Shift+Tab exec --no-startup-id \
     i3-msg '[$scratchpad_term_criterion] scratchpad show' \
         || $term --title scratchpad-terminal
+bindsym $mod+t exec org.mozilla.thunderbird
 bindsym $mod+u exec thunar
 bindsym $mod+p exec --no-startup-id \
     i3-msg '[$spotify_criterion] scratchpad show' || com.spotify.Client
@@ -53,7 +54,6 @@ bindsym ctrl+mod1+v exec {{@@ tui('clipcat-menu insert') @@}}
 
 {%@@ if env['MACHINE'] == 'personal' -@@%}
 
-bindsym $mod+t exec thunderbird
 bindsym $mod+o exec {{@@ browser @@}} https://calendar.google.com/calendar/r
 bindsym $mod+i exec {{@@ browser @@}} https://keep.google.com/#home
 
@@ -102,12 +102,10 @@ for_window [instance="{{@@ app.window_criterion @@}}"] \
 {{@@ scratchpad_application('$spotify_criterion',
     '$spotify_width', '$spotify_height') @@}}
 
-{%@@ if env['MACHINE'] != 'work' @@%}
 # Thunderbird
 assign [$thunderbird_criterion] $ws4
 for_window [$thunderbird_criterion title=".* Reminder"] floating enable, \
     move position 68 ppt 1 ppt
-{%@@ endif -@@%}
 
 # TUI
 for_window [class="$tui_marker"] floating enable, \

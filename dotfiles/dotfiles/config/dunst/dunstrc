@@ -309,14 +309,6 @@
     foreground = "{{@@ text_color @@}}"
     urgency = critical
 
-{%@@ if env['MACHINE'] == 'work' -@@%}
-
-[teams]
-    body = .*teams.microsoft.com.*
-    urgency = critical
-
-{%@@- endif @@%}
-
 [no_timeout]
     msg_urgency = critical
     override_dbus_timeout = 0

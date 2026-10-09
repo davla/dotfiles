@@ -67,6 +67,13 @@ find /etc/apt/sources.list.d/ -type f -name '*.sources' -print0 \
     | tr '[:upper:]' '[:lower:]' \
     | while read -r REPO; do
         case "$REPO" in
+            '1password')
+                download_key_from_url "$REPO" \
+                    'https://downloads.1password.com/linux/keys/1password.asc'
+                sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22
+                cp "$APT_KEY_DIR/$REPO.gpg" /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
+                ;;
+
             'docker')
                 download_key_from_url "$REPO" \
                     'https://download.docker.com/linux/debian/gpg'

@@ -32,6 +32,9 @@ dotfiles:
     dst: /usr/local/share/dpkg
     actions:
     - recursive-exec-permissions '{{@@ _dotfile_abs_dst @@}}'
+  f_1password.sources:
+    src: etc/apt/sources.list.d/1password.sources
+    dst: /etc/apt/sources.list.d/1password.sources
   f_apt.conf.d_dpkg-hooks:
     src: etc/apt/apt.conf.d/70dpkg-hooks
     dst: /etc/apt/apt.conf.d/70dpkg-hooks
@@ -44,6 +47,9 @@ dotfiles:
   f_debian-unstable.sources:
     src: etc/apt/sources.list.d/debian-official-extra.sources
     dst: /etc/apt/sources.list.d/debian-unstable.sources
+  f_debsig_1password.pol:
+    src: etc/debsig/policies/AC2D62742012EA22/1password.pol
+    dst: /etc/debsig/policies/AC2D62742012EA22/1password.pol
   f_docker.sources:
     src: etc/apt/sources.list.d/docker.sources
     dst: /etc/apt/sources.list.d/docker.sources

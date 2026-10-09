@@ -55,6 +55,11 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
             apt-get install --no-install-recommends blueman dropbox gufw \
                 remmina system-config-printer
                 ;;
+
+        'work')
+            print_info "Install GUI packages for $MACHINE"
+            apt-get install --no-install-recommends 1password
+                ;;
     esac
 
     # This doesn't work if this script is sourced
@@ -97,7 +102,7 @@ case "$MACHINE" in
 
     'work')
         print_info "Install CLI packages for $MACHINE"
-        apt-get install --no-install-recommends amd64-microcode \
+        apt-get install --no-install-recommends 1password-cli amd64-microcode \
             docker-compose-plugin gradle
         ;;
 esac

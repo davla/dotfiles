@@ -53,4 +53,23 @@ ensure-gh-logged-in
 
 print_info 'Install gh-release'
 dotdrop -U root install -p gh-release
-sudo gh-release install
+gh-release install
+
+########################################
+# Miscellanea manual installation
+########################################
+
+if [ "$MACHINE" = 'work' ] && ! sudo which sentinelctl > /dev/null; then
+    echo 'Download the SentinelOne .deb installer at https://sites.google.com/visma.com/sentineloneonboarding/install/linux'
+    printf 'Enter the path to the SentinelOne .deb installer: '
+    read -r SENTINEL_ONE_DEB
+
+    dpkg --install "$SENTINEL_ONE_DEB"
+    ln --symbolic --force /opt/sentinelone/bin/sentinelctl /usr/local/bin/sentinelctl
+    sentinelctl management type set desktop
+
+    printf 'Enter SentinelOne token from Notion (https://app.notion.com/p/penneo/SentinelOne-1e6f494fa41580c59ef5f1776ff58008#1e6f494fa41580aab08cdc76c5fff3f6): '
+    read -r SENTINEL_ONE_TOKEN
+    sentinelctl management token set "$SENTINEL_ONE_TOKEN"
+    sentinelctl control start
+fi

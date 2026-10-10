@@ -1,0 +1,9 @@
+# Pritunl
+#
+# {{@@ header() @@}}
+
+Types: deb
+Uris: https://repo.pritunl.com/stable/apt
+Suites: trixie
+Components: main
+{%@@ include 'etc/apt/sources.list.d/signed-by' @@%}

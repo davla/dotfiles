@@ -62,6 +62,9 @@ dotfiles:
   f_nordvpn.sources:
     src: etc/apt/sources.list.d/nordvpn.sources
     dst: /etc/apt/sources.list.d/nordvpn.sources
+  f_pritunl.sources:
+    src: etc/apt/sources.list.d/pritunl.sources
+    dst: /etc/apt/sources.list.d/pritunl.sources
 
 dynvariables:
   # This variable is used to differentiate between user and root configuration
@@ -99,6 +102,7 @@ profiles:
   packages:
     dotfiles:
     - d_dpkg_hooks
+    - d_local_lib_sh
     - f_apt.conf.d_dpkg-hooks
     - f_firefox.sources
     - f_debian-stable.sources

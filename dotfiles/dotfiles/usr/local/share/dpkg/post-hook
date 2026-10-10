@@ -17,6 +17,12 @@ logging_set_level 'info'
 logging_set_journald 'off'
 logging_set_tag 'on'
 
+########################################
+# Imports
+########################################
+
+. "{{@@ completion_install_path @@}}"
+
 #######################################
 # Functions
 #######################################
@@ -68,6 +74,13 @@ case "$(apt_operation "$APT_PID")" in
                     log_info 'Alias "docker-compose" as "podman-compose"'
                     which podman-compose | xargs -I '{}' ln --symbolic \
                         --force '{}' /usr/local/bin/docker-compose
+                    ;;
+
+                *pritunl-client*)
+                    pritunl-client completion bash \
+                        | install_bash_completion 'pritunl-client'
+                    pritunl-client completion zsh \
+                        | install_zsh_completion 'pritunl-client'
                     ;;
 
                 *rustup*)

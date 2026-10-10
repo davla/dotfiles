@@ -6,17 +6,11 @@
 # {{@@ header() @@}}
 
 #######################################
-# Libraries includes
+# Imports
 #######################################
 
 . "{{@@ logger_path @@}}"
-
-########################################
-# Variables
-########################################
-
-BASH_COMPLETIONS_DIR='/usr/local/share/bash-completion/completions'
-ZSH_COMPLETIONS_DIR='/usr/local/share/zsh/site-functions'
+. "{{@@ completion_install_path @@}}"
 
 ########################################
 # Functions
@@ -127,36 +121,4 @@ install_github_release_deb() (
 
     log_debug "Install $PACKAGE_NAME..."
     dpkg --install "$TMP_DEB" | log_debug
-)
-
-# This function installs a bash completion file received via STDIN.
-#
-# Inputs:
-#   - STDIN: The content of the bash completion.
-#   - $1: The name for the completion file. If it's a path, only the base name
-#         is used.
-install_bash_completion() (
-    COMPLETION_FILE="$(basename "$1")"
-
-    log_info "Install bash completion for $COMPLETION_FILE"
-    mkdir --parents "$BASH_COMPLETIONS_DIR"
-    COMPLETION_PATH="$BASH_COMPLETIONS_DIR/$COMPLETION_FILE"
-    log_debug "Write bash completion at $COMPLETION_PATH"
-    cat > "$COMPLETION_PATH"
-)
-
-# This function installs a zsh completion file received via STDIN.
-#
-# Inputs:
-#   - STDIN: The content of the zsh completion.
-#   - $1: The name for the completion file. If it's a path, only the base name
-#         is used. An '_' prefix is added if not already present.
-install_zsh_completion() (
-    COMPLETION_FILE="$(basename "$1")"
-
-    log_info "Install zsh completion for $COMPLETION_FILE"
-    mkdir --parents "$ZSH_COMPLETIONS_DIR"
-    COMPLETION_PATH="$ZSH_COMPLETIONS_DIR/_${COMPLETION_FILE##_}"
-    log_debug "Write zsh completion at $COMPLETION_PATH"
-    cat > "$COMPLETION_PATH"
 )

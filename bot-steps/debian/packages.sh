@@ -103,7 +103,7 @@ case "$MACHINE" in
     'work')
         print_info "Install CLI packages for $MACHINE"
         apt-get install --no-install-recommends 1password-cli amd64-microcode \
-            docker-compose-plugin gradle
+            docker-compose-plugin gradle pritunl-client wireguard
         ;;
 esac
 
@@ -165,6 +165,14 @@ if [ "$MACHINE" = 'work' ]; then
                 "$DOCKER_CONFIG"
         }
     '
+
+    pritunl-client list --json \
+            | jq --exit-status '. | length == 0' > /dev/null && {
+        print_info 'Add Pritunl profile'
+        print 'Enter Pritunl profile URL. You can find it in Okta... '
+        read -r PRITUNL_PROFILE_URL
+        sudo --user "$USER_NAME" pritunl-client add "$PRITUNL_PROFILE_URL"
+    }
 fi
 
 # NordVPN

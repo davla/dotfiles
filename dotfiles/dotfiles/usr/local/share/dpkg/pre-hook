@@ -17,6 +17,12 @@ logging_set_level 'info'
 logging_set_journald 'off'
 logging_set_tag 'on'
 
+########################################
+# Imports
+########################################
+
+. "{{@@ completion_install_path @@}}"
+
 #######################################
 # Functions
 #######################################
@@ -64,6 +70,11 @@ case "$(apt_operation "$APT_PID")" in
                 *podman-compose*)
                     log_info 'Remove "docker-compose" alias as "podman-compose"'
                     rm --force /usr/local/bin/docker-compose
+                    ;;
+
+                *pritunl-client*)
+                    remove_bash_completion 'pritunl-client'
+                    remove_zsh_completion 'pritunl-client'
                     ;;
 
                 *rustup*)

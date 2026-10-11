@@ -67,3 +67,7 @@ variables:
   pywikibot_path: pywikibot
   wiki_modules_path: modules
   wiki_util_path: util
+
+  # Work machine workspace paths
+  work_code_root: '{{@@ code_root @@}}/work'
+  personal_code_root: '{{@@ code_root @@}}/personal'

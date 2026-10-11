@@ -11,8 +11,14 @@
 # cd
 ########################################
 
-export CDPATH="{{@@ ['.', code_root, cd_path ] | select('defined')
-    | map('tilde2home') | join(':') @@}}"
+export CDPATH="{{@@
+    (
+        ['.', cd_path] +
+            [work_code_root, personal_code_root]
+            if env['MACHINE'] == 'work'
+            else [code_root]
+    ) | select('defined') | map('tilde2home') | join(':')
+@@}}"
 
 ########################################
 # grep

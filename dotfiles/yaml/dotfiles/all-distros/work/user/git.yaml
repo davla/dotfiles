@@ -4,4 +4,7 @@
 # only on my work machine for unprivileged users.
 
 dotfiles:
+- f_git_allowed-signers
+- f_git_config-personal
+- f_git_config-work
 - f_ssh_config

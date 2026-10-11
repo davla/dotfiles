@@ -113,6 +113,15 @@ dotfiles:
   d_git:
     src: config/git
     dst: '{{@@ xdg_config("git") @@}}'
+    cmpignore:
+    - 'allowed-signers'
+    - 'config-*'
+    instignore:
+    - 'allowed-signers'
+    - 'config-*'
+    upignore:
+    - 'allowed-signers'
+    - 'config-*'
   d_i3:
     src: config/i3
     dst: '{{@@ xdg_config("i3") @@}}'
@@ -238,6 +247,16 @@ dotfiles:
   f_ghci:
     src: config/ghci
     dst: '{{@@ xdg_config(".ghci") @@}}'
+  f_git_allowed-signers:
+    src: config/git/allowed-signers
+    # Dynamic dst as it's used in dotfiles content
+    dst: '{{@@ git_allowed_signers_path @@}}'
+  f_git_config-personal:
+    src: config/git/config-personal
+    dst: '{{@@ xdg_config("git/config-personal") @@}}'
+  f_git_config-work:
+    src: config/git/config-work
+    dst: '{{@@ xdg_config("git/config-work") @@}}'
   f_gnome-keyring-pkcs11.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/gnome-keyring-pkcs11.desktop") @@}}'

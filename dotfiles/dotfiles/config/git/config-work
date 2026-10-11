@@ -1,0 +1,16 @@
+# Work-ony git configuration file.
+#
+# {{@@ header() @@}}
+
+[alias]
+    pr = !gh pr create --web
+
+[gpg]
+    format = ssh
+
+[gpg "ssh"]
+    allowedSignersFile = {{@@ git_allowed_signers_path @@}}
+    program = "/opt/1Password/op-ssh-sign"
+
+[user]
+    signingkey = {{@@ git_signing_key @@}}

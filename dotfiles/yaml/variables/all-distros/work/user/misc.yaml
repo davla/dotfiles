@@ -1,0 +1,8 @@
+%YAML 1.2
+---
+# This variables file defines some miscellaneous variables for unprivileged
+# users, only used on my work machine
+
+variables:
+  git_allowed_signers_path: '{{@@ xdg_config("git/allowed-signers") @@}}'
+  git_signing_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF5pAlqepU3/leh0yvQG+hWgt1k/5KlCTYYqxj83bB3u

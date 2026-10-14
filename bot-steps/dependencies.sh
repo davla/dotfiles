@@ -28,12 +28,36 @@ BITWARDEN_PGP_ENTRY='PGP key'
 DOTDROP_DIR="$1"
 
 ########################################
+# Configure sudo
+########################################
+
+which sudo > /dev/null 2>&1 || {
+    print_info 'Install sudo'
+    case "$DISTRO" in
+        'arch')
+            su --command 'pacman --synchronize --needed --refresh sudo'
+            ;;
+
+        'debian')
+            su --command 'apt-get update \
+                && apt-get --no-install-recommends install sudo'
+            ;;
+    esac
+}
+
+groups "$USER" | grep --quiet 'sudo' || {
+    print_info "Configure sudo for $USER"
+    su --command "/sbin/usermod --append --groups 'sudo' '$USER'"
+    prompted_logout "Logout necessary to allow sudo for $USER"
+}
+
+########################################
 # Install repository packages
 ########################################
 
 case "$DISTRO" in
     'arch')
-        su --command 'pacman -S --needed --refresh gnupg nix rbw sudo'
+        sudo pacman --synchronize --needed --refresh gnupg nix rbw
         ;;
 
     'debian')
@@ -41,11 +65,11 @@ case "$DISTRO" in
         # /usr/local/bin in order to use the binaries installed later. That is
         # part of the provisioning, which we can't run it without such binaries
         # available to sudo. Talk about chicken and egg...
-        su --command "apt-get update \
-            && apt-get install --no-install-recommends git-secret gnupg nix \
-                rbw sudo \
-            && cp $PARENT_DIR/../dotfiles/dotfiles/$SUDO_SECURE_PATH \
-                $SUDO_SECURE_PATH"
+        sudo apt-get update \
+            && sudo apt-get install --no-install-recommends git-secret gnupg nix \
+                rbw \
+            && sudo cp "$PARENT_DIR/../dotfiles/dotfiles/$SUDO_SECURE_PATH" \
+                "$SUDO_SECURE_PATH"
         ;;
 esac
 
@@ -53,9 +77,9 @@ esac
 # User groups
 ########################################
 
-groups "$USER" | grep --perl-regexp --quiet '(?=.*nix-users)(?=.*sudo)' || {
-    print_info 'Allow sudo and non-root nix'
-    su --command "/sbin/usermod --append --groups 'nix-users,sudo' '$USER'"
+groups "$USER" | grep 'nix-users' || {
+    print_info 'Allow non-root nix'
+    sudo /sbin/usermod --append --groups 'nix-users' "$USER"
     prompted_logout 'Logout necessary to apply new groups'
 }
 
@@ -67,7 +91,7 @@ which uv > /dev/null 2>&1 || {
     print_info 'Install uv'
     case "$DISTRO" in
         'arch')
-            sudo pacman -S --needed --refresh uv
+            sudo pacman --synchronize --needed --refresh uv
             ;;
 
         'debian')

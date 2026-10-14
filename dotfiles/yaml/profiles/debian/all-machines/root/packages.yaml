@@ -38,6 +38,9 @@ dotfiles:
   f_apt.conf.d_dpkg-hooks:
     src: etc/apt/apt.conf.d/70dpkg-hooks
     dst: /etc/apt/apt.conf.d/70dpkg-hooks
+  f_claude-code.sources:
+    src: etc/apt/sources.list.d/claude-code.sources
+    dst: /etc/apt/sources.list.d/claude-code.sources
   f_debian-stable.sources:
     src: etc/apt/sources.list.d/debian-stable.sources
     dst: /etc/apt/sources.list.d/debian-stable.sources

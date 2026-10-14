@@ -1,0 +1,17 @@
+{
+  "enabledPlugins": {
+    "caveman@caveman": true
+  },
+  "env": {
+    "CAVEMAN_DEFAULT_MODE": "ultracave"
+  },
+  "extraKnownMarketplaces": {
+    "caveman": {
+      "source": {
+        "source": "github",
+        "repo": "JuliusBrussee/caveman"
+      }
+    }
+  },
+  "theme": "dark"
+}

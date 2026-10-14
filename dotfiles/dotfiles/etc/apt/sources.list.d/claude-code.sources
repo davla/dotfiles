@@ -1,0 +1,9 @@
+# Claude code
+#
+# {{@@ header() @@}}
+
+Types: deb
+Uris: https://downloads.claude.ai/claude-code/apt/stable
+Suites: stable
+Components: main
+{%@@ include 'etc/apt/sources.list.d/signed-by' @@%}

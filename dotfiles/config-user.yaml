@@ -6,6 +6,14 @@ actions:
   post:
     bat-theme: bat cache --build
 
+    # This action installs the Claude Code plugins listed in Claude's own
+    # configuration file
+    claude-plugins: >-
+      jq --raw-output '.enabledPlugins | to_entries[] | select(.value) | .key'
+      '{0}/settings.json' | xargs claude plugin install
+
+    # This action downloads a file to the given path, creating missing parent
+    # directories in the process
     download: |
       dirname '{1}' | xargs mkdir --parents
       wget --quiet --output-document '{1}' '{0}'
@@ -19,8 +27,8 @@ actions:
     # can be found here:
     # https://gitlab.gnome.org/GNOME/glib/-/blob/main/gio/gdesktopappinfo.c#L2694
     glib-terminal: |
-        which {{@@ terminal @@}} | xargs -I '@' sudo ln --force --symbolic \
-            '@' /usr/local/bin/nxterm
+      which {{@@ terminal @@}} | xargs -I '@' sudo ln --force --symbolic \
+          '@' /usr/local/bin/nxterm
 
     # This action applies gtk settings via gsettings. The settings are stored
     # in binary format, so no dotfile management is possible. The input file is
@@ -107,6 +115,11 @@ dotfiles:
   d_desktop-directories:
     src: local/share/desktop-directories
     dst: '{{@@ xdg_data("desktop-directories") @@}}'
+  d_claude:
+    src: config/claude
+    dst: '{{@@ xdg_config("claude") @@}}'
+    actions:
+    - claude-plugins '{{@@ _dotfile_abs_dst @@}}'
   d_clipcat:
     src: config/clipcat
     dst: '{{@@ xdg_config("clipcat") @@}}'

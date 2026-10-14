@@ -243,6 +243,7 @@ dotfiles/dotfiles/usr/local/etc/frequent-hosts.work
 dotfiles/yaml/**/emails.yaml
 dotfiles/yaml/**/private.yaml
 dotfiles/yaml/variables/all-distros/raspberry/all-users/notify-commuter-card-renewal.yaml
+dotfiles/yaml/variables/all-distros/work/root/repos.yaml
 dotfiles/yaml/variables/all-distros/work/user/repos.yaml
 
 # Unignoring previously ignored files

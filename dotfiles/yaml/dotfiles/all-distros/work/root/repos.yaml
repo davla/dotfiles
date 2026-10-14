@@ -1,0 +1,10 @@
+%YAML 1.2
+---
+# This dotfiles file lists the dotfiles to be added to the "repos" profile
+# only on my work machine for root.
+
+dotfiles:
+- d_NetworkManager_system-connections
+- f_dnsmasq.conf
+- f_systemd_dnsmasq_override
+- f_systemd_penneo.dns_delegate

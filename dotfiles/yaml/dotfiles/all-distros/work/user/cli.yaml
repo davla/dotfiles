@@ -4,4 +4,6 @@
 # only on my work machine for unprivileged users.
 
 dotfiles:
+- d_caveman
+- d_claude
 - f_containers_auth.json

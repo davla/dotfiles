@@ -103,7 +103,7 @@ case "$MACHINE" in
     'work')
         print_info "Install CLI packages for $MACHINE"
         apt-get install --no-install-recommends 1password-cli amd64-microcode \
-            docker-compose-plugin gradle pritunl-client wireguard
+            docker-compose-plugin gradle mkcert pritunl-client wireguard
         ;;
 esac
 

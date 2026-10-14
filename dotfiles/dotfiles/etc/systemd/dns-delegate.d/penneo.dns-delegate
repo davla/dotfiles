@@ -1,0 +1,5 @@
+# systemd-resolved delegate file for my work's local development setup
+
+[Delegate]
+DNS={{@@ dnsmasq_addr @@}}
+Domains={{@@ local_penneo_domains | join(' ') @@}}

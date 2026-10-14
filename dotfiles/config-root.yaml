@@ -176,6 +176,9 @@ config:
   workdir: ~/.config/dotdrop
 
 dotfiles:
+  d_dnsmasq.d:
+    src: etc/dnsmasq.d
+    dst: /etc/dnsmasq.d
   d_i3blocks_keyindicator2:
     src: usr/local/src/i3blocks/keyindicator2
     dst: /usr/local/src/i3blocks/keyindicator2
@@ -208,6 +211,9 @@ dotfiles:
     src: usr/local/share/mr
     # Dynamic path since it's used somewhere else too
     dst: '{{@@ mr_libs_path @@}}'
+  d_NetworkManager_system-connections:
+    src: etc/NetworkManager/system-connections
+    dst: /etc/NetworkManager/system-connections
   f_80i3blocks:
     src: etc/apt/apt.conf.d/80i3blocks
     dst: /etc/apt/apt.conf.d/80i3blocks
@@ -391,9 +397,15 @@ dotfiles:
   f_sudo_secure-path:
     src: etc/sudoers.d/secure-path
     dst: /etc/sudoers.d/secure-path
+  f_systemd_dnsmasq_override:
+    src: etc/systemd/system/dnsmasq.service.d/override.conf
+    dst: /etc/systemd/system/dnsmasq.service.d/override.conf
   f_systemd_getty:
     src: etc/systemd/system/getty@tty1.service.d/override.conf
     dst: /etc/systemd/system/getty@tty1.service.d/override.conf
+  f_systemd_penneo.dns_delegate:
+    src: etc/systemd/dns-delegate.d/penneo.dns-delegate
+    dst: /etc/systemd/dns-delegate.d/penneo.dns-delegate
   f_udev_999-hid.rules:
     src: etc/udev/rules.d/999-hid.rules
     dst: /etc/udev/rules.d/999-hid.rules
@@ -566,6 +578,8 @@ profiles:
   repos:
     dotfiles:
     - d_myrepos-lib
+    import:
+    - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/repos.yaml:optional
 
   # This profile collects system startup jobs and configuration dotfiles
   startup:

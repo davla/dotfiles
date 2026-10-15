@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+# docker command shim to reroute Docker CLI plugins manually, bypassing podman
+#
+# {{@@ header() @@}}
+
+DOCKER_SUBCMD="$1"
+shift
+
+case "$DOCKER_SUBCMD" in
+    'buildx'|'compose')
+        exec /usr/libexec/docker/cli-plugins/docker-$DOCKER_SUBCMD "$@"
+        ;;
+
+    *)
+        exec {{@@ non_local_on_path('docker') @@}} "$DOCKER_SUBCMD" "$@"
+        ;;
+esac

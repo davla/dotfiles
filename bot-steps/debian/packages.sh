@@ -103,8 +103,8 @@ case "$MACHINE" in
     'work')
         print_info "Install CLI packages for $MACHINE"
         apt-get install --no-install-recommends 1password-cli amd64-microcode \
-            claude-code docker-compose-plugin gradle mkcert nodejs \
-            pritunl-client wireguard
+            catatonit claude-code docker-buildx-plugin docker-compose-plugin \
+            gradle mkcert nodejs pritunl-client qemu-user-binfmt wireguard
         ;;
 esac
 
@@ -151,7 +151,7 @@ id "$USER_NAME" \
 podman system migrate
 
 if [ "$MACHINE" = 'work' ]; then
-    print_info "Make docker-compose use $USER_NAME's rootless podman"
+    print_info "Make docker CLI plugins use $USER_NAME's rootless podman"
     systemctl --machine "$USER_NAME@" --user enable --now podman.socket
     sudo --user "$USER_NAME" sh -c '
         podman info --format "{{.Host.RemoteSocket.Path}}" \
@@ -164,6 +164,16 @@ if [ "$MACHINE" = 'work' ]; then
             dirname "$DOCKER_CONFIG" | xargs mkdir --parents
             ln --symbolic --force "$HOME/.config/containers/auth.json" \
                 "$DOCKER_CONFIG"
+        }
+    '
+
+    print_info 'Setup Docker BuildKit container driver'
+    # 'docker builx' is rerouted to the docker-builx CLI plugin by my custom
+    # shim, which should already be available at this point.
+    sudo --user "$USER_NAME" sh -c '
+        docker buildx inspect podman > /dev/null 2>&1 || {
+            docker buildx create --name podman --driver docker-container --use
+            docker buildx inspect --bootstrap
         }
     '
 

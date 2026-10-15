@@ -8,5 +8,5 @@
 #
 # {{@@ header() @@}}
 
-exec {{@@ second_on_path('wget') @@}} \
+exec {{@@ non_local_on_path('wget') @@}} \
     --hsts-file="${XDG_DATA_HOME:-$HOME/.local/share}/wget-hsts" "$@"

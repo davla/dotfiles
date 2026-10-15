@@ -16,6 +16,7 @@ from python.lib import expand_xdg as xdg
 from xdg_base_dirs import xdg_data_dirs
 
 VENV_DIR = ".venv"
+LOCAL_DIR = "/usr/local"
 
 FLATPAK_APP_DATA = Path.home() / ".var/app"
 
@@ -68,26 +69,23 @@ def join_file_lines(
     )
 
 
-def second_on_path(executable: str) -> str:
-    f"""Return the second PATH match of executable, or the first if there is one match
+def non_local_on_path(executable: str) -> str:
+    """Lookup executable on PATH, excluding local and venv directories.
 
-    Python virtual environments are ignored if they are in a {VENV_DIR} directory.
     The PATH entries are computed each time to account for changes in PATH.
 
     :param executable: The executable to find on PATH.
     :return: The second PATH match of `executable`, or the first if there is one match.
     """
-    path_matches = (
-        path_exec
-        for path_dir in os.environ["PATH"].split(os.pathsep)
-        if VENV_DIR not in path_dir
-        and os.access(path_exec := os.path.join(path_dir, executable), os.X_OK)
-    )
     try:
-        # The last match is the second, unless the there is only one match. In fact,
-        # islice returns the whole generator if it's too short
-        return list(islice(path_matches, 2))[-1]
-    except IndexError:
+        return next(
+            path_exec
+            for path_dir in os.environ["PATH"].split(os.pathsep)
+            if VENV_DIR not in path_dir
+            and not path_dir.startswith(LOCAL_DIR)
+            and os.access(path_exec := os.path.join(path_dir, executable), os.X_OK)
+        )
+    except StopIteration:
         raise ValueError(executable + " was not found on PATH.")
 
 

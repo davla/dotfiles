@@ -77,13 +77,9 @@ dotfiles:
     src: usr/local/bin/default-ws-layout
     dst: /usr/local/bin/default-ws-layout
     chmod: 755
-  f_local_bin_docker-compose:
-    src: usr/local/bin/docker-plugin
-    dst: /usr/local/bin/docker-compose
-    chmod: 755
-  f_local_bin_docker-machine:
-    src: usr/local/bin/docker-plugin
-    dst: /usr/local/bin/docker-machine
+  f_local_bin_docker:
+    src: usr/local/bin/docker
+    dst: /usr/local/bin/docker
     chmod: 755
   f_local_bin_dotdrop:
     src: usr/local/bin/dotdrop

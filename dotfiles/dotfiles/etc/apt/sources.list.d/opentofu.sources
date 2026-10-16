@@ -1,0 +1,10 @@
+# OpenTofu
+#
+# {{@@ header() @@}}
+
+Types: deb deb-src
+Uris: https://packages.opentofu.org/opentofu/tofu/any/
+Suites: any
+Components: main
+Signed-By: {{@@ [filename(_dotfile_abs_src) + '.gpg', 'opentofu-repo.gpg']
+    | map('format_by', apt_keys_dir + '/%s') | join(' ') @@}}

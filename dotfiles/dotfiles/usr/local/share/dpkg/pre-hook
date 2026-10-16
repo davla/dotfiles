@@ -58,13 +58,39 @@ case "$(apt_operation "$APT_PID")" in
                     rm_alternative 'batcat' 'bat'
                     ;;
 
+                *crane*)
+                    remove_bash_completion 'crane'
+                    remove_zsh_completion 'crane'
+                    ;;
+
                 *docker-compose-plugin*)
                     log_info 'Disable podman daemon socket'
                     systemctl disable podman.socket
                     ;;
 
+                *dotnet*)
+                    remove_bash_completion 'dotnet'
+                    remove_zsh_completion 'dotnet'
+                    ;;
+
                 *firefox-beta*)
                     rm_alternative 'firefox-beta' 'firefox'
+                    ;;
+
+                *helm*)
+                    remove_bash_completion 'helm'
+                    remove_zsh_completion 'helm'
+                    ;;
+
+                *kind*)
+                    remove_bash_completion 'kind'
+                    remove_zsh_completion 'kind'
+                    ;;
+
+                *kubectl*)
+                    # Handle only zsh, as bash completion is properly setup
+                    # via apt
+                    remove_zsh_completion 'kubectl'
                     ;;
 
                 *podman-compose*)
@@ -80,6 +106,11 @@ case "$(apt_operation "$APT_PID")" in
                 *rustup*)
                     log_info 'Remove all rust toolchains'
                     rm --force --recursive '{{@@ rustup_home @@}}'
+                    ;;
+
+                *tofu*)
+                    remove_bash_completion 'tofu'
+                    remove_zsh_completion 'tofu'
                     ;;
             esac
         done

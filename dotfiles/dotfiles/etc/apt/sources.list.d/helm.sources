@@ -1,0 +1,10 @@
+# Helm
+#
+# {{@@ header() @@}}
+
+
+Types: deb
+Uris: https://packages.buildkite.com/helm-linux/helm-debian/any/
+Suites: any
+Components: main
+{%@@ include 'etc/apt/sources.list.d/signed-by' @@%}

@@ -61,13 +61,40 @@ case "$(apt_operation "$APT_PID")" in
                     set_alternative 'batcat' 'bat'
                     ;;
 
+                *crane*)
+                    crane completion bash | install_bash_completion 'crane'
+                    crane completion zsh | install_zsh_completion 'crane'
+                    ;;
+
                 *docker-compose-plugin*)
                     log_info 'Enable podman daemon socket'
                     systemctl enable podman.socket
                     ;;
 
+                *dotnet*)
+                    log_info 'Install dotnet shell completions via dotdrop'
+                    dotdrop install -p completions \
+                        f_dotnet_bash_completion f_dotnet_zsh_completion
+                    ;;
+
                 *firefox-beta*)
                     set_alternative 'firefox-beta' 'firefox'
+                    ;;
+
+                *helm*)
+                    helm completion bash | install_bash_completion 'helm'
+                    helm completion zsh | install_zsh_completion 'helm'
+                    ;;
+
+                *kind*)
+                    kind completion bash | install_bash_completion 'kind'
+                    kind completion zsh | install_zsh_completion 'kind'
+                    ;;
+
+                *kubectl*)
+                    # Handle only zsh, as bash completion is properly setup
+                    # via apt
+                    kubectl completion zsh | install_zsh_completion 'kubectl'
                     ;;
 
                 *podman-compose*)
@@ -91,6 +118,12 @@ case "$(apt_operation "$APT_PID")" in
                     # rust-src is used by static analyzers
                     env RUSTUP_HOME='{{@@ rustup_home @@}}' \
                         rustup toolchain install stable --component rust-src
+                    ;;
+
+                *tofu*)
+                    log_info 'Install tofu shell completions via dotdrop'
+                    dotdrop install -p completions \
+                        f_tofu_bash_completion f_tofu_zsh_completion
                     ;;
             esac
         done

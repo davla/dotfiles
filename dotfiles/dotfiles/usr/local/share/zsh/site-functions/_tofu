@@ -1,0 +1,16 @@
+#compdef tofu
+
+compdef _tofu tofu
+
+_tofu() {
+    local line="$words[1,CURRENT]"
+    local -a completions
+    # The tofu executable prints completions if executed with COMP_LINE in its
+    # environment
+    completions=(${(f)"$(COMP_LINE="$line" COMP_POINT=${#line} tofu)"})
+    compadd  -- "$completions[@]"
+}
+
+if [ "$funcstack[1]" = "_tofu" ]; then
+    _tofu "$@"
+fi

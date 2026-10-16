@@ -44,11 +44,12 @@ download_key_from_keyserver() (
 #   - $2: The URL of the GPG key to download.
 download_key_from_url() (
     REPO_NAME="$1"
-    REPO_KEY_URL="$2"
+    KEY_URL="$2"
+    KEY_FILE_NAME="${3:-$REPO_NAME.gpg}"
 
     print_info "Installing apt repository key for $REPO_NAME"
-    wget "$REPO_KEY_URL" --output-document - | gpg --dearmor --yes \
-        -o "$APT_KEY_DIR/$REPO_NAME.gpg"
+    wget "$KEY_URL" --output-document - | gpg --dearmor --yes \
+        --output "$APT_KEY_DIR/$KEY_FILE_NAME"
 )
 
 #######################################
@@ -92,6 +93,20 @@ find /etc/apt/sources.list.d/ -type f -name '*.sources' -print0 \
             'firefox')
                 download_key_from_url "$REPO" \
                     'https://packages.mozilla.org/apt/repo-signing-key.gpg'
+                ;;
+
+            'helm')
+                print_info "Installing apt repository key for $REPO"
+                wget 'https://packages.buildkite.com/helm-linux/helm-debian/gpgkey' \
+                    --output-document "$APT_KEY_DIR/$REPO.gpg"
+                 ;;
+
+            'opentofu')
+                download_key_from_url "$REPO" \
+                    'https://get.opentofu.org/opentofu.gpg'
+                download_key_from_url "$REPO" \
+                    'https://packages.opentofu.org/opentofu/tofu/gpgkey' \
+                    opentofu-repo.gpg
                 ;;
 
             'nordvpn')

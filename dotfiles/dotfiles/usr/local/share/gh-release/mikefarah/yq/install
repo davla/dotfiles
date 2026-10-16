@@ -1,0 +1,41 @@
+#!/usr/bin/env sh
+
+# This script installs mikefarah/yq to a system location. It is meant to be
+# used via the gh-release command.
+#
+# Arguments:
+#   - $1: The GitHub repository name the software is installed from
+#   - $2: The GitHub release tag containing the artifacts to install
+#
+# {{@@ header() @@}}
+
+set -e
+
+#######################################
+# Libraries includes
+#######################################
+
+. "{{@@ gh_release_path @@}}"
+
+########################################
+# Variables
+########################################
+
+EXEC_PATH='/usr/local/bin/yq'
+
+########################################
+# Input processing
+########################################
+
+GITHUB_REPO="$1"
+RELEASE_TAG="$2"
+
+########################################
+# Main
+########################################
+
+RELEASE_ASSET_NAME="yq_linux_$(cpu_arch 'amd64')"
+log_debug 'Download and install yq...'
+gh --repo "$GITHUB_REPO" release download "$RELEASE_TAG" \
+    --pattern "$RELEASE_ASSET_NAME" --output "$EXEC_PATH"
+chmod +x "$EXEC_PATH"

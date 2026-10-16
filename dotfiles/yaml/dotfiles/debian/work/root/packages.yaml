@@ -4,9 +4,10 @@
 # "packages" profile on Debian only on my work machine
 
 dotfiles:
-- f_debsig_1password.pol
 - f_1password.sources
 - f_claude-code.sources
+- f_debsig_1password.pol
 - f_flatpak_remotes_flathub
+- f_helm.sources
 - f_pritunl.sources
 - f_profile.d_flatpak-bin-path.sh

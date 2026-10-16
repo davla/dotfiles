@@ -62,6 +62,9 @@ dotfiles:
   f_firefox.sources:
     src: etc/apt/sources.list.d/firefox.sources
     dst: /etc/apt/sources.list.d/firefox.sources
+  f_helm.sources:
+    src: etc/apt/sources.list.d/helm.sources
+    dst: /etc/apt/sources.list.d/helm.sources
   f_nordvpn.sources:
     src: etc/apt/sources.list.d/nordvpn.sources
     dst: /etc/apt/sources.list.d/nordvpn.sources

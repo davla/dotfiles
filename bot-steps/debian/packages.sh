@@ -103,8 +103,9 @@ case "$MACHINE" in
     'work')
         print_info "Install CLI packages for $MACHINE"
         apt-get install --no-install-recommends 1password-cli amd64-microcode \
-            catatonit claude-code docker-buildx-plugin docker-compose-plugin \
-            gradle mkcert nodejs pritunl-client qemu-user-binfmt wireguard
+            bats bats-assert bats-files catatonit claude-code \
+            docker-buildx-plugin docker-compose-plugin gradle helm kubectl \
+            mkcert nodejs pritunl-client qemu-user-binfmt wireguard
         ;;
 esac
 

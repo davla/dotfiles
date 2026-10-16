@@ -94,6 +94,12 @@ find /etc/apt/sources.list.d/ -type f -name '*.sources' -print0 \
                     'https://packages.mozilla.org/apt/repo-signing-key.gpg'
                 ;;
 
+            'helm')
+                print_info "Installing apt repository key for $REPO"
+                wget 'https://packages.buildkite.com/helm-linux/helm-debian/gpgkey' \
+                    --output-document "$APT_KEY_DIR/$REPO.gpg"
+                 ;;
+
             'nordvpn')
                 download_key_from_url "$REPO" \
                     'https://repo.nordvpn.com/gpg/nordvpn_public.asc'

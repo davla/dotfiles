@@ -44,9 +44,8 @@ esac
 
 if [ "$DISPLAY_SERVER" != 'headless' ]; then
     print_info 'Install GUI packages shared across all machines'
-    apt-get install --no-install-recommends alacritty code-insiders \
-        firefox-beta flatpak gdebi gnome-disk-utility hardinfo peek synaptic \
-        xfce4-screenshooter
+    apt-get install --no-install-recommends alacritty firefox-beta flatpak \
+        gdebi gnome-disk-utility hardinfo peek synaptic xfce4-screenshooter
 
     # Installation
     # shellcheck disable=2039

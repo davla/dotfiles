@@ -3,15 +3,6 @@
 # This dotdrop config file is meant for user dotfiles
 
 actions:
-  pre:
-    # This action links the VSCode insiders configuration directories to the
-    # VSCode stable ones, so that there are not two parallel set of dotfiles
-    # and installed extensions.
-    link-vscode-insiders-config: |-
-      ln --force --symbolic --relative "$HOME/.config/Code" \
-          "$HOME/.config/Code - Insiders"
-      ln --force --symbolic --relative "$HOME/.vscode" "$HOME/.vscode-insiders"
-
   post:
     bat-theme: bat cache --build
 
@@ -67,11 +58,6 @@ actions:
     systemd-enable: |-
       basename '{{@@ _dotfile_abs_dst @@}}' '.service' \
           | xargs systemctl --user enable --now
-
-    # This action installs VSCode extensions given in the first argument. This
-    # needs to be a file with one package specification per line.
-    vscode-install-extensions: >-
-      xargs --max-args 1 code --force --install-extension < "{0}"
 
 config:
   backup: false
@@ -169,9 +155,6 @@ dotfiles:
   d_thunar:
     src: config/Thunar
     dst: '{{@@ xdg_config("Thunar") @@}}'
-  d_vscode_snippets:
-    src: config/Code/User/snippets
-    dst: '{{@@ xdg_config("Code/User/snippets") @@}}'
   d_xfce4:
     src: config/xfce4
     dst: '{{@@ xdg_config("xfce4") @@}}'
@@ -373,31 +356,9 @@ dotfiles:
   f_udiskie_config.yml:
     src: config/udiskie/config.yml
     dst: '{{@@ xdg_config("udiskie/config.yml") @@}}'
-  f_vscode_argv.json:
-    src: vscode/argv.json
-    dst: ~/.vscode/argv.json
   f_vimrc:
     src: config/vim/vimrc
     dst: '{{@@ xdg_config("vim/vimrc") @@}}'
-  f_vscode_extension-list.txt:
-    src: config/Code/User/extension-list.txt
-    # Empty destination as the file is only processed by the action and not
-    # actually needed on the filesystem
-    dst:
-    actions:
-    # This action installs VSCode extensions listed in the dotfile on-the-fly
-    - vscode-install-extensions '{{@@ _dotfile_abs_src @@}}'
-    # This transformation actually creates the dotfile.
-    trans_update: vscode-list-extensions
-  f_vscode_keybindings.json:
-    src: config/Code/User/keybindings.json
-    dst: '{{@@ xdg_config("Code/User/keybindings.json") @@}}'
-  f_vscode_settings.json:
-    src: config/Code/User/settings.json
-    dst: '{{@@ xdg_config("Code/User/settings.json") @@}}'
-  f_vscode_tasks.json:
-    src: config/Code/User/tasks.json
-    dst: '{{@@ xdg_config("Code/User/tasks.json") @@}}'
   f_vmware-user.service:
     src: config/systemd/user/vmware-user.service
     dst: '{{@@ xdg_config("systemd/user/vmware-user.service") @@}}'
@@ -460,7 +421,6 @@ profiles:
     - gui-{{@@ display_server @@}}
     - geany
     - look-and-feel
-    - vscode
     import:
     - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/gui.yaml:optional
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/gui.yaml:optional
@@ -579,24 +539,6 @@ profiles:
       wm_nag_cmd: swaynag
       wm_name: sway
 
-  # This profile groups VSCode-related dotfiles, as well as creating the
-  # necessary variables for dotfiles actions. It was chosen to address
-  # individual dotfiles rather than the whole ~/.config/Code/User directory as
-  # there are as many files to ignore in that directory than the ones to be
-  # managed.
-  vscode:
-    dotfiles:
-    - d_vscode_snippets
-    - f_vscode_argv.json
-    - f_vscode_extension-list.txt
-    - f_vscode_keybindings.json
-    - f_vscode_settings.json
-    - f_vscode_tasks.json
-    actions:
-    - link-vscode-insiders-config
-    variables:
-      is_headless: false
-
   # This profile contains the dotfiles for the whole Xfce session.
   xfce:
     dotfiles:
@@ -612,11 +554,6 @@ profiles:
       is_headless: false
       on_wayland: false
       on_x11: true
-
-trans_update:
-  # This transformation basically creates the dotfile. Indeed, it doesn't use
-  # the {0} argument, and simply dumps the output of the command to {1}
-  vscode-list-extensions: code --list-extensions > {1}
 
 variables:
   # These variables are used to tell which display server is in use on the

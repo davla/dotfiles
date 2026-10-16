@@ -59,10 +59,6 @@ case "$(apt_operation)" in
                     set_alternative 'batcat' 'bat'
                     ;;
 
-                *code-insiders*)
-                    set_alternative 'code-insiders' 'code'
-                    ;;
-
                 *docker-compose-plugin*)
                     log_info 'Enable podman daemon socket'
                     systemctl enable podman.socket

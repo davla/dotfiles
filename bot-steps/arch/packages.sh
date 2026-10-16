@@ -66,8 +66,7 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
             print_info "Install GUI packages for $MACHINE"
             sudo --user "$USER_NAME" yay -S --needed alacritty blueman \
                 firefox-beta-bin flatpak gnome-disk-utility gufw remmina \
-                retroarch retroarch-assets-xmb \
-                visual-studio-code-insiders-bin zed
+                retroarch retroarch-assets-xmb zed
             # This doesn't work if this script is sourced
             sh "$(dirname "$0")/../flatpak.sh"
             ;;

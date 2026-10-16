@@ -52,10 +52,6 @@ case "$(apt_operation "$APT_PID")" in
                     rm_alternative 'batcat' 'bat'
                     ;;
 
-                *code-insiders*)
-                    rm_alternative 'code-insiders' 'code'
-                    ;;
-
                 *docker-compose-plugin*)
                     log_info 'Disable podman daemon socket'
                     systemctl disable podman.socket

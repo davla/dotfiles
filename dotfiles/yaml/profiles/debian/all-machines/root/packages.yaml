@@ -56,9 +56,6 @@ dotfiles:
   f_nordvpn.sources:
     src: etc/apt/sources.list.d/nordvpn.sources
     dst: /etc/apt/sources.list.d/nordvpn.sources
-  f_vscode.sources:
-    src: etc/apt/sources.list.d/vscode.sources
-    dst: /etc/apt/sources.list.d/vscode.sources
 
 dynvariables:
   # This variable is used to differentiate between user and root configuration
@@ -102,7 +99,6 @@ profiles:
     - f_debian-testing.sources
     - f_debian-unstable.sources
     - f_docker.sources
-    - f_vscode.sources
     import:
     - ../../../../dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/packages.yaml:optional
     actions:

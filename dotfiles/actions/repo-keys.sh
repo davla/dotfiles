@@ -86,11 +86,6 @@ find /etc/apt/sources.list.d/ -type f -name '*.sources' -print0 \
                 download_key_from_url "$REPO" \
                     'https://repo.nordvpn.com/gpg/nordvpn_public.asc'
                 ;;
-
-            'vscode')
-                download_key_from_url "$REPO" \
-                    'https://packages.microsoft.com/keys/microsoft.asc'
-                ;;
         esac 2> /dev/null
     done
 

@@ -580,6 +580,5 @@ variables:
   # These variables contain the XDG config path of flatpak applications
   flatpak_app_xdg_config:
     calibre: >-
-      {{@@ flatpak_app_data_dir("com.calibre_ebook.calibre") @@}}
-      /config/calibre
+      {{@@ flatpak_app_data_dir("com.calibre_ebook.calibre") @@}}/config/calibre
     geany: '{{@@ flatpak_app_data_dir("org.geany.Geany") @@}}/config/geany'

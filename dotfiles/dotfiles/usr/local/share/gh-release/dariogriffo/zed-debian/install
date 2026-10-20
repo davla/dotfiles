@@ -28,8 +28,7 @@ RELEASE_TAG="$2"
 # Main
 ########################################
 
-DEB_GLOB="$(cpu_arch 'amd64' \
-    | xargs printf '*%s*%s.deb' "$(lsb_release --codename --short)")"
+DEB_GLOB="$(cpu_arch 'amd64' | xargs printf '*%s.deb')"
 install_github_release_deb "$GITHUB_REPO" "$RELEASE_TAG" "$DEB_GLOB"
 
 log_debug 'Alias zeditor to zed'

@@ -6,15 +6,35 @@
 // To see all of Zed's default settings without changing your
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
+//
+// {{@@ header() @@}}
+{%@@ set with_agent = env['MACHINE'] == 'work' -@@%}
 {
   "active_pane_modifiers": { "inactive_opacity": 0.8 },
   "agent": {
-    "button": false,
+    "button": {{@@ with_agent | lower @@}},
+    "default_width": 800.0,
     "dock": "right",
+    "expand_terminal_card": false,
     "favorite_models": [],
+    "flexible": false,
     "model_parameters": [],
+    "thinking_display": "always_collapsed",
+    "threads_sidebar": { "position": "right" },
   },
-  "agent_ui_font_size": 16.0,
+  "agent_buffer_font_size": 16.0,
+  {%@@ if with_agent @@%}
+  "agent_servers": {
+    "claude-acp": {
+      "default_config_options": {
+        "model": "sonnet",
+        "mode": "auto"
+      },
+      "type": "registry"
+    }
+  },
+  {%@@ endif @@%}
+  "agent_ui_font_size": 18.0,
   "auto_indent_on_paste": false,
   "auto_install_extensions": {
     "desktop": true,
@@ -121,8 +141,8 @@
     "dock": "left",
     "drag_and_drop": false,
     "entry_spacing": "comfortable",
-    "folder_indicator": "chevron",
-    "git_status_indicator": false,
+    "folder_indicator": "both",
+    "git_status_indicator": true,
     "hide_hidden": false,
     "hide_root": true,
     "indent_size": 30.0,
@@ -173,7 +193,7 @@
     "show_user_picture": false,
   },
   "toolbar": {
-    "agent_review": true,
+    "agent_review": false,
     "breadcrumbs": false,
     "quick_actions": false,
     "selections_menu": true,

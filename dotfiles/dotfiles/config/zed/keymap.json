@@ -26,6 +26,7 @@
     "unbind": {
       "ctrl-d": ["editor::SelectNext", { "replace_newest": false }],
       "ctrl-i": "editor::ShowSignatureHelp",
+      "ctrl-shift-k": "editor::DeleteLine",
       "ctrl-u": "editor::UndoSelection",
     },
   },
@@ -43,8 +44,11 @@
       "ctrl-alt-f": "pane::DeploySearch",
       "ctrl-b": "project_panel::Toggle",
       "ctrl-e": "file_finder::Toggle",
+      "ctrl-k": "agent::ToggleFocus",
+      "ctrl-shift-k": "agent::Toggle",
       "ctrl-j": "project_panel::CollapseAllEntries",
-      "ctrl-r": "project_symbols::Toggle",
+      "ctrl-r": "editor::ToggleFocus",
+      "ctrl-t": "project_symbols::Toggle",
     },
   },
   {
@@ -79,6 +83,7 @@
     },
     "unbind": {
       "ctrl-alt-f": "text_finder::Toggle",
+      "ctrl-shift-k": "editor::DeleteLine",
     },
   },
   {

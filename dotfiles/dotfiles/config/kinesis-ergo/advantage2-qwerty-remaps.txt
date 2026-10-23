@@ -1,0 +1,7 @@
+[tab]>[delete]
+[delete]>[tab]
+[caps]>[`]
+[`]>[caps]
+[lctrl]>[lwin]
+[lalt]>[ralt]
+[rwin]>[lalt]

@@ -6,6 +6,12 @@ actions:
   post:
     bat-theme: bat cache --build
 
+    # Ensure cp is used to copy bytes into existing file, rather than replacing inode.
+    # )Firmware constraints
+    # It assumes kinesis advantage2 v-Drive has already been mounted
+    copy-kinesis-advantage2-layout: |
+      cp '{0}' /run/media/ADVANTAGE2/active/qwerty.txt
+
     download: |
       dirname '{1}' | xargs mkdir --parents
       wget --quiet --output-document '{1}' '{0}'
@@ -287,6 +293,14 @@ dotfiles:
   f_keyring.service:
     src: config/systemd/user/keyring.service
     dst: '{{@@ xdg_config("systemd/user/keyring.service") @@}}'
+  f_kinesis_advantage2_remappings:
+    src: config/kinesis-ergo/advantage2-qwerty-remaps.txt
+    # Empty dst to prevent the dotfile from being installed by dotdrop itself.
+    # Due to firmware constraints in the Kinesis Advantage2 keyboard, I want to
+    # ensure cp is used to install the dotfile
+    dst:
+    action:
+    - copy-kinesis-advantage2-layout '{{@@ _dotfile_abs_src @@}}'
   f_light-locker.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/light-locker.desktop") @@}}'
@@ -498,6 +512,10 @@ profiles:
       look_and_feel_tmp_dst: mktemp /tmp/look-and-feel-tmp.XXX
     actions:
     - _rm '{{@@ look_and_feel_tmp_dst @@}}'
+
+  keyboards:
+   dotfiles:
+   - f_kinesis_advantage2_remappings
 
   # This profile contains dotfiles used when the user session starts.
   startup:

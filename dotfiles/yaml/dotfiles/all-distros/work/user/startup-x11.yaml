@@ -5,3 +5,4 @@
 
 dotfiles:
 - d_autorandr
+- f_xss-lock.service

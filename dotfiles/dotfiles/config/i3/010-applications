@@ -51,6 +51,7 @@ bindsym $mod+Shift+n exec --no-startup-id dunstctl history-pop
 bindsym $mod+m exec --no-startup-id dunstctl close
 bindsym $mod+comma exec --no-startup-id dunstctl action
 bindsym ctrl+mod1+v exec {{@@ tui('clipcat-menu insert') @@}}
+bindsym $mod+v exec --no-startup-id lock-screen
 
 {%@@ if env['MACHINE'] == 'personal' -@@%}
 

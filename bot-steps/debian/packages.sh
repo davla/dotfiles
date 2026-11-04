@@ -105,8 +105,9 @@ case "$MACHINE" in
         print_info "Install CLI packages for $MACHINE"
         apt-get install --no-install-recommends 1password-cli amd64-microcode \
             awscli bats bats-assert bats-files catatonit claude-code crane \
-            docker-buildx-plugin docker-compose-plugin gradle helm kind kubectl \
-            mkcert nodejs pritunl-client qemu-user-binfmt tofu wireguard
+            docker-buildx-plugin docker-compose-plugin gradle helm i3lock \
+            kind kubectl mkcert nodejs pritunl-client qemu-user-binfmt tofu \
+            wireguard xss-lock
         ;;
 esac
 

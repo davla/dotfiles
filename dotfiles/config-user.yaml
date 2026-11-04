@@ -418,6 +418,9 @@ dotfiles:
   f_xfce4-power-manager.xml:
     src: config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
     dst: '{{@@ xdg_config("xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml") @@}}'
+  f_xss-lock.service:
+    src: config/systemd/user/xss-lock.service
+    dst: '{{@@ xdg_config("systemd/user/xss-lock.service") @@}}'
 
 profiles:
   # This profile groups configuration files for CLI-based applictions.

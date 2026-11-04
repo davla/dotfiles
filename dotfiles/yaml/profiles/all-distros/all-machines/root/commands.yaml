@@ -109,6 +109,10 @@ dotfiles:
     src: usr/local/bin/list-long
     dst: /usr/local/bin/list-long
     chmod: 755
+  f_local_bin_lock-screen:
+    src: usr/local/bin/lock-screen
+    dst: /usr/local/bin/lock-screen
+    chmod: 755
   f_local_bin_messaging:
     src: usr/local/bin/messaging
     dst: /usr/local/bin/messaging

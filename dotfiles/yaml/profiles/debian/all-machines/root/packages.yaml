@@ -65,6 +65,9 @@ dotfiles:
   f_helm.sources:
     src: etc/apt/sources.list.d/helm.sources
     dst: /etc/apt/sources.list.d/helm.sources
+  f_jetbrains.sources:
+    src: etc/apt/sources.list.d/jetbrains.sources
+    dst: /etc/apt/sources.list.d/jetbrains.sources
   f_nordvpn.sources:
     src: etc/apt/sources.list.d/nordvpn.sources
     dst: /etc/apt/sources.list.d/nordvpn.sources

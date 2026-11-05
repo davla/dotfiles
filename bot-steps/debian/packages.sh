@@ -58,7 +58,7 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
 
         'work')
             print_info "Install GUI packages for $MACHINE"
-            apt-get install --no-install-recommends 1password
+            apt-get install --no-install-recommends 1password intellij-idea
                 ;;
     esac
 
@@ -106,8 +106,8 @@ case "$MACHINE" in
         apt-get install --no-install-recommends 1password-cli amd64-microcode \
             bats bats-assert bats-files catatonit claude-code \
             docker-buildx-plugin docker-compose-plugin gradle helm i3lock \
-            kind kubectl mkcert nodejs pritunl-client qemu-user-binfmt tofu \
-            wireguard xss-lock
+            libvulkan1 kind kubectl mesa-vulkan-drivers mkcert nodejs \
+            pritunl-client qemu-user-binfmt tofu wireguard xss-lock
         ;;
 esac
 

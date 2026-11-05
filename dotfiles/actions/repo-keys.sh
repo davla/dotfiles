@@ -101,6 +101,11 @@ find /etc/apt/sources.list.d/ -type f -name '*.sources' -print0 \
                     --output-document "$APT_KEY_DIR/$REPO.gpg"
                  ;;
 
+            'jetbrains')
+                download_key_from_url "$REPO" \
+                    'https://s3.eu-central-1.amazonaws.com/jetbrains-ppa/0xA6E8698A.pub.asc'
+                ;;
+
             'opentofu')
                 download_key_from_url "$REPO" \
                     'https://get.opentofu.org/opentofu.gpg'

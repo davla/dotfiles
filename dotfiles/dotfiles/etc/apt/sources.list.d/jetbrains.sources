@@ -1,0 +1,9 @@
+# JetBrains
+#
+# {{@@ header() @@}}
+
+Types: deb
+URIs: http://jetbrains-ppa.s3-website.eu-central-1.amazonaws.com
+Suites: any
+Components: main
+{%@@ include 'etc/apt/sources.list.d/signed-by' @@%}

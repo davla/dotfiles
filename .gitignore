@@ -250,3 +250,4 @@ dotfiles/yaml/variables/all-distros/work/user/repos.yaml
 !env/
 !lib/
 !var/
+!/dotfiles/dotfiles/jetbrains-settings.zip

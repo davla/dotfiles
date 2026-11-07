@@ -228,6 +228,7 @@ find "$GH_RELEASE_DIR" -maxdepth 2 -mindepth 2 -type d \
             log_debug 'Set installed version to default value'
             INSTALLED_VERSION='-'
         fi
+        log_debug "Installed $GITHUB_REPO version is: $INSTALLED_VERSION"
 
         LATEST_VERSION_JQ_FILTER='first | .tagName'
         LATEST_VERSION_JQ_FILTER_FILE="$REPO_PATH/latest-release-jq-filter"
@@ -237,11 +238,14 @@ find "$GH_RELEASE_DIR" -maxdepth 2 -mindepth 2 -type d \
             LATEST_VERSION_JQ_FILTER="$(cat "$LATEST_VERSION_JQ_FILTER_FILE") \
                 | $LATEST_VERSION_JQ_FILTER"
         fi
+        printf 'jq filter used to retrieve the last version: %s\n' \
+            "$LATEST_VERSION_JQ_FILTER" | log_debug
 
         LATEST_VERSION="$(gh --repo "$GITHUB_REPO" release list --order desc \
             --exclude-drafts --exclude-pre-releases --limit 30 \
             --json "$RELEASE_LIST_JSON_FIELDS" \
             --jq "$LATEST_VERSION_JQ_FILTER")"
+        log_debug "Latest version for $GITHUB_REPO is: $LATEST_VERSION"
 
         log_debug 'Determine whether to execute...'
         if [ "$FORCE_INSTALL" = 'true' ] || [ "$CMD" = 'status' ] \
@@ -255,7 +259,7 @@ find "$GH_RELEASE_DIR" -maxdepth 2 -mindepth 2 -type d \
         log_debug "Executing? $SHOULD_EXECUTE"
 
         [ "$SHOULD_EXECUTE" = 'false' ] && {
-            log_debug "Not executing for $GITHUB_REPO"
+            log_info "$GITHUB_REPO up-to-date"
             continue
         }
 
@@ -270,11 +274,13 @@ find "$GH_RELEASE_DIR" -maxdepth 2 -mindepth 2 -type d \
                 ;;
 
             'update')
-                log_info "Install $GITHUB_REPO version $LATEST_VERSION"
+                printf '%s version %s available. Installing...' \
+                    "$GITHUB_REPO" "$LATEST_VERSION" | log_debug
                 logging_export_config
                 "$REPO_PATH/install" "$GITHUB_REPO" "$LATEST_VERSION" \
                     || continue
                 echo "$LATEST_VERSION" > "$INSTALLED_VERSION_FILE"
+                log_info "Done installing $GITHUB_REPO version $LATEST_VERSION"
                 ;;
 
             'upgradeable')

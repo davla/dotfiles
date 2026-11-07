@@ -92,16 +92,15 @@ install_github_release_tar() (
             ;;
     esac
 
-    PACKAGE_NAME="${GITHUB_REPO##*/}"
-    printf 'Download and install %s to %s...\n' "$PACKAGE_NAME" "$DST_DIR" \
-        | log_debug
-    printf 'Use %s to extract %s\n' "$COMPRESS" "$PACKAGE_NAME" | log_debug
+    printf "Download asset '%s' from %s release %s\n" "$ARCHIVE_GLOB" \
+        "$GITHUB_REPO" "$RELEASE_TAG" | log_debug
+    log_debug "Extract '$BIN_GLOB' via $COMPRESS to $DST_DIR"
 
     # The --transform option to tar extracts the basename
     gh --repo "$GITHUB_REPO" release download "$RELEASE_TAG" --output - \
             --pattern "$ARCHIVE_GLOB" \
-        | tar --extract "$COMPRESS" --transform 's|.*/||g' \
-            --directory "$DST_DIR" --wildcards "$BIN_GLOB"
+        | tar --extract "$COMPRESS" --directory "$DST_DIR" --no-same-owner \
+            --transform 's|.*/||g' --wildcards "$BIN_GLOB"
 )
 
 # This function downloads and installs a .deb file from the assets of a GitHub
@@ -121,11 +120,12 @@ install_github_release_deb() (
     # shellcheck disable=SC2064
     trap "cleanup_trap $TMP_DEB" EXIT INT HUP TERM
 
-    log_debug "Download $PACKAGE_NAME..."
+    printf "Download .deb archive at '%s' from %s release %s\n" "$DEB_GLOB" \
+        "$GITHUB_REPO" "$RELEASE_TAG" | log_debug
     gh --repo "$GITHUB_REPO" release download "$RELEASE_TAG" \
         --output "$TMP_DEB" --pattern "$DEB_GLOB"
 
-    log_debug "Install $PACKAGE_NAME..."
+    log_debug "Install $GITHUB_REPO via .deb archive '$DEB_GLOB'"
     dpkg --install "$TMP_DEB" | log_debug
 )
 

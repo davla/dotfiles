@@ -1,0 +1,29 @@
+[
+  {
+    "file": "src/network-connection.c",
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-Iinclude",
+      "-I/usr/include/libnl3",
+      "-g",
+      "-Wall",
+      "-Werror",
+      "-O2",
+      "-DGOOD_CONNECTION_QUALITY_COLOR=\"#FFFFFF\"",
+      "-DMEDIUM_CONNECTION_QUALITY_COLOR=\"#AAAAAA\"",
+      "-DBAD_CONNECTION_QUALITY_COLOR=\"#555555\"",
+      "-DINACTIVE_CONNECTION_COLOR=\"#000000\"",
+      "-DGOOD_CONNECTION_QUALITY_THRESHOLD=65.0",
+      "-DMEDIUM_CONNECTION_QUALITY_THRESHOLD=30.0",
+      "-DLABEL_SEPARATOR=\"\"",
+      "-DPANGO_PROPS=\"\"",
+      "-DSWAYBAR",
+      "src/network-connection.c",
+      "-o",
+      "build/network-connection.o"
+    ],
+    "directory": "/home/maze/code/dotfiles/dotfiles/dotfiles/usr/local/src/i3blocks/network-status",
+    "output": "build/network-connection.o"
+  }
+]

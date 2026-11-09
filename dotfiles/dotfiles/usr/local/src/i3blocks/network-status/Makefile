@@ -4,6 +4,7 @@
 
 BUILD_DIR = build
 INCLUDE_DIR = include
+KERNEL_LIBS = libnl-genl-3.0
 SRC_DIR = src
 
 #######################################
@@ -21,7 +22,6 @@ GOOD_CONNECTION_QUALITY_THRESHOLD ?= 65.0
 MEDIUM_CONNECTION_QUALITY_THRESHOLD ?= 30.0
 
 # Text style
-LABEL_SEPARATOR ?=
 PANGO_PROPS ?=
 
 #######################################
@@ -38,7 +38,6 @@ MACROS += -D'GOOD_CONNECTION_QUALITY_COLOR="$(GOOD_CONNECTION_QUALITY_COLOR)"' \
     -D'INACTIVE_CONNECTION_COLOR="$(INACTIVE_CONNECTION_COLOR)"' \
     -D'GOOD_CONNECTION_QUALITY_THRESHOLD=$(GOOD_CONNECTION_QUALITY_THRESHOLD)' \
     -D'MEDIUM_CONNECTION_QUALITY_THRESHOLD=$(MEDIUM_CONNECTION_QUALITY_THRESHOLD)' \
-    -D'LABEL_SEPARATOR="$(LABEL_SEPARATOR)"' \
     -D'PANGO_PROPS="$(PANGO_PROPS)"'
 
 ifdef CABLE_LABEL
@@ -47,14 +46,21 @@ endif
 ifdef WIRELESS_LABEL
     MACROS += -D'WIRELESS_LABEL="$(WIRELESS_LABEL)"'
 endif
+ifdef LABEL_SEPARATOR
+	MACROS += -D'LABEL_SEPARATOR="$(LABEL_SEPARATOR)"'
+endif
 ifeq ('$(DISPLAY_SERVER)', 'wayland')
     MACROS += -DSWAYBAR
 endif
+ifdef DEBUG
+	MACROS += -DDEBUG
+else
+	MACROS += -DNDEBUG
+endif
 
-CFLAGS = -g -Wall -Werror -O2 $(MACROS)
-CPPFLAGS = -I$(INCLUDE_DIR)
-LDFLAGS =
-LDLIBS =
+CFLAGS = -g -Wall -Werror -O2 $(MACROS) -I$(INCLUDE_DIR) \
+	$(shell pkg-config --cflags $(KERNEL_LIBS))
+LDFLAGS = $(shell pkg-config --libs $(KERNEL_LIBS))
 
 #######################################
 # Target variables

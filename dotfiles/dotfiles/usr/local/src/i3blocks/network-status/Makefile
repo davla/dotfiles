@@ -52,8 +52,8 @@ ifeq ('$(DISPLAY_SERVER)', 'wayland')
 endif
 
 CFLAGS = -g -Wall -Werror -O2 $(MACROS)
-CPPFLAGS = -I$(INCLUDE_DIR)
-LDFLAGS =
+CPPFLAGS = -I$(INCLUDE_DIR) -I/usr/include/libnl3
+LDFLAGS = -lnl-genl-3 -lnl-3
 LDLIBS =
 
 #######################################

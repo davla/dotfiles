@@ -32,9 +32,15 @@ dotfiles:
     dst: /usr/local/share/dpkg
     actions:
     - recursive-exec-permissions '{{@@ _dotfile_abs_dst @@}}'
+  f_1password.sources:
+    src: etc/apt/sources.list.d/1password.sources
+    dst: /etc/apt/sources.list.d/1password.sources
   f_apt.conf.d_dpkg-hooks:
     src: etc/apt/apt.conf.d/70dpkg-hooks
     dst: /etc/apt/apt.conf.d/70dpkg-hooks
+  f_claude-code.sources:
+    src: etc/apt/sources.list.d/claude-code.sources
+    dst: /etc/apt/sources.list.d/claude-code.sources
   f_debian-stable.sources:
     src: etc/apt/sources.list.d/debian-stable.sources
     dst: /etc/apt/sources.list.d/debian-stable.sources
@@ -44,6 +50,9 @@ dotfiles:
   f_debian-unstable.sources:
     src: etc/apt/sources.list.d/debian-official-extra.sources
     dst: /etc/apt/sources.list.d/debian-unstable.sources
+  f_debsig_1password.pol:
+    src: etc/debsig/policies/AC2D62742012EA22/1password.pol
+    dst: /etc/debsig/policies/AC2D62742012EA22/1password.pol
   f_docker.sources:
     src: etc/apt/sources.list.d/docker.sources
     dst: /etc/apt/sources.list.d/docker.sources
@@ -53,9 +62,21 @@ dotfiles:
   f_firefox.sources:
     src: etc/apt/sources.list.d/firefox.sources
     dst: /etc/apt/sources.list.d/firefox.sources
+  f_helm.sources:
+    src: etc/apt/sources.list.d/helm.sources
+    dst: /etc/apt/sources.list.d/helm.sources
+  f_jetbrains.sources:
+    src: etc/apt/sources.list.d/jetbrains.sources
+    dst: /etc/apt/sources.list.d/jetbrains.sources
   f_nordvpn.sources:
     src: etc/apt/sources.list.d/nordvpn.sources
     dst: /etc/apt/sources.list.d/nordvpn.sources
+  f_opentofu.sources:
+    src: etc/apt/sources.list.d/opentofu.sources
+    dst: /etc/apt/sources.list.d/opentofu.sources
+  f_pritunl.sources:
+    src: etc/apt/sources.list.d/pritunl.sources
+    dst: /etc/apt/sources.list.d/pritunl.sources
 
 dynvariables:
   # This variable is used to differentiate between user and root configuration
@@ -93,6 +114,7 @@ profiles:
   packages:
     dotfiles:
     - d_dpkg_hooks
+    - d_local_lib_sh
     - f_apt.conf.d_dpkg-hooks
     - f_firefox.sources
     - f_debian-stable.sources

@@ -1,0 +1,35 @@
+#!/usr/bin/env sh
+
+# This is a convenience script to perform common VPN operations on a hardcoded
+# Pritunl profile via the pritunl-client command. The Pritunl profile is
+# hardcoded via dotdrop at install-time, and so are some default options.
+#
+# Arguments:
+# - $1: one of:
+#     - on|up: connects to the VPN
+#     - down|off: disconnects from the VPN
+#     - status: displays whether the VPN connection is active
+#
+# {{@@ header() @@}}
+
+case "$(echo "$1" | tr '[:upper:]' '[:lower:]')" in
+    'on'|'start'|'up')
+        # Choosing OpenVPN over WireGuard because the latter is somehow
+        # terribly janky at establishing a connection.
+        pritunl-client start --mode ovpn '{{@@ pritunl_profile @@}}'
+        ;;
+
+    'down'|'off'|'stop')
+        pritunl-client stop '{{@@ pritunl_profile @@}}'
+        ;;
+
+    'status')
+        pritunl-client list --json | jq --raw-output \
+            '.[] | select(.id == "{{@@ pritunl_profile @@}}").run_state'
+        ;;
+
+    *)
+        echo >&2 "Unknown sub-command: $1"
+        exit 63
+        ;;
+esac

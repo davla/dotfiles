@@ -1,0 +1,7 @@
+# Personal-only git configuration file.
+
+[gpg]
+    format = openpgp
+
+[user]
+    email = {{@@ emails.spam.address @@}}

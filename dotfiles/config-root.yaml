@@ -176,6 +176,9 @@ config:
   workdir: ~/.config/dotdrop
 
 dotfiles:
+  d_dnsmasq.d:
+    src: etc/dnsmasq.d
+    dst: /etc/dnsmasq.d
   d_i3blocks_keyindicator2:
     src: usr/local/src/i3blocks/keyindicator2
     dst: /usr/local/src/i3blocks/keyindicator2
@@ -208,6 +211,9 @@ dotfiles:
     src: usr/local/share/mr
     # Dynamic path since it's used somewhere else too
     dst: '{{@@ mr_libs_path @@}}'
+  d_NetworkManager_system-connections:
+    src: etc/NetworkManager/system-connections
+    dst: /etc/NetworkManager/system-connections
   f_80i3blocks:
     src: etc/apt/apt.conf.d/80i3blocks
     dst: /etc/apt/apt.conf.d/80i3blocks
@@ -290,6 +296,10 @@ dotfiles:
   f_i3blocks_gh-release-updates:
     src: usr/lib/i3blocks/gh-release-updates
     dst: /usr/lib/i3blocks/gh-release-updates
+    chmod: 755
+  f_i3blocks_nmcli-connection-status:
+    src: usr/lib/i3blocks/nmcli-connection-status
+    dst: /usr/lib/i3blocks/nmcli-connection-status
     chmod: 755
   f_i3-sway-session.target:
     src: etc/systemd/user/i3-sway-session.target
@@ -387,9 +397,15 @@ dotfiles:
   f_sudo_secure-path:
     src: etc/sudoers.d/secure-path
     dst: /etc/sudoers.d/secure-path
+  f_systemd_dnsmasq_override:
+    src: etc/systemd/system/dnsmasq.service.d/override.conf
+    dst: /etc/systemd/system/dnsmasq.service.d/override.conf
   f_systemd_getty:
     src: etc/systemd/system/getty@tty1.service.d/override.conf
     dst: /etc/systemd/system/getty@tty1.service.d/override.conf
+  f_systemd_penneo.dns_delegate:
+    src: etc/systemd/dns-delegate.d/penneo.dns-delegate
+    dst: /etc/systemd/dns-delegate.d/penneo.dns-delegate
   f_udev_999-hid.rules:
     src: etc/udev/rules.d/999-hid.rules
     dst: /etc/udev/rules.d/999-hid.rules
@@ -406,14 +422,12 @@ dotfiles:
     dst: /etc/timezone
     actions:
     - timezone '{{@@ _dotfile_abs_dst @@}}'
-  f_vm-shared.automount:
-    src: etc/systemd/system/mnt-vm-shared.automount
-    dst: /etc/systemd/system/mnt-vm-shared.automount
-    actions:
-    - systemd-enable
-  f_vm-shared.mount:
-    src: etc/systemd/system/mnt-vm-shared.mount
-    dst: /etc/systemd/system/mnt-vm-shared.mount
+  f_tofu_bash_completion:
+    src: usr/local/share/bash-completion/completions/tofu
+    dst: /usr/local/share/bash-completion/completions/tofu
+  f_tofu_zsh_completion:
+    src: usr/local/share/zsh/site-functions/_tofu
+    dst: /usr/local/share/zsh/site-functions/_tofu
   f_whole-fs.exports:
     src: etc/exports.d/whole-fs.exports
     dst: /etc/exports.d/whole-fs.exports
@@ -476,6 +490,16 @@ profiles:
     - f_nix.conf
     import:
     - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/cli.yaml:optional
+
+  # This profile holds shell completion files. Its primary use is to install
+  # specific files within package manager hooks, for packages that don't
+  # provide good completion themselves
+  completions:
+    dotfiles:
+    - f_dotnet_bash_completion
+    - f_dotnet_zsh_completion
+    - f_tofu_bash_completion
+    - f_tofu_zsh_completion
 
   # This profile contains dotfiles used to setup the global shell environment
   environment:
@@ -570,6 +594,8 @@ profiles:
   repos:
     dotfiles:
     - d_myrepos-lib
+    import:
+    - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/repos.yaml:optional
 
   # This profile collects system startup jobs and configuration dotfiles
   startup:

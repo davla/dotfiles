@@ -44,11 +44,12 @@ download_key_from_keyserver() (
 #   - $2: The URL of the GPG key to download.
 download_key_from_url() (
     REPO_NAME="$1"
-    REPO_KEY_URL="$2"
+    KEY_URL="$2"
+    KEY_FILE_NAME="${3:-$REPO_NAME.gpg}"
 
     print_info "Installing apt repository key for $REPO_NAME"
-    wget "$REPO_KEY_URL" --output-document - | gpg --dearmor --yes \
-        -o "$APT_KEY_DIR/$REPO_NAME.gpg"
+    wget "$KEY_URL" --output-document - | gpg --dearmor --yes \
+        --output "$APT_KEY_DIR/$KEY_FILE_NAME"
 )
 
 #######################################
@@ -67,6 +68,18 @@ find /etc/apt/sources.list.d/ -type f -name '*.sources' -print0 \
     | tr '[:upper:]' '[:lower:]' \
     | while read -r REPO; do
         case "$REPO" in
+            '1password')
+                download_key_from_url "$REPO" \
+                    'https://downloads.1password.com/linux/keys/1password.asc'
+                sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22
+                cp "$APT_KEY_DIR/$REPO.gpg" /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
+                ;;
+
+            'claude-code')
+                download_key_from_url "$REPO" \
+                    'https://downloads.claude.ai/keys/claude-code.asc'
+                ;;
+
             'docker')
                 download_key_from_url "$REPO" \
                     'https://download.docker.com/linux/debian/gpg'
@@ -82,9 +95,33 @@ find /etc/apt/sources.list.d/ -type f -name '*.sources' -print0 \
                     'https://packages.mozilla.org/apt/repo-signing-key.gpg'
                 ;;
 
+            'helm')
+                print_info "Installing apt repository key for $REPO"
+                wget 'https://packages.buildkite.com/helm-linux/helm-debian/gpgkey' \
+                    --output-document "$APT_KEY_DIR/$REPO.gpg"
+                 ;;
+
+            'jetbrains')
+                download_key_from_url "$REPO" \
+                    'https://s3.eu-central-1.amazonaws.com/jetbrains-ppa/0xA6E8698A.pub.asc'
+                ;;
+
+            'opentofu')
+                download_key_from_url "$REPO" \
+                    'https://get.opentofu.org/opentofu.gpg'
+                download_key_from_url "$REPO" \
+                    'https://packages.opentofu.org/opentofu/tofu/gpgkey' \
+                    opentofu-repo.gpg
+                ;;
+
             'nordvpn')
                 download_key_from_url "$REPO" \
                     'https://repo.nordvpn.com/gpg/nordvpn_public.asc'
+                ;;
+
+            'pritunl')
+                download_key_from_url "$REPO" \
+                    'https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc'
                 ;;
         esac 2> /dev/null
     done

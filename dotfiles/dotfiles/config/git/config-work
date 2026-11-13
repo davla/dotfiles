@@ -1,0 +1,31 @@
+# Work-ony git configuration file.
+#
+# {{@@ header() @@}}
+
+{%@@ macro sync_on(interactive) -@@%}
+    "!f() { \
+        BASE="${1:-$(git rev-parse --abbrev-ref origin/HEAD \
+            | xargs basename)}"; \
+        git stash --include-untracked --quiet; \
+        git switch "$BASE"; \
+        git pull; \
+        git switch --quiet -; \
+        git rebase {%@@ if interactive -@@%} --interactive {%@@ endif -@@%} "$BASE"; \
+        [ -z "$(git stash list)" ] || git stash pop --quiet; \
+    }; f"
+{%@@- endmacro -@@%}
+
+[alias]
+    pr = !gh pr create --web
+    sync-on = {{@@ sync_on(interactive=False) @@}}
+    synci-on = {{@@ sync_on(interactive=True) @@}}
+
+[gpg]
+    format = ssh
+
+[gpg "ssh"]
+    allowedSignersFile = {{@@ git_allowed_signers_path @@}}
+    program = "/opt/1Password/op-ssh-sign"
+
+[user]
+    signingkey = {{@@ git_signing_key @@}}

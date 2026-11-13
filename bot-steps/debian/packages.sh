@@ -55,6 +55,11 @@ if [ "$DISPLAY_SERVER" != 'headless' ]; then
             apt-get install --no-install-recommends blueman dropbox gufw \
                 remmina system-config-printer
                 ;;
+
+        'work')
+            print_info "Install GUI packages for $MACHINE"
+            apt-get install --no-install-recommends 1password intellij-idea
+                ;;
     esac
 
     # This doesn't work if this script is sourced
@@ -71,16 +76,17 @@ fi
 
 print_info 'Install CLI packages shared across all machines'
 apt-get install --no-install-recommends apt-transport-https autoconf automake \
-    bat buildah build-essential cmake cmatrix cowsay curl dbus-x11 dkms \
-    dos2unix fonts-dejavu fonts-freefont-otf fonts-nanum fortune fzf g++ gdb \
-    git git-secret gnome-keyring-pkcs11 gvfs-backends htop hunspell \
-    hunspell-en-us hunspell-it jq libbz2-dev liblzma-dev libncurses-dev \
-    libnotify-bin libpam-gnome-keyring libreadline-dev libsecret-1-dev \
-    libsqlite3-dev libssl-dev lua5.4 make mate-polkit mmv mgitstatus \
-    moreutils nfs-common nix nyancat p7zip passt pipewire-jack playerctl \
-    podman-docker pycodestyle python3 python3-pip rar rustup shellcheck sl \
-    systemd-cron systemd-tpm thunar-archive-plugin tk-dev uidmap uni2ascii \
-    unrar vim yad zip
+    bat bluez buildah build-essential cmake cmatrix cowsay curl dbus-x11 dkms \
+    dos2unix firmware-linux-free fonts-dejavu fonts-freefont-otf fonts-nanum \
+    fortune fzf g++ gdb git git-secret gnome-keyring-pkcs11 gvfs-backends \
+    htop hunspell hunspell-en-us hunspell-it jq libbz2-dev liblzma-dev \
+    libncurses-dev libnotify-bin libpam-gnome-keyring libreadline-dev \
+    libsecret-1-dev libspa-0.2-libcamera libsqlite3-dev libssl-dev \
+    linux-doc-7.2 linux-headers-amd64 lua5.4 make mate-polkit mmv mgitstatus \
+    moreutils nfs-common nix nyancat p7zip passt pipewire-audio pipewire-jack \
+    playerctl podman-docker pycodestyle python3 python3-pip rar rustup \
+    shellcheck sl systemd-cron systemd-tpm thunar-archive-plugin tk-dev \
+    uidmap uni2ascii unrar vim yad zip
 
 # Installation
 # shellcheck disable=2039
@@ -97,8 +103,11 @@ case "$MACHINE" in
 
     'work')
         print_info "Install CLI packages for $MACHINE"
-        apt-get install --no-install-recommends amd64-microcode awscli \
-            docker-compose-plugin golang just open-vm-tools-desktop
+        apt-get install --no-install-recommends 1password-cli amd64-microcode \
+            awscli bats bats-assert bats-files catatonit claude-code crane \
+            docker-buildx-plugin docker-compose-plugin gradle helm i3lock \
+            libvulkan1 kind kubectl mesa-vulkan-drivers mkcert nodejs \
+            pritunl-client qemu-user-binfmt tofu wireguard xss-lock
         ;;
 esac
 
@@ -145,7 +154,7 @@ id "$USER_NAME" \
 podman system migrate
 
 if [ "$MACHINE" = 'work' ]; then
-    print_info "Make docker-compose use $USER_NAME's rootless podman"
+    print_info "Make docker CLI plugins use $USER_NAME's rootless podman"
     systemctl --machine "$USER_NAME@" --user enable --now podman.socket
     sudo --user "$USER_NAME" sh -c '
         podman info --format "{{.Host.RemoteSocket.Path}}" \
@@ -160,6 +169,24 @@ if [ "$MACHINE" = 'work' ]; then
                 "$DOCKER_CONFIG"
         }
     '
+
+    print_info 'Setup Docker BuildKit container driver'
+    # 'docker builx' is rerouted to the docker-builx CLI plugin by my custom
+    # shim, which should already be available at this point.
+    sudo --user "$USER_NAME" sh -c '
+        docker buildx inspect podman > /dev/null 2>&1 || {
+            docker buildx create --name podman --driver docker-container --use
+            docker buildx inspect --bootstrap
+        }
+    '
+
+    pritunl-client list --json \
+            | jq --exit-status '. | length == 0' > /dev/null && {
+        print_info 'Add Pritunl profile'
+        print 'Enter Pritunl profile URL. You can find it in Okta... '
+        read -r PRITUNL_PROFILE_URL
+        sudo --user "$USER_NAME" pritunl-client add "$PRITUNL_PROFILE_URL"
+    }
 fi
 
 # NordVPN

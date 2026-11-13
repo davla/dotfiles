@@ -1,6 +1,4 @@
-# This SSH client configuration file is mainly meant to use two different keys
-# for github.com, based on two fictitious, custom-made hostnames
+# SSH configuration file
 
-Host personal.github.com
-    HostName github.com
-    IdentityFile %d/.ssh/personal-github
+Host *
+    IdentityAgent %d/.1password/agent.sock

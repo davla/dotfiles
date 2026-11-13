@@ -1,0 +1,23 @@
+{
+  "enabledPlugins": {
+    "caveman@caveman": true,
+    "notion@claude-plugins-official": true
+  },
+  "env": {
+    "CAVEMAN_DEFAULT_MODE": "ultracave"
+  },
+  "extraKnownMarketplaces": {
+    "caveman": {
+      "source": {
+        "source": "github",
+        "repo": "JuliusBrussee/caveman"
+      }
+    }
+  },
+  "model": "sonnet",
+  "statusLine": {
+    "type": "command",
+    "command": "sh $CLAUDE_CONFIG_DIR/statusline.sh"
+  },
+  "theme": "dark"
+}

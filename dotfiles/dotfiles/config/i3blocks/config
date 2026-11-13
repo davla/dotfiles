@@ -100,6 +100,18 @@ interval=1
 markup=pango
 signal={{@@ i3blocks_signals.network @@}}
 
+{#@@ NordVPN has its own status icon @@#}
+{%@@ if env['MACHINE'] == 'work' -@@%}
+
+# Use tun* connection name as the VPN client is so far the ony software
+# that uses tunnel interfaces.
+[vpn]
+command={{@@ i3blocklets_install_path @@}}/nmcli-connection-status --connection 'tun.+' --icon '󰞀' --active-color '{{@@ main_theme_color @@}}' --inactive-color '{{@@ i3bar_inactive_color @@}}' --pango-attributes 'size="130%" font_weight="bold"'
+interval=persist
+markup=pango
+
+{%@@ endif -@@%}
+
 {%@@ if has_battery | is_truthy -@@%}
 
 [battery]

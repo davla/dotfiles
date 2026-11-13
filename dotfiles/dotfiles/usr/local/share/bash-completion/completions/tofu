@@ -1,0 +1,3 @@
+# bash parameter completion for the OpenTofu CLI
+
+complete -C tofu tofu

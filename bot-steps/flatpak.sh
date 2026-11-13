@@ -26,8 +26,7 @@ case "$MACHINE" in
         print_info "Install Flatpak applications for $MACHINE"
         flatpak install --noninteractive brasero calibre caprine discordapp \
             freedownloadmanager fr.handbrake.ghb kid3 transmissionbt \
-            org.signal.Signal soundconverter soundjuicer org.telegram.desktop \
-            org.mozilla.thunderbird
+            org.signal.Signal soundconverter soundjuicer org.telegram.desktop
         ;;
 
     'work')
@@ -38,6 +37,6 @@ esac
 
 print_info 'Install Flatpak applications shared across all machines'
 # No Bitwarden as it still has copy-paste issues on Wayland
-flatpak install --noninteractive adwaita-dark baobab org.gnome.clocks drawing \
-    fileroller org.geany.Geany io.mpv.Mpv pwvucontrol seahorse simplescan \
-    spotify
+flatpak install --noninteractive adwaita-dark baobab bluejay org.gnome.clocks \
+    drawing fileroller org.geany.Geany io.mpv.Mpv pwvucontrol seahorse \
+    simplescan spotify org.mozilla.thunderbird

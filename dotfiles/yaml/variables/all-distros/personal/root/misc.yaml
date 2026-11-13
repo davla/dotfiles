@@ -4,5 +4,8 @@
 # personal machine, for the root user
 
 variables:
+  # This variables determines which dotfile is used for the vpn custom command
+  vpn_bin: vpn-nordvpn
+
   # This variable defines the Zygal shell theme colorscheme.
   zygal_colorscheme: green

@@ -233,3 +233,13 @@
     name = {{@@ full_name @@}}
     email = {{@@ git_email @@}}
     username = davla
+
+{%@@ if env['MACHINE'] == 'work' -@@%}
+
+[includeIf "gitdir:~/code/personal/**"]
+    path = config-personal
+
+[includeIf "gitdir:~/code/work/**"]
+    path = config-work
+
+{%@@ endif @@%}

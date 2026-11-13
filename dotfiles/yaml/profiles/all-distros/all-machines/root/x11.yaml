@@ -29,12 +29,9 @@ dotfiles:
     - 92-mode*.conf
     upignore:
     - 92-mode*.conf
-  f_x11_mode_4K.conf:
-    src: etc/X11/xorg.conf.d/92-mode-4K.conf
-    dst: /etc/X11/xorg.conf.d/92-mode-4K.conf
-  f_x11_mode_1080p.conf:
-    src: etc/X11/xorg.conf.d/92-mode-1080p.conf
-    dst: /etc/X11/xorg.conf.d/92-mode-1080p.conf
+  f_x11_mode_widescreen.conf:
+    src: etc/X11/xorg.conf.d/92-mode-widescreen.conf
+    dst: /etc/X11/xorg.conf.d/92-mode-widescreen.conf
   f_override-userxsessionrc:
     src: etc/X11/Xsession.d/01x11-override-userxsessionrc
     dst: /etc/X11/Xsession.d/01x11-override-userxsessionrc
@@ -54,10 +51,9 @@ profiles:
     dotfiles:
     - d_xorg.conf.d
     import:
-    - ../../../../dotfiles/all-distros/{{@@ env['HOST'] @@}}/{{@@ user @@}}/system-tweaks-x11.yaml:optional
+    - ../../../../dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/system-tweaks-x11.yaml:optional
 
 variables:
   # This variable is used to differentiate between user and root configuration
   # in some dotfiles.
   user: root
-

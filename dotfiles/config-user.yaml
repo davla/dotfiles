@@ -6,6 +6,14 @@ actions:
   post:
     bat-theme: bat cache --build
 
+    # This action installs the Claude Code plugins listed in Claude's own
+    # configuration file
+    claude-plugins: >-
+      jq --raw-output '.enabledPlugins | to_entries[] | select(.value) | .key'
+      '{0}/settings.json' | xargs claude plugin install
+
+    # This action downloads a file to the given path, creating missing parent
+    # directories in the process
     download: |
       dirname '{1}' | xargs mkdir --parents
       wget --quiet --output-document '{1}' '{0}'
@@ -19,8 +27,8 @@ actions:
     # can be found here:
     # https://gitlab.gnome.org/GNOME/glib/-/blob/main/gio/gdesktopappinfo.c#L2694
     glib-terminal: |
-        which {{@@ terminal @@}} | xargs -I '@' sudo ln --force --symbolic \
-            '@' /usr/local/bin/nxterm
+      which {{@@ terminal @@}} | xargs -I '@' sudo ln --force --symbolic \
+          '@' /usr/local/bin/nxterm
 
     # This action applies gtk settings via gsettings. The settings are stored
     # in binary format, so no dotfile management is possible. The input file is
@@ -107,12 +115,32 @@ dotfiles:
   d_desktop-directories:
     src: local/share/desktop-directories
     dst: '{{@@ xdg_data("desktop-directories") @@}}'
+  d_claude:
+    src: config/claude
+    dst: '{{@@ xdg_config("claude") @@}}'
+    actions:
+    - claude-plugins '{{@@ _dotfile_abs_dst @@}}'
+    cmpignore:
+    - '*.json'
+    instignore:
+    - '*.json'
+    upignore:
+    - '*.json'
   d_clipcat:
     src: config/clipcat
     dst: '{{@@ xdg_config("clipcat") @@}}'
   d_git:
     src: config/git
     dst: '{{@@ xdg_config("git") @@}}'
+    cmpignore:
+    - 'allowed-signers'
+    - 'config-*'
+    instignore:
+    - 'allowed-signers'
+    - 'config-*'
+    upignore:
+    - 'allowed-signers'
+    - 'config-*'
   d_i3:
     src: config/i3
     dst: '{{@@ xdg_config("i3") @@}}'
@@ -203,9 +231,18 @@ dotfiles:
     dst: '{{@@ xdg_config("systemd/user/disable-vpn-killswitch.service") @@}}'
     actions:
     - systemd-enable
+  f_claude.json:
+    src: config/claude/claude.json
+    dst: '{{@@ xdg_config("claude/.claude.json") @@}}'
+    trans_install: merge_json
+  f_claude_settings.json:
+    src: config/claude/settings.json
+    dst: '{{@@ xdg_config("claude/settings.json") @@}}'
+    trans_install: merge_json
   f_containers_auth.json:
     src: config/containers/auth.json
     dst: '{{@@ xdg_config("containers/auth.json") @@}}'
+    trans_install: merge_json
   f_dunstrc:
     src: config/dunst/dunstrc
     dst: '{{@@ xdg_config("dunst/dunstrc") @@}}'
@@ -238,6 +275,16 @@ dotfiles:
   f_ghci:
     src: config/ghci
     dst: '{{@@ xdg_config(".ghci") @@}}'
+  f_git_allowed-signers:
+    src: config/git/allowed-signers
+    # Dynamic dst as it's used in dotfiles content
+    dst: '{{@@ git_allowed_signers_path @@}}'
+  f_git_config-personal:
+    src: config/git/config-personal
+    dst: '{{@@ xdg_config("git/config-personal") @@}}'
+  f_git_config-work:
+    src: config/git/config-work
+    dst: '{{@@ xdg_config("git/config-work") @@}}'
   f_gnome-keyring-pkcs11.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/gnome-keyring-pkcs11.desktop") @@}}'
@@ -359,9 +406,6 @@ dotfiles:
   f_vimrc:
     src: config/vim/vimrc
     dst: '{{@@ xdg_config("vim/vimrc") @@}}'
-  f_vmware-user.service:
-    src: config/systemd/user/vmware-user.service
-    dst: '{{@@ xdg_config("systemd/user/vmware-user.service") @@}}'
   f_xdg-user-dirs.desktop:
     src: config/autostart/disable-system-default.desktop
     dst: '{{@@ xdg_config("autostart/xdg-user-dirs.desktop") @@}}'
@@ -374,6 +418,9 @@ dotfiles:
   f_xfce4-power-manager.xml:
     src: config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
     dst: '{{@@ xdg_config("xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml") @@}}'
+  f_xss-lock.service:
+    src: config/systemd/user/xss-lock.service
+    dst: '{{@@ xdg_config("systemd/user/xss-lock.service") @@}}'
 
 profiles:
   # This profile groups configuration files for CLI-based applictions.
@@ -554,6 +601,12 @@ profiles:
       is_headless: false
       on_wayland: false
       on_x11: true
+
+trans_install:
+  # This transformation merges a JSON dotfile with what's currently installed
+  # on disk.
+  merge_json:
+    jq --slurp '.[0] * .[1]' '{{@@ _dotfile_abs_dst @@}}' '{0}' > '{1}'
 
 variables:
   # These variables are used to tell which display server is in use on the

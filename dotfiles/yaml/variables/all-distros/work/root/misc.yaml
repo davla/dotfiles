@@ -3,6 +3,14 @@
 # This variables file defines some miscellaneous user-specific variables on my
 # work machine, for the root user
 
+dynvariables:
+  # This variable contains the ID of the Pritunl profile used in the
+  # vpn-pritunl command. It is conveniently the only profile available.
+  pritunl_profile: pritunl-client list --json | jq --raw-output '.[0].id'
+
 variables:
+  # This variables determines which dotfile is used for the vpn custom command
+  vpn_bin: vpn-pritunl
+
   # This variable defines the Zygal shell theme colorscheme.
   zygal_colorscheme: green

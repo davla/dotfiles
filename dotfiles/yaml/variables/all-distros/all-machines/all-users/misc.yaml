@@ -9,8 +9,9 @@ variables:
 
   # Command-related paths
   libs_path: /usr/local/lib
-  logger_path: '{{@@ libs_path @@}}/sh/logger.sh'
+  completion_install_path: '{{@@ libs_path @@}}/sh/completion-install.sh'
   gh_release_path: '{{@@ libs_path @@}}/sh/gh-release.sh'
+  logger_path: '{{@@ libs_path @@}}/sh/logger.sh'
 
   # The terminal emulator. Used in several places, hence defined here.
   terminal: alacritty

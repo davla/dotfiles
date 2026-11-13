@@ -10,6 +10,8 @@
       "-Wall",
       "-Werror",
       "-O2",
+      "-DCABLE_LABEL=\"C\"",
+      "-DWIRELESS_LABEL=\"W\"",
       "-DGOOD_CONNECTION_QUALITY_COLOR=\"#FFFFFF\"",
       "-DMEDIUM_CONNECTION_QUALITY_COLOR=\"#AAAAAA\"",
       "-DBAD_CONNECTION_QUALITY_COLOR=\"#555555\"",

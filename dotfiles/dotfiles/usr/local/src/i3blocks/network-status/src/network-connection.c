@@ -1,3 +1,4 @@
+#include <linux/ethtool_netlink_generated.h>
 #include <linux/netlink.h>
 #include <netlink/errno.h>
 #include <net/if.h>
@@ -17,6 +18,7 @@
 
 #include "network-connection.h"
 #include "netlink/attr.h"
+#include "network-interface.h"
 
 struct network_connection* network_connection_new(
     const char* label,
@@ -60,54 +62,43 @@ void network_connection_free(struct network_connection* this) {
 }
 
 double network_connection_status(struct network_connection* this) {
-    double status = INTERFACE_STATUS_INACTIVE;
-    struct network_interface* curr_interface;
-    int socket_id;
+    return 0;
+}
 
-    if ((socket_id = socket(AF_INET, SOCK_DGRAM, IPPROTO_IP)) < 0) {
-        perror("network_connection_status - error when opening socket");
+struct netlink_attrs {
+    struct nlattr* attrs;
+    int len;
+};
+
+struct netlink_attrs netlink_attrs_new(struct nl_msg* msg) {
+    struct genlmsghdr* msg_header = nlmsg_data(nlmsg_hdr(msg));
+    return (struct netlink_attrs) {
+        .attrs = genlmsg_attrdata(msg_header, 0),
+        .len = genlmsg_attrlen(msg_header, 0),
+    };
+}
+
+struct netlink_attrs netlink_attrs_find_nested_attr(struct netlink_attrs* this,
+    int attr_type, const char* err_msg) {
+    struct nlattr* attr = nla_find(this -> attrs, this -> len, attr_type);
+    if (attr == NULL) {
+        fprintf(stderr, "%s: %s\n", err_msg, nl_geterror(NLE_FAILURE));
         exit(EXIT_FAILURE);
     }
+    return (struct netlink_attrs) {
+        .attrs = (struct nlattr*) nla_data(attr),
+        .len = nla_len(this -> attrs),
+    };
+}
 
-    for (
-        curr_interface = this->interfaces;
-        curr_interface;
-        curr_interface = curr_interface->next
-    ) {
-        status = network_interface_status(
-            curr_interface,
-            this->type,
-            socket_id
-        );
-        if (status != INTERFACE_STATUS_INACTIVE) {
-            break;
-        }
+char* netlink_attrs_find_string_attr(struct netlink_attrs* this, int attr_type,
+    const char* err_msg) {
+    struct nlattr* attr = nla_find(this -> attrs, this -> len, attr_type);
+    if (attr == NULL) {
+        fprintf(stderr, "%s: %s\n", err_msg, nl_geterror(NLE_FAILURE));
+        exit(EXIT_FAILURE);
     }
-
-    close(socket_id);
-    return status;
-}
-
-
-int is_ifnameindex_end(struct if_nameindex* if_name) {
-    return !if_name->if_index && !if_name->if_name;
-}
-
-int is_cable_name(const char* name) {
-    return !(strncmp("en", name, 2) && strncmp("eth", name, 3));
-}
-
-int is_wireless_name(const char* name) {
-    return !(strncmp("wl", name, 2) && strncmp("wlan", name, 4));
-}
-
-void network_connection_add_interface(
-    struct network_connection* this,
-    const char* sys_name
-) {
-    struct network_interface** new;
-    for (new = &this->interfaces; *new; new = &(*new)->next);
-    *new = network_interface_new(sys_name);
+    return nla_get_string(attr);
 }
 
 int nl_debug = 0;
@@ -137,51 +128,60 @@ int nl_debug = 0;
     nl_close(socket); \
     nl_socket_free(socket);
 
+typedef struct network_interface** interface_list;
+
+void interface_list_append(
+    interface_list* this,
+    struct network_interface* new
+) {
+    **this = new;
+    *this = &(new -> next);
+}
+
 // https://github.com/Robpol86/libnl/blob/master/example_c/show_wifi_interface.c
-int print_ethernet_interfaces(struct nl_msg* msg, void* arg) {
-    struct genlmsghdr* msg_header = nlmsg_data(nlmsg_hdr(msg));
-    struct nlattr* msg_attrs = genlmsg_attrdata(msg_header, 0);
-    int attrs_len = genlmsg_attrlen(msg_header, 0);
-
-    struct nlattr* header_attr = nla_find(
-        msg_attrs, attrs_len, ETHTOOL_A_LINKMODES_HEADER
+int make_cable_interface(struct nl_msg* msg, void* arg) {
+    struct netlink_attrs attrs = netlink_attrs_new(msg);
+    struct netlink_attrs header_attr = netlink_attrs_find_nested_attr(
+        &attrs,
+        ETHTOOL_A_LINKMODES_HEADER,
+        "ethtool nl_msg has no header attribute"
     );
-    if (header_attr == NULL) {
-        exit(EXIT_FAILURE);
-    }
-    struct nlattr* dev_name_attr = nla_find(
-        (struct nlattr*) nla_data(header_attr),
-        nla_len(header_attr),
-        ETHTOOL_A_HEADER_DEV_NAME
+    char* interface_name = netlink_attrs_find_string_attr(
+        &header_attr,
+        ETHTOOL_A_HEADER_DEV_NAME,
+        "ethtool header has no device name attribute"
     );
-    if (dev_name_attr == NULL) {
-        exit(EXIT_FAILURE);
-    }
-    printf("Ethernet interface name: %s\n", nla_get_string(dev_name_attr));
 
-    return 0;
+    interface_list* dst = (interface_list*)arg;
+    interface_list_append(dst, network_interface_new(interface_name));
+
+    return NL_OK;
 }
 
-int print_wifi_interfaces(struct nl_msg* msg, void* arg) {
-    struct genlmsghdr* msg_header = nlmsg_data(nlmsg_hdr(msg));
-    struct nlattr* msg_attrs = genlmsg_attrdata(msg_header, 0);
-    int attrs_len = genlmsg_attrlen(msg_header, 0);
-
-    struct nlattr* name_attr = nla_find(
-        msg_attrs, attrs_len, NL80211_ATTR_IFNAME
+int make_wireless_interfaces(struct nl_msg* msg, void* arg) {
+    struct netlink_attrs attrs = netlink_attrs_new(msg);
+    char* name = netlink_attrs_find_string_attr(
+        &attrs,
+        NL80211_ATTR_IFNAME,
+        "nl80211 nl_msg has no interface name attribute"
     );
-    if (name_attr == NULL) {
-        exit(EXIT_FAILURE);
-    }
-    printf("Wi-Fi interface name: %s\n", nla_get_string(name_attr));
 
-    return 0;
+    interface_list* dst = (interface_list*)arg;
+    interface_list_append(dst, network_interface_new(name));
+
+    return NL_OK;
 }
 
-void get_interfaces_of_type(struct nl_sock* socket, const char* type, uint8_t cmd, nl_recvmsg_msg_cb_t callback) {
+void get_interfaces_of_type(
+    struct nl_sock* socket,
+    const char* nl_family,
+    uint8_t nl_cmd,
+    nl_recvmsg_msg_cb_t make_interface,
+    interface_list* dst
+) {
     NL_ERROR_INIT;
 
-    int driver_id = genl_ctrl_resolve(socket, type);
+    int driver_id = genl_ctrl_resolve(socket, nl_family);
     if (driver_id < 1) {
         NL_THROW(driver_id, "error when resolving driver");
     }
@@ -190,12 +190,12 @@ void get_interfaces_of_type(struct nl_sock* socket, const char* type, uint8_t cm
     if (msg == NULL) {
         NL_THROW(NLE_FAILURE, "error when allocating nl_mgs");
     }
-    if (genlmsg_put(msg, 0, 0, driver_id, 0, NLM_F_DUMP, cmd, 0) == NULL) {
+    if (genlmsg_put(msg, 0, 0, driver_id, 0, NLM_F_DUMP, nl_cmd, 0) == NULL) {
         NL_THROW(NLE_FAILURE, "error when setting nl_msg header");
     }
 
     err = nl_socket_modify_cb(socket, NL_CB_VALID, NL_CB_CUSTOM,
-        callback, NULL);
+        make_interface, (void*) dst);
     if (err != 0) {
         NL_THROW_ERR("error when setting socket callback");
     }
@@ -215,7 +215,7 @@ void get_interfaces_of_type(struct nl_sock* socket, const char* type, uint8_t cm
     return;
 
 NL_CATCH_LABEL:
-    fprintf(stderr, "%s(%s) - %s: %s\n", __func__, type, err_msg,
+    fprintf(stderr, "%s(%s) - %s: %s\n", __func__, nl_family, err_msg,
         nl_geterror(err)),
     NL_CLEANUP(socket);
     exit(EXIT_FAILURE);
@@ -233,91 +233,35 @@ struct network_connection* make_network_connections() {
         NL_THROW_ERR("error when connecting netlink socket");
     }
 
-    /*
-     * • nl80211 Generic Netlink Family. Query the nl80211 family (NL80211_CMD_GET_INTERFACE) with the interface's ifindex. If the kernel returns wireless interface data (such as NL80211_ATTR_WIPHY or NL80211_ATTR_IFTYPE), the device is wireless; if it returns -ENODEV or -EOPNOTSUPP, it is not an nl80211 wireless device.
-     • ethtool Generic Netlink Family. Query the ethtool family (ETHTOOL_MSG_LINKMODES_GET or ETHTOOL_MSG_LINKINFO_GET) to inspect ETHTOOL_A_LINKINFO_PORT (which reports physical ports like PORT_TP for twisted pair or PORT_FIBRE) and supported link modes.
-     */
-
-    // genl-ctrl-list | cut -f 2 -d ' ' | xargs -I '{}' printf 'get_interfaces_of_type(socket, "{}");\n' | c
-    // get_interfaces_of_type(socket, "nlctrl");
-    // get_interfaces_of_type(socket, "VFS_DQUOT");
-    // get_interfaces_of_type(socket, "dev-energymodel");
-    // get_interfaces_of_type(socket, "thermal");
-    // get_interfaces_of_type(socket, "dpll");
-    // get_interfaces_of_type(socket, "netdev");
-    get_interfaces_of_type(socket, "ethtool", ETHTOOL_MSG_LINKSTATE_GET, print_ethernet_interfaces);
-    // get_interfaces_of_type(socket, "psp");
-    // get_interfaces_of_type(socket, "devlink");
-    // get_interfaces_of_type(socket, "NLBL_MGMT");
-    // get_interfaces_of_type(socket, "NLBL_CIPSOv4");
-    // get_interfaces_of_type(socket, "NLBL_CALIPSO");
-    // get_interfaces_of_type(socket, "NLBL_UNLBL");
-    // get_interfaces_of_type(socket, "NCSI");
-    // get_interfaces_of_type(socket, "net-shaper");
-    // get_interfaces_of_type(socket, "acpi_event");
-    // get_interfaces_of_type(socket, "reg_event");
-    // get_interfaces_of_type(socket, "tcp_metrics");
-    // get_interfaces_of_type(socket, "mptcp_pm");
-    // get_interfaces_of_type(socket, "drm-ras");
-    // get_interfaces_of_type(socket, "NET_DM");
-    // get_interfaces_of_type(socket, "SEG6");
-    // get_interfaces_of_type(socket, "IOAM6");
-    // get_interfaces_of_type(socket, "handshake");
-    // get_interfaces_of_type(socket, "TASKSTATS");
-    get_interfaces_of_type(socket, "nl80211", NL80211_CMD_GET_INTERFACE, print_wifi_interfaces);
-    // get_interfaces_of_type(socket, "wireguard");
-
-    return NULL;
-
     struct network_connection* res = NULL;
-//
-//     struct if_nameindex* if_name_beg, * if_name_curr;
-//     struct network_connection** next_res = &res;
-//
-//     /*
-//      * Depending on which macros are defined, some of these variables can be
-//      * unused. Let the compiler optimize them away.
-//      */
-//     struct network_connection* __attribute__((unused)) cable = NULL,
-//         __attribute__((unused)) * wireless = NULL;
-//
-//     if (!(if_name_beg = if_nameindex())) {
-//         perror("make_network_connections - error when calling if_nameindex");
-//         exit(EXIT_FAILURE);
-//     }
-//
-//     for (
-//         if_name_curr = if_name_beg;
-//         !is_ifnameindex_end(if_name_curr);
-//         if_name_curr += 1
-//     ) {
-//
-//         #ifdef CABLE_LABEL
-//         if (is_cable_name(if_name_curr->if_name)) {
-//             if (!cable) {
-//                 cable = network_connection_new(CABLE_LABEL, CABLE);
-//                 *next_res = cable;
-//                 next_res = &cable->next;
-//             }
-//             network_connection_add_interface(cable, if_name_curr->if_name);
-//             continue;
-//         }
-//         #endif
-//
-//         #ifdef WIRELESS_LABEL
-//         if (is_wireless_name(if_name_curr->if_name)) {
-//             if (!wireless) {
-//                 wireless = network_connection_new(WIRELESS_LABEL, WIRELESS);
-//                 *next_res = wireless;
-//                 next_res = &wireless->next;
-//             }
-//             network_connection_add_interface(wireless, if_name_curr->if_name);
-//             continue;
-//         }
-//         #endif
-//     }
-//
-//     if_freenameindex(if_name_beg);
+    struct network_connection** next_connection = &res;
+    interface_list interfaces = NULL;
+
+    #ifdef CABLE_LABEL
+    *next_connection = network_connection_new(CABLE_LABEL, CABLE);
+    struct network_connection* cable = *next_connection;
+    next_connection = &(cable -> next);
+
+    interfaces = &(cable -> interfaces);
+    get_interfaces_of_type(socket, "ethtool", ETHTOOL_MSG_LINKMODES_GET,
+        make_cable_interface, &interfaces);
+    #endif
+
+    #ifdef WIRELESS_LABEL
+    *next_connection = network_connection_new(WIRELESS_LABEL, WIRELESS);
+    struct network_connection* wireless = *next_connection;
+    next_connection = &(wireless -> next);
+
+    interfaces = &(wireless -> interfaces);
+    get_interfaces_of_type(socket, "nl80211", NL80211_CMD_GET_INTERFACE,
+        make_wireless_interfaces, &interfaces);
+    #endif
+
+    for (struct network_connection* c = res; c != NULL; c = c -> next) {
+        for (struct network_interface* i = c -> interfaces; i != NULL; i = i -> next) {
+            printf("%s\n", i -> name);
+        }
+    }
     return res;
 
 NL_CATCH_LABEL:

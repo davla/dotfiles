@@ -179,38 +179,6 @@ static int network_connections_from_nl_msg(struct nl_msg *msg, void* arg) {
     return NL_OK;
 }
 
-void nl_exit_on_error(int error, const char* msg) {
-    if (error == 0) {
-        return;
-    }
-    nl_perror(error, msg);
-    exit(EXIT_FAILURE);
-}
-
-void get_interfaces_of_type_exit(
-    int error,
-    const char* msg,
-    const char* type,
-    struct nl_sock* socket
-) {
-    fprintf(stderr, "get_interfaces_of_type(%s) - %s: %s\n",
-        type, msg, nl_geterror(error));
-    nl_close(socket);
-    nl_socket_free(socket);
-    exit(EXIT_FAILURE);
-}
-
-void get_interfaces_of_type_exit_on_error(
-    int error,
-    const char* msg,
-    const char* type,
-    struct nl_sock* socket
-) {
-    if (error != 0) {
-        get_interfaces_of_type_exit(error, msg, type, socket);
-    }
-}
-
 // https://github.com/Robpol86/libnl/blob/master/example_c/show_wifi_interface.c
 int print_interface(struct nl_msg* msg, void* arg) {
     printf("Something\n");
@@ -220,54 +188,75 @@ int print_interface(struct nl_msg* msg, void* arg) {
 int nl_debug = 0;
 
 void get_interfaces_of_type(struct nl_sock* socket, const char* type) {
+    int err = NLE_SUCCESS;
+    const char* err_msg = "";
+
     int driver_id = genl_ctrl_resolve(socket, type);
     if (driver_id < 1) {
-        get_interfaces_of_type_exit(driver_id,
-            "error when resolving driver", type, socket);
+        err = driver_id;
+        err_msg = "error when resolving driver";
+        goto catch;
     }
 
-    struct nl_msg* msg;
-    if ((msg = nlmsg_alloc()) == NULL) {
-        get_interfaces_of_type_exit(NLE_FAILURE,
-            "error when allocating nl_mgs", type, socket);
+    struct nl_msg* msg = nlmsg_alloc();
+    if (msg == NULL) {
+        err = NLE_FAILURE;
+        err_msg = "error when allocating nl_mgs";
+        goto catch;
     }
     // TODO: NL80211_CMD_GET_INTERFACE doesn't look very generic
     if (genlmsg_put(msg, 0, 0, driver_id, 0, NLM_F_DUMP, NL80211_CMD_GET_INTERFACE, 0) == NULL) {
-        get_interfaces_of_type_exit(NLE_FAILURE,
-            "error when setting nl_msg header", type, socket);
+        err = NLE_FAILURE;
+        err_msg = "error when setting nl_msg header";
+        goto catch;
     }
 
-    get_interfaces_of_type_exit_on_error(
-        nl_socket_modify_cb(socket, NL_CB_VALID, NL_CB_CUSTOM,
-            print_interface, NULL),
-        "error when setting socket callback", type, socket
-    );
-    int sent_bytes_count = nl_send_auto(socket, msg);
-    if (sent_bytes_count == 0) {
-        get_interfaces_of_type_exit(NLE_FAILURE,
-            "no bytes sent when sending nl_msg", type, socket);
-    } else if (sent_bytes_count < 0) {
-        get_interfaces_of_type_exit(sent_bytes_count,
-            "error when sending nl_msg", type, socket);
+    err = nl_socket_modify_cb(socket, NL_CB_VALID, NL_CB_CUSTOM,
+        print_interface, NULL);
+    if (err != 0) {
+        err_msg = "error when setting socket callback";
+        goto catch;
     }
-    get_interfaces_of_type_exit_on_error(
-        nl_recvmsgs_default(socket),
-        "error when receiving response", type, socket
-    );
 
+    err = nl_send_auto(socket, msg);
+    if (err == 0) {
+        err = NLE_FAILURE;
+        err_msg = "no bytes sent when sending nl_msg";
+        goto catch;
+    } else if (err < 0) {
+        err_msg = "error when sending nl_msg";
+        goto catch;
+    }
+
+    if ((err = nl_recvmsgs_default(socket)) != 0) {
+        err_msg = "error when receiving response";
+        goto catch;
+    }
+
+    return;
+
+catch:
+    fprintf(stderr, "get_interfaces_of_type(%s) - %s: %s\n", type, err_msg,
+        nl_geterror(err));
+    nl_close(socket);
+    nl_socket_free(socket);
+    exit(EXIT_FAILURE);
 }
 
 struct network_connection* make_network_connections() {
+    int err = NLE_SUCCESS;
+    const char* err_msg = "";
+
     struct nl_sock* socket = nl_socket_alloc();
     if (socket == NULL) {
-        perror("make_network_connections - error when cnetlink socket");
-        exit(EXIT_FAILURE);
+        err = NLE_FAILURE;
+        err_msg = "make_network_connections - error when creating socket";
+        goto catch_no_socket;
     }
-
-    nl_exit_on_error(
-        genl_connect(socket),
-        "make_network_connections - somehow the netlink socket is already connected"
-    );
+    if ((err = genl_connect(socket)) != 0) {
+        err_msg = "make_network_connections - somehow the netlink socket is already connected";
+        goto catch;
+    }
 
     // genl-ctrl-list | cut -f 2 -d ' ' | xargs -I '{}' printf 'get_interfaces_of_type(socket, "{}");\n' | c
     // get_interfaces_of_type(socket, "nlctrl");
@@ -360,4 +349,11 @@ struct network_connection* make_network_connections() {
 //
 //     if_freenameindex(if_name_beg);
     return res;
+
+catch:
+    nl_close(socket);
+    nl_socket_free(socket);
+catch_no_socket:
+    nl_perror(err, err_msg);
+    exit(EXIT_FAILURE);
 }

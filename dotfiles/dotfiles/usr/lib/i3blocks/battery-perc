@@ -118,5 +118,5 @@ acpi --battery | {
         COLOR="$COLOR_0"
     fi
 
-    printf '%s<span color="%s">%d%%</span>\n' "$LABEL" "$COLOR" "$PERC_NUM"
+    printf '%s<span color="%s">%3d%%</span>\n' "$LABEL" "$COLOR" "$PERC_NUM"
 }

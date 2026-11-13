@@ -187,75 +187,85 @@ int print_interface(struct nl_msg* msg, void* arg) {
 
 int nl_debug = 0;
 
-void get_interfaces_of_type(struct nl_sock* socket, const char* type) {
-    int err = NLE_SUCCESS;
+#define NL_ERROR_INIT \
+    int err = NLE_SUCCESS; \
     const char* err_msg = "";
+
+#define NL_SET_ERR(error, error_message) \
+    err = error; \
+    err_msg = error_message;
+
+#define NL_THROW_ERR(error_message) \
+    err_msg = error_message; \
+    goto catch;
+
+#define NL_THROW(error, error_message) \
+    err = error; \
+    NL_THROW_ERR(error_message);
+
+#define NL_CATCH_LABEL catch
+
+#define NL_PRINT_ERR \
+    fprintf(stderr, "%s - %s: %s\n", __func__, err_msg, nl_geterror(err));
+
+#define NL_CLEANUP(socket) \
+    nl_close(socket); \
+    nl_socket_free(socket);
+
+void get_interfaces_of_type(struct nl_sock* socket, const char* type) {
+    NL_ERROR_INIT;
 
     int driver_id = genl_ctrl_resolve(socket, type);
     if (driver_id < 1) {
-        err = driver_id;
-        err_msg = "error when resolving driver";
-        goto catch;
+        NL_THROW(driver_id, "error when resolving driver");
     }
 
     struct nl_msg* msg = nlmsg_alloc();
     if (msg == NULL) {
-        err = NLE_FAILURE;
-        err_msg = "error when allocating nl_mgs";
-        goto catch;
+        NL_THROW(NLE_FAILURE, "error when allocating nl_mgs");
     }
     // TODO: NL80211_CMD_GET_INTERFACE doesn't look very generic
     if (genlmsg_put(msg, 0, 0, driver_id, 0, NLM_F_DUMP, NL80211_CMD_GET_INTERFACE, 0) == NULL) {
-        err = NLE_FAILURE;
-        err_msg = "error when setting nl_msg header";
-        goto catch;
+        NL_THROW(NLE_FAILURE, "error when setting nl_msg header");
     }
 
     err = nl_socket_modify_cb(socket, NL_CB_VALID, NL_CB_CUSTOM,
         print_interface, NULL);
     if (err != 0) {
-        err_msg = "error when setting socket callback";
-        goto catch;
+        NL_THROW_ERR("error when setting socket callback");
     }
 
     err = nl_send_auto(socket, msg);
     if (err == 0) {
-        err = NLE_FAILURE;
-        err_msg = "no bytes sent when sending nl_msg";
+        NL_THROW(NLE_FAILURE, "no bytes sent when sending nl_msg");
         goto catch;
     } else if (err < 0) {
-        err_msg = "error when sending nl_msg";
-        goto catch;
+        NL_THROW_ERR("error when sending nl_msg");
     }
 
     if ((err = nl_recvmsgs_default(socket)) != 0) {
-        err_msg = "error when receiving response";
-        goto catch;
+        NL_THROW(err, "error when receiving response");
     }
 
     return;
 
-catch:
-    fprintf(stderr, "get_interfaces_of_type(%s) - %s: %s\n", type, err_msg,
-        nl_geterror(err));
-    nl_close(socket);
-    nl_socket_free(socket);
+NL_CATCH_LABEL:
+    fprintf(stderr, "%s(%s) - %s: %s\n", __func__, type, err_msg,
+        nl_geterror(err)),
+    NL_CLEANUP(socket);
     exit(EXIT_FAILURE);
 }
 
 struct network_connection* make_network_connections() {
-    int err = NLE_SUCCESS;
-    const char* err_msg = "";
+    NL_ERROR_INIT;
 
     struct nl_sock* socket = nl_socket_alloc();
     if (socket == NULL) {
-        err = NLE_FAILURE;
-        err_msg = "make_network_connections - error when creating socket";
+        NL_SET_ERR(NLE_FAILURE, "error when creating netlink socket");
         goto catch_no_socket;
     }
     if ((err = genl_connect(socket)) != 0) {
-        err_msg = "make_network_connections - somehow the netlink socket is already connected";
-        goto catch;
+        NL_THROW_ERR("error when connecting netlink socket");
     }
 
     // genl-ctrl-list | cut -f 2 -d ' ' | xargs -I '{}' printf 'get_interfaces_of_type(socket, "{}");\n' | c
@@ -350,10 +360,9 @@ struct network_connection* make_network_connections() {
 //     if_freenameindex(if_name_beg);
     return res;
 
-catch:
-    nl_close(socket);
-    nl_socket_free(socket);
+NL_CATCH_LABEL:
+    NL_CLEANUP(socket);
 catch_no_socket:
-    nl_perror(err, err_msg);
+    NL_PRINT_ERR;
     exit(EXIT_FAILURE);
 }

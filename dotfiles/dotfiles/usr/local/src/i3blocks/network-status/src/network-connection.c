@@ -55,9 +55,6 @@ void network_connection_free(struct network_connection* this) {
 int nl_debug = 0;
 
 struct network_connection* detect_network_connections() {
-    SET_EXCEPTION(NLE_FAILURE, "testytest");
-    return NULL;
-
     struct nl_sock* socket = nl_socket_alloc();
     if (socket == NULL) {
         SET_EXCEPTION(NLE_FAILURE, "error when creating netlink socket");
@@ -79,7 +76,7 @@ struct network_connection* detect_network_connections() {
 
     cable->interfaces = detect_network_interfaces(socket, CABLE);
     if (has_exception()) {
-        goto cleanup_res;
+        goto cleanup;
     }
     #endif
 
@@ -90,7 +87,7 @@ struct network_connection* detect_network_connections() {
 
     wireless->interfaces = detect_network_interfaces(socket, WIRELESS);
     if (has_exception()) {
-        goto cleanup_res;
+        goto cleanup;
     }
     #endif
 
@@ -101,7 +98,7 @@ struct network_connection* detect_network_connections() {
     }
     return res;
 
-cleanup_res:
+cleanup:
     network_connection_free(res);
 
 cleanup_socket:
@@ -111,7 +108,7 @@ cleanup_socket:
 }
 
 double network_connection_status(struct network_connection* this) {
-    double sum = 0;
+    double sum = 0.0;
     size_t len = 0;
     struct network_interface* curr_interface;
 
@@ -124,5 +121,5 @@ double network_connection_status(struct network_connection* this) {
         len += 1;
     }
 
-    return sum / len;
+    return len != 0 ? sum / len : 0.0;
 }

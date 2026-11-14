@@ -64,7 +64,10 @@ const char* netlink_attrs_find_string_attr(
  * network_interface
  *************************************/
 
-struct network_interface* network_interface_new(const char* sys_name) {
+struct network_interface* network_interface_new(
+    const char* name,
+    enum network_medium medium
+) {
     struct network_interface* new;
 
     if (
@@ -75,13 +78,14 @@ struct network_interface* network_interface_new(const char* sys_name) {
         exit(EXIT_FAILURE);
     }
 
-    size_t sys_name_byte_len = (strlen(sys_name) + 1) * sizeof(char);
+    size_t sys_name_byte_len = (strlen(name) + 1) * sizeof(char);
     if (!(new->name = (char*) malloc(sys_name_byte_len))) {
         perror("network_interface_new - error when calling malloc for name");
         exit(EXIT_FAILURE);
     }
 
-    strcpy(new->name, sys_name);
+    strcpy(new->name, name);
+    new->medium = medium;
     new->next = NULL;
 
     return new;
@@ -130,7 +134,7 @@ int make_cable_interface(struct nl_msg* msg, void* arg) {
     }
 
     interface_dst* dst = (interface_dst*)arg;
-    interface_dst_set(dst, network_interface_new(interface_name));
+    interface_dst_set(dst, network_interface_new(interface_name, CABLE));
 
     return NL_OK;
 }
@@ -147,7 +151,7 @@ int make_wireless_interfaces(struct nl_msg* msg, void* arg) {
     }
 
     interface_dst* dst = (interface_dst*)arg;
-    interface_dst_set(dst, network_interface_new(name));
+    interface_dst_set(dst, network_interface_new(name, WIRELESS));
 
     return NL_OK;
 }
@@ -194,11 +198,11 @@ struct network_interface* detect_network_interfaces(
     struct nl_msg* msg = nlmsg_alloc();
     if (msg == NULL) {
         SET_EXCEPTION(NLE_FAILURE, "error when allocating nl_mgs");
-        goto cleanup;
+        goto cleanup_msg;
     }
     if (genlmsg_put(msg, 0, 0, driver_id, 0, NLM_F_DUMP, nl_cmd, 0) == NULL) {
         SET_EXCEPTION(NLE_FAILURE, "error when setting nl_msg header");
-        goto cleanup;
+        goto cleanup_msg;
     }
 
     set_exception_err(
@@ -207,33 +211,33 @@ struct network_interface* detect_network_interfaces(
     );
     if (has_exception()) {
         SET_EXCEPTION_MSG("error when setting socket callback");
-        goto cleanup;
+        goto cleanup_msg;
     }
 
     int sent_bytes = nl_send_auto(socket, msg);
     if (sent_bytes == 0) {
         SET_EXCEPTION(NLE_FAILURE, "no bytes sent when sending nl_msg");
-        goto cleanup_res;
+        goto cleanup;
     } else if (sent_bytes < 0) {
         SET_EXCEPTION(sent_bytes, "error when sending nl_msg");
-        goto cleanup_res;
+        goto cleanup;
     }
 
     set_exception_err(nl_recvmsgs_default(socket));
     if (has_exception()) {
         SET_EXCEPTION_MSG("error when receiving response");
-        goto cleanup_res;
+        goto cleanup;
     }
 
     return res;
 
 cleanup:
-    nlmsg_free(msg);
-
-cleanup_res:
     if (res != NULL) {
         network_interface_free(res);
     }
+
+cleanup_msg:
+    nlmsg_free(msg);
     return NULL;
 }
 

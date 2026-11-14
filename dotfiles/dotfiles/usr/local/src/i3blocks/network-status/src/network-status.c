@@ -48,7 +48,7 @@ void connections_print_indicator(struct network_connection* connections) {
 }
 
 int main() {
-    struct network_connection* connections = make_network_connections();
+    struct network_connection* connections = detect_network_connections();
     connections_print_indicator(connections);
     network_connection_free(connections);
     return 0;

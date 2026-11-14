@@ -1,3 +1,4 @@
+#include "exception.h"
 #include <linux/ethtool_netlink_generated.h>
 #include <linux/netlink.h>
 #include <netlink/errno.h>
@@ -78,12 +79,14 @@ struct netlink_attrs netlink_attrs_new(struct nl_msg* msg) {
     };
 }
 
-struct netlink_attrs netlink_attrs_find_nested_attr(struct netlink_attrs* this,
-    int attr_type, const char* err_msg) {
+struct netlink_attrs netlink_attrs_find_nested_attr(
+    const struct netlink_attrs* this,
+    int attr_type
+) {
     struct nlattr* attr = nla_find(this -> attrs, this -> len, attr_type);
     if (attr == NULL) {
-        fprintf(stderr, "%s: %s\n", err_msg, nl_geterror(NLE_FAILURE));
-        exit(EXIT_FAILURE);
+        set_exception_err(NLE_FAILURE);
+        return (struct netlink_attrs) {};
     }
     return (struct netlink_attrs) {
         .attrs = (struct nlattr*) nla_data(attr),
@@ -91,42 +94,19 @@ struct netlink_attrs netlink_attrs_find_nested_attr(struct netlink_attrs* this,
     };
 }
 
-char* netlink_attrs_find_string_attr(struct netlink_attrs* this, int attr_type,
-    const char* err_msg) {
+const char* netlink_attrs_find_string_attr(
+    const struct netlink_attrs* this,
+    int attr_type
+) {
     struct nlattr* attr = nla_find(this -> attrs, this -> len, attr_type);
     if (attr == NULL) {
-        fprintf(stderr, "%s: %s\n", err_msg, nl_geterror(NLE_FAILURE));
-        exit(EXIT_FAILURE);
+        set_exception_err(NLE_FAILURE);
+        return NULL;
     }
     return nla_get_string(attr);
 }
 
 int nl_debug = 0;
-
-#define NL_ERROR_INIT \
-    int err = NLE_SUCCESS; \
-    const char* err_msg = "";
-
-#define NL_SET_ERR(error, error_message) \
-    err = error; \
-    err_msg = error_message;
-
-#define NL_THROW_ERR(error_message) \
-    err_msg = error_message; \
-    goto catch;
-
-#define NL_THROW(error, error_message) \
-    err = error; \
-    NL_THROW_ERR(error_message);
-
-#define NL_CATCH_LABEL catch
-
-#define NL_PRINT_ERR \
-    fprintf(stderr, "%s - %s: %s\n", __func__, err_msg, nl_geterror(err));
-
-#define NL_CLEANUP(socket) \
-    nl_close(socket); \
-    nl_socket_free(socket);
 
 typedef struct network_interface** interface_list;
 
@@ -141,16 +121,24 @@ void interface_list_append(
 // https://github.com/Robpol86/libnl/blob/master/example_c/show_wifi_interface.c
 int make_cable_interface(struct nl_msg* msg, void* arg) {
     struct netlink_attrs attrs = netlink_attrs_new(msg);
+
     struct netlink_attrs header_attr = netlink_attrs_find_nested_attr(
         &attrs,
-        ETHTOOL_A_LINKMODES_HEADER,
-        "ethtool nl_msg has no header attribute"
+        ETHTOOL_A_LINKMODES_HEADER
     );
-    char* interface_name = netlink_attrs_find_string_attr(
+    if (has_exception()) {
+        set_exception_msg("ethtool nl_msg has no header attribute");
+        return NL_SKIP;
+    }
+
+    const char* interface_name = netlink_attrs_find_string_attr(
         &header_attr,
-        ETHTOOL_A_HEADER_DEV_NAME,
-        "ethtool header has no device name attribute"
+        ETHTOOL_A_HEADER_DEV_NAME
     );
+    if (has_exception()) {
+        set_exception_msg("ethtool header has no device name attribute");
+        return NL_SKIP;
+    }
 
     interface_list* dst = (interface_list*)arg;
     interface_list_append(dst, network_interface_new(interface_name));
@@ -160,11 +148,14 @@ int make_cable_interface(struct nl_msg* msg, void* arg) {
 
 int make_wireless_interfaces(struct nl_msg* msg, void* arg) {
     struct netlink_attrs attrs = netlink_attrs_new(msg);
-    char* name = netlink_attrs_find_string_attr(
+    const char* name = netlink_attrs_find_string_attr(
         &attrs,
-        NL80211_ATTR_IFNAME,
-        "nl80211 nl_msg has no interface name attribute"
+        NL80211_ATTR_IFNAME
     );
+    if (has_exception()) {
+        set_exception_msg("nl80211 nl_msg has no interface name attribute");
+        return NL_SKIP;
+    }
 
     interface_list* dst = (interface_list*)arg;
     interface_list_append(dst, network_interface_new(name));
@@ -172,65 +163,72 @@ int make_wireless_interfaces(struct nl_msg* msg, void* arg) {
     return NL_OK;
 }
 
-void get_interfaces_of_type(
+void get_interfaces_of_family(
     struct nl_sock* socket,
     const char* nl_family,
     uint8_t nl_cmd,
     nl_recvmsg_msg_cb_t make_interface,
     interface_list* dst
 ) {
-    NL_ERROR_INIT;
+    char err_msg_func[strlen(__func__) + strlen(nl_family) + 2 + 1];
 
     int driver_id = genl_ctrl_resolve(socket, nl_family);
     if (driver_id < 1) {
-        NL_THROW(driver_id, "error when resolving driver");
+        set_exception(driver_id, "error when resolving driver");
+        goto catch;
     }
 
     struct nl_msg* msg = nlmsg_alloc();
     if (msg == NULL) {
-        NL_THROW(NLE_FAILURE, "error when allocating nl_mgs");
+        set_exception(NLE_FAILURE, "error when allocating nl_mgs");
+        goto catch;
     }
     if (genlmsg_put(msg, 0, 0, driver_id, 0, NLM_F_DUMP, nl_cmd, 0) == NULL) {
-        NL_THROW(NLE_FAILURE, "error when setting nl_msg header");
-    }
-
-    err = nl_socket_modify_cb(socket, NL_CB_VALID, NL_CB_CUSTOM,
-        make_interface, (void*) dst);
-    if (err != 0) {
-        NL_THROW_ERR("error when setting socket callback");
-    }
-
-    err = nl_send_auto(socket, msg);
-    if (err == 0) {
-        NL_THROW(NLE_FAILURE, "no bytes sent when sending nl_msg");
+        set_exception(NLE_FAILURE, "error when setting nl_msg header");
         goto catch;
-    } else if (err < 0) {
-        NL_THROW_ERR("error when sending nl_msg");
     }
 
-    if ((err = nl_recvmsgs_default(socket)) != 0) {
-        NL_THROW(err, "error when receiving response");
+    set_exception_err(
+        nl_socket_modify_cb(socket, NL_CB_VALID, NL_CB_CUSTOM, make_interface,
+            (void*) dst)
+    );
+    if (has_exception()) {
+        set_exception_msg("error when setting socket callback");
+        goto catch;
+    }
+
+    int sent_bytes = nl_send_auto(socket, msg);
+    if (sent_bytes == 0) {
+        set_exception(NLE_FAILURE, "no bytes sent when sending nl_msg");
+        goto catch;
+    } else if (sent_bytes < 0) {
+        set_exception(sent_bytes, "error when sending nl_msg");
+        goto catch;
+    }
+
+    set_exception_err(nl_recvmsgs_default(socket));
+    if (has_exception()) {
+        set_exception_msg("error when receiving response");
+        goto catch;
     }
 
     return;
 
-NL_CATCH_LABEL:
-    fprintf(stderr, "%s(%s) - %s: %s\n", __func__, nl_family, err_msg,
-        nl_geterror(err)),
-    NL_CLEANUP(socket);
-    exit(EXIT_FAILURE);
+catch:
+    sprintf(err_msg_func, "%s(%s)", __func__, nl_family);
+    print_exception(err_msg_func);
 }
 
 struct network_connection* make_network_connections() {
-    NL_ERROR_INIT;
-
     struct nl_sock* socket = nl_socket_alloc();
     if (socket == NULL) {
-        NL_SET_ERR(NLE_FAILURE, "error when creating netlink socket");
-        goto catch_no_socket;
+        set_exception(NLE_FAILURE, "error when creating netlink socket");
+        goto catch;
     }
-    if ((err = genl_connect(socket)) != 0) {
-        NL_THROW_ERR("error when connecting netlink socket");
+    set_exception_err(genl_connect(socket));
+    if (has_exception()) {
+        set_exception_msg("error when connecting netlink socket");
+        goto cleanup;
     }
 
     struct network_connection* res = NULL;
@@ -243,8 +241,11 @@ struct network_connection* make_network_connections() {
     next_connection = &(cable -> next);
 
     interfaces = &(cable -> interfaces);
-    get_interfaces_of_type(socket, "ethtool", ETHTOOL_MSG_LINKMODES_GET,
+    get_interfaces_of_family(socket, "ethtool", ETHTOOL_MSG_LINKMODES_GET,
         make_cable_interface, &interfaces);
+    if (has_exception()) {
+        goto cleanup;
+    }
     #endif
 
     #ifdef WIRELESS_LABEL
@@ -253,8 +254,11 @@ struct network_connection* make_network_connections() {
     next_connection = &(wireless -> next);
 
     interfaces = &(wireless -> interfaces);
-    get_interfaces_of_type(socket, "nl80211", NL80211_CMD_GET_INTERFACE,
+    get_interfaces_of_family(socket, "nl80211", NL80211_CMD_GET_INTERFACE,
         make_wireless_interfaces, &interfaces);
+    if (has_exception()) {
+        goto cleanup;
+    }
     #endif
 
     for (struct network_connection* c = res; c != NULL; c = c -> next) {
@@ -264,9 +268,10 @@ struct network_connection* make_network_connections() {
     }
     return res;
 
-NL_CATCH_LABEL:
-    NL_CLEANUP(socket);
-catch_no_socket:
-    NL_PRINT_ERR;
-    exit(EXIT_FAILURE);
+cleanup:
+    nl_close(socket);
+    nl_socket_free(socket);
+catch:
+    print_exception(__func__);
+    return NULL;
 }

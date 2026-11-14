@@ -1,8 +1,6 @@
 #ifndef EXCEPTION_H
 #define EXCEPTION_H
 
-#include <netlink/errno.h>
-
 struct exception {
     int err;
     const char* msg;

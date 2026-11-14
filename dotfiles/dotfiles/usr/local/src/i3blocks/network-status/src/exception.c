@@ -1,5 +1,6 @@
 #include <netlink/errno.h>
 #include <stdio.h>
+
 #include "exception.h"
 
 struct exception e = {

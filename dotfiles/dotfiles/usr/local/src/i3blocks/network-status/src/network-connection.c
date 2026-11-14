@@ -1,24 +1,15 @@
-#include "exception.h"
-#include <linux/ethtool_netlink_generated.h>
-#include <linux/netlink.h>
 #include <netlink/errno.h>
-#include <net/if.h>
-#include <netinet/in.h>
+#include <netlink/genl/genl.h>
+#include <netlink/netlink.h>
+#include <netlink/socket.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <netlink/socket.h>
-#include <netlink/netlink.h>
-#include <netlink/genl/genl.h>
-#include <netlink/handlers.h>
-#include <netlink/msg.h>
-#include <netlink/genl/ctrl.h>
-#include <linux/ethtool_netlink.h>
-#include <linux/nl80211.h>
+
+#include "exception.h"
+#include "network-interface.h"
 
 #include "network-connection.h"
-#include "network-interface.h"
 
 struct network_connection* network_connection_new(
     const char* label,

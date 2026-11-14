@@ -126,7 +126,7 @@ int make_cable_interface(struct nl_msg* msg, void* arg) {
         ETHTOOL_A_LINKMODES_HEADER
     );
     if (has_exception()) {
-        set_exception_msg("ethtool nl_msg has no header attribute");
+        SET_EXCEPTION_MSG("ethtool nl_msg has no header attribute");
         return NL_SKIP;
     }
 
@@ -135,7 +135,7 @@ int make_cable_interface(struct nl_msg* msg, void* arg) {
         ETHTOOL_A_HEADER_DEV_NAME
     );
     if (has_exception()) {
-        set_exception_msg("ethtool header has no device name attribute");
+        SET_EXCEPTION_MSG("ethtool header has no device name attribute");
         return NL_SKIP;
     }
 
@@ -152,7 +152,7 @@ int make_wireless_interfaces(struct nl_msg* msg, void* arg) {
         NL80211_ATTR_IFNAME
     );
     if (has_exception()) {
-        set_exception_msg("nl80211 nl_msg has no interface name attribute");
+        SET_EXCEPTION_MSG("nl80211 nl_msg has no interface name attribute");
         return NL_SKIP;
     }
 
@@ -194,22 +194,21 @@ struct network_interface* detect_network_interfaces(
 
     struct network_interface* res = NULL;
     interface_dst dst = &res;
-    char err_msg_func[strlen(__func__) + strlen(nl_family) + 2 + 1];
 
     int driver_id = genl_ctrl_resolve(socket, nl_family);
     if (driver_id < 1) {
-        set_exception(driver_id, "error when resolving driver");
-        goto catch;
+        SET_EXCEPTION(driver_id, "error when resolving driver");
+        return NULL;
     }
 
     struct nl_msg* msg = nlmsg_alloc();
     if (msg == NULL) {
-        set_exception(NLE_FAILURE, "error when allocating nl_mgs");
-        goto catch;
+        SET_EXCEPTION(NLE_FAILURE, "error when allocating nl_mgs");
+        goto cleanup;
     }
     if (genlmsg_put(msg, 0, 0, driver_id, 0, NLM_F_DUMP, nl_cmd, 0) == NULL) {
-        set_exception(NLE_FAILURE, "error when setting nl_msg header");
-        goto catch;
+        SET_EXCEPTION(NLE_FAILURE, "error when setting nl_msg header");
+        goto cleanup;
     }
 
     set_exception_err(
@@ -217,35 +216,34 @@ struct network_interface* detect_network_interfaces(
             (void*) &dst)
     );
     if (has_exception()) {
-        set_exception_msg("error when setting socket callback");
-        goto catch;
+        SET_EXCEPTION_MSG("error when setting socket callback");
+        goto cleanup;
     }
 
     int sent_bytes = nl_send_auto(socket, msg);
     if (sent_bytes == 0) {
-        set_exception(NLE_FAILURE, "no bytes sent when sending nl_msg");
-        goto cleanup;
+        SET_EXCEPTION(NLE_FAILURE, "no bytes sent when sending nl_msg");
+        goto cleanup_res;
     } else if (sent_bytes < 0) {
-        set_exception(sent_bytes, "error when sending nl_msg");
-        goto cleanup;
+        SET_EXCEPTION(sent_bytes, "error when sending nl_msg");
+        goto cleanup_res;
     }
 
     set_exception_err(nl_recvmsgs_default(socket));
     if (has_exception()) {
-        set_exception_msg("error when receiving response");
-        goto cleanup;
+        SET_EXCEPTION_MSG("error when receiving response");
+        goto cleanup_res;
     }
 
     return res;
 
 cleanup:
+    nlmsg_free(msg);
+
+cleanup_res:
     if (res != NULL) {
         network_interface_free(res);
     }
-
-catch:
-    sprintf(err_msg_func, "%s(%s)", __func__, nl_family);
-    print_exception(err_msg_func);
     return NULL;
 }
 

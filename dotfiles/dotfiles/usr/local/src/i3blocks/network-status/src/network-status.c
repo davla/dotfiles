@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include "exception.h"
 #include "network-connection.h"
 
 #if !defined(CABLE_LABEL) && !defined(WIRELESS_LABEL)
@@ -49,6 +50,11 @@ void connections_print_indicator(struct network_connection* connections) {
 
 int main() {
     struct network_connection* connections = detect_network_connections();
+    if (has_exception()) {
+        print_exception();
+        return 1;
+    }
+
     connections_print_indicator(connections);
     network_connection_free(connections);
     return 0;

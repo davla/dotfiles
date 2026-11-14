@@ -4,26 +4,18 @@
 
 struct exception e = {
     .err = NLE_SUCCESS,
-    .msg = ""
+    .msg = "",
+    .func = ""
 };
 
 int has_exception() {
     return e.err != NLE_SUCCESS;
 }
 
-int print_exception(const char* func) {
-    return fprintf(stderr, "%s - %s: %s\n", func, e.msg, nl_geterror(e.err));
-}
-
-void set_exception(int err, const char* msg) {
-    e.err = err;
-    e.msg = msg;
+int print_exception() {
+    return fprintf(stderr, "%s - %s: %s\n", e.func, e.msg, nl_geterror(e.err));
 }
 
 void set_exception_err(int err) {
     e.err = err;
-}
-
-void set_exception_msg(const char* msg) {
-    e.msg = msg;
 }

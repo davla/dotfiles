@@ -6,14 +6,19 @@
 struct exception {
     int err;
     const char* msg;
+    const char* func;
 };
 
 extern struct exception e;
 
 int has_exception();
-int print_exception(const char* func);
-void set_exception(int err, const char* msg);
+int print_exception();
 void set_exception_err(int err);
-void set_exception_msg(const char* msg);
+#define SET_EXCEPTION_MSG(message) \
+    e.msg = message; \
+    e.func = __func__;
+#define SET_EXCEPTION(error, message) \
+    set_exception_err(error); \
+    SET_EXCEPTION_MSG(message);
 
 #endif

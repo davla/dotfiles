@@ -64,14 +64,17 @@ void network_connection_free(struct network_connection* this) {
 int nl_debug = 0;
 
 struct network_connection* detect_network_connections() {
+    SET_EXCEPTION(NLE_FAILURE, "testytest");
+    return NULL;
+
     struct nl_sock* socket = nl_socket_alloc();
     if (socket == NULL) {
-        set_exception(NLE_FAILURE, "error when creating netlink socket");
-        goto catch;
+        SET_EXCEPTION(NLE_FAILURE, "error when creating netlink socket");
+        return NULL;
     }
     set_exception_err(genl_connect(socket));
     if (has_exception()) {
-        set_exception_msg("error when connecting netlink socket");
+        SET_EXCEPTION_MSG("error when connecting netlink socket");
         goto cleanup_socket;
     }
 
@@ -113,9 +116,6 @@ cleanup_res:
 cleanup_socket:
     nl_close(socket);
     nl_socket_free(socket);
-
-catch:
-    print_exception(__func__);
     return NULL;
 }
 

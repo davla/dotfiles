@@ -106,7 +106,7 @@ case "$MACHINE" in
         apt-get install --no-install-recommends 1password-cli amd64-microcode \
             awscli bats bats-assert bats-files catatonit claude-code crane \
             docker-buildx-plugin docker-compose-plugin gradle helm i3lock \
-            libvulkan1 kind kubectl mesa-vulkan-drivers mkcert nodejs \
+            libvulkan1 kind kubectl mesa-vulkan-drivers mkcert nodejs npm \
             pritunl-client qemu-user-binfmt tofu wireguard xss-lock
         ;;
 esac

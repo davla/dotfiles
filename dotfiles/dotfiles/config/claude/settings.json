@@ -1,16 +1,24 @@
 {
-  "enabledPlugins": {
-    "caveman@caveman": true,
-    "notion@claude-plugins-official": true
-  },
+  "awaySummaryEnabled": false,
   "env": {
     "CAVEMAN_DEFAULT_MODE": "ultracave"
+  },
+  "enabledPlugins": {
+    "caveman@caveman": true,
+    "notion@claude-plugins-official": true,
+    "spacelift@spacelift": true
   },
   "extraKnownMarketplaces": {
     "caveman": {
       "source": {
         "source": "github",
         "repo": "JuliusBrussee/caveman"
+      }
+    },
+    "spacelift": {
+      "source": {
+        "source": "github",
+        "repo": "spacelift-io/claude-plugins"
       }
     }
   },

@@ -605,8 +605,9 @@ profiles:
 trans_install:
   # This transformation merges a JSON dotfile with what's currently installed
   # on disk.
-  merge_json:
-    jq --slurp '.[0] * .[1]' '{{@@ _dotfile_abs_dst @@}}' '{0}' > '{1}'
+  merge_json: >-
+    jq --slurp --sort-keys '.[0] * .[1]'
+    '{{@@ _dotfile_abs_dst @@}}' '{0}' > '{1}'
 
 variables:
   # These variables are used to tell which display server is in use on the

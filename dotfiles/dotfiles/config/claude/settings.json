@@ -1,10 +1,11 @@
 {
+  "awaySummaryEnabled": false,
+  "env": {
+    "CAVEMAN_DEFAULT_MODE": "ultracave"
+  },
   "enabledPlugins": {
     "caveman@caveman": true,
     "notion@claude-plugins-official": true
-  },
-  "env": {
-    "CAVEMAN_DEFAULT_MODE": "ultracave"
   },
   "extraKnownMarketplaces": {
     "caveman": {

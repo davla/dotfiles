@@ -4,9 +4,12 @@
 # profile only on my work machine.
 
 dotfiles:
+- d_act
+- d_actionlint
 - d_bitwarden
 - d_clipcat
 - d_docker-credential-helpers
 - d_i3-volume
+- d_kubelogin
 - d_yq
 - d_zed

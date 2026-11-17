@@ -1,0 +1,48 @@
+#!/usr/bin/env sh
+
+# This script installs kubelogin to a system location. It is meant to be used
+# via the gh-release command.
+#
+# Arguments:
+#   - $1: The GitHub repository name the software is installed from
+#   - $2: The GitHub release tag containing the artifacts to install
+#
+# {{@@ header() @@}}
+
+set -e
+
+#######################################
+# Libraries includes
+#######################################
+
+. "{{@@ gh_release_path @@}}"
+
+########################################
+# Variables
+########################################
+
+EXEC_DST='/usr/local/bin/kubectl-oidc_login'
+
+########################################
+# Input processing
+########################################
+
+GITHUB_REPO="$1"
+RELEASE_TAG="$2"
+
+########################################
+# Main
+########################################
+
+RELEASE_ZIP="$(mktemp 'XXX.gh-release-kubelogin.XXX.zip')"
+# shellcheck disable=SC2064
+trap "rm --force $RELEASE_ZIP" EXIT HUP INT TERM
+
+RELEASE_ZIP_GLOB="*linux*$(cpu_arch 'amd64')*.zip"
+log_debug 'Download kubelogin...'
+gh --repo "$GITHUB_REPO" release download "$RELEASE_TAG" --clobber \
+    --output "$RELEASE_ZIP" --pattern "$RELEASE_ZIP_GLOB"
+
+log_debug 'Install kubelogin'
+unzip -p "$RELEASE_ZIP" 'kubelogin' > "$EXEC_DST"
+chmod +x "$EXEC_DST"

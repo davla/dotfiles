@@ -1,5 +1,7 @@
 # This file's only purpose is to set an alias to the loopback interface,
 # for my work's local development setup
+#
+# {{@@ header() @@}}
 
 [connection]
 id=lo

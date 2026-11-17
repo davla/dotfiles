@@ -31,6 +31,12 @@ config:
   workdir: '{{@@ xdg_config("dotdrop") @@}}'
 
 dotfiles:
+  d_act:
+    src: usr/local/share/gh-release/nektos/act
+    dst: '{{@@ gh_release_dir @@}}/nektos/act'
+  d_actionlint:
+    src: usr/local/share/gh-release/rhysd/actionlint
+    dst: '{{@@ gh_release_dir @@}}/rhysd/actionlint'
   d_bitwarden:
     src: usr/local/share/gh-release/bitwarden/clients
     dst: '{{@@ gh_release_dir @@}}/bitwarden/clients'
@@ -46,6 +52,9 @@ dotfiles:
   d_i3-volume:
     src: usr/local/share/gh-release/hastinbe/i3-volume
     dst: '{{@@ gh_release_dir @@}}/hastinbe/i3-volume'
+  d_kubelogin:
+    src: usr/local/share/gh-release/int128/kubelogin
+    dst: '{{@@ gh_release_dir @@}}/int128/kubelogin'
   d_nerd-fonts:
     src: usr/local/share/gh-release/ryanoasis/nerd-fonts
     dst: '{{@@ gh_release_dir @@}}/ryanoasis/nerd-fonts'

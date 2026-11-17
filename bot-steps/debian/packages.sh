@@ -86,7 +86,7 @@ apt-get install --no-install-recommends apt-transport-https autoconf automake \
     moreutils nfs-common nix nyancat p7zip passt pipewire-audio pipewire-jack \
     playerctl podman-docker pycodestyle python3 python3-pip rar rustup \
     shellcheck sl systemd-cron systemd-tpm thunar-archive-plugin tk-dev \
-    uidmap uni2ascii unrar vim yad zip
+    uidmap uni2ascii unrar uuid-runtime vim yad zip
 
 # Installation
 # shellcheck disable=2039
@@ -107,7 +107,7 @@ case "$MACHINE" in
             awscli bats bats-assert bats-files catatonit claude-code crane \
             docker-buildx-plugin docker-compose-plugin gradle helm i3lock \
             libvulkan1 kind kubectl mesa-vulkan-drivers mkcert nodejs \
-            pritunl-client qemu-user-binfmt tofu wireguard xss-lock
+            pritunl-client qemu-user-binfmt tofu wireguard xss-lock xxd
         ;;
 esac
 

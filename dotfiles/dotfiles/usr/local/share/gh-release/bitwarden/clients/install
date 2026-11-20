@@ -29,5 +29,4 @@ RELEASE_TAG="$2"
 ########################################
 
 # Bitwarden is not available on ARMv7
-# The glob starts with Bitwarden to exclude "commercial" builds
-install_github_release_deb "$GITHUB_REPO" "$RELEASE_TAG" 'Bitwarden*amd64.deb'
+install_github_release_deb "$GITHUB_REPO" "$RELEASE_TAG" 'oss*amd64.deb'

@@ -163,6 +163,26 @@ export _FASD_SHELL='zsh'
 source "$ZCACHEDIR/fasd"
 '''
 
+{%@@ if env['MACHINE'] == 'work' -@@%}
+
+#######################################
+# gradle plugin
+#######################################
+
+[plugins.gradle]
+github = "ohmyzsh/ohmyzsh"
+use = ["plugins/gradle/gradle.plugin.zsh"]
+
+#######################################
+# gradle completion
+#######################################
+
+[plugins.gradle-completion]
+github = "gradle/gradle-completion"
+use = ["{{ name }}.plugin.zsh"]
+
+{%@@ endif -@@%}
+
 #######################################
 # thefuck
 #######################################

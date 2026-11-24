@@ -57,6 +57,12 @@ case "$(apt_operation "$APT_PID")" in
     'dist-upgrade'|'install'|'reinstall'|'upgrade')
         for PACKAGE in $(apt_packages "$APT_PID"); do
             case "$PACKAGE" in
+                *1password*)
+                    log_info 'Set Yama ptrace_scope to restricted'
+                    dotdrop install -p package-manager-hooks \
+                        f_sysctl.d_98-1password-yama.conf
+                    ;;
+
                 *bat*)
                     set_alternative 'batcat' 'bat'
                     ;;
@@ -73,7 +79,7 @@ case "$(apt_operation "$APT_PID")" in
 
                 *dotnet*)
                     log_info 'Install dotnet shell completions via dotdrop'
-                    dotdrop install -p completions \
+                    dotdrop install -p package-manager-hooks \
                         f_dotnet_bash_completion f_dotnet_zsh_completion
                     ;;
 
@@ -122,7 +128,7 @@ case "$(apt_operation "$APT_PID")" in
 
                 *tofu*)
                     log_info 'Install tofu shell completions via dotdrop'
-                    dotdrop install -p completions \
+                    dotdrop install -p package-manager-hooks \
                         f_tofu_bash_completion f_tofu_zsh_completion
                     ;;
             esac

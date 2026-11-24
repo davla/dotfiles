@@ -54,6 +54,12 @@ case "$(apt_operation "$APT_PID")" in
     'autopurge'|'autoremove'|'purge'|'remove')
         for PACKAGE in $(apt_packages "$APT_PID"); do
             case "$PACKAGE" in
+                *1password*)
+                    log_info 'Reset Yama ptrace_scope to default'
+                    dotdrop uninstall -p package-manager-hooks \
+                        f_sysctl.d_98-1password-yama.conf
+                    ;;
+
                 *bat*)
                     rm_alternative 'batcat' 'bat'
                     ;;

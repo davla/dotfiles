@@ -397,6 +397,9 @@ dotfiles:
   f_sudo_secure-path:
     src: etc/sudoers.d/secure-path
     dst: /etc/sudoers.d/secure-path
+  f_sysctl.d_98-1password-yama.conf:
+    src: etc/sysctl.d/98-1password-yama.conf
+    dst: /etc/sysctl.d/98-1password-yama.conf
   f_systemd_dnsmasq_override:
     src: etc/systemd/system/dnsmasq.service.d/override.conf
     dst: /etc/systemd/system/dnsmasq.service.d/override.conf
@@ -491,16 +494,6 @@ profiles:
     import:
     - yaml/dotfiles/all-distros/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/cli.yaml:optional
 
-  # This profile holds shell completion files. Its primary use is to install
-  # specific files within package manager hooks, for packages that don't
-  # provide good completion themselves
-  completions:
-    dotfiles:
-    - f_dotnet_bash_completion
-    - f_dotnet_zsh_completion
-    - f_tofu_bash_completion
-    - f_tofu_zsh_completion
-
   # This profile contains dotfiles used to setup the global shell environment
   environment:
     dotfiles:
@@ -583,6 +576,17 @@ profiles:
     - yaml/dotfiles/{{@@ env['DISTRO'] @@}}/{{@@ env['MACHINE'] @@}}/{{@@ user @@}}/network.yaml:optional
     actions:
     - restart-network
+
+  # This profile holds dotfiles used in package manager hooks. It's primarily
+  # used to install/uninstall specific dotfiles when installing/uninstalling
+  # system packages
+  package-manager-hooks:
+    dotfiles:
+    - f_dotnet_bash_completion
+    - f_dotnet_zsh_completion
+    - f_sysctl.d_98-1password-yama.conf
+    - f_tofu_bash_completion
+    - f_tofu_zsh_completion
 
   # This profile collects useful configuration for accessing a machine remotely
   remote-access:

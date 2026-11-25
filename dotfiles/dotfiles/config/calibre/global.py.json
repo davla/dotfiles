@@ -2,7 +2,7 @@
   "add_formats_to_existing": false,
   "case_sensitive": false,
   "check_for_dupes_on_ctl": false,
-  "database_path": "{{@@ abs_path('~/library1.db') @@}}",
+  "database_path": "{{@@ '~/library1.db' | abs_path @@}}",
   "filename_pattern": "(?P<title>.+) - (?P<author>[^_]+)",
   "input_format_order": [
     "EPUB",

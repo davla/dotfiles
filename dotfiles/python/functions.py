@@ -8,7 +8,6 @@ templates.
 
 import os
 import re
-from itertools import islice
 from pathlib import Path
 
 from jinja2 import Environment, pass_environment
@@ -19,11 +18,6 @@ VENV_DIR = ".venv"
 LOCAL_DIR = "/usr/local"
 
 FLATPAK_APP_DATA = Path.home() / ".var/app"
-
-
-def abs_path(path: str) -> str:
-    """Return the absolute pathname for a path."""
-    return Path(path).expand_home().resolve()
 
 
 def desktop_with_name(name: str) -> str:
@@ -87,6 +81,11 @@ def non_local_on_path(executable: str) -> str:
         )
     except StopIteration:
         raise ValueError(executable + " was not found on PATH.")
+
+
+def path_exists(path: str) -> bool:
+    """Return True if path exists, after ~ and $HOME expansion."""
+    return Path(path).expand_home().exists()
 
 
 def xdg_config(path: str) -> str:

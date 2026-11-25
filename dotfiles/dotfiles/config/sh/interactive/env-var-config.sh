@@ -11,13 +11,12 @@
 # cd
 ########################################
 
-export CDPATH="{{@@
-    (
-        ['.', cd_path] +
-            [work_code_root, personal_code_root]
-            if env['MACHINE'] == 'work'
-            else [code_root]
-    ) | select('defined') | map('tilde2home') | join(':')
+export CDPATH=".:{{@@
+    [cd_path, code_root, work_code_root, personal_code_root]
+    | select('defined')
+    | select_by_function('path_exists')
+    | map('tilde2home')
+    | join(':')
 @@}}"
 
 ########################################

@@ -5,11 +5,18 @@
 This module defines some custom filters to be used in dotdrop jinja2 templates.
 """
 
+from collections.abc import Callable, Generator, Iterator
 from pathlib import Path
-from typing import Union
+from typing import cast
 
+import jinja2
 import python.lib as lib
 from markupsafe import soft_str
+
+
+def abs_path(path: str) -> str:
+    """Return the absolute pathname for a path."""
+    return Path(path).expand_home().resolve()
 
 
 def format_by(arg: str, format: str) -> str:
@@ -51,7 +58,7 @@ def find_in_home(path: str) -> str:
         return None
 
 
-def is_truthy(value: Union[bool, str]) -> bool:
+def is_truthy(value: bool | str) -> bool:
     """Return true if value is True or 'true' (case insensitive).
 
     This filter normalizes bool values and strings to bools. The former are
@@ -83,6 +90,14 @@ def homeAsTilde(path: str | Path) -> str:
 def home_abs2var(path: str) -> str:
     """Replace the user's home directory absolute path with '$HOME'."""
     return lib.abs_home_first.sub("$HOME", path)
+
+
+@jinja2.pass_environment
+def select_by_function(
+    env: jinja2.Environment, items: Iterator[str], function_name: str
+) -> Generator[str]:
+    fun = cast(Callable[[str], bool], env.globals[function_name])
+    return (item for item in items if fun(item))
 
 
 def tildeTo(path: str, replacement: str) -> str:

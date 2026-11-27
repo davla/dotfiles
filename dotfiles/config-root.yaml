@@ -224,6 +224,12 @@ dotfiles:
   f_99-philips-tv-hdmi.conf:
     src: etc/wireplumber/wireplumber.conf.d/99-philips-tv-hdmi.conf
     dst: /etc/wireplumber/wireplumber.conf.d/99-philips-tv-hdmi.conf
+  f_buildkit-container.service:
+    src: etc/systemd/user/buildkit-container.service
+    dst: /etc/systemd/user/buildkit-container.service
+  f_buildkit-container.socket:
+    src: etc/systemd/user/buildkit-container.socket
+    dst: /etc/systemd/user/buildkit-container.socket
   f_containers_nodocker:
     src: etc/containers/nodocker
     dst: /etc/containers/nodocker

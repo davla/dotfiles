@@ -171,12 +171,16 @@ if [ "$MACHINE" = 'work' ]; then
     '
 
     print_info 'Setup Docker BuildKit container driver'
+    systemctl --machine "$USER_NAME@" --user daemon-reload
+    systemctl --machine "$USER_NAME@" --user enable buildkit-container.socket
     # 'docker builx' is rerouted to the docker-builx CLI plugin by my custom
     # shim, which should already be available at this point.
     sudo --user "$USER_NAME" sh -c '
-        docker buildx inspect podman > /dev/null 2>&1 || {
-            docker buildx create --name podman --driver docker-container --use
-            docker buildx inspect --bootstrap
+        docker buildx inspect podman-container > /dev/null 2>&1 || {
+            XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id --user)}"
+            docker buildx create --name podman-container --use --bootstrap \
+                --driver remote \
+                "unix://$XDG_RUNTIME_DIR/buildkit/buildkitd.sock"
         }
     '
 

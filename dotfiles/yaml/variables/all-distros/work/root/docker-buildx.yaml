@@ -1,0 +1,13 @@
+%YAML 1.2
+---
+# This variables file contains variables needed for wiring the BuildKit
+# container with docker buildx
+
+variables:
+  buildkit:
+    # The BuildKit daemon socket name. Not the full path, since the parent
+    # directory is different between the container and the host.
+    socket: buildkitd.sock
+
+    # The BuildKit daemon socket parent directory, as used in systemd units.
+    socket_dir_name: '%t/buildkit'

@@ -1,0 +1,14 @@
+# Buildkit container systemd socket file
+#
+# {{@@ header() @@}}
+
+[Unit]
+Description=BuildKit container builder socket
+Documentation=https://github.com/moby/buildkit
+
+[Socket]
+ListenStream={{@@ buildkit.socket_dir_name @@}}/{{@@ buildkit.socket @@}}
+SocketMode=0660
+
+[Install]
+WantedBy=sockets.target

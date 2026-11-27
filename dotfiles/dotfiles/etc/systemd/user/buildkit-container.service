@@ -1,0 +1,28 @@
+# BuildKit container systemd service file
+#
+# {{@@ header() @@}}
+
+{%@@ set container_socket_dir = '/run/buildkit' @@%}
+{%@@ set bind_mount = 'type=bind,src=%s,dst=%s' | format(
+    buildkit.socket_dir_name,
+    container_socket_dir
+) @@%}
+
+[Unit]
+Description=BuildKit container builder
+Documentation=https://github.com/moby/buildkit
+
+[Service]
+ExecStart=podman run \
+    --name buildkitd \
+    --privileged \
+    --mount '{{@@ bind_mount @@}}' \
+    moby/buildkit:latest \
+    --addr 'unix://{{@@ container_socket_dir @@}}/{{@@ buildkit.socket @@}}'
+StandardError=journal
+StandardOutput=journal
+SyslogFacility=local0
+SyslogIdentifier=buildkit-container
+SyslogLevel=info
+SyslogLevelPrefix=true
+Type=exec
